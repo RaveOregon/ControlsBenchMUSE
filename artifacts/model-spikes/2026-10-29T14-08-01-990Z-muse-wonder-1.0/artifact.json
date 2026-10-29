@@ -1,0 +1,1449 @@
+{
+  "ambiguities": [
+    {
+      "id": "THR-01",
+      "issue": "All timing acceptance thresholds are TBD/provisional in the spec: drive-start fault deadline, divert fault deadline, jam timeout, debounce threshold, stuck-PE threshold, WCS timeout.),",
+      "safeTemporaryTreatment": "World records elapsed times and exposes them as evidence; affected checks are scored inconclusive or exploratory, never pass/fail against invented limits.",
+      "whyItMatters": "A verdict threshold invented by the world would silently become an oracle the PLC was never agreed to meet."
+    },
+    {
+      "id": "POL-01",
+      "issue": "Late-route policy beyond 'must not retroactively claim a successful sort' is TBD, especially late B after D1 passed but before D2 reachable.",
+      "safeTemporaryTreatment": "World may deliver late/conflicting offers and records actual PLC disposition vs physical exit; verdict is exploratory except for the firm rule: a route arriving after its reachable decision point must not be counted as a successful sort to that exit.",
+      "whyItMatters": "Late B is physically legitimate if D2 is still reachable; late A after D1 is not. The two cases must not share one oracle."
+    },
+    {
+      "id": "POL-02",
+      "issue": "Blocked-destination (R-06) and runout-blocked (R-07) PLC reactions are PROBE: spec section 11 proposes (demo default, not universal rule) reroute-to-runout with exception, and feed-inhibit + belt stop if runout also blocked.",
+      "safeTemporaryTreatment": "World implements readiness switching and accumulation; result is reported as observed behavior against the proposed default and marked exploratory until an engineer confirms the policy for scoring.",
+      "whyItMatters": "Scoring a PROBE as MUST would fail a PLC for a policy never agreed."
+    },
+    {
+      "id": "POL-03",
+      "issue": "Which WCS irregularities the PLC must alarm on vs. the harness merely reporting is a review decision (R-05, R-08 firm only on no-duplicate; R-20 PROBE).",
+      "safeTemporaryTreatment": "World logs PLC Fault_Code/Fault_Active and WCS-visible state as evidence; absence of an alarm on a PROBE irregularity is not a fail.",
+      "whyItMatters": "Prevents the harness from requiring alarms the spec leaves open."
+    },
+    {
+      "id": "IF-01",
+      "issue": "Exact CODESYS node IDs, enum encodings for State_Code/Active_Route, pulse/ack semantics of Cmd_Start/Stop/Reset, grouped vs per-signal interceptor shape, Bench_HostHeartbeat/Bench_ModeRequest types and timeout, and OPC UA sampling/publishing intervals are all TBD.",
+      "safeTemporaryTreatment": "Connector setup fails visibly on missing, mistyped, or stale required tags; no quiet substitution. Surrogate connector carries identical logical signal identities so the world contract is testable before the real map is frozen.",
+      "whyItMatters": "A silently substituted or mis-mapped tag would produce plausible-looking false evidence."
+    },
+    {
+      "id": "GEO-01",
+      "issue": "Spec gives suggested visualization values only (carton 0.30 m, belt 0.50 m/s, divert travel 0.35 s each, >=0.8 m spacing) and no lane distances, beam widths, or divert 'effective' position threshold. These are explicitly not acceptance thresholds.",
+      "safeTemporaryTreatment": "All geometry/travel values are world configuration, recorded per run in evidence; the divert-effective threshold (position fraction at which a carton is physically diverted) is a labeled world assumption, tunable when measured PLC/transport behavior warrants.",
+      "whyItMatters": "Keeps visualization defaults from hardening into hidden acceptance constants."
+    }
+  ],
+  "artifactVersion": "0.5.0",
+  "assumptions": [
+    {
+      "basis": "inferred",
+      "consequence": "Changing any one value changes timing margins but not the oracle logic; all values are emitted in run evidence.",
+      "id": "ASM-GEO-01",
+      "mustConfirmBeforeScoring": true,
+      "statement": "Proposed world geometry for visualization (not in spec, not acceptance thresholds): entry PE at s=0.00 m, D1 approach PE at s=0.60 m, DIV-01 decision point at s=1.00 m, D2 approach PE at s=1.40 m, DIV-02 decision point at s=1.80 m, runout PE at s=2.40 m, exit A/B PEs 0.40 m along their branch paths. All distances are configuration."
+    },
+    {
+      "basis": "proposed",
+      "consequence": "A divert caught mid-travel by an arriving carton does not divert it; this makes 'commanded in time' testable against actual travel.",
+      "id": "ASM-DIV-01",
+      "mustConfirmBeforeScoring": true,
+      "statement": "A carton is physically diverted at a decision point iff the divert's actual continuous position is >= 0.95 (95% extended) at the instant the carton leading edge reaches that decision point; otherwise it continues on the main lane. Threshold is a labeled world configuration value."
+    },
+    {
+      "basis": "proposed",
+      "consequence": "Gives deterministic, inspectable motion while remaining independent of PLC scan and OPC UA cadence.",
+      "id": "ASM-TIME-01",
+      "mustConfirmBeforeScoring": true,
+      "statement": "World integrates on a fixed configurable tick (proposed 10 ms) decoupled from PLC scan and transport cadence; every state change is timestamped on the world clock and correlated with connector timestamps in evidence."
+    },
+    {
+      "basis": "proposed",
+      "consequence": "Feedback lag is modeled in the plant, not assumed away; motion follows the feedback signal the PLC also sees, per spec fallback.",
+      "id": "ASM-DRV-01",
+      "mustConfirmBeforeScoring": false,
+      "statement": "Drive model: Drive_RunningFB asserts after a configurable run-up delay (proposed 0.20 s) following Motor_RunCmd, deasserts after a configurable coast delay (proposed 0.15 s), and belt speed ramps linearly between 0 and configured speed while RunningFB is true. If Boolean-only I/O is available, motion is based on commanded drive plus delayed Drive_RunningFB, as the spec permits."
+    },
+    {
+      "basis": "proposed",
+      "consequence": "None for the single-carton baseline; deferred/stretch until the real PLC slice is ready.",
+      "id": "ASM-CAP-01",
+      "mustConfirmBeforeScoring": false,
+      "statement": "World supports up to two cartons in flight with configurable minimum spacing (suggested >= 0.8 m); multi-carton scenarios are stretch (R-23 PROBE) and are not part of the first live proof."
+    }
+  ],
+  "executiveAssessment": "Reactive world for the accepted v0.5 demo baseline: one powered main lane, two sequential two-position diverts (DIV-01 to exit A, DIV-02 to exit B), straight runout. The world owns physical truth (carton geometry/motion, sensor obstruction, actual divert positions, drive feedback, downstream readiness); the PLC application under test owns commands and decisions. Cartons move only on actual drive behavior, exits are decided by actual divert position at the decision point, operator Stop freezes cartons and inhibits feed, Reset never restarts, unassigned runout is normal while A/B-assigned runout is a misroute. Firm MUST expectations are scored pass/fail; every TBD threshold or PROBE policy is scored inconclusive/exploratory. The first execution proof uses a clearly labeled surrogate connector validating only the world's execution contract; it does not prove real CODESYS/OPC UA integration.",
+  "experiments": [
+    {
+      "actions": [
+        "Via surrogate connector, confirm BenchSimulationActive equivalent and normal no-carton DI state",
+        "Start PLC (surrogate), run drive with no carton, verify sensor quiescence and no counts"
+      ],
+      "decisionLogic": "If the surrogate contract fails, fix the world/connector before any PLC campaign; do not proceed to E-02.",
+      "hypothesis": "The generated world executes its contract: normal-state DIs, motion only on actual drive feedback, geometric sensor derivation, evidence capture.",
+      "id": "E-01",
+      "observations": [
+        "All DI values emitted per tick",
+        "Observed Motor_RunCmd and resulting Drive_RunningFB delay",
+        "Evidence timeline completeness"
+      ],
+      "possibleFollowUps": [
+        "Repair world tick/sensor derivation and rerun E-01",
+        "Proceed to E-02 once contract holds"
+      ],
+      "preconditions": [
+        "Surrogate connector labeled SURROGATE in all evidence",
+        "World config recorded (geometry, speeds, travel times)"
+      ],
+      "requirementIds": [
+        "R-01"
+      ],
+      "verdictLimits": "Validates the world's execution contract only. Must never be reported as real PLC integration evidence."
+    },
+    {
+      "actions": [
+        "Cmd_Start / Auto request; observe State_Code, Motor_RunCmd, Drive_RunningFB",
+        "Release one carton with no route; confirm motion only while drive actually runs",
+        "Cmd_Stop mid-travel; verify Motor_RunCmd removed, Drive_RunningFB drops, carton position freezes, no new feed",
+        "Cmd_Reset; verify belt does not restart"
+      ],
+      "decisionLogic": "Pass requires all firm elements; any restart-after-Reset or motion-while-stopped is a fail with trace citation.",
+      "hypothesis": "Stop removes run command and feed, halts cartons in place with no drain; Reset alone does not restart (R-01 MUST).",
+      "id": "E-02",
+      "observations": [
+        "Motor_RunCmd, Drive_RunningFB, carton position trace",
+        "State_Code transitions",
+        "Feeder release attempts while stopped"
+      ],
+      "possibleFollowUps": [
+        "If cartons creep after Stop, probe drive coast delay vs PLC command timing (E-11 timing characterization)",
+        "If Reset restarts, escalate as firm fail and probe Start/Reset pulse semantics (IF-01)"
+      ],
+      "preconditions": [
+        "BenchSimulationActive confirmed true; setup fails visibly otherwise",
+        "One carton staged at feeder"
+      ],
+      "requirementIds": [
+        "R-01"
+      ],
+      "verdictLimits": "Firm MUST. Stopwatch margins recorded but no invented stop-time threshold is scored."
+    },
+    {
+      "actions": [
+        "WCS CartonOffer(item-001, A) with unique sequence; await OfferAck echo",
+        "On ReleaseReady, feeder releases carton-001",
+        "Observe D1_ExtendCmd timing vs PE_D1Approach and actual D1 position at decision point",
+        "Confirm PE_ExitA passage, RouteComplete(sorted, A), Count_ExitA increments once, no B/runout passage"
+      ],
+      "decisionLogic": "Pass iff physical exit A, exactly one completion, count once. If D1 was commanded but actual position < threshold at decision point and carton runs out, that is a misroute finding, not a pass.",
+      "hypothesis": "A-assigned carton is diverted at DIV-01 by actual divert position and completed once (R-02 MUST).",
+      "id": "E-03",
+      "observations": [
+        "D1_ExtendCmd edge time, D1_HomeFB/ExtendedFB, continuous D1 position at decision instant",
+        "PE sequence entry->D1 approach->exit A",
+        "RouteComplete fields and counts"
+      ],
+      "possibleFollowUps": [
+        "If margin between ExtendedFB and carton arrival is small, run E-10 (reduced belt speed / increased travel time sweep) to find the timing envelope",
+        "If PLC commands D1 late, probe approach-PE placement assumption ASM-GEO-01 with engineer"
+      ],
+      "preconditions": [
+        "ExitA_Ready true",
+        "System in Auto, drive running"
+      ],
+      "requirementIds": [
+        "R-02"
+      ],
+      "verdictLimits": "Firm MUST on routing/completion/counting; absolute command-lead-time threshold is TBD and reported, not scored."
+    },
+    {
+      "actions": [
+        "WCS CartonOffer(item-002, B); release on ReleaseReady",
+        "Verify carton passes DIV-01 with D1 remaining home (actual position)",
+        "Observe D2_ExtendCmd and actual D2 position at DIV-02 decision point",
+        "Confirm PE_ExitB, RouteComplete(sorted, B), Count_ExitB once"
+      ],
+      "decisionLogic": "Pass iff physical exit B with D1 verifiably home during passage and exactly one B completion.",
+      "hypothesis": "B-assigned carton passes D1 and is diverted at DIV-02 (R-03 MUST).",
+      "id": "E-04",
+      "observations": [
+        "D1/D2 command and feedback traces",
+        "PE sequence entry->D1 approach->D2 approach->exit B",
+        "Counts and RouteComplete"
+      ],
+      "possibleFollowUps": [
+        "If D1 also extends, probe whether PLC pre-positions both diverts (record as observation; scoring depends on whether B outcome and counts stay correct)",
+        "Proceed to late-B variant in E-06"
+      ],
+      "preconditions": [
+        "ExitB_Ready true",
+        "Auto running"
+      ],
+      "requirementIds": [
+        "R-03"
+      ],
+      "verdictLimits": "Firm MUST on outcome; any requirement that D1 must never move for B is not in the spec and is not scored."
+    },
+    {
+      "actions": [
+        "Release a carton with no WCS offer (or route Unknown)",
+        "Observe both diverts remain home in actual position",
+        "Confirm PE_Runout, RouteComplete(runout-unassigned), Count_Runout once, Count_Misroute unchanged, no fault"
+      ],
+      "decisionLogic": "Pass iff runout-unassigned disposition with no fault and no misroute count. A fault here is a fail (routine unroutable carton must not fault-stop the line).",
+      "hypothesis": "Unassigned carton runs out as a normal disposition, not a fault or successful sort (R-04 MUST).",
+      "id": "E-05",
+      "observations": [
+        "RouteComplete disposition string",
+        "Fault_Active/Fault_Code throughout",
+        "Counts delta"
+      ],
+      "possibleFollowUps": [
+        "If PLC requires a route to release, test ReleaseReady behavior against spec statement that a valid destination is not required when runout is available (POL-02 evidence)",
+        "Chain into E-07 blocked-runout probe"
+      ],
+      "preconditions": [
+        "Runout_Ready true",
+        "Auto running"
+      ],
+      "requirementIds": [
+        "R-04"
+      ],
+      "verdictLimits": "Firm MUST."
+    },
+    {
+      "actions": [
+        "Release carton unassigned; after leading edge passes DIV-01 decision point, deliver CartonOffer(A) for that item",
+        "Variant: change an in-transit assignment A->B before D1, and B->A after D1 passed",
+        "Observe actual exit, RouteComplete disposition, counts"
+      ],
+      "decisionLogic": "Firm element: late A must not be recorded as a successful A sort. Overall verdict exploratory (exact late/conflicting policy TBD); report observed disposition vs physical exit.",
+      "hypothesis": "A route arriving after its reachable decision point is not retroactively successful; PLC uses reachable route or runout and reports actual disposition (R-05 PROBE).",
+      "id": "E-06",
+      "observations": [
+        "Offer timestamp vs decision-point crossing timestamp",
+        "Active_Route changes, actual exit, disposition, Count_Misroute delta"
+      ],
+      "possibleFollowUps": [
+        "If late A is counted as sorted, firm fail on the retroactive-sort rule; probe whether PLC timestamps route arrival at all",
+        "If late B (D2 still reachable) is accepted and sorted, record as correct-by-geometry and propose policy confirmation"
+      ],
+      "preconditions": [
+        "Auto running; WCS emulator capable of timed late delivery"
+      ],
+      "requirementIds": [
+        "R-05"
+      ],
+      "verdictLimits": "PROBE: exploratory except the no-retroactive-success rule. Do not fabricate pass/fail on unspecified alarm behavior."
+    },
+    {
+      "actions": [
+        "Set ExitA_Ready=false before an A-assigned carton's D1 decision point; observe disposition",
+        "Set Runout_Ready=false with an unroutable carton approaching; observe feed inhibit and belt behavior before congestion",
+        "Restore readiness; observe recovery without Reset-restart surprises"
+      ],
+      "decisionLogic": "Never count a blocked exit as successful (firm). Belt/feed policy scored exploratory against the section-11 proposed default until confirmed.",
+      "hypothesis": "Blocked A/B reroutes to runout with exception; blocked runout inhibits feed and stops belt before congestion (R-06/R-07 PROBE, section-11 demo default).",
+      "id": "E-07",
+      "observations": [
+        "Readiness bit change times vs decision points",
+        "Actual exit, disposition, feeder releases, Motor_RunCmd",
+        "Accumulation/backpressure state in world"
+      ],
+      "possibleFollowUps": [
+        "If PLC diverts into a blocked exit anyway, escalate: firm fail on blocked-exit-success rule, probe readiness sampling time",
+        "If PLC stops belt for blocked A (stricter than default), record as policy deviation for engineer decision, not automatic fail"
+      ],
+      "preconditions": [
+        "Auto running; downstream readiness under world control"
+      ],
+      "requirementIds": [
+        "R-06",
+        "R-07"
+      ],
+      "verdictLimits": "PROBE for policy; firm only on 'blocked exit never counted successful'."
+    },
+    {
+      "actions": [
+        "Send CartonOffer(seq=42, item-003, A); await ack",
+        "Resend identical seq=42 offer; also send conflicting route for item-003",
+        "Release and track carton count, completions, counts"
+      ],
+      "decisionLogic": "Pass iff exactly one carton, one completion, one count. A second carton/completion is a firm fail.",
+      "hypothesis": "Duplicate sequence does not create a second carton or completion (R-08 MUST); conflicting route handling is observed (R-05 PROBE).",
+      "id": "E-08",
+      "observations": [
+        "OfferAck accept/reject reasons",
+        "World carton population (ground truth) vs PLC completions",
+        "Counts delta"
+      ],
+      "possibleFollowUps": [
+        "If duplicates are acked but not executed, record ack semantics for IF-01 freeze",
+        "Probe duplicate arriving after completion (new carton or rejected?) as exploratory"
+      ],
+      "preconditions": [
+        "WCS emulator controls sequence numbers"
+      ],
+      "requirementIds": [
+        "R-08",
+        "R-05"
+      ],
+      "verdictLimits": "Firm MUST on no-duplicate; conflict policy exploratory."
+    },
+    {
+      "actions": [
+        "E-09a: suppress Drive_RunningFB while Motor_RunCmd true (drive failure fault); verify no carton motion and no completion",
+        "E-09b: assert Drive_Overload during travel; verify run command removed, feed stopped, fault shown; Reset and verify no auto-restart",
+        "E-09c: hold D1 at home despite D1_ExtendCmd on an A carton; carton runs out; verify misroute (not A completion)",
+        "E-09d: same for D2 on a B carton",
+        "E-09e: freeze a carton at D1/D2/runout while drive runs (carton jam)"
+      ],
+      "decisionLogic": "Firm: no false completion in any sub-case; A/B carton at runout = misroute; overload removes command and Reset does not restart. Detection/fault deadlines are recorded, scored inconclusive (TBD).",
+      "hypothesis": "Drive and divert failures produce no invented completions, correct misroute accounting, and fault visibility (R-11..R-14, R-19 MUST with TBD deadlines).",
+      "id": "E-09",
+      "observations": [
+        "Injected fault (ground truth, kept out of PLC stream) vs PLC Fault_Code/Fault_Active and HMI/WCS visibility",
+        "Carton position trace proving no motion without RunningFB",
+        "Disposition and Count_Misroute"
+      ],
+      "possibleFollowUps": [
+        "Measure actual PLC detection latency across repeats to propose a threshold for engineer approval (feeds THR-01 closure)",
+        "If misroute produces belt stop, compare against section-11 default (visible exception, no auto stop solely for misroute; failed actuator may separately fault)"
+      ],
+      "preconditions": [
+        "Fault knobs armed per sub-case; only one fault at a time in baseline"
+      ],
+      "requirementIds": [
+        "R-11",
+        "R-12",
+        "R-13",
+        "R-14",
+        "R-19"
+      ],
+      "verdictLimits": "MUST on outcome/accounting; inconclusive on any deadline until thresholds are approved."
+    },
+    {
+      "actions": [
+        "Sweep belt speed up and divert travel time up (config) around the suggested defaults across repeated A and B sorts",
+        "Record command-lead margin: decision-point arrival minus actual extended-feedback time",
+        "Find the envelope where sorts succeed vs misroute"
+      ],
+      "decisionLogic": "No pass/fail threshold scored; deliverable is a measured timing envelope and a proposed acceptance limit for engineer approval.",
+      "hypothesis": "There is a measurable command/travel/speed envelope separating reliable sorts from misroutes; characterising it closes THR-01/GEO-01 with evidence.",
+      "id": "E-10",
+      "observations": [
+        "Margin distribution per configuration",
+        "First-failure configuration",
+        "Transport/write latency measured concurrently (E-11)"
+      ],
+      "possibleFollowUps": [
+        "If envelope is transport-latency-bound, evaluate PLC-task-side timestamped stimulus queue fallback (spec section 7) and label it as such",
+        "Propose frozen thresholds and update oracle explicitly (no silent drift)"
+      ],
+      "preconditions": [
+        "E-03/E-04 passing at defaults",
+        "Config sweep under world control"
+      ],
+      "requirementIds": [
+        "R-02",
+        "R-03"
+      ],
+      "verdictLimits": "Exploratory characterization only; suggested spec values are visualization defaults, not thresholds."
+    },
+    {
+      "actions": [
+        "Record PLC task period, OPC UA sampling/publishing intervals, write-to-application latency, output-observation latency, jitter, dropped updates",
+        "Break OPC UA mid-run; verify stale evidence is labeled and no false pass is issued",
+        "Reconnect; record PLC response and recovery, BenchHeartbeatSeen behavior"
+      ],
+      "decisionLogic": "Pass requires stale labeling and no false pass during interruption; numeric timing budgets are recorded, not scored (TBD). Surrogate runs of this test validate only the harness path and are labeled.",
+      "hypothesis": "Transport interruption is visible, evidence goes stale honestly, and recovery is recorded (R-21 MUST; timing gate section 7).",
+      "id": "E-11",
+      "observations": [
+        "Per-value timestamps/quality from connector",
+        "Stale flags in workspace/report",
+        "World stops introducing new cartons on disconnect (bridge behavior)"
+      ],
+      "possibleFollowUps": [
+        "If sub-100 ms phenomena are invisible over OPC UA, invoke the timestamped stimulus-queue fallback discussion; never claim scan-synchronous mirroring",
+        "Tune sampling intervals and re-measure"
+      ],
+      "preconditions": [
+        "Real connector for scored run; surrogate permitted for rehearsal with labeling"
+      ],
+      "requirementIds": [
+        "R-21"
+      ],
+      "verdictLimits": "Firm on honest staleness/no false pass; timing numbers exploratory until a budget is approved."
+    },
+    {
+      "actions": [
+        "Assert D1_HomeFB and D1_ExtendedFB simultaneously (fault knob) during an A sort",
+        "With exactly one carton, force PE_ExitA and PE_Runout true together via sensor fault injection",
+        "Report PE_ExitB while command/feedback context makes it implausible; report motor-running feedback with Motor_RunCmd off",
+        "Emit an impossible sequence: exit PE before entry PE for a fresh item"
+      ],
+      "decisionLogic": "Exploratory: deliverable is the observed PLC response (alarm, ignored, miscount) with uncertainty stated. Firm only on: world never presents these as physically true, and no double completion/count may be credited as a correct outcome.",
+      "hypothesis": "Contradictory limits, impossible exit combinations, impossible sequences, and command/feedback disagreement expose whether the PLC validates plausibility before claiming verified divert/completion (R-15..R-18 PROBE; at least one agent-chosen contradictory-input follow-up is required by the demo).",
+      "id": "E-12",
+      "observations": [
+        "Injected contradiction (ground truth) vs PLC-observable DI pattern",
+        "Fault_Code/Active, counts, RouteComplete(s) issued",
+        "Whether a 'verified divert' is claimed while limits contradict"
+      ],
+      "possibleFollowUps": [
+        "Branch on observed result: if PLC double-counts, design a two-carton legitimate-simultaneity control (R-23) to check the oracle uses carton count/timing context, not blanket combination bans",
+        "If PLC alarms, probe which specific contradictions alarm vs not, and present the map for engineer decision on required alarms",
+        "If PLC ignores all contradictions, probe stuck-PE (R-10) and bounce (R-09) variants to complete the plausibility picture"
+      ],
+      "preconditions": [
+        "Single carton in flight for impossible-combination cases (so simultaneity is genuinely impossible)",
+        "Fault injection ledger active"
+      ],
+      "requirementIds": [
+        "R-15",
+        "R-16",
+        "R-17",
+        "R-18"
+      ],
+      "verdictLimits": "PROBE: report observation and uncertainty; do not fabricate a required generic alarm."
+    },
+    {
+      "actions": [
+        "Inject short repeated edges on PE_Entry / approach PEs (bounce fault knob, configurable pulse width/count)",
+        "Hold one PE true then false despite carton passage (stuck fault knob)",
+        "Track item creation, divert decisions, counts, completions"
+      ],
+      "decisionLogic": "Exploratory: check for duplicate items/counts or unstable divert decisions as observed facts; debounce/timeout thresholds TBD so no scored limit.",
+      "hypothesis": "Sensor bounce/stuck faults may create duplicate items, unstable divert decisions, or invented completions (R-09/R-10 PROBE).",
+      "id": "E-13",
+      "observations": [
+        "Injected edge train (ground truth) vs PLC reaction",
+        "Counts and completions vs world carton population",
+        "Any timeout/plausibility fault raised and its latency"
+      ],
+      "possibleFollowUps": [
+        "Sweep bounce pulse width to find the PLC's effective debounce behavior; propose threshold for approval",
+        "If duplicates appear, combine with E-08 duplicate-offer to separate WCS-layer vs sensor-layer dedup"
+      ],
+      "preconditions": [
+        "Bounce/stuck knobs calibrated and logged"
+      ],
+      "requirementIds": [
+        "R-09",
+        "R-10"
+      ],
+      "verdictLimits": "PROBE/TBD: observation-first; duplicates or invented completions are reported as defects against the firm 'count once / no invented completion' principle where applicable."
+    },
+    {
+      "actions": [
+        "Pause WCS messages/heartbeat mid-run; resume after a delay",
+        "Observe MachineStatus/link indication on HMI and WCS peer view",
+        "Retry an offer after recovery; check for duplicate completion"
+      ],
+      "decisionLogic": "Exploratory on runout-vs-hold policy; firm only on no duplicate completion on retry (with R-08).",
+      "hypothesis": "WCS link loss is visible and recovery does not duplicate completions (R-20 PROBE).",
+      "id": "E-14",
+      "observations": [
+        "Link state visibility, PLC State_Code during silence",
+        "Dispositions of cartons in flight during the outage",
+        "Post-recovery ack/completion stream"
+      ],
+      "possibleFollowUps": [
+        "Sweep silence duration to characterize any PLC WCS timeout; propose value for THR-01",
+        "Combine with transport interruption E-11 to separate WCS-layer from OPC UA-layer loss"
+      ],
+      "preconditions": [
+        "WCS emulator can pause/resume deterministically"
+      ],
+      "requirementIds": [
+        "R-20"
+      ],
+      "verdictLimits": "PROBE; no invented timeout scored."
+    },
+    {
+      "actions": [
+        "Operate Start/Stop/Reset/Auto via visible PLC HMI controls (WebVisu; VNC fallback) with screenshots on the test timeline",
+        "Verify displayed mode/fault text, command-vs-feedback distinction, stale/unknown indication during a forced disconnect",
+        "Cross-check HMI state against OPC UA-observed State_Code and I/O at the same timestamps"
+      ],
+      "decisionLogic": "Pass iff HMI action, displayed state, and actual PLC state agree (R-22 MUST if vision included). If vision is cut, exercise the same via operator-command symbols and state plainly in the report that the HMI was not visually tested.",
+      "hypothesis": "HMI controls and indications are congruent with real PLC state, distinguish command from feedback, and show fault/mode without navigation (R-22, UI-01..UI-04).",
+      "id": "E-15",
+      "observations": [
+        "Timestamped screenshots correlated with signal trace",
+        "HMI fault text vs Fault_Code",
+        "Stale/unknown display behavior"
+      ],
+      "possibleFollowUps": [
+        "Any HMI/PLC disagreement triggers a symbol-level rerun to isolate display vs logic",
+        "UI findings logged against UI-01..UI-07 for the workspace/report side as well"
+      ],
+      "preconditions": [
+        "Vision path available, or explicit fallback declared before the run"
+      ],
+      "requirementIds": [
+        "R-22"
+      ],
+      "verdictLimits": "MUST only when vision operation is actually used; otherwise not run / explicitly labeled."
+    },
+    {
+      "actions": [
+        "Release two cartons at configurable spacing with routes A then B (and B then A variant)",
+        "Track identities, divert commands per carton, actual exits, completions",
+        "Reduce spacing stepwise toward the configured minimum"
+      ],
+      "decisionLogic": "Exploratory/stretch. Report identity preservation or merge/conflict as observed; do not gate the first live demo on this.",
+      "hypothesis": "Two close cartons with different routes each reach exactly one correct exit without identity merge or conflicting divert timing (R-23 PROBE/stretch).",
+      "id": "E-16",
+      "observations": [
+        "Per-carton ground-truth trajectories (world only) vs PLC Active_ItemId/Route and completions",
+        "Divert repositioning between cartons vs travel time",
+        "Counts per exit"
+      ],
+      "possibleFollowUps": [
+        "If identity merges, find the minimum safe spacing empirically and propose it as configuration (not a hidden constant)",
+        "Use as the legitimate-simultaneity control for E-12 contradiction findings"
+      ],
+      "preconditions": [
+        "Single-carton campaign passing",
+        "Real PLC slice ready for two-in-flight"
+      ],
+      "requirementIds": [
+        "R-23"
+      ],
+      "verdictLimits": "Stretch/PROBE: deferred if the real PLC slice is not ready, per spec."
+    }
+  ],
+  "faults": [
+    {
+      "activation": "Scenario/fault-knob arming before or during a run; parameterised pulse width and count.",
+      "affectedSignalsOrState": [
+        "DI-01 PE_Entry",
+        "DI-02 PE_D1Approach",
+        "DI-03 PE_D2Approach (emitted DI values only; geometric truth unchanged)"
+      ],
+      "clearing": "Knob disarmed; emitted DI returns to geometry-derived value.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-PE-BOUNCE",
+      "injectedGroundTruth": "Sensor bounce fault active on named PE with pulse train parameters; the carton's true position is smooth and known only to the world.",
+      "safetyBoundary": "Bench simulation only; not a claim about physical sensor wiring or safety circuits."
+    },
+    {
+      "activation": "Fault knob holds the emitted DI true or false regardless of carton geometry for a chosen PE.",
+      "affectedSignalsOrState": [
+        "Any one of DI-01..DI-06 (emitted value frozen)"
+      ],
+      "clearing": "Knob disarmed; emitted DI resynchronises to geometry and the resync edge is logged.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-PE-STUCK",
+      "injectedGroundTruth": "Stuck-at-true/false fault on named PE while cartons continue to move in ground truth.",
+      "safetyBoundary": "Bench simulation only."
+    },
+    {
+      "activation": "Fault knob forces both limit DIs true simultaneously on D1 or D2, overriding the position-derived feedback mapping.",
+      "affectedSignalsOrState": [
+        "DI-07+DI-08 (D1) or DI-09+DI-10 (D2)"
+      ],
+      "clearing": "Knob disarmed; feedback returns to position-derived values.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-LIMIT-CONTRA",
+      "injectedGroundTruth": "Contradictory limit injection active; true divert position remains a single value in [0,1] known to the world.",
+      "safetyBoundary": "Bench simulation only; not presented as validation of any safety-rated circuit."
+    },
+    {
+      "activation": "Fault knob: divert actuator does not move (or moves partially and stalls) despite ExtendCmd; position frozen in world.",
+      "affectedSignalsOrState": [
+        "DI-07..DI-10 via frozen actual position",
+        "carton routing at the affected decision point"
+      ],
+      "clearing": "Knob disarmed before the next carton; actuator resumes normal travel model.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-DIVERT-JAM",
+      "injectedGroundTruth": "Divert jam (specify D1 or D2, full-hold or partial-stall position); PLC sees only the resulting limit feedbacks, which are physically consistent with the frozen position.",
+      "safetyBoundary": "Bench simulation only."
+    },
+    {
+      "activation": "Fault knob suppresses Drive_RunningFB assertion after Motor_RunCmd (drive failure), optionally also forcing belt velocity to zero independent of feedback.",
+      "affectedSignalsOrState": [
+        "DI-11 Drive_RunningFB (suppressed)",
+        "carton motion (none, because actual drive is not running)"
+      ],
+      "clearing": "Knob disarmed; next run command produces normal delayed feedback.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-DRIVE-NOFB",
+      "injectedGroundTruth": "Drive feedback failure injected; world ground truth: drive not running, no belt motion.",
+      "safetyBoundary": "Bench simulation only."
+    },
+    {
+      "activation": "Fault knob asserts Drive_Overload during travel; world stops the actual drive (RunningFB drops after coast delay) regardless of command until cleared.",
+      "affectedSignalsOrState": [
+        "DI-12 Drive_Overload",
+        "DI-11 Drive_RunningFB",
+        "carton motion (halts)"
+      ],
+      "clearing": "Knob disarmed (cleared fault); belt must not restart until PLC re-commands after Reset per R-12 sequence under test.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-DRIVE-TRIP",
+      "injectedGroundTruth": "Motor overload/trip injected at recorded time; PLC observes only DI-12 and feedback consequences.",
+      "safetyBoundary": "Simulated overload input only; no safety-rated function is claimed or validated."
+    },
+    {
+      "activation": "Fault knob freezes a chosen carton's position (jam) while the drive continues to run; other cartons (if any) also blocked behind it in ground truth.",
+      "affectedSignalsOrState": [
+        "Photoeyes covering the jam location remain blocked (geometry-derived)",
+        "downstream PEs never assert for that carton"
+      ],
+      "clearing": "Knob disarmed; carton resumes motion with the drive.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-CARTON-JAM",
+      "injectedGroundTruth": "Carton jam at D1/D2/runout (location recorded); PLC sees only persistent PE occupancy and absent downstream edges.",
+      "safetyBoundary": "Bench simulation only."
+    },
+    {
+      "activation": "Scenario control sets ExitA_Ready, ExitB_Ready, or Runout_Ready false; world models accumulation at a blocked exit (carton held at exit throat, exit PE behaviour recorded).",
+      "affectedSignalsOrState": [
+        "DI-13 ExitA_Ready",
+        "DI-14 ExitB_Ready",
+        "DI-15 Runout_Ready"
+      ],
+      "clearing": "Readiness restored; accumulated carton clears and the clearing is logged.",
+      "hiddenFromPlcDiagnosis": false,
+      "id": "F-DOWNSTREAM-BLOCK",
+      "injectedGroundTruth": "Downstream blocked state per exit with start/end times. (This is a legitimate observable plant condition, not a hidden diagnosis; only its scenario scheduling is harness-side.)",
+      "safetyBoundary": "Bench simulation only."
+    },
+    {
+      "activation": "WCS emulator scenarios: deliver offer after the reachable decision point, resend an identical sequence, send a conflicting route for the same item, withhold offers entirely, pause/ resume the message stream.",
+      "affectedSignalsOrState": [
+        "CartonOffer/OfferAck/RouteComplete exchange",
+        "Active_ItemId/Active_Route as observed from PLC"
+      ],
+      "clearing": "Scenario ends; emulator returns to well-formed single-offer behaviour.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-WCS-IRREG",
+      "injectedGroundTruth": "Exact irregularity type and timing (e.g., offer A delivered 0.30 s after D1 decision-point crossing) recorded harness-side; PLC sees only the messages themselves.",
+      "safetyBoundary": "Emulated peer behaviour only; not a production WCS protocol."
+    },
+    {
+      "activation": "Connector-level break/reconnect of OPC UA during a run; bridge marks input quality invalid and the world stops introducing new cartons while disconnected.",
+      "affectedSignalsOrState": [
+        "All BenchInputs freshness/quality",
+        "observed PLC outputs/status (stale-labelled in evidence)"
+      ],
+      "clearing": "Reconnect; freshness re-established and logged with measured latencies.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-TRANSPORT-DROP",
+      "injectedGroundTruth": "Transport interruption window with start/end and dropped-update count; any verdict spanning the window is barred from pass (stale evidence labelled, R-21).",
+      "safetyBoundary": "Workstation/connector fault handling only; exact PLC motor behaviour on disconnect is a PLC requirement to review, recorded not assumed."
+    },
+    {
+      "activation": "Fault knob forces one or more exit/approach PEs true in combinations geometry forbids for the current carton population (e.g., PE_ExitA and PE_Runout together with one carton), or emits an exit edge before any entry edge.",
+      "affectedSignalsOrState": [
+        "DI-01..DI-06 (emitted values overridden at the sensor layer)"
+      ],
+      "clearing": "Knob disarmed; emitted values return to geometry-derived state and the discontinuity is logged.",
+      "hiddenFromPlcDiagnosis": true,
+      "id": "F-IMPOSSIBLE-PE",
+      "injectedGroundTruth": "Impossible-combination/sequence injection with the true carton position recorded; impossibility is judged against carton count and timing context, not blanket signal bans.",
+      "safetyBoundary": "Bench simulation only."
+    }
+  ],
+  "firstProofPlan": {
+    "evidenceArtifacts": [
+      "Requirement/test ID, spec version 0.5, controller build and connector map version",
+      "World model version and full configuration (geometry, speeds, travel times, thresholds used)",
+      "Stimulus and injected-fault ledger (ground truth) kept separate from the PLC-observation stream",
+      "Observed PLC outputs/status with quality and timestamps, WCS exchange log, HMI screenshots where used",
+      "Measured timing: PLC task period, OPC UA sampling/publishing intervals, write-to-application and observation latencies, jitter, dropped updates",
+      "Verdict per test (pass/fail/inconclusive/not run) with trace-point citations, plus untested-requirement list and assumptions register"
+    ],
+    "failureCriteria": [
+      "Any part executed on a fallback trace or surrogate is presented as real PLC evidence",
+      "A test is passed on the simulator's own expected state without executing-PLC evidence",
+      "Setup proceeds despite missing/mistyped/stale required tags instead of failing visibly",
+      "BenchSimulationActive cannot be confirmed before stimulus is applied",
+      "A/B-assigned carton at runout is reported as a successful sort, or an unassigned runout is reported as a fault/misroute",
+      "Reset causes an automatic belt restart in the R-01/R-12 sequences"
+    ],
+    "successCriteria": [
+      "Tags discovered/mapped and recorded (type, unit, normal state, access, source, owner, OPC UA path/node ID, inversion); connector fails visibly on any missing/mistyped/stale required tag",
+      "BenchSimulationActive confirmed true before any stimulus; normal no-carton DI state verified",
+      "One carton sorted to A (E-03), one to B (E-04), one unassigned to runout (E-05), each with exactly one matching RouteComplete and count increment from the executing PLC",
+      "One fault/contradictory-input scenario executed (failed divert, bouncing photoeye, or contradictory limits) with injected ground truth logged separately from PLC observations",
+      "At least one agent-chosen follow-up executed in response to observed PLC behaviour (e.g., E-12 branch or E-10 timing sweep), demonstrating the campaign is adaptive, not a fixed script",
+      "Report delivered distinguishing observed PLC evidence, simulated ground truth, inferred diagnosis, and assumptions; connection and measured timing shown in the workspace"
+    ],
+    "surrogateScope": "FIRST PROOF (SURROGATE): a clearly labeled surrogate connector stands in for the CODESYS/OPC UA connector to validate only the generated world's execution contract (signal identities, tick loop, sensor derivation, evidence capture). It does not prove real PLC integration, real OPC UA timing, or any CODESYS behaviour, and must be labeled SURROGATE in every artifact it touches.",
+    "whatThisDoesNotProve": [
+      "Real CODESYS Control Win logic behaviour (requires the real connector campaign)",
+      "OPC UA scan-level fidelity or any sub-100 ms phenomenon visibility over the transport",
+      "HMI visual congruence (unless E-15 is run with vision; otherwise explicitly not visually tested)",
+      "Any TBD timing threshold, PROBE policy correctness, safety-rated function, or production conveyor standard"
+    ]
+  },
+  "invariants": [
+    {
+      "failureMeaning": "World defect: motion is decoupled from observed drive behaviour (internal always-moving clock).",
+      "id": "INV-01",
+      "statement": "Carton motion occurs only while the simulated drive is actually running (Drive_RunningFB true and no trip/jam); Motor_RunCmd alone never moves a carton.",
+      "validation": "Continuous check in world tick: any position change while drive-not-running raises a world-integrity flag and voids the run."
+    },
+    {
+      "failureMeaning": "World defect: routing credited to commanded/intended route instead of physical state.",
+      "id": "INV-02",
+      "statement": "The exit a carton takes is determined solely by the divert's actual continuous position at the decision-point instant (>= configured extended threshold diverts; anything else continues straight), never by the requested route or command.",
+      "validation": "Decision-point crossing events log actual position and resulting branch for oracle comparison."
+    },
+    {
+      "failureMeaning": "World/oracle defect: double-counting or phantom cartons corrupt every downstream verdict.",
+      "id": "INV-03",
+      "statement": "Each carton occupies exactly one terminal exit (A, B, or runout) exactly once; carton population is conserved (released = exited + in-flight + jammed/held).",
+      "validation": "Population ledger reconciled at every tick and at run end."
+    },
+    {
+      "failureMeaning": "World defect: sensor layer has become a script rather than a derived measurement.",
+      "id": "INV-04",
+      "statement": "Outside an explicitly logged sensor-fault injection, every photoeye value equals the geometric occupancy of real cartons at that beam; no PE is asserted for a nonexistent carton.",
+      "validation": "Independent recomputation of expected PE states from ground-truth geometry each tick, compared with emitted DIs."
+    },
+    {
+      "failureMeaning": "World defect: divert reported fully home and extended without an active contradiction injection.",
+      "id": "INV-05",
+      "statement": "Outside F-LIMIT-CONTRA injection, D1/D2 HomeFB and ExtendedFB are never simultaneously true, and both are false during travel.",
+      "validation": "Feedback mapping is a pure function of continuous position; contradiction only via the logged fault knob."
+    },
+    {
+      "failureMeaning": "Oracle defect: normal disposition scored as error, or vice versa.",
+      "id": "INV-06",
+      "statement": "Disposition classification is exact: unassigned carton at runout = runout-unassigned (normal); A/B-assigned carton at runout = misroute; A/B carton at its assigned exit = sorted; any other exit = misrouted. A late route never rewrites a recorded outcome.",
+      "validation": "Oracle compares PLC RouteComplete/counts against this classification computed from ground truth plus assignment history."
+    },
+    {
+      "failureMeaning": "World defect: Stop semantics violated (drain or continued feed).",
+      "id": "INV-07",
+      "statement": "While the PLC is stopped (observed), the feeder releases no new cartons; cartons on the belt freeze when the drive stops and do not drain to an exit.",
+      "validation": "Feeder gate checks observed PLC state/readiness each tick; position freeze verified in E-02."
+    },
+    {
+      "failureMeaning": "Information leak: PLC would appear to 'diagnose' a fault it could not observe, invalidating fault-response tests.",
+      "id": "INV-08",
+      "statement": "Injected ground truth (fault type, jam location, true positions) is never written to any PLC-visible signal or message; the PLC observation stream contains only DIs, WCS messages, and operator actions.",
+      "validation": "Connector write log audited against the fault ledger; fault identity appears only in harness-side evidence."
+    },
+    {
+      "failureMeaning": "Evidence defect: a verdict rests on stale data, violating R-21.",
+      "id": "INV-09",
+      "statement": "Any PLC observation older than the connector freshness bound, or spanning a transport-drop window, is labeled stale and cannot support a pass verdict.",
+      "validation": "Per-value timestamps/quality carried through to the report; E-11 exercises the break/reconnect path."
+    },
+    {
+      "failureMeaning": "Oracle defect: fabricated acceptance threshold (spec explicitly leaves these TBD).",
+      "id": "INV-10",
+      "statement": "No verdict uses an acceptance threshold the spec marks TBD; such checks terminate as inconclusive/exploratory with the measured value reported.",
+      "validation": "Verdict engine tags every scored criterion as FIRM (spec MUST) or TBD/PROBE; TBD criteria cannot emit pass/fail."
+    }
+  ],
+  "name": "Conveyor Bench Reactive World — ControlsBench Design Artifact (Spec v0.5 Demo Baseline)",
+  "objective": "Author an inspectable reactive world (physical plant + WCS peer + downstream readiness + fault injection + evidence) against which the real CODESYS PLC application is the system under test, per accepted spec v0.5. The world must drive the minimum credible live sequence (sort A, sort B, unassigned runout, one fault/contradictory-input scenario, at least one agent-chosen follow-up) and produce an evidence-backed report, without reimplementing PLC decision logic and without scoring any TBD threshold.",
+  "parameters": [
+    {
+      "basis": "specified",
+      "id": "CFG-CARTON-LEN",
+      "rationale": "Suggested visualization starting value in spec section 2.",
+      "unit": "m",
+      "value": "0.30 (configurable)"
+    },
+    {
+      "basis": "specified",
+      "id": "CFG-BELT-SPEED",
+      "rationale": "Suggested visualization starting value; actual motion follows actual drive state, not this constant alone.",
+      "unit": "m/s",
+      "value": "0.50 (configurable)"
+    },
+    {
+      "basis": "specified",
+      "id": "CFG-DIVERT-TRAVEL",
+      "rationale": "Per-actuator travel time, each divert independently configurable; nonzero delay is mandatory.",
+      "unit": "s",
+      "value": "0.35 each (configurable)"
+    },
+    {
+      "basis": "specified",
+      "id": "CFG-SPACING-MIN",
+      "rationale": "Suggested minimum between cartons for the two-in-flight stretch scenario.",
+      "unit": "m",
+      "value": ">= 0.8 (configurable)"
+    },
+    {
+      "basis": "assumed",
+      "id": "CFG-GEOMETRY",
+      "rationale": "ASM-GEO-01: proposed lane distances (entry 0.00, D1 approach 0.60, DIV-01 1.00, D2 approach 1.40, DIV-02 1.80, runout 2.40 m; exit PEs 0.40 m along branch). Not in spec; configuration, recorded per run.",
+      "unit": "m",
+      "value": "see ASM-GEO-01"
+    },
+    {
+      "basis": "assumed",
+      "id": "CFG-DIVERT-EFFECTIVE",
+      "rationale": "ASM-DIV-01: actual position fraction at/above which a carton at the decision point is physically diverted.",
+      "unit": "fraction 0-1",
+      "value": "0.95 (configurable)"
+    },
+    {
+      "basis": "assumed",
+      "id": "CFG-WORLD-TICK",
+      "rationale": "ASM-TIME-01: world integration step, decoupled from PLC scan and OPC UA cadence (spec: transport updates at their own cadence; ~one-scan I/O delay is a design target, not scan-synchronous mirroring).",
+      "unit": "ms",
+      "value": "10 (configurable)"
+    },
+    {
+      "basis": "assumed",
+      "id": "CFG-DRIVE-DELAYS",
+      "rationale": "ASM-DRV-01: Drive_RunningFB run-up/coast delays; spec requires delayed, suppressible feedback but gives no numbers.",
+      "unit": "s",
+      "value": "run-up 0.20, coast 0.15 (configurable)"
+    },
+    {
+      "basis": "assumed",
+      "id": "CFG-PE-BEAM",
+      "rationale": "Beam width along the lane used in the occupancy test; spec lists beam width as a configuration value without a number.",
+      "unit": "m",
+      "value": "0.02 (configurable)"
+    }
+  ],
+  "reactiveBehaviors": [
+    {
+      "condition": "Observed Motor_RunCmd (DO-01) transitions false->true and no drive fault (F-DRIVE-NOFB/F-DRIVE-TRIP) is active",
+      "emissions": [
+        "DI-11 Drive_RunningFB after configurable run-up delay",
+        "carton velocities ramp to configured belt speed"
+      ],
+      "evidenceToRecord": [
+        "Command edge timestamp, feedback edge timestamp, measured delay"
+      ],
+      "id": "RB-01",
+      "purpose": "Motion is a consequence of actual drive behaviour, never of command alone or an internal clock.",
+      "reads": [
+        "DO-01 Motor_RunCmd"
+      ],
+      "stateChanges": [
+        "DriveState: Off->Starting->Running; belt speed ramps 0 -> CFG-BELT-SPEED"
+      ],
+      "timing": "Run-up delay CFG-DRIVE-DELAYS (proposed 0.20 s), then RunningFB true.",
+      "trigger": "DO-01 observed change"
+    },
+    {
+      "condition": "Observed Motor_RunCmd false-> (drive was running)",
+      "emissions": [
+        "DI-11 Drive_RunningFB drops after coast delay",
+        "all carton positions freeze (Stop does not drain)"
+      ],
+      "evidenceToRecord": [
+        "Position trace proving freeze",
+        "feedback drop delay"
+      ],
+      "id": "RB-02",
+      "purpose": "Operator Stop halts cartons in place and (via RB-06) inhibits new feed.",
+      "reads": [
+        "DO-01 Motor_RunCmd"
+      ],
+      "stateChanges": [
+        "DriveState -> Stopping -> Off; carton velocities -> 0"
+      ],
+      "timing": "Coast delay CFG-DRIVE-DELAYS (proposed 0.15 s); positions integrate to zero speed and then hold exactly.",
+      "trigger": "DO-01 observed change"
+    },
+    {
+      "condition": "Each world tick",
+      "emissions": [
+        "DI-01..DI-06 photoeyes recomputed from carton intervals vs beam positions"
+      ],
+      "evidenceToRecord": [
+        "Every PE edge with timestamp, carton ID, and position"
+      ],
+      "id": "RB-03",
+      "purpose": "Sensors are derived from physical state, so edges, ordering, and simultaneity are physically meaningful.",
+      "reads": [
+        "carton ground-truth positions/lengths"
+      ],
+      "stateChanges": [
+        "Sensor obstruction state per beam"
+      ],
+      "timing": "Every tick (CFG-WORLD-TICK); edge timestamps on world clock.",
+      "trigger": "world tick"
+    },
+    {
+      "condition": "Observed D1_ExtendCmd / D2_ExtendCmd (DO-02/DO-03) state vs current target",
+      "emissions": [
+        "DI-07..DI-10 limit feedbacks as pure functions of actual position (both false in travel, exactly one true at ends, unless F-LIMIT-CONTRA)",
+        "optional D1_Position/D2_Position diagnostics if exposed"
+      ],
+      "evidenceToRecord": [
+        "Command edges, travel start/end, feedback edges, position at any decision-point crossing"
+      ],
+      "id": "RB-04",
+      "purpose": "Actuators have real travel; the PLC is judged against actual position, not requested position.",
+      "reads": [
+        "DO-02 D1_ExtendCmd",
+        "DO-03 D2_ExtendCmd"
+      ],
+      "stateChanges": [
+        "Divert position moves toward commanded end at rate 1/CFG-DIVERT-TRAVEL per second; reverses if command reverses mid-travel"
+      ],
+      "timing": "Full travel CFG-DIVERT-TRAVEL (suggested 0.35 s) per actuator, independently configurable.",
+      "trigger": "DO-02/DO-03 observed change"
+    },
+    {
+      "condition": "Carton leading edge reaches DIV-01 (s=1.00 m) or DIV-02 (s=1.80 m) decision point on the main lane",
+      "emissions": [
+        "Subsequent PE edges on the taken branch only (PE_ExitA / PE_D2Approach..., exactly one terminal exit)"
+      ],
+      "evidenceToRecord": [
+        "Decision event: carton ID, actual divert position, threshold, branch taken, requested route (oracle-side only)"
+      ],
+      "id": "RB-05",
+      "purpose": "Actual divert position at the physical decision point determines the exit — the core sort/misroute oracle.",
+      "reads": [
+        "actual divert position",
+        "carton position"
+      ],
+      "stateChanges": [
+        "Carton path state: MainLane -> ExitA | MainLane->D2 segment | -> ExitB | -> Runout"
+      ],
+      "timing": "Evaluated at the crossing tick; mid-travel (< threshold) means straight through.",
+      "trigger": "decision-point crossing"
+    },
+    {
+      "condition": "Observed ReleaseReady (PLC -> upstream) true, PLC not stopped/faulted per observed State_Code, entry zone clear (no carton within configured spacing of entry), and operator Stop not in effect",
+      "emissions": [
+        "New carton appears at virtual feed and begins travel when drive actually runs",
+        "DI-01 PE_Entry on geometric arrival"
+      ],
+      "evidenceToRecord": [
+        "ReleaseReady observation, feeder release event, spacing check, carton ID issued"
+      ],
+      "id": "RB-06",
+      "purpose": "Feeder is a reactive peer: it releases only on observed PLC readiness and available space, and never while stopped.",
+      "reads": [
+        "ReleaseReady",
+        "State_Code",
+        "entry-zone occupancy"
+      ],
+      "stateChanges": [
+        "New Carton record created with next ID; assignment linked if a WCS offer is active"
+      ],
+      "timing": "Release evaluated each tick; placement is instantaneous at feed, motion thereafter per RB-01/RB-03.",
+      "trigger": "world tick / ReleaseReady observed"
+    },
+    {
+      "condition": "Scenario schedule or engineer/agent action",
+      "emissions": [
+        "CartonOffer messages (normal, late, duplicate-sequence, conflicting, or withheld) with unique sequence numbers",
+        "WCS-side log of OfferAck/RouteComplete/MachineStatus received from PLC"
+      ],
+      "evidenceToRecord": [
+        "Full WCS exchange with timestamps and sequence numbers; irregularity type/timing in ground-truth ledger"
+      ],
+      "id": "RB-07",
+      "purpose": "WCS is a peer service with a handshake, not a route bit; irregularities are first-class stimuli.",
+      "reads": [
+        "OfferAck, ReleaseReady, RouteComplete, MachineStatus from PLC"
+      ],
+      "stateChanges": [
+        "Outstanding-offer state (v1: one unacknowledged offer at a time)"
+      ],
+      "timing": "Late-route variants are timed relative to decision-point crossings (e.g., offer delivered after D1 crossing timestamp). ",
+      "trigger": "scenario step"
+    },
+    {
+      "condition": "Readiness input changes (scenario or downstream model) or a carton accumulates at a blocked exit",
+      "emissions": [
+        "DI-13/DI-14/DI-15 readiness values",
+        "exit-throat occupancy effects on the arriving carton's motion (held at blocked exit)"
+      ],
+      "evidenceToRecord": [
+        "Readiness transitions vs decision-point times; accumulation/clearing events"
+      ],
+      "id": "RB-08",
+      "purpose": "Downstream is a reactive surface: blocked exits create backpressure the PLC must not count as success.",
+      "reads": [
+        "scenario readiness controls"
+      ],
+      "stateChanges": [
+        "Downstream capacity per exit; held-carton state"
+      ],
+      "timing": "Immediate on scenario action; accumulation persists until readiness restores.",
+      "trigger": "scenario/world tick"
+    },
+    {
+      "condition": "A fault knob is armed (see faults list)",
+      "emissions": [
+        "Only the physical/DI consequences of the fault (e.g., frozen limit feedbacks, suppressed RunningFB, bounced PE) — never a fault label"
+      ],
+      "evidenceToRecord": [
+        "Ground-truth ledger entry: fault ID, target, parameters, arm/clear timestamps (harness-side only)"
+      ],
+      "id": "RB-09",
+      "purpose": "Faults are injected into plant components/message delivery while ground truth stays strictly separate from PLC-observable data (INV-08).",
+      "reads": [
+        "fault knob controls"
+      ],
+      "stateChanges": [
+        "Fault overlay on the affected component's model"
+      ],
+      "timing": "Per-knob parameters (bounce pulse width/count, stuck duration, jam window) recorded in the ledger.",
+      "trigger": "scenario step"
+    },
+    {
+      "condition": "Connector reports disconnect/stale quality, or BenchSimulationActive cannot be confirmed",
+      "emissions": [
+        "No new virtual cartons introduced; evidence entries flagged stale with quality/timestamps"
+      ],
+      "evidenceToRecord": [
+        "Disconnect window, dropped-update count, staleness labels; affected tests marked inconclusive"
+      ],
+      "id": "RB-10",
+      "purpose": "Bench failure handling is honest: stale evidence is labeled, never silently substituted, and cannot support a pass (R-21).",
+      "reads": [
+        "connector quality/freshness per value"
+      ],
+      "stateChanges": [
+        "Campaign state -> Degraded/Inconclusive for affected window"
+      ],
+      "timing": "Immediate on quality loss; recovery logged on reconnect with measured latencies (E-11).",
+      "trigger": "connector event"
+    },
+    {
+      "condition": "Carton reaches a terminal exit sensor (PE_ExitA/PE_ExitB/PE_Runout) in ground truth",
+      "emissions": [
+        "(World emits no PLC input beyond the PE itself; completion/counting is the PLC's job and is observed, not driven)"
+      ],
+      "evidenceToRecord": [
+        "Ground-truth disposition computed oracle-side (sorted / runout-unassigned / misrouted / faulted) for comparison with PLC RouteComplete and counts"
+      ],
+      "id": "RB-11",
+      "purpose": "The world closes the physical loop and supplies an independent oracle, while completion reporting remains PLC behaviour under test.",
+      "reads": [
+        "PLC RouteComplete, Count_ExitA/B/Runout/Misroute (observed)"
+      ],
+      "stateChanges": [
+        "Carton -> Exited (removed from lane after exit PE clears); population ledger updated"
+      ],
+      "timing": "At exit-PE assertion tick; oracle comparison waits for PLC RouteComplete with a recorded (unscored, TBD) observation window.",
+      "trigger": "exit PE assertion"
+    }
+  ],
+  "signals": [
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "DO-01",
+      "meaning": "Command to belt drive. World observes the actual command; cartons move only if the simulated drive actually runs (DI-11).",
+      "name": "Motor_RunCmd",
+      "normalValue": "false at startup (outputs off)",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "DO-02",
+      "meaning": "Extend divert 1 to exit A; deassert returns home. World drives the D1 actuator model from this command.",
+      "name": "D1_ExtendCmd",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "DO-03",
+      "meaning": "Extend divert 2 to exit B; deassert returns home. World drives the D2 actuator model from this command.",
+      "name": "D2_ExtendCmd",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "DO-04",
+      "meaning": "Optional visible machine-fault indication if inexpensive to implement.",
+      "name": "StackLight_Red",
+      "normalValue": "false",
+      "requiredForFirstProof": false
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "DO-05",
+      "meaning": "Optional visible running/ready indication.",
+      "name": "StackLight_Green",
+      "normalValue": "false",
+      "requiredForFirstProof": false
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-01",
+      "meaning": "Carton blocks the entry beam; derived from carton position and length vs beam geometry.",
+      "name": "PE_Entry",
+      "normalValue": "false (no carton)",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-02",
+      "meaning": "Carton enters the decision window before divert 1; geometry-derived.",
+      "name": "PE_D1Approach",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-03",
+      "meaning": "Carton continues on the main lane toward divert 2; geometry-derived (only if not diverted at DIV-01).",
+      "name": "PE_D2Approach",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-04",
+      "meaning": "Carton passes diverted exit A; asserted only if the carton physically took the A branch.",
+      "name": "PE_ExitA",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-05",
+      "meaning": "Carton passes diverted exit B; asserted only if the carton physically took the B branch.",
+      "name": "PE_ExitB",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-06",
+      "meaning": "Carton passes the straight runout/jackpot; terminal exit for unassigned (normal) and for missed A/B assignments (misroute).",
+      "name": "PE_Runout",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-07",
+      "meaning": "Divert 1 fully home; true iff actual D1 position = 0. False during travel or failure.",
+      "name": "D1_HomeFB",
+      "normalValue": "true",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-08",
+      "meaning": "Divert 1 fully extended; true iff actual D1 position = 1. Both D1 limits true is an injectable contradiction (F-LIMIT-CONTRA) only.",
+      "name": "D1_ExtendedFB",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-09",
+      "meaning": "Divert 2 fully home; true iff actual D2 position = 0.",
+      "name": "D2_HomeFB",
+      "normalValue": "true",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-10",
+      "meaning": "Divert 2 fully extended; true iff actual D2 position = 1. Both D2 limits true only via F-LIMIT-CONTRA.",
+      "name": "D2_ExtendedFB",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-11",
+      "meaning": "Actual drive-running feedback: asserts after a configurable delay following Motor_RunCmd, drops after coast delay, suppressible on failure (F-DRIVE-NOFB). Carton motion follows this actual state.",
+      "name": "Drive_RunningFB",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-12",
+      "meaning": "Simulated overload/trip input; normally false, asserted only by F-DRIVE-TRIP.",
+      "name": "Drive_Overload",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-13",
+      "meaning": "Destination A can accept a carton; world/downstream-controlled, switchable to blocked (F-DOWNSTREAM-BLOCK).",
+      "name": "ExitA_Ready",
+      "normalValue": "true",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-14",
+      "meaning": "Destination B can accept a carton; switchable to blocked.",
+      "name": "ExitB_Ready",
+      "normalValue": "true",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "world_to_plc",
+      "id": "DI-15",
+      "meaning": "Runout can accept a carton; normally true, switchable to blocked to test backpressure.",
+      "name": "Runout_Ready",
+      "normalValue": "true",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL pulse or sequenced request (exact method TBD)",
+      "flow": "wcs_to_plc",
+      "id": "OP-START",
+      "meaning": "Operator Start command via HMI symbols or vision-operated HMI. World/operator emits; PLC owns the resulting state. (Supervisory symbol, not field I/O.)",
+      "name": "Cmd_Start",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL pulse or sequenced request (TBD)",
+      "flow": "wcs_to_plc",
+      "id": "OP-STOP",
+      "meaning": "Operator Stop: PLC must remove Motor_RunCmd and inhibit new feed; cartons halt in place, no drain. World verifies via observed outputs and frozen positions.",
+      "name": "Cmd_Stop",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL pulse or sequenced request (TBD)",
+      "flow": "wcs_to_plc",
+      "id": "OP-RESET",
+      "meaning": "Operator Reset: acknowledges a cleared fault; must NOT automatically restart the belt.",
+      "name": "Cmd_Reset",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "wcs_to_plc",
+      "id": "OP-AUTO",
+      "meaning": "Request Auto mode.",
+      "name": "Mode_AutoRequest",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "Message: {seq: UDINT, itemId: STRING, route: enum A|B|Unknown, createdAt: timestamp}",
+      "flow": "wcs_to_plc",
+      "id": "WCS-OFFER",
+      "meaning": "WCS -> PLC carton offer. One unacknowledged offer at a time in v1. Duplicate sequence must not create a second carton. Missing offer is a testable condition (carton may still run to runout).",
+      "name": "CartonOffer",
+      "normalValue": "absent",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "Message: {seq echo, itemId echo, accepted: BOOL, rejectReason}",
+      "flow": "plc_to_world",
+      "id": "WCS-ACK",
+      "meaning": "PLC -> WCS offer acknowledgement echoing sequence and item ID, accepted or rejected with reason. Observed by the WCS emulator; never generated by the world on the PLC's behalf.",
+      "name": "OfferAck",
+      "normalValue": "absent",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL-equivalent status (transport TBD)",
+      "flow": "plc_to_world",
+      "id": "WCS-READY",
+      "meaning": "PLC -> upstream feed: a carton may enter. A valid WCS destination is NOT required to release when runout is available.",
+      "name": "ReleaseReady",
+      "normalValue": "false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "Message: {itemId, requestedRoute, observedExit: A|B|runout, disposition: sorted|runout-unassigned|misrouted|faulted}",
+      "flow": "plc_to_world",
+      "id": "WCS-COMPLETE",
+      "meaning": "PLC -> WCS completion, once per carton. An A/B-requested item reaching runout is misrouted, never a successful sort.",
+      "name": "RouteComplete",
+      "normalValue": "absent",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "Message/status: {state, faultCode, destinationAvailability, heartbeatOrTimestamp}",
+      "flow": "plc_to_world",
+      "id": "WCS-STATUS",
+      "meaning": "PLC -> WCS machine status: running/stopped/faulted, fault code, destination availability, heartbeat/timestamp.",
+      "name": "MachineStatus",
+      "normalValue": "absent",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "UINT/enum (values to be frozen, IF-01)",
+      "flow": "plc_to_world",
+      "id": "ST-STATE",
+      "meaning": "PLC mode/state observed by the world: Stopped, Auto, Stopping, Faulted. World reads it to gate feeding and to score R-01; world never writes it.",
+      "name": "State_Code",
+      "normalValue": "Stopped (proposed)",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "UINT, BOOL",
+      "flow": "plc_to_world",
+      "id": "ST-FAULT",
+      "meaning": "Active fault identity and status as reported by the PLC. Compared against (but never replaced by) injected ground truth.",
+      "name": "Fault_Code / Fault_Active",
+      "normalValue": "0 / false",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "STRING/UINT, enum",
+      "flow": "plc_to_world",
+      "id": "ST-ITEM",
+      "meaning": "Current assignment as known to the PLC, when present. World's ground-truth assignment is kept separate for oracle comparison.",
+      "name": "Active_ItemId / Active_Route",
+      "normalValue": "none",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "UDINT",
+      "flow": "plc_to_world",
+      "id": "ST-COUNTS",
+      "meaning": "Exit counts as counted by the PLC. A commanded A/B item reaching another exit is additionally a misroute. World maintains its own independent counts from ground truth.",
+      "name": "Count_ExitA / Count_ExitB / Count_Runout / Count_Misroute",
+      "normalValue": "0",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "ST-BENCH",
+      "meaning": "Confirms simulated input selection (interceptor). Campaign must fail setup visibly if this cannot be confirmed; startup default is physical passthrough and selecting simulation is a deliberate action.",
+      "name": "BenchSimulationActive",
+      "normalValue": "false at startup (physical passthrough)",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "BOOL",
+      "flow": "plc_to_world",
+      "id": "ST-HB",
+      "meaning": "PLC indicates it sees the current workstation stimulus stream; design and timeout TBD.",
+      "name": "BenchHeartbeatSeen",
+      "normalValue": "false",
+      "requiredForFirstProof": false
+    },
+    {
+      "dataType": "TBD (instrumentation contract, not field I/O)",
+      "flow": "world_to_plc",
+      "id": "BENCH-HB",
+      "meaning": "Bench-only host heartbeat emitted by the workstation; on disconnect the bridge marks input quality invalid and the world stops introducing new cartons.",
+      "name": "Bench_HostHeartbeat",
+      "normalValue": "toggling/streaming while connected",
+      "requiredForFirstProof": false
+    },
+    {
+      "dataType": "TBD (instrumentation contract)",
+      "flow": "world_to_plc",
+      "id": "BENCH-MODE",
+      "meaning": "Deliberate request to select simulated inputs via the PLC-side interceptor. Distinct from field-input writes and from HMI/WCS commands.",
+      "name": "Bench_ModeRequest",
+      "normalValue": "not requested (physical passthrough)",
+      "requiredForFirstProof": true
+    },
+    {
+      "dataType": "REAL m/s, REAL A, REAL 0-100%, UDINT",
+      "flow": "plc_to_world",
+      "id": "DIAG-OPT",
+      "meaning": "Candidate analog/diagnostics. May support later slip/degradation tests; must not be made mandatory unless the controller actually uses them. If only Boolean I/O is exposed, motion is based on Motor_RunCmd plus delayed Drive_RunningFB.",
+      "name": "Belt_SpeedActual / Drive_Current / D1_Position / D2_Position / Encoder_Count",
+      "normalValue": "0 / 0 / 0% / 0% / -",
+      "requiredForFirstProof": false
+    }
+  ],
+  "sourceSpecVersion": "0.5 (2026-10-29), accepted hackathon demo baseline",
+  "stateVariables": [
+    {
+      "dataType": "enum {Off, Starting, Running, Stopping, Tripped}",
+      "id": "SV-DRIVE",
+      "initialValue": "Off; Drive_RunningFB=false",
+      "meaning": "Actual simulated drive state. RunningFB is true only in Running. Carton belt velocity derives from this state, never from Motor_RunCmd directly.",
+      "owner": "world"
+    },
+    {
+      "dataType": "REAL m/s",
+      "id": "SV-BELT-V",
+      "initialValue": "0",
+      "meaning": "Actual belt speed: ramps toward CFG-BELT-SPEED while drive Running, toward 0 otherwise; 0 while Tripped or jammed-drive faults active.",
+      "owner": "world"
+    },
+    {
+      "dataType": "record[] {id, sLeading: REAL m, length: REAL m, pathState, assignedRoute: A|B|Unknown|none (ground truth), wcsItemId, exitTaken: A|B|runout|null, jammed: BOOL}",
+      "id": "SV-CARTONS",
+      "initialValue": "empty list",
+      "meaning": "Ground-truth carton population. Position s is the leading edge along the main lane (branch coordinate after a divert). Max 2 in flight in this design (baseline runs use 1).",
+      "owner": "world"
+    },
+    {
+      "dataType": "REAL 0..1 (0=home, 1=extended), plus target end",
+      "id": "SV-D1-POS / SV-D2-POS",
+      "initialValue": "0 (home) for both",
+      "meaning": "Actual continuous divert positions. Limit feedbacks are functions of these; routing at a decision point is a function of these; neither is ever set directly by a route request.",
+      "owner": "world"
+    },
+    {
+      "dataType": "BOOL x3 plus held-carton flags",
+      "id": "SV-DOWNSTREAM",
+      "initialValue": "all ready (true)",
+      "meaning": "ExitA/ExitB/Runout readiness and accumulation state at blocked exits.",
+      "owner": "world"
+    },
+    {
+      "dataType": "record {outstandingOffer, lastSeqSeen, per-item assignment log with delivery timestamps}",
+      "id": "SV-WCS",
+      "initialValue": "no outstanding offer",
+      "meaning": "WCS emulator peer state: offers sent, acks received, completions received. Kept distinct from PLC-internal assignment (observed via Active_ItemId/Active_Route).",
+      "owner": "wcs"
+    },
+    {
+      "dataType": "record[] {faultId, target, parameters, armedAt, clearedAt}",
+      "id": "SV-FAULT-LEDGER",
+      "initialValue": "empty",
+      "meaning": "Injected ground truth ledger. Harness/evidence-side only; never emitted to the PLC (INV-08).",
+      "owner": "world"
+    },
+    {
+      "dataType": "timestamped event log",
+      "id": "SV-EVIDENCE",
+      "initialValue": "empty at campaign start",
+      "meaning": "Append-only timeline: effective DI values applied, PLC output/status observations with quality+timestamps, WCS exchange, model state snapshots, fault injections, HMI action/screenshot references, verdicts.",
+      "owner": "world"
+    },
+    {
+      "dataType": "mirror of last observed PLC outputs/status with per-value timestamp + quality",
+      "id": "SV-PLC-MIRROR",
+      "initialValue": "unknown/stale until first fresh read",
+      "meaning": "World's observation of DO-01..05, State_Code, Fault_*, Active_*, counts, BenchSimulationActive. Stale or unknown values are represented as such, never as plausible defaults.",
+      "owner": "world"
+    }
+  ]
+}

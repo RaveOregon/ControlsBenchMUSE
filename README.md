@@ -27,7 +27,7 @@ Open <http://localhost:4310>. Press **Start autonomous run** to watch ControlsBe
 
 ## Connect Muse Spark
 
-Copy `.env.example` to `.env`, remove the accidental example space if present, and set `MODEL_API_KEY`. Environment variables can also be supplied directly. The server uses Meta's OpenAI-compatible Responses endpoint and defaults to `muse-spark-1.3`.
+Copy `.env.example` to `.env` and set `MODEL_API_KEY`. Environment variables can also be supplied directly. The model spike uses Meta's OpenAI-compatible Responses endpoint and defaults to `muse-wonder-1.0`; see `docs/model-selection.md` for the direct Wonder-versus-Spark evaluation.
 
 Without a key, **Build with Muse** uses the bundled conveyor model so the whole demo remains runnable. The UI always shows whether a model came from Meta or the bundled fallback.
 

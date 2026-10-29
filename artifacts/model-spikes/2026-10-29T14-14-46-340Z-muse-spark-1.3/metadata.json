@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-10-29T14:16:09.293Z",
+  "durationMs": 82953,
+  "responseId": "resp_6ae35528b44dd4624835412b",
+  "status": "completed",
+  "model": "muse-spark-1.3",
+  "requestedReasoning": {
+    "effort": "high",
+    "summary": "auto"
+  },
+  "sourceSpecification": "docs/conveyor-machine-spec.md",
+  "usage": {
+    "input_tokens": 8046,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 16666,
+    "output_tokens_details": {
+      "reasoning_tokens": 3790
+    },
+    "total_tokens": 24712
+  },
+  "counts": {
+    "assumptions": 10,
+    "signals": 35,
+    "stateVariables": 16,
+    "reactiveBehaviors": 9,
+    "faults": 11,
+    "invariants": 7,
+    "experiments": 13,
+    "ambiguities": 10
+  }
+}

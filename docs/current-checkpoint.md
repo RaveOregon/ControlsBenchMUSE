@@ -1,0 +1,99 @@
+# Current Checkpoint — Computer Switch
+
+Updated 2026-10-29. This checkpoint exists so work can resume on another computer without reconstructing the design conversation.
+
+## Resume Here
+
+Read in this order:
+
+1. `HANDOFF.md` — concise project state and next sequence.
+2. `docs/architecture-decisions.md` — authoritative settled/provisional/open design register.
+3. `docs/conveyor-machine-spec.md` — accepted first-machine specification.
+4. `docs/model-selection.md` — Wonder versus Spark evaluation and primary-model decision.
+5. `docs/hackathon-brief.md` — event requirements, judging, resources, and submission checklist.
+6. `docs/frontier-roadmap.md` — local Glimmer, broad autonomy, and adaptive-weight upside.
+
+Do not begin building the general world runtime until the remaining high-impact questions in `docs/architecture-decisions.md` have been reviewed with the user.
+
+## Product Goal
+
+ControlsBench Muse is a controls-engineer workstation for autonomous bench testing of executing PLC logic. The engineer supplies a functional specification, raw I/O/device information, and an editable PLC project in which a thin vendor-specific interceptor library is installed. Muse creates a believable external world and active campaign, supplies the PLC's raw input image, observes raw PLC outputs, changes course from evidence, and produces a grounded report.
+
+The differentiator is not static PLC source review, a hand-built conveyor simulator, a fixed test list, or graphics. It is a Muse-authored, continuously adaptive, closed-loop campaign around the real executing controller.
+
+## Work Completed
+
+- Repository and historical handoff reviewed.
+- Hackathon participant guide, event page, rules, Model API documentation, and official cookbooks reviewed and consolidated.
+- Entry strategy selected: Indie Developer, Build for Your World.
+- Primary model selected through direct comparison: `muse-wonder-1.0`, Standard mode, high reasoning.
+- Wonder and Spark artifacts preserved in `artifacts/model-spikes/`.
+- Wonder first call: 163.2 seconds, 6,972 input tokens, 19,048 output tokens, approximately $0.4088 estimated; user observed the matching credit debit.
+- Spark comparison: 83.0 seconds and approximately $0.0809 estimated; it was cheaper/faster but missed explicit requirement coverage that Wonder included.
+- Model spike runner added at `scripts/run-model-spike.js` and exposed as `npm run spike:model`.
+- Official cookbook lessons recorded in `docs/model-api-playbook.md`.
+- Frontier local-model and adapter-training path recorded in `docs/frontier-roadmap.md`.
+- Extensive pre-build product decisions captured in `docs/architecture-decisions.md`.
+
+## Most Important Settled Decisions
+
+- Workstation owns the world, complete raw DI/AI image, scheduling, faults, evidence, and campaign.
+- PLC integration requires editable source/build access to install a thin vendor-specific interceptor; compiled-only untouched PLCs are not currently supported.
+- Preferred PLC library topology is type-oriented DI, AI, DO, and AO blocks at the raw I/O boundary, with platform-specific alternatives where necessary.
+- Hardware passthrough is the default. Simulation mode takes complete ownership of every raw DI/AI value.
+- Enabling simulation immediately initializes the complete input image to false/zero; PLC behavior during preparation is valid evidence.
+- PLC DO/AO commands remain authentic and normally continue to physical bench outputs while always being exposed to the workstation. Engineers can suppress selected physical sinks.
+- Connector loss holds the last simulated input image and may expose a non-HMI bench-link-stale diagnostic.
+- OPC UA is the demo connector; EtherNet/IP cyclic I/O or another faster vendor transport is a production path behind the same connector contract.
+- Connected PLC/wall-clock time is authoritative. Acceleration is only for disconnected/surrogate/training runs.
+- Muse stays actively involved and may use hold, continue, or event/deadline decision leases per action.
+- Start Campaign is the single authorization. Muse can branch, inject faults, and add adaptive investigations without per-check approvals; engineer retains Pause/Stop and natural-language steering.
+- Generated world is a workshop: a minimal structured manifest labels signals/devices/state/evidence, while Muse-generated TypeScript is the single behavioral source of truth.
+- Generated code is not an engineer maintenance task. The engineer sees an expandable campaign plan, live truthful activity text, trace, evidence, and a lightweight schematic.
+- First world has continuous 1D physical state: geometry, carton motion, sensor zones, actuator motion, runout, and raw encoder/device behavior. Do not build a general graphics or 3D engine.
+- Variation across exploratory runs is a feature; provenance loss is not. Save generated code, world state, seeds, actions, trace, and model identity.
+- Generic PLC source review is outside the core. Source may help localize a demonstrated failure when a useful IDE connection/export exists.
+
+## Latest UI Direction
+
+The normal view should contain:
+
+- expandable campaign categories such as I/O, startup/modes, functional, runtime/timing, alarms/fault/recovery, normal operation, edge/stress, and adaptive investigations;
+- grounded Codex/Kiro-style activity text showing what Muse/runtime/connector/PLC is doing or awaiting;
+- raw I/O trace and evidence;
+- a lightweight SVG/Canvas conveyor schematic for orientation, not an intensive graphics package.
+
+Pause freezes the workstation world and holds inputs. Stop finalizes the campaign and holds the final state for inspection. Reset stays in simulation but zeros all inputs. Exit Simulation deliberately returns to hardware passthrough.
+
+## Remaining Design Questions
+
+The authoritative list is at the end of `docs/architecture-decisions.md`. At the time of this checkpoint, the unresolved topics are:
+
+1. Confirm or revise the Muse/world/execution-coordinator/connector/evidence responsibility split.
+2. Finish raw signal type/quality/encoding/sample/stale semantics.
+3. Decide whether the first CODESYS proof needs input revision/applied acknowledgement or begins with measured sparse OPC UA writes.
+4. Decide how generated TypeScript can be modified during a live campaign and how state migrates/rolls back.
+5. Define compile/runtime failure and Muse self-repair behavior.
+6. Finalize truth/evidence structures.
+7. Define campaign completion and coverage expansion.
+8. Lock the exact first-proof boundary and success criteria.
+
+The last unanswered question before the computer switch concerned live code modification. The working recommendation was: allow generated code replacement only at a paused decision boundary; snapshot, compile/test the revision, migrate state, resume, and roll back automatically on failure. This recommendation has not been accepted yet.
+
+## Immediate Next Work After Design Review
+
+Once the high-impact questions are settled:
+
+1. Define the minimal world manifest and generated TypeScript module contract.
+2. Implement the execution coordinator and instrumented `WorldContext`.
+3. Ask Wonder to regenerate the accepted conveyor as manifest plus executable TypeScript, with no manual behavior rewrite.
+4. Compile/test/self-repair the generated world and run it against a clearly labeled surrogate connector.
+5. Build and verify the CODESYS DI/AI/DO/AO interceptor and OPC UA connector.
+6. Run one real adaptive requirement-to-evidence campaign.
+
+## Local-Only Items
+
+- `.env` is gitignored and is not included in this checkpoint or Git push.
+- On the new computer, create `.env` from `.env.example` and set `MODEL_API_KEY` locally.
+- Never commit or print the key.
+- The repository remains private until the user explicitly chooses public hackathon publication and a license.

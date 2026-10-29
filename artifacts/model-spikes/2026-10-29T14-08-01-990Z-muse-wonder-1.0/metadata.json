@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-10-29T14:10:45.187Z",
+  "durationMs": 163197,
+  "responseId": "resp_6ae353e431e8cb1f88124d42",
+  "status": "completed",
+  "model": "muse-wonder-1.0",
+  "requestedReasoning": {
+    "effort": "high",
+    "summary": "auto"
+  },
+  "sourceSpecification": "docs/conveyor-machine-spec.md",
+  "usage": {
+    "input_tokens": 6972,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 19048,
+    "output_tokens_details": {
+      "reasoning_tokens": 617
+    },
+    "total_tokens": 26020
+  },
+  "counts": {
+    "assumptions": 5,
+    "signals": 38,
+    "stateVariables": 9,
+    "reactiveBehaviors": 11,
+    "faults": 11,
+    "invariants": 10,
+    "experiments": 16,
+    "ambiguities": 6
+  }
+}
