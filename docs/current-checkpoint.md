@@ -78,7 +78,13 @@ The authoritative list is at the end of `docs/architecture-decisions.md`. At the
 7. Define campaign completion and coverage expansion.
 8. Lock the exact first-proof boundary and success criteria.
 
-The last unanswered question before the computer switch concerned live code modification. The working recommendation was: allow generated code replacement only at a paused decision boundary; snapshot, compile/test the revision, migrate state, resume, and roll back automatically on failure. This recommendation has not been accepted yet.
+The live-code-modification question was settled after the original checkpoint: Muse may rewrite and hot-reload generated TypeScript during an active campaign. Candidate code compiles/tests while the incumbent runs, state is snapshotted and migrated, activation is atomic at a coordinator boundary, and failure rolls back automatically. See `docs/architecture-decisions.md` for the full contract.
+
+Automatic generated-code self-repair was also accepted, with visible hard cost/time/token/call budgets. Initial hosted defaults are $1 per request, $2 per repair episode, campaign warning at $3 and hard stop at $5, $15 per session, five-minute request timeout, and failed-repair warning/stop at three/five. Local models retain time/token/failure/compute limits even with no API dollar cost. When a limit is reached, model calls stop and the last valid/held state is preserved until the engineer extends the budget or stops.
+
+Connector synchronization was clarified after the original checkpoint: the workstation owns full world/signal state but streams changed/current raw values, not a complete runtime or playback array. Each update or heartbeat frame gets a workstation sequence that the PLC interceptor echoes after consumption. A PLC-resident scheduled-pattern player remains a deferred timing option only if later measurements justify it.
+
+Known-fault and blind-diagnosis modes were both accepted. `docs/fault-library.md` now defines the spec/core/Muse-generated/learned sources, reusable raw-I/O/device/transport/HMI/alarm families, hidden truth rules, evidence lanes, scoring, and first-proof subset using authoritative vendor, HSE, and ISA sources.
 
 ## Immediate Next Work After Design Review
 

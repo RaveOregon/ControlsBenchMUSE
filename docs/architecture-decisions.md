@@ -289,6 +289,67 @@ The manifest is the wiring diagram and declared contract, not a duplicate behavi
 
 The intended posture is a workshop for Muse with labels only where the platform needs a dependable connection. The manifest must not grow into a restrictive user-authored behavior language. Generated code is an implementation detail that Muse owns and repairs; controls engineers are not expected to maintain it.
 
+### Active rewrite and hot reload
+
+- Muse may rewrite generated TypeScript during an active campaign when observations reveal that the world, device model, fault behavior, or experiment mechanism should change.
+- Hot reload is a first-class product capability, not limited to parameter changes between completed campaigns.
+- The preferred swap sequence is:
+  1. keep the incumbent world running under its current execution policy while Muse prepares a candidate module;
+  2. compile and run candidate tests/invariants in a disposable instance;
+  3. snapshot the incumbent's serializable world state, raw signal image, entities, active faults, scheduled effects, and coordinator revision;
+  4. run a declared/generated state migration into the candidate state schema;
+  5. dry-step or shadow-check the candidate against the snapshot;
+  6. atomically activate it at a coordinator tick or decision boundary;
+  7. monitor initial health/effects and automatically roll back to the incumbent module and snapshot if activation fails.
+- A hot reload declares whether existing scheduled events, active faults, entities, and the current decision lease are preserved, migrated, cancelled, or returned to Muse for a new decision.
+- If a structural change cannot safely migrate live state, Muse may branch from the last snapshot or deliberately reset the simulated world. The run record must distinguish continuation, branch, and reset.
+- Every module version and transition records the code hash, manifest version, state-schema version, reason for change, model/provider identity, compile/test result, migration result, exact switch time, and rollback outcome.
+- The UI reports preparation, compilation, migration, activation, and rollback through the live activity stream so hot reload never resembles an unexplained stall.
+
+This controlled atomicity is instrumentation, not a restriction on Muse's creativity. Muse can substantially rewrite the world while ControlsBench preserves causal evidence and a recoverable campaign.
+
+### Automatic self-repair with cost boundaries
+
+- Muse automatically diagnoses and repairs generated-code compile failures, failed invariants, migration failures, runtime crashes, hangs, contradictory effects, and rejected impossible raw values.
+- If a candidate revision fails, the incumbent world continues whenever possible while Muse repairs the candidate.
+- If the active world fails, the coordinator holds the last raw input image or restores the latest healthy module/snapshot while Muse repairs it.
+- Repair does not stop at an arbitrary fixed attempt count by default; it continues only while the configured budgets permit and the engineer has not paused or stopped the campaign.
+- Every model call is subject to an API timeout and explicit maximum output tokens. A network/model hang is aborted rather than allowed to run indefinitely.
+- Budgets are hierarchical and visible:
+  - per model request;
+  - per generated check or adaptive investigation;
+  - per repair episode;
+  - per campaign;
+  - optional project/session/day budget.
+- Budget dimensions include estimated/actual dollars, input/output/reasoning tokens, model-call count, wall time, and consecutive failures. Local-model operation uses time/token/compute limits even when API dollar cost is zero.
+- The workspace continuously shows spend and remaining budget, for example `$1.84 / $5.00 campaign budget`, alongside calls, tokens, and elapsed time.
+- Before starting a call, ControlsBench reserves a conservative worst-case estimated cost from the remaining budget using the request size, selected model, and maximum output. It does not start a call that cannot fit within the hard limit. Actual provider billing may still differ slightly from estimates.
+- When a hard limit is reached, ControlsBench makes no further model calls, preserves the last valid/held state, records `budget_exhausted`, and asks the engineer to extend the budget, change models, resume locally, or stop.
+- Budget extensions are explicit engineer actions and are written to the run record.
+
+Initial development/hackathon defaults are:
+
+- **Per hosted-model request:** $1.00 hard limit.
+- **Per repair episode:** $2.00 hard limit.
+- **Per campaign:** warning at $3.00; hard stop at $5.00.
+- **Per active session:** $15.00 hard limit.
+- **API request timeout:** five minutes.
+- **Consecutive failed repairs:** warning at three; hard stop at five unless the engineer explicitly extends/restarts the repair budget.
+
+These are starting defaults, not product limits. If a healthy functioning campaign routinely reaches them, the engineer may raise them explicitly and ControlsBench should help explain the expected additional cost. A local model may avoid hosted API dollar spend, but time, token, retry/failure, and compute budgets still apply so a local loop cannot run indefinitely unnoticed.
+
+### Known and blind faults with a reusable core library
+
+- Campaigns support both known-fault PLC-response testing and genuinely blind Muse diagnosis.
+- Known faults may come from the project specification, the ControlsBench core library, reviewed learned patterns, or Muse-generated conditions and compositions.
+- The core library includes typical raw DI/AI/encoder/device/actuator/transport failures and HMI command/status/alarm/runtime failures. See `docs/fault-library.md` for the taxonomy and sources.
+- The library contains parameterized primitives rather than a fixed scenario list. Muse may combine primitives or generate new mechanisms after capability, type, evidence, cleanup, and ground-truth validation.
+- A known-fault run may disclose the exact instance or only its class/target depending on the purpose.
+- A blind run commits exact fault truth before execution and uses a fresh diagnosis context filtered to prevent leakage. The diagnosis is sealed before truth reveal.
+- The same Muse context that selected/authored/injected a fault cannot claim a genuinely blind diagnosis of it.
+- Fault intervention truth remains separate from specification expectation, physical truth, connector application/acknowledgement, PLC observations, HMI evidence, Muse hypotheses, and adjudicated verdict.
+- A fault mechanism does not define the required PLC response. The specification/test oracle defines pass/fail; unspecified reactions remain exploratory or inconclusive.
+
 ### Engineer experience: campaign, not generated-code project
 
 Status: **Settled direction; exact category labels remain refinable.**
@@ -345,10 +406,10 @@ Status: **Provisional details within a settled workstation-owned architecture.**
 
 Recommended workstation structures:
 
-- typed raw `worldToPlc` and `plcToWorld` signal images at the selected hardware/device cut point;
+- typed raw `worldToPlc` and `plcToWorld` signal state at the selected hardware/device cut point, owned on the workstation;
 - versioned mapping from logical signals to OPC UA nodes;
-- sparse change writes for methodical operation;
-- logical frame/revision metadata for coordinated changes;
+- streamed sparse/current-value updates rather than transfer of the world runtime or a complete playback program;
+- logical update sequence/acknowledgement metadata for synchronization and lag measurement;
 - actual write, readback, subscription, and observation timestamps.
 
 Recommended optional PLC coordination values:
@@ -357,11 +418,26 @@ Recommended optional PLC coordination values:
 - `SimulationActive`;
 - `WorkstationHeartbeat`;
 - `BenchLinkStale`;
-- `InputRevision`;
-- `AppliedInputRevision`;
+- `WorkstationFrameSequence`;
+- `PlcAppliedFrameSequence`;
 - `PlcCycleCounter`.
 
-No PLC-resident event array is assumed.
+No PLC-resident event array or run playback is assumed in the core design.
+
+### Streaming update sequence and synchronization
+
+Status: **Settled concept; protocol-specific representation remains to be measured and implemented.**
+
+- The workstation owns the complete current world and raw signal state, but the connector normally streams only changed/current raw values needed by the PLC interceptor.
+- Each connector update frame carries a monotonically increasing `WorkstationFrameSequence` (name provisional). This is a workstation/connector frame identifier, not a claim that it equals the PLC scan number.
+- After the PLC-side interceptor has consumed the update, it echoes the exact sequence as `PlcAppliedFrameSequence`. Echoing the sender's value is preferred over independently incrementing another counter because it exposes loss, duplication, reordering, and lag.
+- A frame may contain one changed signal, several coordinated changes, or no value changes when it is serving as a periodic heartbeat.
+- The sequence stream can therefore provide link liveness as well as update provenance. If value updates are sent only on change, a separate periodic heartbeat or empty sequence frame is still required so both sides can detect a quiet but healthy connection.
+- Methodical operation may wait for the matching applied sequence before interpreting results. Continuous operation may keep streaming while measuring outstanding-frame lag and declaring stale/degraded synchronization at configured thresholds.
+- The run record correlates requested signal changes, connector frame sequence, applied acknowledgement, PLC output observations, transport timestamps, and any known PLC cycle counter.
+- Exact atomic multi-signal application depends on connector/platform capability. The first OPC UA proof should measure actual behavior and avoid claiming scan-atomic updates that have not been demonstrated.
+
+A future PLC-resident scheduled-pattern/replay block may be added if measured connector timing cannot reproduce a required operating mode. It would receive a bounded array of raw values/events and execute them locally. This is deliberately deferred and must not muddy the first streaming architecture or be described as already required.
 
 ### Workstation execution coordinator
 
@@ -383,12 +459,10 @@ Resolve these before implementing the general runtime unless an item is explicit
 
 1. **Coordinator responsibility:** accept or revise the proposed Muse/world/coordinator/connector/evidence separation.
 2. **Raw signal details:** supported primitive types, arrays/structures, quality, encoding, sample/update behavior, normal values, ownership, and stale semantics.
-3. **Write coordination:** whether the first CODESYS proof requires `InputRevision`/`AppliedInputRevision` or begins with direct sparse OPC UA writes and measured behavior.
-4. **Hot modification:** what Muse may change during a run and how state is migrated when generated code changes.
-5. **Generated-code failure:** compile errors, crashes, hangs, contradictory effects, impossible values, recovery, and agent self-repair.
-6. **Truth separation:** exact structures for injected ground truth, observed raw I/O, optional internal observations, static source facts, inferred diagnosis, and final verdict.
-7. **Campaign completion:** who defines done, which coverage measures matter, and whether Muse may extend the objective after discovering new behavior.
-8. **First-proof boundary:** the smallest generated world and adaptive run that proves the platform rather than a conveyor-specific script.
+3. **Protocol-specific synchronization:** exact OPC UA representation and timing for streamed frames, sequence echo, heartbeat, lag thresholds, and any coordinated multi-signal update behavior.
+4. **Truth separation:** exact structures for injected ground truth, observed raw I/O, optional internal observations, static source facts, inferred diagnosis, and final verdict.
+5. **Campaign completion:** who defines done, which coverage measures matter, and whether Muse may extend the objective after discovering new behavior.
+6. **First-proof boundary:** the smallest generated world and adaptive run that proves the platform rather than a conveyor-specific script.
 
 ## Implementation Hold
 
