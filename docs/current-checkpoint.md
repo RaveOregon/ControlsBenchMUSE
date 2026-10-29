@@ -1,4 +1,4 @@
-# Current Checkpoint — Gates A and B Passed
+# Current Checkpoint — Gates A, B, and C Passed
 
 Updated 2026-10-29. This checkpoint exists so work can resume on another computer without reconstructing the design conversation.
 
@@ -14,7 +14,7 @@ Read in this order:
 6. `docs/frontier-roadmap.md` — local Glimmer, broad autonomy, and adaptive-weight upside.
 7. `docs/first-proof-contract.md` — accepted generated-world chassis contract, Gate A result, checkpoint matrix, and later go/no-go gates.
 
-Gates A and B are implemented and passed. Do not rebuild them or begin PLC/UI work without first reading the preserved generated package and results.
+Gates A, B, and C are implemented and passed. Do not rebuild them or begin PLC/UI work without first reading the preserved generated package and results.
 
 ## Product Goal
 
@@ -41,6 +41,11 @@ The differentiator is not static PLC source review, a hand-built conveyor simula
 - CP-5 through CP-7 pass against the same restored world with no additional model call: A actual-position routing, missed-A runout, B routing, unassigned runout, sensor stuck/bounce, missing drive feedback, divert jam, and cleanup/recovery.
 - The preserved passing coast was 57.6 mm over 260 ms. An attempted instant-stop rewrite was rejected after engineer clarification and the original generated source restored byte-for-byte.
 - Behavioral repair now has a formal guardrail: classify accepted requirement, declared-assumption defect, unresolved assumption, or faulty oracle before changing generated physics.
+- CP-8 passed with an honestly inconclusive sealed verdict: Wonder identified `sensor.entry` and a stuck-high mechanism but retained `unknown` taxonomy because the raw trace could not exclude a held object.
+- CP-9 passed with a genuinely Muse-authored bounded belt-motion follow-up through the same world; confidence rose from 0.35 to 0.78 and the useful discrepancy was exposed.
+- CP-10 passed: the evidence-only candidate preserved the live state hash, activated after shadow health, and a deliberately failing successor rolled back. Structural wrapper repairs never modified conveyor behavior.
+- CP-11 passed: request timeout, repair failure escalation, campaign stop, stale heartbeat, valid condition wait, and wait timeout were distinguished while the healthy world stayed active.
+- Gate C conservatively accounts $3.25 across six calls, including one completed response rejected before persistence. This is warning level under the accepted limits and below the $5 hard stop.
 
 ## Most Important Settled Decisions
 
@@ -79,11 +84,9 @@ The authoritative list is at the end of `docs/architecture-decisions.md`. At the
 1. Confirm or revise the Muse/world/execution-coordinator/connector/evidence responsibility split.
 2. Finish raw signal type/quality/encoding/sample/stale semantics.
 3. Decide whether the first CODESYS proof needs input revision/applied acknowledgement or begins with measured sparse OPC UA writes.
-4. Decide how generated TypeScript can be modified during a live campaign and how state migrates/rolls back.
-5. Define compile/runtime failure and Muse self-repair behavior.
-6. Finalize truth/evidence structures.
-7. Define campaign completion and coverage expansion.
-8. Lock the exact first-proof boundary and success criteria.
+4. Finalize truth/evidence structures for the real connector and product report.
+5. Define campaign completion and coverage expansion.
+6. Lock the real-connector measurement boundary and success criteria.
 
 The live-code-modification question was settled after the original checkpoint: Muse may rewrite and hot-reload generated TypeScript during an active campaign. Candidate code compiles/tests while the incumbent runs, state is snapshotted and migrated, activation is atomic at a coordinator boundary, and failure rolls back automatically. See `docs/architecture-decisions.md` for the full contract.
 
@@ -95,14 +98,13 @@ Known-fault and blind-diagnosis modes were both accepted. `docs/fault-library.md
 
 ## Immediate Next Work
 
-Gate B is complete. Stop for the intended measured review before Gate C. The next decision is whether to implement the agentic-viability checkpoints:
+Gate C is complete. The next checkpoint is Gate D:
 
-1. CP-8 genuinely blind diagnosis with committed hidden fault truth.
-2. CP-9 an active Muse follow-up that is not pre-scripted and materially reduces uncertainty.
-3. CP-10 rewrite/hot reload/rollback.
-4. CP-11 budget and not-hung behavior.
+1. CP-12 audit the full artifact/evidence package for internal consistency and any provenance gaps.
+2. Write and accept the CODESYS/OPC UA measurement plan: interceptor topology, tag contract, sequence echo/heartbeat, timestamps and quality, sparse/multi-signal writes, expected rates, failure modes, and pass/stop thresholds.
+3. Only after both are accepted, begin the real CODESYS interceptor/connector spike.
 
-Do not begin CODESYS, OPC UA, or product UI merely because the generated world passed. Gate C must prove the autonomous testing value. Before any behavioral repair, apply the accepted repair-classification guardrail; an over-specific test is corrected rather than used to rewrite plausible physics.
+Do not jump directly to a polished UI. Gate D must make the existing proof auditable and define what the live connector experiment will actually prove.
 
 ## Local-Only Items
 

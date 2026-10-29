@@ -1,0 +1,50 @@
+[
+  {
+    "id": "OBS-001",
+    "atMs": 0,
+    "note": "Initial stopped-state sample",
+    "values": {
+      "drive.runCommand": false,
+      "drive.runningFeedback": false,
+      "motion.encoderCount": 0,
+      "sensor.entry": true,
+      "sensor.d1Approach": false,
+      "sensor.d2Approach": false,
+      "sensor.exitA": false,
+      "sensor.exitB": false,
+      "sensor.runout": false
+    }
+  },
+  {
+    "id": "OBS-002",
+    "atMs": 260,
+    "note": "Repeated stopped-state sample",
+    "values": {
+      "drive.runCommand": false,
+      "drive.runningFeedback": false,
+      "motion.encoderCount": 0,
+      "sensor.entry": true,
+      "sensor.d1Approach": false,
+      "sensor.d2Approach": false,
+      "sensor.exitA": false,
+      "sensor.exitB": false,
+      "sensor.runout": false
+    }
+  },
+  {
+    "id": "OBS-003",
+    "atMs": 520,
+    "note": "Third stopped-state sample",
+    "values": {
+      "drive.runCommand": false,
+      "drive.runningFeedback": false,
+      "motion.encoderCount": 0,
+      "sensor.entry": true,
+      "sensor.d1Approach": false,
+      "sensor.d2Approach": false,
+      "sensor.exitA": false,
+      "sensor.exitB": false,
+      "sensor.runout": false
+    }
+  }
+]

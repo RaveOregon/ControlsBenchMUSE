@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "purpose": "gate_c_hot_reload_candidate_repair",
+    "responseId": "resp_6ae3d93671b1c3ceb5954d61",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 12697,
+    "usage": {
+      "input_tokens": 1483,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 2254,
+      "output_tokens_details": {
+        "reasoning_tokens": 821
+      },
+      "total_tokens": 3737
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "b37611dc7308fe25f47028af596ed9bedb4e7ce75c1ce2bd6fe39e3d082d7be1",
+    "responseHash": "431b928be29b4493fdfed0f20006e7287d7ac7c4c5a3c56757a2405f71bfbc10"
+  },
+  "diagnosis": "Preserved"
+}

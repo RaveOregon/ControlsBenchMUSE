@@ -1,0 +1,29 @@
+{
+  "attempt": 2,
+  "diagnosis": "Preserved",
+  "diagnostic": "The candidate compiled and migrate() returned the incumbent state unchanged, but its shadow health check failed because (await module.snapshot(context)).state was undefined. GeneratedWorldModule.snapshot is asynchronous and returns Promise<WorldSnapshot>. The wrapper currently calls baseWorld.snapshot without awaiting it, treats the Promise as a plain object, and spreads the Promise, yielding an object with worldVersion but no state or stateSchemaVersion. Repair this runtime contract defect. Also ensure onControl awaits the delegated asynchronous call before appending revision evidence. Do not alter any physics, signals, controls, timing, fault behavior, or base-world source.",
+  "metadata": {
+    "purpose": "gate_c_hot_reload_candidate_repair",
+    "responseId": "resp_6ae3d93671b1c3ceb5954d61",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 12697,
+    "usage": {
+      "input_tokens": 1483,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 2254,
+      "output_tokens_details": {
+        "reasoning_tokens": 821
+      },
+      "total_tokens": 3737
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "b37611dc7308fe25f47028af596ed9bedb4e7ce75c1ce2bd6fe39e3d082d7be1",
+    "responseHash": "431b928be29b4493fdfed0f20006e7287d7ac7c4c5a3c56757a2405f71bfbc10"
+  },
+  "beforeSourceHash": "1657ea89ed7a07ffed275071c820ad72cfb1ae766445a01d275a19b570298434",
+  "afterSourceHash": "b2ad223f670bc787bc8ad0937e534772ea1f5e050d32ce0b3e31efd799c76e80",
+  "compiled": true
+}

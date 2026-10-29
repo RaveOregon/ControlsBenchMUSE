@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test test/proof-chassis.test.ts",
+    "test": "node --test test/proof-chassis.test.ts test/budget-guard.test.ts",
     "typecheck": "tsc --noEmit",
     "proof:generate": "node --env-file=.env scripts/generate-world-package.js",
     "proof:repair": "node --env-file=.env scripts/repair-world-package.js",
@@ -15,6 +15,9 @@
     "proof:repair-world": "node --env-file=.env scripts/repair-world-source.js",
     "proof:gate-a": "node scripts/run-gate-a.js",
     "proof:gate-b": "node scripts/run-gate-b.js",
+    "proof:gate-c": "node --env-file=.env scripts/run-gate-c.js",
+    "proof:gate-c:continue": "node scripts/continue-gate-c.js",
+    "proof:gate-c:verify": "node scripts/continue-gate-c.js --verify-only",
     "spike:model": "node --env-file=.env scripts/run-model-spike.js"
   },
   "engines": {

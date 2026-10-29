@@ -1,0 +1,317 @@
+{
+  "status": "fail",
+  "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
+  "durationMs": 340,
+  "checkpoints": [
+    {
+      "id": "CP-8",
+      "status": "pass",
+      "durationMs": 1,
+      "evidence": {
+        "commitment": "f2c98606d8784975c04a1ef8c04ab4d97fa2d868d196f4346b152aec720df3ab",
+        "sealedDiagnosisHash": "aa758212211e9d50a7b1f27368c89011bd3e3f0faffed4693cf5cc1746e21161",
+        "diagnosis": {
+          "confidence": 0.78,
+          "explanation": "The diagnosis is updated away from an ordinary real stationary carton and toward an entry indication that remains stuck true. Belt motion was proven: encoder rose from 0 in OBS-004 through 12 in OBS-013 to 842 in OBS-030 and 1842 in OBS-051, belt speed reached 0.5, and running feedback was true. Throughout that proven motion, sensor.entry remained true and d1Approach, d2Approach, exitA, exitB, and runout remained false, e.g. OBS-013, OBS-030, and OBS-051. After stopping, encoder settled at 1900 with speed 0 in OBS-055 and OBS-057, yet entry remained true and all downstream sensors remained false. That pattern supports entry_sensor_stuck_true, but physical inspection is not available, so a carton/object physically held at entry or another entry-path cause is not ruled out.",
+          "failureMode": "unknown",
+          "faultFamily": "unknown",
+          "targetRole": "sensor.entry"
+        },
+        "scoring": {
+          "outcome": "insufficient_evidence",
+          "exactTaxonomyMatch": false,
+          "targetMatch": true,
+          "leadingMechanismMatch": true
+        },
+        "evidenceRefs": [
+          "OBS-001",
+          "OBS-002",
+          "OBS-003",
+          "OBS-004",
+          "OBS-005",
+          "OBS-006",
+          "OBS-007",
+          "OBS-008",
+          "OBS-009",
+          "OBS-010",
+          "OBS-011",
+          "OBS-012",
+          "OBS-013",
+          "OBS-014",
+          "OBS-015",
+          "OBS-030",
+          "OBS-051",
+          "OBS-055",
+          "OBS-057"
+        ],
+        "truthRevealedAfterSeal": true
+      }
+    },
+    {
+      "id": "CP-9",
+      "status": "pass",
+      "durationMs": 0,
+      "evidence": {
+        "objective": "Use one bounded belt-motion challenge to distinguish a real stationary carton at entry from an entry indication that remains stuck true while no carton progresses; explicitly keep the explanation ambiguous if belt motion itself cannot be proven or if downstream progression is incomplete within the bounded run.",
+        "actions": [
+          {
+            "booleanValue": false,
+            "durationMs": 0,
+            "kind": "set_plc_output",
+            "observeRoles": [],
+            "rationale": "Ensure the drive starts from a known stopped state before the bounded motion test.",
+            "role": "drive.runCommand"
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 0,
+            "kind": "set_plc_output",
+            "observeRoles": [],
+            "rationale": "Keep divert 1 retracted so a real carton can progress without diversion-related side effects.",
+            "role": "divert1.extendCommand"
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 0,
+            "kind": "set_plc_output",
+            "observeRoles": [],
+            "rationale": "Keep divert 2 retracted for the entry-motion discrimination test.",
+            "role": "divert2.extendCommand"
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 500,
+            "kind": "wait_observe",
+            "observeRoles": [
+              "sensor.entry",
+              "sensor.d1Approach",
+              "sensor.d2Approach",
+              "sensor.exitA",
+              "sensor.exitB",
+              "sensor.runout",
+              "drive.runningFeedback",
+              "drive.overload",
+              "motion.encoderCount",
+              "diagnostic.beltSpeedActual",
+              "divert1.homeFeedback",
+              "divert1.extendedFeedback",
+              "divert2.homeFeedback",
+              "divert2.extendedFeedback"
+            ],
+            "rationale": "Collect a fresh stopped-state baseline, including drive feedback ambiguity checks and diverter home/extended feedback.",
+            "role": ""
+          },
+          {
+            "booleanValue": true,
+            "durationMs": 0,
+            "kind": "set_plc_output",
+            "observeRoles": [],
+            "rationale": "Start belt motion for a bounded interval to test whether the entry indication clears and downstream sensors sequence.",
+            "role": "drive.runCommand"
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 2000,
+            "kind": "wait_observe",
+            "observeRoles": [
+              "sensor.entry",
+              "sensor.d1Approach",
+              "sensor.d2Approach",
+              "sensor.exitA",
+              "sensor.exitB",
+              "sensor.runout",
+              "drive.runningFeedback",
+              "drive.overload",
+              "motion.encoderCount",
+              "diagnostic.beltSpeedActual",
+              "divert1.homeFeedback",
+              "divert1.extendedFeedback",
+              "divert2.homeFeedback",
+              "divert2.extendedFeedback"
+            ],
+            "rationale": "Observe early belt motion, encoder change, belt speed, and whether sensor.entry begins to clear or sensor.d1Approach activates.",
+            "role": ""
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 2000,
+            "kind": "wait_observe",
+            "observeRoles": [
+              "sensor.entry",
+              "sensor.d1Approach",
+              "sensor.d2Approach",
+              "sensor.exitA",
+              "sensor.exitB",
+              "sensor.runout",
+              "drive.runningFeedback",
+              "drive.overload",
+              "motion.encoderCount",
+              "diagnostic.beltSpeedActual",
+              "divert1.homeFeedback",
+              "divert1.extendedFeedback",
+              "divert2.homeFeedback",
+              "divert2.extendedFeedback"
+            ],
+            "rationale": "Continue bounded motion to allow a real carton to clear entry and reach downstream approach sensors; entry remaining true despite proven belt motion supports a stuck-entry indication.",
+            "role": ""
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 0,
+            "kind": "set_plc_output",
+            "observeRoles": [],
+            "rationale": "Stop the drive at the end of the bounded run regardless of observed progression.",
+            "role": "drive.runCommand"
+          },
+          {
+            "booleanValue": false,
+            "durationMs": 500,
+            "kind": "wait_observe",
+            "observeRoles": [
+              "sensor.entry",
+              "sensor.d1Approach",
+              "sensor.d2Approach",
+              "sensor.exitA",
+              "sensor.exitB",
+              "sensor.runout",
+              "drive.runningFeedback",
+              "drive.overload",
+              "motion.encoderCount",
+              "diagnostic.beltSpeedActual",
+              "divert1.homeFeedback",
+              "divert1.extendedFeedback",
+              "divert2.homeFeedback",
+              "divert2.extendedFeedback"
+            ],
+            "rationale": "Confirm the bench returns to a stopped state and capture final sensor positions after the bounded move.",
+            "role": ""
+          }
+        ],
+        "initialConfidence": 0.35,
+        "finalConfidence": 0.78,
+        "confidenceGain": 0.43000000000000005,
+        "exposedDiscrepancy": true,
+        "finalEncoderCount": 1900
+      }
+    },
+    {
+      "id": "CP-10",
+      "status": "fail",
+      "durationMs": 337,
+      "error": "AssertionError [ERR_ASSERTION]: candidate revision evidence missing\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/continue-gate-c.js:223:5\n    at async checkpoint (file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/continue-gate-c.js:93:22)\n    at async file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/continue-gate-c.js:188:3"
+    }
+  ],
+  "modelCalls": [
+    {
+      "purpose": "gate_c_initial_diagnosis_and_followup",
+      "responseId": "resp_6ae3d4acfb93c2c4bcf54c53",
+      "model": "muse-wonder-1.0",
+      "status": "completed",
+      "durationMs": 32469,
+      "usage": {
+        "input_tokens": 651,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 3755,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 4406
+      },
+      "estimatedCostUsd": 0.5,
+      "promptHash": "e409d8bf81a72c69bba0f5fd3ff364aa5731bfc915f02bd5e3fd1ffd57fcda9e",
+      "responseHash": "e87a728ce5018df87fc33313c415f901b41b784e73b57250c18338e17c8fd788"
+    },
+    {
+      "purpose": "gate_c_final_blind_diagnosis",
+      "responseId": "resp_6ae3d4c0549e03e875544122",
+      "model": "muse-wonder-1.0",
+      "status": "completed",
+      "durationMs": 19503,
+      "usage": {
+        "input_tokens": 12416,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 1576,
+        "output_tokens_details": {
+          "reasoning_tokens": 907
+        },
+        "total_tokens": 13992
+      },
+      "estimatedCostUsd": 0.5,
+      "promptHash": "3ace4432aba9a8a35e55b38fd57cd0d010749aada724931ed28d7553972e5d6f",
+      "responseHash": "aa758212211e9d50a7b1f27368c89011bd3e3f0faffed4693cf5cc1746e21161"
+    },
+    {
+      "purpose": "gate_c_hot_reload_candidate",
+      "responseId": "resp_6ae3d8a3b367ae29f63840b0",
+      "model": "muse-wonder-1.0",
+      "status": "completed",
+      "durationMs": 55331,
+      "usage": {
+        "input_tokens": 3023,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 6338,
+        "output_tokens_details": {
+          "reasoning_tokens": 4720
+        },
+        "total_tokens": 9361
+      },
+      "estimatedCostUsd": 0.75,
+      "promptHash": "0bd1148b8087d9998079fe782c044d33a9e4c66e9dd7c280b84e5a8079752eef",
+      "responseHash": "a205c62ace0c4f3641cb7674c6e5af6b826eb7733b4299c7ea3389101a9be504"
+    },
+    {
+      "purpose": "gate_c_hot_reload_candidate_repair",
+      "responseId": null,
+      "model": "muse-wonder-1.0",
+      "status": "completed_artifact_rejected",
+      "durationMs": 7621,
+      "usage": null,
+      "estimatedCostUsd": 0.5,
+      "auditNote": "The provider completed the call, but the local invariant check rejected the returned artifact before the original repair script persisted the payload. No candidate source was changed. Conservatively counted as spent."
+    },
+    {
+      "purpose": "gate_c_hot_reload_candidate_repair",
+      "responseId": "resp_6ae3d93671b1c3ceb5954d61",
+      "model": "muse-wonder-1.0",
+      "status": "completed",
+      "durationMs": 12697,
+      "usage": {
+        "input_tokens": 1483,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 2254,
+        "output_tokens_details": {
+          "reasoning_tokens": 821
+        },
+        "total_tokens": 3737
+      },
+      "estimatedCostUsd": 0.5,
+      "promptHash": "b37611dc7308fe25f47028af596ed9bedb4e7ce75c1ce2bd6fe39e3d082d7be1",
+      "responseHash": "431b928be29b4493fdfed0f20006e7287d7ac7c4c5a3c56757a2405f71bfbc10"
+    }
+  ],
+  "budget": {
+    "estimatedSpendUsd": 2.75,
+    "campaignLevel": "normal",
+    "limits": {
+      "perRequestUsd": 1,
+      "repairEpisodeUsd": 2,
+      "campaignWarningUsd": 3,
+      "campaignHardUsd": 5,
+      "sessionHardUsd": 15,
+      "requestTimeoutMs": 300000,
+      "failedRepairWarning": 3,
+      "failedRepairHard": 5,
+      "worldHeartbeatStaleMs": 2000
+    }
+  },
+  "error": "AssertionError [ERR_ASSERTION]: candidate revision evidence missing\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/continue-gate-c.js:223:5\n    at async checkpoint (file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/continue-gate-c.js:93:22)\n    at async file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/continue-gate-c.js:188:3",
+  "resumedFromAttempt": 1
+}

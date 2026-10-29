@@ -1,0 +1,103 @@
+{
+  "rationale": "Complete hot-reload wrapper in candidate.ts: clones the base manifest changing only packageVersion to 0.5.1-gate-c and appending world.revisionObserved; delegates initialize/onPlcFrame/tick/migrate/dispose unchanged; delegates snapshot while overriding worldVersion; onControl delegates first, then best-effort appends a world.revisionObserved evidence record (type, controlId, concise summary, revision) via the host/context/result evidence sink without altering physics, signals, controls, timing, or faults.",
+  "metadata": {
+    "purpose": "gate_c_hot_reload_candidate",
+    "responseId": "resp_6ae3d8a3b367ae29f63840b0",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 55331,
+    "usage": {
+      "input_tokens": 3023,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 6338,
+      "output_tokens_details": {
+        "reasoning_tokens": 4720
+      },
+      "total_tokens": 9361
+    },
+    "estimatedCostUsd": 0.75,
+    "promptHash": "0bd1148b8087d9998079fe782c044d33a9e4c66e9dd7c280b84e5a8079752eef",
+    "responseHash": "a205c62ace0c4f3641cb7674c6e5af6b826eb7733b4299c7ea3389101a9be504"
+  },
+  "sourceHash": "72c53cd8fbd8edcc10b7f1a6ead182f2624c4b4374eec570caebf498ecfa882b",
+  "repairAttempts": [
+    {
+      "attempt": 1,
+      "status": "artifact_rejected",
+      "diagnosis": "Returned source omitted one or both required revision markers and was rejected before replacing candidate.ts.",
+      "metadata": {
+        "purpose": "gate_c_hot_reload_candidate_repair",
+        "responseId": null,
+        "model": "muse-wonder-1.0",
+        "status": "completed_artifact_rejected",
+        "durationMs": 7621,
+        "usage": null,
+        "estimatedCostUsd": 0.5,
+        "auditNote": "Original repair script did not persist the rejected provider payload; no candidate source was changed."
+      },
+      "beforeSourceHash": "1657ea89ed7a07ffed275071c820ad72cfb1ae766445a01d275a19b570298434",
+      "afterSourceHash": null,
+      "compiled": false
+    },
+    {
+      "attempt": 2,
+      "diagnosis": "Preserved",
+      "diagnostic": "The candidate compiled and migrate() returned the incumbent state unchanged, but its shadow health check failed because (await module.snapshot(context)).state was undefined. GeneratedWorldModule.snapshot is asynchronous and returns Promise<WorldSnapshot>. The wrapper currently calls baseWorld.snapshot without awaiting it, treats the Promise as a plain object, and spreads the Promise, yielding an object with worldVersion but no state or stateSchemaVersion. Repair this runtime contract defect. Also ensure onControl awaits the delegated asynchronous call before appending revision evidence. Do not alter any physics, signals, controls, timing, fault behavior, or base-world source.",
+      "metadata": {
+        "purpose": "gate_c_hot_reload_candidate_repair",
+        "responseId": "resp_6ae3d93671b1c3ceb5954d61",
+        "model": "muse-wonder-1.0",
+        "status": "completed",
+        "durationMs": 12697,
+        "usage": {
+          "input_tokens": 1483,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 2254,
+          "output_tokens_details": {
+            "reasoning_tokens": 821
+          },
+          "total_tokens": 3737
+        },
+        "estimatedCostUsd": 0.5,
+        "promptHash": "b37611dc7308fe25f47028af596ed9bedb4e7ce75c1ce2bd6fe39e3d082d7be1",
+        "responseHash": "431b928be29b4493fdfed0f20006e7287d7ac7c4c5a3c56757a2405f71bfbc10"
+      },
+      "beforeSourceHash": "1657ea89ed7a07ffed275071c820ad72cfb1ae766445a01d275a19b570298434",
+      "afterSourceHash": "b2ad223f670bc787bc8ad0937e534772ea1f5e050d32ce0b3e31efd799c76e80",
+      "compiled": true
+    },
+    {
+      "attempt": 3,
+      "diagnosis": "Repaired onControl to use the declared (ctx, control) signature, await the base handler, read control.id from the control argument, and append a valid EvidenceEvent through ctx.evidence.append; removed the generic sink-probing helper that bypassed the evidence contract by pushing a raw object into ctx.events. Preserved the awaited snapshot delegation and manifest revision.",
+      "diagnostic": "The candidate now compiles, awaits snapshot correctly, preserves the migrated state hash, and passes the shadow snapshot health check. CP-10 then failed because no valid evidence-lane event of type world.revisionObserved was recorded. The generic tryAppendEvidence helper sees InstrumentedWorldContext.events (a public RecordedEvent array), pushes a raw RevisionEvidence object directly into that array, and returns before reaching ctx.evidence.append. This bypasses the WorldContext evidence contract and corrupts the event-log shape. Repair onControl to use its declared GeneratedWorldModule signature directly: await baseWorld.onControl(ctx, control), then call ctx.evidence.append with a valid EvidenceEvent containing type, summary, and a data object with controlId and revision/version fields. Read the control ID from control.id (the second argument), not from the context. Remove or stop using the generic sink probing. Keep the already-correct awaited snapshot behavior. Do not alter any physics, signals, controls, timing, fault behavior, or base-world source.",
+      "metadata": {
+        "purpose": "gate_c_hot_reload_candidate_repair",
+        "responseId": "resp_6ae3d97dcfdef414705449bb",
+        "model": "muse-wonder-1.0",
+        "status": "completed",
+        "durationMs": 31688,
+        "usage": {
+          "input_tokens": 1595,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 4126,
+          "output_tokens_details": {
+            "reasoning_tokens": 3405
+          },
+          "total_tokens": 5721
+        },
+        "estimatedCostUsd": 0.5,
+        "promptHash": "21d87c69b23beb3d357a9f7ca60f9737c559fd2d3e862208f666c9c9c30a8f14",
+        "responseHash": "5e3777bcb8d06cde53fbdc50e89d4a9eb0663a5e58a2f1e2c3588b1a07977238"
+      },
+      "beforeSourceHash": "b2ad223f670bc787bc8ad0937e534772ea1f5e050d32ce0b3e31efd799c76e80",
+      "afterSourceHash": "72c53cd8fbd8edcc10b7f1a6ead182f2624c4b4374eec570caebf498ecfa882b",
+      "compiled": true
+    }
+  ]
+}

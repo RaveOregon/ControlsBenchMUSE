@@ -1,0 +1,6 @@
+{
+  "committedAt": "2026-10-29T23:19:40.691Z",
+  "algorithm": "sha256",
+  "commitment": "f2c98606d8784975c04a1ef8c04ab4d97fa2d868d196f4346b152aec720df3ab",
+  "truthSchema": "controlsbench-hidden-fault-v1"
+}

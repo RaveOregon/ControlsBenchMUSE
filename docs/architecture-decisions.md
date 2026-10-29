@@ -476,6 +476,6 @@ Resolve these before implementing the general runtime unless an item is explicit
 5. **Campaign completion:** who defines done, which coverage measures matter, and whether Muse may extend the objective after discovering new behavior.
 6. **First-proof boundary:** the smallest generated world and adaptive run that proves the platform rather than a conveyor-specific script.
 
-## Implementation Hold
+## Proof Progression
 
-`docs/first-proof-contract.md` is the draft staged execution contract and checkpoint matrix. Do not implement its chassis until the user reviews and accepts the generated package, module/context boundary, checkpoint order, Gate A scope, and pass/stop criteria. After acceptance, implement only the chassis required for Gate A rather than the full platform. Small read-only investigations and model experiments used to inform these decisions remain appropriate.
+`docs/first-proof-contract.md` is the accepted staged execution contract. Gates A-C now pass against the preserved Wonder-generated world. The next boundary is Gate D: audit CP-12 and accept a concrete CODESYS/OPC UA measurement plan before implementing the real interceptor/connector spike. Product UI and broad platform work remain downstream of that measured boundary.

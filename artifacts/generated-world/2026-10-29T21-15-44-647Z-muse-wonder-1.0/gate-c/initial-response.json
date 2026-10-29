@@ -1,0 +1,203 @@
+{
+  "response": {
+    "assessment": "Inconclusive from initial data alone. sensor.entry was true in three stopped-state samples while drive.runCommand and drive.runningFeedback were false, motion.encoderCount remained 0, and all downstream sensors were false. This is compatible with a real stationary carton at entry, a stuck-true entry sensor/device, or a carton that is present but not yet moved. No hidden fault truth is assumed.",
+    "currentConfidence": 0.35,
+    "followUp": {
+      "actions": [
+        {
+          "booleanValue": false,
+          "durationMs": 0,
+          "kind": "set_plc_output",
+          "observeRoles": [],
+          "rationale": "Ensure the drive starts from a known stopped state before the bounded motion test.",
+          "role": "drive.runCommand"
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 0,
+          "kind": "set_plc_output",
+          "observeRoles": [],
+          "rationale": "Keep divert 1 retracted so a real carton can progress without diversion-related side effects.",
+          "role": "divert1.extendCommand"
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 0,
+          "kind": "set_plc_output",
+          "observeRoles": [],
+          "rationale": "Keep divert 2 retracted for the entry-motion discrimination test.",
+          "role": "divert2.extendCommand"
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 500,
+          "kind": "wait_observe",
+          "observeRoles": [
+            "sensor.entry",
+            "sensor.d1Approach",
+            "sensor.d2Approach",
+            "sensor.exitA",
+            "sensor.exitB",
+            "sensor.runout",
+            "drive.runningFeedback",
+            "drive.overload",
+            "motion.encoderCount",
+            "diagnostic.beltSpeedActual",
+            "divert1.homeFeedback",
+            "divert1.extendedFeedback",
+            "divert2.homeFeedback",
+            "divert2.extendedFeedback"
+          ],
+          "rationale": "Collect a fresh stopped-state baseline, including drive feedback ambiguity checks and diverter home/extended feedback.",
+          "role": ""
+        },
+        {
+          "booleanValue": true,
+          "durationMs": 0,
+          "kind": "set_plc_output",
+          "observeRoles": [],
+          "rationale": "Start belt motion for a bounded interval to test whether the entry indication clears and downstream sensors sequence.",
+          "role": "drive.runCommand"
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 2000,
+          "kind": "wait_observe",
+          "observeRoles": [
+            "sensor.entry",
+            "sensor.d1Approach",
+            "sensor.d2Approach",
+            "sensor.exitA",
+            "sensor.exitB",
+            "sensor.runout",
+            "drive.runningFeedback",
+            "drive.overload",
+            "motion.encoderCount",
+            "diagnostic.beltSpeedActual",
+            "divert1.homeFeedback",
+            "divert1.extendedFeedback",
+            "divert2.homeFeedback",
+            "divert2.extendedFeedback"
+          ],
+          "rationale": "Observe early belt motion, encoder change, belt speed, and whether sensor.entry begins to clear or sensor.d1Approach activates.",
+          "role": ""
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 2000,
+          "kind": "wait_observe",
+          "observeRoles": [
+            "sensor.entry",
+            "sensor.d1Approach",
+            "sensor.d2Approach",
+            "sensor.exitA",
+            "sensor.exitB",
+            "sensor.runout",
+            "drive.runningFeedback",
+            "drive.overload",
+            "motion.encoderCount",
+            "diagnostic.beltSpeedActual",
+            "divert1.homeFeedback",
+            "divert1.extendedFeedback",
+            "divert2.homeFeedback",
+            "divert2.extendedFeedback"
+          ],
+          "rationale": "Continue bounded motion to allow a real carton to clear entry and reach downstream approach sensors; entry remaining true despite proven belt motion supports a stuck-entry indication.",
+          "role": ""
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 0,
+          "kind": "set_plc_output",
+          "observeRoles": [],
+          "rationale": "Stop the drive at the end of the bounded run regardless of observed progression.",
+          "role": "drive.runCommand"
+        },
+        {
+          "booleanValue": false,
+          "durationMs": 500,
+          "kind": "wait_observe",
+          "observeRoles": [
+            "sensor.entry",
+            "sensor.d1Approach",
+            "sensor.d2Approach",
+            "sensor.exitA",
+            "sensor.exitB",
+            "sensor.runout",
+            "drive.runningFeedback",
+            "drive.overload",
+            "motion.encoderCount",
+            "diagnostic.beltSpeedActual",
+            "divert1.homeFeedback",
+            "divert1.extendedFeedback",
+            "divert2.homeFeedback",
+            "divert2.extendedFeedback"
+          ],
+          "rationale": "Confirm the bench returns to a stopped state and capture final sensor positions after the bounded move.",
+          "role": ""
+        }
+      ],
+      "expectedDiscrimination": "If belt motion is proven by motion.encoderCount increasing, diagnostic.beltSpeedActual > 0, and drive.runningFeedback true, then sensor.entry clearing followed by sensor.d1Approach and possibly later downstream sensors supports a real carton was present at entry. If belt motion is proven but sensor.entry never clears and no downstream sensor activates, a stuck-true entry sensor/device becomes more likely. If the belt does not move, the cause is drive/mechanical and the entry question remains ambiguous.",
+      "objective": "Use one bounded belt-motion challenge to distinguish a real stationary carton at entry from an entry indication that remains stuck true while no carton progresses; explicitly keep the explanation ambiguous if belt motion itself cannot be proven or if downstream progression is incomplete within the bounded run."
+    },
+    "hypotheses": [
+      {
+        "confidence": 0.4,
+        "evidenceRefs": [
+          "OBS-001",
+          "OBS-002",
+          "OBS-003"
+        ],
+        "failureMode": "real_stationary_carton_at_entry",
+        "faultFamily": "physical_process",
+        "hypothesis": "A real carton is stopped at the entry photoeye while the conveyor is stopped.",
+        "targetRole": "sensor.entry"
+      },
+      {
+        "confidence": 0.35,
+        "evidenceRefs": [
+          "OBS-001",
+          "OBS-002",
+          "OBS-003"
+        ],
+        "failureMode": "entry_sensor_stuck_true",
+        "faultFamily": "sensor_fault",
+        "hypothesis": "The entry photoeye or its input path is stuck true without a carton progressing through the conveyor.",
+        "targetRole": "sensor.entry"
+      },
+      {
+        "confidence": 0.25,
+        "evidenceRefs": [
+          "OBS-001",
+          "OBS-002",
+          "OBS-003"
+        ],
+        "failureMode": "drive_or_downstream_state_unknown",
+        "faultFamily": "drive_fault",
+        "hypothesis": "The initial stopped state is not enough to determine whether the drive can move a carton or whether downstream progression will occur.",
+        "targetRole": "drive.runCommand"
+      }
+    ]
+  },
+  "metadata": {
+    "purpose": "gate_c_initial_diagnosis_and_followup",
+    "responseId": "resp_6ae3d4acfb93c2c4bcf54c53",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 32469,
+    "usage": {
+      "input_tokens": 651,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 3755,
+      "output_tokens_details": {
+        "reasoning_tokens": 2070
+      },
+      "total_tokens": 4406
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "e409d8bf81a72c69bba0f5fd3ff364aa5731bfc915f02bd5e3fd1ffd57fcda9e",
+    "responseHash": "e87a728ce5018df87fc33313c415f901b41b784e73b57250c18338e17c8fd788"
+  }
+}

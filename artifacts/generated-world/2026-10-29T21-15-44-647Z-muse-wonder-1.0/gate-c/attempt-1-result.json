@@ -1,0 +1,73 @@
+{
+  "status": "fail",
+  "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
+  "durationMs": 52013,
+  "checkpoints": [
+    {
+      "id": "CP-8",
+      "status": "fail",
+      "durationMs": 1,
+      "error": "AssertionError [ERR_ASSERTION]: blind diagnosis fault family was incorrect\n+ actual - expected\n\n+ 'unknown'\n- 'sensor_fault'\n\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-gate-c.js:344:12\n    at checkpoint (file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-gate-c.js:112:28)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-gate-c.js:343:9"
+    }
+  ],
+  "modelCalls": [
+    {
+      "purpose": "gate_c_initial_diagnosis_and_followup",
+      "responseId": "resp_6ae3d4acfb93c2c4bcf54c53",
+      "model": "muse-wonder-1.0",
+      "status": "completed",
+      "durationMs": 32469,
+      "usage": {
+        "input_tokens": 651,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 3755,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 4406
+      },
+      "estimatedCostUsd": 0.5,
+      "promptHash": "e409d8bf81a72c69bba0f5fd3ff364aa5731bfc915f02bd5e3fd1ffd57fcda9e",
+      "responseHash": "e87a728ce5018df87fc33313c415f901b41b784e73b57250c18338e17c8fd788"
+    },
+    {
+      "purpose": "gate_c_final_blind_diagnosis",
+      "responseId": "resp_6ae3d4c0549e03e875544122",
+      "model": "muse-wonder-1.0",
+      "status": "completed",
+      "durationMs": 19503,
+      "usage": {
+        "input_tokens": 12416,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 1576,
+        "output_tokens_details": {
+          "reasoning_tokens": 907
+        },
+        "total_tokens": 13992
+      },
+      "estimatedCostUsd": 0.5,
+      "promptHash": "3ace4432aba9a8a35e55b38fd57cd0d010749aada724931ed28d7553972e5d6f",
+      "responseHash": "aa758212211e9d50a7b1f27368c89011bd3e3f0faffed4693cf5cc1746e21161"
+    }
+  ],
+  "budget": {
+    "estimatedSpendUsd": 1,
+    "campaignLevel": "normal",
+    "limits": {
+      "perRequestUsd": 1,
+      "repairEpisodeUsd": 2,
+      "campaignWarningUsd": 3,
+      "campaignHardUsd": 5,
+      "sessionHardUsd": 15,
+      "requestTimeoutMs": 300000,
+      "failedRepairWarning": 3,
+      "failedRepairHard": 5,
+      "worldHeartbeatStaleMs": 2000
+    }
+  },
+  "error": "AssertionError [ERR_ASSERTION]: blind diagnosis fault family was incorrect\n+ actual - expected\n\n+ 'unknown'\n- 'sensor_fault'\n\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-gate-c.js:344:12\n    at checkpoint (file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-gate-c.js:112:28)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-gate-c.js:343:9"
+}

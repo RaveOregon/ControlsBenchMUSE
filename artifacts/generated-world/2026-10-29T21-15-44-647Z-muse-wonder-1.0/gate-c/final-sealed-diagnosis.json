@@ -1,0 +1,65 @@
+{
+  "sealedAt": "2026-10-29T23:20:32.689Z",
+  "hash": "aa758212211e9d50a7b1f27368c89011bd3e3f0faffed4693cf5cc1746e21161",
+  "response": {
+    "alternatives": [
+      "A real carton/object held, jammed, or continuously obstructing the entry location while the belt moves underneath or past it cannot be excluded from these signals alone.",
+      "The observations do not directly inspect the photoeye, its wiring/input path, or the physical entry location.",
+      "The encoder distance required for a carton to reach sensor.d1Approach is not supplied, so absent downstream activation alone is less decisive than entry never clearing."
+    ],
+    "evidenceRefs": [
+      "OBS-001",
+      "OBS-002",
+      "OBS-003",
+      "OBS-004",
+      "OBS-005",
+      "OBS-006",
+      "OBS-007",
+      "OBS-008",
+      "OBS-009",
+      "OBS-010",
+      "OBS-011",
+      "OBS-012",
+      "OBS-013",
+      "OBS-014",
+      "OBS-015",
+      "OBS-030",
+      "OBS-051",
+      "OBS-055",
+      "OBS-057"
+    ],
+    "finalDiagnosis": {
+      "confidence": 0.78,
+      "explanation": "The diagnosis is updated away from an ordinary real stationary carton and toward an entry indication that remains stuck true. Belt motion was proven: encoder rose from 0 in OBS-004 through 12 in OBS-013 to 842 in OBS-030 and 1842 in OBS-051, belt speed reached 0.5, and running feedback was true. Throughout that proven motion, sensor.entry remained true and d1Approach, d2Approach, exitA, exitB, and runout remained false, e.g. OBS-013, OBS-030, and OBS-051. After stopping, encoder settled at 1900 with speed 0 in OBS-055 and OBS-057, yet entry remained true and all downstream sensors remained false. That pattern supports entry_sensor_stuck_true, but physical inspection is not available, so a carton/object physically held at entry or another entry-path cause is not ruled out.",
+      "failureMode": "unknown",
+      "faultFamily": "unknown",
+      "targetRole": "sensor.entry"
+    },
+    "uncertaintyReduction": {
+      "afterConfidence": 0.78,
+      "beforeConfidence": 0.35,
+      "explanation": "Confidence in the leading stuck-true entry hypothesis increased because the bounded run discriminated the original alternatives: the drive and belt did move, proven by encoder, belt speed, and running feedback in OBS-013, OBS-030, and OBS-051, yet entry never cleared and no downstream sensor activated in those same observations. The stopped final state in OBS-055 and OBS-057 preserved the same entry-true/downstream-false pattern. Uncertainty remains because no direct physical or sensor-path inspection was observed and a held/jammed object at entry could produce similar signals."
+    }
+  },
+  "metadata": {
+    "purpose": "gate_c_final_blind_diagnosis",
+    "responseId": "resp_6ae3d4c0549e03e875544122",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 19503,
+    "usage": {
+      "input_tokens": 12416,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 1576,
+      "output_tokens_details": {
+        "reasoning_tokens": 907
+      },
+      "total_tokens": 13992
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "3ace4432aba9a8a35e55b38fd57cd0d010749aada724931ed28d7553972e5d6f",
+    "responseHash": "aa758212211e9d50a7b1f27368c89011bd3e3f0faffed4693cf5cc1746e21161"
+  }
+}

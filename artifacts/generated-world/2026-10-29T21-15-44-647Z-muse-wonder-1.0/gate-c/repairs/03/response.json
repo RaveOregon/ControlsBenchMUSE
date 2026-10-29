@@ -1,0 +1,29 @@
+{
+  "attempt": 3,
+  "diagnosis": "Repaired onControl to use the declared (ctx, control) signature, await the base handler, read control.id from the control argument, and append a valid EvidenceEvent through ctx.evidence.append; removed the generic sink-probing helper that bypassed the evidence contract by pushing a raw object into ctx.events. Preserved the awaited snapshot delegation and manifest revision.",
+  "diagnostic": "The candidate now compiles, awaits snapshot correctly, preserves the migrated state hash, and passes the shadow snapshot health check. CP-10 then failed because no valid evidence-lane event of type world.revisionObserved was recorded. The generic tryAppendEvidence helper sees InstrumentedWorldContext.events (a public RecordedEvent array), pushes a raw RevisionEvidence object directly into that array, and returns before reaching ctx.evidence.append. This bypasses the WorldContext evidence contract and corrupts the event-log shape. Repair onControl to use its declared GeneratedWorldModule signature directly: await baseWorld.onControl(ctx, control), then call ctx.evidence.append with a valid EvidenceEvent containing type, summary, and a data object with controlId and revision/version fields. Read the control ID from control.id (the second argument), not from the context. Remove or stop using the generic sink probing. Keep the already-correct awaited snapshot behavior. Do not alter any physics, signals, controls, timing, fault behavior, or base-world source.",
+  "metadata": {
+    "purpose": "gate_c_hot_reload_candidate_repair",
+    "responseId": "resp_6ae3d97dcfdef414705449bb",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 31688,
+    "usage": {
+      "input_tokens": 1595,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 4126,
+      "output_tokens_details": {
+        "reasoning_tokens": 3405
+      },
+      "total_tokens": 5721
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "21d87c69b23beb3d357a9f7ca60f9737c559fd2d3e862208f666c9c9c30a8f14",
+    "responseHash": "5e3777bcb8d06cde53fbdc50e89d4a9eb0663a5e58a2f1e2c3588b1a07977238"
+  },
+  "beforeSourceHash": "b2ad223f670bc787bc8ad0937e534772ea1f5e050d32ce0b3e31efd799c76e80",
+  "afterSourceHash": "72c53cd8fbd8edcc10b7f1a6ead182f2624c4b4374eec570caebf498ecfa882b",
+  "compiled": true
+}

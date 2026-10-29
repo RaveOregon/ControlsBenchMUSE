@@ -1,6 +1,6 @@
 # First-Proof Contract
 
-Status: **Accepted; CP-0 through CP-7 (Gates A and B) implemented and passed against the first Wonder-generated package on 2026-10-29. Gate C and later work remain unimplemented.**
+Status: **Accepted; CP-0 through CP-11 (Gates A, B, and C) implemented and passed against the first Wonder-generated package on 2026-10-29. Gate D remains.**
 
 Updated 2026-10-29. This contract defines the smallest generic chassis and staged validation needed to determine whether Muse can generate, repair, and actively operate the complete accepted conveyor world before ControlsBench invests in PLC connectors, product UI, or a broader platform.
 
@@ -294,11 +294,15 @@ Wonder generates the full world once. The checkpoints activate and verify progre
 
 **Pass:** Diagnosis is sealed before reveal, evidence citations are valid, and scoring distinguishes correct, incorrect, and insufficient-evidence outcomes.
 
+**Result:** Passed as `insufficient_evidence`. Wonder localized `sensor.entry` and led with a stuck-high mechanism, cited valid observations, and withheld an exact taxonomy because the trace could not exclude a physically held object. The sealed response preceded truth reveal.
+
 ### CP-9 — Active adaptive campaign
 
 **Exercise:** Muse receives the result of an unexpected or ambiguous behavior and chooses a follow-up using hold, continue, or a decision lease.
 
 **Pass:** At least one follow-up is not pre-scripted, executes through the same world, and materially reduces uncertainty or exposes a useful discrepancy.
+
+**Result:** Passed. Wonder authored a bounded start/observe/stop experiment, proved belt/encoder motion while the entry indication remained high and all downstream sensors stayed false, and moved confidence from 0.35 to 0.78.
 
 ### CP-10 — Rewrite, hot reload, and rollback
 
@@ -306,11 +310,15 @@ Wonder generates the full world once. The checkpoints activate and verify progre
 
 **Pass:** Candidate compiles/tests, state migrates or branches explicitly, atomic activation is attributable, and failing activation restores the healthy module/snapshot.
 
+**Result:** Passed after bounded structural self-repair. The final evidence-only candidate compiled, preserved the incumbent state hash, passed shadow health, activated as `0.5.1-gate-c`, and emitted contracted revision evidence. A deliberately failing `0.5.2-failing` migration rolled back while retaining the healthy active version. No conveyor physics was changed.
+
 ### CP-11 — Budget and not-hung behavior
 
 **Exercise:** Simulate a slow request, repeated failed repair, exhausted budget, stalled world heartbeat, and held condition wait.
 
 **Pass:** CLI status distinguishes each case, shows elapsed time and spend, aborts at hard limits, and preserves the last valid/held state.
+
+**Result:** Passed. The guard distinguished active/timed-out requests, repair warning/hard-stop states, campaign exhaustion, stale world heartbeat, valid condition wait, and condition timeout while preserving the active world. Conservative campaign accounting was $3.25, warning level but below the $5 hard stop.
 
 ### CP-12 — Artifact and evidence audit
 
@@ -359,6 +367,8 @@ Requires CP-5 through CP-7. Failure means revise generated-world contract or phy
 ### Gate C — Agentic viability
 
 Requires CP-8 through CP-11. Failure means reassess prompt/context, model latency/cost, truth isolation, hot reload, or hosted/local model strategy.
+
+**Result:** Passed on 2026-10-29. This is still surrogate/contract evidence, not a live PLC claim.
 
 ### Gate D — Ready for real connector
 

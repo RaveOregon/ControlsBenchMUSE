@@ -1,0 +1,12 @@
+{
+  "revealedAt": "2026-10-29T23:20:32.690Z",
+  "hiddenTruth": {
+    "faultFamily": "sensor_fault",
+    "targetRole": "sensor.entry",
+    "failureMode": "stuck_high",
+    "injectedControl": "fault.setSensorStuck"
+  },
+  "nonce": "6d6cfb8fb8bca1003b9b3022b73b98d4",
+  "commitment": "f2c98606d8784975c04a1ef8c04ab4d97fa2d868d196f4346b152aec720df3ab",
+  "verified": true
+}
