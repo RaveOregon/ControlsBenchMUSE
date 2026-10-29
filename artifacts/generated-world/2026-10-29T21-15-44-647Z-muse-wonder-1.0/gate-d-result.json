@@ -1,0 +1,389 @@
+{
+  "status": "pass",
+  "gate": "D",
+  "readiness": "ready_for_connector_spike",
+  "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
+  "checkpoint": {
+    "id": "CP-12",
+    "status": "pass",
+    "checkCount": 12,
+    "checks": [
+      {
+        "name": "accepted package hashes",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "world.manifest.json": {
+            "expectedHash": "5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+            "actualHash": "5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+            "matches": true
+          },
+          "world.ts": {
+            "expectedHash": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+            "actualHash": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+            "matches": true
+          },
+          "world.test.ts": {
+            "expectedHash": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+            "actualHash": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+            "matches": true
+          },
+          "assumptions.md": {
+            "expectedHash": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a",
+            "actualHash": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a",
+            "matches": true
+          }
+        }
+      },
+      {
+        "name": "generation contract input",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "path": "src/proof/contracts.ts",
+          "expected": "75f51812a89a7f050e60bba9307aeb5cfb927f137b1ebb0b638bc382641ce2fa",
+          "actual": "75f51812a89a7f050e60bba9307aeb5cfb927f137b1ebb0b638bc382641ce2fa"
+        }
+      },
+      {
+        "name": "generation specification input recoverable",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "expected": "e32d0470a2f42d8a5eae159cee2e7f51ffff67b9cb96e6e0ebafb7630cde1e41",
+          "current": "c5f63e7fbc7a8b916e96eb567492494b4939fec486ca3288fe7853330e0f0442",
+          "recovered": {
+            "revision": "1514ed9f6be69b00cf5d907afd945b9b4b180501",
+            "lineEnding": "crlf",
+            "path": "docs/conveyor-machine-spec.md",
+            "sha256": "e32d0470a2f42d8a5eae159cee2e7f51ffff67b9cb96e6e0ebafb7630cde1e41"
+          }
+        }
+      },
+      {
+        "name": "generation repair chain",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "repairChain": [
+            {
+              "attempt": 1,
+              "status": "completed",
+              "beforeMatches": true,
+              "activatedStateChanged": true
+            },
+            {
+              "attempt": 2,
+              "status": "rejected_before_activation",
+              "beforeMatches": true,
+              "activatedStateChanged": false
+            },
+            {
+              "attempt": 3,
+              "status": "completed",
+              "beforeMatches": true,
+              "activatedStateChanged": true
+            },
+            {
+              "attempt": 4,
+              "status": "rejected_after_engineer_clarification",
+              "beforeMatches": true,
+              "activatedStateChanged": false
+            }
+          ],
+          "finalMatches": true
+        }
+      },
+      {
+        "name": "checkpoint verdicts CP-0 through CP-11",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "gateA": "pass",
+          "gateB": "pass",
+          "gateC": "pass"
+        }
+      },
+      {
+        "name": "raw effects and surrogate traces",
+        "passed": true,
+        "severity": "critical",
+        "evidence": [
+          {
+            "label": "gate-a",
+            "eventCount": 284,
+            "lanes": {
+              "raw_input": 181,
+              "evidence": 7,
+              "activity": 1,
+              "plc_frame": 5,
+              "control": 1,
+              "entity": 89
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp5-routed-a",
+            "eventCount": 633,
+            "lanes": {
+              "raw_input": 351,
+              "evidence": 7,
+              "activity": 1,
+              "plc_frame": 1,
+              "control": 1,
+              "entity": 272
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp5-missed-a",
+            "eventCount": 914,
+            "lanes": {
+              "raw_input": 480,
+              "evidence": 5,
+              "activity": 1,
+              "plc_frame": 1,
+              "control": 1,
+              "entity": 426
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp6-routed-b",
+            "eventCount": 875,
+            "lanes": {
+              "raw_input": 473,
+              "evidence": 7,
+              "activity": 1,
+              "plc_frame": 1,
+              "control": 1,
+              "entity": 392
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp6-runout",
+            "eventCount": 914,
+            "lanes": {
+              "raw_input": 480,
+              "evidence": 5,
+              "activity": 1,
+              "plc_frame": 1,
+              "control": 1,
+              "entity": 426
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp7-sensor",
+            "eventCount": 37,
+            "lanes": {
+              "raw_input": 28,
+              "evidence": 5,
+              "activity": 1,
+              "control": 3
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp7-drive",
+            "eventCount": 96,
+            "lanes": {
+              "raw_input": 23,
+              "evidence": 6,
+              "activity": 1,
+              "control": 3,
+              "plc_frame": 1,
+              "entity": 62
+            },
+            "issues": []
+          },
+          {
+            "label": "gate-b/cp7-divert",
+            "eventCount": 49,
+            "lanes": {
+              "raw_input": 40,
+              "evidence": 5,
+              "activity": 1,
+              "control": 2,
+              "plc_frame": 1
+            },
+            "issues": []
+          }
+        ]
+      },
+      {
+        "name": "blind truth commitment and seal",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "commitmentMatches": true,
+          "diagnosisHashMatches": true,
+          "evidenceReferenceCount": 19
+        }
+      },
+      {
+        "name": "Gate C model-call accounting",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "modelCallCount": 6,
+          "summedEstimateUsd": 3.25,
+          "recordedEstimateUsd": 3.25,
+          "providerExactBillingAvailable": false
+        }
+      },
+      {
+        "name": "hot-reload candidate lineage",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "candidateSourceHash": "72c53cd8fbd8edcc10b7f1a6ead182f2624c4b4374eec570caebf498ecfa882b",
+          "recordedSourceHash": "72c53cd8fbd8edcc10b7f1a6ead182f2624c4b4374eec570caebf498ecfa882b",
+          "repairAttempts": [
+            {
+              "attempt": 1,
+              "before": "1657ea89ed7a07ffed275071c820ad72cfb1ae766445a01d275a19b570298434",
+              "after": null,
+              "status": "artifact_rejected"
+            },
+            {
+              "attempt": 2,
+              "before": "1657ea89ed7a07ffed275071c820ad72cfb1ae766445a01d275a19b570298434",
+              "after": "b2ad223f670bc787bc8ad0937e534772ea1f5e050d32ce0b3e31efd799c76e80",
+              "status": "completed"
+            },
+            {
+              "attempt": 3,
+              "before": "b2ad223f670bc787bc8ad0937e534772ea1f5e050d32ce0b3e31efd799c76e80",
+              "after": "72c53cd8fbd8edcc10b7f1a6ead182f2624c4b4374eec570caebf498ecfa882b",
+              "status": "completed"
+            }
+          ]
+        }
+      },
+      {
+        "name": "hot-reload activation and rollback evidence",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "stateHash": "0d8bddb0dabdb09bf3b50e8ce40735823a6a4c7ce860df5ba53e8acd1fdbc404",
+          "migratedStateHash": "0d8bddb0dabdb09bf3b50e8ce40735823a6a4c7ce860df5ba53e8acd1fdbc404",
+          "activatedVersion": "0.5.1-gate-c",
+          "rollbackDisposition": "rolled_back",
+          "preservedVersion": "0.5.1-gate-c"
+        }
+      },
+      {
+        "name": "connector measurement plan accepted and testable",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "path": "docs/codesys-opcua-measurement-plan.md",
+          "requiredTerms": [
+            "Accepted Gate D execution baseline",
+            "Coherent Commit Handshake",
+            "WorkstationEpoch",
+            "slot's `Valid` false",
+            "same IEC task",
+            "M2 — Image coherence and ordering",
+            "M3 — Rate sweep",
+            "M5 — Disconnect, hold, and recovery",
+            "Float32-exact",
+            "1.20 × the disconnected baseline p99",
+            "Adversarial Review Closure",
+            "Stop Conditions",
+            "Required Artifacts"
+          ]
+        }
+      },
+      {
+        "name": "adversarial review and deterministic closure",
+        "passed": true,
+        "severity": "critical",
+        "evidence": {
+          "firstReviewDisposition": "rejected_unsupported_verdict",
+          "correctiveVerdict": "ready_with_changes",
+          "correctiveFindingCount": 4,
+          "planClosure": true,
+          "conservativeReviewCostUsd": 1
+        }
+      }
+    ],
+    "criticalGaps": [],
+    "warnings": [
+      {
+        "name": "specification evolved after generation",
+        "evidence": {
+          "generatedFrom": {
+            "revision": "1514ed9f6be69b00cf5d907afd945b9b4b180501",
+            "lineEnding": "crlf",
+            "path": "docs/conveyor-machine-spec.md",
+            "sha256": "e32d0470a2f42d8a5eae159cee2e7f51ffff67b9cb96e6e0ebafb7630cde1e41"
+          },
+          "currentSpecHash": "c5f63e7fbc7a8b916e96eb567492494b4939fec486ca3288fe7853330e0f0442"
+        }
+      },
+      {
+        "name": "generation repair 2 rejected payload unavailable",
+        "evidence": "Placeholder response was rejected before source activation; response ID, usage, and returned placeholder payload were not preserved."
+      },
+      {
+        "name": "generation repair 4 rejected candidate source unavailable",
+        "evidence": "Response metadata and before/after hashes survive, but the rejected instant-stop source bytes were not retained. The accepted coast source hash is intact."
+      },
+      {
+        "name": "Gate C repair 1 rejected payload unavailable",
+        "evidence": "The completed call is conservatively costed and its rejection is recorded, but the provider payload was not persisted."
+      },
+      {
+        "name": "exact provider dollar billing unavailable",
+        "evidence": "Token usage is preserved where returned; Gate C and Gate D dollar values are conservative request reservations."
+      },
+      {
+        "name": "first Gate D adversarial verdict rejected",
+        "evidence": "The first paid review said not_ready but returned no findings or required changes. It is preserved and costed; a corrective review supplied four actionable findings."
+      }
+    ]
+  },
+  "evidenceSummary": {
+    "acceptedPackageHashes": {
+      "world.manifest.json": "5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+      "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+      "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+      "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+    },
+    "sourceSpecification": {
+      "revision": "1514ed9f6be69b00cf5d907afd945b9b4b180501",
+      "lineEnding": "crlf",
+      "path": "docs/conveyor-machine-spec.md",
+      "sha256": "e32d0470a2f42d8a5eae159cee2e7f51ffff67b9cb96e6e0ebafb7630cde1e41"
+    },
+    "traceFiles": [
+      "gate-a-trace.json",
+      "gate-b-trace.json"
+    ],
+    "traceEventCount": 3802,
+    "modelCallsAccounted": 6,
+    "conservativeGateCCostUsd": 3.25,
+    "gateDReviewCallsAccounted": 2,
+    "conservativeGateDReviewCostUsd": 1,
+    "adversarialReviewArtifacts": [
+      {
+        "file": "gate-d/muse-adversarial-review.json",
+        "sha256": "eff74ce74306c9823974ff5bc0761578d55fc44b9cbf42a6cb874c85ff618780",
+        "responseId": "resp_6ae3db5bcaf3e008431b4e07",
+        "disposition": "rejected_unsupported_verdict"
+      },
+      {
+        "file": "gate-d/muse-adversarial-review-02.json",
+        "sha256": "7de119d131476da0ae5b9c5ba50dcdff1d6562fe80c3149786892017d62fae8b",
+        "responseId": "resp_6ae3dbc70b9fbae8964b470a",
+        "disposition": "findings_incorporated"
+      }
+    ],
+    "measurementPlan": "docs/codesys-opcua-measurement-plan.md"
+  },
+  "evidenceClass": "surrogate_contract_audit",
+  "claimBoundary": "Gate D authorizes a real connector spike; it does not claim live CODESYS or OPC UA performance."
+}

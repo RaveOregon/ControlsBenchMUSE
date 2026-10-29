@@ -11,7 +11,9 @@ const latest = process.argv[2]
 const packageDirectory = resolve(latest.relativeDirectory);
 const manifestFile = validateManifest(JSON.parse(await readFile(resolve(packageDirectory, "world.manifest.json"), "utf8")));
 const resultPath = resolve(packageDirectory, "gate-b-result.json");
+const tracePath = resolve(packageDirectory, "gate-b-trace.json");
 const checkpoints = [];
+const traceRuns = [];
 const startedAt = Date.now();
 let harnessSequence = 0;
 
@@ -93,7 +95,20 @@ async function createHarness(label) {
     assert.fail(`${itemId} did not reach a terminal exit within 15 seconds`);
   };
   const carton = (itemId) => [...ctx.entityState.values()].find((entity) => entity.type === "carton" && entity.state.itemId === itemId);
-  const dispose = () => world.dispose(ctx, `Gate B ${label} completed`);
+  const dispose = async () => {
+    const finalSnapshot = await world.snapshot(ctx);
+    await world.dispose(ctx, `Gate B ${label} completed`);
+    traceRuns.push({
+      label,
+      seed,
+      worldVersion: manifestFile.packageVersion,
+      tickMs: manifestFile.tickMs,
+      finalTimeMs: ctx.time.nowMs,
+      finalSnapshot,
+      finalRawInputState: ctx.plc.currentInputState(),
+      events: ctx.events
+    });
+  };
   return { world, ctx, signal, input, send, control, tick, ticks, until, evidence, exitFor, runCartonToExit, carton, dispose };
 }
 
@@ -205,7 +220,16 @@ try {
     };
   });
 
-  await writeFile(resultPath, `${JSON.stringify({ status: "pass", packageDirectory: latest.relativeDirectory, durationMs: Date.now() - startedAt, checkpoints }, null, 2)}\n`);
+  const trace = {
+    traceVersion: "controlsbench-proof-trace-v1",
+    gate: "B",
+    evidenceClass: "surrogate_contract",
+    runs: traceRuns
+  };
+  await Promise.all([
+    writeFile(tracePath, `${JSON.stringify(trace, null, 2)}\n`),
+    writeFile(resultPath, `${JSON.stringify({ status: "pass", packageDirectory: latest.relativeDirectory, durationMs: Date.now() - startedAt, checkpoints, traceFile: "gate-b-trace.json", traceRuns: traceRuns.map((run) => ({ label: run.label, seed: run.seed, eventCount: run.events.length })) }, null, 2)}\n`)
+  ]);
   status(`Gate B passed; result written to ${resultPath}`);
 } catch (error) {
   await writeFile(resultPath, `${JSON.stringify({ status: "fail", packageDirectory: latest.relativeDirectory, durationMs: Date.now() - startedAt, checkpoints }, null, 2)}\n`);

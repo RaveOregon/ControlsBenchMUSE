@@ -1,12 +1,12 @@
 {
   "status": "pass",
   "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
-  "durationMs": 151,
+  "durationMs": 171,
   "checkpoints": [
     {
       "id": "CP-5",
       "status": "pass",
-      "durationMs": 72,
+      "durationMs": 74,
       "evidence": {
         "actualPositionRoute": "A",
         "requestedRouteWithoutActuation": "runout",
@@ -17,7 +17,7 @@
     {
       "id": "CP-6",
       "status": "pass",
-      "durationMs": 51,
+      "durationMs": 55,
       "evidence": {
         "routedB": "B",
         "unassigned": "runout"
@@ -26,7 +26,7 @@
     {
       "id": "CP-7",
       "status": "pass",
-      "durationMs": 27,
+      "durationMs": 28,
       "evidence": {
         "sensorStuckSeparatedFromPhysicalTruth": true,
         "sensorBounceStates": [
@@ -38,6 +38,44 @@
         "divertJamHeldHome": true,
         "divertRecovered": true
       }
+    }
+  ],
+  "traceFile": "gate-b-trace.json",
+  "traceRuns": [
+    {
+      "label": "cp5-routed-a",
+      "seed": 20261030,
+      "eventCount": 633
+    },
+    {
+      "label": "cp5-missed-a",
+      "seed": 20261031,
+      "eventCount": 914
+    },
+    {
+      "label": "cp6-routed-b",
+      "seed": 20261032,
+      "eventCount": 875
+    },
+    {
+      "label": "cp6-runout",
+      "seed": 20261033,
+      "eventCount": 914
+    },
+    {
+      "label": "cp7-sensor",
+      "seed": 20261034,
+      "eventCount": 37
+    },
+    {
+      "label": "cp7-drive",
+      "seed": 20261035,
+      "eventCount": 96
+    },
+    {
+      "label": "cp7-divert",
+      "seed": 20261036,
+      "eventCount": 49
     }
   ]
 }

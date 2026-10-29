@@ -1,0 +1,38 @@
+{
+  "review": {
+    "claimBoundaryAssessment": "This review does not reject Gate A-C physics because Individual CP Reviews and Gate C Adjudication are not available to me. It rejects using those opaque checkpoint outcomes as the foundation for a new-world plausibility claim.",
+    "criticalOrMajorFindings": [],
+    "minorFindings": [],
+    "missingExperiments": [],
+    "strongestEvidence": [],
+    "verdict": "not_ready",
+    "verdictRationale": "A world whose transition logic is material to the claims lacks individually visible CP adjudication in this review. The Gate C Adjudication finding is not approved from the checkpoint identities alone, because the actual reasoning and evidence behind CP-8 through CP-11 are not visible in this chat."
+  },
+  "metadata": {
+    "purpose": "gate_d_adversarial_review",
+    "responseId": "resp_6ae3db5bcaf3e008431b4e07",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 59998,
+    "usage": {
+      "input_tokens": 10987,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 5034,
+      "output_tokens_details": {
+        "reasoning_tokens": 4665
+      },
+      "total_tokens": 16021
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "7307929f5bf62c2a05ccba531e48af9f3528b875fb6470e3d7e27e352485eccc",
+    "responseHash": "4bba49a8fee44264192d4b7a8929f3c8990185c2d5e13dc060819cdb6f4a1139"
+  },
+  "reviewedArtifacts": {
+    "auditHash": "8826f96682ff3fb680b8d50ad2fff633fea61d09753dbf3904a2ce25cdb1d2ae",
+    "manifestHash": "b6485168a3b9e3b8e4d9060f3084ab857043ae523d20ed9ad9c184d046af9eb4",
+    "gateCHash": "266b1f307e6c34aa285f93a646bc573717c3dc94e1b98c718afc5449be99751c",
+    "measurementPlanHash": "0f1b488c2f5db625842fc7d8060856d65991390557b4a90b7b45b9edc62a713c"
+  }
+}

@@ -1,12 +1,12 @@
 {
   "status": "pass",
   "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
-  "durationMs": 617,
+  "durationMs": 740,
   "checkpoints": [
     {
       "id": "CP-0",
       "status": "pass",
-      "durationMs": 600,
+      "durationMs": 722,
       "evidence": {
         "compiler": "strict TypeScript pass",
         "generatedTests": "pass",
@@ -17,7 +17,7 @@
     {
       "id": "CP-1",
       "status": "pass",
-      "durationMs": 3,
+      "durationMs": 2,
       "evidence": {
         "activities": 1,
         "events": 22,
@@ -46,7 +46,7 @@
     {
       "id": "CP-4",
       "status": "pass",
-      "durationMs": 5,
+      "durationMs": 7,
       "evidence": {
         "firstPosition": 0.35000000000000014,
         "movedPosition": 0.5000000000000002,
@@ -57,5 +57,6 @@
       }
     }
   ],
-  "eventCount": 284
+  "eventCount": 284,
+  "traceFile": "gate-a-trace.json"
 }

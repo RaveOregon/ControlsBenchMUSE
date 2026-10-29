@@ -13,6 +13,7 @@ const latest = requestedDirectory
   : JSON.parse(await readFile(resolve("artifacts/generated-world/latest.json"), "utf8"));
 const packageDirectory = resolve(latest.relativeDirectory);
 const resultPath = resolve(packageDirectory, "gate-a-result.json");
+const tracePath = resolve(packageDirectory, "gate-a-trace.json");
 const checkpoints = [];
 const startedAt = Date.now();
 
@@ -188,8 +189,24 @@ try {
     };
   });
 
+  const finalSnapshot = await world.snapshot(ctx);
   await world.dispose(ctx, "Gate A completed");
-  await writeFile(resultPath, `${JSON.stringify({ status: "pass", packageDirectory: latest.relativeDirectory, durationMs: Date.now() - startedAt, checkpoints, eventCount: ctx.events.length }, null, 2)}\n`);
+  const trace = {
+    traceVersion: "controlsbench-proof-trace-v1",
+    gate: "A",
+    evidenceClass: "surrogate_contract",
+    seed: 20261029,
+    worldVersion: manifest.packageVersion,
+    tickMs: manifest.tickMs,
+    finalTimeMs: ctx.time.nowMs,
+    finalSnapshot,
+    finalRawInputState: ctx.plc.currentInputState(),
+    events: ctx.events
+  };
+  await Promise.all([
+    writeFile(tracePath, `${JSON.stringify(trace, null, 2)}\n`),
+    writeFile(resultPath, `${JSON.stringify({ status: "pass", packageDirectory: latest.relativeDirectory, durationMs: Date.now() - startedAt, checkpoints, eventCount: ctx.events.length, traceFile: "gate-a-trace.json" }, null, 2)}\n`)
+  ]);
   status(`Gate A passed; result written to ${resultPath}`);
 } catch (error) {
   await writeFile(resultPath, `${JSON.stringify({ status: "fail", packageDirectory: latest.relativeDirectory, durationMs: Date.now() - startedAt, checkpoints }, null, 2)}\n`);

@@ -1,0 +1,4708 @@
+{
+  "traceVersion": "controlsbench-proof-trace-v1",
+  "gate": "A",
+  "evidenceClass": "surrogate_contract",
+  "seed": 20261029,
+  "worldVersion": "0.5.0",
+  "tickMs": 20,
+  "finalTimeMs": 4220,
+  "finalSnapshot": {
+    "stateSchemaVersion": "1.0.0",
+    "worldVersion": "0.5.0",
+    "state": {
+      "cartons": [
+        {
+          "id": "carton-1",
+          "itemId": "gate-a-carton",
+          "requestedRoute": null,
+          "positionM": 0.5576000000000002,
+          "velocityMps": 0,
+          "lengthM": 0.3,
+          "path": "main",
+          "passedD1": false,
+          "passedD2": false,
+          "jammed": false
+        }
+      ],
+      "completed": [],
+      "counter": 1,
+      "beltTravelM": 1.0108000000000006,
+      "divert1Pos": 0,
+      "divert2Pos": 0
+    }
+  },
+  "finalRawInputState": {
+    "PE_Entry": true,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 1010
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_Entry",
+        "value": false,
+        "cause": "initialize: no carton geometrically blocks PE_Entry",
+        "stateRevision": 1
+      }
+    },
+    {
+      "sequence": 2,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_D1Approach",
+        "value": false,
+        "cause": "initialize: no carton geometrically blocks PE_D1Approach",
+        "stateRevision": 2
+      }
+    },
+    {
+      "sequence": 3,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_D2Approach",
+        "value": false,
+        "cause": "initialize: no carton geometrically blocks PE_D2Approach",
+        "stateRevision": 3
+      }
+    },
+    {
+      "sequence": 4,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_ExitA",
+        "value": false,
+        "cause": "initialize: no carton geometrically blocks PE_ExitA",
+        "stateRevision": 4
+      }
+    },
+    {
+      "sequence": 5,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_ExitB",
+        "value": false,
+        "cause": "initialize: no carton geometrically blocks PE_ExitB",
+        "stateRevision": 5
+      }
+    },
+    {
+      "sequence": 6,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_Runout",
+        "value": false,
+        "cause": "initialize: no carton geometrically blocks PE_Runout",
+        "stateRevision": 6
+      }
+    },
+    {
+      "sequence": 7,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "D1_HomeFB",
+        "value": true,
+        "cause": "initialize: divert 1 physical home limit",
+        "stateRevision": 7
+      }
+    },
+    {
+      "sequence": 8,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "D1_ExtendedFB",
+        "value": false,
+        "cause": "initialize: divert 1 physical extended limit",
+        "stateRevision": 8
+      }
+    },
+    {
+      "sequence": 9,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "D2_HomeFB",
+        "value": true,
+        "cause": "initialize: divert 2 physical home limit",
+        "stateRevision": 9
+      }
+    },
+    {
+      "sequence": 10,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "D2_ExtendedFB",
+        "value": false,
+        "cause": "initialize: divert 2 physical extended limit",
+        "stateRevision": 10
+      }
+    },
+    {
+      "sequence": 11,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_RunningFB",
+        "value": false,
+        "cause": "initialize: actual drive running state after modeled delay",
+        "stateRevision": 11
+      }
+    },
+    {
+      "sequence": 12,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Overload",
+        "value": false,
+        "cause": "initialize: no overload present",
+        "stateRevision": 12
+      }
+    },
+    {
+      "sequence": 13,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "ExitA_Ready",
+        "value": true,
+        "cause": "initialize: downstream exit A readiness",
+        "stateRevision": 13
+      }
+    },
+    {
+      "sequence": 14,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "ExitB_Ready",
+        "value": true,
+        "cause": "initialize: downstream exit B readiness",
+        "stateRevision": 14
+      }
+    },
+    {
+      "sequence": 15,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Runout_Ready",
+        "value": true,
+        "cause": "initialize: downstream runout readiness",
+        "stateRevision": 15
+      }
+    },
+    {
+      "sequence": 16,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0,
+        "cause": "initialize: actual belt speed from drive dynamics",
+        "stateRevision": 16
+      }
+    },
+    {
+      "sequence": 17,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 0,
+        "cause": "initialize: modeled drive current while running",
+        "stateRevision": 17
+      }
+    },
+    {
+      "sequence": 18,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "D1_Position",
+        "value": 0,
+        "cause": "initialize: divert 1 physical position",
+        "stateRevision": 18
+      }
+    },
+    {
+      "sequence": 19,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "D2_Position",
+        "value": 0,
+        "cause": "initialize: divert 2 physical position",
+        "stateRevision": 19
+      }
+    },
+    {
+      "sequence": 20,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 0,
+        "cause": "initialize: quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 20
+      }
+    },
+    {
+      "sequence": 21,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "world.initialized",
+          "summary": "Normal no-carton state established: photoeyes false, diverts home, drive stopped, exits ready, encoder zero",
+          "data": {
+            "seed": 20261029,
+            "worldVersion": "0.5.0"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 22,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "activity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "update": {
+          "phase": "initialized",
+          "message": "Conveyor world initialized in normal stopped state; cartons move only with actual drive running feedback."
+        }
+      }
+    },
+    {
+      "sequence": 23,
+      "atMs": 0,
+      "tick": 0,
+      "lane": "plc_frame",
+      "worldVersion": "0.5.0",
+      "data": {
+        "frame": {
+          "sequence": 1,
+          "observedAtMs": 0,
+          "values": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 24,
+      "atMs": 500,
+      "tick": 25,
+      "lane": "plc_frame",
+      "worldVersion": "0.5.0",
+      "data": {
+        "frame": {
+          "sequence": 2,
+          "observedAtMs": 500,
+          "values": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 25,
+      "atMs": 720,
+      "tick": 36,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "drive.stateChanged",
+          "summary": "Drive running feedback now true",
+          "data": {
+            "running": true,
+            "runCmd": true
+          }
+        }
+      }
+    },
+    {
+      "sequence": 26,
+      "atMs": 720,
+      "tick": 36,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_RunningFB",
+        "value": true,
+        "cause": "actual drive running state after modeled delay",
+        "stateRevision": 26
+      }
+    },
+    {
+      "sequence": 27,
+      "atMs": 720,
+      "tick": 36,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.04,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 27
+      }
+    },
+    {
+      "sequence": 28,
+      "atMs": 720,
+      "tick": 36,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.24,
+        "cause": "modeled drive current while running",
+        "stateRevision": 28
+      }
+    },
+    {
+      "sequence": 29,
+      "atMs": 720,
+      "tick": 36,
+      "lane": "plc_frame",
+      "worldVersion": "0.5.0",
+      "data": {
+        "frame": {
+          "sequence": 3,
+          "observedAtMs": 720,
+          "values": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 30,
+      "atMs": 740,
+      "tick": 37,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "drive.stateChanged",
+          "summary": "Drive running feedback now false",
+          "data": {
+            "running": false,
+            "runCmd": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 31,
+      "atMs": 740,
+      "tick": 37,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_RunningFB",
+        "value": false,
+        "cause": "actual drive running state after modeled delay",
+        "stateRevision": 31
+      }
+    },
+    {
+      "sequence": 32,
+      "atMs": 740,
+      "tick": 37,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 32
+      }
+    },
+    {
+      "sequence": 33,
+      "atMs": 740,
+      "tick": 37,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 0,
+        "cause": "modeled drive current while running",
+        "stateRevision": 33
+      }
+    },
+    {
+      "sequence": 34,
+      "atMs": 1240,
+      "tick": 62,
+      "lane": "plc_frame",
+      "worldVersion": "0.5.0",
+      "data": {
+        "frame": {
+          "sequence": 4,
+          "observedAtMs": 1240,
+          "values": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 35,
+      "atMs": 1460,
+      "tick": 73,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "drive.stateChanged",
+          "summary": "Drive running feedback now true",
+          "data": {
+            "running": true,
+            "runCmd": true
+          }
+        }
+      }
+    },
+    {
+      "sequence": 36,
+      "atMs": 1460,
+      "tick": 73,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_RunningFB",
+        "value": true,
+        "cause": "actual drive running state after modeled delay",
+        "stateRevision": 36
+      }
+    },
+    {
+      "sequence": 37,
+      "atMs": 1460,
+      "tick": 73,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.04,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 37
+      }
+    },
+    {
+      "sequence": 38,
+      "atMs": 1460,
+      "tick": 73,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.24,
+        "cause": "modeled drive current while running",
+        "stateRevision": 38
+      }
+    },
+    {
+      "sequence": 39,
+      "atMs": 1460,
+      "tick": 73,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 1,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 39
+      }
+    },
+    {
+      "sequence": 40,
+      "atMs": 1480,
+      "tick": 74,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.08,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 40
+      }
+    },
+    {
+      "sequence": 41,
+      "atMs": 1480,
+      "tick": 74,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.28,
+        "cause": "modeled drive current while running",
+        "stateRevision": 41
+      }
+    },
+    {
+      "sequence": 42,
+      "atMs": 1480,
+      "tick": 74,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 3,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 42
+      }
+    },
+    {
+      "sequence": 43,
+      "atMs": 1500,
+      "tick": 75,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.12,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 43
+      }
+    },
+    {
+      "sequence": 44,
+      "atMs": 1500,
+      "tick": 75,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.32,
+        "cause": "modeled drive current while running",
+        "stateRevision": 44
+      }
+    },
+    {
+      "sequence": 45,
+      "atMs": 1500,
+      "tick": 75,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 5,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 45
+      }
+    },
+    {
+      "sequence": 46,
+      "atMs": 1520,
+      "tick": 76,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.16,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 46
+      }
+    },
+    {
+      "sequence": 47,
+      "atMs": 1520,
+      "tick": 76,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.36,
+        "cause": "modeled drive current while running",
+        "stateRevision": 47
+      }
+    },
+    {
+      "sequence": 48,
+      "atMs": 1520,
+      "tick": 76,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 8,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 48
+      }
+    },
+    {
+      "sequence": 49,
+      "atMs": 1540,
+      "tick": 77,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.2,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 49
+      }
+    },
+    {
+      "sequence": 50,
+      "atMs": 1540,
+      "tick": 77,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.4,
+        "cause": "modeled drive current while running",
+        "stateRevision": 50
+      }
+    },
+    {
+      "sequence": 51,
+      "atMs": 1540,
+      "tick": 77,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 12,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 51
+      }
+    },
+    {
+      "sequence": 52,
+      "atMs": 1560,
+      "tick": 78,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.24000000000000002,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 52
+      }
+    },
+    {
+      "sequence": 53,
+      "atMs": 1560,
+      "tick": 78,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.44,
+        "cause": "modeled drive current while running",
+        "stateRevision": 53
+      }
+    },
+    {
+      "sequence": 54,
+      "atMs": 1560,
+      "tick": 78,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 17,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 54
+      }
+    },
+    {
+      "sequence": 55,
+      "atMs": 1580,
+      "tick": 79,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.28,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 55
+      }
+    },
+    {
+      "sequence": 56,
+      "atMs": 1580,
+      "tick": 79,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.48,
+        "cause": "modeled drive current while running",
+        "stateRevision": 56
+      }
+    },
+    {
+      "sequence": 57,
+      "atMs": 1580,
+      "tick": 79,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 23,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 57
+      }
+    },
+    {
+      "sequence": 58,
+      "atMs": 1600,
+      "tick": 80,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.32,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 58
+      }
+    },
+    {
+      "sequence": 59,
+      "atMs": 1600,
+      "tick": 80,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.5200000000000005,
+        "cause": "modeled drive current while running",
+        "stateRevision": 59
+      }
+    },
+    {
+      "sequence": 60,
+      "atMs": 1600,
+      "tick": 80,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 29,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 60
+      }
+    },
+    {
+      "sequence": 61,
+      "atMs": 1620,
+      "tick": 81,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.36,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 61
+      }
+    },
+    {
+      "sequence": 62,
+      "atMs": 1620,
+      "tick": 81,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.5600000000000005,
+        "cause": "modeled drive current while running",
+        "stateRevision": 62
+      }
+    },
+    {
+      "sequence": 63,
+      "atMs": 1620,
+      "tick": 81,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 36,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 63
+      }
+    },
+    {
+      "sequence": 64,
+      "atMs": 1640,
+      "tick": 82,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.39999999999999997,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 64
+      }
+    },
+    {
+      "sequence": 65,
+      "atMs": 1640,
+      "tick": 82,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.6000000000000005,
+        "cause": "modeled drive current while running",
+        "stateRevision": 65
+      }
+    },
+    {
+      "sequence": 66,
+      "atMs": 1640,
+      "tick": 82,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 44,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 66
+      }
+    },
+    {
+      "sequence": 67,
+      "atMs": 1660,
+      "tick": 83,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.43999999999999995,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 67
+      }
+    },
+    {
+      "sequence": 68,
+      "atMs": 1660,
+      "tick": 83,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.640000000000001,
+        "cause": "modeled drive current while running",
+        "stateRevision": 68
+      }
+    },
+    {
+      "sequence": 69,
+      "atMs": 1660,
+      "tick": 83,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 53,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 69
+      }
+    },
+    {
+      "sequence": 70,
+      "atMs": 1680,
+      "tick": 84,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.4799999999999999,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 70
+      }
+    },
+    {
+      "sequence": 71,
+      "atMs": 1680,
+      "tick": 84,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.68,
+        "cause": "modeled drive current while running",
+        "stateRevision": 71
+      }
+    },
+    {
+      "sequence": 72,
+      "atMs": 1680,
+      "tick": 84,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 63,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 72
+      }
+    },
+    {
+      "sequence": 73,
+      "atMs": 1700,
+      "tick": 85,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.5,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 73
+      }
+    },
+    {
+      "sequence": 74,
+      "atMs": 1700,
+      "tick": 85,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 4.7,
+        "cause": "modeled drive current while running",
+        "stateRevision": 74
+      }
+    },
+    {
+      "sequence": 75,
+      "atMs": 1700,
+      "tick": 85,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 73,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 75
+      }
+    },
+    {
+      "sequence": 76,
+      "atMs": 1720,
+      "tick": 86,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 83,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 76
+      }
+    },
+    {
+      "sequence": 77,
+      "atMs": 1740,
+      "tick": 87,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 93,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 77
+      }
+    },
+    {
+      "sequence": 78,
+      "atMs": 1760,
+      "tick": 88,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 103,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 78
+      }
+    },
+    {
+      "sequence": 79,
+      "atMs": 1780,
+      "tick": 89,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 113,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 79
+      }
+    },
+    {
+      "sequence": 80,
+      "atMs": 1800,
+      "tick": 90,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 123,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 80
+      }
+    },
+    {
+      "sequence": 81,
+      "atMs": 1820,
+      "tick": 91,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 133,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 81
+      }
+    },
+    {
+      "sequence": 82,
+      "atMs": 1840,
+      "tick": 92,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 143,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 82
+      }
+    },
+    {
+      "sequence": 83,
+      "atMs": 1860,
+      "tick": 93,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 153,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 83
+      }
+    },
+    {
+      "sequence": 84,
+      "atMs": 1880,
+      "tick": 94,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 163,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 84
+      }
+    },
+    {
+      "sequence": 85,
+      "atMs": 1900,
+      "tick": 95,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 173,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 85
+      }
+    },
+    {
+      "sequence": 86,
+      "atMs": 1920,
+      "tick": 96,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 183,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 86
+      }
+    },
+    {
+      "sequence": 87,
+      "atMs": 1940,
+      "tick": 97,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 193,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 87
+      }
+    },
+    {
+      "sequence": 88,
+      "atMs": 1960,
+      "tick": 98,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 203,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 88
+      }
+    },
+    {
+      "sequence": 89,
+      "atMs": 1980,
+      "tick": 99,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 213,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 89
+      }
+    },
+    {
+      "sequence": 90,
+      "atMs": 2000,
+      "tick": 100,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 223,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 90
+      }
+    },
+    {
+      "sequence": 91,
+      "atMs": 2020,
+      "tick": 101,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 233,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 91
+      }
+    },
+    {
+      "sequence": 92,
+      "atMs": 2040,
+      "tick": 102,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 243,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 92
+      }
+    },
+    {
+      "sequence": 93,
+      "atMs": 2060,
+      "tick": 103,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 253,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 93
+      }
+    },
+    {
+      "sequence": 94,
+      "atMs": 2080,
+      "tick": 104,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 263,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 94
+      }
+    },
+    {
+      "sequence": 95,
+      "atMs": 2100,
+      "tick": 105,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 273,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 95
+      }
+    },
+    {
+      "sequence": 96,
+      "atMs": 2120,
+      "tick": 106,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 283,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 96
+      }
+    },
+    {
+      "sequence": 97,
+      "atMs": 2140,
+      "tick": 107,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 293,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 97
+      }
+    },
+    {
+      "sequence": 98,
+      "atMs": 2160,
+      "tick": 108,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 303,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 98
+      }
+    },
+    {
+      "sequence": 99,
+      "atMs": 2180,
+      "tick": 109,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 313,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 99
+      }
+    },
+    {
+      "sequence": 100,
+      "atMs": 2200,
+      "tick": 110,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 323,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 100
+      }
+    },
+    {
+      "sequence": 101,
+      "atMs": 2220,
+      "tick": 111,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 333,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 101
+      }
+    },
+    {
+      "sequence": 102,
+      "atMs": 2240,
+      "tick": 112,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 343,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 102
+      }
+    },
+    {
+      "sequence": 103,
+      "atMs": 2260,
+      "tick": 113,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 353,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 103
+      }
+    },
+    {
+      "sequence": 104,
+      "atMs": 2280,
+      "tick": 114,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 363,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 104
+      }
+    },
+    {
+      "sequence": 105,
+      "atMs": 2300,
+      "tick": 115,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 373,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 105
+      }
+    },
+    {
+      "sequence": 106,
+      "atMs": 2320,
+      "tick": 116,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 383,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 106
+      }
+    },
+    {
+      "sequence": 107,
+      "atMs": 2340,
+      "tick": 117,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 393,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 107
+      }
+    },
+    {
+      "sequence": 108,
+      "atMs": 2360,
+      "tick": 118,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 403,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 108
+      }
+    },
+    {
+      "sequence": 109,
+      "atMs": 2380,
+      "tick": 119,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 413,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 109
+      }
+    },
+    {
+      "sequence": 110,
+      "atMs": 2400,
+      "tick": 120,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 423,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 110
+      }
+    },
+    {
+      "sequence": 111,
+      "atMs": 2420,
+      "tick": 121,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 433,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 111
+      }
+    },
+    {
+      "sequence": 112,
+      "atMs": 2440,
+      "tick": 122,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 443,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 112
+      }
+    },
+    {
+      "sequence": 113,
+      "atMs": 2460,
+      "tick": 123,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 453,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 113
+      }
+    },
+    {
+      "sequence": 114,
+      "atMs": 2460,
+      "tick": 123,
+      "lane": "control",
+      "worldVersion": "0.5.0",
+      "data": {
+        "control": {
+          "id": "carton.introduce",
+          "payload": {
+            "itemId": "gate-a-carton",
+            "requestedRoute": null
+          },
+          "cause": "Gate A geometry exercise"
+        }
+      }
+    },
+    {
+      "sequence": 115,
+      "atMs": 2460,
+      "tick": 123,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 116,
+      "atMs": 2460,
+      "tick": 123,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "carton.introduced",
+          "summary": "Carton gate-a-carton placed at entry",
+          "data": {
+            "cartonId": "carton-1",
+            "itemId": "gate-a-carton",
+            "requestedRoute": null,
+            "cause": "Gate A geometry exercise"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 117,
+      "atMs": 2480,
+      "tick": 124,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.01,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 118,
+      "atMs": 2480,
+      "tick": 124,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 463,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 118
+      }
+    },
+    {
+      "sequence": 119,
+      "atMs": 2500,
+      "tick": 125,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.02,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 120,
+      "atMs": 2500,
+      "tick": 125,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 473,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 120
+      }
+    },
+    {
+      "sequence": 121,
+      "atMs": 2520,
+      "tick": 126,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.03,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 122,
+      "atMs": 2520,
+      "tick": 126,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 483,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 122
+      }
+    },
+    {
+      "sequence": 123,
+      "atMs": 2540,
+      "tick": 127,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.04,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 124,
+      "atMs": 2540,
+      "tick": 127,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 493,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 124
+      }
+    },
+    {
+      "sequence": 125,
+      "atMs": 2560,
+      "tick": 128,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.05,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 126,
+      "atMs": 2560,
+      "tick": 128,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 503,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 126
+      }
+    },
+    {
+      "sequence": 127,
+      "atMs": 2580,
+      "tick": 129,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.060000000000000005,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 128,
+      "atMs": 2580,
+      "tick": 129,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 513,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 128
+      }
+    },
+    {
+      "sequence": 129,
+      "atMs": 2600,
+      "tick": 130,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.07,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 130,
+      "atMs": 2600,
+      "tick": 130,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 523,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 130
+      }
+    },
+    {
+      "sequence": 131,
+      "atMs": 2620,
+      "tick": 131,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.08,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 132,
+      "atMs": 2620,
+      "tick": 131,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 533,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 132
+      }
+    },
+    {
+      "sequence": 133,
+      "atMs": 2640,
+      "tick": 132,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.09,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 134,
+      "atMs": 2640,
+      "tick": 132,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 543,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 134
+      }
+    },
+    {
+      "sequence": 135,
+      "atMs": 2660,
+      "tick": 133,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.09999999999999999,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 136,
+      "atMs": 2660,
+      "tick": 133,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 553,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 136
+      }
+    },
+    {
+      "sequence": 137,
+      "atMs": 2680,
+      "tick": 134,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.10999999999999999,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 138,
+      "atMs": 2680,
+      "tick": 134,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 563,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 138
+      }
+    },
+    {
+      "sequence": 139,
+      "atMs": 2700,
+      "tick": 135,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.11999999999999998,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 140,
+      "atMs": 2700,
+      "tick": 135,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 573,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 140
+      }
+    },
+    {
+      "sequence": 141,
+      "atMs": 2720,
+      "tick": 136,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.12999999999999998,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 142,
+      "atMs": 2720,
+      "tick": 136,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 583,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 142
+      }
+    },
+    {
+      "sequence": 143,
+      "atMs": 2740,
+      "tick": 137,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.13999999999999999,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 144,
+      "atMs": 2740,
+      "tick": 137,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 593,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 144
+      }
+    },
+    {
+      "sequence": 145,
+      "atMs": 2760,
+      "tick": 138,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.15,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 146,
+      "atMs": 2760,
+      "tick": 138,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 603,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 146
+      }
+    },
+    {
+      "sequence": 147,
+      "atMs": 2780,
+      "tick": 139,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.16,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 148,
+      "atMs": 2780,
+      "tick": 139,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 613,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 148
+      }
+    },
+    {
+      "sequence": 149,
+      "atMs": 2800,
+      "tick": 140,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.17,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 150,
+      "atMs": 2800,
+      "tick": 140,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 623,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 150
+      }
+    },
+    {
+      "sequence": 151,
+      "atMs": 2820,
+      "tick": 141,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.18000000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 152,
+      "atMs": 2820,
+      "tick": 141,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 633,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 152
+      }
+    },
+    {
+      "sequence": 153,
+      "atMs": 2840,
+      "tick": 142,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.19000000000000003,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 154,
+      "atMs": 2840,
+      "tick": 142,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 643,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 154
+      }
+    },
+    {
+      "sequence": 155,
+      "atMs": 2860,
+      "tick": 143,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.20000000000000004,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 156,
+      "atMs": 2860,
+      "tick": 143,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 653,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 156
+      }
+    },
+    {
+      "sequence": 157,
+      "atMs": 2880,
+      "tick": 144,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.21000000000000005,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 158,
+      "atMs": 2880,
+      "tick": 144,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 663,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 158
+      }
+    },
+    {
+      "sequence": 159,
+      "atMs": 2900,
+      "tick": 145,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.22000000000000006,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 160,
+      "atMs": 2900,
+      "tick": 145,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 673,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 160
+      }
+    },
+    {
+      "sequence": 161,
+      "atMs": 2920,
+      "tick": 146,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.23000000000000007,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 162,
+      "atMs": 2920,
+      "tick": 146,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 683,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 162
+      }
+    },
+    {
+      "sequence": 163,
+      "atMs": 2940,
+      "tick": 147,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.24000000000000007,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 164,
+      "atMs": 2940,
+      "tick": 147,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 693,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 164
+      }
+    },
+    {
+      "sequence": 165,
+      "atMs": 2960,
+      "tick": 148,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.25000000000000006,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 166,
+      "atMs": 2960,
+      "tick": 148,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 703,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 166
+      }
+    },
+    {
+      "sequence": 167,
+      "atMs": 2980,
+      "tick": 149,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.26000000000000006,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 168,
+      "atMs": 2980,
+      "tick": 149,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 713,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 168
+      }
+    },
+    {
+      "sequence": 169,
+      "atMs": 3000,
+      "tick": 150,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.2700000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 170,
+      "atMs": 3000,
+      "tick": 150,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 723,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 170
+      }
+    },
+    {
+      "sequence": 171,
+      "atMs": 3020,
+      "tick": 151,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.2800000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 172,
+      "atMs": 3020,
+      "tick": 151,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 733,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 172
+      }
+    },
+    {
+      "sequence": 173,
+      "atMs": 3040,
+      "tick": 152,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.2900000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 174,
+      "atMs": 3040,
+      "tick": 152,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 743,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 174
+      }
+    },
+    {
+      "sequence": 175,
+      "atMs": 3060,
+      "tick": 153,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.3000000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 176,
+      "atMs": 3060,
+      "tick": 153,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 753,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 176
+      }
+    },
+    {
+      "sequence": 177,
+      "atMs": 3080,
+      "tick": 154,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.3100000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 178,
+      "atMs": 3080,
+      "tick": 154,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 763,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 178
+      }
+    },
+    {
+      "sequence": 179,
+      "atMs": 3100,
+      "tick": 155,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.3200000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 180,
+      "atMs": 3100,
+      "tick": 155,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 773,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 180
+      }
+    },
+    {
+      "sequence": 181,
+      "atMs": 3120,
+      "tick": 156,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.3300000000000001,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 182,
+      "atMs": 3120,
+      "tick": 156,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 783,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 182
+      }
+    },
+    {
+      "sequence": 183,
+      "atMs": 3140,
+      "tick": 157,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.34000000000000014,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 184,
+      "atMs": 3140,
+      "tick": 157,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 793,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 184
+      }
+    },
+    {
+      "sequence": 185,
+      "atMs": 3160,
+      "tick": 158,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.35000000000000014,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 186,
+      "atMs": 3160,
+      "tick": 158,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "PE_Entry",
+        "value": true,
+        "cause": "carton carton-1 geometrically blocks PE_Entry",
+        "stateRevision": 186
+      }
+    },
+    {
+      "sequence": 187,
+      "atMs": 3160,
+      "tick": 158,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 803,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 187
+      }
+    },
+    {
+      "sequence": 188,
+      "atMs": 3180,
+      "tick": 159,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.36000000000000015,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 189,
+      "atMs": 3180,
+      "tick": 159,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 813,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 189
+      }
+    },
+    {
+      "sequence": 190,
+      "atMs": 3200,
+      "tick": 160,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.37000000000000016,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 191,
+      "atMs": 3200,
+      "tick": 160,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 823,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 191
+      }
+    },
+    {
+      "sequence": 192,
+      "atMs": 3220,
+      "tick": 161,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.38000000000000017,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 193,
+      "atMs": 3220,
+      "tick": 161,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 833,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 193
+      }
+    },
+    {
+      "sequence": 194,
+      "atMs": 3240,
+      "tick": 162,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.3900000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 195,
+      "atMs": 3240,
+      "tick": 162,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 843,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 195
+      }
+    },
+    {
+      "sequence": 196,
+      "atMs": 3260,
+      "tick": 163,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.4000000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 197,
+      "atMs": 3260,
+      "tick": 163,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 853,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 197
+      }
+    },
+    {
+      "sequence": 198,
+      "atMs": 3280,
+      "tick": 164,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.4100000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 199,
+      "atMs": 3280,
+      "tick": 164,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 863,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 199
+      }
+    },
+    {
+      "sequence": 200,
+      "atMs": 3300,
+      "tick": 165,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.4200000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 201,
+      "atMs": 3300,
+      "tick": 165,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 873,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 201
+      }
+    },
+    {
+      "sequence": 202,
+      "atMs": 3320,
+      "tick": 166,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.4300000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 203,
+      "atMs": 3320,
+      "tick": 166,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 883,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 203
+      }
+    },
+    {
+      "sequence": 204,
+      "atMs": 3340,
+      "tick": 167,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.4400000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 205,
+      "atMs": 3340,
+      "tick": 167,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 893,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 205
+      }
+    },
+    {
+      "sequence": 206,
+      "atMs": 3360,
+      "tick": 168,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.45000000000000023,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 207,
+      "atMs": 3360,
+      "tick": 168,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 903,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 207
+      }
+    },
+    {
+      "sequence": 208,
+      "atMs": 3380,
+      "tick": 169,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.46000000000000024,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 209,
+      "atMs": 3380,
+      "tick": 169,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 913,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 209
+      }
+    },
+    {
+      "sequence": 210,
+      "atMs": 3400,
+      "tick": 170,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.47000000000000025,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 211,
+      "atMs": 3400,
+      "tick": 170,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 923,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 211
+      }
+    },
+    {
+      "sequence": 212,
+      "atMs": 3420,
+      "tick": 171,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.48000000000000026,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 213,
+      "atMs": 3420,
+      "tick": 171,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 933,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 213
+      }
+    },
+    {
+      "sequence": 214,
+      "atMs": 3440,
+      "tick": 172,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.49000000000000027,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 215,
+      "atMs": 3440,
+      "tick": 172,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 943,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 215
+      }
+    },
+    {
+      "sequence": 216,
+      "atMs": 3460,
+      "tick": 173,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5000000000000002,
+            "velocityMps": 0.5,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 217,
+      "atMs": 3460,
+      "tick": 173,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 953,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 217
+      }
+    },
+    {
+      "sequence": 218,
+      "atMs": 3460,
+      "tick": 173,
+      "lane": "plc_frame",
+      "worldVersion": "0.5.0",
+      "data": {
+        "frame": {
+          "sequence": 5,
+          "observedAtMs": 3460,
+          "values": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 219,
+      "atMs": 3480,
+      "tick": 174,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "drive.stateChanged",
+          "summary": "Drive running feedback now false",
+          "data": {
+            "running": false,
+            "runCmd": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 220,
+      "atMs": 3480,
+      "tick": 174,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5092000000000002,
+            "velocityMps": 0.46,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 221,
+      "atMs": 3480,
+      "tick": 174,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_RunningFB",
+        "value": false,
+        "cause": "actual drive running state after modeled delay",
+        "stateRevision": 221
+      }
+    },
+    {
+      "sequence": 222,
+      "atMs": 3480,
+      "tick": 174,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.46,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 222
+      }
+    },
+    {
+      "sequence": 223,
+      "atMs": 3480,
+      "tick": 174,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Drive_Current",
+        "value": 0,
+        "cause": "modeled drive current while running",
+        "stateRevision": 223
+      }
+    },
+    {
+      "sequence": 224,
+      "atMs": 3480,
+      "tick": 174,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 962,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 224
+      }
+    },
+    {
+      "sequence": 225,
+      "atMs": 3500,
+      "tick": 175,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5176000000000002,
+            "velocityMps": 0.42000000000000004,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 226,
+      "atMs": 3500,
+      "tick": 175,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.42000000000000004,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 226
+      }
+    },
+    {
+      "sequence": 227,
+      "atMs": 3500,
+      "tick": 175,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 970,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 227
+      }
+    },
+    {
+      "sequence": 228,
+      "atMs": 3520,
+      "tick": 176,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5252000000000002,
+            "velocityMps": 0.38000000000000006,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 229,
+      "atMs": 3520,
+      "tick": 176,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.38000000000000006,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 229
+      }
+    },
+    {
+      "sequence": 230,
+      "atMs": 3520,
+      "tick": 176,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 978,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 230
+      }
+    },
+    {
+      "sequence": 231,
+      "atMs": 3540,
+      "tick": 177,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5320000000000003,
+            "velocityMps": 0.3400000000000001,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 232,
+      "atMs": 3540,
+      "tick": 177,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.3400000000000001,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 232
+      }
+    },
+    {
+      "sequence": 233,
+      "atMs": 3540,
+      "tick": 177,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 985,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 233
+      }
+    },
+    {
+      "sequence": 234,
+      "atMs": 3560,
+      "tick": 178,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5380000000000003,
+            "velocityMps": 0.3000000000000001,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 235,
+      "atMs": 3560,
+      "tick": 178,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.3000000000000001,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 235
+      }
+    },
+    {
+      "sequence": 236,
+      "atMs": 3560,
+      "tick": 178,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 991,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 236
+      }
+    },
+    {
+      "sequence": 237,
+      "atMs": 3580,
+      "tick": 179,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5432000000000002,
+            "velocityMps": 0.2600000000000001,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 238,
+      "atMs": 3580,
+      "tick": 179,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.2600000000000001,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 238
+      }
+    },
+    {
+      "sequence": 239,
+      "atMs": 3580,
+      "tick": 179,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 996,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 239
+      }
+    },
+    {
+      "sequence": 240,
+      "atMs": 3600,
+      "tick": 180,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5476000000000002,
+            "velocityMps": 0.2200000000000001,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 241,
+      "atMs": 3600,
+      "tick": 180,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.2200000000000001,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 241
+      }
+    },
+    {
+      "sequence": 242,
+      "atMs": 3600,
+      "tick": 180,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 1000,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 242
+      }
+    },
+    {
+      "sequence": 243,
+      "atMs": 3620,
+      "tick": 181,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5512000000000002,
+            "velocityMps": 0.1800000000000001,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 244,
+      "atMs": 3620,
+      "tick": 181,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.1800000000000001,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 244
+      }
+    },
+    {
+      "sequence": 245,
+      "atMs": 3620,
+      "tick": 181,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 1004,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 245
+      }
+    },
+    {
+      "sequence": 246,
+      "atMs": 3640,
+      "tick": 182,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5540000000000003,
+            "velocityMps": 0.1400000000000001,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 247,
+      "atMs": 3640,
+      "tick": 182,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.1400000000000001,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 247
+      }
+    },
+    {
+      "sequence": 248,
+      "atMs": 3640,
+      "tick": 182,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 1007,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 248
+      }
+    },
+    {
+      "sequence": 249,
+      "atMs": 3660,
+      "tick": 183,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5560000000000003,
+            "velocityMps": 0.10000000000000009,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 250,
+      "atMs": 3660,
+      "tick": 183,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.10000000000000009,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 250
+      }
+    },
+    {
+      "sequence": 251,
+      "atMs": 3660,
+      "tick": 183,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 1009,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 251
+      }
+    },
+    {
+      "sequence": 252,
+      "atMs": 3680,
+      "tick": 184,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5572000000000003,
+            "velocityMps": 0.06000000000000009,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 253,
+      "atMs": 3680,
+      "tick": 184,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.06000000000000009,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 253
+      }
+    },
+    {
+      "sequence": 254,
+      "atMs": 3680,
+      "tick": 184,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Encoder_Count",
+        "value": 1010,
+        "cause": "quantized encoder count from physical belt travel, wrapping modulo 2^32",
+        "stateRevision": 254
+      }
+    },
+    {
+      "sequence": 255,
+      "atMs": 3700,
+      "tick": 185,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0.020000000000000087,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 256,
+      "atMs": 3700,
+      "tick": 185,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0.020000000000000087,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 256
+      }
+    },
+    {
+      "sequence": 257,
+      "atMs": 3720,
+      "tick": 186,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 258,
+      "atMs": 3720,
+      "tick": 186,
+      "lane": "raw_input",
+      "worldVersion": "0.5.0",
+      "data": {
+        "signalId": "Belt_SpeedActual",
+        "value": 0,
+        "cause": "actual belt speed from drive dynamics",
+        "stateRevision": 258
+      }
+    },
+    {
+      "sequence": 259,
+      "atMs": 3740,
+      "tick": 187,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 260,
+      "atMs": 3760,
+      "tick": 188,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 261,
+      "atMs": 3780,
+      "tick": 189,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 262,
+      "atMs": 3800,
+      "tick": 190,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 263,
+      "atMs": 3820,
+      "tick": 191,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 264,
+      "atMs": 3840,
+      "tick": 192,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 265,
+      "atMs": 3860,
+      "tick": 193,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 266,
+      "atMs": 3880,
+      "tick": 194,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 267,
+      "atMs": 3900,
+      "tick": 195,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 268,
+      "atMs": 3920,
+      "tick": 196,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 269,
+      "atMs": 3940,
+      "tick": 197,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 270,
+      "atMs": 3960,
+      "tick": 198,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 271,
+      "atMs": 3980,
+      "tick": 199,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 272,
+      "atMs": 4000,
+      "tick": 200,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 273,
+      "atMs": 4020,
+      "tick": 201,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 274,
+      "atMs": 4040,
+      "tick": 202,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 275,
+      "atMs": 4060,
+      "tick": 203,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 276,
+      "atMs": 4080,
+      "tick": 204,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 277,
+      "atMs": 4100,
+      "tick": 205,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 278,
+      "atMs": 4120,
+      "tick": 206,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 279,
+      "atMs": 4140,
+      "tick": 207,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 280,
+      "atMs": 4160,
+      "tick": 208,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 281,
+      "atMs": 4180,
+      "tick": 209,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 282,
+      "atMs": 4200,
+      "tick": 210,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 283,
+      "atMs": 4220,
+      "tick": 211,
+      "lane": "entity",
+      "worldVersion": "0.5.0",
+      "data": {
+        "action": "publish",
+        "snapshot": {
+          "id": "carton-1",
+          "type": "carton",
+          "state": {
+            "positionM": 0.5576000000000002,
+            "velocityMps": 0,
+            "path": "main",
+            "requestedRoute": null,
+            "itemId": "gate-a-carton",
+            "lengthM": 0.3,
+            "jammed": false
+          }
+        }
+      }
+    },
+    {
+      "sequence": 284,
+      "atMs": 4220,
+      "tick": 211,
+      "lane": "evidence",
+      "worldVersion": "0.5.0",
+      "data": {
+        "event": {
+          "type": "world.disposed",
+          "summary": "World disposed: Gate A completed",
+          "data": {
+            "reason": "Gate A completed"
+          }
+        }
+      }
+    }
+  ]
+}

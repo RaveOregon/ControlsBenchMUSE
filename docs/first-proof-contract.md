@@ -1,6 +1,6 @@
 # First-Proof Contract
 
-Status: **Accepted; CP-0 through CP-11 (Gates A, B, and C) implemented and passed against the first Wonder-generated package on 2026-10-29. Gate D remains.**
+Status: **Complete; CP-0 through CP-12 (Gates A-D) implemented and passed against the first Wonder-generated package on 2026-10-29. The real connector spike is next.**
 
 Updated 2026-10-29. This contract defines the smallest generic chassis and staged validation needed to determine whether Muse can generate, repair, and actively operate the complete accepted conveyor world before ControlsBench invests in PLC connectors, product UI, or a broader platform.
 
@@ -326,6 +326,8 @@ Wonder generates the full world once. The checkpoints activate and verify progre
 
 **Pass:** Code, manifest, assumptions, generation lineage, repairs, versions, state changes, fault truth, raw effects, surrogate outputs, activity, costs, evidence lanes, and verdicts are complete and internally consistent.
 
+**Result:** Passed 12 deterministic checks over 3,802 preserved trace events. Final package and candidate hashes, repair chains, blind-truth commitment/seal ordering, evidence citations, hot-reload state hashes, model-call accounting, and CP-0 through CP-11 verdicts are internally consistent. Six warnings disclose evolving-spec provenance, unavailable rejected outputs, conservative rather than exact dollar billing, and one unsupported adversarial verdict; none changes accepted code or a checkpoint verdict.
+
 ## 11. Budgets for the Proof
 
 Initial hosted limits follow the accepted development defaults:
@@ -374,6 +376,8 @@ Requires CP-8 through CP-11. Failure means reassess prompt/context, model latenc
 
 Requires CP-12 plus accepted measurement plan for CODESYS/OPC UA. Only then begin the real interceptor/connector spike.
 
+**Result:** Passed on 2026-10-29. The accepted M0-M7 plan is `docs/codesys-opcua-measurement-plan.md`. This authorizes a measured connector spike and does not claim live CODESYS/OPC UA performance.
+
 ## 14. Invalid Proofs
 
 The proof is invalid if:
@@ -388,15 +392,6 @@ The proof is invalid if:
 - surrogate timing/results are presented as CODESYS or OPC UA evidence;
 - graphics or a polished report conceal a failed causal checkpoint.
 
-## 15. Review Decisions Before Implementation
+## 15. Post-Proof Handoff
 
-Approve or revise:
-
-1. the generated package contents;
-2. the module/context responsibility boundary;
-3. the checkpoint order and pass/stop criteria;
-4. whether CP-0 through CP-4 form the correct first implementation gate;
-5. whether the proof budgets are sufficient;
-6. whether any checkpoint is unnecessary or missing.
-
-After acceptance, implement only the chassis needed for Gate A. Do not implement CODESYS, OPC UA, product UI, or the remaining checkpoints speculatively.
+The generated package, module/context boundary, staged gates, budgets, repair guardrail, and connector-readiness criteria have been exercised and accepted. Preserve these artifacts as surrogate/contract evidence. The next work is the measured M0-M7 CODESYS/OPC UA connector spike; do not relabel surrogate evidence as live PLC evidence or bypass the measurement plan to build product UI first.

@@ -4,7 +4,7 @@ ControlsBench Muse is a controls-engineer workstation concept for autonomous ben
 
 ## Current proof status
 
-Gates A, B, and C passed on 2026-10-29 using the same `muse-wonder-1.0` behavioral world:
+Gates A, B, C, and D passed on 2026-10-29 using the same `muse-wonder-1.0` behavioral world:
 
 - Wonder generated a complete TypeScript conveyor world, manifest, assumptions, and tests.
 - Strict compilation and eight Wonder-authored physical tests passed after one compiler-test self-repair.
@@ -14,7 +14,9 @@ Gates A, B, and C passed on 2026-10-29 using the same `muse-wonder-1.0` behavior
 - CP-9 proved active investigation: Wonder authored and executed a bounded belt-motion experiment through the same world, moving diagnosis confidence from 0.35 to 0.78 while exposing the decisive discrepancy.
 - CP-10 proved compile, state-preserving shadow migration, atomic activation, valid revision evidence, and rollback of a deliberately failing successor. Two wrapper-contract defects were caught before acceptance and repaired without changing conveyor physics.
 - CP-11 proved request timeout, repair/campaign cost stops, world-heartbeat stall detection, legitimate condition-wait classification, and preservation of the active healthy world.
-- The results are in `artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/gate-a-result.json`, `gate-b-result.json`, and `gate-c-result.json`.
+- CP-12 deterministically audited final hashes, generation and hot-reload lineage, blind-truth commitment, 3,802 preserved trace events, model-call accounting, and checkpoint verdicts. Disclosed rejected-artifact gaps remain warnings rather than being hidden.
+- Gate D accepted a CODESYS/OPC UA measurement plan with a double-buffered epoch/sequence commit handshake, concrete timing tiers, disconnect behavior, and stop conditions. Two bounded Wonder reviews cost a conservative $1.00; an unsupported first verdict was rejected and four findings from the retry were incorporated.
+- The results are in `artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/gate-a-result.json` through `gate-d-result.json`.
 
 This is surrogate/contract evidence only. It does **not** prove CODESYS, OPC UA, a real PLC interceptor, HMI observation, or the product UI.
 
@@ -29,6 +31,7 @@ npm test
 npm run proof:gate-a
 npm run proof:gate-b
 npm run proof:gate-c:verify
+npm run proof:gate-d
 ```
 
 `proof:generate`, `proof:repair`, and the targeted repair commands make paid Meta Model API calls. They require a local `.env` containing `MODEL_API_KEY` and should not be run merely to verify the preserved package.
@@ -45,6 +48,8 @@ npm run proof:gate-c:verify
 - `scripts/continue-gate-c.js` — local verification of preserved Gate C artifacts without API calls
 - `src/proof/hot-reload.ts` — snapshot/migration/shadow-check/atomic-activation coordinator
 - `src/proof/budget-guard.ts` — request, repair, campaign, heartbeat, and condition-wait limits
+- `scripts/run-gate-d.js` — deterministic CP-12 provenance, trace, verdict, and plan audit
+- `docs/codesys-opcua-measurement-plan.md` — accepted M0-M7 connector measurement contract
 - `scripts/repair-world-package.js` — preserved compiler/test repair loop
 - `artifacts/generated-world/` — generated source, tests, assumptions, lineage, repair history, and checkpoint result
 - `docs/first-proof-contract.md` — staged proof contract and later gates

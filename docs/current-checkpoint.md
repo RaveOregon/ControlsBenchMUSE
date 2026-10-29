@@ -1,4 +1,4 @@
-# Current Checkpoint — Gates A, B, and C Passed
+# Current Checkpoint — Gates A, B, C, and D Passed
 
 Updated 2026-10-29. This checkpoint exists so work can resume on another computer without reconstructing the design conversation.
 
@@ -14,7 +14,7 @@ Read in this order:
 6. `docs/frontier-roadmap.md` — local Glimmer, broad autonomy, and adaptive-weight upside.
 7. `docs/first-proof-contract.md` — accepted generated-world chassis contract, Gate A result, checkpoint matrix, and later go/no-go gates.
 
-Gates A, B, and C are implemented and passed. Do not rebuild them or begin PLC/UI work without first reading the preserved generated package and results.
+Gates A, B, C, and D are implemented and passed. The proof package is ready for the measured connector spike; it still contains no live PLC evidence.
 
 ## Product Goal
 
@@ -46,6 +46,10 @@ The differentiator is not static PLC source review, a hand-built conveyor simula
 - CP-10 passed: the evidence-only candidate preserved the live state hash, activated after shadow health, and a deliberately failing successor rolled back. Structural wrapper repairs never modified conveyor behavior.
 - CP-11 passed: request timeout, repair failure escalation, campaign stop, stale heartbeat, valid condition wait, and wait timeout were distinguished while the healthy world stayed active.
 - Gate C conservatively accounts $3.25 across six calls, including one completed response rejected before persistence. This is warning level under the accepted limits and below the $5 hard stop.
+- CP-12 passed 12 deterministic audit checks over 3,802 preserved trace events, with no critical gaps and six disclosed warnings.
+- Gate D's accepted connector plan uses inactive-slot invalidation, a double buffer, workstation epoch plus sequence, PLC boot identity, same-task active-image publication, and applied echo to prevent torn or stale raw images.
+- Two Gate D Wonder reviews are preserved and conservatively costed at $1.00. The unsupported first verdict was rejected; four concrete retry findings were incorporated deterministically.
+- CODESYS 3.5.22.30 and its Control/Gateway executables are installed on this computer, but runtime, license, services, OPC UA endpoint, and project operation remain unverified.
 
 ## Most Important Settled Decisions
 
@@ -81,12 +85,10 @@ Pause freezes the workstation world and holds inputs. Stop finalizes the campaig
 
 The authoritative list is at the end of `docs/architecture-decisions.md`. At the time of this checkpoint, the unresolved topics are:
 
-1. Confirm or revise the Muse/world/execution-coordinator/connector/evidence responsibility split.
-2. Finish raw signal type/quality/encoding/sample/stale semantics.
-3. Decide whether the first CODESYS proof needs input revision/applied acknowledgement or begins with measured sparse OPC UA writes.
-4. Finalize truth/evidence structures for the real connector and product report.
-5. Define campaign completion and coverage expansion.
-6. Lock the real-connector measurement boundary and success criteria.
+1. Extend raw signal type/quality/encoding semantics beyond the accepted first connector's BOOL/REAL/UDINT subset.
+2. Finalize truth/evidence structures for the product report after observing live connector evidence.
+3. Define campaign completion and coverage expansion beyond the first conveyor slice.
+4. Decide whether the deferred PLC scheduled-signal player is needed after M3 rate measurements.
 
 The live-code-modification question was settled after the original checkpoint: Muse may rewrite and hot-reload generated TypeScript during an active campaign. Candidate code compiles/tests while the incumbent runs, state is snapshotted and migrated, activation is atomic at a coordinator boundary, and failure rolls back automatically. See `docs/architecture-decisions.md` for the full contract.
 
@@ -98,13 +100,14 @@ Known-fault and blind-diagnosis modes were both accepted. `docs/fault-library.md
 
 ## Immediate Next Work
 
-Gate C is complete. The next checkpoint is Gate D:
+Gate D is complete. Begin the real connector spike in measured order:
 
-1. CP-12 audit the full artifact/evidence package for internal consistency and any provenance gaps.
-2. Write and accept the CODESYS/OPC UA measurement plan: interceptor topology, tag contract, sequence echo/heartbeat, timestamps and quality, sparse/multi-signal writes, expected rates, failure modes, and pass/stop thresholds.
-3. Only after both are accepted, begin the real CODESYS interceptor/connector spike.
+1. M0 inventory the installed CODESYS Control Win runtime, Gateway, license, task, security, OPC UA server, symbols, and negotiated subscription settings.
+2. M1/M2 prove typed values and zero torn images using the epoch/sequence double buffer before connecting the world.
+3. M3-M6 measure sustainable rate, output observation, disconnect/hold/recovery, and task impact.
+4. M7 run the smallest live conveyor start/encoder/carton/decelerating-stop slice.
 
-Do not jump directly to a polished UI. Gate D must make the existing proof auditable and define what the live connector experiment will actually prove.
+Do not jump directly to a polished UI or claim scan-synchronous OPC UA. Preserve methodical streaming even if the runtime tier later requires the deferred PLC scheduled-signal player.
 
 ## Local-Only Items
 

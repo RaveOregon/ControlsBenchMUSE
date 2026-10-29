@@ -18,6 +18,8 @@
     "proof:gate-c": "node --env-file=.env scripts/run-gate-c.js",
     "proof:gate-c:continue": "node scripts/continue-gate-c.js",
     "proof:gate-c:verify": "node scripts/continue-gate-c.js --verify-only",
+    "proof:gate-d": "node scripts/run-gate-d.js",
+    "proof:gate-d:review": "node --env-file=.env scripts/review-gate-d-with-muse.js",
     "spike:model": "node --env-file=.env scripts/run-model-spike.js"
   },
   "engines": {

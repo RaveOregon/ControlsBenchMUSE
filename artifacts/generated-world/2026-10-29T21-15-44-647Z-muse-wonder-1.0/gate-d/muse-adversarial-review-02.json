@@ -1,0 +1,78 @@
+{
+  "review": {
+    "claimBoundaryAssessment": "Bounded to readiness to begin a CODESYS/OPC UA connector spike. No live-integration claim was accepted or rejected.",
+    "criticalOrMajorFindings": [
+      {
+        "area": "handshake_coherence",
+        "evidence": "Handshake step 5 accepts only a 'newer committed sequence', M2 requires AppliedSeq monotonic 'within a session', and M5 restarts the workstation 'with sequence reset'. The enumerated BenchControl fields contain workstation/applied sequences and a reset request but no PLC-visible session epoch or defined applied-sequence reset handshake. After restart, a valid new image at sequence 1 can therefore be indistinguishable from stale/duplicate sequence 1 and remain rejected indefinitely.",
+        "finding": "Sequence-reset recovery is internally incoherent with the 'newer sequence' acceptance rule as specified.",
+        "id": "F1",
+        "requiredChange": "Before executing M2/M5, add a PLC-visible session epoch (or equivalent generation value) to the handshake. Define acceptance and AppliedSeq ordering over the (epoch, sequence) pair, state exactly how epoch changes are authorized, and define what workstation restart and PLC reset clear or preserve. Reconnection with an old epoch must remain rejected.",
+        "severity": "major"
+      },
+      {
+        "area": "handshake_coherence",
+        "evidence": "Multiple OPC UA member writes are permitted before commit, the slot sequence/valid marker is written, and RequestedSlot plus WorkstationSeq are then written as the commit. The plan does not state that the staging slot is invalidated before refilling, nor the exact PLC predicate tying RequestedSlot, slot.Valid, slot.Seq, WorkstationSeq, and AppliedSeq together. It also says the interceptor task copies the slot into the 'scan-owned active image' without stating that this copy and application consumption occur in the same IEC task or via an atomic active-index swap.",
+        "finding": "The commit predicate and PLC-internal publication step are under-specified enough for an implementation to apply an uncommitted/partial image or to tear the active image between IEC tasks while still claiming to follow the plan.",
+        "id": "F2",
+        "requiredChange": "Specify before M2: invalidate the reusable staging slot before any field write; accept a slot only when it is not active, Valid is true, slot.Seq equals WorkstationSeq, RequestedSlot selects that slot, and (epoch, sequence) is newer than Applied. Publication must be either performed and consumed at the start of the same IEC task/scan or implemented as a completed-copy plus single-index active-slot switch read once per scan; state which applies and record the task interval/priority in M0 evidence.",
+        "severity": "major"
+      },
+      {
+        "area": "handshake_coherence",
+        "evidence": "The accepted manifest contains BOOL inputs, four REAL inputs (Belt_SpeedActual, Drive_Current, D1_Position, D2_Position) and one UDINT (Encoder_Count). M1 says 'every first-proof BOOL and integer field plus signed boundaries, analog min/max, encoder rollover boundary'. Read literally, REAL fields are not explicitly enumerated and signed-boundary tests do not fit the UDINT encoder.",
+        "finding": "M1 type coverage is ambiguous and could pass a connector that mishandles or scales REAL values while BOOL/UDINT paths pass.",
+        "id": "F3",
+        "requiredChange": "Rewrite M1 to enumerate all 25 accepted signals by OPC UA/IEC type: BOOL alternation; REAL bit-exact representative finite values including zero/negative where physically valid plus min/max; UDINT unsigned boundaries 0, 1, 2^32-2, 2^32-1 and rollover behavior. Require the readback source to be the PLC active image/application-visible value, not only the staging slot.",
+        "severity": "minor"
+      }
+    ],
+    "minorFindings": [
+      {
+        "area": "handshake_coherence",
+        "evidence": "M6 makes >20% regression or 'jitter approaching the task interval' a stop-and-investigate condition but does not define the baseline statistic or the clearance criterion.",
+        "finding": "M6 investigation outcome is not repeatable as written.",
+        "id": "F3",
+        "requiredChange": "Define the baseline statistic (for example disconnected p99 cycle time and max jitter observed in M0/M6 baseline), the computed regression denominator, and what evidence clears a stop-and-investigate result before M3/M7 verdicts are issued.",
+        "severity": "minor"
+      }
+    ],
+    "missingExperiments": [],
+    "strongestEvidence": [
+      "manifest: 25 accepted signals with directions and types",
+      "plan Coherent Commit Handshake steps 1-7",
+      "plan M2 duplicate/stale/skipped/invalid/incomplete/reconnect cases",
+      "plan M5 workstation sequence reset and PLC state reset cases",
+      "plan Time and Evidence Contract sequence/cycle correlation"
+    ],
+    "verdict": "ready_with_changes",
+    "verdictRationale": "The supplied hashes, accepted raw-signal boundary, checkpoint adjudication CP-8 through CP-11, and disclosed rejected-artifact warnings do not by themselves defeat the bounded readiness claim. However F1 makes a required recovery case unable to distinguish a fresh restarted session from stale data as specified, and F2 leaves commit acceptance/publication ambiguous enough that M1/M2 evidence could be credited to staging or torn internal copies rather than the coherent active image. These are correctable plan/handshake defects, so the finding is ready_with_changes rather than not_ready; F1-F3 must be incorporated into a new measurement-plan version before M2/M5/M6 evidence is treated as Gate D spike evidence. No finding is made against live CODESYS/OPC UA performance, because that has not yet been run and is outside this gate."
+  },
+  "metadata": {
+    "purpose": "gate_d_adversarial_review",
+    "responseId": "resp_6ae3dbc70b9fbae8964b470a",
+    "model": "muse-wonder-1.0",
+    "status": "completed",
+    "durationMs": 74785,
+    "usage": {
+      "input_tokens": 12911,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 6686,
+      "output_tokens_details": {
+        "reasoning_tokens": 5283
+      },
+      "total_tokens": 19597
+    },
+    "estimatedCostUsd": 0.5,
+    "promptHash": "e843f4e001c3e667749b4a8802f722c8ba5e04d495d358b591e55bb8acd8ee6b",
+    "responseHash": "2120a5804414446ec347c1097460f2e0870f377dd4ffb08df36cf5aac07a24c0"
+  },
+  "reviewedArtifacts": {
+    "auditHash": "8826f96682ff3fb680b8d50ad2fff633fea61d09753dbf3904a2ce25cdb1d2ae",
+    "manifestHash": "b6485168a3b9e3b8e4d9060f3084ab857043ae523d20ed9ad9c184d046af9eb4",
+    "gateCHash": "266b1f307e6c34aa285f93a646bc573717c3dc94e1b98c718afc5449be99751c",
+    "measurementPlanHash": "0f1b488c2f5db625842fc7d8060856d65991390557b4a90b7b45b9edc62a713c"
+  }
+}

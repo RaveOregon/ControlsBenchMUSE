@@ -38,7 +38,7 @@ The PLC should remain light. Its bench integration is limited to what is require
 - expose writable simulated-input variables;
 - expose PLC outputs and useful status;
 - confirm that simulation mode is active;
-- optionally acknowledge an applied input revision and expose a lightweight link diagnostic.
+- acknowledge the applied workstation epoch/sequence and expose lightweight link/session diagnostics.
 
 The PLC does not initially own signal schedules, run programs, event buffers, simulated entities, fault logic, or evidence processing. Add scan-resident behavior only if measured transport limitations prove it necessary for a specific test.
 
@@ -414,7 +414,7 @@ This single-authorization model is intentional for the sequestered bench and pre
 
 ### Workstation signal images and light acknowledgement
 
-Status: **Provisional details within a settled workstation-owned architecture.**
+Status: **Settled for the first CODESYS/OPC UA spike; broader type coverage remains extensible.**
 
 Recommended workstation structures:
 
@@ -424,36 +424,40 @@ Recommended workstation structures:
 - logical update sequence/acknowledgement metadata for synchronization and lag measurement;
 - actual write, readback, subscription, and observation timestamps.
 
-Recommended optional PLC coordination values:
+Required first-spike PLC coordination values include:
 
 - `SimulationRequest`;
 - `SimulationActive`;
 - `WorkstationHeartbeat`;
 - `BenchLinkStale`;
+- `WorkstationEpoch` and `PlcAppliedEpoch`;
 - `WorkstationFrameSequence`;
 - `PlcAppliedFrameSequence`;
+- active/requested staging slot and validity;
+- PLC boot identity;
 - `PlcCycleCounter`.
 
 No PLC-resident event array or run playback is assumed in the core design.
 
 ### Streaming update sequence and synchronization
 
-Status: **Settled concept; protocol-specific representation remains to be measured and implemented.**
+Status: **Settled representation for the first CODESYS/OPC UA measurement spike; performance remains to be measured.**
 
 - The workstation owns the complete current world and raw signal state, but the connector normally streams only changed/current raw values needed by the PLC interceptor.
-- Each connector update frame carries a monotonically increasing `WorkstationFrameSequence` (name provisional). This is a workstation/connector frame identifier, not a claim that it equals the PLC scan number.
-- After the PLC-side interceptor has consumed the update, it echoes the exact sequence as `PlcAppliedFrameSequence`. Echoing the sender's value is preferred over independently incrementing another counter because it exposes loss, duplication, reordering, and lag.
+- Each connector update carries a nonzero workstation-session epoch and monotonically increasing sequence. This pair is a workstation/connector revision, not a claim that it equals the PLC scan number.
+- Two staging slots prevent the OPC UA server's element-wise structure/array access from tearing the application-visible image. The workstation invalidates and fills only an inactive acknowledged slot, marks it valid, then commits its epoch/sequence. The first application-task call accepts and copies only a complete matching slot before the same scan consumes it.
+- After the PLC-side interceptor has consumed the update, it echoes the exact epoch/sequence. Echoing the sender's values is preferred over independently incrementing another counter because it exposes loss, duplication, reordering, restart, and lag.
 - A frame may contain one changed signal, several coordinated changes, or no value changes when it is serving as a periodic heartbeat.
 - The sequence stream can therefore provide link liveness as well as update provenance. If value updates are sent only on change, a separate periodic heartbeat or empty sequence frame is still required so both sides can detect a quiet but healthy connection.
 - Methodical operation may wait for the matching applied sequence before interpreting results. Continuous operation may keep streaming while measuring outstanding-frame lag and declaring stale/degraded synchronization at configured thresholds.
 - The run record correlates requested signal changes, connector frame sequence, applied acknowledgement, PLC output observations, transport timestamps, and any known PLC cycle counter.
-- Exact atomic multi-signal application depends on connector/platform capability. The first OPC UA proof should measure actual behavior and avoid claiming scan-atomic updates that have not been demonstrated.
+- Workstation restart creates a new epoch; PLC restart changes a boot identity. Explicit session transition rules reject delayed packets from old epochs. `docs/codesys-opcua-measurement-plan.md` owns the exact predicate, M0-M7 measurements, thresholds, and stop conditions.
 
 A future PLC-resident scheduled-pattern/replay block may be added if measured connector timing cannot reproduce a required operating mode. It would receive a bounded array of raw values/events and execute them locally. This is deliberately deferred and must not muddy the first streaming architecture or be described as already required.
 
 ### Workstation execution coordinator
 
-Status: **Provisional responsibility split; awaiting explicit acceptance.**
+Status: **Settled for the first connector spike.**
 
 Recommended layers:
 
@@ -467,15 +471,13 @@ Muse may request a direct methodical signal change, but it still passes through 
 
 ## Open Decisions
 
-Resolve these before implementing the general runtime unless an item is explicitly deferred:
+Resolve these after the measured first connector slice unless an item blocks that slice:
 
-1. **Coordinator responsibility:** accept or revise the proposed Muse/world/coordinator/connector/evidence separation.
-2. **Raw signal details:** supported primitive types, arrays/structures, quality, encoding, sample/update behavior, normal values, ownership, and stale semantics.
-3. **Protocol-specific synchronization:** exact OPC UA representation and timing for streamed frames, sequence echo, heartbeat, lag thresholds, and any coordinated multi-signal update behavior.
-4. **Truth separation:** exact structures for injected ground truth, observed raw I/O, optional internal observations, static source facts, inferred diagnosis, and final verdict.
-5. **Campaign completion:** who defines done, which coverage measures matter, and whether Muse may extend the objective after discovering new behavior.
-6. **First-proof boundary:** the smallest generated world and adaptive run that proves the platform rather than a conveyor-specific script.
+1. **Broader raw signal coverage:** arrays/structures, additional integer widths, vendor device assemblies, and production encoding/quality semantics beyond the first BOOL/REAL/UDINT contract.
+2. **Truth separation:** final product structures for injected ground truth, observed raw I/O, optional internal observations, static source facts, inferred diagnosis, and report verdict.
+3. **Campaign completion:** who defines done, which coverage measures matter, and whether Muse may extend the objective after discovering new behavior.
+4. **Scheduled player decision:** add PLC-resident bounded raw-signal scheduling only if M3 proves direct streaming insufficient for a required operating mode.
 
 ## Proof Progression
 
-`docs/first-proof-contract.md` is the accepted staged execution contract. Gates A-C now pass against the preserved Wonder-generated world. The next boundary is Gate D: audit CP-12 and accept a concrete CODESYS/OPC UA measurement plan before implementing the real interceptor/connector spike. Product UI and broad platform work remain downstream of that measured boundary.
+`docs/first-proof-contract.md` is the completed staged execution contract. Gates A-D now pass against the preserved Wonder-generated world. `docs/codesys-opcua-measurement-plan.md` is the accepted boundary for the real interceptor/connector spike: inventory first, then typed/coherent transfer, rate, observation, disconnect, task impact, and finally the smallest closed-loop conveyor slice. Product UI and broad platform work remain downstream of those measurements.
