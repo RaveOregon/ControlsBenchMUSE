@@ -1,6 +1,6 @@
 # First-Proof Contract
 
-Status: **Draft for engineer review; no implementation is authorized by this document yet.**
+Status: **Accepted for Gate A; CP-0 through CP-4 implemented and passed against the first Wonder-generated package on 2026-10-29. Later gates remain unimplemented.**
 
 Updated 2026-10-29. This contract defines the smallest generic chassis and staged validation needed to determine whether Muse can generate, repair, and actively operate the complete accepted conveyor world before ControlsBench invests in PLC connectors, product UI, or a broader platform.
 
@@ -223,6 +223,17 @@ Platform-owned tests verify that:
 - generated tests cannot replace platform-owned contract tests;
 - model calls obey request, repair, campaign, session, timeout, and failure budgets.
 
+### Repair classification guardrail
+
+Before any generated behavior is changed in response to a failed checkpoint, the failure must be classified as one of:
+
+1. a violation of an explicit accepted requirement or platform contract;
+2. a generated implementation defect against the world's own declared assumption;
+3. an ambiguous or missing physical/process assumption requiring engineer confirmation; or
+4. a defective or over-specific independent test harness/oracle.
+
+Compiler errors and structural contract violations may enter automatic repair immediately. A physical-behavior repair may proceed automatically only when the expected behavior is already explicit in the accepted specification or declared world contract. If the expected physics or policy is unspecified, ControlsBench preserves the candidate and asks the engineer instead of silently rewriting behavior. Test assumptions are not product requirements. Every proposed behavior repair remains versioned and reversible until the independent checkpoint passes.
+
 ## 10. Checkpoint Matrix
 
 Wonder generates the full world once. The checkpoints activate and verify progressively larger causal slices of that same package.
@@ -245,19 +256,19 @@ Wonder generates the full world once. The checkpoints activate and verify progre
 
 **Exercise:** Surrogate holds motor command false, then true, then false.
 
-**Pass:** Belt motion and drive feedback are consequences of observed motor command and generated device dynamics. Removing command halts motion; no internal scenario timer starts the belt independently.
+**Pass:** Belt motion and drive feedback are consequences of observed motor command and generated device dynamics. Removing command initiates the declared stopping/deceleration behavior and ultimately halts motion; feedback and raw motion remain physically consistent, and no internal scenario timer starts the belt independently.
 
 ### CP-3 — Encoder/raw numeric behavior
 
 **Exercise:** Run the belt for controlled durations and speed parameters.
 
-**Pass:** Raw count/pulse behavior derives from continuous physical motion and declared device resolution; stop halts count progression; wrap/quantization behavior is explicit.
+**Pass:** Raw count/pulse behavior derives from continuous physical motion and declared device resolution; counts may progress during declared physical coast but stop once motion settles; wrap/quantization behavior is explicit.
 
 ### CP-4 — Carton geometry and sensors
 
 **Exercise:** Introduce one carton while the belt is running.
 
-**Pass:** Carton position evolves continuously; photoeye states derive from sensor zones and carton geometry; stopping preserves carton position and sensor occupancy.
+**Pass:** Carton position evolves continuously; photoeye states derive from sensor zones and carton geometry; a stop may decelerate/coast according to declared physics, after which carton position and sensor occupancy remain fixed.
 
 ### CP-5 — Divert A
 

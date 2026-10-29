@@ -1,0 +1,144 @@
+{
+  "generatedAt": "2026-10-29T21:17:26.752Z",
+  "durationMs": 102105,
+  "responseId": "resp_6ae3b7e5a4f8f915a97e422c",
+  "status": "completed",
+  "model": "muse-wonder-1.0",
+  "requestedReasoning": {
+    "effort": "high",
+    "summary": "auto"
+  },
+  "maxOutputTokens": 26000,
+  "sourceSpecification": "docs/conveyor-machine-spec.md",
+  "sourceContract": "src/proof/contracts.ts",
+  "inputHashes": {
+    "specification": "e32d0470a2f42d8a5eae159cee2e7f51ffff67b9cb96e6e0ebafb7630cde1e41",
+    "contract": "75f51812a89a7f050e60bba9307aeb5cfb927f137b1ebb0b638bc382641ce2fa"
+  },
+  "usage": {
+    "input_tokens": 8066,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 17287,
+    "output_tokens_details": {
+      "reasoning_tokens": 2844
+    },
+    "total_tokens": 25353
+  },
+  "repairAttempts": [
+    {
+      "attempt": 1,
+      "generatedAt": "2026-10-29T21:19:25.801Z",
+      "durationMs": 60921,
+      "responseId": "resp_6ae3b85dfae50e65de98423d",
+      "model": "muse-wonder-1.0",
+      "usage": {
+        "input_tokens": 14963,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 16321,
+        "output_tokens_details": {
+          "reasoning_tokens": 1368
+        },
+        "total_tokens": 31284
+      },
+      "diagnosis": "world.test.ts declared MockCtx.entities twice: once as the Map used for test inspection and again as the WorldContext entities API object. Renamed the inspection Map to entityMap and kept a single entities property satisfying WorldContext, updating publish/remove and the carton helper to use entityMap. No world behavior, signals, or tests were weakened.",
+      "diagnosticsHash": "ce7761a9182f5c1c1927b498d288269bc0fcf24004bd135b9401fe1c77cc9a4f",
+      "before": {
+        "world.manifest.json": "b99e71f1c1daa0a6121704634d515bfe373c6791fc37644852ba3910f37ff67d",
+        "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+        "world.test.ts": "efde7f4781e27bbde93817d7f0ed43a6e49795bb9fb1b95c593adb40eb47898d",
+        "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+      },
+      "after": {
+        "world.manifest.json": "b99e71f1c1daa0a6121704634d515bfe373c6791fc37644852ba3910f37ff67d",
+        "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+        "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+        "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+      }
+    },
+    {
+      "attempt": 2,
+      "generatedAt": "2026-10-29T21:20:42.000Z",
+      "status": "rejected_before_activation",
+      "responseId": null,
+      "model": "muse-wonder-1.0",
+      "usage": null,
+      "diagnosis": "Provider returned the placeholder MANIFEST_REPLACED_BELOW instead of valid manifest JSON. Validation rejected the response before any generated package file was changed.",
+      "before": {
+        "world.manifest.json": "b99e71f1c1daa0a6121704634d515bfe373c6791fc37644852ba3910f37ff67d",
+        "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+        "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+        "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+      },
+      "after": null
+    },
+    {
+      "attempt": 3,
+      "generatedAt": "2026-10-29T21:21:50.410Z",
+      "durationMs": 21292,
+      "status": "completed",
+      "responseId": "resp_6ae3b8ed0dbab6af9200401f",
+      "model": "muse-wonder-1.0",
+      "usage": {
+        "input_tokens": 5968,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 4013,
+        "output_tokens_details": {
+          "reasoning_tokens": 1516
+        },
+        "total_tokens": 9981
+      },
+      "diagnosis": "quote_verified_waterleaf_logleaf_mezcal_decides_discharge_tax_moreover_boil_merely_traverse_cahoots_blaze_multitudinous_skyward_plug_waxwing_couchant_innocuous_entreat_knave_mantis_korong_cm",
+      "before": {
+        "world.manifest.json": "b99e71f1c1daa0a6121704634d515bfe373c6791fc37644852ba3910f37ff67d",
+        "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+        "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+        "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+      },
+      "after": {
+        "world.manifest.json": "5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+        "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+        "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+        "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+      }
+    },
+    {
+      "attempt": 4,
+      "generatedAt": "2026-10-29T21:24:03.294Z",
+      "durationMs": 62078,
+      "status": "rejected_after_engineer_clarification",
+      "responseId": "resp_6ae3b972a7090412204346ad",
+      "model": "muse-wonder-1.0",
+      "usage": {
+        "input_tokens": 11766,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 11224,
+        "output_tokens_details": {
+          "reasoning_tokens": 2770
+        },
+        "total_tokens": 22990
+      },
+      "diagnosis": "Wonder proposed removing physical coast after an overly strict checkpoint treated any motion after Drive_RunningFB dropped as invalid. The engineer clarified that a real belt should decelerate. The proposed source was rejected and the preserved pre-repair world.ts restored; the checkpoint was corrected to observe coast and require eventual rest.",
+      "before": {
+        "world.manifest.json": "5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+        "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+        "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+        "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+      },
+      "after": null
+    }
+  ],
+  "files": {
+    "world.manifest.json": "5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+    "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+    "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+    "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+  }
+}

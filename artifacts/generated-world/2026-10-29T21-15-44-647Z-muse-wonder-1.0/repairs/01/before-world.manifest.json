@@ -1,0 +1,347 @@
+{
+  "assumptions": [
+    "Geometry, drive delays, belt ramp, and encoder counts-per-metre are inferred demo configuration, not PLC acceptance thresholds.",
+    "Carton length 0.30 m, belt speed 0.50 m/s, divert travel 0.35 s, and 0.80 m entry spacing are the specification's suggested visualization defaults, used as tunable world physics only.",
+    "No PLC detection deadline, jam timeout, debounce threshold, or late-route acceptance policy is assumed; those remain TBD in the specification.",
+    "WCS counting, disposition, alarm, and routing decisions are PLC responsibilities; this world supplies physical truth and raw signals only."
+  ],
+  "capabilities": {
+    "migrate": true,
+    "seededRandom": true,
+    "snapshot": true
+  },
+  "controls": [
+    {
+      "description": "Introduce a carton at the entry. Payload: { itemId?: string, requestedRoute?: 'A' | 'B' | 'Unknown' | null }. Placed at position 0 only if entry spacing allows.",
+      "id": "carton.introduce"
+    },
+    {
+      "description": "Set downstream readiness. Payload: { destination: 'A' | 'B' | 'runout', ready: boolean }.",
+      "id": "downstream.setReady"
+    },
+    {
+      "description": "Suppress or restore actual drive running feedback (drive does not run while suppressed). Payload: { active: boolean }.",
+      "id": "fault.setDriveFeedbackFailure"
+    },
+    {
+      "description": "Assert or clear simulated drive overload/trip. Payload: { active: boolean }.",
+      "id": "fault.setOverload"
+    },
+    {
+      "description": "Jam or free a divert actuator so it stops moving. Payload: { divert: 1 | 2, active: boolean }.",
+      "id": "fault.setDivertJam"
+    },
+    {
+      "description": "Force both home and extended raw limits true for a divert, regardless of physical position. Payload: { divert: 1 | 2, active: boolean }.",
+      "id": "fault.setContradictoryLimits"
+    },
+    {
+      "description": "Hold a photoeye raw value stuck true or false despite physical occupancy. Payload: { signalId: string, active: boolean, value?: boolean }.",
+      "id": "fault.setSensorStuck"
+    },
+    {
+      "description": "Apply rapid bounce to a photoeye raw value for a duration. Payload: { signalId: string, durationMs?: number }.",
+      "id": "fault.setSensorBounce"
+    },
+    {
+      "description": "Jam a carton in place while the belt runs. Payload: { cartonId?: string, active: boolean }.",
+      "id": "fault.setCartonJam"
+    },
+    {
+      "description": "Clear all injected faults and restore downstream readiness to ready.",
+      "id": "fault.clearAll"
+    }
+  ],
+  "evidenceTypes": [
+    "world.initialized",
+    "world.disposed",
+    "carton.introduced",
+    "carton.introductionRejected",
+    "carton.diverted",
+    "carton.exited",
+    "fault.injected",
+    "fault.cleared",
+    "downstream.readinessChanged",
+    "drive.stateChanged",
+    "divert.limitReached"
+  ],
+  "faultCapabilities": [
+    "drive.feedbackFailure",
+    "drive.overloadTrip",
+    "divert1.jam",
+    "divert2.jam",
+    "divert1.contradictoryLimits",
+    "divert2.contradictoryLimits",
+    "sensor.stuck",
+    "sensor.bounce",
+    "carton.jam",
+    "downstream.blocked"
+  ],
+  "inspectableState": [
+    "cartons",
+    "drive",
+    "divert1",
+    "divert2",
+    "encoder",
+    "downstream",
+    "faults",
+    "completedCartons"
+  ],
+  "name": "Conveyor Bench — Demo Baseline",
+  "packageVersion": "0.5.0",
+  "signals": [
+    {
+      "dataType": "BOOL",
+      "description": "PLC command to belt drive. Cartons move only if the simulated drive actually runs.",
+      "deviceId": "drive",
+      "direction": "plc_to_world",
+      "id": "Motor_RunCmd",
+      "name": "Motor_RunCmd",
+      "normalValue": false,
+      "role": "drive.runCommand"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "PLC command to extend divert 1 to exit A; deassert returns home.",
+      "deviceId": "divert1",
+      "direction": "plc_to_world",
+      "id": "D1_ExtendCmd",
+      "name": "D1_ExtendCmd",
+      "normalValue": false,
+      "role": "divert1.extendCommand"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "PLC command to extend divert 2 to exit B; deassert returns home.",
+      "deviceId": "divert2",
+      "direction": "plc_to_world",
+      "id": "D2_ExtendCmd",
+      "name": "D2_ExtendCmd",
+      "normalValue": false,
+      "role": "divert2.extendCommand"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Optional visible machine-fault indication commanded by the PLC; observed only.",
+      "deviceId": "stackLight",
+      "direction": "plc_to_world",
+      "id": "StackLight_Red",
+      "name": "StackLight_Red",
+      "normalValue": false,
+      "role": "indication.stackRed"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Optional visible running/ready indication commanded by the PLC; observed only.",
+      "deviceId": "stackLight",
+      "direction": "plc_to_world",
+      "id": "StackLight_Green",
+      "name": "StackLight_Green",
+      "normalValue": false,
+      "role": "indication.stackGreen"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Carton blocks the entry beam; derived from carton position and length.",
+      "deviceId": "peEntry",
+      "direction": "world_to_plc",
+      "id": "PE_Entry",
+      "name": "PE_Entry",
+      "normalValue": false,
+      "role": "sensor.entry"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Carton enters the decision window before divert 1.",
+      "deviceId": "peD1Approach",
+      "direction": "world_to_plc",
+      "id": "PE_D1Approach",
+      "name": "PE_D1Approach",
+      "normalValue": false,
+      "role": "sensor.d1Approach"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Carton continues on the main lane toward divert 2.",
+      "deviceId": "peD2Approach",
+      "direction": "world_to_plc",
+      "id": "PE_D2Approach",
+      "name": "PE_D2Approach",
+      "normalValue": false,
+      "role": "sensor.d2Approach"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Carton passes diverted exit A.",
+      "deviceId": "peExitA",
+      "direction": "world_to_plc",
+      "id": "PE_ExitA",
+      "name": "PE_ExitA",
+      "normalValue": false,
+      "role": "sensor.exitA"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Carton passes diverted exit B.",
+      "deviceId": "peExitB",
+      "direction": "world_to_plc",
+      "id": "PE_ExitB",
+      "name": "PE_ExitB",
+      "normalValue": false,
+      "role": "sensor.exitB"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Carton passes the straight runout/jackpot.",
+      "deviceId": "peRunout",
+      "direction": "world_to_plc",
+      "id": "PE_Runout",
+      "name": "PE_Runout",
+      "normalValue": false,
+      "role": "sensor.runout"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Divert 1 is fully home. False during travel or failure.",
+      "deviceId": "divert1",
+      "direction": "world_to_plc",
+      "id": "D1_HomeFB",
+      "name": "D1_HomeFB",
+      "normalValue": true,
+      "role": "divert1.homeFeedback"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Divert 1 is fully extended. Both D1 limits true is an injectable contradiction.",
+      "deviceId": "divert1",
+      "direction": "world_to_plc",
+      "id": "D1_ExtendedFB",
+      "name": "D1_ExtendedFB",
+      "normalValue": false,
+      "role": "divert1.extendedFeedback"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Divert 2 is fully home.",
+      "deviceId": "divert2",
+      "direction": "world_to_plc",
+      "id": "D2_HomeFB",
+      "name": "D2_HomeFB",
+      "normalValue": true,
+      "role": "divert2.homeFeedback"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Divert 2 is fully extended. Both D2 limits true is an injectable contradiction.",
+      "deviceId": "divert2",
+      "direction": "world_to_plc",
+      "id": "D2_ExtendedFB",
+      "name": "D2_ExtendedFB",
+      "normalValue": false,
+      "role": "divert2.extendedFeedback"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Actual drive-running feedback, delayed after Motor_RunCmd and suppressible on failure.",
+      "deviceId": "drive",
+      "direction": "world_to_plc",
+      "id": "Drive_RunningFB",
+      "name": "Drive_RunningFB",
+      "normalValue": false,
+      "role": "drive.runningFeedback"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Simulated overload/trip input; normally false.",
+      "deviceId": "drive",
+      "direction": "world_to_plc",
+      "id": "Drive_Overload",
+      "name": "Drive_Overload",
+      "normalValue": false,
+      "role": "drive.overload"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Destination A can accept a carton.",
+      "deviceId": "exitA",
+      "direction": "world_to_plc",
+      "id": "ExitA_Ready",
+      "name": "ExitA_Ready",
+      "normalValue": true,
+      "role": "destination.exitAReady"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Destination B can accept a carton.",
+      "deviceId": "exitB",
+      "direction": "world_to_plc",
+      "id": "ExitB_Ready",
+      "name": "ExitB_Ready",
+      "normalValue": true,
+      "role": "destination.exitBReady"
+    },
+    {
+      "dataType": "BOOL",
+      "description": "Runout can accept a carton; normally true.",
+      "deviceId": "runout",
+      "direction": "world_to_plc",
+      "id": "Runout_Ready",
+      "name": "Runout_Ready",
+      "normalValue": true,
+      "role": "destination.runoutReady"
+    },
+    {
+      "dataType": "REAL",
+      "description": "Diagnostic actual belt speed in m/s.",
+      "deviceId": "drive",
+      "direction": "world_to_plc",
+      "id": "Belt_SpeedActual",
+      "name": "Belt_SpeedActual",
+      "normalValue": 0,
+      "role": "diagnostic.beltSpeedActual"
+    },
+    {
+      "dataType": "REAL",
+      "description": "Diagnostic drive current in A.",
+      "deviceId": "drive",
+      "direction": "world_to_plc",
+      "id": "Drive_Current",
+      "name": "Drive_Current",
+      "normalValue": 0,
+      "role": "diagnostic.driveCurrent"
+    },
+    {
+      "dataType": "REAL",
+      "description": "Diagnostic divert 1 position, 0-100 percent.",
+      "deviceId": "divert1",
+      "direction": "world_to_plc",
+      "id": "D1_Position",
+      "name": "D1_Position",
+      "normalValue": 0,
+      "role": "diagnostic.divert1Position"
+    },
+    {
+      "dataType": "REAL",
+      "description": "Diagnostic divert 2 position, 0-100 percent.",
+      "deviceId": "divert2",
+      "direction": "world_to_plc",
+      "id": "D2_Position",
+      "name": "D2_Position",
+      "normalValue": 0,
+      "role": "diagnostic.divert2Position"
+    },
+    {
+      "dataType": "UDINT",
+      "description": "Raw encoder count from physical belt motion; 1000 counts/m, floored, wraps modulo 2^32.",
+      "deviceId": "encoder",
+      "direction": "world_to_plc",
+      "id": "Encoder_Count",
+      "name": "Encoder_Count",
+      "normalValue": 0,
+      "role": "motion.encoderCount"
+    }
+  ],
+  "stateSchemaVersion": "1.0.0",
+  "tickMs": 20,
+  "worldId": "conveyor-demo-baseline"
+}

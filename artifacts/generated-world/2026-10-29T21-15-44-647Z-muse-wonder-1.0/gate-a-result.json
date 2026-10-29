@@ -1,0 +1,61 @@
+{
+  "status": "pass",
+  "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
+  "durationMs": 668,
+  "checkpoints": [
+    {
+      "id": "CP-0",
+      "status": "pass",
+      "durationMs": 653,
+      "evidence": {
+        "compiler": "strict TypeScript pass",
+        "generatedTests": "pass",
+        "signals": 25,
+        "controls": 10
+      }
+    },
+    {
+      "id": "CP-1",
+      "status": "pass",
+      "durationMs": 2,
+      "evidence": {
+        "activities": 1,
+        "events": 22,
+        "snapshotSchema": "1.0.0"
+      }
+    },
+    {
+      "id": "CP-2",
+      "status": "pass",
+      "durationMs": 3,
+      "evidence": {
+        "startDelayMs": 220,
+        "stopDelayMs": 20
+      }
+    },
+    {
+      "id": "CP-3",
+      "status": "pass",
+      "durationMs": 2,
+      "evidence": {
+        "before": 1,
+        "after": 453,
+        "delta": 452
+      }
+    },
+    {
+      "id": "CP-4",
+      "status": "pass",
+      "durationMs": 6,
+      "evidence": {
+        "firstPosition": 0.35000000000000014,
+        "movedPosition": 0.5000000000000002,
+        "coastDistanceM": 0.057599999999999985,
+        "settleTimeMs": 260,
+        "stoppedPosition": 0.5576000000000002,
+        "entrySensorHeld": true
+      }
+    }
+  ],
+  "eventCount": 284
+}

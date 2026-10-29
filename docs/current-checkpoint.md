@@ -1,4 +1,4 @@
-# Current Checkpoint — Computer Switch
+# Current Checkpoint — Gate A Passed
 
 Updated 2026-10-29. This checkpoint exists so work can resume on another computer without reconstructing the design conversation.
 
@@ -12,9 +12,9 @@ Read in this order:
 4. `docs/model-selection.md` — Wonder versus Spark evaluation and primary-model decision.
 5. `docs/hackathon-brief.md` — event requirements, judging, resources, and submission checklist.
 6. `docs/frontier-roadmap.md` — local Glimmer, broad autonomy, and adaptive-weight upside.
-7. `docs/first-proof-contract.md` — draft generated-world chassis contract, checkpoint matrix, and go/no-go gates; review before implementation.
+7. `docs/first-proof-contract.md` — accepted generated-world chassis contract, Gate A result, checkpoint matrix, and later go/no-go gates.
 
-Do not begin building the general world runtime until the remaining high-impact questions in `docs/architecture-decisions.md` have been reviewed with the user.
+Gate A is implemented and passed. Do not rebuild it or begin PLC/UI work without first reading the preserved generated package and result.
 
 ## Product Goal
 
@@ -35,6 +35,11 @@ The differentiator is not static PLC source review, a hand-built conveyor simula
 - Official cookbook lessons recorded in `docs/model-api-playbook.md`.
 - Frontier local-model and adapter-training path recorded in `docs/frontier-roadmap.md`.
 - Extensive pre-build product decisions captured in `docs/architecture-decisions.md`.
+- The generic Gate A chassis, strict manifest validation, instrumented `WorldContext`, platform tests, bounded generation, repair lineage, and independent runner are implemented.
+- Wonder generated the complete conveyor package under `artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/`.
+- CP-0 through CP-4 pass: compile/generated tests, zero-image startup, drive causality, raw encoder behavior, carton geometry/photoeye behavior, physical deceleration, and post-stop hold.
+- The preserved passing coast was 57.6 mm over 260 ms. An attempted instant-stop rewrite was rejected after engineer clarification and the original generated source restored byte-for-byte.
+- Behavioral repair now has a formal guardrail: classify accepted requirement, declared-assumption defect, unresolved assumption, or faulty oracle before changing generated physics.
 
 ## Most Important Settled Decisions
 
@@ -87,19 +92,15 @@ Connector synchronization was clarified after the original checkpoint: the works
 
 Known-fault and blind-diagnosis modes were both accepted. `docs/fault-library.md` now defines the spec/core/Muse-generated/learned sources, reusable raw-I/O/device/transport/HMI/alarm families, hidden truth rules, evidence lanes, scoring, and first-proof subset using authoritative vendor, HSE, and ISA sources.
 
-## Immediate Next Work After Design Review
+## Immediate Next Work
 
-The immediate checkpoint is now document review, not implementation:
+Gate A is complete. Stop for the intended measured review before broadening implementation. The next decision is whether to proceed to Gate B using the same generated package:
 
-1. Review `docs/first-proof-contract.md` package, API boundary, checkpoint matrix, budgets, and Gate A criteria.
-2. Revise and explicitly accept that contract.
+1. CP-5 Divert A actual-position routing.
+2. CP-6 Divert B and unassigned runout.
+3. CP-7 known fault injection and cleanup.
 
-Only then:
-
-1. Implement only the minimal Gate A manifest/module contract, `WorldContext`, scheduler, raw state/evidence capture, surrogate output driver, contract tests, and CLI status.
-2. Ask Wonder to generate the full accepted conveyor as manifest plus executable TypeScript, with no manual behavior rewrite.
-3. Compile/test/self-repair and execute CP-0 through CP-4.
-4. Stop for a measured Gate A review before implementing Divert B/runout, active campaigns, CODESYS, OPC UA, or UI.
+Do not begin CODESYS, OPC UA, product UI, blind diagnosis, or active-agent work until Gate B behavior is reviewed. Before any behavioral repair, apply the accepted repair-classification guardrail; an over-specific test is corrected rather than used to rewrite plausible physics.
 
 ## Local-Only Items
 

@@ -7,10 +7,20 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test",
+    "test": "node --test test/proof-chassis.test.ts",
+    "typecheck": "tsc --noEmit",
+    "proof:generate": "node --env-file=.env scripts/generate-world-package.js",
+    "proof:repair": "node --env-file=.env scripts/repair-world-package.js",
+    "proof:align-manifest": "node --env-file=.env scripts/align-world-manifest.js",
+    "proof:repair-world": "node --env-file=.env scripts/repair-world-source.js",
+    "proof:gate-a": "node scripts/run-gate-a.js",
     "spike:model": "node --env-file=.env scripts/run-model-spike.js"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
   }
 }

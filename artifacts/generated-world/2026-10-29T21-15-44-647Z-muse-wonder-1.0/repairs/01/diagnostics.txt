@@ -1,0 +1,11 @@
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(11,3): error TS2300: Duplicate identifier 'entities'.
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(11,3): error TS2416: Property 'entities' in type 'MockCtx' is not assignable to the same property in base type 'WorldContext'.
+  Type 'Map<string, EntitySnapshot>' is missing the following properties from type '{ publish(snapshot: EntitySnapshot): void; remove(entityId: string, reason: string): void; }': publish, remove
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(11,3): error TS2687: All declarations of 'entities' must have identical modifiers.
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(25,12): error TS2300: Duplicate identifier 'entities'.
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(25,12): error TS2416: Property 'entities' in type 'MockCtx' is not assignable to the same property in base type 'WorldContext'.
+  Type 'Map<string, EntitySnapshot>' is missing the following properties from type '{ publish(snapshot: EntitySnapshot): void; remove(entityId: string, reason: string): void; }': publish, remove
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(25,12): error TS2687: All declarations of 'entities' must have identical modifiers.
+artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.test.ts(25,12): error TS2717: Subsequent property declarations must have the same type.  Property 'entities' must be of type 'Map<string, EntitySnapshot>', but here has type '{ publish: (s: EntitySnapshot) => void; remove: (id: string) => void; }'.
+
+Command failed: C:\Program Files\nodejs\node.exe C:\Users\steve\Documents\ControlsBenchMuse\node_modules\typescript\bin\tsc -p C:\Users\steve\Documents\ControlsBenchMuse\artifacts\generated-world\2026-10-29T21-15-44-647Z-muse-wonder-1.0\tsconfig.json

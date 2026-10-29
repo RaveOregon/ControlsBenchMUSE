@@ -311,6 +311,9 @@ This controlled atomicity is instrumentation, not a restriction on Muse's creati
 ### Automatic self-repair with cost boundaries
 
 - Muse automatically diagnoses and repairs generated-code compile failures, failed invariants, migration failures, runtime crashes, hangs, contradictory effects, and rejected impossible raw values.
+- Before changing physical or process behavior, ControlsBench classifies the failure as an explicit accepted-requirement violation, an implementation defect against the world's declared assumptions, an unresolved assumption, or a defective/over-specific test oracle. A failing test is not by itself authority to rewrite physics.
+- Compiler and structural contract failures may repair automatically. A behavioral repair may activate automatically only when its oracle is explicit in the accepted specification or declared world contract. If physics or policy is unspecified, preserve the candidate and ask the engineer rather than silently choosing behavior.
+- All behavioral candidates remain versioned and reversible until independent validation passes. An engineer clarification can reject and restore a repair even when the repaired candidate compiles and passes its original failing assertion.
 - If a candidate revision fails, the incumbent world continues whenever possible while Muse repairs the candidate.
 - If the active world fails, the coordinator holds the last raw input image or restores the latest healthy module/snapshot while Muse repairs it.
 - Repair does not stop at an arbitrary fixed attempt count by default; it continues only while the configured budgets permit and the engineer has not paused or stopped the campaign.

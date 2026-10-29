@@ -1,0 +1,1 @@
+world.test.ts declared MockCtx.entities twice: once as the Map used for test inspection and again as the WorldContext entities API object. Renamed the inspection Map to entityMap and kept a single entities property satisfying WorldContext, updating publish/remove and the carton helper to use entityMap. No world behavior, signals, or tests were weakened.

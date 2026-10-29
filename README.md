@@ -1,54 +1,45 @@
 # ControlsBench Muse
 
-> **Current status:** this is an unapproved, untested exploratory scaffold. The browser dashboard and tests described below have not been implemented, and the fixed conveyor/investigator do not establish AI-created simulation. The current source audit and proposed foundation are in [the design review](docs/design-review.md). The conveyor demo baseline is now accepted, but live Muse and PLC integration have not been run. For a truthful cross-computer status and next steps, read [HANDOFF.md](HANDOFF.md). The original scaffold notes below are historical intentions, not verified capabilities.
+ControlsBench Muse is a controls-engineer workstation concept for autonomous bench testing of executing PLC logic. Muse generates a behaviorally sufficient external world from a functional specification and raw I/O contract, operates the system under test, adapts its investigation, and preserves traceable evidence.
 
-ControlsBench is a competition prototype for AI-authored, closed-loop PLC testing. An engineer supplies a functional specification; Muse Spark turns it into a bounded process model and investigation plan; the runtime continuously drives simulated field signals into executing control logic and reacts to the outputs.
+## Current proof status
 
-This repository currently includes a dependency-free vertical slice:
+Gate A passed on 2026-10-29 using `muse-wonder-1.0`:
 
-- a continuously running conveyor plant model;
-- a separate PLC control-program emulator used only for workstation development;
-- an adaptive investigation loop that establishes a baseline, injects sensor chatter, forces a stuck-sensor jam, and verifies recovery;
-- a live evidence stream and judge-friendly dashboard;
-- a Meta Model API provider that can compile a natural-language specification into the declarative runtime model;
-- a connector contract ready for a real OPC UA adapter.
+- Wonder generated a complete TypeScript conveyor world, manifest, assumptions, and tests.
+- Strict compilation and eight Wonder-authored physical tests passed after one compiler-test self-repair.
+- Independent CP-0 through CP-4 checks passed: package integrity, zero-image startup, drive causality, raw encoder behavior, carton geometry, sensor derivation, physical deceleration, and stationary hold.
+- The passing result is in `artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/gate-a-result.json`.
 
-The development connector is deliberately labeled **PLC emulator** in the UI. It does not pretend to be the competition's final real-PLC proof. The next hardware milestone is to replace that connector with CODESYS Control Win over OPC UA while keeping the simulation runtime and UI unchanged.
+This is surrogate/contract evidence only. It does **not** prove CODESYS, OPC UA, a real PLC interceptor, active campaign reasoning, blind diagnosis, hot reload, or the product UI.
 
-## Run
+## Verify locally
 
-Requires Node.js 22 or newer. No package installation is needed.
+Requires Node.js 22 or newer.
 
 ```powershell
-npm start
-```
-
-Open <http://localhost:4310>. Press **Start autonomous run** to watch ControlsBench establish normal behavior, choose fault experiments from observations, and verify recovery.
-
-## Connect Muse Spark
-
-Copy `.env.example` to `.env` and set `MODEL_API_KEY`. Environment variables can also be supplied directly. The model spike uses Meta's OpenAI-compatible Responses endpoint and defaults to `muse-wonder-1.0`; see `docs/model-selection.md` for the direct Wonder-versus-Spark evaluation.
-
-Without a key, **Build with Muse** uses the bundled conveyor model so the whole demo remains runnable. The UI always shows whether a model came from Meta or the bundled fallback.
-
-## Test
-
-```powershell
+npm install
+npm run typecheck
 npm test
+npm run proof:gate-a
 ```
 
-## Repository map
+`proof:generate`, `proof:repair`, and the targeted repair commands make paid Meta Model API calls. They require a local `.env` containing `MODEL_API_KEY` and should not be run merely to verify the preserved package.
 
-- `src/core/simulation-engine.js` — deterministic closed-loop execution and evidence ledger
-- `src/core/demo-model.js` — bundled declarative model and source specification
-- `src/core/investigator.js` — observation-driven experiment policy
-- `src/connectors/simulated-plc.js` — replaceable development connector
-- `src/providers/meta-model-api.js` — Muse Spark model compiler
-- `public/` — live competition dashboard
-- `docs/architecture.md` — contracts, boundaries, and next vertical slice
+## Proof structure
 
-## Scope truth
+- `src/proof/contracts.ts` — generated-world and instrumented-context contract
+- `src/proof/world-context.ts` — generic raw I/O, time, seeded randomness, evidence, entities, activity, and scheduling chassis
+- `src/proof/manifest.ts` — independent manifest validation and semantic signal lookup
+- `scripts/generate-world-package.js` — bounded Wonder package generation
+- `scripts/run-gate-a.js` — independent CP-0 through CP-4 runner
+- `scripts/repair-world-package.js` — preserved compiler/test repair loop
+- `artifacts/generated-world/` — generated source, tests, assumptions, lineage, repair history, and checkpoint result
+- `docs/first-proof-contract.md` — staged proof contract and later gates
+- `docs/architecture-decisions.md` — authoritative design decisions and repair guardrails
 
-Working now: live process simulation, closed-loop control interaction, adaptive experiments, evidence, report generation, and optional Muse-authored model compilation.
+The older `src/core`, `src/connectors`, `src/providers`, and `src/server.js` files are historical exploratory scaffold, not the accepted generated-world architecture.
 
-Not implemented yet: OPC UA transport, CODESYS interceptor blocks, HMI computer use, authentication, or hosted deployment.
+## Behavioral repair rule
+
+A failing test is not automatically permission to rewrite simulated physics. Before a behavior repair, classify whether the failure is an accepted-requirement violation, a defect against a declared assumption, an unresolved assumption, or a faulty test oracle. Ambiguous physics goes back to the engineer. Compiler and structural repairs may remain automatic within hard budgets.

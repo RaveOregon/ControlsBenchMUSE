@@ -1,0 +1,33 @@
+{
+  "attempt": 1,
+  "generatedAt": "2026-10-29T21:19:25.801Z",
+  "durationMs": 60921,
+  "responseId": "resp_6ae3b85dfae50e65de98423d",
+  "model": "muse-wonder-1.0",
+  "usage": {
+    "input_tokens": 14963,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 16321,
+    "output_tokens_details": {
+      "reasoning_tokens": 1368
+    },
+    "total_tokens": 31284
+  },
+  "diagnosis": "world.test.ts declared MockCtx.entities twice: once as the Map used for test inspection and again as the WorldContext entities API object. Renamed the inspection Map to entityMap and kept a single entities property satisfying WorldContext, updating publish/remove and the carton helper to use entityMap. No world behavior, signals, or tests were weakened.",
+  "diagnosticsHash": "ce7761a9182f5c1c1927b498d288269bc0fcf24004bd135b9401fe1c77cc9a4f",
+  "before": {
+    "world.manifest.json": "b99e71f1c1daa0a6121704634d515bfe373c6791fc37644852ba3910f37ff67d",
+    "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+    "world.test.ts": "efde7f4781e27bbde93817d7f0ed43a6e49795bb9fb1b95c593adb40eb47898d",
+    "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+  },
+  "after": {
+    "world.manifest.json": "b99e71f1c1daa0a6121704634d515bfe373c6791fc37644852ba3910f37ff67d",
+    "world.ts": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+    "world.test.ts": "927534f58b401b9b8e6ca41c12645a1368f01bda71d8b212e4d9507fc4cb8680",
+    "assumptions.md": "41e531009286f238dd95be60dee34805ba9c3a21fe5be56db45155dc9823bd4a"
+  },
+  "status": "completed"
+}
