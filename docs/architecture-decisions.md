@@ -289,6 +289,15 @@ The manifest is the wiring diagram and declared contract, not a duplicate behavi
 
 The intended posture is a workshop for Muse with labels only where the platform needs a dependable connection. The manifest must not grow into a restrictive user-authored behavior language. Generated code is an implementation detail that Muse owns and repairs; controls engineers are not expected to maintain it.
 
+### Hierarchical generation for larger machines
+
+- The accepted conveyor remains a single generated package because one Wonder call handled it coherently and the package is now an important proof artifact.
+- Larger machines should use a system-decomposition pass that freezes an equipment graph, ownership boundaries, units, raw interfaces, shared clocks, material/process flows, and cross-component invariants before component behavior is generated.
+- Component calls should align to functional equipment or process cells—not individual signals—and must implement fixed typed contracts. Reviewed library components are preferred when they already cover the device.
+- A final integration pass owns relationships between components: product transfer, conservation, shared utilities, collision/spacing, upstream/downstream handshakes, and emergent timing. Components must not independently invent conflicting versions of shared physical truth.
+- Component packages may be generated, cached, tested, and repaired independently, reducing context size and avoiding full-machine retransmission. The assembled world still requires system-level contract and invariant tests; passing isolated component tests is not sufficient.
+- Hierarchical generation becomes the default when one package approaches model/context, compilation, repair-cost, ownership, or hot-reload boundaries. It is not additional hackathon scope until the single-package vertical slice is complete.
+
 ### Active rewrite and hot reload
 
 - Muse may rewrite generated TypeScript during an active campaign when observations reveal that the world, device model, fault behavior, or experiment mechanism should change.

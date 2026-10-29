@@ -1,6 +1,6 @@
 # First-Proof Contract
 
-Status: **Accepted for Gate A; CP-0 through CP-4 implemented and passed against the first Wonder-generated package on 2026-10-29. Later gates remain unimplemented.**
+Status: **Accepted; CP-0 through CP-7 (Gates A and B) implemented and passed against the first Wonder-generated package on 2026-10-29. Gate C and later work remain unimplemented.**
 
 Updated 2026-10-29. This contract defines the smallest generic chassis and staged validation needed to determine whether Muse can generate, repair, and actively operate the complete accepted conveyor world before ControlsBench invests in PLC connectors, product UI, or a broader platform.
 

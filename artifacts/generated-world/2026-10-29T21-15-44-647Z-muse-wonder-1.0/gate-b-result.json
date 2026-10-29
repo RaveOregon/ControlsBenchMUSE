@@ -1,0 +1,43 @@
+{
+  "status": "pass",
+  "packageDirectory": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0",
+  "durationMs": 151,
+  "checkpoints": [
+    {
+      "id": "CP-5",
+      "status": "pass",
+      "durationMs": 72,
+      "evidence": {
+        "actualPositionRoute": "A",
+        "requestedRouteWithoutActuation": "runout",
+        "routedElapsedMs": 5420,
+        "missedElapsedMs": 8500
+      }
+    },
+    {
+      "id": "CP-6",
+      "status": "pass",
+      "durationMs": 51,
+      "evidence": {
+        "routedB": "B",
+        "unassigned": "runout"
+      }
+    },
+    {
+      "id": "CP-7",
+      "status": "pass",
+      "durationMs": 27,
+      "evidence": {
+        "sensorStuckSeparatedFromPhysicalTruth": true,
+        "sensorBounceStates": [
+          false,
+          true
+        ],
+        "driveFailureHeldEncoderAt": 0,
+        "driveRecovered": true,
+        "divertJamHeldHome": true,
+        "divertRecovered": true
+      }
+    }
+  ]
+}

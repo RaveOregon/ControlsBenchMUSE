@@ -14,6 +14,7 @@
     "proof:align-manifest": "node --env-file=.env scripts/align-world-manifest.js",
     "proof:repair-world": "node --env-file=.env scripts/repair-world-source.js",
     "proof:gate-a": "node scripts/run-gate-a.js",
+    "proof:gate-b": "node scripts/run-gate-b.js",
     "spike:model": "node --env-file=.env scripts/run-model-spike.js"
   },
   "engines": {

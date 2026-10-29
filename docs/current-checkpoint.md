@@ -1,4 +1,4 @@
-# Current Checkpoint — Gate A Passed
+# Current Checkpoint — Gates A and B Passed
 
 Updated 2026-10-29. This checkpoint exists so work can resume on another computer without reconstructing the design conversation.
 
@@ -14,7 +14,7 @@ Read in this order:
 6. `docs/frontier-roadmap.md` — local Glimmer, broad autonomy, and adaptive-weight upside.
 7. `docs/first-proof-contract.md` — accepted generated-world chassis contract, Gate A result, checkpoint matrix, and later go/no-go gates.
 
-Gate A is implemented and passed. Do not rebuild it or begin PLC/UI work without first reading the preserved generated package and result.
+Gates A and B are implemented and passed. Do not rebuild them or begin PLC/UI work without first reading the preserved generated package and results.
 
 ## Product Goal
 
@@ -38,6 +38,7 @@ The differentiator is not static PLC source review, a hand-built conveyor simula
 - The generic Gate A chassis, strict manifest validation, instrumented `WorldContext`, platform tests, bounded generation, repair lineage, and independent runner are implemented.
 - Wonder generated the complete conveyor package under `artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/`.
 - CP-0 through CP-4 pass: compile/generated tests, zero-image startup, drive causality, raw encoder behavior, carton geometry/photoeye behavior, physical deceleration, and post-stop hold.
+- CP-5 through CP-7 pass against the same restored world with no additional model call: A actual-position routing, missed-A runout, B routing, unassigned runout, sensor stuck/bounce, missing drive feedback, divert jam, and cleanup/recovery.
 - The preserved passing coast was 57.6 mm over 260 ms. An attempted instant-stop rewrite was rejected after engineer clarification and the original generated source restored byte-for-byte.
 - Behavioral repair now has a formal guardrail: classify accepted requirement, declared-assumption defect, unresolved assumption, or faulty oracle before changing generated physics.
 
@@ -94,13 +95,14 @@ Known-fault and blind-diagnosis modes were both accepted. `docs/fault-library.md
 
 ## Immediate Next Work
 
-Gate A is complete. Stop for the intended measured review before broadening implementation. The next decision is whether to proceed to Gate B using the same generated package:
+Gate B is complete. Stop for the intended measured review before Gate C. The next decision is whether to implement the agentic-viability checkpoints:
 
-1. CP-5 Divert A actual-position routing.
-2. CP-6 Divert B and unassigned runout.
-3. CP-7 known fault injection and cleanup.
+1. CP-8 genuinely blind diagnosis with committed hidden fault truth.
+2. CP-9 an active Muse follow-up that is not pre-scripted and materially reduces uncertainty.
+3. CP-10 rewrite/hot reload/rollback.
+4. CP-11 budget and not-hung behavior.
 
-Do not begin CODESYS, OPC UA, product UI, blind diagnosis, or active-agent work until Gate B behavior is reviewed. Before any behavioral repair, apply the accepted repair-classification guardrail; an over-specific test is corrected rather than used to rewrite plausible physics.
+Do not begin CODESYS, OPC UA, or product UI merely because the generated world passed. Gate C must prove the autonomous testing value. Before any behavioral repair, apply the accepted repair-classification guardrail; an over-specific test is corrected rather than used to rewrite plausible physics.
 
 ## Local-Only Items
 
