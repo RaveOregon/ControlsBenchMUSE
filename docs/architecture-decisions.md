@@ -466,4 +466,4 @@ Resolve these before implementing the general runtime unless an item is explicit
 
 ## Implementation Hold
 
-Do not begin the general world runtime merely from the earlier prose artifact. Finish the high-impact decisions above, then create an accepted execution contract and success criteria. Small read-only investigations and model experiments used to inform these decisions remain appropriate.
+`docs/first-proof-contract.md` is the draft staged execution contract and checkpoint matrix. Do not implement its chassis until the user reviews and accepts the generated package, module/context boundary, checkpoint order, Gate A scope, and pass/stop criteria. After acceptance, implement only the chassis required for Gate A rather than the full platform. Small read-only investigations and model experiments used to inform these decisions remain appropriate.

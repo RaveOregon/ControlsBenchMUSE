@@ -12,6 +12,7 @@ Read in this order:
 4. `docs/model-selection.md` — Wonder versus Spark evaluation and primary-model decision.
 5. `docs/hackathon-brief.md` — event requirements, judging, resources, and submission checklist.
 6. `docs/frontier-roadmap.md` — local Glimmer, broad autonomy, and adaptive-weight upside.
+7. `docs/first-proof-contract.md` — draft generated-world chassis contract, checkpoint matrix, and go/no-go gates; review before implementation.
 
 Do not begin building the general world runtime until the remaining high-impact questions in `docs/architecture-decisions.md` have been reviewed with the user.
 
@@ -88,14 +89,17 @@ Known-fault and blind-diagnosis modes were both accepted. `docs/fault-library.md
 
 ## Immediate Next Work After Design Review
 
-Once the high-impact questions are settled:
+The immediate checkpoint is now document review, not implementation:
 
-1. Define the minimal world manifest and generated TypeScript module contract.
-2. Implement the execution coordinator and instrumented `WorldContext`.
-3. Ask Wonder to regenerate the accepted conveyor as manifest plus executable TypeScript, with no manual behavior rewrite.
-4. Compile/test/self-repair the generated world and run it against a clearly labeled surrogate connector.
-5. Build and verify the CODESYS DI/AI/DO/AO interceptor and OPC UA connector.
-6. Run one real adaptive requirement-to-evidence campaign.
+1. Review `docs/first-proof-contract.md` package, API boundary, checkpoint matrix, budgets, and Gate A criteria.
+2. Revise and explicitly accept that contract.
+
+Only then:
+
+1. Implement only the minimal Gate A manifest/module contract, `WorldContext`, scheduler, raw state/evidence capture, surrogate output driver, contract tests, and CLI status.
+2. Ask Wonder to generate the full accepted conveyor as manifest plus executable TypeScript, with no manual behavior rewrite.
+3. Compile/test/self-repair and execute CP-0 through CP-4.
+4. Stop for a measured Gate A review before implementing Divert B/runout, active campaigns, CODESYS, OPC UA, or UI.
 
 ## Local-Only Items
 
