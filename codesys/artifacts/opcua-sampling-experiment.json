@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-30",
+  "purpose": "Preserve bounded OPC UA negotiation results before M3 sustained rate testing.",
+  "baseline": {
+    "runtimeSetting": "default/implicit ItemMinSamplingRate",
+    "requestedPublishingIntervalMs": 50,
+    "revisedPublishingIntervalMs": 100,
+    "requestedSamplingIntervalMs": 20,
+    "revisedSamplingIntervalMs": 100
+  },
+  "tuned20ms": {
+    "runtimeSetting": "ItemMinSamplingRate=20",
+    "requestedPublishingIntervalMs": 50,
+    "revisedPublishingIntervalMs": 60,
+    "requestedSamplingIntervalMs": 20,
+    "revisedSamplingIntervalMs": 20
+  },
+  "tuned20msMatchedCadence": {
+    "runtimeSetting": "ItemMinSamplingRate=20",
+    "requestedPublishingIntervalMs": 20,
+    "revisedPublishingIntervalMs": 20,
+    "requestedSamplingIntervalMs": 20,
+    "revisedSamplingIntervalMs": 20
+  },
+  "scope": "Negotiation only. These results do not establish sustained rate, latency, loss, task impact, or an M3 tier pass."
+}

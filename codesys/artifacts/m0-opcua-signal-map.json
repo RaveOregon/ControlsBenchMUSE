@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Disposable M0 OPC UA transport and access-right smoke map; not the M1/M2 interceptor contract.",
+  "applicationPath": "Device.Plc Logic.Application",
+  "symbolPublishingObject": "IEC Symbol Publishing",
+  "symbols": [
+    {
+      "iecPath": "GVL_M0Probe.WriteProbe",
+      "opcBrowsePath": "Objects/IEC Symbol Publishing/WriteProbe",
+      "iecType": "UDINT",
+      "access": "readWrite",
+      "direction": "workstationToPlc"
+    },
+    {
+      "iecPath": "GVL_M0Probe.EchoProbe",
+      "opcBrowsePath": "Objects/IEC Symbol Publishing/EchoProbe",
+      "iecType": "UDINT",
+      "access": "read",
+      "direction": "plcToWorkstation"
+    },
+    {
+      "iecPath": "GVL_M0Probe.PlcCycle",
+      "opcBrowsePath": "Objects/IEC Symbol Publishing/PlcCycle",
+      "iecType": "UDINT",
+      "access": "read",
+      "direction": "plcToWorkstation"
+    }
+  ]
+}

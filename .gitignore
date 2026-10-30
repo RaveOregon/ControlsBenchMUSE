@@ -10,3 +10,6 @@ codesys/*.opt
 codesys/*.~u
 codesys/*_project.precompilecache
 codesys/*.zip
+codesys/*.bootinfo
+codesys/*.bootinfo_guids
+codesys/*.compileinfo

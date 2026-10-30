@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-30T15:21:36.973Z",
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "securityMode": "SignAndEncrypt",
+  "securityPolicy": "Basic256Sha256",
+  "publishedNodeCount": 86,
+  "result": {
+    "pass": true,
+    "epoch": "117530538522542732",
+    "finalAppliedSequence": "25",
+    "signalCounts": {
+      "bool": 15,
+      "real": 4,
+      "udint": 1,
+      "outputs": 5
+    },
+    "cases": [
+      {
+        "name": "all-zero",
+        "accepted": true,
+        "slot": 0,
+        "sequence": "1"
+      },
+      {
+        "name": "all-one",
+        "accepted": true,
+        "slot": 1,
+        "sequence": "2"
+      },
+      {
+        "name": "upper-bounds",
+        "accepted": true,
+        "slot": 0,
+        "sequence": "3"
+      },
+      {
+        "name": "udint-max",
+        "accepted": true,
+        "slot": 1,
+        "sequence": "4"
+      },
+      {
+        "name": "declared-rollover",
+        "accepted": true,
+        "slot": 0,
+        "sequence": "5"
+      },
+      {
+        "name": "rapid-alternation-20",
+        "accepted": true,
+        "commits": 20
+      },
+      {
+        "name": "negative-speed-rejected",
+        "accepted": false,
+        "attributed": true
+      },
+      {
+        "name": "non-finite-current-rejected",
+        "accepted": false,
+        "attributed": true
+      },
+      {
+        "name": "position-out-of-range-rejected",
+        "accepted": false,
+        "attributed": true
+      }
+    ],
+    "bootIdentity": "1414124232182",
+    "plcTimeAdvanced": true,
+    "outputTypes": {
+      "Motor_RunCmd": "boolean",
+      "D1_ExtendCmd": "boolean",
+      "D2_ExtendCmd": "boolean",
+      "StackLight_Red": "boolean",
+      "StackLight_Green": "boolean"
+    }
+  }
+}

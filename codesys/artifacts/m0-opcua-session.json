@@ -1,0 +1,266 @@
+{
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "endpoints": [
+    {
+      "endpointUrl": "opc.tcp://LAPTOP-F6AGVV7O:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes128_Sha256_RsaOaep",
+      "securityLevel": 2,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://LAPTOP-F6AGVV7O:4840",
+      "securityMode": "Sign",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes128_Sha256_RsaOaep",
+      "securityLevel": 1,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://LAPTOP-F6AGVV7O:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256",
+      "securityLevel": 32,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://LAPTOP-F6AGVV7O:4840",
+      "securityMode": "Sign",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256",
+      "securityLevel": 31,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://LAPTOP-F6AGVV7O:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes256_Sha256_RsaPss",
+      "securityLevel": 2,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://LAPTOP-F6AGVV7O:4840",
+      "securityMode": "Sign",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes256_Sha256_RsaPss",
+      "securityLevel": 1,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes128_Sha256_RsaOaep",
+      "securityLevel": 2,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "Sign",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes128_Sha256_RsaOaep",
+      "securityLevel": 1,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256",
+      "securityLevel": 32,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "Sign",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256",
+      "securityLevel": 31,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes256_Sha256_RsaPss",
+      "securityLevel": 2,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    },
+    {
+      "endpointUrl": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "Sign",
+      "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Aes256_Sha256_RsaPss",
+      "securityLevel": 1,
+      "serverApplicationUri": "urn:LAPTOP-F6AGVV7O:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "serverProductUri": "urn:CODESYS:CODESYS%20Control%20Win%20V3%20x64:OPCUA:Server",
+      "userIdentityTokens": [
+        {
+          "policyId": "UserPassword_Encrypted",
+          "tokenType": "UserName",
+          "securityPolicyUri": "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256"
+        }
+      ]
+    }
+  ],
+  "secureConnect": {
+    "securityMode": "SignAndEncrypt",
+    "securityPolicy": "Basic256Sha256",
+    "connected": true
+  },
+  "sessionProbe": {
+    "identity": "username",
+    "before": [
+      {
+        "name": "EchoProbe",
+        "browsePath": "Objects.6:IEC Symbol Publishing.6:EchoProbe",
+        "nodeId": "ns=6;b=AQAAAKbhKnGK9zM6oMYDNLr6LXaG72BEnOEsfZrrKXqOrQV3gewQZobhJRQ=",
+        "value": 23130,
+        "valueStatus": "Good (0x00000000)",
+        "accessLevel": 1,
+        "userAccessLevel": 1
+      },
+      {
+        "name": "PlcCycle",
+        "browsePath": "Objects.6:IEC Symbol Publishing.6:PlcCycle",
+        "nodeId": "ns=6;b=AQAAAKbhKnGK9zM6oMYDNLr6LXaG72BEnOEsfZrrKXqOrRB4isA5d4XmQA==",
+        "value": 13446,
+        "valueStatus": "Good (0x00000000)",
+        "accessLevel": 1,
+        "userAccessLevel": 1
+      },
+      {
+        "name": "WriteProbe",
+        "browsePath": "Objects.6:IEC Symbol Publishing.6:WriteProbe",
+        "nodeId": "ns=6;b=AQAAAKbhKnGK9zM6oMYDNLr6LXaG72BEnOEsfZrrKXqOrRdmgPclRJvsInHp",
+        "value": 23130,
+        "valueStatus": "Good (0x00000000)",
+        "accessLevel": 3,
+        "userAccessLevel": 3
+      }
+    ],
+    "writeResults": {
+      "WriteProbe": "Good (0x00000000)",
+      "EchoProbe": "BadNotWritable (0x803b0000)",
+      "PlcCycle": "BadNotWritable (0x803b0000)"
+    },
+    "after": [
+      {
+        "name": "EchoProbe",
+        "browsePath": "Objects.6:IEC Symbol Publishing.6:EchoProbe",
+        "nodeId": "ns=6;b=AQAAAKbhKnGK9zM6oMYDNLr6LXaG72BEnOEsfZrrKXqOrQV3gewQZobhJRQ=",
+        "value": 23130,
+        "valueStatus": "Good (0x00000000)",
+        "accessLevel": 1,
+        "userAccessLevel": 1
+      },
+      {
+        "name": "PlcCycle",
+        "browsePath": "Objects.6:IEC Symbol Publishing.6:PlcCycle",
+        "nodeId": "ns=6;b=AQAAAKbhKnGK9zM6oMYDNLr6LXaG72BEnOEsfZrrKXqOrRB4isA5d4XmQA==",
+        "value": 13455,
+        "valueStatus": "Good (0x00000000)",
+        "accessLevel": 1,
+        "userAccessLevel": 1
+      },
+      {
+        "name": "WriteProbe",
+        "browsePath": "Objects.6:IEC Symbol Publishing.6:WriteProbe",
+        "nodeId": "ns=6;b=AQAAAKbhKnGK9zM6oMYDNLr6LXaG72BEnOEsfZrrKXqOrRdmgPclRJvsInHp",
+        "value": 23130,
+        "valueStatus": "Good (0x00000000)",
+        "accessLevel": 3,
+        "userAccessLevel": 3
+      }
+    ],
+    "echoMatched": true,
+    "plcCycleAdvanced": true,
+    "negotiatedSubscription": {
+      "requestedPublishingInterval": 20,
+      "revisedPublishingInterval": 20,
+      "requestedSamplingInterval": 20,
+      "revisedSamplingInterval": 20,
+      "revisedLifetimeCount": 100,
+      "revisedMaxKeepAliveCount": 10
+    }
+  }
+}
