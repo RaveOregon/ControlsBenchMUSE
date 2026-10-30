@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "evidenceClass": "live_plc_closed_loop",
+  "startedAt": "2026-10-30T19:00:21.412Z",
+  "completedAt": "2026-10-30T19:00:25.276Z",
+  "durationMs": 3863.549,
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "securityMode": "SignAndEncrypt",
+  "securityPolicy": "Basic256Sha256",
+  "worldVersion": "0.5.0",
+  "worldSha256": "A467A4589850BA19BDB1CAA80D30387B387B8861077013AFB8974933C520B5D6",
+  "plcProjectSha256": "1A13DAEF6048E6B7A2491285D82848CC98DA09090278DA40068ED443D8364D64",
+  "checkpoints": [
+    {
+      "id": "M7-0-initial-image",
+      "status": "pass",
+      "durationMs": 0.441,
+      "evidence": {
+        "bootIdentity": "1426381153829",
+        "epoch": "117531398807045839",
+        "sequence": "1",
+        "plcCycle": "43947",
+        "latencyMs": 13.784
+      }
+    },
+    {
+      "id": "M7-1-plc-start-and-acceleration",
+      "status": "pass",
+      "durationMs": 531.546,
+      "evidence": {
+        "startCommandAtWorldMs": 27.539199999999255,
+        "fullSpeedAtWorldMs": 517.082699999999,
+        "speedMps": 0.5,
+        "encoderCount": 83,
+        "appliedSequence": "18",
+        "plcCycle": "43973"
+      }
+    },
+    {
+      "id": "M7-2-carton-photoeye-and-plc-stop",
+      "status": "pass",
+      "durationMs": 1327.359,
+      "evidence": {
+        "handoffPositionM": 0.5107209500000008,
+        "handoffEncoder": 593,
+        "photoeyeClearedAtWorldMs": 1844.511699999999,
+        "motorCommand": false,
+        "appliedSequence": "62",
+        "plcCycle": "44039"
+      }
+    },
+    {
+      "id": "M7-3-deceleration-and-stationary-hold",
+      "status": "pass",
+      "durationMs": 777.764,
+      "evidence": {
+        "speedAtStopCommand": 0.5,
+        "positionAtStopCommand": 0.6637145000000003,
+        "stoppedPosition": 0.7190727147810203,
+        "coastDistanceM": 0.05535821478101999,
+        "encoderAtStopCommand": 746,
+        "stoppedEncoder": 802,
+        "holdDurationMs": 519.3429000000033,
+        "finalAppliedSequence": "88",
+        "finalPlcCycle": "44077"
+      }
+    }
+  ],
+  "finalSnapshot": {
+    "stateSchemaVersion": "1.0.0",
+    "worldVersion": "0.5.0",
+    "state": {
+      "cartons": [
+        {
+          "id": "carton-1",
+          "itemId": "M7-CARTON-1",
+          "requestedRoute": null,
+          "positionM": 0.7190727147810203,
+          "velocityMps": 0,
+          "lengthM": 0.3,
+          "path": "main",
+          "passedD1": false,
+          "passedD2": false,
+          "jammed": false
+        }
+      ],
+      "completed": [],
+      "counter": 1,
+      "beltTravelM": 0.8023487552973598,
+      "divert1Pos": 0,
+      "divert2Pos": 0
+    }
+  },
+  "finalInputImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 802
+  },
+  "finalOutputFrame": {
+    "sequence": 88,
+    "observedAtMs": 2623.2423000000017,
+    "values": {
+      "Motor_RunCmd": false,
+      "D1_ExtendCmd": false,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": false,
+      "StackLight_Green": true
+    }
+  },
+  "coordinatorEventCount": 181,
+  "worldEventCount": 282,
+  "traceFile": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m7\\m7-live-trace.json",
+  "error": null
+}

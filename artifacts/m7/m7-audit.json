@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "auditedAt": "2026-10-30T19:02:54.249Z",
+  "status": "pass",
+  "evidenceClass": "deterministic_live_trace_audit",
+  "checks": [
+    {
+      "id": "result-verdict",
+      "status": "pass",
+      "evidence": {
+        "durationMs": 3863.549,
+        "completedAt": "2026-10-30T19:00:25.276Z"
+      }
+    },
+    {
+      "id": "checkpoint-completeness",
+      "status": "pass",
+      "evidence": {
+        "checkpoints": 4
+      }
+    },
+    {
+      "id": "artifact-identity",
+      "status": "pass",
+      "evidence": {
+        "resultSha256": "612621AE455D7489960A7D3804E9E47F7D8814DC954CCC08AAB2546A24B6B1BE",
+        "traceSha256": "9396F93974701581A7332081F7E231C67E57D3A74A86EFD638C40FA2BCCCEF77",
+        "plcProjectSha256": "1A13DAEF6048E6B7A2491285D82848CC98DA09090278DA40068ED443D8364D64",
+        "frozenM2ProjectSha256": "1A13DAEF6048E6B7A2491285D82848CC98DA09090278DA40068ED443D8364D64",
+        "currentProjectSha256": "C39EBA6E17D8CFE0A34589C42845669885DEE929CFDD5AF0AC9F36598B010E9A",
+        "currentProjectDiffersAfterRun": true,
+        "currentProjectDifferenceDisposition": "disclosed post-run working-tree change owned by the M3-M6 lane; live run matched the frozen M2 hash",
+        "worldSha256": "A467A4589850BA19BDB1CAA80D30387B387B8861077013AFB8974933C520B5D6"
+      }
+    },
+    {
+      "id": "event-counts-and-ordering",
+      "status": "pass",
+      "evidence": {
+        "coordinatorEvents": 181,
+        "worldEvents": 282
+      }
+    },
+    {
+      "id": "commit-sequence",
+      "status": "pass",
+      "evidence": {
+        "first": "1",
+        "last": "88"
+      }
+    },
+    {
+      "id": "epoch-and-boot-continuity",
+      "status": "pass",
+      "evidence": {
+        "epoch": "117531398807045839",
+        "bootIdentity": "1426381153829"
+      }
+    },
+    {
+      "id": "plc-output-capture-correlation",
+      "status": "pass",
+      "evidence": {
+        "correlatedCommits": 88
+      }
+    },
+    {
+      "id": "commit-latency",
+      "status": "pass",
+      "evidence": {
+        "minMs": 13.683,
+        "p50Ms": 16.431,
+        "p95Ms": 32.497,
+        "p99Ms": 34.031,
+        "maxMs": 34.031
+      }
+    },
+    {
+      "id": "plc-output-decision",
+      "status": "pass",
+      "evidence": {
+        "motorOnSequence": "2",
+        "motorOffSequence": "62"
+      }
+    },
+    {
+      "id": "photoeye-causality",
+      "status": "pass",
+      "evidence": {
+        "effects": [
+          {
+            "sequence": 1,
+            "atMs": 0,
+            "value": false,
+            "cause": "initialize: no carton geometrically blocks PE_Entry"
+          },
+          {
+            "sequence": 26,
+            "atMs": 0,
+            "value": true,
+            "cause": "injected stuck fault holds PE_Entry"
+          },
+          {
+            "sequence": 208,
+            "atMs": 1844.511699999999,
+            "value": false,
+            "cause": "no carton geometrically blocks PE_Entry"
+          }
+        ]
+      }
+    },
+    {
+      "id": "physical-acceleration-and-encoder",
+      "status": "pass",
+      "evidence": {
+        "speedMps": 0.5,
+        "firstMotionEncoder": 83,
+        "finalEncoder": 802
+      }
+    },
+    {
+      "id": "deceleration-coast-and-hold",
+      "status": "pass",
+      "evidence": {
+        "speedAtStopCommand": 0.5,
+        "coastDistanceM": 0.05535821478101999,
+        "encoderCoastCounts": 56,
+        "holdDurationMs": 519.3429000000033
+      }
+    }
+  ],
+  "failureCount": 0
+}
