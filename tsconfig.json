@@ -10,5 +10,5 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["src/proof/**/*.ts", "test/**/*.ts"]
+  "include": ["src/proof/**/*.ts", "src/live/**/*.ts", "test/**/*.ts"]
 }
