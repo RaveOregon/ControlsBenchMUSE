@@ -1,0 +1,86 @@
+[
+  {
+    "name": "byDigInByte",
+    "displayName": "byDigInByte",
+    "browseName": "4:byDigInByte",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:PLC_PRG.4:byDigInByte",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.PLC_PRG.byDigInByte"
+  },
+  {
+    "name": "byDigOutByte",
+    "displayName": "byDigOutByte",
+    "browseName": "4:byDigOutByte",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:PLC_PRG.4:byDigOutByte",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.PLC_PRG.byDigOutByte"
+  },
+  {
+    "name": "rAnaInReal",
+    "displayName": "rAnaInReal",
+    "browseName": "4:rAnaInReal",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:PLC_PRG.4:rAnaInReal",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.PLC_PRG.rAnaInReal"
+  },
+  {
+    "name": "rAnaOutReal",
+    "displayName": "rAnaOutReal",
+    "browseName": "4:rAnaOutReal",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:PLC_PRG.4:rAnaOutReal",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.PLC_PRG.rAnaOutReal"
+  },
+  {
+    "name": "xDigInBool",
+    "displayName": "xDigInBool",
+    "browseName": "4:xDigInBool",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:PLC_PRG.4:xDigInBool",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.PLC_PRG.xDigInBool"
+  },
+  {
+    "name": "xDigOutBool",
+    "displayName": "xDigOutBool",
+    "browseName": "4:xDigOutBool",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:PLC_PRG.4:xDigOutBool",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.PLC_PRG.xDigOutBool"
+  },
+  {
+    "name": "_cycleArmed",
+    "displayName": "_cycleArmed",
+    "browseName": "4:_cycleArmed",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:StopLight.4:_cycleArmed",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.StopLight._cycleArmed"
+  },
+  {
+    "name": "qGreen",
+    "displayName": "qGreen",
+    "browseName": "4:qGreen",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:StopLight.4:qGreen",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.StopLight.qGreen"
+  },
+  {
+    "name": "qRed",
+    "displayName": "qRed",
+    "browseName": "4:qRed",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:StopLight.4:qRed",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.StopLight.qRed"
+  },
+  {
+    "name": "qState",
+    "displayName": "qState",
+    "browseName": "4:qState",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:StopLight.4:qState",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.StopLight.qState"
+  },
+  {
+    "name": "qYellow",
+    "displayName": "qYellow",
+    "browseName": "4:qYellow",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:StopLight.4:qYellow",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.StopLight.qYellow"
+  },
+  {
+    "name": "xSwitch",
+    "displayName": "xSwitch",
+    "browseName": "4:xSwitch",
+    "path": "Objects.2:DeviceSet.4:CODESYS Control Win V3 x64.3:Resources.4:Application.3:Programs.4:StopLight.4:xSwitch",
+    "nodeId": "ns=4;s=|var|CODESYS Control Win V3 x64.Application.StopLight.xSwitch"
+  }
+]

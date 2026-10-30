@@ -1,0 +1,15 @@
+{
+  "name": "stoplight-opcua-relay",
+  "version": "0.1.0",
+  "description": "Tiny relay: CODESYS OPC UA server -> WebSocket for browsers.",
+  "private": true,
+  "type": "commonjs",
+  "main": "relay.js",
+  "scripts": {
+    "start": "node relay.js"
+  },
+  "dependencies": {
+    "node-opcua": "^2.140.0",
+    "ws": "^8.18.0"
+  }
+}

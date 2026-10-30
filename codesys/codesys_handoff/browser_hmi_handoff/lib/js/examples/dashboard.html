@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BrowserHmi — Multi-widget Dashboard</title>
+<link rel="stylesheet" href="../browser-hmi.css">
+<style>
+  body {
+    background: radial-gradient(circle at 20% 0%, #131b2e, #0b1220);
+    color: #e6edf3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0; padding: 32px;
+    min-height: 100vh;
+  }
+  h1 { margin: 0 0 8px 0; font-size: 1.5rem; letter-spacing: 0.04em; }
+  .sub { color: #8b95a8; margin-bottom: 32px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    max-width: 1200px;
+  }
+  .card {
+    background: linear-gradient(160deg, #1c2541, #131b2e);
+    border: 1px solid #283762;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  }
+  .card h2 {
+    margin: 0 0 12px 0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8b95a8;
+    font-weight: 600;
+  }
+  .card .body { display: flex; flex-direction: column; gap: 12px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .row .k { color: #8b95a8; min-width: 90px; font-size: 0.85rem; }
+  .row .v { font-weight: 600; }
+
+  .lamps { display: flex; gap: 14px; flex-wrap: wrap; }
+  .lampcell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .lampcell .name { color: #8b95a8; font-size: 0.7rem; }
+
+  /* Override the lib's default lamp size for the dashboard. */
+  .lamps .hmi-lamp { width: 48px; height: 48px; }
+
+  .footer { color: #8b95a8; font-size: 0.8rem; margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<h1>Plant overview</h1>
+<div class="sub">Live from CODESYS via MQTT — built with browser-hmi.js</div>
+
+<div class="grid">
+
+  <!-- Stoplight -->
+  <div class="card">
+    <h2>Stoplight</h2>
+    <div class="body">
+      <div class="lamps">
+        <div class="lampcell"><div id="dl-red"    class="hmi-lamp hmi-red"></div>   <span class="name">RED</span></div>
+        <div class="lampcell"><div id="dl-yellow" class="hmi-lamp hmi-yellow"></div><span class="name">YEL</span></div>
+        <div class="lampcell"><div id="dl-green"  class="hmi-lamp hmi-green"></div> <span class="name">GRN</span></div>
+      </div>
+      <div class="row">
+        <span class="k">State</span>
+        <span class="v" id="d-state">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Switch + control -->
+  <div class="card">
+    <h2>Control</h2>
+    <div class="body">
+      <div class="row">
+        <span class="k">Switch</span>
+        <span class="v"><span id="d-armed" class="hmi-pill-off">OFF</span></span>
+      </div>
+      <button class="hmi-button" id="d-toggle">Toggle Switch</button>
+    </div>
+  </div>
+
+  <!-- Connection status -->
+  <div class="card">
+    <h2>Connection</h2>
+    <div class="body">
+      <div class="row">
+        <span class="k">MQTT</span>
+        <span class="v"><span id="d-conn" class="hmi-pill-off">disconnected</span></span>
+      </div>
+      <div class="row">
+        <span class="k">Topic</span>
+        <span class="v" style="font-family:ui-monospace,monospace; font-size:0.8rem; color:#8b95a8;">plc/stoplight/#</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Add more cards by copying the pattern: a <code>.card</code> div + the
+  matching <code>hmi.lamp(...)</code> / <code>hmi.numeric(...)</code> /
+  <code>hmi.button(...)</code> calls below.
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+<script src="../browser-hmi.js"></script>
+<script>
+  const hmi = new BrowserHmi({
+    transport: 'mqtt',
+    host: 'localhost',
+    port: 9001,
+    topicPrefix: 'plc/stoplight',
+  });
+
+  hmi.lamp('red',    '#dl-red',    { color: 'red' });
+  hmi.lamp('yellow', '#dl-yellow', { color: 'yellow' });
+  hmi.lamp('green',  '#dl-green',  { color: 'green' });
+
+  hmi.text('state', '#d-state', {
+    map: { '0': 'Red', '1': 'RedYellow', '2': 'Green', '3': 'Yellow' },
+  });
+
+  hmi.indicator('armed', '#d-armed', { onText: 'ON', offText: 'OFF' });
+
+  hmi.button('switch/set', '#d-toggle', { value: '1' });
+
+  hmi.onStatus((ok, msg) => {
+    const pill = document.getElementById('d-conn');
+    pill.textContent = ok ? 'connected' : 'disconnected';
+    pill.classList.toggle('hmi-pill-on', ok);
+    pill.classList.toggle('hmi-pill-off', !ok);
+  });
+
+  hmi.connect();
+</script>
+
+</body>
+</html>

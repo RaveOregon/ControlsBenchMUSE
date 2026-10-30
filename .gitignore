@@ -4,3 +4,9 @@ coverage/
 *.log
 .DS_Store
 Thumbs.db
+
+# CODESYS per-user/editor caches; keep the portable .project fixture.
+codesys/*.opt
+codesys/*.~u
+codesys/*_project.precompilecache
+codesys/*.zip

@@ -1,6 +1,6 @@
 # CODESYS Environment Inventory
 
-Status: **pre-spike read-only inventory**. Captured 2026-10-29. This proves installed files, not that the runtime, Gateway, OPC UA endpoint, license, or a ControlsBench project is operational.
+Status: **MCP/project established; runtime spike pending**. Initial inventory captured 2026-10-29 and updated 2026-10-30. This proves the IDE-side MCP integration and a minimal project, not that the Control Win runtime, Gateway, or OPC UA endpoint is operational.
 
 ## Detected installation
 
@@ -31,14 +31,25 @@ On 2026-10-29 the exact installed IDE executable reached the **Ready** start pag
 
 This is a real M0 breakpoint, not a connector failure: the development environment is installed, but a stable IDE session and live Control Win instance still need to be established before measuring OPC UA behavior.
 
+## 2026-10-30 MCP and project checkpoint
+
+- The CODESYS Professional Developer Edition license and official **CODESYS Development System MCP Server 1.1.0.0** are installed.
+- `codesys/gngnf.project` opens as a standard project targeting **CODESYS Control Win V3 x64**, with `Device.Plc Logic.Application`, `PLC_PRG`, and `MainTask` present.
+- The IDE MCP backend is enabled and its 20 project tools are allowed.
+- The exact MCP Bridge is registered globally in Codex as `codesys-ide`.
+- An unsandboxed read-only handshake discovered all 20 tools, connected to the running IDE on the first attempt in 20 ms, and returned the active application `Device.Plc Logic.Application`.
+- A shell-sandboxed Bridge process sees the two static resources but no dynamic IDE tools because its local application-data path is redirected. This is a diagnostic property of the command sandbox, not a CODESYS failure. Native MCP availability must be verified from a new Codex task because an existing task does not hot-load servers added after it began.
+
+The imported prior-learning bundle is under `codesys/codesys_handoff/`. Its central constraints are accepted for this spike: MCP browse paths include `Plc Logic`, runtime variable addresses do not; Symbol Configuration, device changes, visualization editing, and Test Manager execution remain manual/UI operations; probe paths before authoring full tests.
+
 ## Not yet established
 
-- Control Win runtime started and licensed;
+- Control Win runtime started and licensed for execution (the MCP/PDE license is established);
 - Gateway service started and reachable;
 - OPC UA server enabled, configured, secured, and listening;
 - actual `ItemMinSamplingRate` or other server overrides;
 - device user and OPC UA certificate state;
-- a CODESYS project containing the demo PLC and ControlsBench interceptor;
+- a CODESYS project containing the ControlsBench interceptor (the minimal `gngnf` project now exists);
 - task interval, task jitter baseline, symbol map, endpoint, or live node IDs;
 - any M0-M7 measurement from `docs/codesys-opcua-measurement-plan.md`.
 

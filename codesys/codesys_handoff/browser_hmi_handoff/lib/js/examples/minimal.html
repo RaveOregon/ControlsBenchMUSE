@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BrowserHmi — Minimal Example</title>
+<link rel="stylesheet" href="../browser-hmi.css">
+<style>
+  body {
+    background: #0b1220;
+    color: #e6edf3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  h1 { margin: 0; font-size: 1.4rem; }
+  .row { display: flex; gap: 16px; align-items: center; }
+  .label { color: #8b95a8; min-width: 140px; }
+  #conn { color: #8b95a8; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>BrowserHmi minimal example</h1>
+<div id="conn">connecting…</div>
+
+<div class="row">
+  <span class="label">qRed</span>
+  <div class="hmi-lamp hmi-red" id="lamp-red"></div>
+</div>
+
+<div class="row">
+  <span class="label">cmd/start</span>
+  <button class="hmi-button" id="btn-start">Send Start</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+<script src="../browser-hmi.js"></script>
+<script>
+  // Connects to Mosquitto's WebSocket listener on port 9001 and uses
+  // the same topic prefix the demo's PLC publishes to.
+  const hmi = new BrowserHmi({
+    transport: 'mqtt',
+    host: 'localhost',
+    port: 9001,
+    topicPrefix: 'plc/stoplight',
+  });
+
+  hmi.lamp('red', '#lamp-red', { color: 'red' });
+  hmi.button('switch/set', '#btn-start', { value: '1' });
+
+  hmi.onStatus((ok, msg) => {
+    document.getElementById('conn').textContent = ok ? 'connected' : msg;
+  });
+
+  hmi.connect();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "_comment": "Working CODESYS MCP bridge config from the source machine. The 'command' path is machine-specific - point it at wherever your CODESYS MCP Server is installed. Drop this at .kiro/settings/mcp.json (or your host agent's equivalent).",
+  "mcpServers": {
+    "codesys-ide": {
+      "command": "C:\\Program Files\\CODESYS 3.5.22.20\\CODESYS\\CODESYS MCP Server\\1.1.0.0\\CodesysMCPBridge\\CodesysMCPBridge.exe",
+      "args": [],
+      "disabled": false,
+      "autoApprove": [
+        "get_active_app_as_path",
+        "browse_project_tree",
+        "check_for_errors",
+        "create_or_replace_structured_text_object",
+        "remove_object",
+        "replace_text_in_structured_text",
+        "get_structured_text_content",
+        "get_libraries_referenced_in_application",
+        "search_path_by_glob",
+        "search_in_files_by_regex",
+        "get_device_and_io_configuration",
+        "get_library_documentation",
+        "get_detailed_library_documentation",
+        "search_libraries_for_type",
+        "get_available_libraries_list",
+        "add_or_remove_library",
+        "add_or_remove_program_call_in_task",
+        "create_folder",
+        "rename_object"
+      ]
+    }
+  }
+}

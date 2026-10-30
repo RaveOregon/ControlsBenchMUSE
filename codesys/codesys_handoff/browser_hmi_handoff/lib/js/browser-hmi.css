@@ -1,0 +1,98 @@
+/* AmznBrowserHmi default styling — optional.
+ *
+ * Provides reasonable defaults for the widget classes the JS lib applies.
+ * Override or replace freely; nothing here is required for the lib to work.
+ */
+
+:root {
+  --hmi-bg: #0b1220;
+  --hmi-bg-2: #131b2e;
+  --hmi-panel: #1c2541;
+  --hmi-panel-edge: #283762;
+  --hmi-text: #e6edf3;
+  --hmi-muted: #8b95a8;
+  --hmi-accent: #4cc9f0;
+  --hmi-ok: #38b000;
+  --hmi-bad: #ef233c;
+  --hmi-red: #ff2d2d;
+  --hmi-yel: #ffd60a;
+  --hmi-grn: #38f73c;
+}
+
+/* Lamp widget — circular, glow on. */
+.hmi-lamp {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.06) 25%,
+    #444 60%,
+    rgba(0,0,0,0.6) 100%);
+  border: 2px solid rgba(0,0,0,0.6);
+  box-shadow:
+    inset 0 4px 10px rgba(255,255,255,0.05),
+    inset 0 -8px 16px rgba(0,0,0,0.6);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.hmi-lamp.hmi-on {
+  background: radial-gradient(circle at 30% 30%,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.10) 25%,
+    var(--hmi-on-color, var(--hmi-ok)) 60%,
+    rgba(0,0,0,0.6) 100%);
+  box-shadow:
+    0 0 32px 4px var(--hmi-on-color, var(--hmi-ok)),
+    inset 0 4px 10px rgba(255,255,255,0.10),
+    inset 0 -8px 16px rgba(0,0,0,0.4);
+}
+
+.hmi-lamp.hmi-red.hmi-on    { --hmi-on-color: var(--hmi-red); }
+.hmi-lamp.hmi-yellow.hmi-on { --hmi-on-color: var(--hmi-yel); }
+.hmi-lamp.hmi-green.hmi-on  { --hmi-on-color: var(--hmi-grn); }
+
+/* Numeric / text widgets — minimal default. */
+.hmi-numeric, .hmi-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: var(--hmi-panel);
+  border: 1px solid var(--hmi-panel-edge);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--hmi-text);
+  display: inline-block;
+  min-width: 4em;
+  text-align: right;
+}
+
+/* Pill indicator. */
+.hmi-pill-on, .hmi-pill-off {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.hmi-pill-on  { background: rgba(56, 176, 0, 0.18); color: #7fdd5a; border: 1px solid rgba(56, 176, 0, 0.4); }
+.hmi-pill-off { background: rgba(239, 35, 60, 0.18); color: #ff8a8a; border: 1px solid rgba(239, 35, 60, 0.4); }
+
+/* Button — reasonable default; override away. */
+.hmi-button, button.hmi-action {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: linear-gradient(180deg, var(--hmi-accent), #2a9bcc);
+  color: #061a26;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 8px 20px rgba(76, 201, 240, 0.30);
+}
+.hmi-button:hover, button.hmi-action:hover { filter: brightness(1.08); }
+.hmi-pressed, button.hmi-action.hmi-pressed { transform: translateY(2px); box-shadow: 0 4px 10px rgba(76, 201, 240, 0.30); }

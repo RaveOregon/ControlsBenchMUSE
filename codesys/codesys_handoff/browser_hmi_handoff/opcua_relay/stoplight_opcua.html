@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stoplight — Live from PLC (via OPC UA)</title>
+<style>
+  :root {
+    --bg-1: #0b1220;
+    --bg-2: #131b2e;
+    --panel: #1c2541;
+    --panel-edge: #283762;
+    --text: #e6edf3;
+    --muted: #8b95a8;
+    --accent: #4cc9f0;
+    --ok: #38b000;
+    --bad: #ef233c;
+    --housing: #0a0a0a;
+    --housing-edge: #2a2a2a;
+    --pole: #3a3a3a;
+    --red-on: #ff2d2d;
+    --red-off: #3a0808;
+    --yel-on: #ffd60a;
+    --yel-off: #3d2c00;
+    --grn-on: #38f73c;
+    --grn-off: #093d0a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+
+  body {
+    background: radial-gradient(circle at 30% 20%, var(--bg-2), var(--bg-1));
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .scene {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 60px;
+    align-items: center;
+    padding: 40px;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .stoplight {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .housing {
+    background: linear-gradient(145deg, #1a1a1a, #050505);
+    border: 4px solid var(--housing-edge);
+    border-radius: 32px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    box-shadow:
+      0 30px 60px rgba(0,0,0,0.5),
+      inset 0 2px 4px rgba(255,255,255,0.05),
+      inset 0 -3px 8px rgba(0,0,0,0.4);
+  }
+
+  .lamp {
+    --lamp-color: #444;
+    --glow: 0 0 0 rgba(0,0,0,0);
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%,
+        rgba(255,255,255,0.18) 0%,
+        rgba(255,255,255,0.06) 25%,
+        var(--lamp-color) 60%,
+        rgba(0,0,0,0.6) 100%);
+    border: 3px solid rgba(0,0,0,0.6);
+    box-shadow:
+      var(--glow),
+      inset 0 4px 10px rgba(255,255,255,0.05),
+      inset 0 -8px 16px rgba(0,0,0,0.6);
+    transition:
+      background 0.35s ease,
+      box-shadow 0.35s ease,
+      transform 0.2s ease;
+  }
+
+  .lamp.on.red    { --lamp-color: var(--red-on);
+                    --glow: 0 0 60px 8px rgba(255,45,45,0.7),
+                            0 0 120px 12px rgba(255,45,45,0.35); }
+  .lamp.on.yellow { --lamp-color: var(--yel-on);
+                    --glow: 0 0 60px 8px rgba(255,214,10,0.75),
+                            0 0 120px 12px rgba(255,214,10,0.35); }
+  .lamp.on.green  { --lamp-color: var(--grn-on);
+                    --glow: 0 0 60px 8px rgba(56,247,60,0.7),
+                            0 0 120px 12px rgba(56,247,60,0.35); }
+
+  .lamp.off.red    { --lamp-color: var(--red-off); }
+  .lamp.off.yellow { --lamp-color: var(--yel-off); }
+  .lamp.off.green  { --lamp-color: var(--grn-off); }
+
+  .pole {
+    width: 32px;
+    height: 160px;
+    background: linear-gradient(to right, #1a1a1a, var(--pole), #1a1a1a);
+    border-radius: 0 0 4px 4px;
+    margin-top: -2px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+  }
+  .base {
+    width: 200px;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--pole), #1a1a1a);
+    border-radius: 50%;
+    margin-top: -2px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  }
+
+  .panel {
+    background: linear-gradient(160deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--panel-edge);
+    border-radius: 18px;
+    padding: 32px 36px;
+    min-width: 380px;
+    max-width: 500px;
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .panel h1 { margin: 0 0 6px 0; font-size: 1.6rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .panel .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .row:last-child { border-bottom: none; }
+  .row .k { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .row .v { font-weight: 600; font-size: 1.05rem; }
+
+  .pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .pill.ok  { background: rgba(56, 176, 0, 0.18); color: #7fdd5a; border: 1px solid rgba(56, 176, 0, 0.4); }
+  .pill.bad { background: rgba(239, 35, 60, 0.18); color: #ff8a8a; border: 1px solid rgba(239, 35, 60, 0.4); }
+
+  .start-btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: linear-gradient(180deg, #4cc9f0, #2a9bcc);
+    color: #061a26;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    box-shadow: 0 12px 28px rgba(76, 201, 240, 0.35);
+  }
+  .start-btn:hover { filter: brightness(1.08); }
+  .start-btn:active { transform: translateY(2px); box-shadow: 0 6px 14px rgba(76, 201, 240, 0.35); }
+  .start-btn:disabled { background: #2a3552; color: #6b7796; cursor: not-allowed; box-shadow: none; }
+
+  .badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    background: rgba(76, 201, 240, 0.18);
+    color: var(--accent);
+    border: 1px solid rgba(76, 201, 240, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <div class="stoplight">
+    <div class="housing">
+      <div class="lamp off red"    id="lamp-red"></div>
+      <div class="lamp off yellow" id="lamp-yel"></div>
+      <div class="lamp off green"  id="lamp-grn"></div>
+    </div>
+    <div class="pole"></div>
+    <div class="base"></div>
+  </div>
+
+  <div class="panel">
+    <h1>Stoplight <span class="badge">OPC UA</span></h1>
+    <div class="sub">Live from CODESYS via WebSocket relay</div>
+
+    <div class="row">
+      <div class="k">Connection</div>
+      <div class="v">
+        <span class="pill bad" id="conn-pill">disconnected</span>
+        <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;" id="conn-detail">connecting…</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="k">State</div>
+      <div class="v" id="state-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Red</div>
+      <div class="v" id="red-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Yellow</div>
+      <div class="v" id="yel-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Green</div>
+      <div class="v" id="grn-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Switch</div>
+      <div class="v" id="sw-v">—</div>
+    </div>
+
+    <button class="start-btn" id="startbtn" disabled>Press Start</button>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  // ---- Config ----
+  const RELAY_URL = 'ws://127.0.0.1:9876';
+
+  // Variables we want to track.
+  // The `id` here is just a friendly handle the relay echoes back.
+  // The `nodeId` strings come from the dump_nodeids.js output.
+  const NODE_BASE = 'ns=4;s=|var|CODESYS Control Win V3 x64.Application';
+  const VARS = {
+    qRed:    { id: 'qRed',    nodeId: NODE_BASE + '.StopLight.qRed' },
+    qYellow: { id: 'qYellow', nodeId: NODE_BASE + '.StopLight.qYellow' },
+    qGreen:  { id: 'qGreen',  nodeId: NODE_BASE + '.StopLight.qGreen' },
+    qState:  { id: 'qState',  nodeId: NODE_BASE + '.StopLight.qState' },
+    switch:  { id: 'switch',  nodeId: NODE_BASE + '.PLC_PRG.byDigInByte', dataType: 'Byte' },
+  };
+
+  const STATES = ['Red', 'RedYellow', 'Green', 'Yellow'];
+
+  // ---- DOM refs ----
+  const el = (id) => document.getElementById(id);
+  const lampRed  = el('lamp-red');
+  const lampYel  = el('lamp-yel');
+  const lampGrn  = el('lamp-grn');
+  const stateV   = el('state-v');
+  const redV     = el('red-v');
+  const yelV     = el('yel-v');
+  const grnV     = el('grn-v');
+  const swV      = el('sw-v');
+  const connPill = el('conn-pill');
+  const connDet  = el('conn-detail');
+  const startBtn = el('startbtn');
+
+  let ws = null;
+  let lastSwitch = 0;
+
+  function setConn(ok, msg) {
+    if (ok) {
+      connPill.textContent = 'connected';
+      connPill.classList.remove('bad'); connPill.classList.add('ok');
+      startBtn.disabled = false;
+    } else {
+      connPill.textContent = 'disconnected';
+      connPill.classList.remove('ok'); connPill.classList.add('bad');
+      startBtn.disabled = true;
+    }
+    if (msg) connDet.textContent = msg;
+  }
+
+  function setLamp(elem, on) {
+    elem.classList.toggle('on', on);
+    elem.classList.toggle('off', !on);
+  }
+
+  function handle(msg) {
+    if (msg.type === 'value') {
+      switch (msg.id) {
+        case 'qRed':
+          setLamp(lampRed, !!msg.value);
+          redV.textContent = msg.value ? 'ON' : 'off';
+          break;
+        case 'qYellow':
+          setLamp(lampYel, !!msg.value);
+          yelV.textContent = msg.value ? 'ON' : 'off';
+          break;
+        case 'qGreen':
+          setLamp(lampGrn, !!msg.value);
+          grnV.textContent = msg.value ? 'ON' : 'off';
+          break;
+        case 'qState':
+          // qState is the enum int (0..3)
+          stateV.textContent = STATES[msg.value] || `(${msg.value})`;
+          break;
+        case 'switch':
+          // byDigInByte; bit 0 is the switch
+          lastSwitch = msg.value | 0;
+          const on = (lastSwitch & 1) !== 0;
+          swV.textContent = on ? 'ON (bit 0 set)' : 'off';
+          break;
+      }
+    }
+    else if (msg.type === 'ready') {
+      // Re-subscribe everything.
+      for (const v of Object.values(VARS)) {
+        ws.send(JSON.stringify({ action: 'subscribe', id: v.id, nodeId: v.nodeId }));
+      }
+    }
+    else if (msg.type === 'error') {
+      console.warn('relay error:', msg);
+      connDet.textContent = 'relay error: ' + msg.msg;
+    }
+    else if (msg.type === 'write_ack') {
+      console.log('write_ack', msg);
+    }
+  }
+
+  function connect() {
+    setConn(false, 'connecting to ' + RELAY_URL + ' …');
+    try {
+      ws = new WebSocket(RELAY_URL);
+    } catch (e) {
+      setConn(false, 'cannot create WS: ' + e.message);
+      setTimeout(connect, 2000);
+      return;
+    }
+
+    ws.onopen = () => setConn(true, 'connected');
+    ws.onclose = () => {
+      setConn(false, 'disconnected; reconnecting…');
+      setTimeout(connect, 2000);
+    };
+    ws.onerror = (e) => {
+      console.warn('ws error', e);
+      // onclose follows; let it handle reconnect.
+    };
+    ws.onmessage = (ev) => {
+      try { handle(JSON.parse(ev.data)); }
+      catch (e) { console.error('bad msg', ev.data, e); }
+    };
+  }
+
+  startBtn.addEventListener('click', () => {
+    if (!ws || ws.readyState !== WebSocket.OPEN) return;
+    // Toggle bit 0 of byDigInByte.
+    const v = (lastSwitch ^ 1) & 0xFF;
+    ws.send(JSON.stringify({
+      action: 'write',
+      id: 'switch',
+      nodeId: VARS.switch.nodeId,
+      value: v,
+      dataType: 'Byte',
+    }));
+    startBtn.style.transform = 'translateY(2px)';
+    setTimeout(() => { startBtn.style.transform = ''; }, 120);
+  });
+
+  connect();
+})();
+</script>
+
+</body>
+</html>

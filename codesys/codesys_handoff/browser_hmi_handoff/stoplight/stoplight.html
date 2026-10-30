@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stoplight — Live from PLC</title>
+<style>
+  :root {
+    --bg-1: #0b1220;
+    --bg-2: #131b2e;
+    --panel: #1c2541;
+    --panel-edge: #283762;
+    --text: #e6edf3;
+    --muted: #8b95a8;
+    --accent: #4cc9f0;
+    --ok: #38b000;
+    --bad: #ef233c;
+    --housing: #0a0a0a;
+    --housing-edge: #2a2a2a;
+    --pole: #3a3a3a;
+    --red-on: #ff2d2d;
+    --red-off: #3a0808;
+    --yel-on: #ffd60a;
+    --yel-off: #3d2c00;
+    --grn-on: #38f73c;
+    --grn-off: #093d0a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+
+  body {
+    background: radial-gradient(circle at 30% 20%, var(--bg-2), var(--bg-1));
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .scene {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 60px;
+    align-items: center;
+    padding: 40px;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  /* ---- The stoplight ---- */
+
+  .stoplight {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .housing {
+    background: linear-gradient(145deg, #1a1a1a, #050505);
+    border: 4px solid var(--housing-edge);
+    border-radius: 32px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    box-shadow:
+      0 30px 60px rgba(0,0,0,0.5),
+      inset 0 2px 4px rgba(255,255,255,0.05),
+      inset 0 -3px 8px rgba(0,0,0,0.4);
+  }
+
+  .lamp {
+    --lamp-color: #444;
+    --glow: 0 0 0 rgba(0,0,0,0);
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%,
+        rgba(255,255,255,0.18) 0%,
+        rgba(255,255,255,0.06) 25%,
+        var(--lamp-color) 60%,
+        rgba(0,0,0,0.6) 100%);
+    border: 3px solid rgba(0,0,0,0.6);
+    box-shadow:
+      var(--glow),
+      inset 0 4px 10px rgba(255,255,255,0.05),
+      inset 0 -8px 16px rgba(0,0,0,0.6);
+    transition:
+      background 0.35s ease,
+      box-shadow 0.35s ease,
+      transform 0.2s ease;
+  }
+
+  .lamp.on.red    { --lamp-color: var(--red-on);
+                    --glow: 0 0 60px 8px rgba(255,45,45,0.7),
+                            0 0 120px 12px rgba(255,45,45,0.35); }
+  .lamp.on.yellow { --lamp-color: var(--yel-on);
+                    --glow: 0 0 60px 8px rgba(255,214,10,0.75),
+                            0 0 120px 12px rgba(255,214,10,0.35); }
+  .lamp.on.green  { --lamp-color: var(--grn-on);
+                    --glow: 0 0 60px 8px rgba(56,247,60,0.7),
+                            0 0 120px 12px rgba(56,247,60,0.35); }
+
+  .lamp.off.red    { --lamp-color: var(--red-off); }
+  .lamp.off.yellow { --lamp-color: var(--yel-off); }
+  .lamp.off.green  { --lamp-color: var(--grn-off); }
+
+  /* Pole */
+  .pole {
+    width: 32px;
+    height: 160px;
+    background: linear-gradient(to right, #1a1a1a, var(--pole), #1a1a1a);
+    border-radius: 0 0 4px 4px;
+    margin-top: -2px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+  }
+  .base {
+    width: 200px;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--pole), #1a1a1a);
+    border-radius: 50%;
+    margin-top: -2px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  }
+
+  /* ---- Side panel ---- */
+
+  .panel {
+    background: linear-gradient(160deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--panel-edge);
+    border-radius: 18px;
+    padding: 32px 36px;
+    min-width: 380px;
+    max-width: 500px;
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  .panel h1 {
+    margin: 0 0 6px 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .panel .sub {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .row:last-child { border-bottom: none; }
+  .row .k { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .row .v { font-weight: 600; font-size: 1.05rem; }
+
+  .pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .pill.ok  { background: rgba(56, 176, 0, 0.18); color: #7fdd5a; border: 1px solid rgba(56, 176, 0, 0.4); }
+  .pill.bad { background: rgba(239, 35, 60, 0.18); color: #ff8a8a; border: 1px solid rgba(239, 35, 60, 0.4); }
+
+  /* ---- Big start button ---- */
+
+  .start-btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: linear-gradient(180deg, #4cc9f0, #2a9bcc);
+    color: #061a26;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    box-shadow: 0 12px 28px rgba(76, 201, 240, 0.35);
+  }
+  .start-btn:hover { filter: brightness(1.08); }
+  .start-btn:active { transform: translateY(2px); box-shadow: 0 6px 14px rgba(76, 201, 240, 0.35); }
+  .start-btn:disabled {
+    background: #2a3552;
+    color: #6b7796;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    background: rgba(76, 201, 240, 0.18);
+    color: var(--accent);
+    border: 1px solid rgba(76, 201, 240, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    vertical-align: middle;
+  }
+
+  /* ---- Connection bar ---- */
+  .connbar {
+    display: none;  /* replaced by an inline indicator in the side panel */
+  }
+
+  /* small responsive niceties */
+  @media (max-width: 800px) {
+    .scene { grid-template-columns: 1fr; gap: 30px; }
+    .lamp { width: 130px; height: 130px; }
+    .pole { height: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="connbar" id="connbar">
+  <span class="dot"></span>
+  <span id="connstatus">connecting to <code id="connurl">ws://localhost:9001</code> …</span>
+</div>
+
+<div class="scene">
+
+  <div class="stoplight">
+    <div class="housing">
+      <div class="lamp off red"    id="lamp-red"></div>
+      <div class="lamp off yellow" id="lamp-yel"></div>
+      <div class="lamp off green"  id="lamp-grn"></div>
+    </div>
+    <div class="pole"></div>
+    <div class="base"></div>
+  </div>
+
+  <div class="panel">
+    <h1>Stoplight <span class="badge">MQTT</span></h1>
+    <div class="sub">Live from CODESYS via Mosquitto</div>
+
+    <div class="row">
+      <div class="k">Connection</div>
+      <div class="v">
+        <span class="pill bad" id="conn-pill">disconnected</span>
+        <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;" id="conn-detail">connecting…</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="k">State</div>
+      <div class="v" id="state-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Red</div>
+      <div class="v" id="red-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Yellow</div>
+      <div class="v" id="yel-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Green</div>
+      <div class="v" id="grn-v">—</div>
+    </div>
+    <div class="row">
+      <div class="k">Armed</div>
+      <div class="v"><span class="pill bad" id="armed-pill">OFF</span></div>
+    </div>
+
+    <button class="start-btn" id="startbtn" style="display:none" disabled>Press Start</button>
+  </div>
+
+</div>
+
+<!-- Paho MQTT JavaScript client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+<script>
+(function () {
+  // ---- Config ----
+  const HOST = 'localhost';
+  const PORT = 9001;
+  const PATH = '/';
+  const CLIENT_ID = 'browser-' + Math.random().toString(36).slice(2, 10);
+
+  // ---- DOM refs ----
+  const el = (id) => document.getElementById(id);
+  const lampRed = el('lamp-red');
+  const lampYel = el('lamp-yel');
+  const lampGrn = el('lamp-grn');
+  const stateV = el('state-v');
+  const redV = el('red-v');
+  const yelV = el('yel-v');
+  const grnV = el('grn-v');
+  const armedPill = el('armed-pill');
+  const startBtn = el('startbtn');
+  const connbar = el('connbar');
+  const connstatus = el('connstatus');
+
+  // ---- Setup ----
+  const client = new Paho.MQTT.Client(HOST, Number(PORT), PATH, CLIENT_ID);
+
+  client.onConnectionLost = function (resp) {
+    setConn(false, 'connection lost: ' + (resp.errorMessage || 'unknown'));
+    setTimeout(connect, 2000);
+  };
+
+  client.onMessageArrived = function (msg) {
+    const t = msg.destinationName;
+    const p = msg.payloadString.trim().toLowerCase();
+    handle(t, p);
+  };
+
+  function setConn(ok, msg) {
+    const pill = el('conn-pill');
+    const detail = el('conn-detail');
+    if (ok) {
+      pill.textContent = 'connected';
+      pill.classList.remove('bad');
+      pill.classList.add('ok');
+      startBtn.disabled = false;
+    } else {
+      pill.textContent = 'disconnected';
+      pill.classList.remove('ok');
+      pill.classList.add('bad');
+      startBtn.disabled = true;
+    }
+    if (msg) detail.textContent = msg;
+  }
+
+  function connect() {
+    setConn(false, 'connecting…');
+    try {
+      client.connect({
+        onSuccess: function () {
+          setConn(true, 'connected to ws://' + HOST + ':' + PORT);
+          [
+            'plc/stoplight/red',
+            'plc/stoplight/yellow',
+            'plc/stoplight/green',
+            'plc/stoplight/state',
+            'plc/stoplight/armed',
+          ].forEach((t) => client.subscribe(t));
+        },
+        onFailure: function (e) {
+          setConn(false, 'connect failed: ' + (e.errorMessage || 'unknown'));
+          setTimeout(connect, 2000);
+        },
+        timeout: 5,
+        keepAliveInterval: 30,
+        cleanSession: true,
+      });
+    } catch (e) {
+      setConn(false, 'connect error: ' + e.message);
+      setTimeout(connect, 2000);
+    }
+  }
+
+  function setLamp(elem, on) {
+    elem.classList.toggle('on', on);
+    elem.classList.toggle('off', !on);
+  }
+
+  function handle(topic, payload) {
+    const isTrue = payload === 'true' || payload === '1';
+    switch (topic) {
+      case 'plc/stoplight/red':
+        setLamp(lampRed, isTrue);
+        redV.textContent = isTrue ? 'ON' : 'off';
+        break;
+      case 'plc/stoplight/yellow':
+        setLamp(lampYel, isTrue);
+        yelV.textContent = isTrue ? 'ON' : 'off';
+        break;
+      case 'plc/stoplight/green':
+        setLamp(lampGrn, isTrue);
+        grnV.textContent = isTrue ? 'ON' : 'off';
+        break;
+      case 'plc/stoplight/state':
+        // The PLC publishes the enum value as an integer (0=Red, 1=RedYellow,
+        // 2=Green, 3=Yellow). Map for display.
+        const STATES = ['Red', 'RedYellow', 'Green', 'Yellow'];
+        const idx = parseInt(payload, 10);
+        stateV.textContent = (idx >= 0 && idx < STATES.length)
+          ? STATES[idx]
+          // Backward-compat: still accept string-form payloads.
+          : (payload.charAt(0).toUpperCase() + payload.slice(1));
+        break;
+      case 'plc/stoplight/armed':
+        armedPill.textContent = isTrue ? 'ARMED' : 'OFF';
+        armedPill.classList.toggle('ok', isTrue);
+        armedPill.classList.toggle('bad', !isTrue);
+        break;
+    }
+  }
+
+  startBtn.addEventListener('click', () => {
+    if (!client.isConnected()) return;
+    const m = new Paho.MQTT.Message('1');
+    m.destinationName = 'plc/stoplight/switch/set';
+    m.qos = 0;
+    m.retained = false;
+    client.send(m);
+    // brief visual feedback
+    startBtn.style.transform = 'translateY(2px)';
+    setTimeout(() => { startBtn.style.transform = ''; }, 120);
+  });
+
+  connect();
+})();
+</script>
+
+</body>
+</html>

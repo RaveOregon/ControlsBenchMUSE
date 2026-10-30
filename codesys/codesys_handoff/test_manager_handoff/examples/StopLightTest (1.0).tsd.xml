@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestScript>
+  <Information>
+    <Name>StopLightTest</Name>
+    <Version>1.0</Version>
+  </Information>
+  <Sequence>
+    <!-- Project location is set here. Edit if your .project file lives elsewhere. -->
+    <Assign Variable="ProjectPath">CHANGE_ME.project</Assign>
+    <Assign Variable="DeviceName">Device</Assign>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Prepare â€” load, login, run</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>CloseProject (if any open)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Projects" Verb="CloseProject" />
+          <Configuration>
+            <Entry Name="FailNoProject">False</Entry>
+          </Configuration>
+        </Action>
+
+        <Action>
+          <Information>
+            <Title>LoadProject</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Parameters>
+            <Inputs>
+              <Parameter Name="ProjectPath" Variable="ProjectPath" />
+            </Inputs>
+          </Parameters>
+          <Command TestRunner="TestManager.Projects" Verb="LoadProject" />
+          <Configuration>
+            <Entry Name="DisableProjectInspection">True</Entry>
+            <Entry Name="FailOnMissingLibraries">False</Entry>
+            <Entry Name="OtherMessageBoxes">ReportAsError</Entry>
+            <Entry Name="PathToProject">{ProjectPath}</Entry>
+            <Entry Name="UpdateAllVersions">False</Entry>
+            <Entry Name="UpdateCompilerVersion">False</Entry>
+            <Entry Name="UpdateLibraryVerions">False</Entry>
+            <Entry Name="UpdateStorageFormate">True</Entry>
+            <Entry Name="UpdateVisualisationProfile">False</Entry>
+          </Configuration>
+        </Action>
+
+        <Action>
+          <Information>
+            <Title>SetCommunicationPath (local PLC, anonymous)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Devices" Verb="SetCommunicationPath" />
+          <Configuration>
+            <Entry Name="CertificateHandling">1</Entry>
+            <Entry Name="DeviceID" />
+            <Entry Name="DeviceName">Device</Entry>
+            <Entry Name="DeviceType" />
+            <Entry Name="GatewayName">Gateway-1</Entry>
+            <Entry Name="LocalPlc">True</Entry>
+            <Entry Name="LoginCredentialsScope">Device</Entry>
+            <Entry Name="LoginUsername"></Entry>
+            <Entry Name="LoginPassword"></Entry>
+            <Entry Name="UseCredentials">False</Entry>
+          </Configuration>
+        </Action>
+
+        <Action>
+          <Information>
+            <Title>SetActiveApplication</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Projects" Verb="SetActiveApplication" />
+          <Configuration>
+            <Entry Name="AppName">Device.Plc Logic.Application</Entry>
+          </Configuration>
+        </Action>
+
+        <Action>
+          <Information>
+            <Title>Login + Start</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Online" Verb="Login" />
+          <Configuration>
+            <Entry Name="AllowReinitPersVars">True</Entry>
+            <Entry Name="ApplicationState">Start</Entry>
+            <Entry Name="DeleteUnknownApps">True</Entry>
+            <Entry Name="OnlineChange">Never</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Initial state â€” Red active</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>qState = 0 (Red)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">2000</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">E_LightState.Red</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qState</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qRed = TRUE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qRed</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qYellow = FALSE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qYellow</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qGreen = FALSE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qGreen</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Red â†’ RedYellow (within 6s)</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>qState transitions to 1 (RedYellow)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">6000</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">E_LightState.RedYellow</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qState</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qRed still TRUE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qRed</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qYellow now TRUE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qYellow</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>RedYellow â†’ Green (within 4s)</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>qState transitions to 2 (Green)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">4000</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">E_LightState.Green</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qState</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qGreen TRUE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qGreen</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qRed FALSE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qRed</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Green â†’ Yellow (within 6s)</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>qState transitions to 3 (Yellow)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">6000</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">E_LightState.Yellow</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qState</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qYellow TRUE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qYellow</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qGreen FALSE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qGreen</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Yellow â†’ Red (cycle complete, within 3s)</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>qState back to 0 (Red)</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">3000</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">E_LightState.Red</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qState</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qRed TRUE again</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qRed</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>qYellow FALSE</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.StopLight.qYellow</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Cleanup â€” logout</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Logout</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Online" Verb="Logout" />
+          <Configuration />
+        </Action>
+      </Actions>
+    </TestCase>
+
+  </Sequence>
+</TestScript>

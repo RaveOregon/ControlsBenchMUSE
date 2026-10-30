@@ -1,0 +1,1264 @@
+<TestScript>
+  <Information>
+    <Name>Examples.CounterTest</Name>
+    <Version>5.0.0.0</Version>
+    <Author>CODESYS</Author>
+  </Information>
+  <Sequence>
+    <Assign Variable="BasePath" Expression="true">$REPO.PARENTPATH</Assign>
+    <Assign Variable="DeviceName">Device</Assign>
+    <Assign Variable="User">example</Assign>
+    <Assign Variable="Pwd">example</Assign>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Prepare</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Prompt user confirmation for device user management</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.System" Verb="PromptUser" />
+          <Configuration>
+            <Entry Name="PromptMessage">The following actions will configure the device user management based on the username and password defined at the start of the script.
+Please press "OK" to continue with the test run or "Abort" to cancel the test run.</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>CloseProject</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Projects" Verb="CloseProject" />
+          <Configuration>
+            <Entry Name="FailNoProject">False</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>LoadProject</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Parameters>
+            <Inputs>
+              <Parameter Name="BasePath" Variable="BasePath" />
+            </Inputs>
+          </Parameters>
+          <Command TestRunner="TestManager.Projects" Verb="LoadProject" />
+          <Configuration>
+            <Entry Name="DisableProjectInspection">True</Entry>
+            <Entry Name="FailOnMissingLibraries">False</Entry>
+            <Entry Name="OtherMessageBoxes">ReportAsError</Entry>
+            <Entry Name="PathToProject">{BasePath}\CounterTest-5.0.0.0.project</Entry>
+            <Entry Name="UpdateAllVersions">True</Entry>
+            <Entry Name="UpdateCompilerVersion">False</Entry>
+            <Entry Name="UpdateLibraryVerions">False</Entry>
+            <Entry Name="UpdateStorageFormate">True</Entry>
+            <Entry Name="UpdateVisualisationProfile">False</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>UpdateDevice</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Devices" Verb="UpdateDevice" />
+          <Configuration>
+            <Entry Name="DeviceID">0000 0001</Entry>
+            <Entry Name="DevicePath">Device</Entry>
+            <Entry Name="DeviceType">4096</Entry>
+            <Entry Name="NewestVersion">True</Entry>
+            <Entry Name="Version">3.5.11.40</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>SetDeviceAddress</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Parameters>
+            <Inputs>
+              <Parameter Name="User" Variable="User" />
+              <Parameter Name="Pwd" Variable="Pwd" />
+            </Inputs>
+          </Parameters>
+          <Command TestRunner="TestManager.Devices" Verb="SetCommunicationPath" />
+          <Configuration>
+            <Entry Name="CertificateHandling">1</Entry>
+            <Entry Name="DeviceID" />
+            <Entry Name="DeviceName">Device</Entry>
+            <Entry Name="DeviceType" />
+            <Entry Name="GatewayName">Gateway-1</Entry>
+            <Entry Name="LocalPlc">True</Entry>
+            <Entry Name="LoginCredentialsScope">Device</Entry>
+            <Entry Name="LoginPassword">{Pwd}</Entry>
+            <Entry Name="LoginUsername">{User}</Entry>
+            <Entry Name="UseCredentials">True</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Set default user and password</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Parameters>
+            <Inputs>
+              <Parameter Name="DeviceName" Variable="DeviceName" />
+              <Parameter Name="User" Variable="User" />
+              <Parameter Name="Pwd" Variable="Pwd" />
+            </Inputs>
+          </Parameters>
+          <Command TestRunner="TestManager.Scripting" Verb="ExecuteScript" />
+          <Configuration>
+            <Entry Name="Command">user_name = User
+pwd = Pwd
+
+
+def get_online_device(device_object_name):
+    try:
+        from scriptengine import online, projects
+    except:
+        raise Exception ("get online_device requires option LoadScriptDrivers") 
+    # Get open project
+    proj = projects.primary
+    found = proj.find(device_object_name)
+    assert len(found) &gt; 0 and found[0].is_device, "Device '" + device_object_name + "' not found"
+    dev = found[0]
+
+    online_device = online.create_online_device(dev)
+    assert online_device, "no online device"
+
+    return online_device
+
+
+
+msg=""
+"""
+:param device_object_name: Name in device tree for which the password change should executed
+:param user_name: name for the default user 
+:param pwd: password to set for User
+"""
+# set default credentials for login
+online.set_default_credentials(user_name, pwd)
+
+print ("get online device")
+online_device = get_online_device(DeviceName)
+
+print ("set initial user")
+online_device.set_credentials_for_initial_user(user_name, pwd)
+
+retries = 5
+print ("connect to device")
+for loop in range(0, retries):
+    try:
+        online_device.connect()
+        # if successful go further
+        print ("connection to online device successful")
+        break
+    except Exception as e:
+        print(e)
+        if "Device is not ready yet" in str(e):
+            print ("wait 20s and try to reconnect, Retries:" + str(loop))
+            sleep(20)
+        else:
+            # all other exception stop retry
+            break
+
+actual_user = online_device.current_logged_on_username
+if actual_user != user_name:
+    print "the configured user (" + user_name + ") is not logged in / maybe user management is not activated actual user: " + actual_user
+else: 
+    print("connection successfull with user: " + actual_user)
+# disconnect from device
+online_device.disconnect()</Entry>
+            <Entry Name="ImplicitImport">True</Entry>
+            <Entry Name="ShowTabs">True</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>ResetDevice</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Devices" Verb="ResetOrigin" />
+          <Configuration>
+            <Entry Name="DevicePath">Device</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>SetActiveApplication</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Projects" Verb="SetActiveApplication" />
+          <Configuration>
+            <Entry Name="AppName">Device.Plc Logic.Application</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Login</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Online" Verb="Login" />
+          <Configuration>
+            <Entry Name="AllowReinitPersVars">True</Entry>
+            <Entry Name="ApplicationState">Start</Entry>
+            <Entry Name="DeleteUnknownApps">True</Entry>
+            <Entry Name="OnlineChange">Never</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Check Initial Value</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">0</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>CountUp</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">1</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Reset Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">1</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>CountUp2</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">2</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Reset Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">2</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>CountUp3</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">3</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Reset Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">3</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Overflow</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Upper</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">4</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.UPPER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Set Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">4</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Reset Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">4</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">TRUE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Reset</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Reset</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.RESET</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">0</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Clear Reset</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.RESET</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">0</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>CountUp4</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">1</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Reset Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">1</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>CountUp5</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>Set Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">TRUE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">2</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Reset Trigger</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="WriteVariable" />
+          <Configuration>
+            <Entry Name="WriteValue">FALSE</Entry>
+            <Entry Name="WriteVariable">Device.Application.POU.TRIGGER</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Compare Value</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">2</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.VALUE</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Check Overflow</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Monitoring" Verb="CompareVariable" />
+          <Configuration>
+            <Entry Name="CompareEndRange" />
+            <Entry Name="CompareTimeout">500</Entry>
+            <Entry Name="CompareType">=</Entry>
+            <Entry Name="CompareValue">FALSE</Entry>
+            <Entry Name="CompareVariable">Device.Application.POU.OVERFLOW</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+    <TestCase definesScope="False">
+      <Information>
+        <Title>Cleanup</Title>
+      </Information>
+      <Actions>
+        <Action>
+          <Information>
+            <Title>ClearApplications</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Devices" Verb="ResetOrigin" />
+          <Configuration>
+            <Entry Name="DevicePath">Device</Entry>
+          </Configuration>
+        </Action>
+        <Action>
+          <Information>
+            <Title>Logout</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Online" Verb="Logout" />
+          <Configuration />
+        </Action>
+        <Action>
+          <Information>
+            <Title>CloseProject</Title>
+          </Information>
+          <Settings>
+            <Entry Name="Condition" />
+            <Entry Name="ExecutionDelay">0</Entry>
+            <Entry Name="ForceEvaluation">False</Entry>
+            <Entry Name="IgnoreResults">False</Entry>
+            <Entry Name="ResultVariable" />
+            <Entry Name="RetryOnError">0|0</Entry>
+          </Settings>
+          <Command TestRunner="TestManager.Projects" Verb="CloseProject" />
+          <Configuration>
+            <Entry Name="FailNoProject">True</Entry>
+          </Configuration>
+        </Action>
+      </Actions>
+    </TestCase>
+  </Sequence>
+</TestScript>
