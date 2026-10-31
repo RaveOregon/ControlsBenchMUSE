@@ -51,3 +51,5 @@ For HMI, configure a WebVisu URL or an external capture source ID in Setup. A We
 ## Accessibility and validation
 
 Buttons/disclosures replace clickable layout containers; SVG devices support Enter/Space. Inspectors trap focus, close on Escape and restore focus. Focus outlines and reduced-motion styling are included. Desktop screenshots and verification notes are in `docs/screenshots/` and `HANDOFF.md`.
+
+The additive M9 runtime is documented in `../docs/m9-ui-contract.md`. This UI bridge V1 is not a `controlsbench.campaign.v1` ledger decoder. A host integration must consume the authoritative M9 projection/report and explicitly adapt it; raw ledger envelopes cannot be passed to `ingestCoordinatorEvents`.
