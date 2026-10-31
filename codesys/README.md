@@ -109,4 +109,20 @@ The local loopback setup cannot honestly separate physical Ethernet loss from se
 - Masked credential wrapper: `scripts/run-m5.ps1`, SHA-256 `D6139ECAA75A7D05494A8AA4D01CFABBFB9810E20DDC68A5A4B694C921AC2287`
 - Final result: `artifacts/m5-result.json`, SHA-256 `6B1E17CCECB1364EC8673E14CB3BE91F92771CC7E574373DECC74ACA6D403079`
 
-M5 did not modify the PLC fixture or M2 handshake. M6 task-impact measurement remains.
+M5 did not modify the PLC fixture or M2 handshake.
+
+## M6 result — hackathon scope
+
+M6's hackathon scope passed on 2026-10-31. At operator priority, this intentionally reduced the frozen full matrix to the only rate selected for the demo: one warmed ten-minute disconnected baseline and three comparable ten-minute full-demo 10 Hz streaming runs. It does **not** claim an M6 task-impact result for subscribed-only, 20 Hz, or 50 Hz load; the 20/50 Hz rates remain failed M3 delivery tiers and were not re-run merely to spend hackathon time.
+
+The disconnected baseline collected 29,657 scan intervals: p50 20.110 ms, p95 21.010 ms, p99 21.180 ms, max 21.722 ms, and p99 absolute jitter 1.180 ms. It held the reset zero image under explicit simulation authority, asserted stale, retained its boot identity, and recorded zero inferred omitted cycles.
+
+Each connected 10 Hz run dispatched and applied 6,000/6,000 complete raw images at 9.990 Hz (rounded), with the final sequence at 6,000, zero torn or ambiguous bracketed samples, and zero OPC UA publish-sequence gaps. Their PLC p99 scan interval was 21.250 ms (1.003× baseline), p99 absolute jitter 1.250 ms (1.059× baseline), and maxima were 21.819, 21.953, and 21.888 ms. All were below the frozen 1.20× limits and below the fixture's 30 ms inferred-omitted-gap boundary; every run recorded zero inferred omitted cycles. The accepted task configuration has its watchdog disabled, so the recorded 30 ms gap boundary is the applicable stop guard.
+
+This is sufficient evidence that the qualified 10 Hz hackathon connector does not materially degrade the Control Win task. It is not evidence that direct OPC UA streaming at the failed 20/50 Hz M3 rates is task-safe; no such claim is made.
+
+- Driver: `scripts/probe-m6.cjs`, SHA-256 `A9DDCA5491CDDA924A3B7E13ACDA61B54F331A567FC376E65CE26B2ED539B95D`
+- Masked credential wrapper: `scripts/run-m6.ps1`, SHA-256 `B523EEF26B500C375AD023AB10CCB618E98D95C09FB2F7EE158E87C55DE0FE9E`
+- Scoped final result: `artifacts/m6-hackathon-result.json`, SHA-256 `5218CB226954E7DF162A4E8F89E626F8F9354D0BB5EE61C70E59E8D1A43AB85E`
+
+The full runner remains available without `-HackathonScope` for a future, separately labeled full-matrix M6 execution. M6 did not modify the PLC fixture or M2 handshake.
