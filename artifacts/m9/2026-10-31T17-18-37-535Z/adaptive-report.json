@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "campaignId": "m9-adaptive",
+  "status": "completed",
+  "provenance": {
+    "spec": "sha256:c5f63e7fbc7a8b916e96eb567492494b4939fec486ca3288fe7853330e0f0442",
+    "ioMap": "sha256:5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+    "plcBuild": "fake-measurement-fixture-v1",
+    "worldModule": "sha256:a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+    "model": "deterministic-fake-v1",
+    "connector": "deterministic-fake-connector-v1"
+  },
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Deterministic fake PLC connector; no live PLC or final conveyor coverage.",
+  "plan": {
+    "objective": "Investigate an unexpected fixture output",
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+        "category": "normal",
+        "requirements": []
+      },
+      {
+        "id": "persistence-probe",
+        "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+        "category": "adaptive",
+        "requirements": []
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "id": "baseline",
+      "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+      "category": "normal",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "inconclusive",
+      "evidenceRefs": [
+        "m9-adaptive:74"
+      ]
+    },
+    {
+      "id": "persistence-probe",
+      "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+      "category": "adaptive",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "m9-adaptive:132"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "persistent-output",
+      "title": "Green indication absent in both observation windows",
+      "experimentId": "persistence-probe",
+      "claims": [
+        {
+          "evidenceId": "m9-adaptive:132",
+          "signal": "StackLight_Green",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "A longer observation did not resolve the output disagreement.",
+      "assumptions": [
+        "Expected green indication is a fixture hypothesis"
+      ],
+      "uncertainty": "This is not a specified conveyor requirement failure or a diagnosed physical fault.",
+      "review": "unreviewed"
+    }
+  ],
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {
+      "planning": 0,
+      "baseline": 0,
+      "persistence-probe": 0
+    },
+    "repairs": {
+      "none": 0
+    },
+    "requests": {
+      "request-1": {
+        "requestId": "request-1",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-2": {
+        "requestId": "request-2",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-3": {
+        "requestId": "request-3",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-4": {
+        "requestId": "request-4",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "persistence-probe",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      }
+    }
+  },
+  "finalization": {
+    "summary": "Adaptive fixture investigation completed with grounded evidence",
+    "throughSequence": 156
+  },
+  "injectedTruth": [],
+  "worldEvidenceRefs": [
+    "m9-adaptive:12",
+    "m9-adaptive:13",
+    "m9-adaptive:14",
+    "m9-adaptive:15",
+    "m9-adaptive:16",
+    "m9-adaptive:17",
+    "m9-adaptive:18",
+    "m9-adaptive:19",
+    "m9-adaptive:20",
+    "m9-adaptive:21",
+    "m9-adaptive:22",
+    "m9-adaptive:23",
+    "m9-adaptive:24",
+    "m9-adaptive:25",
+    "m9-adaptive:26",
+    "m9-adaptive:27",
+    "m9-adaptive:28",
+    "m9-adaptive:29",
+    "m9-adaptive:30",
+    "m9-adaptive:31",
+    "m9-adaptive:32",
+    "m9-adaptive:33",
+    "m9-adaptive:34",
+    "m9-adaptive:54",
+    "m9-adaptive:62",
+    "m9-adaptive:75",
+    "m9-adaptive:101",
+    "m9-adaptive:109",
+    "m9-adaptive:117",
+    "m9-adaptive:125",
+    "m9-adaptive:133",
+    "m9-adaptive:146"
+  ],
+  "sourceEvidenceRefs": [
+    "m9-adaptive:5",
+    "m9-adaptive:6",
+    "m9-adaptive:7",
+    "m9-adaptive:8",
+    "m9-adaptive:49",
+    "m9-adaptive:50",
+    "m9-adaptive:57",
+    "m9-adaptive:58",
+    "m9-adaptive:70",
+    "m9-adaptive:71",
+    "m9-adaptive:96",
+    "m9-adaptive:97",
+    "m9-adaptive:104",
+    "m9-adaptive:105",
+    "m9-adaptive:112",
+    "m9-adaptive:113",
+    "m9-adaptive:120",
+    "m9-adaptive:121",
+    "m9-adaptive:128",
+    "m9-adaptive:129",
+    "m9-adaptive:141",
+    "m9-adaptive:142"
+  ],
+  "modelResponseRefs": [],
+  "plcEvidence": [
+    "m9-adaptive:11",
+    "m9-adaptive:53",
+    "m9-adaptive:61",
+    "m9-adaptive:74",
+    "m9-adaptive:100",
+    "m9-adaptive:108",
+    "m9-adaptive:116",
+    "m9-adaptive:124",
+    "m9-adaptive:132",
+    "m9-adaptive:145"
+  ],
+  "unresolved": [
+    {
+      "id": "await-green",
+      "name": "wait_for_condition",
+      "status": "timed_out",
+      "evidenceRefs": [],
+      "message": "Observation deadline reached without sufficient matching evidence"
+    }
+  ],
+  "untested": [],
+  "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+}

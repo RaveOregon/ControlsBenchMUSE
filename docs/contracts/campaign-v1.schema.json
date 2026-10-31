@@ -1,0 +1,3802 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:controlsbench:campaign:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "campaign.state"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "preparing",
+                "running",
+                "paused",
+                "stopped",
+                "completed",
+                "failed"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "state",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "campaign.authorized"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 200
+            },
+            "diagnosisMode": {
+              "enum": [
+                "known",
+                "blind"
+              ]
+            }
+          },
+          "required": [
+            "categories",
+            "diagnosisMode"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "provenance.recorded"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "provenance": {
+              "type": "object",
+              "properties": {
+                "spec": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "ioMap": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "plcBuild": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "worldModule": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "model": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "connector": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                }
+              },
+              "required": [
+                "spec",
+                "ioMap",
+                "plcBuild",
+                "worldModule",
+                "model",
+                "connector"
+              ],
+              "additionalProperties": false
+            },
+            "evidenceClass": {
+              "enum": [
+                "fake_connector",
+                "preserved_live_plc",
+                "live_plc"
+              ]
+            },
+            "claimBoundary": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "provenance",
+            "evidenceClass",
+            "claimBoundary"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "plan.created"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "objective": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "experiments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "objective": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "category": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "requirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 8000
+                    },
+                    "minItems": 0,
+                    "maxItems": 200
+                  }
+                },
+                "required": [
+                  "id",
+                  "objective",
+                  "category",
+                  "requirements"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 40
+            }
+          },
+          "required": [
+            "objective",
+            "experiments"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "plan.updated"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "objective": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "experiments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "objective": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "category": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "requirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 8000
+                    },
+                    "minItems": 0,
+                    "maxItems": 200
+                  }
+                },
+                "required": [
+                  "id",
+                  "objective",
+                  "category",
+                  "requirements"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 40
+            }
+          },
+          "required": [
+            "objective",
+            "experiments"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "experiment.proposed"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "objective": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "category": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "requirements": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            }
+          },
+          "required": [
+            "id",
+            "objective",
+            "category",
+            "requirements"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "experiment.started"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "experiment.completed"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 200
+            },
+            "conclusion": {
+              "enum": [
+                "observed",
+                "inconclusive"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "evidenceRefs",
+            "conclusion"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "agent.activity"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "phase": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "phase",
+            "summary"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "agent.request"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "phase": {
+              "enum": [
+                "started",
+                "completed",
+                "failed",
+                "timed_out",
+                "cancelled"
+              ]
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "experimentId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "elapsedMs": {
+              "type": "number",
+              "minimum": 0
+            },
+            "usage": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "responseId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "requestId",
+            "phase",
+            "model",
+            "experimentId",
+            "elapsedMs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "agent.response"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "responseHash": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "response": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "requestId",
+            "responseHash",
+            "response"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "action.requested"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "arguments": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "basedOnRevision": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "experimentId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "actionId",
+            "name",
+            "arguments",
+            "basedOnRevision",
+            "experimentId"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "action.applied"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "status": {
+              "enum": [
+                "applied",
+                "rejected",
+                "timed_out",
+                "stale",
+                "inconclusive"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "value": {}
+          },
+          "required": [
+            "actionId",
+            "status",
+            "message",
+            "evidenceRefs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "action.rejected"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "status": {
+              "enum": [
+                "applied",
+                "rejected",
+                "timed_out",
+                "stale",
+                "inconclusive"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "value": {}
+          },
+          "required": [
+            "actionId",
+            "status",
+            "message",
+            "evidenceRefs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "action.timed_out"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "status": {
+              "enum": [
+                "applied",
+                "rejected",
+                "timed_out",
+                "stale",
+                "inconclusive"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "value": {}
+          },
+          "required": [
+            "actionId",
+            "status",
+            "message",
+            "evidenceRefs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "action.stale"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "status": {
+              "enum": [
+                "applied",
+                "rejected",
+                "timed_out",
+                "stale",
+                "inconclusive"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "value": {}
+          },
+          "required": [
+            "actionId",
+            "status",
+            "message",
+            "evidenceRefs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "action.inconclusive"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "status": {
+              "enum": [
+                "applied",
+                "rejected",
+                "timed_out",
+                "stale",
+                "inconclusive"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "value": {}
+          },
+          "required": [
+            "actionId",
+            "status",
+            "message",
+            "evidenceRefs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "connector.state"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "fresh",
+                "stale",
+                "quarantined",
+                "passthrough"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "ageMs": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "state",
+            "reason",
+            "ageMs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "coordinator.event"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "origin": {
+              "enum": [
+                "live-coordinator",
+                "campaign-driver",
+                "preserved-m7"
+              ]
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "sequence": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "atIso": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "atMonotonicMs": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "lane": {
+                  "enum": [
+                    "lifecycle",
+                    "control",
+                    "connector",
+                    "world"
+                  ]
+                },
+                "data": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "required": [
+                "sequence",
+                "atIso",
+                "atMonotonicMs",
+                "lane",
+                "data"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "origin",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "world.stimulus"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "control": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "actionId",
+            "control"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "world.raw_image"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "sourceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "image": {
+              "type": "object",
+              "additionalProperties": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "sequence": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "sourceId",
+            "image",
+            "epoch",
+            "sequence"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "world.evidence"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "world.branch"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "snapshot": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "rawImage": {
+              "type": "object",
+              "additionalProperties": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "label",
+            "snapshot",
+            "rawImage"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "simulation.reset"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "sourceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "image": {
+              "type": "object",
+              "additionalProperties": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "sourceId",
+            "image"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "simulation.exited"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "plc.acknowledged"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "sourceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "sequence": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "bootIdentity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "plcCycle": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "outputCaptureCycle": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "latencyMs": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "sourceId",
+            "epoch",
+            "sequence",
+            "bootIdentity",
+            "plcCycle",
+            "outputCaptureCycle",
+            "latencyMs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "plc.output"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "sourceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "values": {
+              "type": "object",
+              "additionalProperties": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "plcCycle": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "outputCaptureCycle": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "sourceId",
+            "values",
+            "plcCycle",
+            "outputCaptureCycle"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "hmi.action"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "reference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "atIso": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "actionId",
+            "action",
+            "reference",
+            "atIso"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "hmi.evidence"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "kind": {
+              "enum": [
+                "frame",
+                "clip"
+              ]
+            },
+            "reference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "atIso": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "actionId",
+            "kind",
+            "reference",
+            "atIso"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "observation"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "summary": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 200
+            }
+          },
+          "required": [
+            "summary",
+            "evidenceRefs"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "discrepancy"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "summary": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 200
+            },
+            "expected": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "observed": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "summary",
+            "evidenceRefs",
+            "expected",
+            "observed"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "followup.added"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "experiment": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "objective": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "category": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "requirements": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "minItems": 0,
+                  "maxItems": 200
+                }
+              },
+              "required": [
+                "id",
+                "objective",
+                "category",
+                "requirements"
+              ],
+              "additionalProperties": false
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 200
+            },
+            "rationale": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "experiment",
+            "evidenceRefs",
+            "rationale"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "finding.created"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "experimentId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "claims": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "evidenceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "signal": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "equals": {
+                    "type": [
+                      "boolean",
+                      "number",
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidenceId",
+                  "signal",
+                  "equals"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 200
+            },
+            "injectedTruthRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "inference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            },
+            "uncertainty": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "experimentId",
+            "claims",
+            "injectedTruthRefs",
+            "inference",
+            "assumptions",
+            "uncertainty"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "finding.accepted"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "id",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "finding.rerun_requested"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "id",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "fault.committed"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "commitment": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "commitment"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "fault.truth"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "commitment": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "truth": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "salt": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "commitment",
+            "truth",
+            "salt"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "budget.accounted"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "phase": {
+              "enum": [
+                "reserved",
+                "settled"
+              ]
+            },
+            "costUsd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "campaignUsd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "sessionUsd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "checkUsd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "repairUsd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "checkId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "repairEpisode": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "basis": {
+              "enum": [
+                "conservative_reservation",
+                "provider_reported",
+                "fake_zero"
+              ]
+            }
+          },
+          "required": [
+            "requestId",
+            "phase",
+            "costUsd",
+            "campaignUsd",
+            "sessionUsd",
+            "checkUsd",
+            "repairUsd",
+            "checkId",
+            "repairEpisode",
+            "basis"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "budget.warning"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "budget.hard_stop"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "report.finalized"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "summary": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "throughSequence": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "summary",
+            "throughSequence"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

@@ -7,8 +7,11 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts",
+    "test": "node --test test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts",
     "typecheck": "tsc --noEmit",
+    "proof:m9": "npm run typecheck && npm test && node scripts/run-m9.js",
+    "proof:m9:contracts": "node scripts/export-campaign-contract.js",
+    "proof:m9:wonder": "node --env-file=.env scripts/run-m9-wonder.js",
     "proof:generate": "node --env-file=.env scripts/generate-world-package.js",
     "proof:repair": "node --env-file=.env scripts/repair-world-package.js",
     "proof:align-manifest": "node --env-file=.env scripts/align-world-manifest.js",

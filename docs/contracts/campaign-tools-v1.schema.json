@@ -1,0 +1,554 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "decision": {
+    "type": "object",
+    "properties": {
+      "summary": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8000
+      },
+      "plan": {
+        "type": "object",
+        "properties": {
+          "objective": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "experiments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "objective": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "category": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "requirements": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "minItems": 0,
+                  "maxItems": 200
+                }
+              },
+              "required": [
+                "id",
+                "objective",
+                "category",
+                "requirements"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 40
+          }
+        },
+        "required": [
+          "objective",
+          "experiments"
+        ],
+        "additionalProperties": false
+      },
+      "completeExperiment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "minItems": 1,
+            "maxItems": 200
+          },
+          "conclusion": {
+            "enum": [
+              "observed",
+              "inconclusive"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "evidenceRefs",
+          "conclusion"
+        ],
+        "additionalProperties": false
+      },
+      "calls": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "name": {
+              "enum": [
+                "inspect_spec",
+                "inspect_signal_contract",
+                "inspect_recent_evidence",
+                "introduce_carton",
+                "assign_route",
+                "set_downstream_readiness",
+                "inject_fault",
+                "clear_fault",
+                "wait_for_condition",
+                "observe_for_duration",
+                "branch_or_reset_world",
+                "request_hmi_action",
+                "capture_hmi_evidence",
+                "create_followup_experiment",
+                "record_finding",
+                "finish_campaign"
+              ]
+            },
+            "arguments": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0,
+        "maxItems": 8
+      }
+    },
+    "required": [
+      "summary",
+      "calls"
+    ],
+    "additionalProperties": false
+  },
+  "tools": {
+    "inspect_spec": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "inspect_signal_contract": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "inspect_recent_evidence": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "limit"
+      ],
+      "additionalProperties": false
+    },
+    "introduce_carton": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "requestedRoute": {
+          "enum": [
+            "A",
+            "B",
+            "Unknown",
+            null
+          ]
+        }
+      },
+      "required": [
+        "itemId",
+        "requestedRoute"
+      ],
+      "additionalProperties": false
+    },
+    "assign_route": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "route": {
+          "enum": [
+            "A",
+            "B",
+            "Unknown"
+          ]
+        }
+      },
+      "required": [
+        "itemId",
+        "route"
+      ],
+      "additionalProperties": false
+    },
+    "set_downstream_readiness": {
+      "type": "object",
+      "properties": {
+        "destination": {
+          "enum": [
+            "A",
+            "B",
+            "runout"
+          ]
+        },
+        "ready": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "destination",
+        "ready"
+      ],
+      "additionalProperties": false
+    },
+    "inject_fault": {
+      "type": "object",
+      "properties": {
+        "controlId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "controlId",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "clear_fault": {
+      "type": "object",
+      "properties": {
+        "controlId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "controlId",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "wait_for_condition": {
+      "type": "object",
+      "properties": {
+        "signal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "equals": {
+          "type": [
+            "boolean",
+            "number",
+            "string",
+            "null"
+          ]
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        }
+      },
+      "required": [
+        "signal",
+        "equals",
+        "timeoutMs"
+      ],
+      "additionalProperties": false
+    },
+    "observe_for_duration": {
+      "type": "object",
+      "properties": {
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        }
+      },
+      "required": [
+        "durationMs"
+      ],
+      "additionalProperties": false
+    },
+    "branch_or_reset_world": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "branch",
+            "reset"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "mode",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "request_hmi_action": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    "capture_hmi_evidence": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "frame",
+            "clip"
+          ]
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        }
+      },
+      "required": [
+        "kind",
+        "durationMs"
+      ],
+      "additionalProperties": false
+    },
+    "create_followup_experiment": {
+      "type": "object",
+      "properties": {
+        "experiment": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "objective": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "category": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "requirements": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 200
+            }
+          },
+          "required": [
+            "id",
+            "objective",
+            "category",
+            "requirements"
+          ],
+          "additionalProperties": false
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 1,
+          "maxItems": 200
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "experiment",
+        "evidenceRefs",
+        "rationale"
+      ],
+      "additionalProperties": false
+    },
+    "record_finding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "experimentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "evidenceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "signal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "equals": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "evidenceId",
+              "signal",
+              "equals"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 200
+        },
+        "injectedTruthRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 0,
+          "maxItems": 200
+        },
+        "inference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 0,
+          "maxItems": 200
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "experimentId",
+        "claims",
+        "injectedTruthRefs",
+        "inference",
+        "assumptions",
+        "uncertainty"
+      ],
+      "additionalProperties": false
+    },
+    "finish_campaign": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

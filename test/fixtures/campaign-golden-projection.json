@@ -1,0 +1,179 @@
+{
+  "campaignId": "golden-campaign",
+  "sequence": 105,
+  "status": "completed",
+  "revision": 11,
+  "experiments": {
+    "baseline": {
+      "id": "baseline",
+      "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+      "category": "normal",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "golden-campaign:78"
+      ]
+    }
+  },
+  "actions": {
+    "carton-1": {
+      "name": "introduce_carton",
+      "status": "applied",
+      "evidenceRefs": [
+        "golden-campaign:51",
+        "golden-campaign:52",
+        "golden-campaign:53",
+        "golden-campaign:54"
+      ],
+      "message": "World control executed and complete raw image acknowledged by connector"
+    },
+    "observe-1": {
+      "name": "observe_for_duration",
+      "status": "applied",
+      "evidenceRefs": [
+        "golden-campaign:81",
+        "golden-campaign:69",
+        "golden-campaign:78"
+      ],
+      "message": "Fresh connector evidence observed"
+    },
+    "finding-1": {
+      "name": "record_finding",
+      "status": "applied",
+      "evidenceRefs": [
+        "golden-campaign:100"
+      ],
+      "message": "Finding recorded with exact PLC claims; inference remains unverified"
+    },
+    "finish-1": {
+      "name": "finish_campaign",
+      "status": "applied",
+      "evidenceRefs": [
+        "golden-campaign:78"
+      ],
+      "message": "Deterministic completion checks passed; finalizing evidence"
+    }
+  },
+  "findings": {
+    "fixture-rest": {
+      "id": "fixture-rest",
+      "title": "Measurement fixture remained stopped",
+      "experimentId": "baseline",
+      "claims": [
+        {
+          "evidenceId": "golden-campaign:78",
+          "signal": "Motor_RunCmd",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "This bounded fixture observation establishes no conveyor routing result.",
+      "assumptions": [
+        "Fake connector measurement behavior"
+      ],
+      "uncertainty": "Production conveyor controller not exercised",
+      "review": "unreviewed"
+    }
+  },
+  "rawImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 0
+  },
+  "outputs": {
+    "Motor_RunCmd": false,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": false,
+    "StackLight_Green": true
+  },
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {
+      "planning": 0,
+      "baseline": 0
+    },
+    "repairs": {
+      "none": 0
+    },
+    "requests": {
+      "request-1": {
+        "requestId": "request-1",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-2": {
+        "requestId": "request-2",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      }
+    }
+  },
+  "provenance": {
+    "spec": "sha256:c5f63e7fbc7a8b916e96eb567492494b4939fec486ca3288fe7853330e0f0442",
+    "ioMap": "sha256:5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+    "plcBuild": "fake-measurement-fixture-v1",
+    "worldModule": "sha256:a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+    "model": "deterministic-fake-v1",
+    "connector": "deterministic-fake-connector-v1"
+  },
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Deterministic fake PLC connector; no live PLC or final conveyor coverage.",
+  "connector": {
+    "state": "fresh",
+    "reason": "Observed simulation active under stable PLC boot",
+    "ageMs": 0
+  },
+  "activity": {
+    "phase": "decision",
+    "summary": "Record observed output without claiming conveyor routing coverage"
+  },
+  "plan": {
+    "objective": "Exercise campaign causality",
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+        "category": "normal",
+        "requirements": []
+      }
+    ]
+  },
+  "report": {
+    "summary": "Nominal fixture experiment evidenced",
+    "throughSequence": 104
+  }
+}
