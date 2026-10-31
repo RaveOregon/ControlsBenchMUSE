@@ -96,3 +96,17 @@ The subscription requested and received 20 ms publishing and 20 ms sampling. It 
 - Raw event trace: `artifacts/m4-events.jsonl`, SHA-256 `33B98E09588480A2271F03762B29E9F79C8B6E76B8A3EF206885F8F7A6B10F74`
 
 M4 did not modify the PLC fixture or M2 handshake.
+
+## M5 result
+
+M5 passed on 2026-10-31. Separate authenticated observer and controller connections exercised subscription loss, client-session loss, and secure-channel/transport-connection loss without modifying the M2 handshake. In all three practical cases the PLC retained the exact last committed 20-field image, kept simulation applied, and asserted `ConnectorStale` after the heartbeat stopped.
+
+Stale was first observed after 549.027 ms for subscription loss, 549.750 ms for client-session loss, and 535.184 ms for transport-connection loss. Every observer sample retained the committed image, epoch, sequence, and boot identity. Staging a complete replacement image without the write-last commit edge did not apply it. Restoring only the heartbeat cleared the stale diagnostic but still did not apply staged data. Each case recovered only after an explicit complete commit, advancing the sequence from 1 through 6 under the same epoch and unchanged boot identity `1454498831547`.
+
+The local loopback setup cannot honestly separate physical Ethernet loss from secure-channel loss, and the OPC UA server is hosted by the Control Win runtime, so a server-only stop is also a PLC-runtime loss rather than an independent M5 case. PLC cold restart and workstation-new-epoch recovery were already proven by M2 and were not repeated without a diagnostic reason.
+
+- Driver: `scripts/probe-m5.cjs`, SHA-256 `AF194F01907BA48C21F027A6D24D242E5DD991D16C47425491E0C59EE5D79154`
+- Masked credential wrapper: `scripts/run-m5.ps1`, SHA-256 `D6139ECAA75A7D05494A8AA4D01CFABBFB9810E20DDC68A5A4B694C921AC2287`
+- Final result: `artifacts/m5-result.json`, SHA-256 `6B1E17CCECB1364EC8673E14CB3BE91F92771CC7E574373DECC74ACA6D403079`
+
+M5 did not modify the PLC fixture or M2 handshake. M6 task-impact measurement remains.
