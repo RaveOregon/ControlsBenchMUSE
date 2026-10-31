@@ -1,0 +1,272 @@
+{
+  "campaign.state": {
+    "state": "preparing",
+    "reason": "example"
+  },
+  "campaign.authorized": {
+    "categories": [
+      "example"
+    ],
+    "diagnosisMode": "known"
+  },
+  "provenance.recorded": {
+    "provenance": {
+      "spec": "example",
+      "ioMap": "example",
+      "plcBuild": "example",
+      "worldModule": "example",
+      "model": "example",
+      "connector": "example"
+    },
+    "evidenceClass": "fake_connector",
+    "claimBoundary": "example"
+  },
+  "plan.created": {
+    "objective": "example",
+    "experiments": [
+      {
+        "id": "example",
+        "objective": "example",
+        "category": "example",
+        "requirements": []
+      }
+    ]
+  },
+  "plan.updated": {
+    "objective": "example",
+    "experiments": [
+      {
+        "id": "example",
+        "objective": "example",
+        "category": "example",
+        "requirements": []
+      }
+    ]
+  },
+  "experiment.proposed": {
+    "id": "example",
+    "objective": "example",
+    "category": "example",
+    "requirements": []
+  },
+  "experiment.started": {
+    "id": "example"
+  },
+  "experiment.completed": {
+    "id": "example",
+    "evidenceRefs": [
+      "example"
+    ],
+    "conclusion": "observed"
+  },
+  "agent.activity": {
+    "phase": "example",
+    "summary": "example",
+    "requestId": "example"
+  },
+  "agent.request": {
+    "requestId": "example",
+    "phase": "started",
+    "model": "example",
+    "experimentId": "example",
+    "elapsedMs": 0,
+    "usage": {},
+    "responseId": "example"
+  },
+  "agent.response": {
+    "requestId": "example",
+    "responseHash": "example",
+    "response": {}
+  },
+  "action.requested": {
+    "actionId": "example",
+    "name": "example",
+    "arguments": {},
+    "basedOnRevision": 0,
+    "experimentId": "example"
+  },
+  "action.applied": {
+    "actionId": "example",
+    "status": "applied",
+    "message": "example",
+    "evidenceRefs": [],
+    "value": null
+  },
+  "action.rejected": {
+    "actionId": "example",
+    "status": "applied",
+    "message": "example",
+    "evidenceRefs": [],
+    "value": null
+  },
+  "action.timed_out": {
+    "actionId": "example",
+    "status": "applied",
+    "message": "example",
+    "evidenceRefs": [],
+    "value": null
+  },
+  "action.stale": {
+    "actionId": "example",
+    "status": "applied",
+    "message": "example",
+    "evidenceRefs": [],
+    "value": null
+  },
+  "action.inconclusive": {
+    "actionId": "example",
+    "status": "applied",
+    "message": "example",
+    "evidenceRefs": [],
+    "value": null
+  },
+  "connector.state": {
+    "state": "fresh",
+    "reason": "example",
+    "ageMs": 0
+  },
+  "coordinator.event": {
+    "origin": "live-coordinator",
+    "source": {
+      "sequence": 0,
+      "atIso": "example",
+      "atMonotonicMs": 0,
+      "lane": "lifecycle",
+      "data": {}
+    }
+  },
+  "world.stimulus": {
+    "actionId": "example",
+    "control": {}
+  },
+  "world.raw_image": {
+    "sourceId": "example",
+    "image": {},
+    "epoch": "example",
+    "sequence": "example"
+  },
+  "world.evidence": {
+    "source": {}
+  },
+  "world.branch": {
+    "label": "example",
+    "snapshot": {},
+    "rawImage": {}
+  },
+  "simulation.reset": {
+    "sourceId": "example",
+    "image": {}
+  },
+  "simulation.exited": {
+    "reason": "example"
+  },
+  "plc.acknowledged": {
+    "sourceId": "example",
+    "epoch": "example",
+    "sequence": "example",
+    "bootIdentity": "example",
+    "plcCycle": "example",
+    "outputCaptureCycle": "example",
+    "latencyMs": 0
+  },
+  "plc.output": {
+    "sourceId": "example",
+    "values": {},
+    "plcCycle": "example",
+    "outputCaptureCycle": "example"
+  },
+  "hmi.action": {
+    "actionId": "example",
+    "action": "example",
+    "reference": "example",
+    "atIso": "example"
+  },
+  "hmi.evidence": {
+    "actionId": "example",
+    "kind": "frame",
+    "reference": "example",
+    "atIso": "example"
+  },
+  "observation": {
+    "summary": "example",
+    "evidenceRefs": [
+      "example"
+    ]
+  },
+  "discrepancy": {
+    "summary": "example",
+    "evidenceRefs": [
+      "example"
+    ],
+    "expected": {},
+    "observed": {}
+  },
+  "followup.added": {
+    "experiment": {
+      "id": "example",
+      "objective": "example",
+      "category": "example",
+      "requirements": []
+    },
+    "evidenceRefs": [
+      "example"
+    ],
+    "rationale": "example"
+  },
+  "finding.created": {
+    "id": "example",
+    "title": "example",
+    "experimentId": "example",
+    "claims": [
+      {
+        "evidenceId": "example",
+        "signal": "example",
+        "equals": false
+      }
+    ],
+    "injectedTruthRefs": [],
+    "inference": "example",
+    "assumptions": [],
+    "uncertainty": "example"
+  },
+  "finding.accepted": {
+    "id": "example",
+    "reason": "example"
+  },
+  "finding.rerun_requested": {
+    "id": "example",
+    "reason": "example"
+  },
+  "fault.committed": {
+    "commitment": "example"
+  },
+  "fault.truth": {
+    "commitment": "example",
+    "truth": {},
+    "salt": "example"
+  },
+  "budget.accounted": {
+    "requestId": "example",
+    "phase": "reserved",
+    "costUsd": 0,
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checkUsd": 0,
+    "repairUsd": 0,
+    "checkId": "example",
+    "repairEpisode": "example",
+    "basis": "conservative_reservation"
+  },
+  "budget.warning": {
+    "code": "example",
+    "message": "example"
+  },
+  "budget.hard_stop": {
+    "code": "example",
+    "message": "example"
+  },
+  "report.finalized": {
+    "summary": "example",
+    "throughSequence": 0
+  }
+}

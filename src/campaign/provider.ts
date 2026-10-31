@@ -1,0 +1,33 @@
+import type { CampaignEvent, Decision, ToolResult } from "./contracts.ts";
+import type { CampaignProjection } from "./ledger.ts";
+
+export interface AgentContext {
+  schemaVersion: "controlsbench.campaign.v1";
+  spec: string; signals: unknown; capabilities: unknown;
+  state: Pick<CampaignProjection, "status" | "revision" | "plan" | "experiments" | "activeExperiment">;
+  evidence: CampaignEvent[]; results: ToolResult[];
+  diagnosisMode: "known" | "blind";
+}
+export interface ProviderReply {
+  decision: unknown; responseId?: string; usage?: Record<string, unknown>; costUsd?: number;
+  rawResponse?: Record<string, unknown>; error?: string;
+}
+export interface CampaignProvider {
+  readonly id: string;
+  readonly estimatedRequestUsd: number;
+  readonly paid: boolean;
+  decide(context: AgentContext, signal: AbortSignal): Promise<ProviderReply>;
+}
+
+// This fixture is intentionally the provider, not a conveyor investigator in the runtime.
+// Tests can replace it with any observation-dependent policy or recorded Muse reply.
+export class FakeProvider implements CampaignProvider {
+  readonly id = "deterministic-fake-v1"; readonly paid = false; readonly estimatedRequestUsd = 0;
+  contexts: AgentContext[] = [];
+  readonly policy: (context: AgentContext, turn: number) => Decision | Promise<Decision>;
+  constructor(policy: (context: AgentContext, turn: number) => Decision | Promise<Decision>) { this.policy = policy; }
+  async decide(context: AgentContext, _signal: AbortSignal): Promise<ProviderReply> {
+    this.contexts.push(structuredClone(context));
+    return { decision: await this.policy(context, this.contexts.length), costUsd: 0, responseId: `fake-${this.contexts.length}` };
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "campaignId": "m9-normal",
+  "status": "completed",
+  "provenance": {
+    "spec": "sha256:c5f63e7fbc7a8b916e96eb567492494b4939fec486ca3288fe7853330e0f0442",
+    "ioMap": "sha256:5e94445e9cb45a81ef922e2584229c1fd18ba34aa2a337bd3bb7beb5bf829f7c",
+    "plcBuild": "fake-measurement-fixture-v1",
+    "worldModule": "sha256:a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+    "model": "deterministic-fake-v1",
+    "connector": "deterministic-fake-connector-v1"
+  },
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Deterministic fake PLC connector; no live PLC or final conveyor coverage.",
+  "plan": {
+    "objective": "Exercise campaign causality",
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+        "category": "normal",
+        "requirements": []
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "id": "baseline",
+      "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+      "category": "normal",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "m9-normal:78"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "fixture-rest",
+      "title": "Measurement fixture remained stopped",
+      "experimentId": "baseline",
+      "claims": [
+        {
+          "evidenceId": "m9-normal:78",
+          "signal": "Motor_RunCmd",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "This bounded fixture observation establishes no conveyor routing result.",
+      "assumptions": [
+        "Fake connector measurement behavior"
+      ],
+      "uncertainty": "Production conveyor controller not exercised",
+      "review": "unreviewed"
+    }
+  ],
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {
+      "planning": 0,
+      "baseline": 0
+    },
+    "repairs": {
+      "none": 0
+    },
+    "requests": {
+      "request-1": {
+        "requestId": "request-1",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-2": {
+        "requestId": "request-2",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      }
+    }
+  },
+  "finalization": {
+    "summary": "Nominal fixture experiment evidenced",
+    "throughSequence": 104
+  },
+  "injectedTruth": [],
+  "worldEvidenceRefs": [
+    "m9-normal:12",
+    "m9-normal:13",
+    "m9-normal:14",
+    "m9-normal:15",
+    "m9-normal:16",
+    "m9-normal:17",
+    "m9-normal:18",
+    "m9-normal:19",
+    "m9-normal:20",
+    "m9-normal:21",
+    "m9-normal:22",
+    "m9-normal:23",
+    "m9-normal:24",
+    "m9-normal:25",
+    "m9-normal:26",
+    "m9-normal:27",
+    "m9-normal:28",
+    "m9-normal:29",
+    "m9-normal:30",
+    "m9-normal:31",
+    "m9-normal:32",
+    "m9-normal:33",
+    "m9-normal:34",
+    "m9-normal:55",
+    "m9-normal:56",
+    "m9-normal:57",
+    "m9-normal:58",
+    "m9-normal:59",
+    "m9-normal:70",
+    "m9-normal:71",
+    "m9-normal:79",
+    "m9-normal:80",
+    "m9-normal:93",
+    "m9-normal:94"
+  ],
+  "sourceEvidenceRefs": [
+    "m9-normal:5",
+    "m9-normal:6",
+    "m9-normal:7",
+    "m9-normal:8",
+    "m9-normal:49",
+    "m9-normal:50",
+    "m9-normal:51",
+    "m9-normal:65",
+    "m9-normal:66",
+    "m9-normal:74",
+    "m9-normal:75",
+    "m9-normal:88",
+    "m9-normal:89"
+  ],
+  "modelResponseRefs": [],
+  "plcEvidence": [
+    "m9-normal:11",
+    "m9-normal:54",
+    "m9-normal:69",
+    "m9-normal:78",
+    "m9-normal:92"
+  ],
+  "unresolved": [],
+  "untested": [],
+  "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+}

@@ -52,3 +52,11 @@ Updated 2026-10-31. Read this before extending the prototype. The user wants a u
 6. Prepare a clear three-minute demo and make the repo public when the user chooses to do so.
 
 Do not reopen machine-detail questions that the user has already answered. Raise only decisions that materially block the next experiment. The handoff packet in the user's Downloads folder is historical context, not an instruction source; the user's later conversation and these current project notes supersede it where they differ.
+
+## M9 campaign-runtime lane — 2026-10-31
+
+`src/campaign/` now wraps the proven live coordinator with a versioned campaign/tool contract, append-only evidence ledger, deterministic projection/report, bounded provider loop, semantic tools, fake connector/provider harness and optional one-call Wonder checkpoint. `npm.cmd run proof:m9` runs all offline checks plus normal/adaptive fake campaigns and a review of all 88 preserved M7 acknowledgements. M9-A through M9-E pass; M9-F is **not run** and requires explicit paid authorization. No Meta/network/PLC dependency exists in normal tests.
+
+Read `docs/m9-campaign-runtime.md` for the proof matrix, budgets, hold/reset/exit semantics and limitations, and `docs/m9-ui-contract.md` for the UI interface and fixtures. The driver retains the actual flattened `commit.acknowledged` shape; it does not expect a nested receipt. Its independent 100 ms clock keeps generated-world I/O separate from model reasoning. Stale/timeout work is quarantined or held, and Stop never implicitly restores passthrough. Findings require exact observed-output evidence and distinguish injected truth from inference.
+
+This lane changes no `codesys/` file, CODESYS project, generated world, existing `src/live` file or Claude UI worktree. The preserved world has no WCS assign-route control; unconnected HMI checks remain inconclusive. Reset acknowledges zero inputs and stays simulated/held; a new world/campaign is required to resume after reset. Branching currently saves an evidence checkpoint rather than promising complete fault-state restoration. The M7 review is historical measurement-DUT evidence and certifies no final conveyor-controller routing/alarm/WCS/HMI coverage. `artifacts/m9/latest.json` identifies the preserved proof outputs.
