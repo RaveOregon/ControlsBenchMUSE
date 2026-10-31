@@ -224,12 +224,15 @@ The normal default is a decision lease that holds on expiration, but Muse or the
 - Realism includes transport delay, actuator travel, obstruction, overlapping sensor zones, quantization, noise, missed pulses, bounce, drift, and mechanically possible/impossible states where applicable.
 - The first proof does not require a general 3D rigid-body, CAD, or intensive graphics engine. A continuous one-dimensional material-flow model may use a lightweight schematic view when it faithfully represents the machine behavior being tested.
 - Muse's inferred dimensions, device characteristics, and layout assumptions remain visible and versioned. The engineer may correct material misunderstandings through natural language without being asked to author the simulation.
-- Visualization is diagnostic support, not a generated product surface or evidence substitute. The first view need only make cartons, sensors, diverts, runout, active faults, raw states, and current actions understandable.
+- The machine view is a generated product surface for understanding physical operation. It follows the world snapshot and observed signal bindings; its appearance alone is not evidence that a PLC requirement passed.
 
 ### Lightweight visualization scope
 
-- Use a small reusable schematic renderer, such as SVG or Canvas, driven by the live world-state snapshot.
-- Do not ask Muse to generate custom renderer code for the first proof.
+- **Accepted 2026-10-31 promotion:** Muse authors a lightweight SVG/HTML machine view from the specification, equipment identities, declared assumptions, and snapshot bindings. This replaces the original first-proof restriction on generated renderer code.
+- The submission's core demo includes this state-bound generated machine view and a separate tile showing the actual PLC HMI/WebVisu session. Both support synchronized evidence inspection. These features are required demo work, not stretch items.
+- Run the generated view in an isolated presentation host with read-only snapshots and equipment-selection messages. The host owns credentials, PLC actions, evidence, clock, quality, and freshness. Retain the current conveyor drawing as a visibly labeled fallback when generation or validation fails.
+- Actual HMI observation includes source/session identity, capture timestamps, frame age, stale/lost state, and frame/action evidence. A configured URL or page load alone does not establish HMI observation or test coverage.
+- Muse operating the actual HMI remains the first stretch after observation works; it must operate the same session displayed in the portal and verify results against both screen and PLC evidence.
 - Do not build a general scene editor, 3D environment, physics renderer, animation framework, or asset pipeline.
 - Prioritize the campaign plan, live activity, signal trace, evidence, and adaptive-agent behavior over visual polish.
 - The visualization may expose simple diagnostic interaction such as selecting a sensor or carton to see its physical truth, raw signal value, last transition, and active fault.

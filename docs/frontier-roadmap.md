@@ -62,6 +62,8 @@ Adapter updates may run between episodes or asynchronously on a second GPU. Upda
 
 ## Hackathon Stretch Gates
 
+The current ordering is in `hackathon-stretch-goals.md`: the generated machine view and actual HMI observation are core demo features. Muse HMI operation, blind live diagnosis, and live world hot reload precede local-model and weight-adaptation stretches. This roadmap remains the longer-term compute/training track.
+
 After one complete Wonder-driven spec-to-evidence campaign works:
 
 1. Add a Glimmer-compatible local provider interface and measure the same campaign locally on suitable rented or borrowed hardware.

@@ -8,6 +8,8 @@ This direction supersedes the first-proof restriction in `docs/architecture-deci
 
 ## Immediate hackathon scope
 
+**Phase 0 promotion, 2026-10-31:** the generated operating machine view and the separate actual HMI observation tile are required core demo features. Muse-driven HMI operation is the first stretch after these work. General multi-machine ingestion remains deferred. See `../../docs/hackathon-stretch-goals.md` for acceptance gates and `../../docs/phase-0-base.md` for lane ownership.
+
 The user explicitly paused work toward the full end vision. Prioritize an impressive, honest demonstration of Muse product capabilities using the existing conveyor bench.
 
 - Give Muse the accepted conveyor specification, declared world assumptions and current snapshot/signal contract. Ask it to author the machine visual artifact, preferably SVG/HTML with dynamic state bindings, as part of the generated bench package.

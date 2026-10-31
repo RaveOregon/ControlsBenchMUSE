@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "directory": "artifacts/m9/2026-10-31T19-12-51-652Z",
+  "results": [
+    {
+      "name": "normal",
+      "status": "pass",
+      "eventCount": 105,
+      "evidenceClass": "fake_connector"
+    },
+    {
+      "name": "adaptive",
+      "status": "pass",
+      "eventCount": 157,
+      "evidenceClass": "fake_connector"
+    },
+    {
+      "name": "preserved-m7",
+      "status": "pass",
+      "acknowledgements": 88,
+      "evidenceClass": "preserved_live_plc"
+    }
+  ],
+  "paidCalls": 0,
+  "claimBoundary": "M9 deterministic runtime and historical M7 evidence review only. No final conveyor controller coverage.",
+  "M9_F": "not_run_requires_explicit_paid_authorization"
+}

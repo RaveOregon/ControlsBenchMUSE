@@ -1,5 +1,7 @@
 # Current Checkpoint — Gates A, B, C, and D Passed
 
+> Historical 2026-10-29 checkpoint. For the current 2026-10-31 state, resume from `HANDOFF.md` and `phase-0-base.md`. M0-M7, M8-A-D and M9-A-E have subsequently passed; the portal is merged. The generated machine view and actual HMI observation are now required demo features. The installation/next-work statements below describe the earlier checkpoint only.
+
 Updated 2026-10-29. This checkpoint exists so work can resume on another computer without reconstructing the design conversation.
 
 ## Resume Here

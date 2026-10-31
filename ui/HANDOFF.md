@@ -1,5 +1,7 @@
 # UI portal remediation handoff
 
+Phase 0 update, 2026-10-31: this branch is merged into main alongside M8 and M9. Start subsequent work from the shared `m10-base` tag. The user promoted the Muse-generated operating machine view and actual PLC HMI observation tile into required core demo scope. Muse HMI operation remains the first stretch. See `../docs/phase-0-base.md` for ownership and `../docs/hackathon-stretch-goals.md` for proof gates. The historical delivery notes below do not claim these new features are already implemented.
+
 Branch: `ui/campaign-workspace`. Initially reconciled with `main` at `cc4395e` in merge `287c979`; UI remediation is `cd3b5e7`. Also merged the additive M9 lane from main `f1a5420` after it landed during verification. Remediation changes are confined to `ui/`; CODESYS files and campaign-runtime implementation were not edited.
 
 Delivered Setup / Campaign / Results, a focused experiment and readable finding, explicit Simulated World vs PLC HMI surfaces, versioned context/assumptions, report coverage/export, collapsible diagnostics, keyboard access, focus management and reduced motion.
