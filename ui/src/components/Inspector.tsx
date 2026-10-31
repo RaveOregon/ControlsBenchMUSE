@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { signalHealth } from "../model/signal-health.ts";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { ProvenanceCheck } from "../adapters/replay/fixtures.ts";
 import type { MuseEvent } from "../model/events.ts";
 import { formatClock, formatRaw, shortHash } from "../model/format.ts";
@@ -8,6 +9,7 @@ import type { Selection } from "./selection.ts";
 
 interface Props {
   state: WorkspaceState;
+  nowMs: number;
   selection: Selection;
   provenance: ProvenanceCheck[] | null;
   onSelect: (selection: Selection) => void;
@@ -72,7 +74,26 @@ function ProvenanceTable({ event }: { event: MuseEvent }) {
   );
 }
 
-export function Inspector({ state, selection, provenance, onSelect }: Props) {
+export function Inspector({ state, nowMs, selection, provenance, onSelect }: Props) {
+  const drawer = useRef<HTMLElement>(null);
+  const open = selection !== null;
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement as HTMLElement | null;
+    drawer.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { e.preventDefault(); onSelect(null); }
+      if (e.key === 'Tab') {
+        const controls = drawer.current?.querySelectorAll<HTMLElement>('button, a[href], input, select, textarea, [tabindex="0"]');
+        if (!controls?.length) { e.preventDefault(); return; }
+        const first = controls[0]!; const last = controls[controls.length - 1]!;
+        if (e.shiftKey && (document.activeElement === first || document.activeElement === drawer.current)) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('keydown', onKey); if (previous?.isConnected) previous.focus(); };
+  }, [open, onSelect]);
   if (!selection) return null;
   const close = () => onSelect(null);
   let title = "";
@@ -185,6 +206,11 @@ export function Inspector({ state, selection, provenance, onSelect }: Props) {
         <dd className="mono">{formatRaw(value?.value)}</dd>
         <dt>Last change</dt>
         <dd className="mono">{value?.atMs !== undefined ? formatClock(value.atMs) : "—"}</dd>
+        <dt>Quality / freshness</dt><dd>{value?.quality ?? "unknown"} / {signalHealth(value, state, nowMs)}</dd>
+        <dt>Source timestamp</dt><dd>{value?.sourceTimestamp ?? "not provided"}</dd>
+        <dt>Server timestamp</dt><dd>{value?.serverTimestamp ?? "not provided"}</dd>
+        <dt>Workstation timestamp</dt><dd>{value?.workstationTimestamp ?? "not provided"}</dd>
+        <dt>Observed at</dt><dd>{value?.observedAtMs !== undefined ? `${formatClock(value.observedAtMs)} on campaign clock` : "unknown"}</dd>
         <dt>Cause</dt>
         <dd>{value?.cause ?? "—"}</dd>
         <dt>Source</dt>
@@ -245,7 +271,7 @@ export function Inspector({ state, selection, provenance, onSelect }: Props) {
   }
 
   return (
-    <aside className="drawer" aria-label="Inspector">
+    <aside ref={drawer} tabIndex={-1} className="drawer" role="dialog" aria-modal="true" aria-label="Inspector">
       <header>
         <h2>{title}</h2>
         <button className="btn small" onClick={close} aria-label="Close inspector">

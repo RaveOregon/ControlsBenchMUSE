@@ -12,7 +12,7 @@ export const REPLAY_SPEEDS = [1, 2, 5, 10, 20] as const;
 
 export class ReplaySession implements CampaignSource {
   readonly mode = "replay" as const;
-  readonly label = "Replay · preserved Gate A–D and M0–M2 evidence";
+  readonly label = "Replay · preserved Gate A–D and M0–M7 evidence";
   readonly store: WorkspaceStore;
   readonly bundle: FixtureBundle;
   speed = 2;

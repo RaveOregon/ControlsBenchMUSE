@@ -44,7 +44,7 @@ export function TopBar({ state, mode, liveAttached, onMode, speed, speeds, onSpe
         ControlsBench Muse<small>campaign workspace</small>
       </div>
       {mode === "replay" ? (
-        <span className="mode-badge replay" title="Everything shown is re-presented from preserved Gate A–D and M0–M2 records. Nothing here is live.">
+        <span className="mode-badge replay" title="Everything shown is re-presented from preserved Gate A–D and M0–M7 records. Nothing here is live.">
           REPLAY <span className="sub">recorded evidence · nothing here is live</span>
         </span>
       ) : (
@@ -77,16 +77,16 @@ export function TopBar({ state, mode, liveAttached, onMode, speed, speeds, onSpe
       <span className="spacer" />
       <div className="controls">
         {note && <span className="command-note">{note}</span>}
-        <button className="btn" disabled={!pauseCheck.ok} title={reason(pauseCheck) ?? (paused ? "Resume from the held image" : "Freeze world evolution and hold the current raw image")} onClick={run(paused ? commands.resume : commands.pause)}>
-          {paused ? "Resume" : "Pause"}
+        <button className="btn" disabled={!pauseCheck.ok} title={reason(pauseCheck) ?? (mode === "replay" ? "Control recorded playback only" : paused ? "Resume from the held image" : "Freeze world evolution and hold the current raw image")} onClick={run(paused ? commands.resume : commands.pause)}>
+          {mode === "replay" ? paused ? "Resume playback" : "Pause playback" : paused ? "Resume" : "Pause"}
         </button>
         <button className="btn" disabled={!stopCheck.ok} title={reason(stopCheck) ?? "Finalize the run record and hold the final image for inspection"} onClick={run(commands.stop)}>
-          Stop
+          {mode === "replay" ? "Stop playback" : "Stop"}
         </button>
-        <button className="btn" disabled={!resetCheck.ok} title={reason(resetCheck) ?? "Zero the complete simulated DI/AI image; stay in simulation"} onClick={run(commands.reset)}>
-          Reset Simulation
+        <button className="btn" disabled={!resetCheck.ok} title={reason(resetCheck) ?? (mode === "replay" ? "Clear the local replay image; nothing is sent to a PLC" : "Zero the complete simulated DI/AI image; stay in simulation")} onClick={run(commands.reset)}>
+          {mode === "replay" ? "Clear replay image" : "Reset Simulation"}
         </button>
-        {simulated ? (
+        {mode === "live" && (simulated ? (
           confirmExit ? (
             <>
               <button
@@ -111,7 +111,7 @@ export function TopBar({ state, mode, liveAttached, onMode, speed, speeds, onSpe
           <button className="btn" disabled={!exitCheck.ok} title={reason(exitCheck) ?? "Select simulated inputs; the image starts at false/zero"} onClick={run(commands.enterSimulation)}>
             Enter Simulation
           </button>
-        )}
+        ))}
         <button className="btn small" onClick={onSources} title="Preserved files behind this replay and their hash checks">
           Sources
         </button>

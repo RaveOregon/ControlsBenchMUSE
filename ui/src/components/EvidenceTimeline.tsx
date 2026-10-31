@@ -86,7 +86,7 @@ export function EvidenceTimeline({ state, nowMs, selection, onSelect }: Props) {
       <header>
         <h2>Evidence trace</h2>
         <span className="muted" style={{ fontSize: 12 }}>
-          {state.eventCount.toLocaleString("en-US")} events · world action → raw commit → PLC ack → PLC output → fault → agent → conclusion
+          {state.eventCount.toLocaleString("en-US")} events · {state.mode} · world → raw commit → PLC ack → PLC output → HMI → finding
         </span>
         <span className="spacer" style={{ flex: 1 }} />
         <div className="segmented" role="group" aria-label="Time window">
@@ -112,7 +112,8 @@ export function EvidenceTimeline({ state, nowMs, selection, onSelect }: Props) {
                 width={event.kind === "verdict" ? 6 : 2}
                 height={event.kind === "verdict" ? ROW_H - 8 : ROW_H - 12}
                 fill={event.kind === "verdict" ? (event.status === "pass" ? "var(--ok)" : event.status === "fail" ? "var(--bad)" : "var(--warn)") : LANE_COLOR[lane]}
-                className="clickable"
+                className="clickable" role="button" tabIndex={0} aria-label={event.summary}
+                onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect({ type: "event", id: event.id }); } }}
                 onClick={() => onSelect({ type: "event", id: event.id })}
               >
                 <title>{`${formatClock(event.atMs)} ${event.summary}`}</title>
@@ -143,7 +144,7 @@ export function EvidenceTimeline({ state, nowMs, selection, onSelect }: Props) {
           const tag = evidenceTag(event.provenance.evidenceClass, event.provenance.mode);
           const lane = event.lane === "system" ? null : (event.lane as TimelineLane);
           return (
-            <div key={event.id} role="listitem" className={`event-row${selection?.type === "event" && selection.id === event.id ? " selected" : ""}`} onClick={() => onSelect({ type: "event", id: event.id })}>
+            <button key={event.id} type="button" className={`event-row${selection?.type === "event" && selection.id === event.id ? " selected" : ""}`} onClick={() => onSelect({ type: "event", id: event.id })}>
               <span className="mono muted">{formatClock(event.atMs)}</span>
               <span className="lane-chip" style={{ ["--lane-color" as string]: lane ? LANE_COLOR[lane] : "var(--text-3)" }}>
                 {lane ? LANE_LABEL[lane] : event.kind === "step" ? "Activity" : "Coordinator"}
@@ -154,7 +155,7 @@ export function EvidenceTimeline({ state, nowMs, selection, onSelect }: Props) {
               <span className={`tag ${tag.cls}`} title={`${tag.title}\n${shortSource(event.provenance)}`}>
                 {tag.text}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>

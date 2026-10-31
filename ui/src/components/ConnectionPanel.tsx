@@ -10,7 +10,7 @@ export function ConnectionPanel({ state, nowMs }: { state: WorkspaceState; nowMs
   const timed = state.episode ? state.episode.clock !== "discrete" : !replay;
   const sorted = [...c.latencies].sort((left, right) => left - right);
   const outstanding = c.commits - c.acks;
-  const heartbeatAge = c.lastPlcHeartbeatAtMs !== undefined ? (nowMs - c.lastPlcHeartbeatAtMs) * scale : undefined;
+  const heartbeatAge = c.lastPlcHeartbeatAtMs !== undefined && (!replay || state.episode?.plcExpected) ? Math.max(0, nowMs - c.lastPlcHeartbeatAtMs) * scale : undefined;
   const staleMs = plcStaleThresholdMs(c.publishingIntervalMs);
   const linkText = c.link === "none" ? "no session" : c.link;
   const recordedAt = c.provenance?.recordedAt;

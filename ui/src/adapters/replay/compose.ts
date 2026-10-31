@@ -1,3 +1,4 @@
+import { LiveEventMapper } from "../live/coordinator-source.ts";
 // Composes preserved Gate A-D and M0-M2 records into one replayable campaign timeline.
 //
 // Every emitted event is derived from a field in a preserved artifact. Where a record has
@@ -53,7 +54,8 @@ class TimelineBuilder {
   #open: ReplayEpisode | null = null;
 
   add(atMs: number, lane: EventLane, summary: string, body: MuseEventBody, provenance: Provenance, checkId?: string): void {
-    this.events.push({ ...body, id: `replay-${String(++this.#next).padStart(6, "0")}`, atMs: Math.round(atMs * 1000) / 1000, lane, summary, checkId, provenance } as MuseEvent);
+    const finding = body.kind === "verdict" ? { observed: body.observed ?? body.summary } : {};
+    this.events.push({ ...body, ...finding, id: `replay-${String(++this.#next).padStart(6, "0")}`, atMs: Math.round(atMs * 1000) / 1000, lane, summary, checkId, provenance } as MuseEvent);
   }
 
   openEpisode(spec: Omit<ReplayEpisode, "startMs" | "endMs">, body: Extract<MuseEventBody, { kind: "episode.start" }>, provenance: Provenance): number {
@@ -111,6 +113,8 @@ export function composeReplay(bundle: FixtureBundle, scopeInput: Record<string, 
   if (inScope("AI-1")) composeBlindDiagnosis(b, bundle, roleToSignal, outputIds, scope);
   if (inScope("AI-3")) composeHotReload(b, bundle, limits);
   if (inScope("RT-5")) composeGuards(b, bundle);
+  composeQualification(b, bundle, scope);
+  if (inScope("NO-2")) composeM7(b, bundle);
   if (inScope("EV-1")) composeAudit(b, bundle);
   composeClosing(b, scoped);
 
@@ -764,3 +768,56 @@ function composeClosing(b: TimelineBuilder, scoped: PlanCheck[]): void {
   b.cursor = t + 400;
 }
 
+
+function composeQualification(b: TimelineBuilder, bundle: FixtureBundle, scope: Record<string, boolean>): void {
+  const q = bundle.qualification;
+  const rows = [
+    { id: 'RT-3', pass: q.m3.tiers.methodical.pass, source: P.m3Result, ref: 'tiers.methodical', summary: '10 Hz working demo tier: 6,000/6,000 images; p99 229.645 ms. 20/50 Hz are failed tiers.' },
+    { id: 'CQ-20', pass: q.m3.tiers.runtime.pass, source: P.m3Result, ref: 'tiers.runtime', summary: '20 Hz failed: 11,998/12,000 applied; 98.958% within 150 ms (required 99.9%).' },
+    { id: 'CQ-50', pass: q.m3.tiers.preferred.pass, source: P.m3Result, ref: 'tiers.preferred', summary: '50 Hz failed: 22,065/30,000 applied; effective cadence 36.602 Hz.' },
+    { id: 'CQ-4', pass: q.m4.pass, source: P.m4Result, ref: 'pass, timestampEvidence, limitations', summary: q.m4.verdict },
+    { id: 'FR-5', pass: q.m5.pass, source: P.m5Result, ref: 'pass, cases, limitations', summary: q.m5.verdict },
+    { id: 'CQ-5', pass: q.m5.pass, source: P.m5Result, ref: 'pass, cases, limitations', summary: q.m5.verdict },
+    { id: 'RT-4', pass: q.m6.summary.overallPass, source: P.m6Result, ref: 'summary, scopeStatement', summary: 'Reduced-scope M6 passed: disconnected baseline + three 10 Hz runs. 20/50 Hz task impact and full matrix not tested.' }
+  ].filter(row => scope[row.id]);
+  if (!rows.length) return;
+  const t = b.openEpisode({ id: 'm3-m6', title: 'Connector qualification · M3–M6', checkIds: rows.map(r => r.id), clock: 'discrete', timeScale: 1, source: P.m3Result }, { kind: 'episode.start', episodeId: 'm3-m6', title: 'Connector qualification · M3–M6', checkIds: rows.map(r => r.id), connectorExpected: false, plcExpected: false, worldExpected: false, timeScale: 1, note: 'Preserved qualification reports. Presentation spacing only; no live connection.' }, prov(P.m3Result, 'plc_measurement', 'discrete'));
+  rows.forEach((r, i) => b.add(t + 500 + i * 900, 'conclusion', r.summary, { kind: 'verdict', status: r.pass ? 'pass' : 'fail', summary: r.summary }, prov(r.source, 'plc_measurement', 'discrete', { ref: r.ref }), r.id));
+  if (scope['CQ-4']) {
+    let at = t + rows.length * 900;
+    for (const [i, transition] of bundle.qualification.m4.steadyTransitions.entries()) {
+      for (const [id, raw] of Object.entries(transition.outputEvents)) {
+        const v = raw as Record<string, any>;
+        b.add(at += 20, 'plc_output', 'M4 recorded output: ' + id, { kind: 'plc.output', values: { [id]: v.value }, origin: 'plc', metadata: { [id]: { quality: String(v.status).startsWith('Good') ? 'good' : 'bad', freshness: 'current', sourceTimestamp: v.sourceTimestamp, serverTimestamp: v.serverTimestamp, workstationTimestamp: v.workstationReceiptTime } } }, prov(P.m4Result, 'plc_measurement', 'discrete', { ref: 'steadyTransitions[' + i + '].outputEvents.' + id, recordedAt: v.workstationReceiptTime }), 'CQ-4');
+      }
+    }
+  }
+  b.closeEpisode(t + rows.length * 900 + 700, prov(P.m6Result, 'plc_measurement', 'discrete'));
+}
+
+function composeM7(b: TimelineBuilder, bundle: FixtureBundle): void {
+  const source = P.m7Trace;
+  const pv = (ref: string, sourceAtMs?: number) => prov(source, 'world_model', 'recorded_wall', { ref, sourceAtMs, recordedAt: bundle.qualification.m7.startedAt, worldVersion: bundle.qualification.m7.worldVersion });
+  const t0 = b.openEpisode({ id: 'm7-live-record', title: 'M7 recorded live proof · measurement DUT', checkIds: ['NO-2'], clock: 'recorded_wall', timeScale: 1, source }, { kind: 'episode.start', episodeId: 'm7-live-record', title: 'M7 recorded live proof · measurement DUT', checkIds: ['NO-2'], connectorExpected: true, plcExpected: true, worldExpected: true, timeScale: 1, world: { worldId: bundle.manifest.worldId, worldVersion: bundle.qualification.m7.worldVersion, run: 'm7-measurement-DUT' }, note: 'Recorded PLC evidence. PE_Entry drives Motor_RunCmd; not the final routing controller. World virtual time aligned to initialize; send timing derived from ack latency. HMI not observed/tested.' }, pv('coordinatorEvents'));
+  const mapper = new LiveEventMapper(bundle.manifest.signals.filter(s => s.direction === 'plc_to_world').map(s => s.id));
+  let end = t0;
+  for (const record of bundle.m7Trace.coordinatorEvents) {
+    for (const mapped of mapper.coordinator(record)) {
+      if (mapped.kind === 'episode.start' || mapped.kind === 'episode.end' || mapped.kind === 'campaign.state') continue;
+      const { id, atMs, lane, summary, provenance, ...body } = mapped;
+      const at = Math.max(t0, t0 + atMs); end = Math.max(end, at);
+      b.add(at, lane, summary, { ...body, summary } as MuseEventBody, { ...provenance, mode: 'replay', source, clock: 'recorded_wall' }, 'NO-2');
+    }
+  }
+  const records = bundle.m7Trace.coordinatorEvents;
+  const offset = (records.find(r => r.lane === 'world' && r.data.action === 'initialize')?.atMonotonicMs ?? records[0]!.atMonotonicMs) - records[0]!.atMonotonicMs;
+  for (const [i, record] of bundle.m7Trace.worldEvents.entries()) {
+    const at = t0 + offset + record.atMs; end = Math.max(end, at);
+    const d = record.data;
+    const p = { ...pv(`worldEvents[${i}]; world virtual clock aligned to initialize`, record.atMs), clock: 'world_virtual' as const };
+    if (record.lane === 'entity' && d.action === 'publish') b.add(at, 'system', `${d.snapshot.id} world projection`, { kind: 'entity.publish', entityId: d.snapshot.id, entityType: d.snapshot.type, state: d.snapshot.state }, p, 'NO-2');
+    if (record.lane === 'evidence') b.add(at, 'world', d.event.summary, { kind: 'world.evidence', type: d.event.type, data: d.event.data }, p, 'NO-2');
+  }
+  b.add(end + 200, 'conclusion', 'M7 measurement DUT finding', { kind: 'verdict', status: bundle.qualification.m7.status, summary: 'Live measurement DUT passed start, acceleration, carton/photoeye, stop, coast and hold: 88/88 revisions acknowledged. Final routing requirements remain untested. HMI not observed/tested.', evidence: { checkpoints: bundle.qualification.m7.checkpoints, limitations: 'Measurement DUT only; no final routing controller or HMI test.' } }, prov(P.m7Result, 'world_model', 'recorded_wall', { ref: 'status, checkpoints' }), 'NO-2');
+  b.closeEpisode(end + 400, pv('coordinatorEvents[last]'));
+}

@@ -6,6 +6,16 @@
 
 export type RawValue = boolean | number | string | null;
 
+export interface ValueMetadata {
+  quality?: "good" | "bad" | "unknown";
+  freshness?: "current" | "held" | "stale" | "unknown";
+  sourceTimestamp?: string;
+  serverTimestamp?: string;
+  workstationTimestamp?: string;
+}
+
+export type CommandOutcome = "pending" | "applied" | "rejected" | "timed_out";
+
 /** Whether the event is happening now (live) or is being re-presented from a preserved record (replay). */
 export type SourceMode = "replay" | "live";
 
@@ -42,10 +52,10 @@ export interface Provenance {
   worldVersion?: string;
 }
 
-export type TimelineLane = "world" | "raw_input" | "plc_ack" | "plc_output" | "fault" | "agent" | "conclusion";
+export type TimelineLane = "world" | "raw_input" | "plc_ack" | "plc_output" | "hmi" | "fault" | "agent" | "conclusion";
 export type EventLane = TimelineLane | "system";
 
-export const TIMELINE_LANES: readonly TimelineLane[] = ["world", "raw_input", "plc_ack", "plc_output", "fault", "agent", "conclusion"];
+export const TIMELINE_LANES: readonly TimelineLane[] = ["world", "raw_input", "plc_ack", "plc_output", "hmi", "fault", "agent", "conclusion"];
 
 export type CheckStatus = "planned" | "out_of_scope" | "running" | "pass" | "fail" | "inconclusive" | "not_run";
 
@@ -122,14 +132,15 @@ export type MuseEventBody =
       note?: string;
     }
   | { kind: "episode.end"; episodeId: string }
+  | { kind: "campaign.state"; phase: "running" | "completed"; detail: string }
   | { kind: "step"; phase: ActivityPhase; message: string; awaiting?: string }
   | { kind: "world.heartbeat"; tick: number }
   | { kind: "world.control"; controlId: string; payload: Record<string, unknown>; cause: string }
   | { kind: "world.evidence"; type: string; data?: Record<string, unknown> }
   | { kind: "entity.publish"; entityId: string; entityType: string; state: Record<string, unknown> }
   | { kind: "entity.remove"; entityId: string; reason: string }
-  | { kind: "raw.input"; signalId: string; value: RawValue; cause: string; revision?: number }
-  | { kind: "plc.output"; frameSequence?: number; values: Record<string, RawValue>; origin: "surrogate_driver" | "muse_surrogate" | "plc" }
+  | { kind: "raw.input"; signalId: string; value: RawValue; cause: string; revision?: number; metadata?: ValueMetadata }
+  | { kind: "plc.output"; frameSequence?: number; values: Record<string, RawValue>; origin: "surrogate_driver" | "muse_surrogate" | "plc"; metadata?: Record<string, ValueMetadata> }
   | { kind: "fault.set"; faultId: string; target: string; active: boolean; detail: string; sealed?: boolean }
   | { kind: "fault.clear_all"; detail: string }
   | {
@@ -178,9 +189,12 @@ export type MuseEventBody =
   | { kind: "hotreload"; phase: "prepare" | "check" | "migrate" | "activate" | "rollback"; version: string; detail: string }
   | { kind: "blind"; phase: "commit" | "seal" | "reveal"; hash: string; detail: string; truth?: Record<string, unknown> }
   | { kind: "audit.check"; name: string; passed: boolean; severity: string; warning?: boolean }
-  | { kind: "verdict"; status: CheckStatus; summary: string; evidence?: Record<string, unknown> }
+  | { kind: "verdict"; status: CheckStatus; summary: string; observed?: string; evidence?: Record<string, unknown> }
   | { kind: "engineer.command"; command: EngineerCommand; detail: string }
-  | { kind: "engineer.steer"; text: string };
+  | { kind: "engineer.steer"; text: string }
+  | { kind: "command.outcome"; requestId: string; command: string; payload?: Record<string, unknown>; outcome: CommandOutcome; deadlineMs: number; detail?: string }
+  | { kind: "finding.review"; findingId: string; action: "accepted" | "follow_up"; note: string }
+  | { kind: "hmi.observation"; observation: "action" | "frame" | "clip"; sourceId: string; capturedAt: string; note: string; mediaUrl?: string; endAt?: string };
 
 export type MuseEvent = MuseEventBody & {
   id: string;

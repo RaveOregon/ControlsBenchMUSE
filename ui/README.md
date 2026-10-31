@@ -1,75 +1,53 @@
-# ControlsBench Muse — campaign workspace (UI lane)
+# ControlsBench engineering portal
 
-A thin engineering workspace for the hackathon demo. Today it **replays preserved evidence** (Gate A–D and M0–M2); the live coordinator attaches later through the same event adapter. It does not operate CODESYS, make model calls, or simulate the conveyor.
-
-## Run
-
-Requires Node.js 22+.
+The UI replays preserved Gate A–D and M0–M7 evidence. Live mode is an attachment interface and remains unavailable until a real transport is attached. No PLC or model commands are issued by replay.
 
 ```powershell
 cd ui
 npm install
 npm run dev        # http://localhost:5178
-npm test           # 30 focused tests over the real preserved artifacts
-npm run build      # typecheck + production bundle in ui/dist
+npm test           # 40 tests, including every real M7 acknowledgement
+npm run build      # typecheck + production build
 ```
 
-Open the page, review the plan scope, and press **Start Campaign**. Replay speed (1×–20×) and **Skip to next record** are replay-only conveniences and are labeled as such.
+## Walkthrough
 
-## What the workspace shows
+1. **Setup:** review the imported v0.5 conveyor specification, 25-signal raw I/O map, world v0.5.0 assumptions, selected checks, and optional HMI source.
+2. **Campaign:** choose **Play recorded campaign**. Current check, Muse investigation/hypothesis, manipulation, PLC revision/cycle, and finding share one view. Speed and skip affect playback only.
+3. **Observe:** Simulated World and PLC HMI/WebVisu are separate surfaces. Geometry/assumptions expand on request. Device buttons open the signal's trace evidence. HMI is explicitly **HMI not observed/tested** until actual timestamped evidence arrives.
+4. **Inspect:** protocol, budget and raw I/O are collapsible. Signal inspectors retain quality, freshness and source/server/workstation timestamps. Unknown metadata remains unknown; unchanged values do not become stale merely from lacking transitions.
+5. **Results:** inspect passed/failed/inconclusive/not-run coverage by evidence class; all final routing requirements remain untested. Accept a finding separately from its verdict, record/request a targeted follow-up, or export the JSON report. The exported UI trace is bounded; full raw evidence remains in the cited preserved artifacts.
 
-- **Campaign plan:** summary, single Start Campaign authorization, eight expandable engineering groups plus the closing evidence audit. Each check states what Muse manipulates, what it observes, the pass oracle, and which preserved record backs it. Scope is editable before start and locked after; Muse-added investigations (AI-2) appear mid-run.
-- **Live activity:** a headline plus Muse / Coordinator / Connector / World / PLC health, elapsed time on the record's own clock, and the last meaningful activity. `src/model/activity.ts` separates reasoning, healthy waits, paused, connector loss, known PLC restart, PLC staleness, world stall, request timeout, condition timeout, and budget hold.
-- **Connection & authority:** transport, negotiated cadence, measured ack latency, workstation vs PLC-applied sequence, outstanding echoes, boot identity changes, heartbeat age against the M5 stale rule, and simulation requested (engineer) vs applied (PLC-reported, or "not reported").
-- **Machine:** an SVG schematic drawn only from recorded raw inputs, PLC outputs, carton entities, and injected faults. Geometry is parsed from the generated world's own `CONFIG`; belt marks advance from the raw `Encoder_Count`, so stops show the recorded deceleration and coast.
-- **Evidence trace:** swimlanes for world action → raw input commit → PLC acknowledgement → PLC output → fault → agent action → conclusion, plus a key-event list. Every item opens in the inspector with its provenance (mode, evidence class, source file and reference, clock, run, seed, world version).
-- **Raw I/O:** all 25 signals as raw values (BOOL 0/1, REAL, UDINT encoder counts), plus per-output physical-sink suppression as engineer configuration.
-- **Budget:** campaign spend vs warning and hard stop, in-flight reservation, the request timer against the 5:00 limit, repair-episode spend and failures, and a plain explanation of hard-stop behaviour.
-- **Controls:** Start Campaign, Pause (hold image), Stop (finalize and hold), Reset Simulation (zero the DI/AI image, stay simulated), Exit Simulation (confirmed return to hardware), Enter Simulation, and natural-language steering.
+## Evidence truth
 
-## Architecture
+- M3: 10 Hz passed; 20 Hz and 50 Hz failed. 10 Hz is the demo operating point.
+- M4 output visibility and M5 practical loss/recovery passed. Physical Ethernet and server-only loss were not independently isolated.
+- Reduced-scope M6 passed at 10 Hz; full matrix and 20/50 Hz task impact remain deferred.
+- M7 passed live with the measurement DUT (`PE_Entry` drives `Motor_RunCmd`), with 88 acknowledged revisions. It does not pass final routing requirements.
+- Surrogate/world-contract checks, connector qualification, measurement-DUT tests, and final PLC requirement tests stay separate.
+- The world schematic projects generated physical truth. It is neither the HMI nor independent proof of PLC correctness.
+- M7 acknowledgement record time and latency are preserved; flattened V1 send timing is explicitly derived. Missing quality and source/server timestamps are never synthesized. M4 provides actual Good status and all three timestamps.
+- Hash verification uses LF-normalized preserved text and hashes recorded in Gate D and `codesys/README.md`. M7 files without an independent frozen hash are labeled accordingly.
 
-```text
-preserved artifacts ──► adapters/replay/compose.ts ──► MuseEvent[] ──┐
-                                                                    ├──► model/workspace-store.ts ──► React components
-live coordinator ────► adapters/live/coordinator-source.ts ─────────┘           │
-                                                                    model/activity.ts (derived status)
+## Live attachment contract V1
+
+`window.controlsBenchPortal` exposes:
+
+```ts
+attachCoordinator({ send(command) { /* forward to real coordinator */ } })
+detachCoordinator()
+ingestCoordinatorEvents(records) // current src/live flattened CoordinatorEvent shape
+acknowledge({ requestId, outcome: 'applied' | 'rejected', detail? })
+ingestEvidence(events)           // live-labeled MuseEvent[] for plan/model/finding/world data
+ingestHmi(observation)           // registered source ID, mode, capturedAt, action/frame/clip
 ```
 
-- `src/model/events.ts` — the UI-facing event contract. Every event carries `provenance` (`mode: replay | live`, evidence class, source, reference, clock). Components never see OPC UA node IDs, trace file layouts, or coordinator internals.
-- `src/model/workspace-store.ts` — folds events and engineer commands into workspace state and enforces campaign transitions. It **throws if an event's mode differs from the workspace mode**, so recorded evidence cannot be shown as live, or the reverse.
-- `src/adapters/replay/` — `fixtures.ts` loads the preserved files (browser via `?raw`, tests via the filesystem) and verifies LF-normalized SHA-256 against the hashes recorded in `gate-d-result.json` and `codesys/README.md`. `compose.ts` turns them into one campaign timeline. `replay-session.ts` plays it against a pausable playhead.
-- `src/adapters/source.ts` — the `CampaignSource` interface that both sources implement.
+Commands carry `{ contractVersion: 1, requestId, type, payload? }`. Transport delivery is not an application acknowledgement. Emit `applied` only after the coordinator applies the requested action. Pending commands keep confirmed displayed state unchanged; rejection, disconnect, send errors and a five-second timeout are visible. Unknown/duplicate/late acknowledgements do not silently apply state. Reset and simulation changes additionally require real connector observations to update the applied raw image or `SimulationApplied`. Physical-sink suppression changes only after acknowledgement.
 
-### Truthful replay rules
+The adapter explicitly maps flattened `commit.acknowledged` records from `src/live/coordinator.ts`; it also accepts full receipts/observations. `ui/test/live-contract.test.ts` checks the preserved M7 trace field by field. The UI clock and projected coordinator timestamps share one campaign clock; replay uses its frozen playhead.
 
-- Every replayed event derives from a field in a preserved artifact; tests check raw inputs and PLC frames one-to-one against Gate A/B, all 10,000 M2 acknowledgements and latencies, and each model call's recorded duration and cost.
-- Each episode declares its clock: `world_virtual` (surrogate trace time), `recorded_wall`, `derived_latency` (the M2 rows record latency but no timestamps), or `discrete` (untimed; spacing is presentation only, so the UI shows "timing not recorded" and never judges staleness). Condensation (M2 ×14.5, PLC restart ×10) is displayed, never hidden.
-- Gate A–C world runs are labeled **surrogate** (no PLC). M0–M2 are **PLC · recorded**. CP-11 guard states are labeled **guard exercise**, not live failures. AI-1 is shown as **inconclusive** because Gate C honestly scored it `insufficient_evidence`.
-- Hidden fault truth stays sealed until after the sealed diagnosis.
-- Checks that need M3–M7 finish as **not run**, with the measurement they await.
+For HMI, configure a WebVisu URL or an external capture source ID in Setup. A WebVisu iframe hosts the actual configured page. A configured URL alone does not establish observed/tested status. External capture supplies `{ sourceId, mode, capturedAt, observation: 'action' | 'frame' | 'clip', note, mediaUrl?, endAt? }`. Frames/clips require real media; every accepted observation gets its own timeline lane and source timestamp. Vision-driven operation and an external capture/command server are not implemented in this UI lane.
 
-## Attaching the live coordinator
+## Accessibility and validation
 
-`src/adapters/live/coordinator-source.ts` mirrors, structurally, the live lane's `CoordinatorEvent`, `ConnectorObservation`, and `CommitReceipt` (in progress under `src/live/` on main) without importing uncommitted code. `LiveEventMapper` turns them into live-labeled `MuseEvent`s:
-
-| Coordinator record | UI events |
-|---|---|
-| `ConnectorObservation` | `plc.identity` (on boot change), `plc.heartbeat`, `simulation.state`, `connector.link` (on `connectorStale` change), `plc.output` (manifest outputs only) |
-| `CommitReceipt` | changed `raw.input` values, `connector.commit`, `connector.ack` with latency and capture cycle, then the observation mapping |
-| `lifecycle` / `control` / `world` lanes | `step` / `world.control` / `world.evidence` |
-
-To attach:
-
-1. Expose coordinator events from the workstation process (SSE or WebSocket in the browser; IPC if this is later wrapped in Electron).
-2. Call `liveSession.attach({ send })` with a transport that forwards Start, Pause, Stop, Reset, Exit/Enter Simulation, suppression, and steering commands to the coordinator.
-3. Feed received records into `liveSession.ingestCoordinatorEvents(...)`.
-
-Until a transport is attached, Live mode shows nothing and cannot start. The model-call, wait, verdict, and plan-addition events need coordinator equivalents; their shapes are in `events.ts`.
-
-## Known limits
-
-- Local web app, not yet an Electron shell.
-- In replay, Pause, Stop, Reset, Exit Simulation, suppression, and steering are recorded locally only. Nothing is sent to a PLC and no model is called.
-- Browsers throttle animation in hidden or unfocused windows; the replay advances at most 1 s per frame, so it slows rather than jumping.
-- The campaign plan is composed from the preserved records rather than generated by Muse in this build.
+Buttons/disclosures replace clickable layout containers; SVG devices support Enter/Space. Inspectors trap focus, close on Escape and restore focus. Focus outlines and reduced-motion styling are included. Desktop screenshots and verification notes are in `docs/screenshots/` and `HANDOFF.md`.

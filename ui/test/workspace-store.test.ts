@@ -121,8 +121,10 @@ test("a full replay completes, finalizes, and reports recorded verdicts honestly
   assert.equal(state.finalized, true);
   const status = (id: string) => state.checks[id]?.status;
   for (const id of ["IO-1", "IO-2", "SM-1", "SM-2", "FN-1", "FN-2", "FN-3", "FN-4", "RT-1", "RT-2", "RT-5", "FR-1", "FR-2", "FR-3", "FR-4", "NO-1", "ES-1", "ES-2", "AI-2", "AI-3", "EV-1"]) assert.equal(status(id), "pass", id);
+  for (const id of ["RT-3", "RT-4", "FR-5", "NO-2", "CQ-4", "CQ-5"]) assert.equal(status(id), "pass", id);
+  for (const id of ["CQ-20", "CQ-50"]) assert.equal(status(id), "fail", id);
   assert.equal(status("AI-1"), "inconclusive", "insufficient_evidence is shown as inconclusive, not as a pass");
-  for (const id of ["FN-5", "RT-3", "RT-4", "FR-5", "NO-2", "ES-3"]) assert.equal(status(id), "not_run", `${id} awaits the live connector`);
+  for (const id of ["FN-5", "ES-3"]) assert.equal(status(id), "not_run", `${id} awaits the live connector`);
   assert.equal(state.checks["AI-2"]?.addedBy, "muse");
   assert.equal(state.agent.calls.length, 6);
   assert.equal(Number(state.budget.spentUsd.toFixed(2)), 3.25);

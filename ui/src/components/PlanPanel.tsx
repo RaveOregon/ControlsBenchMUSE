@@ -38,12 +38,12 @@ interface Props {
 function CheckRow({ check, state, open, selected, locked, onToggle, onSelect, onScope }: { check: CheckState; state: WorkspaceState; open: boolean; selected: boolean; locked: boolean; onToggle: () => void; onSelect: () => void; onScope: (included: boolean) => void }) {
   const tag = evidenceTag(check.evidenceClass, state.mode, check.availability);
   return (
-    <div className={`check${selected ? " selected" : ""}`} onClick={onToggle}>
+    <div className={`check${selected ? " selected" : ""}`}><button className="check-toggle" onClick={onToggle} aria-expanded={open} aria-label={`Expand ${check.id}: ${check.title}`}>▸</button>
       <span className={`status-dot ${check.status}`} title={STATUS_LABEL[check.status]} />
       <div className="line">
         {check.addedBy === "plan" && (
           <input
-            type="checkbox"
+            type="checkbox" aria-label={`Include ${check.id} ${check.title}`}
             className="scope-box"
             checked={state.scope[check.id] === true}
             disabled={locked}
@@ -140,10 +140,10 @@ export function PlanPanel({ state, worldName, worldVersion, signalCounts, select
                 setStartNote(result.ok ? undefined : result.reason);
               }}
             >
-              {state.phase === "ready" ? "Start Campaign" : "Start New Campaign"}
+              {state.mode === "replay" ? "Play recorded campaign" : state.phase === "ready" ? "Start Campaign" : "Start New Campaign"}
             </button>
             <p className="muted" style={{ marginTop: 6, fontSize: 12 }}>
-              {startNote ?? startDisabledReason ?? "One authorization: Muse may run every selected check, inject simulated faults, branch, and add investigations without per-check approval. You keep Pause, Stop, and steering."}
+              {startNote ?? startDisabledReason ?? "Review the selected scope. Replay plays preserved evidence only; live campaign actions require coordinator confirmation."}
             </p>
           </>
         ) : (
@@ -170,12 +170,12 @@ export function PlanPanel({ state, worldName, worldVersion, signalCounts, select
         const counts = (["pass", "inconclusive", "fail", "running", "not_run"] as CheckStatus[]).map((status) => [status, members.filter((check) => check.status === status).length] as const).filter(([, count]) => count > 0);
         return (
           <div className="group" key={group.id}>
-            <div className="group-head" onClick={() => setOpenGroups({ ...openGroups, [group.id]: !open })} title={group.blurb}>
+            <div className="group-head" title={group.blurb}>
               <span className={`chev${open ? " open" : ""}`}>▸</span>
               {plannedMembers.length > 0 && (
-                <input type="checkbox" className="scope-box" checked={allIn} disabled={locked} title={locked ? "Scope is locked once the campaign starts" : "Include group in scope"} onClick={(event) => event.stopPropagation()} onChange={(event) => onScope(plannedMembers.map((check) => check.id), event.target.checked)} />
+                <input type="checkbox" aria-label={`Include ${group.title}`} className="scope-box" checked={allIn} disabled={locked} title={locked ? "Scope is locked once the campaign starts" : "Include group in scope"} onClick={(event) => event.stopPropagation()} onChange={(event) => onScope(plannedMembers.map((check) => check.id), event.target.checked)} />
               )}
-              <span className="title">{group.title}</span>
+              <button className="group-toggle title" aria-expanded={open} onClick={() => setOpenGroups({ ...openGroups, [group.id]: !open })}>{group.title}</button>
               <span className="counts">
                 {counts.length === 0 ? (
                   <span className="muted">{members.length}</span>

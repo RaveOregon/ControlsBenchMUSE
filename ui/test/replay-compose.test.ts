@@ -68,7 +68,7 @@ test("the M2 stream replays every recorded commit, acknowledgement, and latency"
   const stream = timeline.episodes.find((episode) => episode.id === "m2-stream")!;
   assert.equal(stream.clock, "derived_latency");
   assert.ok(stream.timeScale > 1, "condensation is declared, not hidden");
-  const identities = timeline.events.filter((event) => event.kind === "plc.identity").map((event) => (event.kind === "plc.identity" ? event.bootIdentity : ""));
+  const identities = timeline.events.filter((event) => event.kind === "plc.identity" && event.provenance.source !== FIXTURE_PATHS.m7Trace).map((event) => (event.kind === "plc.identity" ? event.bootIdentity : ""));
   assert.deepEqual(identities, ["1414124232182", "1419486354154", "1419755446149"]);
 });
 

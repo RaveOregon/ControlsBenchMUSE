@@ -75,7 +75,7 @@ test("Pause, Stop, and completion override in-progress activity", () => {
   store.pause(20);
   const paused = classifyActivity(store.state, 400_000);
   assert.equal(paused.state, "paused", "a paused campaign is never reported as a timed-out or stalled agent");
-  assert.match(paused.headline, /PLC keeps scanning/);
+  assert.match(paused.headline, /Playback paused/);
   store.stop(30);
   assert.equal(classifyActivity(store.state, 40).state, "stopped");
   assert.equal(store.state.budget.reservedUsd, 0, "finalizing releases the abandoned reservation");

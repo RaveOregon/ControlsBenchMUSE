@@ -15,7 +15,7 @@ function Pill({ pill }: { pill: HealthPill }) {
 export function ActivityStrip({ view, speedNote }: { view: ActivityView; speedNote?: string }) {
   const animate = ANIMATED.has(view.tone);
   return (
-    <section className="activity" aria-live="polite" aria-label="Live activity">
+    <section className="activity" aria-live="polite" aria-label={speedNote?.startsWith("replay") ? "Recorded activity" : "Live activity"}>
       <div className="activity-main">
         <span className={`pulse tone-${view.tone}${animate ? " animate" : ""}`} aria-hidden />
         <div style={{ minWidth: 0 }}>

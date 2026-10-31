@@ -1,0 +1,20 @@
+# UI portal remediation handoff
+
+Branch: `ui/campaign-workspace`. Reconciled with `main` at `cc4395e` in merge `287c979`. Remediation changes are confined to `ui/`; CODESYS files and campaign-runtime implementation were not edited.
+
+Delivered Setup / Campaign / Results, a focused experiment and readable finding, explicit Simulated World vs PLC HMI surfaces, versioned context/assumptions, report coverage/export, collapsible diagnostics, keyboard access, focus management and reduced motion.
+
+P0: V1 maps the real flattened M7 coordinator shape, retaining every image, output, epoch, sequence, cycle and latency. Live commands have request IDs and pending/applied/rejected/timed-out outcomes; confirmation precedes display changes. Raw image and SimulationApplied still require actual observations. Source events and live health share one clock; replay uses its playhead. Completed observations retain their original PLC provenance after health expectations end.
+
+Evidence: 10 Hz passed; 20/50 Hz failed; M4/M5 passed; M6 passed only its reduced 10 Hz scope; M7 passed using the measurement DUT. Final routing requirements remain not run. The schematic is explicitly a diagnostic world projection. HMI remains “HMI not observed/tested” without real timestamped observation. No live values or HMI imagery were fabricated.
+
+Validation:
+- UI tests: 40/40, including all 88 preserved M7 acknowledgements and failed/late/timed-out command paths.
+- Runtime tests: 7/7; root and UI typechecks passed; production Vite build passed.
+- Chrome desktop: Setup context/scope, complete replay, report evidence classes/limitations, focused M7 observation, keyboard device inspection and Escape verified.
+- Export verified: 32 campaign checks, 23 final requirements all not run, HMI unobserved, and bounded trace disclosure (12,000 retained of 27,692 received events).
+- Screenshots: `docs/screenshots/setup.jpg`, `campaign.jpg`, `world-hmi.jpg`, `results.jpg`.
+
+Walkthrough: Setup → review context/scope → Campaign → Play recorded campaign → inspect devices/evidence/finding → Results → inspect untested requirements / export report. Replay never operates a PLC. See README for the V1 attachment API and external HMI capture interface.
+
+Remaining integration: a real command transport must call the exposed portal bridge and return application acknowledgements; a real HMI URL or controlled capture producer must be configured. The UI supplies these interfaces, not a replacement campaign server. Vision-driven HMI operation is deferred. M7 missing source/server timestamps and quality remain unknown; derived send timing is labeled. In-memory review/configuration resets with page reload.

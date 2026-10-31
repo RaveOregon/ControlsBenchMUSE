@@ -43,7 +43,7 @@ export function MachineView({ state, geometry, onSelect }: Props) {
     return (
       <section className="panel machine">
         <header>
-          <h2>Machine</h2>
+          <h2>Simulated World</h2>
         </header>
         <div className="body muted">Geometry unavailable: the generated world source has no parseable CONFIG block, so no schematic is drawn.</div>
       </section>
@@ -66,7 +66,7 @@ export function MachineView({ state, geometry, onSelect }: Props) {
   const branchB = { from: { x: x(g.divert2M), y: LANE_Y }, to: branchPoint(g.divert2M, g.exitBEndM - g.divert2M) };
 
   const Lamp = ({ cx, cy, id, value, color, label }: { cx: number; cy: number; id: string; value: RawValue | undefined; color: string; label: string }) => (
-    <g className="clickable" onClick={select(id)}>
+    <g className="clickable" role="button" tabIndex={0} aria-label={`Inspect ${id} trace evidence`} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(id)(); } }} onClick={select(id)}>
       <title>{`${id} = ${formatRaw(value)}`}</title>
       <circle cx={cx} cy={cy} r={5.5} fill={on(value) ? color : "transparent"} stroke={value === undefined ? "var(--line-strong)" : color} strokeWidth={1.5} strokeDasharray={value === undefined ? "2 2" : undefined} />
       <text x={cx} y={cy + 16} textAnchor="middle" className="svg-small">
@@ -99,7 +99,7 @@ export function MachineView({ state, geometry, onSelect }: Props) {
     const value = input(id);
     const lit = on(value);
     return (
-      <g className="clickable" onClick={select(id)} transform={`translate(${p.x} ${p.y}) rotate(${p.angle})`}>
+      <g className="clickable" role="button" tabIndex={0} aria-label={`Inspect ${id} trace evidence`} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(id)(); } }} onClick={select(id)} transform={`translate(${p.x} ${p.y}) rotate(${p.angle})`}>
         <title>{`${id} raw = ${formatRaw(value)}${state.inputs[id]?.cause ? `\n${state.inputs[id]!.cause}` : ""}`}</title>
         <line x1={0} y1={-LANE_H / 2 - 7} x2={0} y2={LANE_H / 2 + 7} stroke={lit ? "var(--beam)" : "var(--line-strong)"} strokeWidth={lit ? 3 : 1} strokeDasharray={lit ? undefined : "3 3"} />
         <rect x={-4} y={-LANE_H / 2 - 13} width={8} height={7} rx={1.5} fill={lit ? "var(--beam)" : "var(--panel-2)"} stroke="var(--text-3)" />
@@ -123,7 +123,7 @@ export function MachineView({ state, geometry, onSelect }: Props) {
     const pivot = { x: x(atM) - 44, y: LANE_Y - LANE_H / 2 };
     return (
       <g>
-        <g className="clickable" onClick={select(`D${n}_Position`)}>
+        <g className="clickable" role="button" tabIndex={0} aria-label={`Inspect divert ${n} trace evidence`} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(`D${n}_Position`)(); } }} onClick={select(`D${n}_Position`)}>
           <title>{`D${n}_Position raw = ${formatRaw(input(`D${n}_Position`))}`}</title>
           <line x1={pivot.x} y1={pivot.y} x2={pivot.x + 58 * Math.cos((angle * Math.PI) / 180)} y2={pivot.y + 58 * Math.sin((angle * Math.PI) / 180)} stroke="var(--text)" strokeWidth={4} strokeLinecap="round" />
           <circle cx={pivot.x} cy={pivot.y} r={4} fill="var(--text)" />
@@ -148,9 +148,9 @@ export function MachineView({ state, geometry, onSelect }: Props) {
   const cartons = Object.entries(state.entities).filter(([, entity]) => entity.type === "carton");
 
   return (
-    <section className="panel machine" aria-label="Machine diagnostic view">
+    <section className="panel machine" aria-label="Simulated World diagnostic projection">
       <header>
-        <h2>Machine</h2>
+        <h2>Simulated World</h2>
         <div className="machine-meta">
           {episode?.world ? (
             <>
@@ -160,10 +160,10 @@ export function MachineView({ state, geometry, onSelect }: Props) {
               <span>· run {episode.world.run}</span>
               {episode.world.seed !== undefined && <span>· seed {episode.world.seed}</span>}
               {(() => {
-                const tag = evidenceTag(episode.world.blindView ? "agent_record" : "surrogate_contract", state.mode);
+                const tag = evidenceTag(episode.world.blindView ? "agent_record" : episode.plcIncluded ? "world_model" : "surrogate_contract", state.mode);
                 return <span className={`tag ${tag.cls}`} title={tag.title}>{episode.world.blindView ? "blind view" : tag.text}</span>;
               })()}
-              {!episode.plcExpected && <span className="muted">· surrogate PLC-output driver, no PLC</span>}
+              {!episode.plcIncluded && <span className="muted">· surrogate PLC-output driver, no PLC</span>}
             </>
           ) : episode ? (
             <span className="muted">{episode.title}</span>
@@ -172,7 +172,8 @@ export function MachineView({ state, geometry, onSelect }: Props) {
           )}
         </div>
       </header>
-      <svg viewBox="0 0 880 300" role="img" aria-label="Conveyor schematic">
+      <p className="world-caption">{state.mode === "replay" ? "Recorded world state" : "Generated physical truth"} · diagnostic projection · not PLC HMI or proof of PLC correctness</p>
+      <svg viewBox="0 0 880 300" role="group" aria-label="Simulated conveyor world; interactive devices link to trace evidence">
         <defs>
           <clipPath id="lane-clip">
             <rect x={laneStart} y={LANE_Y - LANE_H / 2} width={laneEnd - laneStart} height={LANE_H} />
@@ -254,7 +255,7 @@ export function MachineView({ state, geometry, onSelect }: Props) {
               ["Belt_SpeedActual", "Belt_SpeedActual (REAL)"],
               ["Drive_Current", "Drive_Current (REAL)"]
             ].map(([id, label], index) => (
-              <g key={id} className="clickable" onClick={select(id!)} transform={`translate(0 ${index * 18})`}>
+              <g key={id} className="clickable" role="button" tabIndex={0} aria-label={`Inspect ${id} trace evidence`} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(id!)(); } }} onClick={select(id!)} transform={`translate(0 ${index * 18})`}>
                 <title>{`${id} raw = ${formatRaw(input(id!))}`}</title>
                 <text x={0} y={0} className="svg-small">
                   {label}

@@ -87,8 +87,8 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   const flag = state.runtimeFlag;
   const call = state.agent.active;
   const callAge = call ? toSource(nowMs - call.startedAtMs) : undefined;
-  const plcAge = conn.lastPlcHeartbeatAtMs !== undefined ? toSource(nowMs - conn.lastPlcHeartbeatAtMs) : undefined;
-  const worldAge = state.world.lastHeartbeatAtMs !== undefined ? toSource(nowMs - state.world.lastHeartbeatAtMs) : undefined;
+  const plcAge = conn.lastPlcHeartbeatAtMs !== undefined ? toSource(Math.max(0, nowMs - conn.lastPlcHeartbeatAtMs)) : episode?.plcExpected ? toSource(nowMs - episode.startedAtMs) : undefined;
+  const worldAge = state.world.lastHeartbeatAtMs !== undefined ? toSource(Math.max(0, nowMs - state.world.lastHeartbeatAtMs)) : episode?.worldExpected ? toSource(nowMs - episode.startedAtMs) : undefined;
   const waits = Object.values(state.waits).sort((left, right) => left.startedAtMs - right.startedAtMs);
 
   // ----- component health
@@ -123,7 +123,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
 
   const connector: HealthPill = (() => {
     if (!episode?.connectorExpected) {
-      if (episode?.world && !episode.plcExpected) return { label: "Connector", value: "n/a · surrogate driver", tone: "neutral" };
+      if (episode?.world && !episode.plcIncluded) return { label: "Connector", value: "n/a · surrogate driver", tone: "neutral" };
       return { label: "Connector", value: conn.link === "none" ? "not attached" : "idle", tone: "neutral" };
     }
     if (conn.link === "lost") return { label: "Connector", value: "lost", tone: "stalled" };
@@ -134,7 +134,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
 
   const plc: HealthPill = (() => {
     if (!episode?.plcExpected) {
-      if (episode?.world) return { label: "PLC", value: "surrogate driver (no PLC)", tone: "neutral" };
+      if (episode?.world && !episode.plcIncluded) return { label: "PLC", value: "surrogate driver (no PLC)", tone: "neutral" };
       if (conn.bootIdentity) return { label: "PLC", value: `last boot ${conn.bootIdentity}`, tone: "neutral" };
       return { label: "PLC", value: episode ? "not in this record" : state.mode === "replay" ? "none (replay)" : "not connected", tone: "neutral" };
     }
@@ -145,6 +145,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   })();
 
   const world: HealthPill = (() => {
+    if (!active && state.episode?.world) return { label: "World", value: "held · source clock stopped", tone: "paused" };
     if (flag?.state === "world_stalled") return { label: "World", value: `stalled ${formatSeconds(flag.elapsedMs)}${flag.exercise ? " (guard exercise)" : ""}`, tone: "stalled" };
     if (!episode?.worldExpected) {
       if (episode?.world) return { label: "World", value: `held · ${episode.world.run}`, tone: "neutral" };
@@ -167,11 +168,11 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   // ----- headline, most severe first
   if (state.phase === "ready") {
     if (!conn.simulationRequested) return view({ state: "hardware", tone: "neutral", headline: "Hardware passthrough — enter simulation before starting a campaign", elapsedLabel: "—" });
-    return view({ state: "idle", tone: "neutral", headline: "Ready — review the plan scope, then Start Campaign", elapsedLabel: "—" });
+    return view({ state: "idle", tone: "neutral", headline: state.mode === "replay" ? "Ready — Play recorded campaign" : "Ready — review the plan scope, then Start Campaign", elapsedLabel: "—" });
   }
   if (state.phase === "completed") return view({ state: "completed", tone: "done", headline: "Campaign complete — run record finalized and held for inspection", elapsedLabel: "—" });
   if (state.phase === "stopped") return view({ state: "stopped", tone: "done", headline: "Stopped — run record finalized; final raw image held for inspection", elapsedLabel: "—" });
-  if (state.phase === "paused") return view({ state: "paused", tone: "paused", headline: "Paused — current raw image held; the PLC keeps scanning", detail: inProgress ? `Was: ${inProgress}` : undefined, elapsedLabel: "—" });
+  if (state.phase === "paused") return view({ state: "paused", tone: "paused", headline: state.mode === "replay" ? "Playback paused — recorded image held" : "Paused — current raw image held; the PLC keeps scanning", detail: inProgress ? `Was: ${inProgress}` : undefined, elapsedLabel: "—" });
   if (state.phase === "budget_hold") return view({ state: "budget_hold", tone: "stalled", headline: "Budget hard stop — no further model calls; state held until you extend or stop", detail: `Spent $${state.budget.spentUsd.toFixed(2)} of $${state.budget.limits?.campaignHardUsd.toFixed(2)}`, elapsedLabel: "—" });
 
   if (episode?.connectorExpected && conn.link === "lost") {

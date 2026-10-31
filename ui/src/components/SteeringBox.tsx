@@ -20,6 +20,7 @@ export function SteeringBox({ state, onSteer }: { state: WorkspaceState; onSteer
       <div className="body">
         <textarea
           value={text}
+          aria-label="Direction for Muse"
           placeholder="e.g. Spend more time on divert 2 jams; skip multi-carton spacing for now."
           onChange={(event) => setText(event.target.value)}
           onKeyDown={(event) => {
@@ -28,10 +29,10 @@ export function SteeringBox({ state, onSteer }: { state: WorkspaceState; onSteer
         />
         <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6 }}>
           <button className="btn" onClick={submit} disabled={!text.trim()}>
-            Send direction
+            {state.mode === "replay" ? "Record direction locally" : "Send direction"}
           </button>
           <span className="muted" style={{ fontSize: 12 }}>
-            {note ?? (state.mode === "replay" ? "Replay records your direction in the run record; no model is called." : "Routed to Muse through the coordinator.")}
+            {note ?? (state.mode === "replay" ? "Replay records your direction in the run record; no model is called." : "Requires coordinator application acknowledgement.")}
           </span>
         </div>
         {state.steering.length > 0 && (

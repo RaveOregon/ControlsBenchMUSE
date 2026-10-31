@@ -27,7 +27,16 @@ export const FIXTURE_PATHS = {
   samplingExperiment: "codesys/artifacts/opcua-sampling-experiment.json",
   m1Result: "codesys/artifacts/m1-opcua-result.json",
   m2Result: "codesys/artifacts/m2-opcua-result.json",
-  m2Trace: "codesys/artifacts/m2-coherence-trace.jsonl"
+  m2Trace: "codesys/artifacts/m2-coherence-trace.jsonl",
+  m3Result: "codesys/artifacts/m3-result.json",
+  m4Result: "codesys/artifacts/m4-result.json",
+  m5Result: "codesys/artifacts/m5-result.json",
+  m6Result: "codesys/artifacts/m6-hackathon-result.json",
+  m7Result: "artifacts/m7/m7-live-result.json",
+  m7Trace: "artifacts/m7/m7-live-trace.json",
+  m7Audit: "artifacts/m7/m7-audit.json",
+  spec: "docs/conveyor-machine-spec.md",
+  assumptions: "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md"
 } as const;
 
 export type FixtureKey = keyof typeof FIXTURE_PATHS;
@@ -42,6 +51,10 @@ export const RECORDED_SHA256: Partial<Record<FixtureKey, { sha256: string; recor
   worldSource: { sha256: "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6", recordedIn: "gate-d-result.json" },
   m1Result: { sha256: "6a54c413d177cd77b23786d35d0772ef40777fa6af4ae736df37ebd1c60a6531", recordedIn: "codesys/README.md" },
   m2Result: { sha256: "acaf85fce770dfbd3a480bc717b2f75a801f43606ce9230780ac40e032364317", recordedIn: "codesys/README.md" },
+  m3Result: { sha256: "9464bfc29899ba91161e59eddded5ea38374fd836f3c4fca065423c043c762aa", recordedIn: "codesys/README.md" },
+  m4Result: { sha256: "7abfb2e7315d89c47a0b19b192be9ef39a3532c17422f0e14ae6d7ab1f180fd6", recordedIn: "codesys/README.md" },
+  m5Result: { sha256: "6b1e17ccecb1364ec8673e14cb3be91f92771cc7e574373decc74aca6d403079", recordedIn: "codesys/README.md" },
+  m6Result: { sha256: "5218cb226954e7df162a4e8f89e626f8f9354d0bb5ee61c70e59e8d1a43ab85e", recordedIn: "codesys/README.md" },
   m2Trace: { sha256: "1d0cd4a604c767e2419c18512855ba6435d70d78833fc9b5b3d54d6b3a85241a", recordedIn: "codesys/README.md" }
 };
 
@@ -165,6 +178,10 @@ export interface FixtureBundle {
   m1Result: Record<string, any>;
   m2Result: Record<string, any>;
   m2Rows: M2TraceRow[];
+  qualification: Record<"m3" | "m4" | "m5" | "m6" | "m7" | "m7Audit", Record<string, any>>;
+  m7Trace: { coordinatorEvents: import("../live/coordinator-source.ts").CoordinatorEventLike[]; worldEvents: TraceEvent[] };
+  spec: string;
+  assumptions: string;
 }
 
 export type TextReader = (key: FixtureKey, repoPath: string) => Promise<string>;
@@ -195,6 +212,8 @@ export async function loadFixtureBundle(read: TextReader): Promise<FixtureBundle
     samplingExperiment: json("samplingExperiment"),
     m1Result: json("m1Result"),
     m2Result: json("m2Result"),
+    qualification: { m3: json("m3Result"), m4: json("m4Result"), m5: json("m5Result"), m6: json("m6Result"), m7: json("m7Result"), m7Audit: json("m7Audit") },
+    m7Trace: json("m7Trace"), spec: texts.spec, assumptions: texts.assumptions,
     m2Rows: texts.m2Trace
       .split(/\r?\n/)
       .filter((line) => line.trim().length > 0)

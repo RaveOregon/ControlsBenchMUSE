@@ -1,3 +1,12 @@
+import m3Result from "../../../../codesys/artifacts/m3-result.json?raw";
+import m4Result from "../../../../codesys/artifacts/m4-result.json?raw";
+import m5Result from "../../../../codesys/artifacts/m5-result.json?raw";
+import m6Result from "../../../../codesys/artifacts/m6-hackathon-result.json?raw";
+import m7Result from "../../../../artifacts/m7/m7-live-result.json?raw";
+import m7Trace from "../../../../artifacts/m7/m7-live-trace.json?raw";
+import m7Audit from "../../../../artifacts/m7/m7-audit.json?raw";
+import spec from "../../../../docs/conveyor-machine-spec.md?raw";
+import assumptions from "../../../../artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md?raw";
 // Browser loader for the preserved artifacts. `?raw` keeps the exact file text (no JSON or
 // TypeScript transform) so the replay parses — and hashes — the same bytes the tests read.
 // Loaded lazily so the workspace shell paints before ~2.6 MB of evidence is parsed.
@@ -25,6 +34,15 @@ import samplingExperiment from "../../../../codesys/artifacts/opcua-sampling-exp
 import { loadFixtureBundle, type FixtureBundle, type FixtureKey } from "./fixtures.ts";
 
 const RAW: Record<FixtureKey, string> = {
+  m3Result,
+  m4Result,
+  m5Result,
+  m6Result,
+  m7Result,
+  m7Trace,
+  m7Audit,
+  spec,
+  assumptions,
   manifest,
   worldSource,
   gateATrace,

@@ -9,7 +9,7 @@
     "build": "npm run typecheck && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "node --test test/replay-compose.test.ts test/workspace-store.test.ts test/activity.test.ts test/labeling.test.ts"
+    "test": "node --test test/*.test.ts"
   },
   "engines": {
     "node": ">=22"

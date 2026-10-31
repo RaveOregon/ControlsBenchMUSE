@@ -4,7 +4,7 @@
 // events whose provenance mode differs from the workspace mode so recorded evidence can
 // never be shown as live (or the reverse).
 
-import type { ActivityPhase, BudgetLimits, CheckStatus, EngineerCommand, MuseEvent, MuseEventBody, Provenance, RawValue, RuntimeFlagState, SourceClock, SourceMode, WorldRunInfo } from "./events.ts";
+import type { ActivityPhase, BudgetLimits, CheckStatus, EngineerCommand, MuseEvent, MuseEventBody, Provenance, RawValue, RuntimeFlagState, SourceClock, SourceMode, WorldRunInfo, ValueMetadata, CommandOutcome } from "./events.ts";
 import { isMeaningful } from "./events.ts";
 import { allPlannedChecks, defaultScope, type PlanCheck } from "./plan.ts";
 
@@ -26,13 +26,14 @@ export interface SignalDefinition {
   description: string;
 }
 
-export interface SignalValue {
+export interface SignalValue extends ValueMetadata {
   value: RawValue | undefined;
   atMs?: number;
   cause?: string;
   eventId?: string;
   run?: string;
   source?: string;
+  observedAtMs?: number;
 }
 
 export interface FaultState {
@@ -105,6 +106,8 @@ export interface ConnectionState {
 }
 
 export interface EpisodeState {
+  plcIncluded: boolean;
+  connectorIncluded: boolean;
   episodeId: string;
   title: string;
   checkIds: string[];
@@ -121,6 +124,8 @@ export interface EpisodeState {
 }
 
 export interface WorkspaceState {
+  commands: Record<string, { requestId: string; command: string; payload?: Record<string, unknown>; outcome: CommandOutcome; deadlineMs: number; detail?: string }>;
+  findingReviews: Record<string, "accepted" | "follow_up">;
   mode: SourceMode;
   phase: CampaignPhase;
   startedAtMs?: number;
@@ -140,7 +145,7 @@ export interface WorkspaceState {
   waits: Record<string, WaitState>;
   runtimeFlag?: { state: RuntimeFlagState; message: string; elapsedMs?: number; atMs: number; exercise: boolean };
   world: { run?: string; version?: string; lastHeartbeatAtMs?: number; tick?: number };
-  agent: { active?: ModelCallState; calls: ModelCallState[]; assessment?: { text: string; confidence?: number; hypotheses?: Array<{ label: string; confidence: number }>; atMs: number }; observations: number };
+  agent: { active?: ModelCallState; calls: ModelCallState[]; assessment?: { text: string; checkId?: string; confidence?: number; hypotheses?: Array<{ label: string; confidence: number }>; atMs: number }; observations: number };
   budget: { limits?: BudgetLimits; spentUsd: number; reservedUsd: number; repairSpentUsd: Record<string, number>; failedRepairs: Record<string, number>; level: "normal" | "warning" | "hard_stop" };
   blind: { commitment?: string; sealedHash?: string; revealed?: Record<string, unknown> };
   hotReload: { activeVersion?: string; history: Array<{ phase: string; version: string; detail: string; atMs: number }> };
@@ -187,6 +192,8 @@ function zeroValue(dataType: string): RawValue {
 export function createWorkspaceState(mode: SourceMode, signals: SignalDefinition[], scope: Record<string, boolean> = defaultScope()): WorkspaceState {
   const checks = Object.fromEntries(allPlannedChecks().map((check) => [check.id, { ...check, status: scope[check.id] ? "planned" : "out_of_scope" } as CheckState]));
   return {
+    commands: {},
+    findingReviews: {},
     mode,
     phase: "ready",
     finalized: false,
@@ -252,11 +259,13 @@ export class WorkspaceStore {
 
   applyEvents(events: readonly MuseEvent[]): void {
     if (events.length === 0) return;
-    for (const event of events) {
-      if (event.provenance.mode !== this.state.mode) throw new ModeMismatchError(this.state.mode, event);
-      this.#apply(event);
-    }
+    for (const event of events) if (event.provenance.mode !== this.state.mode) throw new ModeMismatchError(this.state.mode, event);
+    for (const event of events) this.#apply(event);
     this.#emit();
+  }
+
+  reviewFinding(findingId: string, action: "accepted" | "follow_up", nowMs: number): void {
+    this.applyEvents([this.#localEvent(nowMs, { kind: "finding.review", findingId, action, note: action === "accepted" ? "Engineer accepted this finding; verdict unchanged." : "Engineer requested targeted follow-up; no new test executed." }, `${action === "accepted" ? "Accepted finding" : "Requested follow-up"}: ${findingId}`)]);
   }
 
   // ------------------------------------------------------------ engineer commands
@@ -300,12 +309,12 @@ export class WorkspaceStore {
     const scoped = Object.entries(this.state.scope).filter(([, included]) => included).length;
     this.state.phase = "running";
     this.state.startedAtMs = nowMs;
-    this.#local(nowMs, "start", `Start Campaign authorized ${scoped} checks. Muse may execute, inject simulated faults, and add investigations without per-check approval.`);
+    this.#local(nowMs, "start", this.state.mode === "replay" ? `Play recorded campaign: ${scoped} checks selected. Recorded evidence only; no PLC commands or model calls.` : `Start Campaign authorized ${scoped} checks. Muse may execute, inject simulated faults, and add investigations without per-check approval.`);
     return { ok: true };
   }
 
   pause(nowMs: number): CommandResult {
-    return this.#transition("pause", "paused", nowMs, "Paused: world evolution frozen, current raw input image held. The PLC keeps scanning.");
+    return this.#transition("pause", "paused", nowMs, this.state.mode === "replay" ? "Playback paused: recorded image held; no PLC controlled." : "Paused: world evolution frozen, current raw input image held. The PLC keeps scanning.");
   }
 
   resume(nowMs: number): CommandResult {
@@ -374,7 +383,7 @@ export class WorkspaceStore {
   }
 
   setScope(ids: readonly string[], included: boolean): CommandResult {
-    if (this.state.phase === "running" || this.state.phase === "paused" || this.state.phase === "budget_hold") return { ok: false, reason: "Scope is locked once the campaign starts; steer Muse instead." };
+    if (Object.values(this.state.commands).some(c => c.outcome === "pending") || this.state.phase === "running" || this.state.phase === "paused" || this.state.phase === "budget_hold") return { ok: false, reason: "Scope is locked once the campaign starts; steer Muse instead." };
     const scope = { ...this.state.scope };
     for (const id of ids) if (id in scope) scope[id] = included;
     this.state.scope = scope;
@@ -437,7 +446,8 @@ export class WorkspaceStore {
     if (event.kind === "world.heartbeat" || event.kind === "entity.publish") return;
     pushBounded(this.state.timeline, event, TIMELINE_LIMIT);
     // Dense streams (10,000 M2 commit/ack pairs) must not evict the events engineers inspect.
-    if (!isDense(event)) pushBounded(this.state.keyEvents, event, KEY_EVENT_LIMIT);
+    const unchanged = (event.kind === "raw.input" && this.state.inputs[event.signalId]?.value === event.value) || (event.kind === "plc.output" && Object.entries(event.values).every(([id, value]) => this.state.outputs[id]?.value === value));
+    if (!isDense(event) && !unchanged) pushBounded(this.state.keyEvents, event, KEY_EVENT_LIMIT);
     if (event.kind === "verdict" || event.kind === "plan.added") this.state.verdicts.push(event);
   }
 
@@ -450,8 +460,36 @@ export class WorkspaceStore {
   #apply(event: MuseEvent): void {
     const s = this.state;
     this.#record(event);
-    if (isMeaningful(event)) s.lastMeaningful = { atMs: event.atMs, summary: event.summary, eventId: event.id };
+    const changed = event.kind === "raw.input" ? s.inputs[event.signalId]?.value !== event.value : event.kind === "plc.output" ? Object.entries(event.values).some(([id, value]) => s.outputs[id]?.value !== value) : true;
+    if (isMeaningful(event) && changed) s.lastMeaningful = { atMs: event.atMs, summary: event.summary, eventId: event.id };
     switch (event.kind) {
+      case "campaign.state":
+        s.phase = event.phase;
+        if (event.phase === "completed") this.#finalize(event.atMs, "Coordinator closed before a verdict");
+        else s.startedAtMs ??= event.atMs;
+        break;
+      case "command.outcome": {
+        const previous = s.commands[event.requestId];
+        if (previous && previous.outcome !== "pending") break;
+        s.commands[event.requestId] = { requestId: event.requestId, command: event.command, payload: event.payload, outcome: event.outcome, deadlineMs: event.deadlineMs, detail: event.detail };
+        if (event.outcome !== "applied") break;
+        // Only an application acknowledgement changes confirmed coordinator state.
+        // Raw input images and SimulationApplied still require connector observations.
+        switch (event.command) {
+          case "start": s.phase = "running"; s.startedAtMs = event.atMs; s.finalized = false; s.endedAtMs = undefined; break;
+          case "pause": s.phase = "paused"; break;
+          case "resume": s.phase = "running"; break;
+          case "stop": s.phase = "stopped"; this.#finalize(event.atMs, "Stopped before a verdict"); break;
+          case "enter_simulation": s.connection.simulationRequested = true; break;
+          case "exit_simulation": s.connection.simulationRequested = false; break;
+          case "set_output_suppression": s.suppressedOutputs[String(event.payload?.outputId)] = event.payload?.suppressed === true; break;
+          case "steer": s.steering.push({ id: event.requestId, atMs: event.atMs, text: String(event.payload?.text ?? "") }); break;
+        }
+        break;
+      }
+      case "finding.review":
+        s.findingReviews[event.findingId] = event.action;
+        break;
       case "episode.start": {
         const worldRun = event.world?.run;
         if (worldRun !== s.world.run) {
@@ -460,7 +498,7 @@ export class WorkspaceStore {
           s.waits = {};
         }
         s.world = { ...s.world, run: worldRun, version: event.world?.worldVersion ?? s.world.version };
-        s.episode = { episodeId: event.episodeId, title: event.title, checkIds: event.checkIds, world: event.world, connectorExpected: event.connectorExpected, plcExpected: event.plcExpected, worldExpected: event.worldExpected, timeScale: event.timeScale, note: event.note, startedAtMs: event.atMs, clock: event.provenance.clock, source: event.provenance.source, eventId: event.id };
+        s.episode = { plcIncluded: event.plcExpected, connectorIncluded: event.connectorExpected, episodeId: event.episodeId, title: event.title, checkIds: event.checkIds, world: event.world, connectorExpected: event.connectorExpected, plcExpected: event.plcExpected, worldExpected: event.worldExpected, timeScale: event.timeScale, note: event.note, startedAtMs: event.atMs, clock: event.provenance.clock, source: event.provenance.source, eventId: event.id };
         s.step = undefined;
         s.runtimeFlag = undefined;
         if (!event.connectorExpected && s.connection.link !== "none") s.connection.link = "closed";
@@ -493,10 +531,10 @@ export class WorkspaceStore {
         delete s.entities[event.entityId];
         break;
       case "raw.input":
-        s.inputs[event.signalId] = { value: event.value, atMs: event.atMs, cause: event.cause, eventId: event.id, run: event.provenance.run, source: event.provenance.source };
+        s.inputs[event.signalId] = { value: event.value, atMs: s.inputs[event.signalId]?.value === event.value ? s.inputs[event.signalId]?.atMs : event.atMs, observedAtMs: event.atMs, ...event.metadata, cause: event.cause, eventId: event.id, run: event.provenance.run, source: event.provenance.source };
         break;
       case "plc.output":
-        for (const [id, value] of Object.entries(event.values)) s.outputs[id] = { value, atMs: event.atMs, cause: event.summary, eventId: event.id, origin: event.origin, run: event.provenance.run, source: event.provenance.source };
+        for (const [id, value] of Object.entries(event.values)) s.outputs[id] = { value, atMs: s.outputs[id]?.value === value ? s.outputs[id]?.atMs : event.atMs, observedAtMs: event.atMs, ...event.metadata?.[id], cause: event.summary, eventId: event.id, origin: event.origin, run: event.provenance.run, source: event.provenance.source };
         break;
       case "fault.set":
         if (event.active) s.faults[event.faultId] = { faultId: event.faultId, target: event.target, detail: event.detail, sealed: event.sealed === true, atMs: event.atMs };
@@ -608,7 +646,7 @@ export class WorkspaceStore {
         break;
       }
       case "agent.assessment":
-        s.agent.assessment = { text: event.text, confidence: event.confidence, hypotheses: event.hypotheses, atMs: event.atMs };
+        s.agent.assessment = { text: event.text, checkId: event.checkId, confidence: event.confidence, hypotheses: event.hypotheses, atMs: event.atMs };
         break;
       case "agent.observation":
         s.agent.observations += 1;
@@ -663,7 +701,7 @@ export class WorkspaceStore {
         const check = event.checkId ? s.checks[event.checkId] : undefined;
         if (check && s.scope[check.id] !== false) {
           check.status = event.status;
-          check.summary = event.summary;
+          check.summary = event.observed ?? event.summary;
           check.evidence = event.evidence;
           check.verdictEventId = event.id;
         }

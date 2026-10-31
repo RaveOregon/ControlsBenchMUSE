@@ -155,7 +155,7 @@ export const PLAN_CHECKS: readonly PlanCheck[] = [
     oracle: "PLC routes A/B/runout correctly from real outputs (not surrogate fixtures).",
     evidenceClass: "world_model",
     availability: "awaiting_live",
-    evidenceSource: "Awaits M7 closed-loop slice",
+    evidenceSource: "Final routing controller not tested; M7 used the measurement DUT",
     addedBy: "plan"
   },
   {
@@ -183,27 +183,18 @@ export const PLAN_CHECKS: readonly PlanCheck[] = [
     addedBy: "plan"
   },
   {
-    id: "RT-3",
-    group: "runtime",
-    title: "Sustained-rate tier (5/10/20/50 Hz)",
-    manipulate: "Stream images for ten minutes per rate at 1×, 2×, and full signal counts.",
-    observe: "Send-to-applied latency, loss/coalescing, IEC cycle and jitter.",
-    oracle: "Methodical ≥10 Hz p99 ≤250 ms; runtime 20 Hz 99.9% ≤150 ms.",
-    evidenceClass: "plc_measurement",
-    availability: "awaiting_live",
-    evidenceSource: "Awaits M3",
-    addedBy: "plan"
+    id: "RT-3", group: "runtime", title: "Qualified 10 Hz demo tier", manipulate: "Ten-minute full-demo raw image stream.", observe: "6,000/6,000 images; p99 229.645 ms.", oracle: "Methodical 10 Hz p99 ≤250 ms; 20/50 Hz remain failed tiers.", evidenceClass: "plc_measurement", availability: "recorded", evidenceSource: "codesys/artifacts/m3-result.json · methodical tier", addedBy: "plan"
   },
   {
     id: "RT-4",
     group: "runtime",
     title: "PLC task impact",
-    manipulate: "Compare disconnected, subscribed, methodical, runtime, and maximum demo load.",
+    manipulate: "Compare the disconnected ten-minute baseline with three qualified 10 Hz full-demo runs. Full M6 matrix deferred.",
     observe: "IEC cycle interval p99, absolute jitter, watchdog/omitted cycles.",
-    oracle: "No watchdog; p99 interval and jitter within 1.20× disconnected baseline.",
+    oracle: "At 10 Hz, p99 interval and jitter within 1.20× baseline and zero inferred omitted cycles. Task watchdog was disabled.",
     evidenceClass: "plc_measurement",
-    availability: "awaiting_live",
-    evidenceSource: "Awaits M6",
+    availability: "recorded",
+    evidenceSource: "codesys/artifacts/m6-hackathon-result.json · reduced scope at 10 Hz only",
     addedBy: "plan"
   },
   {
@@ -274,12 +265,12 @@ export const PLAN_CHECKS: readonly PlanCheck[] = [
     group: "faults",
     title: "Connector loss holds the last simulated image",
     requirement: "R-21",
-    manipulate: "Drop client, server, adapter, and subscription during simulation.",
+    manipulate: "Drop client session, secure channel, and subscription during simulation. Physical Ethernet/server-only loss is not isolated.",
     observe: "BenchLinkStale, held image, reconnect commit behaviour.",
     oracle: "PLC holds last image, stays simulated, flags stale after max(500 ms, 3× publish).",
     evidenceClass: "plc_measurement",
-    availability: "awaiting_live",
-    evidenceSource: "Awaits M5",
+    availability: "recorded",
+    evidenceSource: "codesys/artifacts/m5-result.json · three practical loss cases; physical Ethernet/server-only not isolated",
     addedBy: "plan"
   },
   {
@@ -298,13 +289,13 @@ export const PLAN_CHECKS: readonly PlanCheck[] = [
   {
     id: "NO-2",
     group: "normal",
-    title: "Closed-loop conveyor slice on the real PLC",
+    title: "Closed-loop measurement DUT on the real PLC",
     manipulate: "Start, accelerate, move one carton through a photoeye, stop, hold — through the interceptor.",
     observe: "Command → world response → raw commit → PLC ack → PLC output, every edge attributed.",
     oracle: "Live trace correlates each edge; surrogate and live evidence remain separately labeled.",
     evidenceClass: "world_model",
-    availability: "awaiting_live",
-    evidenceSource: "Awaits M7",
+    availability: "recorded",
+    evidenceSource: "artifacts/m7/m7-live-result.json · measurement DUT, not final routing controller",
     addedBy: "plan"
   },
   {
@@ -402,7 +393,7 @@ export const EVIDENCE_AUDIT_CHECK: PlanCheck = {
 };
 
 export function allPlannedChecks(): PlanCheck[] {
-  return [...PLAN_CHECKS, EVIDENCE_AUDIT_CHECK];
+  return [...PLAN_CHECKS, ...QUALIFICATION_CHECKS, EVIDENCE_AUDIT_CHECK];
 }
 
 export function findCheck(id: string): PlanCheck | undefined {
@@ -413,3 +404,10 @@ export function findCheck(id: string): PlanCheck | undefined {
 export function defaultScope(): Record<string, boolean> {
   return Object.fromEntries(allPlannedChecks().map((check) => [check.id, true]));
 }
+
+export const QUALIFICATION_CHECKS: PlanCheck[] = [
+  { id: "CQ-20", group: "runtime", title: "20 Hz runtime tier", manipulate: "Sustained 20 Hz full-demo stream", observe: "Applied revisions and latency", oracle: "99.9% within 150 ms", evidenceClass: "plc_measurement", availability: "recorded", evidenceSource: "codesys/artifacts/m3-result.json · runtime tier", addedBy: "plan" },
+  { id: "CQ-50", group: "runtime", title: "50 Hz preferred tier", manipulate: "Sustained 50 Hz full-demo stream", observe: "Applied cadence and latency", oracle: "99.9% within 60 ms", evidenceClass: "plc_measurement", availability: "recorded", evidenceSource: "codesys/artifacts/m3-result.json · preferred tier", addedBy: "plan" },
+  { id: "CQ-4", group: "io", title: "M4 output visibility", manipulate: "Steady transitions and bounded pulses", observe: "Five PLC outputs with status and timestamps", oracle: "Edges visible; pulse widths reported as bounds", evidenceClass: "plc_measurement", availability: "recorded", evidenceSource: "codesys/artifacts/m4-result.json", addedBy: "plan" },
+  { id: "CQ-5", group: "faults", title: "M5 loss and explicit recovery", manipulate: "Subscription, session and channel loss", observe: "Last committed image held, stale detection, explicit commit", oracle: "No staged image applies on heartbeat recovery", evidenceClass: "plc_measurement", availability: "recorded", evidenceSource: "codesys/artifacts/m5-result.json", addedBy: "plan" }
+];

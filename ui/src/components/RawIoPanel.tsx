@@ -1,3 +1,4 @@
+import { signalHealth } from "../model/signal-health.ts";
 import { formatClock, formatRaw } from "../model/format.ts";
 import type { CommandResult, WorkspaceState } from "../model/workspace-store.ts";
 import type { Selection } from "./selection.ts";
@@ -39,8 +40,8 @@ export function RawIoPanel({ state, nowMs, onSelect, onSuppress }: Props) {
             {inputs.map((signal) => {
               const value = state.inputs[signal.id];
               return (
-                <tr key={signal.id} className={recent(value?.atMs) ? "flash" : undefined} onClick={() => onSelect({ type: "signal", id: signal.id })} title={value?.cause ?? signal.description}>
-                  <td>{signal.id}</td>
+                <tr key={signal.id} className={recent(value?.atMs) ? "flash" : undefined} title={value?.cause ?? signal.description}>
+                  <td><button className="text-button" onClick={() => onSelect({ type: "signal", id: signal.id })}>{signal.id}</button><small className={`quality-${signalHealth(value, state, nowMs).split(" ")[0]}`} style={{ display: "block" }}>{signalHealth(value, state, nowMs)}</small></td>
                   <td className="muted">{signal.dataType}</td>
                   <td className="value">{formatRaw(value?.value)}</td>
                   <td className="value muted">{value?.atMs !== undefined ? formatClock(value.atMs) : "—"}</td>
@@ -65,13 +66,14 @@ export function RawIoPanel({ state, nowMs, onSelect, onSuppress }: Props) {
               const value = state.outputs[signal.id];
               const suppressed = state.suppressedOutputs[signal.id] === true;
               return (
-                <tr key={signal.id} className={recent(value?.atMs) ? "flash" : undefined} onClick={() => onSelect({ type: "signal", id: signal.id })} title={signal.description}>
-                  <td>{signal.id}</td>
+                <tr key={signal.id} className={recent(value?.atMs) ? "flash" : undefined} title={signal.description}>
+                  <td><button className="text-button" onClick={() => onSelect({ type: "signal", id: signal.id })}>{signal.id}</button><small className={`quality-${signalHealth(value, state, nowMs).split(" ")[0]}`} style={{ display: "block" }}>{signalHealth(value, state, nowMs)}</small></td>
                   <td className="muted">{value?.origin === "surrogate_driver" ? "surrogate" : value?.origin === "muse_surrogate" ? "Muse→surrogate" : value?.origin ?? "—"}</td>
                   <td className="value">{formatRaw(value?.value)}</td>
                   <td style={{ textAlign: "right" }}>
                     <button
                       className="btn small"
+                      disabled={Object.values(state.commands).some(c => c.outcome === "pending")}
                       style={suppressed ? { color: "var(--warn)", borderColor: "var(--warn)" } : undefined}
                       onClick={(event) => {
                         event.stopPropagation();
@@ -79,7 +81,7 @@ export function RawIoPanel({ state, nowMs, onSelect, onSuppress }: Props) {
                       }}
                       title={suppressed ? "Physical sink suppressed; PLC command still traced. Click to release." : "Physical sink active. Click to suppress (engineer configuration)."}
                     >
-                      {suppressed ? "suppressed" : "physical"}
+                      {Object.values(state.commands).some(c => c.outcome === "pending" && c.payload?.outputId === signal.id) ? "pending…" : suppressed ? "suppressed" : "physical"}
                     </button>
                   </td>
                 </tr>

@@ -6,6 +6,7 @@ export const LANE_LABEL: Record<TimelineLane, string> = {
   raw_input: "Raw input commit",
   plc_ack: "PLC acknowledgement",
   plc_output: "PLC output",
+  hmi: "HMI action / frame",
   fault: "Fault",
   agent: "Agent action",
   conclusion: "Conclusion"
@@ -16,6 +17,7 @@ export const LANE_COLOR: Record<TimelineLane, string> = {
   raw_input: "var(--beam)",
   plc_ack: "var(--ok)",
   plc_output: "var(--accent)",
+  hmi: "var(--wait)",
   fault: "var(--bad)",
   agent: "var(--reason)",
   conclusion: "var(--text)"
