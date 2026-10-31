@@ -81,3 +81,18 @@ Requested/revised publication intervals were 200/200 ms at 5 Hz, 100/100 ms at 1
 - Final M3 project: `gngnf.project`, SHA-256 `2E9774D1782E82FFF0A9383779BE517EE94AFC1A48CDFCDCE6EE6C5FA31A73B7`
 
 Loose raw traces and non-acceptance smoke artifacts remain locally under ignored artifact directories. The compressed trace archive is the portable checkpoint evidence.
+
+## M4 result
+
+M4 passed on 2026-10-31. Nine steady-state transitions exercised all five PLC-to-world BOOL outputs. Every expected steady value matched the direct read, every changed output produced a subscription notification, and every retained status was Good.
+
+Twenty bounded pulse cases then exercised motor, divert 1, divert 2, and overload inputs at requested post-ack holds of 0, 20, 40, 80, and 160 ms. The overload cases exercised red and green stack-light outputs together. All five output channels exposed both pulse edges in all five applicable cases. The narrowest visible cases were bounded by the client to 0-2 PLC cycles for motor and divert 2, 0-3 cycles for divert 1, and 0-5 cycles for each stack-light output. These are deliberately reported as bounds, not exact scan widths; the corresponding upper time bounds were 39.687, 61.972, 40.762, and 100.988 ms.
+
+The subscription requested and received 20 ms publishing and 20 ms sampling. It retained 1,084 events with status, source timestamp, server timestamp, workstation monotonic receipt, and workstation wall time. No source/server timestamp was null and no publish-sequence gap was observed. The PLC epoch, applied sequence, cycle, time, and output-capture cycle/time bracket every transition without claiming scan-synchronous OPC UA observation.
+
+- Driver: `scripts/probe-m4.cjs`
+- Masked credential wrapper: `scripts/run-m4.ps1`
+- Final result: `artifacts/m4-result.json`, SHA-256 `7ABFB2E7315D89C47A0B19B192BE9EF39A3532C17422F0E14AE6D7AB1F180FD6`
+- Raw event trace: `artifacts/m4-events.jsonl`, SHA-256 `33B98E09588480A2271F03762B29E9F79C8B6E76B8A3EF206885F8F7A6B10F74`
+
+M4 did not modify the PLC fixture or M2 handshake.
