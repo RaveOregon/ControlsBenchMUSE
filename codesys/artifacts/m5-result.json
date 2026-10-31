@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M5",
+  "measuredAt": "2026-10-31T04:15:13.564Z",
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "securityMode": "SignAndEncrypt",
+  "securityPolicy": "Basic256Sha256",
+  "pass": true,
+  "verdict": "All practical independent loss cases held the exact last committed image and required an explicit complete recovery commit.",
+  "staleContract": {
+    "configuredFloorMs": 500,
+    "implementation": "ConnectorStale asserts after more than 25 scans of the 20 ms task without a changed workstation heartbeat."
+  },
+  "bootIdentity": "1454498831547",
+  "cases": [
+    {
+      "name": "subscription-loss",
+      "pass": true,
+      "subscriptionEvidence": {
+        "requestedPublishingIntervalMs": 20,
+        "revisedPublishingIntervalMs": 20,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalMs": 20
+      },
+      "hold": {
+        "pass": true,
+        "staleObserved": true,
+        "staleObservedAfterMs": 549.0274,
+        "plcCyclesElapsed": 20,
+        "holdSamples": 26,
+        "allSamplesHeld": true,
+        "finalState": {
+          "simApplied": true,
+          "connectorStale": true,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "1",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298657",
+          "plcTimeUs": "1460559006742",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": true,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": true,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": true,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": true,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": true,
+            "Active_Belt_SpeedActual": 1.25,
+            "Active_Drive_Current": 2.5,
+            "Active_D1_Position": 11,
+            "Active_D2_Position": 21,
+            "Active_Encoder_Count": 268435457
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "stagedWithoutCommit": {
+        "slot": 1,
+        "pass": true,
+        "state": {
+          "simApplied": true,
+          "connectorStale": true,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "1",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298665",
+          "plcTimeUs": "1460559169561",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": true,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": true,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": true,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": true,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": true,
+            "Active_Belt_SpeedActual": 1.25,
+            "Active_Drive_Current": 2.5,
+            "Active_D1_Position": 11,
+            "Active_D2_Position": 21,
+            "Active_Encoder_Count": 268435457
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "heartbeatOnly": {
+        "pass": true,
+        "state": {
+          "simApplied": true,
+          "connectorStale": false,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "1",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298676",
+          "plcTimeUs": "1460559389634",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": true,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": true,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": true,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": true,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": true,
+            "Active_Belt_SpeedActual": 1.25,
+            "Active_Drive_Current": 2.5,
+            "Active_D1_Position": 11,
+            "Active_D2_Position": 21,
+            "Active_Encoder_Count": 268435457
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "explicitRecovery": {
+        "commit": {
+          "slot": 1,
+          "heartbeat": "51058",
+          "heartbeatWriteNs": "1460559411055100"
+        },
+        "state": {
+          "simApplied": true,
+          "connectorStale": false,
+          "activeSlot": 1,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "2",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298678",
+          "plcTimeUs": "1460559430728",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": true,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": true,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": true,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": true,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": true,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 2.25,
+            "Active_Drive_Current": 3.5,
+            "Active_D1_Position": 12,
+            "Active_D2_Position": 22,
+            "Active_Encoder_Count": 268435458
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      }
+    },
+    {
+      "name": "client-session-loss",
+      "pass": true,
+      "hold": {
+        "pass": true,
+        "staleObserved": true,
+        "staleObservedAfterMs": 549.7504,
+        "plcCyclesElapsed": 26,
+        "holdSamples": 35,
+        "allSamplesHeld": true,
+        "finalState": {
+          "simApplied": true,
+          "connectorStale": true,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "3",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298705",
+          "plcTimeUs": "1460559979678",
+          "active": {
+            "Active_PE_Entry": true,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": true,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": true,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": true,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": true,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 3.25,
+            "Active_Drive_Current": 4.5,
+            "Active_D1_Position": 13,
+            "Active_D2_Position": 23,
+            "Active_Encoder_Count": 268435459
+          },
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "heartbeatOnly": {
+        "pass": true,
+        "state": {
+          "simApplied": true,
+          "connectorStale": false,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "3",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298722",
+          "plcTimeUs": "1460560325639",
+          "active": {
+            "Active_PE_Entry": true,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": true,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": true,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": true,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": true,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 3.25,
+            "Active_Drive_Current": 4.5,
+            "Active_D1_Position": 13,
+            "Active_D2_Position": 23,
+            "Active_Encoder_Count": 268435459
+          },
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "explicitRecovery": {
+        "commit": {
+          "slot": 1,
+          "heartbeat": "51061",
+          "heartbeatWriteNs": "1460560330491600"
+        },
+        "state": {
+          "simApplied": true,
+          "connectorStale": false,
+          "activeSlot": 1,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "4",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298723",
+          "plcTimeUs": "1460560345538",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": true,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": true,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": true,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": true,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": true,
+            "Active_Belt_SpeedActual": 4.25,
+            "Active_Drive_Current": 5.5,
+            "Active_D1_Position": 14,
+            "Active_D2_Position": 24,
+            "Active_Encoder_Count": 268435460
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      }
+    },
+    {
+      "name": "transport-connection-loss",
+      "pass": true,
+      "hold": {
+        "pass": true,
+        "staleObserved": true,
+        "staleObservedAfterMs": 535.1839,
+        "plcCyclesElapsed": 26,
+        "holdSamples": 34,
+        "allSamplesHeld": true,
+        "finalState": {
+          "simApplied": true,
+          "connectorStale": true,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "5",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298750",
+          "plcTimeUs": "1460560894566",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": true,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": true,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": true,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": true,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": true,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 5.25,
+            "Active_Drive_Current": 6.5,
+            "Active_D1_Position": 15,
+            "Active_D2_Position": 25,
+            "Active_Encoder_Count": 268435461
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "stagedWithoutCommit": {
+        "slot": 1,
+        "pass": true,
+        "state": {
+          "simApplied": true,
+          "connectorStale": true,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "5",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298766",
+          "plcTimeUs": "1460561217770",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": true,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": true,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": true,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": true,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": true,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 5.25,
+            "Active_Drive_Current": 6.5,
+            "Active_D1_Position": 15,
+            "Active_D2_Position": 25,
+            "Active_Encoder_Count": 268435461
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "heartbeatOnly": {
+        "pass": true,
+        "state": {
+          "simApplied": true,
+          "connectorStale": false,
+          "activeSlot": 0,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "5",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298777",
+          "plcTimeUs": "1460561442455",
+          "active": {
+            "Active_PE_Entry": false,
+            "Active_PE_D1Approach": true,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": false,
+            "Active_PE_ExitB": true,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": false,
+            "Active_D1_ExtendedFB": true,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": false,
+            "Active_Drive_RunningFB": true,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": false,
+            "Active_ExitB_Ready": true,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 5.25,
+            "Active_Drive_Current": 6.5,
+            "Active_D1_Position": 15,
+            "Active_D2_Position": 25,
+            "Active_Encoder_Count": 268435461
+          },
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "explicitRecovery": {
+        "commit": {
+          "slot": 1,
+          "heartbeat": "51064",
+          "heartbeatWriteNs": "1460561463458700"
+        },
+        "state": {
+          "simApplied": true,
+          "connectorStale": false,
+          "activeSlot": 1,
+          "appliedEpoch": "117533580363742949",
+          "appliedSequence": "6",
+          "bootIdentity": "1454498831547",
+          "plcCycle": "298779",
+          "plcTimeUs": "1460561482554",
+          "active": {
+            "Active_PE_Entry": true,
+            "Active_PE_D1Approach": false,
+            "Active_PE_D2Approach": false,
+            "Active_PE_ExitA": true,
+            "Active_PE_ExitB": false,
+            "Active_PE_Runout": false,
+            "Active_D1_HomeFB": true,
+            "Active_D1_ExtendedFB": false,
+            "Active_D2_HomeFB": false,
+            "Active_D2_ExtendedFB": true,
+            "Active_Drive_RunningFB": false,
+            "Active_Drive_Overload": false,
+            "Active_ExitA_Ready": true,
+            "Active_ExitB_Ready": false,
+            "Active_Runout_Ready": false,
+            "Active_Belt_SpeedActual": 6.25,
+            "Active_Drive_Current": 7.5,
+            "Active_D1_Position": 16,
+            "Active_D2_Position": 26,
+            "Active_Encoder_Count": 268435462
+          },
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "retainedEpoch": "117533580363742949"
+    }
+  ],
+  "serverOnlyLoss": {
+    "executed": false,
+    "disposition": "not-practical-on-this-target",
+    "reason": "The Control Win OPC UA server is in-process with the PLC runtime. Stopping it independently is not exposed; restarting Control Win is a PLC restart and resets state, already covered by M2 boot-identity/reset semantics."
+  },
+  "networkAdapterLoss": {
+    "executed": false,
+    "disposition": "not-applicable-to-local-loopback",
+    "reason": "The measured client and server use local loopback; disabling an external adapter would not isolate this connection. Secure-channel transport loss was exercised instead."
+  },
+  "workstationRestart": {
+    "executed": false,
+    "disposition": "covered-by-M2-without-repetition",
+    "reason": "M2 already proved workstation-new-epoch and PLC-new-boot behavior. The accepted handoff forbids repeating M2 without a specific diagnostic reason."
+  },
+  "finalState": {
+    "simApplied": true,
+    "connectorStale": false,
+    "activeSlot": 1,
+    "appliedEpoch": "117533580363742949",
+    "appliedSequence": "6",
+    "bootIdentity": "1454498831547",
+    "plcCycle": "298779",
+    "plcTimeUs": "1460561482554",
+    "active": {
+      "Active_PE_Entry": true,
+      "Active_PE_D1Approach": false,
+      "Active_PE_D2Approach": false,
+      "Active_PE_ExitA": true,
+      "Active_PE_ExitB": false,
+      "Active_PE_Runout": false,
+      "Active_D1_HomeFB": true,
+      "Active_D1_ExtendedFB": false,
+      "Active_D2_HomeFB": false,
+      "Active_D2_ExtendedFB": true,
+      "Active_Drive_RunningFB": false,
+      "Active_Drive_Overload": false,
+      "Active_ExitA_Ready": true,
+      "Active_ExitB_Ready": false,
+      "Active_Runout_Ready": false,
+      "Active_Belt_SpeedActual": 6.25,
+      "Active_Drive_Current": 7.5,
+      "Active_D1_Position": 16,
+      "Active_D2_Position": 26,
+      "Active_Encoder_Count": 268435462
+    },
+    "outputs": {
+      "Motor_RunCmd": true,
+      "D1_ExtendCmd": false,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": false,
+      "StackLight_Green": true
+    }
+  },
+  "limitations": [
+    "Observer and controller use separate authenticated OPC UA connections on the same workstation.",
+    "A controller disconnect is used for transport loss; no claim is made about a physical Ethernet fault on loopback.",
+    "Server-only loss cannot be separated from PLC-runtime loss on this Control Win configuration."
+  ]
+}

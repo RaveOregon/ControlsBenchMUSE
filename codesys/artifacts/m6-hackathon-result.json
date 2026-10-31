@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M6",
+  "startedAt": "2026-10-31T04:31:13.489Z",
+  "scope": "hackathon",
+  "scopeStatement": "Reduced by operator priority to the disconnected baseline plus three qualified 10 Hz full-demo runs. This is not a complete frozen-plan M6 matrix.",
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "securityMode": "SignAndEncrypt",
+  "securityPolicy": "Basic256Sha256",
+  "durationSeconds": 600,
+  "acceptanceEligible": true,
+  "taskConfiguration": {
+    "task": "MainTask",
+    "type": "cyclic",
+    "intervalMs": 20,
+    "priority": 1,
+    "watchdogEnabled": false,
+    "source": "accepted M0 operator-observed configuration"
+  },
+  "thresholdPolicy": {
+    "p99IntervalRatioMaximum": 1.2,
+    "p99AbsoluteJitterRatioMaximum": 1.2,
+    "omittedCycleMaximum": 0,
+    "maximumIntervalBoundaryUs": 30000,
+    "firstThresholdBreach": "stop-and-investigate; no automatic continuation or averaging"
+  },
+  "baseline": {
+    "id": "disconnected-baseline",
+    "pass": true,
+    "durationSeconds": 600,
+    "disconnectedAt": "2026-10-31T04:31:15.045Z",
+    "reconnectedAt": "2026-10-31T04:41:17.014Z",
+    "qualification": "acceptance-eligible",
+    "timing": {
+      "source": "scan-resident FB_BenchTiming histogram; independent of IDE refresh",
+      "intervalUs": {
+        "min": 19686,
+        "p50": 20110,
+        "p95": 21010,
+        "p99": 21180,
+        "max": 21722
+      },
+      "absoluteJitterUs": {
+        "p99": 1180
+      },
+      "sampleCount": 29657,
+      "inferredOmittedGapCount": 0,
+      "histogramBinWidthUs": 10,
+      "taskIntervalUs": 20000,
+      "inferredOmittedGapBoundaryUs": 30000,
+      "watchdog": {
+        "enabled": false,
+        "source": "accepted M0 task configuration"
+      }
+    },
+    "behavior": {
+      "pass": true,
+      "simApplied": true,
+      "connectorStale": true,
+      "appliedEpoch": "0",
+      "appliedSequence": "0",
+      "bootIdentity": "1461155553966",
+      "heldImageMismatches": []
+    },
+    "cpu": {
+      "pid": 20376,
+      "cpuSecondsDelta": 53.453125,
+      "averageSingleCorePercent": 8.908854166666668,
+      "logicalProcessors": 16
+    },
+    "completedAt": "2026-10-31T04:41:17.014Z"
+  },
+  "runs": [
+    {
+      "runId": "methodical-10hz-repeat-1",
+      "scenario": "methodical-10hz",
+      "description": "complete raw-image streaming at the qualified methodical rate",
+      "repeat": 1,
+      "requestedRateHz": 10,
+      "durationSeconds": 600,
+      "elapsedSeconds": 600.6150313,
+      "qualification": "acceptance-eligible",
+      "pass": true,
+      "taskHealthPass": true,
+      "applicationBehaviorPass": true,
+      "timing": {
+        "source": "scan-resident FB_BenchTiming histogram; independent of IDE refresh",
+        "intervalUs": {
+          "min": 19583,
+          "p50": 20180,
+          "p95": 21030,
+          "p99": 21250,
+          "max": 21819
+        },
+        "absoluteJitterUs": {
+          "p99": 1250
+        },
+        "sampleCount": 29548,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "taskIntervalUs": 20000,
+        "inferredOmittedGapBoundaryUs": 30000,
+        "watchdog": {
+          "enabled": false,
+          "source": "accepted M0 task configuration"
+        }
+      },
+      "thresholds": {
+        "checks": {
+          "p99Interval": {
+            "valueUs": 21250,
+            "limitUs": 25416,
+            "pass": true
+          },
+          "p99AbsoluteJitter": {
+            "valueUs": 1250,
+            "limitUs": 1416,
+            "pass": true
+          },
+          "omittedCycles": {
+            "value": 0,
+            "limit": 0,
+            "pass": true
+          },
+          "maximumInterval": {
+            "valueUs": 21819,
+            "limitUs": 30000,
+            "pass": true,
+            "note": "Watchdog is disabled; the fixture inferred-omitted-gap boundary is the recorded stop boundary."
+          }
+        },
+        "pass": true,
+        "ratios": {
+          "p99IntervalToBaseline": 1.0033050047214354,
+          "p99AbsoluteJitterToBaseline": 1.0593220338983051
+        }
+      },
+      "behavior": {
+        "pass": true,
+        "coherentBehavior": true,
+        "deliveryComplete": true,
+        "dispatchedCount": 6000,
+        "appliedCommitCount": 6000,
+        "unappliedOrCoalescedCount": 0,
+        "achievedDispatchRateHz": 9.989759974893255,
+        "finalAppliedEpoch": "117533683100550620",
+        "finalAppliedSequence": "6000",
+        "finalImageMatches": true,
+        "tornSamples": 0,
+        "ambiguousSamples": 0,
+        "conclusiveSamples": 59,
+        "skippedSequenceDelta": "0",
+        "bootIdentity": "1461155553966",
+        "simAppliedBeforeStop": true,
+        "connectorStaleBeforeStop": false
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 100,
+        "revisedPublishingIntervalMs": 100,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 5809,
+        "keepalives": 0,
+        "publishSequenceGaps": 0,
+        "appliedSequenceEvents": 6000,
+        "signalEvents": 149991
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 20376,
+          "cpuSecondsDelta": 98.921875,
+          "averageSingleCorePercent": 16.470096458606562,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "user": 7468000,
+          "system": 1422000,
+          "averageSingleCorePercent": 1.4801494362800174
+        }
+      },
+      "completedAt": "2026-10-31T04:51:19.880Z"
+    },
+    {
+      "runId": "methodical-10hz-repeat-2",
+      "scenario": "methodical-10hz",
+      "description": "complete raw-image streaming at the qualified methodical rate",
+      "repeat": 2,
+      "requestedRateHz": 10,
+      "durationSeconds": 600,
+      "elapsedSeconds": 600.6276959,
+      "qualification": "acceptance-eligible",
+      "pass": true,
+      "taskHealthPass": true,
+      "applicationBehaviorPass": true,
+      "timing": {
+        "source": "scan-resident FB_BenchTiming histogram; independent of IDE refresh",
+        "intervalUs": {
+          "min": 19656,
+          "p50": 20210,
+          "p95": 21030,
+          "p99": 21250,
+          "max": 21953
+        },
+        "absoluteJitterUs": {
+          "p99": 1250
+        },
+        "sampleCount": 29525,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "taskIntervalUs": 20000,
+        "inferredOmittedGapBoundaryUs": 30000,
+        "watchdog": {
+          "enabled": false,
+          "source": "accepted M0 task configuration"
+        }
+      },
+      "thresholds": {
+        "checks": {
+          "p99Interval": {
+            "valueUs": 21250,
+            "limitUs": 25416,
+            "pass": true
+          },
+          "p99AbsoluteJitter": {
+            "valueUs": 1250,
+            "limitUs": 1416,
+            "pass": true
+          },
+          "omittedCycles": {
+            "value": 0,
+            "limit": 0,
+            "pass": true
+          },
+          "maximumInterval": {
+            "valueUs": 21953,
+            "limitUs": 30000,
+            "pass": true,
+            "note": "Watchdog is disabled; the fixture inferred-omitted-gap boundary is the recorded stop boundary."
+          }
+        },
+        "pass": true,
+        "ratios": {
+          "p99IntervalToBaseline": 1.0033050047214354,
+          "p99AbsoluteJitterToBaseline": 1.0593220338983051
+        }
+      },
+      "behavior": {
+        "pass": true,
+        "coherentBehavior": true,
+        "deliveryComplete": true,
+        "dispatchedCount": 6000,
+        "appliedCommitCount": 6000,
+        "unappliedOrCoalescedCount": 0,
+        "achievedDispatchRateHz": 9.9895493347329,
+        "finalAppliedEpoch": "117533722591957572",
+        "finalAppliedSequence": "6000",
+        "finalImageMatches": true,
+        "tornSamples": 0,
+        "ambiguousSamples": 0,
+        "conclusiveSamples": 54,
+        "skippedSequenceDelta": "0",
+        "bootIdentity": "1461155553966",
+        "simAppliedBeforeStop": true,
+        "connectorStaleBeforeStop": false
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 100,
+        "revisedPublishingIntervalMs": 100,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 5760,
+        "keepalives": 0,
+        "publishSequenceGaps": 0,
+        "appliedSequenceEvents": 6001,
+        "signalEvents": 150005
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 20376,
+          "cpuSecondsDelta": 112.703125,
+          "averageSingleCorePercent": 18.76422378943448,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "user": 8078000,
+          "system": 1266000,
+          "averageSingleCorePercent": 1.555705816395737
+        }
+      },
+      "completedAt": "2026-10-31T05:01:22.491Z"
+    },
+    {
+      "runId": "methodical-10hz-repeat-3",
+      "scenario": "methodical-10hz",
+      "description": "complete raw-image streaming at the qualified methodical rate",
+      "repeat": 3,
+      "requestedRateHz": 10,
+      "durationSeconds": 600,
+      "elapsedSeconds": 600.6081796,
+      "qualification": "acceptance-eligible",
+      "pass": true,
+      "taskHealthPass": true,
+      "applicationBehaviorPass": true,
+      "timing": {
+        "source": "scan-resident FB_BenchTiming histogram; independent of IDE refresh",
+        "intervalUs": {
+          "min": 19556,
+          "p50": 20200,
+          "p95": 21030,
+          "p99": 21250,
+          "max": 21888
+        },
+        "absoluteJitterUs": {
+          "p99": 1250
+        },
+        "sampleCount": 29528,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "taskIntervalUs": 20000,
+        "inferredOmittedGapBoundaryUs": 30000,
+        "watchdog": {
+          "enabled": false,
+          "source": "accepted M0 task configuration"
+        }
+      },
+      "thresholds": {
+        "checks": {
+          "p99Interval": {
+            "valueUs": 21250,
+            "limitUs": 25416,
+            "pass": true
+          },
+          "p99AbsoluteJitter": {
+            "valueUs": 1250,
+            "limitUs": 1416,
+            "pass": true
+          },
+          "omittedCycles": {
+            "value": 0,
+            "limit": 0,
+            "pass": true
+          },
+          "maximumInterval": {
+            "valueUs": 21888,
+            "limitUs": 30000,
+            "pass": true,
+            "note": "Watchdog is disabled; the fixture inferred-omitted-gap boundary is the recorded stop boundary."
+          }
+        },
+        "pass": true,
+        "ratios": {
+          "p99IntervalToBaseline": 1.0033050047214354,
+          "p99AbsoluteJitterToBaseline": 1.0593220338983051
+        }
+      },
+      "behavior": {
+        "pass": true,
+        "coherentBehavior": true,
+        "deliveryComplete": true,
+        "dispatchedCount": 6000,
+        "appliedCommitCount": 6000,
+        "unappliedOrCoalescedCount": 0,
+        "achievedDispatchRateHz": 9.989873937441129,
+        "finalAppliedEpoch": "117533762090036443",
+        "finalAppliedSequence": "6000",
+        "finalImageMatches": true,
+        "tornSamples": 0,
+        "ambiguousSamples": 0,
+        "conclusiveSamples": 57,
+        "skippedSequenceDelta": "0",
+        "bootIdentity": "1461155553966",
+        "simAppliedBeforeStop": true,
+        "connectorStaleBeforeStop": false
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 100,
+        "revisedPublishingIntervalMs": 100,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 5797,
+        "keepalives": 0,
+        "publishSequenceGaps": 0,
+        "appliedSequenceEvents": 6001,
+        "signalEvents": 150007
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 20376,
+          "cpuSecondsDelta": 116.421875,
+          "averageSingleCorePercent": 19.38399758017548,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "user": 4719000,
+          "system": 1453000,
+          "averageSingleCorePercent": 1.0276250323647773
+        }
+      },
+      "completedAt": "2026-10-31T05:11:25.057Z"
+    }
+  ],
+  "summary": {
+    "scope": "hackathon",
+    "complete": true,
+    "frozenPlanComplete": false,
+    "taskImpactPass": true,
+    "overallPass": true,
+    "scenarioVerdicts": {
+      "methodical-10hz": {
+        "completedRepeats": 3,
+        "taskHealthPassCount": 3,
+        "applicationBehaviorPassCount": 3,
+        "pass": true,
+        "note": null
+      }
+    }
+  },
+  "updatedAt": "2026-10-31T05:11:25.063Z",
+  "complete": true,
+  "completedAt": "2026-10-31T05:11:25.063Z"
+}

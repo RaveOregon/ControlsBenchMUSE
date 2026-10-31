@@ -1,0 +1,4551 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M4",
+  "measuredAt": "2026-10-31T04:06:14.342Z",
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "securityMode": "SignAndEncrypt",
+  "securityPolicy": "Basic256Sha256",
+  "pass": true,
+  "verdict": "All five steady-state outputs were current and visible. Pulse visibility is bounded below without claiming exact scan observation.",
+  "bootIdentity": "1454498831547",
+  "epoch": "117533544889892722",
+  "finalSequence": "49",
+  "subscription": {
+    "requestedPublishingIntervalMs": 20,
+    "revisedPublishingIntervalMs": 20,
+    "requestedSamplingIntervalMs": 20,
+    "revisedSamplingIntervalsMs": {
+      "Motor_RunCmd": 20,
+      "D1_ExtendCmd": 20,
+      "D2_ExtendCmd": 20,
+      "StackLight_Red": 20,
+      "StackLight_Green": 20,
+      "AppliedSequence": 20,
+      "OutputCaptureCycle": 20,
+      "OutputCaptureTimeUs": 20,
+      "PlcCycle": 20,
+      "PlcTimeUs": 20
+    },
+    "rawNotifications": 228,
+    "publishSequenceGaps": 0
+  },
+  "steadyTransitions": [
+    {
+      "label": "baseline",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {},
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272014",
+          "upperInclusive": "272016"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017181325",
+          "upperInclusive": "1460017222485"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "1",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.245Z",
+        "sendNs": "1460017183372400",
+        "writeCompleteNs": "1460017185345600",
+        "writeCompletionMs": 1.9732,
+        "appliedReceiptMs": 42.7586,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            1
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.275Z",
+          "serverTimestamp": "2026-10-31T04:06:09.275Z",
+          "workstationReceiptNs": "1460017226131000",
+          "workstationReceiptTime": "2026-10-31T04:06:09.287Z"
+        },
+        "before": {
+          "appliedEpoch": "0",
+          "appliedSequence": "0",
+          "plcCycle": "272014",
+          "plcTimeUs": "1460017181325",
+          "outputCaptureCycle": "272014",
+          "outputCaptureTimeUs": "1460017181325",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "1",
+          "plcCycle": "272016",
+          "plcTimeUs": "1460017222485",
+          "outputCaptureCycle": "272016",
+          "outputCaptureTimeUs": "1460017222485",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {}
+    },
+    {
+      "label": "motor-on",
+      "expected": {
+        "Motor_RunCmd": true,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "Motor_RunCmd": true
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272016",
+          "upperInclusive": "272018"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017222485",
+          "upperInclusive": "1460017263347"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "2",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.290Z",
+        "sendNs": "1460017228696000",
+        "writeCompleteNs": "1460017230024100",
+        "writeCompletionMs": 1.3281,
+        "appliedReceiptMs": 42.2995,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            2
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.316Z",
+          "serverTimestamp": "2026-10-31T04:06:09.316Z",
+          "workstationReceiptNs": "1460017270995500",
+          "workstationReceiptTime": "2026-10-31T04:06:09.332Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "1",
+          "plcCycle": "272016",
+          "plcTimeUs": "1460017222485",
+          "outputCaptureCycle": "272016",
+          "outputCaptureTimeUs": "1460017222485",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "2",
+          "plcCycle": "272018",
+          "plcTimeUs": "1460017263347",
+          "outputCaptureCycle": "272018",
+          "outputCaptureTimeUs": "1460017263347",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "Motor_RunCmd": {
+          "name": "Motor_RunCmd",
+          "value": true,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.311Z",
+          "serverTimestamp": "2026-10-31T04:06:09.311Z",
+          "workstationReceiptNs": "1460017271002900",
+          "workstationReceiptTime": "2026-10-31T04:06:09.332Z"
+        }
+      }
+    },
+    {
+      "label": "motor-off",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "Motor_RunCmd": false
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272018",
+          "upperInclusive": "272020"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017263347",
+          "upperInclusive": "1460017304457"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "3",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.335Z",
+        "sendNs": "1460017273223900",
+        "writeCompleteNs": "1460017274488000",
+        "writeCompletionMs": 1.2641,
+        "appliedReceiptMs": 42.8261,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            3
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.355Z",
+          "serverTimestamp": "2026-10-31T04:06:09.355Z",
+          "workstationReceiptNs": "1460017316050000",
+          "workstationReceiptTime": "2026-10-31T04:06:09.377Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "2",
+          "plcCycle": "272018",
+          "plcTimeUs": "1460017263347",
+          "outputCaptureCycle": "272018",
+          "outputCaptureTimeUs": "1460017263347",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "3",
+          "plcCycle": "272020",
+          "plcTimeUs": "1460017304457",
+          "outputCaptureCycle": "272020",
+          "outputCaptureTimeUs": "1460017304457",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "Motor_RunCmd": {
+          "name": "Motor_RunCmd",
+          "value": false,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.351Z",
+          "serverTimestamp": "2026-10-31T04:06:09.351Z",
+          "workstationReceiptNs": "1460017293584700",
+          "workstationReceiptTime": "2026-10-31T04:06:09.355Z"
+        }
+      }
+    },
+    {
+      "label": "d1-on",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": true,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "D1_ExtendCmd": true
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272020",
+          "upperInclusive": "272022"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017304457",
+          "upperInclusive": "1460017345519"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "4",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.380Z",
+        "sendNs": "1460017318247400",
+        "writeCompleteNs": "1460017319447700",
+        "writeCompletionMs": 1.2003,
+        "appliedReceiptMs": 20.1378,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            4
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.394Z",
+          "serverTimestamp": "2026-10-31T04:06:09.394Z",
+          "workstationReceiptNs": "1460017338385200",
+          "workstationReceiptTime": "2026-10-31T04:06:09.400Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "3",
+          "plcCycle": "272020",
+          "plcTimeUs": "1460017304457",
+          "outputCaptureCycle": "272020",
+          "outputCaptureTimeUs": "1460017304457",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "4",
+          "plcCycle": "272022",
+          "plcTimeUs": "1460017345519",
+          "outputCaptureCycle": "272022",
+          "outputCaptureTimeUs": "1460017345519",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "D1_ExtendCmd": {
+          "name": "D1_ExtendCmd",
+          "value": true,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.392Z",
+          "serverTimestamp": "2026-10-31T04:06:09.392Z",
+          "workstationReceiptNs": "1460017338392600",
+          "workstationReceiptTime": "2026-10-31T04:06:09.400Z"
+        }
+      }
+    },
+    {
+      "label": "d1-off",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "D1_ExtendCmd": false
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272022",
+          "upperInclusive": "272023"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017345519",
+          "upperInclusive": "1460017365302"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "5",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.416Z",
+        "sendNs": "1460017355044400",
+        "writeCompleteNs": "1460017356517600",
+        "writeCompletionMs": 1.4732,
+        "appliedReceiptMs": 28.2677,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            5
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.436Z",
+          "serverTimestamp": "2026-10-31T04:06:09.436Z",
+          "workstationReceiptNs": "1460017383312100",
+          "workstationReceiptTime": "2026-10-31T04:06:09.445Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "4",
+          "plcCycle": "272022",
+          "plcTimeUs": "1460017345519",
+          "outputCaptureCycle": "272022",
+          "outputCaptureTimeUs": "1460017345519",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "5",
+          "plcCycle": "272023",
+          "plcTimeUs": "1460017365302",
+          "outputCaptureCycle": "272023",
+          "outputCaptureTimeUs": "1460017365302",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "D1_ExtendCmd": {
+          "name": "D1_ExtendCmd",
+          "value": false,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.432Z",
+          "serverTimestamp": "2026-10-31T04:06:09.432Z",
+          "workstationReceiptNs": "1460017383320400",
+          "workstationReceiptTime": "2026-10-31T04:06:09.445Z"
+        }
+      }
+    },
+    {
+      "label": "d2-on",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": true,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "D2_ExtendCmd": true
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272023",
+          "upperInclusive": "272026"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017365302",
+          "upperInclusive": "1460017425321"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "6",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.447Z",
+        "sendNs": "1460017385579800",
+        "writeCompleteNs": "1460017386892100",
+        "writeCompletionMs": 1.3123,
+        "appliedReceiptMs": 43.1507,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            6
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.475Z",
+          "serverTimestamp": "2026-10-31T04:06:09.475Z",
+          "workstationReceiptNs": "1460017428730500",
+          "workstationReceiptTime": "2026-10-31T04:06:09.490Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "5",
+          "plcCycle": "272023",
+          "plcTimeUs": "1460017365302",
+          "outputCaptureCycle": "272023",
+          "outputCaptureTimeUs": "1460017365302",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "6",
+          "plcCycle": "272026",
+          "plcTimeUs": "1460017425321",
+          "outputCaptureCycle": "272026",
+          "outputCaptureTimeUs": "1460017425321",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "D2_ExtendCmd": {
+          "name": "D2_ExtendCmd",
+          "value": true,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.471Z",
+          "serverTimestamp": "2026-10-31T04:06:09.471Z",
+          "workstationReceiptNs": "1460017428739400",
+          "workstationReceiptTime": "2026-10-31T04:06:09.490Z"
+        }
+      }
+    },
+    {
+      "label": "d2-off",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "D2_ExtendCmd": false
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272026",
+          "upperInclusive": "272028"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017425321",
+          "upperInclusive": "1460017465499"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "7",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.493Z",
+        "sendNs": "1460017431481200",
+        "writeCompleteNs": "1460017433031100",
+        "writeCompletionMs": 1.5499,
+        "appliedReceiptMs": 42.3068,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            7
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.514Z",
+          "serverTimestamp": "2026-10-31T04:06:09.514Z",
+          "workstationReceiptNs": "1460017473788000",
+          "workstationReceiptTime": "2026-10-31T04:06:09.535Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "6",
+          "plcCycle": "272026",
+          "plcTimeUs": "1460017425321",
+          "outputCaptureCycle": "272026",
+          "outputCaptureTimeUs": "1460017425321",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "7",
+          "plcCycle": "272028",
+          "plcTimeUs": "1460017465499",
+          "outputCaptureCycle": "272028",
+          "outputCaptureTimeUs": "1460017465499",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "D2_ExtendCmd": {
+          "name": "D2_ExtendCmd",
+          "value": false,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.513Z",
+          "serverTimestamp": "2026-10-31T04:06:09.513Z",
+          "workstationReceiptNs": "1460017473801400",
+          "workstationReceiptTime": "2026-10-31T04:06:09.535Z"
+        }
+      }
+    },
+    {
+      "label": "overload-on-red-on-green-off",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": true,
+        "StackLight_Green": false
+      },
+      "changedExpected": {
+        "StackLight_Red": true,
+        "StackLight_Green": false
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272028",
+          "upperInclusive": "272029"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017465499",
+          "upperInclusive": "1460017485327"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "8",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.538Z",
+        "sendNs": "1460017476480600",
+        "writeCompleteNs": "1460017477847100",
+        "writeCompletionMs": 1.3665,
+        "appliedReceiptMs": 19.9619,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            8
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.556Z",
+          "serverTimestamp": "2026-10-31T04:06:09.556Z",
+          "workstationReceiptNs": "1460017496442500",
+          "workstationReceiptTime": "2026-10-31T04:06:09.558Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "7",
+          "plcCycle": "272028",
+          "plcTimeUs": "1460017465499",
+          "outputCaptureCycle": "272028",
+          "outputCaptureTimeUs": "1460017465499",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "8",
+          "plcCycle": "272029",
+          "plcTimeUs": "1460017485327",
+          "outputCaptureCycle": "272029",
+          "outputCaptureTimeUs": "1460017485327",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "outputEvents": {
+        "StackLight_Red": {
+          "name": "StackLight_Red",
+          "value": true,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.551Z",
+          "serverTimestamp": "2026-10-31T04:06:09.551Z",
+          "workstationReceiptNs": "1460017496456600",
+          "workstationReceiptTime": "2026-10-31T04:06:09.558Z"
+        },
+        "StackLight_Green": {
+          "name": "StackLight_Green",
+          "value": false,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.551Z",
+          "serverTimestamp": "2026-10-31T04:06:09.551Z",
+          "workstationReceiptNs": "1460017496451600",
+          "workstationReceiptTime": "2026-10-31T04:06:09.558Z"
+        }
+      }
+    },
+    {
+      "label": "overload-off-red-off-green-on",
+      "expected": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "changedExpected": {
+        "StackLight_Red": false,
+        "StackLight_Green": true
+      },
+      "readMatches": true,
+      "notificationsVisible": true,
+      "statusGood": true,
+      "transitionBounds": {
+        "cycle": {
+          "lowerExclusive": "272029",
+          "upperInclusive": "272030"
+        },
+        "plcTimeUs": {
+          "lowerExclusive": "1460017485327",
+          "upperInclusive": "1460017505723"
+        },
+        "note": "The client brackets the transition with PLC capture reads; it does not claim the exact scan inside this interval."
+      },
+      "commit": {
+        "sequence": "9",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.560Z",
+        "sendNs": "1460017498645500",
+        "writeCompleteNs": "1460017500145800",
+        "writeCompletionMs": 1.5003,
+        "appliedReceiptMs": 20.3503,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            9
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.576Z",
+          "serverTimestamp": "2026-10-31T04:06:09.576Z",
+          "workstationReceiptNs": "1460017518995800",
+          "workstationReceiptTime": "2026-10-31T04:06:09.580Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "8",
+          "plcCycle": "272029",
+          "plcTimeUs": "1460017485327",
+          "outputCaptureCycle": "272029",
+          "outputCaptureTimeUs": "1460017485327",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "9",
+          "plcCycle": "272030",
+          "plcTimeUs": "1460017505723",
+          "outputCaptureCycle": "272030",
+          "outputCaptureTimeUs": "1460017505723",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "outputEvents": {
+        "StackLight_Red": {
+          "name": "StackLight_Red",
+          "value": false,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.572Z",
+          "serverTimestamp": "2026-10-31T04:06:09.572Z",
+          "workstationReceiptNs": "1460017519012900",
+          "workstationReceiptTime": "2026-10-31T04:06:09.580Z"
+        },
+        "StackLight_Green": {
+          "name": "StackLight_Green",
+          "value": true,
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.572Z",
+          "serverTimestamp": "2026-10-31T04:06:09.572Z",
+          "workstationReceiptNs": "1460017519007900",
+          "workstationReceiptTime": "2026-10-31T04:06:09.580Z"
+        }
+      }
+    }
+  ],
+  "exercisedOutputs": [
+    "Motor_RunCmd",
+    "D1_ExtendCmd",
+    "D2_ExtendCmd",
+    "StackLight_Red",
+    "StackLight_Green"
+  ],
+  "pulses": [
+    {
+      "kind": "motor",
+      "requestedHoldAfterHighAckMs": 0,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 0,
+          "upperBound": 2
+        },
+        "plcTimeUs": {
+          "lowerBound": 0,
+          "upperBound": 39687
+        }
+      },
+      "highCommit": {
+        "sequence": "10",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.583Z",
+        "sendNs": "1460017521430900",
+        "writeCompleteNs": "1460017522915100",
+        "writeCompletionMs": 1.4842,
+        "appliedReceiptMs": 19.5454,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            10
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.596Z",
+          "serverTimestamp": "2026-10-31T04:06:09.596Z",
+          "workstationReceiptNs": "1460017540976300",
+          "workstationReceiptTime": "2026-10-31T04:06:09.602Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "9",
+          "plcCycle": "272030",
+          "plcTimeUs": "1460017505723",
+          "outputCaptureCycle": "272030",
+          "outputCaptureTimeUs": "1460017505723",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "10",
+          "plcCycle": "272031",
+          "plcTimeUs": "1460017525541",
+          "outputCaptureCycle": "272031",
+          "outputCaptureTimeUs": "1460017525541",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "11",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.604Z",
+        "sendNs": "1460017543148000",
+        "writeCompleteNs": "1460017544168000",
+        "writeCompletionMs": 1.02,
+        "appliedReceiptMs": 20.515,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            11
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.616Z",
+          "serverTimestamp": "2026-10-31T04:06:09.616Z",
+          "workstationReceiptNs": "1460017563663000",
+          "workstationReceiptTime": "2026-10-31T04:06:09.625Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "10",
+          "plcCycle": "272031",
+          "plcTimeUs": "1460017525541",
+          "outputCaptureCycle": "272031",
+          "outputCaptureTimeUs": "1460017525541",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "11",
+          "plcCycle": "272032",
+          "plcTimeUs": "1460017545410",
+          "outputCaptureCycle": "272032",
+          "outputCaptureTimeUs": "1460017545410",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "Motor_RunCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "Motor_RunCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.590Z",
+            "serverTimestamp": "2026-10-31T04:06:09.590Z",
+            "workstationReceiptNs": "1460017540984400",
+            "workstationReceiptTime": "2026-10-31T04:06:09.602Z"
+          },
+          "lowEvent": {
+            "name": "Motor_RunCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.610Z",
+            "serverTimestamp": "2026-10-31T04:06:09.610Z",
+            "workstationReceiptNs": "1460017563671500",
+            "workstationReceiptTime": "2026-10-31T04:06:09.625Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "motor",
+      "requestedHoldAfterHighAckMs": 20,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 1,
+          "upperBound": 3
+        },
+        "plcTimeUs": {
+          "lowerBound": 20226,
+          "upperBound": 59853
+        }
+      },
+      "highCommit": {
+        "sequence": "12",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.739Z",
+        "sendNs": "1460017677513300",
+        "writeCompleteNs": "1460017678952100",
+        "writeCompletionMs": 1.4388,
+        "appliedReceiptMs": 21.727,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            12
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.754Z",
+          "serverTimestamp": "2026-10-31T04:06:09.754Z",
+          "workstationReceiptNs": "1460017699240300",
+          "workstationReceiptTime": "2026-10-31T04:06:09.761Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "11",
+          "plcCycle": "272038",
+          "plcTimeUs": "1460017668527",
+          "outputCaptureCycle": "272038",
+          "outputCaptureTimeUs": "1460017668527",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "12",
+          "plcCycle": "272039",
+          "plcTimeUs": "1460017688327",
+          "outputCaptureCycle": "272039",
+          "outputCaptureTimeUs": "1460017688327",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "13",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.784Z",
+        "sendNs": "1460017723147000",
+        "writeCompleteNs": "1460017724201500",
+        "writeCompletionMs": 1.0545,
+        "appliedReceiptMs": 21.3066,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            13
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.795Z",
+          "serverTimestamp": "2026-10-31T04:06:09.795Z",
+          "workstationReceiptNs": "1460017744453600",
+          "workstationReceiptTime": "2026-10-31T04:06:09.806Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "12",
+          "plcCycle": "272040",
+          "plcTimeUs": "1460017708553",
+          "outputCaptureCycle": "272040",
+          "outputCaptureTimeUs": "1460017708553",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "13",
+          "plcCycle": "272041",
+          "plcTimeUs": "1460017728380",
+          "outputCaptureCycle": "272041",
+          "outputCaptureTimeUs": "1460017728380",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "Motor_RunCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "Motor_RunCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.750Z",
+            "serverTimestamp": "2026-10-31T04:06:09.750Z",
+            "workstationReceiptNs": "1460017699247900",
+            "workstationReceiptTime": "2026-10-31T04:06:09.761Z"
+          },
+          "lowEvent": {
+            "name": "Motor_RunCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.810Z",
+            "serverTimestamp": "2026-10-31T04:06:09.810Z",
+            "workstationReceiptNs": "1460017767387400",
+            "workstationReceiptTime": "2026-10-31T04:06:09.829Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "motor",
+      "requestedHoldAfterHighAckMs": 40,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 2,
+          "upperBound": 4
+        },
+        "plcTimeUs": {
+          "lowerBound": 41015,
+          "upperBound": 80961
+        }
+      },
+      "highCommit": {
+        "sequence": "14",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:09.920Z",
+        "sendNs": "1460017858502000",
+        "writeCompleteNs": "1460017859577800",
+        "writeCompletionMs": 1.0758,
+        "appliedReceiptMs": 20.8829,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            14
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.936Z",
+          "serverTimestamp": "2026-10-31T04:06:09.936Z",
+          "workstationReceiptNs": "1460017879384900",
+          "workstationReceiptTime": "2026-10-31T04:06:09.941Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "13",
+          "plcCycle": "272047",
+          "plcTimeUs": "1460017849518",
+          "outputCaptureCycle": "272047",
+          "outputCaptureTimeUs": "1460017849518",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "14",
+          "plcCycle": "272048",
+          "plcTimeUs": "1460017869609",
+          "outputCaptureCycle": "272048",
+          "outputCaptureTimeUs": "1460017869609",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "15",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:09.987Z",
+        "sendNs": "1460017925400500",
+        "writeCompleteNs": "1460017926573200",
+        "writeCompletionMs": 1.1727,
+        "appliedReceiptMs": 21.4055,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            15
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:09.995Z",
+          "serverTimestamp": "2026-10-31T04:06:09.995Z",
+          "workstationReceiptNs": "1460017946806000",
+          "workstationReceiptTime": "2026-10-31T04:06:10.008Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "14",
+          "plcCycle": "272050",
+          "plcTimeUs": "1460017910624",
+          "outputCaptureCycle": "272050",
+          "outputCaptureTimeUs": "1460017910624",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "15",
+          "plcCycle": "272051",
+          "plcTimeUs": "1460017930479",
+          "outputCaptureCycle": "272051",
+          "outputCaptureTimeUs": "1460017930479",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "Motor_RunCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "Motor_RunCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.950Z",
+            "serverTimestamp": "2026-10-31T04:06:09.950Z",
+            "workstationReceiptNs": "1460017901774900",
+            "workstationReceiptTime": "2026-10-31T04:06:09.963Z"
+          },
+          "lowEvent": {
+            "name": "Motor_RunCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.009Z",
+            "serverTimestamp": "2026-10-31T04:06:10.009Z",
+            "workstationReceiptNs": "1460017969111200",
+            "workstationReceiptTime": "2026-10-31T04:06:10.030Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "motor",
+      "requestedHoldAfterHighAckMs": 80,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 4,
+          "upperBound": 7
+        },
+        "plcTimeUs": {
+          "lowerBound": 81272,
+          "upperBound": 142950
+        }
+      },
+      "highCommit": {
+        "sequence": "16",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:10.121Z",
+        "sendNs": "1460018059504600",
+        "writeCompleteNs": "1460018060594800",
+        "writeCompletionMs": 1.0902,
+        "appliedReceiptMs": 24.165,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            16
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.135Z",
+          "serverTimestamp": "2026-10-31T04:06:10.135Z",
+          "workstationReceiptNs": "1460018083669600",
+          "workstationReceiptTime": "2026-10-31T04:06:10.145Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "15",
+          "plcCycle": "272057",
+          "plcTimeUs": "1460018052559",
+          "outputCaptureCycle": "272057",
+          "outputCaptureTimeUs": "1460018052559",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "16",
+          "plcCycle": "272058",
+          "plcTimeUs": "1460018073351",
+          "outputCaptureCycle": "272058",
+          "outputCaptureTimeUs": "1460018073351",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "17",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:10.228Z",
+        "sendNs": "1460018166378500",
+        "writeCompleteNs": "1460018167435000",
+        "writeCompletionMs": 1.0565,
+        "appliedReceiptMs": 29.078,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            17
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.255Z",
+          "serverTimestamp": "2026-10-31T04:06:10.255Z",
+          "workstationReceiptNs": "1460018195456500",
+          "workstationReceiptTime": "2026-10-31T04:06:10.257Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "16",
+          "plcCycle": "272062",
+          "plcTimeUs": "1460018154623",
+          "outputCaptureCycle": "272062",
+          "outputCaptureTimeUs": "1460018154623",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "17",
+          "plcCycle": "272064",
+          "plcTimeUs": "1460018195509",
+          "outputCaptureCycle": "272064",
+          "outputCaptureTimeUs": "1460018195509",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "Motor_RunCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "Motor_RunCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.150Z",
+            "serverTimestamp": "2026-10-31T04:06:10.150Z",
+            "workstationReceiptNs": "1460018106046900",
+            "workstationReceiptTime": "2026-10-31T04:06:10.167Z"
+          },
+          "lowEvent": {
+            "name": "Motor_RunCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.249Z",
+            "serverTimestamp": "2026-10-31T04:06:10.249Z",
+            "workstationReceiptNs": "1460018195467900",
+            "workstationReceiptTime": "2026-10-31T04:06:10.257Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "motor",
+      "requestedHoldAfterHighAckMs": 160,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 8,
+          "upperBound": 12
+        },
+        "plcTimeUs": {
+          "lowerBound": 161804,
+          "upperBound": 243151
+        }
+      },
+      "highCommit": {
+        "sequence": "18",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:10.366Z",
+        "sendNs": "1460018305058000",
+        "writeCompleteNs": "1460018307015400",
+        "writeCompletionMs": 1.9574,
+        "appliedReceiptMs": 48.7527,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            18
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.395Z",
+          "serverTimestamp": "2026-10-31T04:06:10.395Z",
+          "workstationReceiptNs": "1460018353810700",
+          "workstationReceiptTime": "2026-10-31T04:06:10.415Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "17",
+          "plcCycle": "272069",
+          "plcTimeUs": "1460018298314",
+          "outputCaptureCycle": "272069",
+          "outputCaptureTimeUs": "1460018298314",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "18",
+          "plcCycle": "272071",
+          "plcTimeUs": "1460018338562",
+          "outputCaptureCycle": "272071",
+          "outputCaptureTimeUs": "1460018338562",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "19",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:10.581Z",
+        "sendNs": "1460018519896800",
+        "writeCompleteNs": "1460018521425300",
+        "writeCompletionMs": 1.5285,
+        "appliedReceiptMs": 14.9083,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            19
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.594Z",
+          "serverTimestamp": "2026-10-31T04:06:10.594Z",
+          "workstationReceiptNs": "1460018534805100",
+          "workstationReceiptTime": "2026-10-31T04:06:10.596Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "18",
+          "plcCycle": "272079",
+          "plcTimeUs": "1460018500366",
+          "outputCaptureCycle": "272079",
+          "outputCaptureTimeUs": "1460018500366",
+          "outputs": {
+            "Motor_RunCmd": true,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "19",
+          "plcCycle": "272081",
+          "plcTimeUs": "1460018541465",
+          "outputCaptureCycle": "272081",
+          "outputCaptureTimeUs": "1460018541465",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "Motor_RunCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "Motor_RunCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.389Z",
+            "serverTimestamp": "2026-10-31T04:06:10.389Z",
+            "workstationReceiptNs": "1460018331688800",
+            "workstationReceiptTime": "2026-10-31T04:06:10.393Z"
+          },
+          "lowEvent": {
+            "name": "Motor_RunCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.590Z",
+            "serverTimestamp": "2026-10-31T04:06:10.590Z",
+            "workstationReceiptNs": "1460018534812500",
+            "workstationReceiptTime": "2026-10-31T04:06:10.596Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d1",
+      "requestedHoldAfterHighAckMs": 0,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 0,
+          "upperBound": 3
+        },
+        "plcTimeUs": {
+          "lowerBound": 0,
+          "upperBound": 61972
+        }
+      },
+      "highCommit": {
+        "sequence": "20",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:10.718Z",
+        "sendNs": "1460018657180000",
+        "writeCompleteNs": "1460018658176200",
+        "writeCompletionMs": 0.9962,
+        "appliedReceiptMs": 36.5246,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            20
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.735Z",
+          "serverTimestamp": "2026-10-31T04:06:10.735Z",
+          "workstationReceiptNs": "1460018693704600",
+          "workstationReceiptTime": "2026-10-31T04:06:10.755Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "19",
+          "plcCycle": "272086",
+          "plcTimeUs": "1460018643312",
+          "outputCaptureCycle": "272086",
+          "outputCaptureTimeUs": "1460018643312",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "20",
+          "plcCycle": "272088",
+          "plcTimeUs": "1460018684421",
+          "outputCaptureCycle": "272088",
+          "outputCaptureTimeUs": "1460018684421",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "21",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:10.757Z",
+        "sendNs": "1460018695717000",
+        "writeCompleteNs": "1460018696725100",
+        "writeCompletionMs": 1.0081,
+        "appliedReceiptMs": 20.4059,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            21
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.774Z",
+          "serverTimestamp": "2026-10-31T04:06:10.774Z",
+          "workstationReceiptNs": "1460018716122900",
+          "workstationReceiptTime": "2026-10-31T04:06:10.777Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "20",
+          "plcCycle": "272088",
+          "plcTimeUs": "1460018684421",
+          "outputCaptureCycle": "272088",
+          "outputCaptureTimeUs": "1460018684421",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "21",
+          "plcCycle": "272089",
+          "plcTimeUs": "1460018705284",
+          "outputCaptureCycle": "272089",
+          "outputCaptureTimeUs": "1460018705284",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D1_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D1_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.732Z",
+            "serverTimestamp": "2026-10-31T04:06:10.732Z",
+            "workstationReceiptNs": "1460018671076800",
+            "workstationReceiptTime": "2026-10-31T04:06:10.732Z"
+          },
+          "lowEvent": {
+            "name": "D1_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.772Z",
+            "serverTimestamp": "2026-10-31T04:06:10.772Z",
+            "workstationReceiptNs": "1460018716130500",
+            "workstationReceiptTime": "2026-10-31T04:06:10.777Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d1",
+      "requestedHoldAfterHighAckMs": 20,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 1,
+          "upperBound": 4
+        },
+        "plcTimeUs": {
+          "lowerBound": 19946,
+          "upperBound": 79849
+        }
+      },
+      "highCommit": {
+        "sequence": "22",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:10.888Z",
+        "sendNs": "1460018826385300",
+        "writeCompleteNs": "1460018827652700",
+        "writeCompletionMs": 1.2674,
+        "appliedReceiptMs": 28.3363,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            22
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.895Z",
+          "serverTimestamp": "2026-10-31T04:06:10.895Z",
+          "workstationReceiptNs": "1460018854721600",
+          "workstationReceiptTime": "2026-10-31T04:06:10.916Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "21",
+          "plcCycle": "272094",
+          "plcTimeUs": "1460018807520",
+          "outputCaptureCycle": "272094",
+          "outputCaptureTimeUs": "1460018807520",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "22",
+          "plcCycle": "272096",
+          "plcTimeUs": "1460018847470",
+          "outputCaptureCycle": "272096",
+          "outputCaptureTimeUs": "1460018847470",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "23",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:10.940Z",
+        "sendNs": "1460018879079300",
+        "writeCompleteNs": "1460018880266700",
+        "writeCompletionMs": 1.1874,
+        "appliedReceiptMs": 21.0471,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            23
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:10.955Z",
+          "serverTimestamp": "2026-10-31T04:06:10.955Z",
+          "workstationReceiptNs": "1460018900126400",
+          "workstationReceiptTime": "2026-10-31T04:06:10.961Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "22",
+          "plcCycle": "272097",
+          "plcTimeUs": "1460018867416",
+          "outputCaptureCycle": "272097",
+          "outputCaptureTimeUs": "1460018867416",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "23",
+          "plcCycle": "272098",
+          "plcTimeUs": "1460018887369",
+          "outputCaptureCycle": "272098",
+          "outputCaptureTimeUs": "1460018887369",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D1_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D1_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.892Z",
+            "serverTimestamp": "2026-10-31T04:06:10.892Z",
+            "workstationReceiptNs": "1460018831861600",
+            "workstationReceiptTime": "2026-10-31T04:06:10.893Z"
+          },
+          "lowEvent": {
+            "name": "D1_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.953Z",
+            "serverTimestamp": "2026-10-31T04:06:10.953Z",
+            "workstationReceiptNs": "1460018900134300",
+            "workstationReceiptTime": "2026-10-31T04:06:10.961Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d1",
+      "requestedHoldAfterHighAckMs": 40,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 2,
+          "upperBound": 4
+        },
+        "plcTimeUs": {
+          "lowerBound": 39842,
+          "upperBound": 79880
+        }
+      },
+      "highCommit": {
+        "sequence": "24",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:11.072Z",
+        "sendNs": "1460019011139200",
+        "writeCompleteNs": "1460019012523300",
+        "writeCompletionMs": 1.3841,
+        "appliedReceiptMs": 26.2976,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            24
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.095Z",
+          "serverTimestamp": "2026-10-31T04:06:11.095Z",
+          "workstationReceiptNs": "1460019037436800",
+          "workstationReceiptTime": "2026-10-31T04:06:11.099Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "23",
+          "plcCycle": "272104",
+          "plcTimeUs": "1460019008497",
+          "outputCaptureCycle": "272104",
+          "outputCaptureTimeUs": "1460019008497",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "24",
+          "plcCycle": "272105",
+          "plcTimeUs": "1460019028538",
+          "outputCaptureCycle": "272105",
+          "outputCaptureTimeUs": "1460019028538",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "25",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:11.146Z",
+        "sendNs": "1460019084202600",
+        "writeCompleteNs": "1460019085321700",
+        "writeCompletionMs": 1.1191,
+        "appliedReceiptMs": 21.2788,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            25
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.156Z",
+          "serverTimestamp": "2026-10-31T04:06:11.156Z",
+          "workstationReceiptNs": "1460019105481400",
+          "workstationReceiptTime": "2026-10-31T04:06:11.167Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "24",
+          "plcCycle": "272107",
+          "plcTimeUs": "1460019068380",
+          "outputCaptureCycle": "272107",
+          "outputCaptureTimeUs": "1460019068380",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "25",
+          "plcCycle": "272108",
+          "plcTimeUs": "1460019088377",
+          "outputCaptureCycle": "272108",
+          "outputCaptureTimeUs": "1460019088377",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D1_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D1_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.092Z",
+            "serverTimestamp": "2026-10-31T04:06:11.092Z",
+            "workstationReceiptNs": "1460019037449500",
+            "workstationReceiptTime": "2026-10-31T04:06:11.099Z"
+          },
+          "lowEvent": {
+            "name": "D1_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.152Z",
+            "serverTimestamp": "2026-10-31T04:06:11.152Z",
+            "workstationReceiptNs": "1460019105499700",
+            "workstationReceiptTime": "2026-10-31T04:06:11.167Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d1",
+      "requestedHoldAfterHighAckMs": 80,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 4,
+          "upperBound": 7
+        },
+        "plcTimeUs": {
+          "lowerBound": 82268,
+          "upperBound": 144241
+        }
+      },
+      "highCommit": {
+        "sequence": "26",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:11.271Z",
+        "sendNs": "1460019209519500",
+        "writeCompleteNs": "1460019210724400",
+        "writeCompletionMs": 1.2049,
+        "appliedReceiptMs": 7.786,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            26
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.274Z",
+          "serverTimestamp": "2026-10-31T04:06:11.274Z",
+          "workstationReceiptNs": "1460019217305500",
+          "workstationReceiptTime": "2026-10-31T04:06:11.279Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "25",
+          "plcCycle": "272113",
+          "plcTimeUs": "1460019190437",
+          "outputCaptureCycle": "272113",
+          "outputCaptureTimeUs": "1460019190437",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "26",
+          "plcCycle": "272114",
+          "plcTimeUs": "1460019211320",
+          "outputCaptureCycle": "272114",
+          "outputCaptureTimeUs": "1460019211320",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "27",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:11.364Z",
+        "sendNs": "1460019302256100",
+        "writeCompleteNs": "1460019303314200",
+        "writeCompletionMs": 1.0581,
+        "appliedReceiptMs": 51.2752,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            27
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.395Z",
+          "serverTimestamp": "2026-10-31T04:06:11.395Z",
+          "workstationReceiptNs": "1460019353531300",
+          "workstationReceiptTime": "2026-10-31T04:06:11.415Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "26",
+          "plcCycle": "272118",
+          "plcTimeUs": "1460019293588",
+          "outputCaptureCycle": "272118",
+          "outputCaptureTimeUs": "1460019293588",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "27",
+          "plcCycle": "272120",
+          "plcTimeUs": "1460019334678",
+          "outputCaptureCycle": "272120",
+          "outputCaptureTimeUs": "1460019334678",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D1_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D1_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.292Z",
+            "serverTimestamp": "2026-10-31T04:06:11.292Z",
+            "workstationReceiptNs": "1460019239925700",
+            "workstationReceiptTime": "2026-10-31T04:06:11.301Z"
+          },
+          "lowEvent": {
+            "name": "D1_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.393Z",
+            "serverTimestamp": "2026-10-31T04:06:11.393Z",
+            "workstationReceiptNs": "1460019353539600",
+            "workstationReceiptTime": "2026-10-31T04:06:11.415Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d1",
+      "requestedHoldAfterHighAckMs": 160,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 8,
+          "upperBound": 13
+        },
+        "plcTimeUs": {
+          "lowerBound": 162077,
+          "upperBound": 263759
+        }
+      },
+      "highCommit": {
+        "sequence": "28",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:11.532Z",
+        "sendNs": "1460019470432900",
+        "writeCompleteNs": "1460019471536700",
+        "writeCompletionMs": 1.1038,
+        "appliedReceiptMs": 45.286,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            28
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.554Z",
+          "serverTimestamp": "2026-10-31T04:06:11.554Z",
+          "workstationReceiptNs": "1460019515718900",
+          "workstationReceiptTime": "2026-10-31T04:06:11.577Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "27",
+          "plcCycle": "272126",
+          "plcTimeUs": "1460019458714",
+          "outputCaptureCycle": "272126",
+          "outputCaptureTimeUs": "1460019458714",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "28",
+          "plcCycle": "272129",
+          "plcTimeUs": "1460019520617",
+          "outputCaptureCycle": "272129",
+          "outputCaptureTimeUs": "1460019520617",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "29",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:11.762Z",
+        "sendNs": "1460019700636500",
+        "writeCompleteNs": "1460019701563800",
+        "writeCompletionMs": 0.9273,
+        "appliedReceiptMs": 22.2667,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            29
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.775Z",
+          "serverTimestamp": "2026-10-31T04:06:11.775Z",
+          "workstationReceiptNs": "1460019722903200",
+          "workstationReceiptTime": "2026-10-31T04:06:11.784Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "28",
+          "plcCycle": "272137",
+          "plcTimeUs": "1460019682694",
+          "outputCaptureCycle": "272137",
+          "outputCaptureTimeUs": "1460019682694",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": true,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "29",
+          "plcCycle": "272139",
+          "plcTimeUs": "1460019722473",
+          "outputCaptureCycle": "272139",
+          "outputCaptureTimeUs": "1460019722473",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D1_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D1_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.553Z",
+            "serverTimestamp": "2026-10-31T04:06:11.553Z",
+            "workstationReceiptNs": "1460019492579500",
+            "workstationReceiptTime": "2026-10-31T04:06:11.554Z"
+          },
+          "lowEvent": {
+            "name": "D1_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.772Z",
+            "serverTimestamp": "2026-10-31T04:06:11.772Z",
+            "workstationReceiptNs": "1460019722915500",
+            "workstationReceiptTime": "2026-10-31T04:06:11.784Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d2",
+      "requestedHoldAfterHighAckMs": 0,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 0,
+          "upperBound": 2
+        },
+        "plcTimeUs": {
+          "lowerBound": 0,
+          "upperBound": 40762
+        }
+      },
+      "highCommit": {
+        "sequence": "30",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:11.901Z",
+        "sendNs": "1460019839316200",
+        "writeCompleteNs": "1460019841273300",
+        "writeCompletionMs": 1.9571,
+        "appliedReceiptMs": 20.1412,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            30
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.915Z",
+          "serverTimestamp": "2026-10-31T04:06:11.915Z",
+          "workstationReceiptNs": "1460019859457400",
+          "workstationReceiptTime": "2026-10-31T04:06:11.921Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "29",
+          "plcCycle": "272144",
+          "plcTimeUs": "1460019823714",
+          "outputCaptureCycle": "272144",
+          "outputCaptureTimeUs": "1460019823714",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "30",
+          "plcCycle": "272145",
+          "plcTimeUs": "1460019844553",
+          "outputCaptureCycle": "272145",
+          "outputCaptureTimeUs": "1460019844553",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "31",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:11.923Z",
+        "sendNs": "1460019862089500",
+        "writeCompleteNs": "1460019863459600",
+        "writeCompletionMs": 1.3701,
+        "appliedReceiptMs": 20.4616,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            31
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:11.934Z",
+          "serverTimestamp": "2026-10-31T04:06:11.934Z",
+          "workstationReceiptNs": "1460019882551100",
+          "workstationReceiptTime": "2026-10-31T04:06:11.944Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "30",
+          "plcCycle": "272145",
+          "plcTimeUs": "1460019844553",
+          "outputCaptureCycle": "272145",
+          "outputCaptureTimeUs": "1460019844553",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "31",
+          "plcCycle": "272146",
+          "plcTimeUs": "1460019864476",
+          "outputCaptureCycle": "272146",
+          "outputCaptureTimeUs": "1460019864476",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D2_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D2_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.911Z",
+            "serverTimestamp": "2026-10-31T04:06:11.911Z",
+            "workstationReceiptNs": "1460019859464900",
+            "workstationReceiptTime": "2026-10-31T04:06:11.921Z"
+          },
+          "lowEvent": {
+            "name": "D2_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.932Z",
+            "serverTimestamp": "2026-10-31T04:06:11.932Z",
+            "workstationReceiptNs": "1460019882558800",
+            "workstationReceiptTime": "2026-10-31T04:06:11.944Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d2",
+      "requestedHoldAfterHighAckMs": 20,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 1,
+          "upperBound": 3
+        },
+        "plcTimeUs": {
+          "lowerBound": 20207,
+          "upperBound": 61083
+        }
+      },
+      "highCommit": {
+        "sequence": "32",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:12.054Z",
+        "sendNs": "1460019992330200",
+        "writeCompleteNs": "1460019993870500",
+        "writeCompletionMs": 1.5403,
+        "appliedReceiptMs": 27.3561,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            32
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.076Z",
+          "serverTimestamp": "2026-10-31T04:06:12.076Z",
+          "workstationReceiptNs": "1460020019686300",
+          "workstationReceiptTime": "2026-10-31T04:06:12.081Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "31",
+          "plcCycle": "272152",
+          "plcTimeUs": "1460019987339",
+          "outputCaptureCycle": "272152",
+          "outputCaptureTimeUs": "1460019987339",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "32",
+          "plcCycle": "272153",
+          "plcTimeUs": "1460020008435",
+          "outputCaptureCycle": "272153",
+          "outputCaptureTimeUs": "1460020008435",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "33",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:12.106Z",
+        "sendNs": "1460020044442100",
+        "writeCompleteNs": "1460020045694000",
+        "writeCompletionMs": 1.2519,
+        "appliedReceiptMs": 21.3165,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            33
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.114Z",
+          "serverTimestamp": "2026-10-31T04:06:12.114Z",
+          "workstationReceiptNs": "1460020065758600",
+          "workstationReceiptTime": "2026-10-31T04:06:12.127Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "32",
+          "plcCycle": "272154",
+          "plcTimeUs": "1460020028642",
+          "outputCaptureCycle": "272154",
+          "outputCaptureTimeUs": "1460020028642",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "33",
+          "plcCycle": "272155",
+          "plcTimeUs": "1460020048422",
+          "outputCaptureCycle": "272155",
+          "outputCaptureTimeUs": "1460020048422",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D2_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D2_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.073Z",
+            "serverTimestamp": "2026-10-31T04:06:12.073Z",
+            "workstationReceiptNs": "1460020019701100",
+            "workstationReceiptTime": "2026-10-31T04:06:12.081Z"
+          },
+          "lowEvent": {
+            "name": "D2_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.112Z",
+            "serverTimestamp": "2026-10-31T04:06:12.112Z",
+            "workstationReceiptNs": "1460020065770500",
+            "workstationReceiptTime": "2026-10-31T04:06:12.127Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d2",
+      "requestedHoldAfterHighAckMs": 40,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 2,
+          "upperBound": 5
+        },
+        "plcTimeUs": {
+          "lowerBound": 40257,
+          "upperBound": 101862
+        }
+      },
+      "highCommit": {
+        "sequence": "34",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:12.238Z",
+        "sendNs": "1460020176235800",
+        "writeCompleteNs": "1460020177698700",
+        "writeCompletionMs": 1.4629,
+        "appliedReceiptMs": 24.5665,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            34
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.255Z",
+          "serverTimestamp": "2026-10-31T04:06:12.255Z",
+          "workstationReceiptNs": "1460020200802300",
+          "workstationReceiptTime": "2026-10-31T04:06:12.262Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "33",
+          "plcCycle": "272161",
+          "plcTimeUs": "1460020171419",
+          "outputCaptureCycle": "272161",
+          "outputCaptureTimeUs": "1460020171419",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "34",
+          "plcCycle": "272162",
+          "plcTimeUs": "1460020192430",
+          "outputCaptureCycle": "272162",
+          "outputCaptureTimeUs": "1460020192430",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "35",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:12.309Z",
+        "sendNs": "1460020247313500",
+        "writeCompleteNs": "1460020248400400",
+        "writeCompletionMs": 1.0869,
+        "appliedReceiptMs": 20.3908,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            35
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.316Z",
+          "serverTimestamp": "2026-10-31T04:06:12.316Z",
+          "workstationReceiptNs": "1460020267704300",
+          "workstationReceiptTime": "2026-10-31T04:06:12.329Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "34",
+          "plcCycle": "272164",
+          "plcTimeUs": "1460020232687",
+          "outputCaptureCycle": "272164",
+          "outputCaptureTimeUs": "1460020232687",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "35",
+          "plcCycle": "272166",
+          "plcTimeUs": "1460020273281",
+          "outputCaptureCycle": "272166",
+          "outputCaptureTimeUs": "1460020273281",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D2_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D2_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.272Z",
+            "serverTimestamp": "2026-10-31T04:06:12.272Z",
+            "workstationReceiptNs": "1460020223569300",
+            "workstationReceiptTime": "2026-10-31T04:06:12.285Z"
+          },
+          "lowEvent": {
+            "name": "D2_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.332Z",
+            "serverTimestamp": "2026-10-31T04:06:12.332Z",
+            "workstationReceiptNs": "1460020290255200",
+            "workstationReceiptTime": "2026-10-31T04:06:12.352Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d2",
+      "requestedHoldAfterHighAckMs": 80,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 4,
+          "upperBound": 9
+        },
+        "plcTimeUs": {
+          "lowerBound": 79753,
+          "upperBound": 182296
+        }
+      },
+      "highCommit": {
+        "sequence": "36",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:12.452Z",
+        "sendNs": "1460020390444800",
+        "writeCompleteNs": "1460020391624800",
+        "writeCompletionMs": 1.18,
+        "appliedReceiptMs": 35.8329,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            36
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.476Z",
+          "serverTimestamp": "2026-10-31T04:06:12.476Z",
+          "workstationReceiptNs": "1460020426277700",
+          "workstationReceiptTime": "2026-10-31T04:06:12.488Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "35",
+          "plcCycle": "272171",
+          "plcTimeUs": "1460020373453",
+          "outputCaptureCycle": "272171",
+          "outputCaptureTimeUs": "1460020373453",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "36",
+          "plcCycle": "272173",
+          "plcTimeUs": "1460020413634",
+          "outputCaptureCycle": "272173",
+          "outputCaptureTimeUs": "1460020413634",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "37",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:12.576Z",
+        "sendNs": "1460020514360600",
+        "writeCompleteNs": "1460020515564200",
+        "writeCompletionMs": 1.2036,
+        "appliedReceiptMs": 48.5458,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            37
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.615Z",
+          "serverTimestamp": "2026-10-31T04:06:12.615Z",
+          "workstationReceiptNs": "1460020562906400",
+          "workstationReceiptTime": "2026-10-31T04:06:12.624Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "36",
+          "plcCycle": "272177",
+          "plcTimeUs": "1460020493387",
+          "outputCaptureCycle": "272177",
+          "outputCaptureTimeUs": "1460020493387",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "37",
+          "plcCycle": "272180",
+          "plcTimeUs": "1460020555749",
+          "outputCaptureCycle": "272180",
+          "outputCaptureTimeUs": "1460020555749",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D2_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D2_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.471Z",
+            "serverTimestamp": "2026-10-31T04:06:12.471Z",
+            "workstationReceiptNs": "1460020426284900",
+            "workstationReceiptTime": "2026-10-31T04:06:12.488Z"
+          },
+          "lowEvent": {
+            "name": "D2_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.612Z",
+            "serverTimestamp": "2026-10-31T04:06:12.612Z",
+            "workstationReceiptNs": "1460020562914300",
+            "workstationReceiptTime": "2026-10-31T04:06:12.624Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "d2",
+      "requestedHoldAfterHighAckMs": 160,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 8,
+          "upperBound": 12
+        },
+        "plcTimeUs": {
+          "lowerBound": 161890,
+          "upperBound": 243034
+        }
+      },
+      "highCommit": {
+        "sequence": "38",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:12.730Z",
+        "sendNs": "1460020669030700",
+        "writeCompleteNs": "1460020670560700",
+        "writeCompletionMs": 1.53,
+        "appliedReceiptMs": 30.7058,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            38
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.755Z",
+          "serverTimestamp": "2026-10-31T04:06:12.755Z",
+          "workstationReceiptNs": "1460020699736500",
+          "workstationReceiptTime": "2026-10-31T04:06:12.761Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "37",
+          "plcCycle": "272185",
+          "plcTimeUs": "1460020656341",
+          "outputCaptureCycle": "272185",
+          "outputCaptureTimeUs": "1460020656341",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "38",
+          "plcCycle": "272187",
+          "plcTimeUs": "1460020696599",
+          "outputCaptureCycle": "272187",
+          "outputCaptureTimeUs": "1460020696599",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "39",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:12.929Z",
+        "sendNs": "1460020868166000",
+        "writeCompleteNs": "1460020869501000",
+        "writeCompletionMs": 1.335,
+        "appliedReceiptMs": 38.4484,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            39
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:12.955Z",
+          "serverTimestamp": "2026-10-31T04:06:12.955Z",
+          "workstationReceiptNs": "1460020906614400",
+          "workstationReceiptTime": "2026-10-31T04:06:12.968Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "38",
+          "plcCycle": "272195",
+          "plcTimeUs": "1460020858489",
+          "outputCaptureCycle": "272195",
+          "outputCaptureTimeUs": "1460020858489",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": true,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "39",
+          "plcCycle": "272197",
+          "plcTimeUs": "1460020899375",
+          "outputCaptureCycle": "272197",
+          "outputCaptureTimeUs": "1460020899375",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "D2_ExtendCmd": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "D2_ExtendCmd",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.753Z",
+            "serverTimestamp": "2026-10-31T04:06:12.753Z",
+            "workstationReceiptNs": "1460020699746700",
+            "workstationReceiptTime": "2026-10-31T04:06:12.761Z"
+          },
+          "lowEvent": {
+            "name": "D2_ExtendCmd",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:12.953Z",
+            "serverTimestamp": "2026-10-31T04:06:12.953Z",
+            "workstationReceiptNs": "1460020906622600",
+            "workstationReceiptTime": "2026-10-31T04:06:12.968Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "overload",
+      "requestedHoldAfterHighAckMs": 0,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 0,
+          "upperBound": 5
+        },
+        "plcTimeUs": {
+          "lowerBound": 0,
+          "upperBound": 100988
+        }
+      },
+      "highCommit": {
+        "sequence": "40",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:13.082Z",
+        "sendNs": "1460021020589700",
+        "writeCompleteNs": "1460021021660300",
+        "writeCompletionMs": 1.0706,
+        "appliedReceiptMs": 43.6008,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            40
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.115Z",
+          "serverTimestamp": "2026-10-31T04:06:13.115Z",
+          "workstationReceiptNs": "1460021064190500",
+          "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "39",
+          "plcCycle": "272202",
+          "plcTimeUs": "1460021001504",
+          "outputCaptureCycle": "272202",
+          "outputCaptureTimeUs": "1460021001504",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "40",
+          "plcCycle": "272205",
+          "plcTimeUs": "1460021061528",
+          "outputCaptureCycle": "272205",
+          "outputCaptureTimeUs": "1460021061528",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "41",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:13.127Z",
+        "sendNs": "1460021066083200",
+        "writeCompleteNs": "1460021067096000",
+        "writeCompletionMs": 1.0128,
+        "appliedReceiptMs": 43.9592,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            41
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.156Z",
+          "serverTimestamp": "2026-10-31T04:06:13.156Z",
+          "workstationReceiptNs": "1460021110042400",
+          "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "40",
+          "plcCycle": "272205",
+          "plcTimeUs": "1460021061528",
+          "outputCaptureCycle": "272205",
+          "outputCaptureTimeUs": "1460021061528",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "41",
+          "plcCycle": "272207",
+          "plcTimeUs": "1460021102492",
+          "outputCaptureCycle": "272207",
+          "outputCaptureTimeUs": "1460021102492",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "StackLight_Red": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Red",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.112Z",
+            "serverTimestamp": "2026-10-31T04:06:13.112Z",
+            "workstationReceiptNs": "1460021064200900",
+            "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Red",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.151Z",
+            "serverTimestamp": "2026-10-31T04:06:13.151Z",
+            "workstationReceiptNs": "1460021110053200",
+            "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+          }
+        },
+        "StackLight_Green": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Green",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.112Z",
+            "serverTimestamp": "2026-10-31T04:06:13.112Z",
+            "workstationReceiptNs": "1460021064197100",
+            "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Green",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.151Z",
+            "serverTimestamp": "2026-10-31T04:06:13.151Z",
+            "workstationReceiptNs": "1460021110049400",
+            "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "overload",
+      "requestedHoldAfterHighAckMs": 20,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 2,
+          "upperBound": 5
+        },
+        "plcTimeUs": {
+          "lowerBound": 41100,
+          "upperBound": 102806
+        }
+      },
+      "highCommit": {
+        "sequence": "42",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:13.281Z",
+        "sendNs": "1460021219917000",
+        "writeCompleteNs": "1460021220932900",
+        "writeCompletionMs": 1.0159,
+        "appliedReceiptMs": 25.307,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            42
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.295Z",
+          "serverTimestamp": "2026-10-31T04:06:13.295Z",
+          "workstationReceiptNs": "1460021245224000",
+          "workstationReceiptTime": "2026-10-31T04:06:13.307Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "41",
+          "plcCycle": "272212",
+          "plcTimeUs": "1460021204702",
+          "outputCaptureCycle": "272212",
+          "outputCaptureTimeUs": "1460021204702",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "42",
+          "plcCycle": "272213",
+          "plcTimeUs": "1460021225478",
+          "outputCaptureCycle": "272213",
+          "outputCaptureTimeUs": "1460021225478",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "43",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:13.331Z",
+        "sendNs": "1460021269962300",
+        "writeCompleteNs": "1460021270947400",
+        "writeCompletionMs": 0.9851,
+        "appliedReceiptMs": 43.4603,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            43
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.354Z",
+          "serverTimestamp": "2026-10-31T04:06:13.354Z",
+          "workstationReceiptNs": "1460021313422600",
+          "workstationReceiptTime": "2026-10-31T04:06:13.375Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "42",
+          "plcCycle": "272215",
+          "plcTimeUs": "1460021266578",
+          "outputCaptureCycle": "272215",
+          "outputCaptureTimeUs": "1460021266578",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "43",
+          "plcCycle": "272217",
+          "plcTimeUs": "1460021307508",
+          "outputCaptureCycle": "272217",
+          "outputCaptureTimeUs": "1460021307508",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "StackLight_Red": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Red",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.293Z",
+            "serverTimestamp": "2026-10-31T04:06:13.293Z",
+            "workstationReceiptNs": "1460021245234800",
+            "workstationReceiptTime": "2026-10-31T04:06:13.307Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Red",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.352Z",
+            "serverTimestamp": "2026-10-31T04:06:13.352Z",
+            "workstationReceiptNs": "1460021313433100",
+            "workstationReceiptTime": "2026-10-31T04:06:13.375Z"
+          }
+        },
+        "StackLight_Green": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Green",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.293Z",
+            "serverTimestamp": "2026-10-31T04:06:13.293Z",
+            "workstationReceiptNs": "1460021245231000",
+            "workstationReceiptTime": "2026-10-31T04:06:13.307Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Green",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.352Z",
+            "serverTimestamp": "2026-10-31T04:06:13.352Z",
+            "workstationReceiptNs": "1460021313429100",
+            "workstationReceiptTime": "2026-10-31T04:06:13.375Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "overload",
+      "requestedHoldAfterHighAckMs": 40,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 2,
+          "upperBound": 5
+        },
+        "plcTimeUs": {
+          "lowerBound": 41150,
+          "upperBound": 102370
+        }
+      },
+      "highCommit": {
+        "sequence": "44",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:13.479Z",
+        "sendNs": "1460021417737900",
+        "writeCompleteNs": "1460021418778300",
+        "writeCompletionMs": 1.0404,
+        "appliedReceiptMs": 32.6089,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            44
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.495Z",
+          "serverTimestamp": "2026-10-31T04:06:13.495Z",
+          "workstationReceiptNs": "1460021450346800",
+          "workstationReceiptTime": "2026-10-31T04:06:13.512Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "43",
+          "plcCycle": "272222",
+          "plcTimeUs": "1460021410268",
+          "outputCaptureCycle": "272222",
+          "outputCaptureTimeUs": "1460021410268",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "44",
+          "plcCycle": "272224",
+          "plcTimeUs": "1460021450467",
+          "outputCaptureCycle": "272224",
+          "outputCaptureTimeUs": "1460021450467",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "45",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:13.555Z",
+        "sendNs": "1460021494179700",
+        "writeCompleteNs": "1460021495209300",
+        "writeCompletionMs": 1.0296,
+        "appliedReceiptMs": 24.7778,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            45
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.575Z",
+          "serverTimestamp": "2026-10-31T04:06:13.575Z",
+          "workstationReceiptNs": "1460021518957500",
+          "workstationReceiptTime": "2026-10-31T04:06:13.580Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "44",
+          "plcCycle": "272226",
+          "plcTimeUs": "1460021491617",
+          "outputCaptureCycle": "272226",
+          "outputCaptureTimeUs": "1460021491617",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "45",
+          "plcCycle": "272227",
+          "plcTimeUs": "1460021512638",
+          "outputCaptureCycle": "272227",
+          "outputCaptureTimeUs": "1460021512638",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "StackLight_Red": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Red",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.492Z",
+            "serverTimestamp": "2026-10-31T04:06:13.492Z",
+            "workstationReceiptNs": "1460021450357000",
+            "workstationReceiptTime": "2026-10-31T04:06:13.512Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Red",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.592Z",
+            "serverTimestamp": "2026-10-31T04:06:13.592Z",
+            "workstationReceiptNs": "1460021542135100",
+            "workstationReceiptTime": "2026-10-31T04:06:13.603Z"
+          }
+        },
+        "StackLight_Green": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Green",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.492Z",
+            "serverTimestamp": "2026-10-31T04:06:13.492Z",
+            "workstationReceiptNs": "1460021450353400",
+            "workstationReceiptTime": "2026-10-31T04:06:13.512Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Green",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.592Z",
+            "serverTimestamp": "2026-10-31T04:06:13.592Z",
+            "workstationReceiptNs": "1460021542131500",
+            "workstationReceiptTime": "2026-10-31T04:06:13.603Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "overload",
+      "requestedHoldAfterHighAckMs": 80,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 4,
+          "upperBound": 8
+        },
+        "plcTimeUs": {
+          "lowerBound": 81168,
+          "upperBound": 161884
+        }
+      },
+      "highCommit": {
+        "sequence": "46",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:13.694Z",
+        "sendNs": "1460021633105100",
+        "writeCompleteNs": "1460021634137200",
+        "writeCompletionMs": 1.0321,
+        "appliedReceiptMs": 23.6987,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            46
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.715Z",
+          "serverTimestamp": "2026-10-31T04:06:13.715Z",
+          "workstationReceiptNs": "1460021656803800",
+          "workstationReceiptTime": "2026-10-31T04:06:13.718Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "45",
+          "plcCycle": "272232",
+          "plcTimeUs": "1460021614963",
+          "outputCaptureCycle": "272232",
+          "outputCaptureTimeUs": "1460021614963",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "46",
+          "plcCycle": "272234",
+          "plcTimeUs": "1460021655677",
+          "outputCaptureCycle": "272234",
+          "outputCaptureTimeUs": "1460021655677",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "47",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:13.802Z",
+        "sendNs": "1460021740583700",
+        "writeCompleteNs": "1460021741522900",
+        "writeCompletionMs": 0.9392,
+        "appliedReceiptMs": 52.3096,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            47
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.834Z",
+          "serverTimestamp": "2026-10-31T04:06:13.834Z",
+          "workstationReceiptNs": "1460021792893300",
+          "workstationReceiptTime": "2026-10-31T04:06:13.854Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "46",
+          "plcCycle": "272238",
+          "plcTimeUs": "1460021736845",
+          "outputCaptureCycle": "272238",
+          "outputCaptureTimeUs": "1460021736845",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "47",
+          "plcCycle": "272240",
+          "plcTimeUs": "1460021776847",
+          "outputCaptureCycle": "272240",
+          "outputCaptureTimeUs": "1460021776847",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "StackLight_Red": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Red",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.713Z",
+            "serverTimestamp": "2026-10-31T04:06:13.713Z",
+            "workstationReceiptNs": "1460021656814600",
+            "workstationReceiptTime": "2026-10-31T04:06:13.718Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Red",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.832Z",
+            "serverTimestamp": "2026-10-31T04:06:13.832Z",
+            "workstationReceiptNs": "1460021792903900",
+            "workstationReceiptTime": "2026-10-31T04:06:13.854Z"
+          }
+        },
+        "StackLight_Green": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Green",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.713Z",
+            "serverTimestamp": "2026-10-31T04:06:13.713Z",
+            "workstationReceiptNs": "1460021656810800",
+            "workstationReceiptTime": "2026-10-31T04:06:13.718Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Green",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.832Z",
+            "serverTimestamp": "2026-10-31T04:06:13.832Z",
+            "workstationReceiptNs": "1460021792900100",
+            "workstationReceiptTime": "2026-10-31T04:06:13.854Z"
+          }
+        }
+      }
+    },
+    {
+      "kind": "overload",
+      "requestedHoldAfterHighAckMs": 160,
+      "bounds": {
+        "plcCycles": {
+          "lowerBound": 8,
+          "upperBound": 12
+        },
+        "plcTimeUs": {
+          "lowerBound": 162795,
+          "upperBound": 243878
+        }
+      },
+      "highCommit": {
+        "sequence": "48",
+        "slot": 1,
+        "sendTime": "2026-10-31T04:06:13.970Z",
+        "sendNs": "1460021908758100",
+        "writeCompleteNs": "1460021909766300",
+        "writeCompletionMs": 1.0082,
+        "appliedReceiptMs": 48.415,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            48
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:13.997Z",
+          "serverTimestamp": "2026-10-31T04:06:13.997Z",
+          "workstationReceiptNs": "1460021957173100",
+          "workstationReceiptTime": "2026-10-31T04:06:14.018Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "47",
+          "plcCycle": "272246",
+          "plcTimeUs": "1460021900730",
+          "outputCaptureCycle": "272246",
+          "outputCaptureTimeUs": "1460021900730",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "48",
+          "plcCycle": "272249",
+          "plcTimeUs": "1460021961735",
+          "outputCaptureCycle": "272249",
+          "outputCaptureTimeUs": "1460021961735",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        }
+      },
+      "lowCommit": {
+        "sequence": "49",
+        "slot": 0,
+        "sendTime": "2026-10-31T04:06:14.200Z",
+        "sendNs": "1460022138379000",
+        "writeCompleteNs": "1460022139502000",
+        "writeCompletionMs": 1.123,
+        "appliedReceiptMs": 23.6442,
+        "appliedEvent": {
+          "name": "AppliedSequence",
+          "value": [
+            0,
+            49
+          ],
+          "status": "Good (0x00000000)",
+          "sourceTimestamp": "2026-10-31T04:06:14.215Z",
+          "serverTimestamp": "2026-10-31T04:06:14.215Z",
+          "workstationReceiptNs": "1460022162023200",
+          "workstationReceiptTime": "2026-10-31T04:06:14.223Z"
+        },
+        "before": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "48",
+          "plcCycle": "272257",
+          "plcTimeUs": "1460022124530",
+          "outputCaptureCycle": "272257",
+          "outputCaptureTimeUs": "1460022124530",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": true,
+            "StackLight_Green": false
+          }
+        },
+        "after": {
+          "appliedEpoch": "117533544889892722",
+          "appliedSequence": "49",
+          "plcCycle": "272258",
+          "plcTimeUs": "1460022144608",
+          "outputCaptureCycle": "272258",
+          "outputCaptureTimeUs": "1460022144608",
+          "outputs": {
+            "Motor_RunCmd": false,
+            "D1_ExtendCmd": false,
+            "D2_ExtendCmd": false,
+            "StackLight_Red": false,
+            "StackLight_Green": true
+          }
+        }
+      },
+      "visibility": {
+        "StackLight_Red": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Red",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.993Z",
+            "serverTimestamp": "2026-10-31T04:06:13.993Z",
+            "workstationReceiptNs": "1460021957179800",
+            "workstationReceiptTime": "2026-10-31T04:06:14.018Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Red",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:14.213Z",
+            "serverTimestamp": "2026-10-31T04:06:14.213Z",
+            "workstationReceiptNs": "1460022162046000",
+            "workstationReceiptTime": "2026-10-31T04:06:14.223Z"
+          }
+        },
+        "StackLight_Green": {
+          "highVisible": true,
+          "lowVisibleAfterHigh": true,
+          "highEvent": {
+            "name": "StackLight_Green",
+            "value": false,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.993Z",
+            "serverTimestamp": "2026-10-31T04:06:13.993Z",
+            "workstationReceiptNs": "1460021932056200",
+            "workstationReceiptTime": "2026-10-31T04:06:13.993Z"
+          },
+          "lowEvent": {
+            "name": "StackLight_Green",
+            "value": true,
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:14.213Z",
+            "serverTimestamp": "2026-10-31T04:06:14.213Z",
+            "workstationReceiptNs": "1460022162041200",
+            "workstationReceiptTime": "2026-10-31T04:06:14.223Z"
+          }
+        }
+      }
+    }
+  ],
+  "pulseVisibilityLimits": {
+    "Motor_RunCmd": {
+      "attempted": 5,
+      "visible": 5,
+      "missing": 0,
+      "narrowestVisible": {
+        "kind": "motor",
+        "requestedHoldAfterHighAckMs": 0,
+        "bounds": {
+          "plcCycles": {
+            "lowerBound": 0,
+            "upperBound": 2
+          },
+          "plcTimeUs": {
+            "lowerBound": 0,
+            "upperBound": 39687
+          }
+        },
+        "highCommit": {
+          "sequence": "10",
+          "slot": 1,
+          "sendTime": "2026-10-31T04:06:09.583Z",
+          "sendNs": "1460017521430900",
+          "writeCompleteNs": "1460017522915100",
+          "writeCompletionMs": 1.4842,
+          "appliedReceiptMs": 19.5454,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              10
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.596Z",
+            "serverTimestamp": "2026-10-31T04:06:09.596Z",
+            "workstationReceiptNs": "1460017540976300",
+            "workstationReceiptTime": "2026-10-31T04:06:09.602Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "9",
+            "plcCycle": "272030",
+            "plcTimeUs": "1460017505723",
+            "outputCaptureCycle": "272030",
+            "outputCaptureTimeUs": "1460017505723",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "10",
+            "plcCycle": "272031",
+            "plcTimeUs": "1460017525541",
+            "outputCaptureCycle": "272031",
+            "outputCaptureTimeUs": "1460017525541",
+            "outputs": {
+              "Motor_RunCmd": true,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "lowCommit": {
+          "sequence": "11",
+          "slot": 0,
+          "sendTime": "2026-10-31T04:06:09.604Z",
+          "sendNs": "1460017543148000",
+          "writeCompleteNs": "1460017544168000",
+          "writeCompletionMs": 1.02,
+          "appliedReceiptMs": 20.515,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              11
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:09.616Z",
+            "serverTimestamp": "2026-10-31T04:06:09.616Z",
+            "workstationReceiptNs": "1460017563663000",
+            "workstationReceiptTime": "2026-10-31T04:06:09.625Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "10",
+            "plcCycle": "272031",
+            "plcTimeUs": "1460017525541",
+            "outputCaptureCycle": "272031",
+            "outputCaptureTimeUs": "1460017525541",
+            "outputs": {
+              "Motor_RunCmd": true,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "11",
+            "plcCycle": "272032",
+            "plcTimeUs": "1460017545410",
+            "outputCaptureCycle": "272032",
+            "outputCaptureTimeUs": "1460017545410",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "visibility": {
+          "Motor_RunCmd": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "Motor_RunCmd",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:09.590Z",
+              "serverTimestamp": "2026-10-31T04:06:09.590Z",
+              "workstationReceiptNs": "1460017540984400",
+              "workstationReceiptTime": "2026-10-31T04:06:09.602Z"
+            },
+            "lowEvent": {
+              "name": "Motor_RunCmd",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:09.610Z",
+              "serverTimestamp": "2026-10-31T04:06:09.610Z",
+              "workstationReceiptNs": "1460017563671500",
+              "workstationReceiptTime": "2026-10-31T04:06:09.625Z"
+            }
+          }
+        }
+      }
+    },
+    "D1_ExtendCmd": {
+      "attempted": 5,
+      "visible": 5,
+      "missing": 0,
+      "narrowestVisible": {
+        "kind": "d1",
+        "requestedHoldAfterHighAckMs": 0,
+        "bounds": {
+          "plcCycles": {
+            "lowerBound": 0,
+            "upperBound": 3
+          },
+          "plcTimeUs": {
+            "lowerBound": 0,
+            "upperBound": 61972
+          }
+        },
+        "highCommit": {
+          "sequence": "20",
+          "slot": 1,
+          "sendTime": "2026-10-31T04:06:10.718Z",
+          "sendNs": "1460018657180000",
+          "writeCompleteNs": "1460018658176200",
+          "writeCompletionMs": 0.9962,
+          "appliedReceiptMs": 36.5246,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              20
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.735Z",
+            "serverTimestamp": "2026-10-31T04:06:10.735Z",
+            "workstationReceiptNs": "1460018693704600",
+            "workstationReceiptTime": "2026-10-31T04:06:10.755Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "19",
+            "plcCycle": "272086",
+            "plcTimeUs": "1460018643312",
+            "outputCaptureCycle": "272086",
+            "outputCaptureTimeUs": "1460018643312",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "20",
+            "plcCycle": "272088",
+            "plcTimeUs": "1460018684421",
+            "outputCaptureCycle": "272088",
+            "outputCaptureTimeUs": "1460018684421",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": true,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "lowCommit": {
+          "sequence": "21",
+          "slot": 0,
+          "sendTime": "2026-10-31T04:06:10.757Z",
+          "sendNs": "1460018695717000",
+          "writeCompleteNs": "1460018696725100",
+          "writeCompletionMs": 1.0081,
+          "appliedReceiptMs": 20.4059,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              21
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:10.774Z",
+            "serverTimestamp": "2026-10-31T04:06:10.774Z",
+            "workstationReceiptNs": "1460018716122900",
+            "workstationReceiptTime": "2026-10-31T04:06:10.777Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "20",
+            "plcCycle": "272088",
+            "plcTimeUs": "1460018684421",
+            "outputCaptureCycle": "272088",
+            "outputCaptureTimeUs": "1460018684421",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": true,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "21",
+            "plcCycle": "272089",
+            "plcTimeUs": "1460018705284",
+            "outputCaptureCycle": "272089",
+            "outputCaptureTimeUs": "1460018705284",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "visibility": {
+          "D1_ExtendCmd": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "D1_ExtendCmd",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:10.732Z",
+              "serverTimestamp": "2026-10-31T04:06:10.732Z",
+              "workstationReceiptNs": "1460018671076800",
+              "workstationReceiptTime": "2026-10-31T04:06:10.732Z"
+            },
+            "lowEvent": {
+              "name": "D1_ExtendCmd",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:10.772Z",
+              "serverTimestamp": "2026-10-31T04:06:10.772Z",
+              "workstationReceiptNs": "1460018716130500",
+              "workstationReceiptTime": "2026-10-31T04:06:10.777Z"
+            }
+          }
+        }
+      }
+    },
+    "D2_ExtendCmd": {
+      "attempted": 5,
+      "visible": 5,
+      "missing": 0,
+      "narrowestVisible": {
+        "kind": "d2",
+        "requestedHoldAfterHighAckMs": 0,
+        "bounds": {
+          "plcCycles": {
+            "lowerBound": 0,
+            "upperBound": 2
+          },
+          "plcTimeUs": {
+            "lowerBound": 0,
+            "upperBound": 40762
+          }
+        },
+        "highCommit": {
+          "sequence": "30",
+          "slot": 1,
+          "sendTime": "2026-10-31T04:06:11.901Z",
+          "sendNs": "1460019839316200",
+          "writeCompleteNs": "1460019841273300",
+          "writeCompletionMs": 1.9571,
+          "appliedReceiptMs": 20.1412,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              30
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.915Z",
+            "serverTimestamp": "2026-10-31T04:06:11.915Z",
+            "workstationReceiptNs": "1460019859457400",
+            "workstationReceiptTime": "2026-10-31T04:06:11.921Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "29",
+            "plcCycle": "272144",
+            "plcTimeUs": "1460019823714",
+            "outputCaptureCycle": "272144",
+            "outputCaptureTimeUs": "1460019823714",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "30",
+            "plcCycle": "272145",
+            "plcTimeUs": "1460019844553",
+            "outputCaptureCycle": "272145",
+            "outputCaptureTimeUs": "1460019844553",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": true,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "lowCommit": {
+          "sequence": "31",
+          "slot": 0,
+          "sendTime": "2026-10-31T04:06:11.923Z",
+          "sendNs": "1460019862089500",
+          "writeCompleteNs": "1460019863459600",
+          "writeCompletionMs": 1.3701,
+          "appliedReceiptMs": 20.4616,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              31
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:11.934Z",
+            "serverTimestamp": "2026-10-31T04:06:11.934Z",
+            "workstationReceiptNs": "1460019882551100",
+            "workstationReceiptTime": "2026-10-31T04:06:11.944Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "30",
+            "plcCycle": "272145",
+            "plcTimeUs": "1460019844553",
+            "outputCaptureCycle": "272145",
+            "outputCaptureTimeUs": "1460019844553",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": true,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "31",
+            "plcCycle": "272146",
+            "plcTimeUs": "1460019864476",
+            "outputCaptureCycle": "272146",
+            "outputCaptureTimeUs": "1460019864476",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "visibility": {
+          "D2_ExtendCmd": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "D2_ExtendCmd",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:11.911Z",
+              "serverTimestamp": "2026-10-31T04:06:11.911Z",
+              "workstationReceiptNs": "1460019859464900",
+              "workstationReceiptTime": "2026-10-31T04:06:11.921Z"
+            },
+            "lowEvent": {
+              "name": "D2_ExtendCmd",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:11.932Z",
+              "serverTimestamp": "2026-10-31T04:06:11.932Z",
+              "workstationReceiptNs": "1460019882558800",
+              "workstationReceiptTime": "2026-10-31T04:06:11.944Z"
+            }
+          }
+        }
+      }
+    },
+    "StackLight_Red": {
+      "attempted": 5,
+      "visible": 5,
+      "missing": 0,
+      "narrowestVisible": {
+        "kind": "overload",
+        "requestedHoldAfterHighAckMs": 0,
+        "bounds": {
+          "plcCycles": {
+            "lowerBound": 0,
+            "upperBound": 5
+          },
+          "plcTimeUs": {
+            "lowerBound": 0,
+            "upperBound": 100988
+          }
+        },
+        "highCommit": {
+          "sequence": "40",
+          "slot": 1,
+          "sendTime": "2026-10-31T04:06:13.082Z",
+          "sendNs": "1460021020589700",
+          "writeCompleteNs": "1460021021660300",
+          "writeCompletionMs": 1.0706,
+          "appliedReceiptMs": 43.6008,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              40
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.115Z",
+            "serverTimestamp": "2026-10-31T04:06:13.115Z",
+            "workstationReceiptNs": "1460021064190500",
+            "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "39",
+            "plcCycle": "272202",
+            "plcTimeUs": "1460021001504",
+            "outputCaptureCycle": "272202",
+            "outputCaptureTimeUs": "1460021001504",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "40",
+            "plcCycle": "272205",
+            "plcTimeUs": "1460021061528",
+            "outputCaptureCycle": "272205",
+            "outputCaptureTimeUs": "1460021061528",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": true,
+              "StackLight_Green": false
+            }
+          }
+        },
+        "lowCommit": {
+          "sequence": "41",
+          "slot": 0,
+          "sendTime": "2026-10-31T04:06:13.127Z",
+          "sendNs": "1460021066083200",
+          "writeCompleteNs": "1460021067096000",
+          "writeCompletionMs": 1.0128,
+          "appliedReceiptMs": 43.9592,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              41
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.156Z",
+            "serverTimestamp": "2026-10-31T04:06:13.156Z",
+            "workstationReceiptNs": "1460021110042400",
+            "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "40",
+            "plcCycle": "272205",
+            "plcTimeUs": "1460021061528",
+            "outputCaptureCycle": "272205",
+            "outputCaptureTimeUs": "1460021061528",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": true,
+              "StackLight_Green": false
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "41",
+            "plcCycle": "272207",
+            "plcTimeUs": "1460021102492",
+            "outputCaptureCycle": "272207",
+            "outputCaptureTimeUs": "1460021102492",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "visibility": {
+          "StackLight_Red": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "StackLight_Red",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.112Z",
+              "serverTimestamp": "2026-10-31T04:06:13.112Z",
+              "workstationReceiptNs": "1460021064200900",
+              "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+            },
+            "lowEvent": {
+              "name": "StackLight_Red",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.151Z",
+              "serverTimestamp": "2026-10-31T04:06:13.151Z",
+              "workstationReceiptNs": "1460021110053200",
+              "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+            }
+          },
+          "StackLight_Green": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "StackLight_Green",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.112Z",
+              "serverTimestamp": "2026-10-31T04:06:13.112Z",
+              "workstationReceiptNs": "1460021064197100",
+              "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+            },
+            "lowEvent": {
+              "name": "StackLight_Green",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.151Z",
+              "serverTimestamp": "2026-10-31T04:06:13.151Z",
+              "workstationReceiptNs": "1460021110049400",
+              "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+            }
+          }
+        }
+      }
+    },
+    "StackLight_Green": {
+      "attempted": 5,
+      "visible": 5,
+      "missing": 0,
+      "narrowestVisible": {
+        "kind": "overload",
+        "requestedHoldAfterHighAckMs": 0,
+        "bounds": {
+          "plcCycles": {
+            "lowerBound": 0,
+            "upperBound": 5
+          },
+          "plcTimeUs": {
+            "lowerBound": 0,
+            "upperBound": 100988
+          }
+        },
+        "highCommit": {
+          "sequence": "40",
+          "slot": 1,
+          "sendTime": "2026-10-31T04:06:13.082Z",
+          "sendNs": "1460021020589700",
+          "writeCompleteNs": "1460021021660300",
+          "writeCompletionMs": 1.0706,
+          "appliedReceiptMs": 43.6008,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              40
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.115Z",
+            "serverTimestamp": "2026-10-31T04:06:13.115Z",
+            "workstationReceiptNs": "1460021064190500",
+            "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "39",
+            "plcCycle": "272202",
+            "plcTimeUs": "1460021001504",
+            "outputCaptureCycle": "272202",
+            "outputCaptureTimeUs": "1460021001504",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "40",
+            "plcCycle": "272205",
+            "plcTimeUs": "1460021061528",
+            "outputCaptureCycle": "272205",
+            "outputCaptureTimeUs": "1460021061528",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": true,
+              "StackLight_Green": false
+            }
+          }
+        },
+        "lowCommit": {
+          "sequence": "41",
+          "slot": 0,
+          "sendTime": "2026-10-31T04:06:13.127Z",
+          "sendNs": "1460021066083200",
+          "writeCompleteNs": "1460021067096000",
+          "writeCompletionMs": 1.0128,
+          "appliedReceiptMs": 43.9592,
+          "appliedEvent": {
+            "name": "AppliedSequence",
+            "value": [
+              0,
+              41
+            ],
+            "status": "Good (0x00000000)",
+            "sourceTimestamp": "2026-10-31T04:06:13.156Z",
+            "serverTimestamp": "2026-10-31T04:06:13.156Z",
+            "workstationReceiptNs": "1460021110042400",
+            "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+          },
+          "before": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "40",
+            "plcCycle": "272205",
+            "plcTimeUs": "1460021061528",
+            "outputCaptureCycle": "272205",
+            "outputCaptureTimeUs": "1460021061528",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": true,
+              "StackLight_Green": false
+            }
+          },
+          "after": {
+            "appliedEpoch": "117533544889892722",
+            "appliedSequence": "41",
+            "plcCycle": "272207",
+            "plcTimeUs": "1460021102492",
+            "outputCaptureCycle": "272207",
+            "outputCaptureTimeUs": "1460021102492",
+            "outputs": {
+              "Motor_RunCmd": false,
+              "D1_ExtendCmd": false,
+              "D2_ExtendCmd": false,
+              "StackLight_Red": false,
+              "StackLight_Green": true
+            }
+          }
+        },
+        "visibility": {
+          "StackLight_Red": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "StackLight_Red",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.112Z",
+              "serverTimestamp": "2026-10-31T04:06:13.112Z",
+              "workstationReceiptNs": "1460021064200900",
+              "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+            },
+            "lowEvent": {
+              "name": "StackLight_Red",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.151Z",
+              "serverTimestamp": "2026-10-31T04:06:13.151Z",
+              "workstationReceiptNs": "1460021110053200",
+              "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+            }
+          },
+          "StackLight_Green": {
+            "highVisible": true,
+            "lowVisibleAfterHigh": true,
+            "highEvent": {
+              "name": "StackLight_Green",
+              "value": false,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.112Z",
+              "serverTimestamp": "2026-10-31T04:06:13.112Z",
+              "workstationReceiptNs": "1460021064197100",
+              "workstationReceiptTime": "2026-10-31T04:06:13.126Z"
+            },
+            "lowEvent": {
+              "name": "StackLight_Green",
+              "value": true,
+              "status": "Good (0x00000000)",
+              "sourceTimestamp": "2026-10-31T04:06:13.151Z",
+              "serverTimestamp": "2026-10-31T04:06:13.151Z",
+              "workstationReceiptNs": "1460021110049400",
+              "workstationReceiptTime": "2026-10-31T04:06:13.171Z"
+            }
+          }
+        }
+      }
+    }
+  },
+  "timestampEvidence": {
+    "fieldsRetained": [
+      "status",
+      "sourceTimestamp",
+      "serverTimestamp",
+      "workstationReceiptNs",
+      "workstationReceiptTime"
+    ],
+    "eventCount": 1084,
+    "nullSourceTimestamps": 0,
+    "nullServerTimestamps": 0
+  },
+  "limitations": [
+    "OPC UA observation is not scan-synchronous.",
+    "Transition scans are represented as PLC cycle/time bounds from reads around each accepted commit.",
+    "A missing narrow pulse notification establishes a visibility limit; it does not imply that the PLC output failed to pulse."
+  ],
+  "eventPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m4-events.jsonl"
+}

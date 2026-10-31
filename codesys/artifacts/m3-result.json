@@ -1,0 +1,1309 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M3",
+  "startedAt": "2026-10-30T23:46:52.424Z",
+  "endpointUrl": "opc.tcp://127.0.0.1:4840",
+  "securityMode": "SignAndEncrypt",
+  "securityPolicy": "Basic256Sha256",
+  "durationSeconds": 600,
+  "acceptanceEligible": true,
+  "profileDefinition": {
+    "1x": "one representative monitored application signal",
+    "2x": "two representative monitored application signals",
+    "full-demo": "all 20 active raw inputs plus all five PLC outputs",
+    "note": "Every write always carries the complete 20-field M2 raw image; profile scaling changes monitored signal count only."
+  },
+  "runs": [
+    {
+      "runId": "full-demo-10hz-600s",
+      "profile": "full-demo",
+      "signalCount": 25,
+      "rateHz": 10,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 600.4711648,
+      "dispatchElapsedSeconds": 599.9088512,
+      "targetCount": 6000,
+      "dispatchedCount": 6000,
+      "appliedCount": 6000,
+      "acknowledgedCount": 6000,
+      "achievedDispatchRateHz": 9.999969043269694,
+      "achievedAppliedRateHz": 10.000023900707232,
+      "appliedLossCount": 0,
+      "notificationMissing": 0,
+      "sequenceAmbiguity": 0,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 15,
+      "signalNotifications": {
+        "expectedChanges": 149990,
+        "observedChanges": 149990,
+        "missingOrCoalesced": 0,
+        "valueMismatches": 0
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 100,
+        "revisedPublishingIntervalMs": 100,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 5863,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 6.1705,
+        "p50": 79.6516,
+        "p95": 158.9017,
+        "p99": 229.6447,
+        "max": 335.3234,
+        "within150Percent": 94.73333333333333,
+        "within60Percent": 31.2
+      },
+      "writeCompletionMs": {
+        "p50": 2.787,
+        "p99": 4.4955
+      },
+      "outputObservationMs": {
+        "samples": 29998,
+        "p50": 75.1024,
+        "p99": 133.9392,
+        "max": 150.5511,
+        "valid": true,
+        "invalidReason": null
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19544,
+          "p50": 20350,
+          "p95": 21220,
+          "p99": 21540,
+          "max": 22285
+        },
+        "absoluteJitterUs": {
+          "p99": 1540
+        },
+        "sampleCount": 29354,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 10224,
+          "cpuSecondsDelta": 183.78125,
+          "averageSingleCorePercent": 30.606174080184573,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 29.812,
+          "systemSeconds": 4.032,
+          "averageSingleCorePercent": 5.636240669653551
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\full-demo-10hz-600s.jsonl",
+      "completedAt": "2026-10-30T23:56:57.415Z"
+    },
+    {
+      "runId": "full-demo-20hz-600s",
+      "profile": "full-demo",
+      "signalCount": 25,
+      "rateHz": 20,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 601.4532134,
+      "dispatchElapsedSeconds": 599.9520403,
+      "targetCount": 12000,
+      "dispatchedCount": 12000,
+      "appliedCount": 11998,
+      "acknowledgedCount": 11998,
+      "achievedDispatchRateHz": 20.00007383975924,
+      "achievedAppliedRateHz": 19.99905686534913,
+      "appliedLossCount": 2,
+      "notificationMissing": 2,
+      "sequenceAmbiguity": 2,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 14,
+      "signalNotifications": {
+        "expectedChanges": 299990,
+        "observedChanges": 299927,
+        "missingOrCoalesced": 63,
+        "valueMismatches": 25397
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 50,
+        "revisedPublishingIntervalMs": 60,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 8946,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 4.26,
+        "p50": 62.9309,
+        "p95": 126.5047,
+        "p99": 150.1621,
+        "max": 223.3042,
+        "within150Percent": 98.95833333333334,
+        "within60Percent": 48.641666666666666
+      },
+      "writeCompletionMs": {
+        "p50": 1.3033,
+        "p99": 3.369
+      },
+      "outputObservationMs": {
+        "samples": 59982,
+        "p50": 85.4548,
+        "p99": 380.4023,
+        "max": 412.2912,
+        "valid": false,
+        "invalidReason": "Signal notification alignment was lost; output latency values are not acceptance evidence."
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19592,
+          "p50": 20180,
+          "p95": 21050,
+          "p99": 21300,
+          "max": 21893
+        },
+        "absoluteJitterUs": {
+          "p99": 1300
+        },
+        "sampleCount": 29635,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 40656,
+          "cpuSecondsDelta": 117.21875,
+          "averageSingleCorePercent": 19.489254922650648,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 33.844,
+          "systemSeconds": 10.047,
+          "averageSingleCorePercent": 7.297491978118344
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\full-demo-20hz-600s.jsonl",
+      "completedAt": "2026-10-31T00:12:40.350Z"
+    },
+    {
+      "runId": "full-demo-50hz-600s",
+      "profile": "full-demo",
+      "signalCount": 25,
+      "rateHz": 50,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 601.7477775,
+      "dispatchElapsedSeconds": 599.9885233,
+      "targetCount": 30000,
+      "dispatchedCount": 30000,
+      "appliedCount": 22065,
+      "acknowledgedCount": 21960,
+      "achievedDispatchRateHz": 49.999625940329686,
+      "achievedAppliedRateHz": 36.60153885950511,
+      "appliedLossCount": 7935,
+      "notificationMissing": 8040,
+      "sequenceAmbiguity": 2,
+      "tornSamples": 1,
+      "inconclusiveTransitionSamples": 7,
+      "signalNotifications": {
+        "expectedChanges": 749990,
+        "observedChanges": 538583,
+        "missingOrCoalesced": 211407,
+        "valueMismatches": 108955
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 20,
+        "revisedPublishingIntervalMs": 20,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 26318,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 3.6025,
+        "p50": 33.6572,
+        "p95": 61.0924,
+        "p99": 69.6637,
+        "max": 98.7625,
+        "within150Percent": 73.2,
+        "within60Percent": 69.33333333333334
+      },
+      "writeCompletionMs": {
+        "p50": 1.2296,
+        "p99": 2.2469
+      },
+      "outputObservationMs": {
+        "samples": 109401,
+        "p50": 78279.1525,
+        "p99": 160677.1474,
+        "max": 163481.3454,
+        "valid": false,
+        "invalidReason": "Signal notification alignment was lost; output latency values are not acceptance evidence."
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19641,
+          "p50": 20160,
+          "p95": 21030,
+          "p99": 21300,
+          "max": 29822
+        },
+        "absoluteJitterUs": {
+          "p99": 1300
+        },
+        "sampleCount": 29648,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 40656,
+          "cpuSecondsDelta": 130.703125,
+          "averageSingleCorePercent": 21.72058292313344,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 79.891,
+          "systemSeconds": 29.062,
+          "averageSingleCorePercent": 18.106090969318124
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\full-demo-50hz-600s.jsonl",
+      "completedAt": "2026-10-31T00:22:46.324Z"
+    },
+    {
+      "runId": "full-demo-5hz-600s",
+      "profile": "full-demo",
+      "signalCount": 25,
+      "rateHz": 5,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 600.3188462,
+      "dispatchElapsedSeconds": 599.8027788,
+      "targetCount": 3000,
+      "dispatchedCount": 3000,
+      "appliedCount": 3000,
+      "acknowledgedCount": 3000,
+      "achievedDispatchRateHz": 5.000009654069991,
+      "achievedAppliedRateHz": 4.999731099824026,
+      "appliedLossCount": 0,
+      "notificationMissing": 0,
+      "sequenceAmbiguity": 0,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 1,
+      "signalNotifications": {
+        "expectedChanges": 74990,
+        "observedChanges": 74990,
+        "missingOrCoalesced": 0,
+        "valueMismatches": 0
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 200,
+        "revisedPublishingIntervalMs": 200,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Active_PE_Entry": 20,
+          "Active_PE_D1Approach": 20,
+          "Active_PE_D2Approach": 20,
+          "Active_PE_ExitA": 20,
+          "Active_PE_ExitB": 20,
+          "Active_PE_Runout": 20,
+          "Active_D1_HomeFB": 20,
+          "Active_D1_ExtendedFB": 20,
+          "Active_D2_HomeFB": 20,
+          "Active_D2_ExtendedFB": 20,
+          "Active_Drive_RunningFB": 20,
+          "Active_Drive_Overload": 20,
+          "Active_ExitA_Ready": 20,
+          "Active_ExitB_Ready": 20,
+          "Active_Runout_Ready": 20,
+          "Active_Belt_SpeedActual": 20,
+          "Active_Drive_Current": 20,
+          "Active_D1_Position": 20,
+          "Active_D2_Position": 20,
+          "Active_Encoder_Count": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20,
+          "D2_ExtendCmd": 20,
+          "StackLight_Red": 20,
+          "StackLight_Green": 20
+        },
+        "rawNotifications": 2952,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 5.3498,
+        "p50": 128.4494,
+        "p95": 224.6801,
+        "p99": 371.6061,
+        "max": 613.3842,
+        "within150Percent": 59.96666666666667,
+        "within60Percent": 16.8
+      },
+      "writeCompletionMs": {
+        "p50": 1.3313,
+        "p99": 2.3801
+      },
+      "outputObservationMs": {
+        "samples": 14998,
+        "p50": 123.9289,
+        "p99": 228.981,
+        "max": 244.351,
+        "valid": true,
+        "invalidReason": null
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19613,
+          "p50": 20150,
+          "p95": 21020,
+          "p99": 21290,
+          "max": 21929
+        },
+        "absoluteJitterUs": {
+          "p99": 1290
+        },
+        "sampleCount": 29613,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 40656,
+          "cpuSecondsDelta": 102.890625,
+          "averageSingleCorePercent": 17.139329483206218,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 3.36,
+          "systemSeconds": 1.516,
+          "averageSingleCorePercent": 0.8122350365751353
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\full-demo-5hz-600s.jsonl",
+      "completedAt": "2026-10-31T00:32:51.097Z"
+    },
+    {
+      "runId": "1x-5hz-600s",
+      "profile": "1x",
+      "signalCount": 1,
+      "rateHz": 5,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 600.2152024,
+      "dispatchElapsedSeconds": 599.807803,
+      "targetCount": 3000,
+      "dispatchedCount": 3000,
+      "appliedCount": 3000,
+      "acknowledgedCount": 3000,
+      "achievedDispatchRateHz": 4.999964255840726,
+      "achievedAppliedRateHz": 5.000021699827421,
+      "appliedLossCount": 0,
+      "notificationMissing": 0,
+      "sequenceAmbiguity": 0,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 5,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117532904444949947",
+        "finalAppliedSequence": "3000",
+        "appliedCommitDelta": 3000,
+        "skippedSequenceDelta": "0"
+      },
+      "signalNotifications": {
+        "expectedChanges": 2999,
+        "observedChanges": 2999,
+        "missingOrCoalesced": 0,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 200,
+        "revisedPublishingIntervalMs": 200,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20
+        },
+        "rawNotifications": 2954,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 9.0379,
+        "p50": 126.0168,
+        "p95": 219.619,
+        "p99": 331.7627,
+        "max": 425.525,
+        "within150Percent": 61.43333333333333,
+        "within60Percent": 16.7
+      },
+      "writeCompletionMs": {
+        "p50": 1.4005,
+        "p99": 2.4603
+      },
+      "outputObservationMs": {
+        "valid": true,
+        "invalidReason": null,
+        "samples": 2999,
+        "p50": 124.4355,
+        "p99": 230.604,
+        "max": 244.1993
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19637,
+          "p50": 20130,
+          "p95": 20980,
+          "p99": 21110,
+          "max": 21758
+        },
+        "absoluteJitterUs": {
+          "p99": 1110
+        },
+        "sampleCount": 29651,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 43832,
+          "cpuSecondsDelta": 77.859375,
+          "averageSingleCorePercent": 12.97190985644385,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 3.516,
+          "systemSeconds": 1.938,
+          "averageSingleCorePercent": 0.9086740852600571
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\1x-5hz-600s.jsonl",
+      "completedAt": "2026-10-31T01:33:18.416Z"
+    },
+    {
+      "runId": "1x-10hz-600s",
+      "profile": "1x",
+      "signalCount": 1,
+      "rateHz": 10,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 600.2728094,
+      "dispatchElapsedSeconds": 599.9099536,
+      "targetCount": 6000,
+      "dispatchedCount": 6000,
+      "appliedCount": 6000,
+      "acknowledgedCount": 6000,
+      "achievedDispatchRateHz": 9.999897857352707,
+      "achievedAppliedRateHz": 10.000957541254676,
+      "appliedLossCount": 0,
+      "notificationMissing": 0,
+      "sequenceAmbiguity": 0,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 5,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117532944075008049",
+        "finalAppliedSequence": "6000",
+        "appliedCommitDelta": 6000,
+        "skippedSequenceDelta": "0"
+      },
+      "signalNotifications": {
+        "expectedChanges": 5999,
+        "observedChanges": 5999,
+        "missingOrCoalesced": 0,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 100,
+        "revisedPublishingIntervalMs": 100,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20
+        },
+        "rawNotifications": 5862,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 3.6635,
+        "p50": 75.1409,
+        "p95": 125.2633,
+        "p99": 158.2747,
+        "max": 260.2591,
+        "within150Percent": 98.86666666666667,
+        "within60Percent": 34.68333333333333
+      },
+      "writeCompletionMs": {
+        "p50": 1.3385,
+        "p99": 2.1847
+      },
+      "outputObservationMs": {
+        "valid": true,
+        "invalidReason": null,
+        "samples": 5999,
+        "p50": 73.4164,
+        "p99": 132.8773,
+        "max": 147.0227
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19642,
+          "p50": 20140,
+          "p95": 20980,
+          "p99": 21120,
+          "max": 21815
+        },
+        "absoluteJitterUs": {
+          "p99": 1120
+        },
+        "sampleCount": 29628,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 43832,
+          "cpuSecondsDelta": 90.015625,
+          "averageSingleCorePercent": 14.995785847767237,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 5.125,
+          "systemSeconds": 3.078,
+          "averageSingleCorePercent": 1.366545322650758
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\1x-10hz-600s.jsonl",
+      "completedAt": "2026-10-31T01:43:22.893Z"
+    },
+    {
+      "runId": "1x-20hz-600s",
+      "profile": "1x",
+      "signalCount": 1,
+      "rateHz": 20,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 601.3148916,
+      "dispatchElapsedSeconds": 599.9581062,
+      "targetCount": 12000,
+      "dispatchedCount": 12000,
+      "appliedCount": 11998,
+      "acknowledgedCount": 11997,
+      "achievedDispatchRateHz": 19.999824373573247,
+      "achievedAppliedRateHz": 19.993964659429093,
+      "appliedLossCount": 2,
+      "notificationMissing": 3,
+      "sequenceAmbiguity": 1,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 10,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117532983690730190",
+        "finalAppliedSequence": "12000",
+        "appliedCommitDelta": 11998,
+        "skippedSequenceDelta": "1"
+      },
+      "signalNotifications": {
+        "expectedChanges": 12000,
+        "observedChanges": 11998,
+        "missingOrCoalesced": 2,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 50,
+        "revisedPublishingIntervalMs": 60,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20
+        },
+        "rawNotifications": 8957,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 4.0065,
+        "p50": 59.0436,
+        "p95": 93.7647,
+        "p99": 129.1396,
+        "max": 163.8614,
+        "within150Percent": 99.85833333333333,
+        "within60Percent": 50.65833333333334
+      },
+      "writeCompletionMs": {
+        "p50": 1.3607,
+        "p99": 2.5216
+      },
+      "outputObservationMs": {
+        "valid": false,
+        "invalidReason": "Signal notification alignment was lost; output latency values are not acceptance evidence.",
+        "samples": 11998,
+        "p50": 56.4339,
+        "p99": 150.1149,
+        "max": 207.2766
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19343,
+          "p50": 20140,
+          "p95": 20990,
+          "p99": 21140,
+          "max": 21981
+        },
+        "absoluteJitterUs": {
+          "p99": 1140
+        },
+        "sampleCount": 29668,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 43832,
+          "cpuSecondsDelta": 97.015625,
+          "averageSingleCorePercent": 16.13391358758094,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 13.875,
+          "systemSeconds": 6.703,
+          "averageSingleCorePercent": 3.422167035518666
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\1x-20hz-600s.jsonl",
+      "completedAt": "2026-10-31T01:53:28.376Z"
+    },
+    {
+      "runId": "1x-50hz-600s",
+      "profile": "1x",
+      "signalCount": 1,
+      "rateHz": 50,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 601.4555724,
+      "dispatchElapsedSeconds": 599.9889956,
+      "targetCount": 30000,
+      "dispatchedCount": 30000,
+      "appliedCount": 22124,
+      "acknowledgedCount": 21644,
+      "achievedDispatchRateHz": 49.99951955526828,
+      "achievedAppliedRateHz": 36.072402874348995,
+      "appliedLossCount": 7876,
+      "notificationMissing": 8356,
+      "sequenceAmbiguity": 1,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 12,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117533023370511305",
+        "finalAppliedSequence": "30000",
+        "appliedCommitDelta": 22124,
+        "skippedSequenceDelta": "3615"
+      },
+      "signalNotifications": {
+        "expectedChanges": 29999,
+        "observedChanges": 21327,
+        "missingOrCoalesced": 8672,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 20,
+        "revisedPublishingIntervalMs": 20,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20
+        },
+        "rawNotifications": 26299,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 2.9928,
+        "p50": 30.9947,
+        "p95": 52.3745,
+        "p99": 59.0846,
+        "max": 80.9297,
+        "within150Percent": 72.14666666666668,
+        "within60Percent": 71.57666666666667
+      },
+      "writeCompletionMs": {
+        "p50": 1.2866,
+        "p99": 2.2644
+      },
+      "outputObservationMs": {
+        "valid": false,
+        "invalidReason": "Signal notification alignment was lost; output latency values are not acceptance evidence.",
+        "samples": 21327,
+        "p50": 85928.5961,
+        "p99": 171891.6879,
+        "max": 173463.7075
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19686,
+          "p50": 20140,
+          "p95": 20990,
+          "p99": 21130,
+          "max": 22208
+        },
+        "absoluteJitterUs": {
+          "p99": 1130
+        },
+        "sampleCount": 29672,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 43832,
+          "cpuSecondsDelta": 119.609375,
+          "averageSingleCorePercent": 19.886651731019857,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 30.687,
+          "systemSeconds": 16.532,
+          "averageSingleCorePercent": 7.850787683549276
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\1x-50hz-600s.jsonl",
+      "completedAt": "2026-10-31T02:03:33.961Z"
+    },
+    {
+      "runId": "2x-5hz-600s",
+      "profile": "2x",
+      "signalCount": 2,
+      "rateHz": 5,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 600.1120767,
+      "dispatchElapsedSeconds": 599.8095789,
+      "targetCount": 3000,
+      "dispatchedCount": 3000,
+      "appliedCount": 3000,
+      "acknowledgedCount": 3000,
+      "achievedDispatchRateHz": 4.999949547858205,
+      "achievedAppliedRateHz": 5.0007072540788675,
+      "appliedLossCount": 0,
+      "notificationMissing": 0,
+      "sequenceAmbiguity": 0,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 0,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117533185613519673",
+        "finalAppliedSequence": "3000",
+        "appliedCommitDelta": 3000,
+        "skippedSequenceDelta": "0"
+      },
+      "signalNotifications": {
+        "expectedChanges": 5999,
+        "observedChanges": 5999,
+        "missingOrCoalesced": 0,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 200,
+        "revisedPublishingIntervalMs": 200,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20
+        },
+        "rawNotifications": 2949,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 5.3342,
+        "p50": 126.1305,
+        "p95": 221.2023,
+        "p99": 337.9649,
+        "max": 436.1276,
+        "within150Percent": 61.46666666666667,
+        "within60Percent": 18.366666666666667
+      },
+      "writeCompletionMs": {
+        "p50": 1.4774,
+        "p99": 2.3312
+      },
+      "outputObservationMs": {
+        "valid": true,
+        "invalidReason": null,
+        "samples": 5999,
+        "p50": 122.5343,
+        "p99": 230.6752,
+        "max": 248.4994
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19519,
+          "p50": 20130,
+          "p95": 21000,
+          "p99": 21240,
+          "max": 21978
+        },
+        "absoluteJitterUs": {
+          "p99": 1240
+        },
+        "sampleCount": 29630,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 29104,
+          "cpuSecondsDelta": 74.859375,
+          "averageSingleCorePercent": 12.474232381999322,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 3.672,
+          "systemSeconds": 1.672,
+          "averageSingleCorePercent": 0.8905003261035024
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\2x-5hz-600s.jsonl",
+      "completedAt": "2026-10-31T02:44:48.627Z"
+    },
+    {
+      "runId": "2x-10hz-600s",
+      "profile": "2x",
+      "signalCount": 2,
+      "rateHz": 10,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 600.3807567,
+      "dispatchElapsedSeconds": 599.9106627,
+      "targetCount": 6000,
+      "dispatchedCount": 6000,
+      "appliedCount": 6000,
+      "acknowledgedCount": 6000,
+      "achievedDispatchRateHz": 9.999876604289797,
+      "achievedAppliedRateHz": 9.997546674706976,
+      "appliedLossCount": 0,
+      "notificationMissing": 0,
+      "sequenceAmbiguity": 0,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 5,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117533225237994438",
+        "finalAppliedSequence": "6000",
+        "appliedCommitDelta": 6000,
+        "skippedSequenceDelta": "0"
+      },
+      "signalNotifications": {
+        "expectedChanges": 11999,
+        "observedChanges": 11999,
+        "missingOrCoalesced": 0,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 100,
+        "revisedPublishingIntervalMs": 100,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20
+        },
+        "rawNotifications": 5865,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 8.5915,
+        "p50": 76.2009,
+        "p95": 131.0782,
+        "p99": 201.1466,
+        "max": 237.8889,
+        "within150Percent": 97.1,
+        "within60Percent": 34.46666666666667
+      },
+      "writeCompletionMs": {
+        "p50": 1.44,
+        "p99": 2.5808
+      },
+      "outputObservationMs": {
+        "valid": true,
+        "invalidReason": null,
+        "samples": 11999,
+        "p50": 73.5708,
+        "p99": 131.6447,
+        "max": 150.1317
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19625,
+          "p50": 20140,
+          "p95": 21000,
+          "p99": 21240,
+          "max": 22154
+        },
+        "absoluteJitterUs": {
+          "p99": 1240
+        },
+        "sampleCount": 29633,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 29104,
+          "cpuSecondsDelta": 86.859375,
+          "averageSingleCorePercent": 14.467381579220426,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 5.406,
+          "systemSeconds": 3.25,
+          "averageSingleCorePercent": 1.4417517389427683
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\2x-10hz-600s.jsonl",
+      "completedAt": "2026-10-31T02:54:53.743Z"
+    },
+    {
+      "runId": "2x-20hz-600s",
+      "profile": "2x",
+      "signalCount": 2,
+      "rateHz": 20,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 601.3267342,
+      "dispatchElapsedSeconds": 599.9535672,
+      "targetCount": 12000,
+      "dispatchedCount": 12000,
+      "appliedCount": 11998,
+      "acknowledgedCount": 11997,
+      "achievedDispatchRateHz": 19.99997220438899,
+      "achievedAppliedRateHz": 19.99541160309426,
+      "appliedLossCount": 2,
+      "notificationMissing": 3,
+      "sequenceAmbiguity": 1,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 12,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117533264895236420",
+        "finalAppliedSequence": "12000",
+        "appliedCommitDelta": 11998,
+        "skippedSequenceDelta": "1"
+      },
+      "signalNotifications": {
+        "expectedChanges": 23999,
+        "observedChanges": 23995,
+        "missingOrCoalesced": 4,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 50,
+        "revisedPublishingIntervalMs": 60,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20
+        },
+        "rawNotifications": 8966,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 4.278,
+        "p50": 58.1845,
+        "p95": 92.6459,
+        "p99": 122.72,
+        "max": 160.4446,
+        "within150Percent": 99.925,
+        "within60Percent": 51.29166666666667
+      },
+      "writeCompletionMs": {
+        "p50": 1.4005,
+        "p99": 2.3593
+      },
+      "outputObservationMs": {
+        "valid": false,
+        "invalidReason": "Signal notification alignment was lost; output latency values are not acceptance evidence.",
+        "samples": 23995,
+        "p50": 145.3653,
+        "p99": 202.0245,
+        "max": 212.673
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19664,
+          "p50": 20140,
+          "p95": 21000,
+          "p99": 21250,
+          "max": 21964
+        },
+        "absoluteJitterUs": {
+          "p99": 1250
+        },
+        "sampleCount": 29671,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 29104,
+          "cpuSecondsDelta": 96.53125,
+          "averageSingleCorePercent": 16.0530447940959,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 13.719,
+          "systemSeconds": 6.312,
+          "averageSingleCorePercent": 3.3311341174027578
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\2x-20hz-600s.jsonl",
+      "completedAt": "2026-10-31T03:04:59.328Z"
+    },
+    {
+      "runId": "2x-50hz-600s",
+      "profile": "2x",
+      "signalCount": 2,
+      "rateHz": 50,
+      "durationRequestedSeconds": 600,
+      "elapsedSeconds": 601.5293132,
+      "dispatchElapsedSeconds": 599.9893932,
+      "targetCount": 30000,
+      "dispatchedCount": 30000,
+      "appliedCount": 21880,
+      "acknowledgedCount": 21684,
+      "achievedDispatchRateHz": 49.999740209356766,
+      "achievedAppliedRateHz": 36.13922871284072,
+      "appliedLossCount": 8120,
+      "notificationMissing": 8316,
+      "sequenceAmbiguity": 1,
+      "tornSamples": 0,
+      "inconclusiveTransitionSamples": 10,
+      "commitEvidence": {
+        "finalAppliedEpoch": "117533304582519672",
+        "finalAppliedSequence": "30000",
+        "appliedCommitDelta": 21880,
+        "skippedSequenceDelta": "3739"
+      },
+      "signalNotifications": {
+        "expectedChanges": 59999,
+        "observedChanges": 43383,
+        "missingOrCoalesced": 16616,
+        "valueMismatches": 0,
+        "valueMismatchNote": "Order-paired mismatch count can cascade after a missing/coalesced notification; any nonzero value invalidates aligned latency, but is not an independent loss count."
+      },
+      "subscription": {
+        "requestedPublishingIntervalMs": 20,
+        "revisedPublishingIntervalMs": 20,
+        "requestedSamplingIntervalMs": 20,
+        "revisedSamplingIntervalsMs": {
+          "AppliedSequence": 20,
+          "OutputCaptureCycle": 20,
+          "OutputCaptureTimeUs": 20,
+          "Motor_RunCmd": 20,
+          "D1_ExtendCmd": 20
+        },
+        "rawNotifications": 26187,
+        "keepalives": 0,
+        "publishSequenceGaps": 0
+      },
+      "latencyMs": {
+        "min": 5.6202,
+        "p50": 28.7149,
+        "p95": 47.6839,
+        "p99": 56.1559,
+        "max": 84.704,
+        "within150Percent": 72.28,
+        "within60Percent": 71.86333333333333
+      },
+      "writeCompletionMs": {
+        "p50": 1.3445,
+        "p99": 2.3878
+      },
+      "outputObservationMs": {
+        "valid": false,
+        "invalidReason": "Signal notification alignment was lost; output latency values are not acceptance evidence.",
+        "samples": 43383,
+        "p50": 83814.4979,
+        "p99": 164743.3714,
+        "max": 166242.5056
+      },
+      "plcTiming": {
+        "control": "started by explicit SessionResetRequest; stopped by explicit SimRequest=false",
+        "intervalUs": {
+          "min": 19492,
+          "p50": 20140,
+          "p95": 21000,
+          "p99": 21250,
+          "max": 22612
+        },
+        "absoluteJitterUs": {
+          "p99": 1250
+        },
+        "sampleCount": 29672,
+        "inferredOmittedGapCount": 0,
+        "histogramBinWidthUs": 10,
+        "inferredOmittedGapThresholdUs": 30000
+      },
+      "cpu": {
+        "controlProcess": {
+          "pid": 29104,
+          "cpuSecondsDelta": 119.796875,
+          "averageSingleCorePercent": 19.91538439959105,
+          "logicalProcessors": 16
+        },
+        "nodeClient": {
+          "userSeconds": 32.391,
+          "systemSeconds": 17.062,
+          "averageSingleCorePercent": 8.221211986648035
+        }
+      },
+      "tracePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\artifacts\\m3-traces\\2x-50hz-600s.jsonl",
+      "completedAt": "2026-10-31T03:15:05.304Z"
+    }
+  ],
+  "tiers": {
+    "methodical": {
+      "pass": true,
+      "threshold": "10 Hz sustained; no unexplained loss; p99 <= 250 ms"
+    },
+    "runtime": {
+      "pass": false,
+      "threshold": "20 Hz sustained; >=99.9% applied within 150 ms; no tearing or sequence ambiguity"
+    },
+    "preferred": {
+      "pass": false,
+      "threshold": "50 Hz sustained; >=99.9% applied within 60 ms"
+    },
+    "operationalSustainedRateRule": "achieved applied rate >= 99% of requested rate",
+    "tierProfile": "full-demo (20 active input members + 5 PLC outputs; instrumentation excluded)"
+  },
+  "updatedAt": "2026-10-31T03:15:05.304Z",
+  "complete": true,
+  "completedAt": "2026-10-31T03:15:05.307Z"
+}
