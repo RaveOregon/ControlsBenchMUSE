@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-10-31T18-25-06-395Z",
+  "gate": "All",
+  "evidenceKind": "live PLC, methodical raw-I/O stimuli",
+  "mapVersion": "m8-conveyor-1.0.1",
+  "updateHzLimit": 10,
+  "checkpoints": [],
+  "passed": false,
+  "limitations": [
+    "No continuous generated-world run or physical deceleration model.",
+    "No WebVisu test.",
+    "No new rate/task-impact qualification."
+  ],
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "frozenFixtureSha256": "2e9774d1782e82fff0a9383779be517ee94afc1a48cdfcdce6ee6c5fa31a73b7",
+  "runnerSha256": "3cc8665f2b48efd663661ddcf2d2b6ab60183652f35ad07355fe4175ea482613",
+  "mapSha256": "028f9cb4e30cdce5f6bf9b27d9beea0b518f6aec82ff01deacfdfca8738679a8",
+  "precheckSha256": "af1779960945b025c4113168b2482947348f12fbaca47e7d30252ea9448ed935",
+  "error": "wrong or ambiguous IEC path for BuildId",
+  "finishedAt": "2026-10-31T18:25:08.540Z",
+  "traceSha256": "96e8adbebf074437303bd4220df0236b2a16f734ffabcaa9b3ade842fdf6b6f8"
+}

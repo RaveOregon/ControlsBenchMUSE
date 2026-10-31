@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "kind": "Official MCP readback compared with versioned ST source; ignore line endings and empty lines between nested methods",
+  "at": "2026-10-31T13:18:34.849Z",
+  "comparison": [
+    {
+      "object": "ST_BenchInputImage",
+      "matches": true
+    },
+    {
+      "object": "GVL_BenchWrite",
+      "matches": true
+    },
+    {
+      "object": "GVL_BenchRead",
+      "matches": true
+    },
+    {
+      "object": "GVL_DemoHardware",
+      "matches": true
+    },
+    {
+      "object": "FB_BenchIntercept",
+      "matches": true
+    },
+    {
+      "object": "ST_DemoStatus",
+      "matches": true
+    },
+    {
+      "object": "GVL_DemoRead",
+      "matches": true
+    },
+    {
+      "object": "GVL_DemoWrite",
+      "matches": true
+    },
+    {
+      "object": "FB_DemoConveyor",
+      "matches": true
+    },
+    {
+      "object": "PLC_PRG",
+      "matches": true
+    }
+  ]
+}

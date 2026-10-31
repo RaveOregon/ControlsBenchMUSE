@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Captured bytes are hashed by the audit; never rewrite their line endings.
+evidence/** -text -whitespace

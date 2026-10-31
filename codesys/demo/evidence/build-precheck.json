@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "official CODESYS MCP compiler evidence",
+  "project": "codesys/conveyordemo.project",
+  "at": "2026-10-31T13:12:07.047Z",
+  "scope": "Device.Plc Logic.Application",
+  "precompile": {
+    "isError": false,
+    "diagnostics": []
+  },
+  "compile": {
+    "content": [
+      {
+        "type": "text",
+        "text": ""
+      }
+    ],
+    "isError": false
+  },
+  "liveBreakpoints": {
+    "A": "awaiting operator download and live smoke",
+    "B": "not yet run",
+    "C": "not yet run",
+    "D": "not yet run",
+    "E": "not yet attempted"
+  },
+  "fixtureSha256": "2E9774D1782E82FFF0A9383779BE517EE94AFC1A48CDFCDCE6EE6C5FA31A73B7"
+}

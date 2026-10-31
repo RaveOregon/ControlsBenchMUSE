@@ -1,0 +1,452 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-10-31T18-45-47-430Z",
+  "gate": "All",
+  "evidenceKind": "live PLC, methodical raw-I/O stimuli",
+  "mapVersion": "m8-conveyor-1.0.2",
+  "updateHzLimit": 10,
+  "checkpoints": [
+    {
+      "name": "M8-A",
+      "passed": true
+    },
+    {
+      "name": "M8-B",
+      "passed": true
+    },
+    {
+      "name": "M8-C",
+      "passed": true
+    },
+    {
+      "name": "M8-D",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "No continuous generated-world run or physical deceleration model.",
+    "No WebVisu test.",
+    "No new rate/task-impact qualification.",
+    "Server exposes 68 intended read-only symbols as writable; runner enforces read-only use. Server-side read-only enforcement is not proven."
+  ],
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "frozenFixtureSha256": "2e9774d1782e82fff0a9383779be517ee94afc1a48cdfcdce6ee6c5fa31a73b7",
+  "runnerSha256": "c2018a0e757fb56eda796232162049bb78106303134d409e0cc71706e2333a2a",
+  "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+  "precheckSha256": "af1779960945b025c4113168b2482947348f12fbaca47e7d30252ea9448ed935",
+  "accessWarnings": [
+    {
+      "name": "BuildId",
+      "iecPath": "GVL_DemoRead.BuildId",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "InterfaceVersion",
+      "iecPath": "GVL_DemoRead.InterfaceVersion",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "SimApplied",
+      "iecPath": "GVL_BenchRead.SimApplied",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ConnectorStale",
+      "iecPath": "GVL_BenchRead.ConnectorStale",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ActiveSlot",
+      "iecPath": "GVL_BenchRead.ActiveSlot",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "AppliedEpoch",
+      "iecPath": "GVL_BenchRead.AppliedEpoch",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "AppliedSequence",
+      "iecPath": "GVL_BenchRead.AppliedSequence",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "PlcBootIdentity",
+      "iecPath": "GVL_BenchRead.PlcBootIdentity",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "PlcCycle",
+      "iecPath": "GVL_BenchRead.PlcCycle",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OutputCaptureCycle",
+      "iecPath": "GVL_BenchRead.OutputCaptureCycle",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OutputCaptureTimeUs",
+      "iecPath": "GVL_BenchRead.OutputCaptureTimeUs",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Motor_RunCmd",
+      "iecPath": "GVL_BenchRead.Motor_RunCmd",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "D1_ExtendCmd",
+      "iecPath": "GVL_BenchRead.D1_ExtendCmd",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "D2_ExtendCmd",
+      "iecPath": "GVL_BenchRead.D2_ExtendCmd",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_PE_Entry",
+      "iecPath": "GVL_BenchRead.Active_PE_Entry",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_PE_D1Approach",
+      "iecPath": "GVL_BenchRead.Active_PE_D1Approach",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_PE_D2Approach",
+      "iecPath": "GVL_BenchRead.Active_PE_D2Approach",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_PE_ExitA",
+      "iecPath": "GVL_BenchRead.Active_PE_ExitA",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_PE_ExitB",
+      "iecPath": "GVL_BenchRead.Active_PE_ExitB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_PE_Runout",
+      "iecPath": "GVL_BenchRead.Active_PE_Runout",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_D1_HomeFB",
+      "iecPath": "GVL_BenchRead.Active_D1_HomeFB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_D1_ExtendedFB",
+      "iecPath": "GVL_BenchRead.Active_D1_ExtendedFB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_D2_HomeFB",
+      "iecPath": "GVL_BenchRead.Active_D2_HomeFB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_D2_ExtendedFB",
+      "iecPath": "GVL_BenchRead.Active_D2_ExtendedFB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_Drive_RunningFB",
+      "iecPath": "GVL_BenchRead.Active_Drive_RunningFB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_Drive_Overload",
+      "iecPath": "GVL_BenchRead.Active_Drive_Overload",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_ExitA_Ready",
+      "iecPath": "GVL_BenchRead.Active_ExitA_Ready",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_ExitB_Ready",
+      "iecPath": "GVL_BenchRead.Active_ExitB_Ready",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_Runout_Ready",
+      "iecPath": "GVL_BenchRead.Active_Runout_Ready",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_Belt_SpeedActual",
+      "iecPath": "GVL_BenchRead.Active_Belt_SpeedActual",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_Drive_Current",
+      "iecPath": "GVL_BenchRead.Active_Drive_Current",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_D1_Position",
+      "iecPath": "GVL_BenchRead.Active_D1_Position",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_D2_Position",
+      "iecPath": "GVL_BenchRead.Active_D2_Position",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Active_Encoder_Count",
+      "iecPath": "GVL_BenchRead.Active_Encoder_Count",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Mode",
+      "iecPath": "GVL_DemoRead.Status.Mode",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "FaultCode",
+      "iecPath": "GVL_DemoRead.Status.FaultCode",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "FaultText",
+      "iecPath": "GVL_DemoRead.Status.FaultText",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ExceptionCode",
+      "iecPath": "GVL_DemoRead.Status.ExceptionCode",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ReleaseReady",
+      "iecPath": "GVL_DemoRead.Status.ReleaseReady",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ItemActive",
+      "iecPath": "GVL_DemoRead.Status.ItemActive",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ActiveItemId",
+      "iecPath": "GVL_DemoRead.Status.ActiveItemId",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "RequestedRoute",
+      "iecPath": "GVL_DemoRead.Status.RequestedRoute",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "EffectiveRoute",
+      "iecPath": "GVL_DemoRead.Status.EffectiveRoute",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ActualExit",
+      "iecPath": "GVL_DemoRead.Status.ActualExit",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "Disposition",
+      "iecPath": "GVL_DemoRead.Status.Disposition",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OfferAckSequence",
+      "iecPath": "GVL_DemoRead.Status.OfferAckSequence",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OfferAckItemId",
+      "iecPath": "GVL_DemoRead.Status.OfferAckItemId",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OfferAccepted",
+      "iecPath": "GVL_DemoRead.Status.OfferAccepted",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OfferReason",
+      "iecPath": "GVL_DemoRead.Status.OfferReason",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "OfferPending",
+      "iecPath": "GVL_DemoRead.Status.OfferPending",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CompletionSequence",
+      "iecPath": "GVL_DemoRead.Status.CompletionSequence",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CompletionPending",
+      "iecPath": "GVL_DemoRead.Status.CompletionPending",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CompletionItemId",
+      "iecPath": "GVL_DemoRead.Status.CompletionItemId",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CompletionRoute",
+      "iecPath": "GVL_DemoRead.Status.CompletionRoute",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CompletionExit",
+      "iecPath": "GVL_DemoRead.Status.CompletionExit",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CompletionDisposition",
+      "iecPath": "GVL_DemoRead.Status.CompletionDisposition",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CountExitA",
+      "iecPath": "GVL_DemoRead.Status.CountExitA",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CountExitB",
+      "iecPath": "GVL_DemoRead.Status.CountExitB",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CountRunout",
+      "iecPath": "GVL_DemoRead.Status.CountRunout",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CountMisroute",
+      "iecPath": "GVL_DemoRead.Status.CountMisroute",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "CountFaulted",
+      "iecPath": "GVL_DemoRead.Status.CountFaulted",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "StartAck",
+      "iecPath": "GVL_DemoRead.Status.StartAck",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "StopAck",
+      "iecPath": "GVL_DemoRead.Status.StopAck",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ResetAck",
+      "iecPath": "GVL_DemoRead.Status.ResetAck",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "StartAccepted",
+      "iecPath": "GVL_DemoRead.Status.StartAccepted",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "ResetAccepted",
+      "iecPath": "GVL_DemoRead.Status.ResetAccepted",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "EncoderDelta",
+      "iecPath": "GVL_DemoRead.Status.EncoderDelta",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    },
+    {
+      "name": "BeltSpeedMps",
+      "iecPath": "GVL_DemoRead.Status.BeltSpeedMps",
+      "intendedAccess": "read",
+      "observedAccess": 3
+    }
+  ],
+  "writePolicy": "Only explicit bench inputs/handshake and operator/WCS requests; read-group writes prohibited regardless of server flags.",
+  "bootIdentity": "1512266335626",
+  "finishedAt": "2026-10-31T18:46:11.799Z",
+  "traceSha256": "05f7e55aa508485d559b884c6ff1b95b311a546c7598ab14d91722c9b6dc70ed"
+}

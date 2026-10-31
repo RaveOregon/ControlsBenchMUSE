@@ -1,0 +1,47 @@
+TYPE ST_DemoStatus :
+STRUCT
+    Mode : UINT;
+    ModeText : STRING(16);
+    FaultCode : UINT;
+    FaultText : STRING(80);
+    ExceptionCode : UINT;
+    ExceptionText : STRING(80);
+    Motor_RunCmd : BOOL;
+    D1_ExtendCmd : BOOL;
+    D2_ExtendCmd : BOOL;
+    StackLight_Red : BOOL;
+    StackLight_Green : BOOL;
+    ReleaseReady : BOOL;
+    ItemActive : BOOL;
+    ActiveItemId : UDINT;
+    RequestedRoute : UINT;
+    EffectiveRoute : UINT;
+    ActualExit : UINT;
+    Disposition : UINT;
+    OfferAckSequence : UDINT;
+    OfferAckItemId : UDINT;
+    OfferAccepted : BOOL;
+    OfferReason : UINT;
+    OfferPending : BOOL;
+    CompletionSequence : UDINT;
+    CompletionPending : BOOL;
+    CompletionItemId : UDINT;
+    CompletionRoute : UINT;
+    CompletionExit : UINT;
+    CompletionDisposition : UINT;
+    CountExitA : UDINT;
+    CountExitB : UDINT;
+    CountRunout : UDINT;
+    CountMisroute : UDINT;
+    CountFaulted : UDINT;
+    StartAck : UDINT;
+    StopAck : UDINT;
+    ResetAck : UDINT;
+    StartAccepted : BOOL;
+    ResetAccepted : BOOL;
+    EncoderDelta : UDINT;
+    BeltSpeedMps : LREAL;
+    TravelMetres : LREAL;
+    ScanTimeUs : ULINT;
+END_STRUCT
+END_TYPE

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "auditedAt": "2026-10-31T18:51:17.693Z",
+  "passed": true,
+  "checks": [
+    {
+      "name": "Passed live result and frozen fixture identity",
+      "passed": true
+    },
+    {
+      "name": "Required checkpoints and official compiler precheck at each breakpoint",
+      "passed": true
+    },
+    {
+      "name": "Complete frames, epoch continuity, sequence acknowledgement, and 10 Hz limit",
+      "passed": true
+    },
+    {
+      "name": "Good quality with non-null source/server and workstation timestamps",
+      "passed": true
+    },
+    {
+      "name": "Resolved OPC UA symbols have exact IEC mapping and access/type evidence",
+      "passed": true
+    },
+    {
+      "name": "No writes to PLC outputs or read-group state, regardless of server access flags",
+      "passed": true
+    },
+    {
+      "name": "Stop removes command during external encoder coast",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "No continuous generated-world run or physical deceleration model.",
+    "No WebVisu test.",
+    "No new rate/task-impact qualification.",
+    "Server exposes 68 intended read-only symbols as writable; runner enforces read-only use. Server-side read-only enforcement is not proven."
+  ]
+}
