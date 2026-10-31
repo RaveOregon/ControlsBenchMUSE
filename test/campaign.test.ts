@@ -175,6 +175,7 @@ test("every bounded tool validates its envelope; unsupported capabilities are ex
   const inputs: Record<ToolName, Record<string, unknown>> = {
     inspect_spec: {}, inspect_signal_contract: {}, inspect_recent_evidence: { limit: 3 },
     introduce_carton: { itemId: "test", requestedRoute: null }, assign_route: { itemId: "test", route: "A" },
+    operator_action: { action: "start" }, acknowledge_completion: { sequence: 0 },
     set_downstream_readiness: { destination: "B", ready: false }, inject_fault: { controlId: "fault.setOverload", parameters: { active: true } },
     clear_fault: { controlId: "fault.clearAll", parameters: {} }, wait_for_condition: { signal: "Motor_RunCmd", equals: true, timeoutMs: 100 },
     observe_for_duration: { durationMs: 100 }, branch_or_reset_world: { mode: "branch", label: "branch" },

@@ -1743,6 +1743,88 @@
           "maxLength": 8000
         },
         "type": {
+          "const": "controller.action"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "observation": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "actionId",
+            "action",
+            "observation"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
           "const": "coordinator.event"
         },
         "visibility": {

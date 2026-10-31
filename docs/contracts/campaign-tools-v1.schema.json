@@ -114,6 +114,8 @@
                 "inspect_recent_evidence",
                 "introduce_carton",
                 "assign_route",
+                "operator_action",
+                "acknowledge_completion",
                 "set_downstream_readiness",
                 "inject_fault",
                 "clear_fault",
@@ -218,6 +220,36 @@
       "required": [
         "itemId",
         "route"
+      ],
+      "additionalProperties": false
+    },
+    "operator_action": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "enum": [
+            "start",
+            "stop",
+            "reset"
+          ]
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    "acknowledge_completion": {
+      "type": "object",
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "sequence"
       ],
       "additionalProperties": false
     },

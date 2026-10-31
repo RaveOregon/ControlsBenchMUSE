@@ -17,6 +17,7 @@ export interface CampaignOptions {
   driver?: CoordinatorCampaignDriver; budget?: CampaignBudget; clock?: Clock;
   diagnosisMode?: "known" | "blind"; hmi?: HmiAdapter;
   paidAuthorized?: boolean; maxTurns?: number; toolTimeoutMs?: number;
+  controller?: { execute(call: ToolCall, signal: AbortSignal): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> };
 }
 const physicalTools = new Set(["introduce_carton", "assign_route", "set_downstream_readiness", "inject_fault", "clear_fault"]);
 const blindAllowed = new Set(["world.raw_image", "plc.acknowledged", "plc.output", "hmi.evidence", "observation", "discrepancy"]);
@@ -181,6 +182,10 @@ export class CampaignRuntime {
   }
   async #dispatch(call: ToolCall, signal: AbortSignal): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> {
     const p = call.arguments, driver = this.options.driver;
+    if (["assign_route", "operator_action", "acknowledge_completion"].includes(call.name) && this.options.controller) {
+      if (!this.ledger.state.activeExperiment) throw new ToolFailure("rejected", "Controller actions require an active authorized experiment");
+      return this.options.controller.execute(call, signal);
+    }
     if (physicalTools.has(call.name)) {
       if (!this.ledger.state.activeExperiment) throw new ToolFailure("rejected", "Start an experiment before a world intervention");
       if (!driver) throw new ToolFailure("inconclusive", "Preserved evidence is read-only; no world or PLC action was applied");

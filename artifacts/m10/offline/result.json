@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "checkedAt": "2026-10-31T21:51:14.511Z",
+  "evidenceClass": "offline_protocol_and_regression_tests",
+  "livePlcExecuted": false,
+  "paidCalls": 0,
+  "testedSources": {
+    "src/live/m8-map.ts": "0989e72805684ed12a29f2378a94ec4e8d1429b5f4f072a3b2ea2654addb5467",
+    "src/live/m8-opcua.ts": "edaf66bfac4115caa835656030b4d456ed3d1fbecbec7daac5e23fe8720de865",
+    "src/live/m8-native-transport.ts": "c77e0bb204b0be95d66e4e991aa39778d5459b2d692685a6faedc5092a370493",
+    "src/campaign/m8-bindings.ts": "8c18d167755658bf2d509d3961d74a3e442bd77d1c41344ed9913accb249a0b2",
+    "src/campaign/m10-rehearsal.ts": "55ff74e10b67f0c3ca97237cadc24abf2064ad214138ca8d52a3f9adef48a4d1",
+    "src/campaign/contracts.ts": "d05fb342d79765e0d37b6387a922a0eb2838b99601fb692252de624699bf915c",
+    "src/campaign/runtime.ts": "5e2d1759fd65695a57937fb91dc3fdaff9172cab0665c99ba15f16e79d223f69",
+    "src/campaign/driver.ts": "5075b4db68ab8c50780ed74dd3291466196412c7926b3b8dc6a9602d22c3a63a",
+    "scripts/run-m10-live.js": "8cd239cdcf28f4026fe090cbc178e9fe5a1aa860d149102e01a027dbd677c5f1",
+    "scripts/run-m10-live.ps1": "f41b8a59fdf32a6622e84fea26a8fd914be110e6a8479a75828eeee196601edf",
+    "scripts/audit-m10.js": "c23fcdf4d55262dfc25567f10251a8ed690b590a2a914d618ff618d152f2b5da"
+  },
+  "frozenProjectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "liveGate": "pending_new_live_M10_evidence_and_audit"
+}

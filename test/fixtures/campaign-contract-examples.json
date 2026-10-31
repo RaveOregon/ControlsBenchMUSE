@@ -125,6 +125,11 @@
     "reason": "example",
     "ageMs": 0
   },
+  "controller.action": {
+    "actionId": "example",
+    "action": "example",
+    "observation": {}
+  },
   "coordinator.event": {
     "origin": "live-coordinator",
     "source": {

@@ -31,6 +31,7 @@ export class CoordinatorCampaignDriver {
   readonly clock: Clock;
   readonly cadenceMs = 100;
   readonly operationTimeoutMs: number;
+  readonly initializeTimeoutMs: number;
   running = false;
   quarantined = false;
   failure?: ToolFailure;
@@ -51,9 +52,10 @@ export class CoordinatorCampaignDriver {
   #lastConfirmedAtMs = 0;
   #listeners = new Set<() => void>();
   #initialized = false;
-  constructor(coordinator: LiveWorldCoordinator, ledger: CampaignLedger, binding: ControlBinding, options: { clock?: Clock; operationTimeoutMs?: number } = {}) {
+  constructor(coordinator: LiveWorldCoordinator, ledger: CampaignLedger, binding: ControlBinding, options: { clock?: Clock; operationTimeoutMs?: number; initializeTimeoutMs?: number } = {}) {
     this.coordinator = coordinator; this.ledger = ledger; this.binding = binding;
     this.clock = options.clock ?? systemClock; this.operationTimeoutMs = options.operationTimeoutMs ?? 2000;
+    this.initializeTimeoutMs = options.initializeTimeoutMs ?? this.operationTimeoutMs;
   }
   get connector(): BenchConnector { return this.coordinator.connector; }
   get lastImage(): RawSignalImage { return structuredClone(this.#lastImage); }
@@ -65,7 +67,7 @@ export class CoordinatorCampaignDriver {
   async initialize(): Promise<void> {
     if (this.#busy || this.#initialized) throw new Error("Driver is already initializing/initialized");
     this.#busy = (async () => { try {
-      const receipt = await bounded(() => this.coordinator.initialize(), this.operationTimeoutMs, this.clock);
+      const receipt = await bounded(() => this.coordinator.initialize(), this.initializeTimeoutMs, this.clock);
       this.#acceptReceipt(receipt); this.#flush();
       this.#lastSnapshot = await bounded(() => this.coordinator.world.snapshot(this.coordinator.context), this.operationTimeoutMs, this.clock);
       this.#initialized = true;
