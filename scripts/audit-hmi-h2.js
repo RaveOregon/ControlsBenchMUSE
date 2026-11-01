@@ -145,7 +145,12 @@ export function auditHmiH2(dir) {
     return "ConnectorStale TRUE observed by the HMI; no alarm instance created";
   });
   check("item-route-completion", () => {
-    const changes = Object.assign({}, ...of("plc.change").map(r => r.data.changes));
+    // Rebuild observed PLC state: first keyframe values, then every change in order (changes record only differences).
+    const base = Object.fromEntries(Object.entries(of("plc.keyframe")[0].data.values).map(([p, v]) => [p, v[0]]));
+    const baselineSequence = base["GVL_DemoRead.Status.CompletionSequence"], baselineA = base["GVL_DemoRead.Status.CountExitA"];
+    const changes = Object.assign(base, ...of("plc.change").map(r => r.data.changes));
+    assert.equal(changes["GVL_DemoRead.Status.CompletionSequence"], baselineSequence + 1, "exactly one new completion");
+    assert.equal(changes["GVL_DemoRead.Status.CountExitA"], baselineA + 1, "exit A count advanced by one");
     assert.equal(changes["GVL_DemoRead.Status.CompletionItemId"], 301);
     assert.equal(changes["GVL_DemoRead.Status.CompletionExit"], 1);
     assert.equal(changes["GVL_DemoRead.Status.CompletionDisposition"], 1);

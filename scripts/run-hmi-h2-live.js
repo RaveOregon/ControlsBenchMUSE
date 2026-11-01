@@ -11,6 +11,7 @@
 // The run stops on the first unexplained result. It never resets an unexplained state.
 import { closeSync, copyFileSync, existsSync, mkdirSync, openSync, readFileSync, unlinkSync, writeFileSync, appendFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { createM8NativeTransport } from "../src/live/m8-native-transport.ts";
@@ -85,6 +86,18 @@ function record(step, data) {
   result.steps.push(entry);
   service.journal.append("h2.step", entry);
   log(`${step}: ${data.summary ?? ""}`);
+}
+// The ControlsBench portal page itself, captured by a separate headless viewer (not the operated session).
+async function portalShot(portalUrl, name) {
+  const viewer = new CdpWebVisuSource(portalUrl, { headless: true, width: 1440, height: 900, format: "png" });
+  try {
+    await viewer.open(() => {}, () => {});
+    await sleep(2500);
+    const shot = await viewer.capture();
+    const file = `${dir}/portal-page-${name}.png`;
+    writeFileSync(file, shot.bytes);
+    return { file, capturedAtIso: shot.capturedAtIso, sha256: createHash("sha256").update(shot.bytes).digest("hex") };
+  } finally { await viewer.close(); }
 }
 const plcState = () => Object.fromEntries(["GVL_DemoRead.Status.Mode", "GVL_DemoRead.Status.ModeText", "GVL_DemoRead.Status.FaultCode", "GVL_DemoRead.Status.FaultText", "GVL_DemoRead.Status.Motor_RunCmd",
   "GVL_BenchRead.Active_Drive_RunningFB", "GVL_DemoWrite.AutoRequest", "GVL_BenchRead.ConnectorStale", "GVL_BenchRead.SimApplied", "GVL_BenchRead.Active_Encoder_Count", "GVL_DemoRead.Status.ItemActive",
@@ -183,6 +196,7 @@ try {
   await sleep(1200);
   const faultFrame = await hub.captureNow();
   record("fault-raised", { summary: `PLC fault 10 '${raised.plcText}' raised; basis ${raised.firstObservedBasis}`, alarm: raised, frame: faultFrame.reference, plc: plcState() });
+  record("portal-page-fault", { summary: "ControlsBench portal page with the live HMI tile during fault 10", portalPage: await portalShot(portalUrl, "fault") });
   r = await click("cmd.reset", "reset-while-overloaded"); expectOutcome(r, "rejected", "Reset while overloaded");
   record("reset-rejected", { summary: r.command.detail, agent: r.action, command: r.command, unmet: r.command.preconditions?.filter(p => p.met === false) });
   await tool("clear_fault", { controlId: "fault.setOverload", parameters: { active: false } });
@@ -241,6 +255,7 @@ try {
     const nav = await click(`nav.${page}`, `nav-${page}`);
     record(`view-${page}`, { summary: `Portal session shows ${page}`, frame: nav.action.screen?.frameRef, agent: nav.action });
   }
+  record("portal-page-final", { summary: "ControlsBench portal page with the live HMI tile at the end", portalPage: await portalShot(portalUrl, "final") });
   result.status = "pass";
 } catch (error) {
   result.error = error instanceof Error ? error.stack : String(error);
