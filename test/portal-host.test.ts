@@ -198,11 +198,12 @@ test("live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI 
     await until(() => h.store.state.hmi.lastFrame !== undefined, "first frame");
     const tile = hmiTileModel(h.store.state, Date.now());
     assert.equal(tile.observed, true);
+    const displayed = h.store.state.hmi.lastFrame!;
     const media = await fetch(`${h.url}${tile.frame!.src}`);
     const bytes = Buffer.from(await media.arrayBuffer());
     assert.equal(media.headers.get("content-type"), "image/png");
-    assert.equal(createHash("sha256").update(bytes).digest("hex"), h.store.state.hmi.lastFrame!.sha256, "displayed pixels are the exact captured bytes");
-    assert.equal(media.headers.get("x-controlsbench-sha256"), h.store.state.hmi.lastFrame!.sha256);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), displayed.sha256, "displayed pixels are the exact captured bytes");
+    assert.equal(media.headers.get("x-controlsbench-sha256"), displayed.sha256);
 
     // Engineer input on the controlled page becomes an HMI action observation, then a later frame.
     h.hmi!.onInput!({ kind: "pointer", atIso: new Date().toISOString(), x: 120, y: 48, viewportWidth: 1280, viewportHeight: 800, pageUrl: h.hmi!.url });
@@ -235,12 +236,16 @@ test("live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI 
     assert.equal(h.session.pause().ok, false, "nothing to pause after stop");
 
     // Capture loss: the last frame stays, under a stale overlay.
-    const held = h.store.state.hmi.lastFrame!.reference;
+    const beforeLoss = h.host.hmi.view.lastFrame!;
     h.hmi!.fail = true;
     await until(() => h.store.state.hmi.state === "stale", "stale HMI session");
+    // A valid capture or SSE message already in flight may arrive after fail=true.
+    // Hold the authoritative last valid capture, never an earlier client-side frame.
+    const held = h.host.hmi.view.lastFrame!;
     const stale = hmiTileModel(h.store.state, Date.now());
     assert.equal(stale.overlay?.kind, "stale");
-    assert.equal(stale.frame?.reference, held);
+    assert.equal(stale.frame?.reference, held.reference);
+    assert(held.frameSequence >= beforeLoss.frameSequence);
     const off = await command(h, () => h.session.disconnectHmi(), "disconnect_hmi");
     assert.equal(off.outcome, "applied");
     await until(() => h.store.state.hmi.state === "disconnected", "disconnected");
