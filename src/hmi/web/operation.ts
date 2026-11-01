@@ -211,9 +211,11 @@ export function mountOperation(page: HTMLElement): () => void {
     setText(w.offerPending, store.bool(ST("OfferPending")) ? "Yes" : store.bool(ST("OfferPending")) === false ? "No" : "—");
     setText(w.offer, `#${store.value(ST("OfferAckSequence")) ?? "—"} · item ${store.value(ST("OfferAckItemId")) ?? "—"} · route ${enumOf(ROUTE, store.value(W("OfferRoute")))}`);
     const acc = store.bool(ST("OfferAccepted"));
-    setText(w.offerResult, acc === undefined ? "—" : acc ? "Accepted" : `Rejected · ${enumOf(OFFER_REASON, store.value(ST("OfferReason")))}`);
+    const offerSeq = store.value(ST("OfferAckSequence")), reason = store.value(ST("OfferReason"));
+    setText(w.offerResult, acc === undefined ? "—" : offerSeq === 0 ? "No offer yet" : acc ? "Accepted" : reason === 0 ? "Not accepted" : `Rejected · ${enumOf(OFFER_REASON, reason)}`);
     const pending = store.bool(ST("CompletionPending"));
-    setText(w.completion, pending === undefined ? "—" : `${pending ? "Awaiting WCS ack" : "Acknowledged"} · #${store.value(ST("CompletionSequence")) ?? "—"}`);
+    const completionSeq = store.value(ST("CompletionSequence"));
+    setText(w.completion, pending === undefined ? "—" : completionSeq === 0 ? "None yet" : `${pending ? "Awaiting WCS ack" : "Acknowledged"} · #${completionSeq ?? "—"}`);
     setText(w.completionDetail, `item ${store.value(ST("CompletionItemId")) ?? "—"} · ${enumOf(ROUTE, store.value(ST("CompletionRoute")))} → ${enumOf(EXIT, store.value(ST("CompletionExit")))} · ${enumOf(DISPOSITION, store.value(ST("CompletionDisposition")))}`);
     setText(w.ack, String(store.value(W("CompletionAck")) ?? "—"));
   };
