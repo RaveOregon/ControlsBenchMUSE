@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "directory": "artifacts/hmi/h2/2026-11-01T13-46-58-698Z",
+  "error": "Error: Start 3: expected applied, got inconclusive: Delivered at (999, 334), but the page recorded no input on cmd.start. No command was sent; the frame shows what the page displayed."
+}

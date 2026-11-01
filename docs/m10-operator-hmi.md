@@ -164,9 +164,13 @@ The full suite is 68/68 (`npm test`), and typecheck is clean.
 | Gate | Status | Evidence |
 |---|---|---|
 | H0 interfaces and fixture rendering | **Pass** | Three pages render against labelled fixtures seeded from the recorded M10 trace (`test/fixtures/hmi/m10-recorded-states.json`, sha256 of the source trace inside). The desktop layout was inspected at 1280×800, and screenshots are in `docs/screenshots/hmi/`. |
-| H1 live observations and commands | **Not run — blocked** | The CODESYS Control Win V3 service was *Stopped* (nothing listening on :4840) during this session. |
-| H2 Start/Stop/Reset/Auto, faults, alarms, disconnect | **Not run — blocked** | Same blocker. `scripts/run-hmi-h2-live.ps1` is ready. |
-| H3 portal session and correlated evidence | **Pass on fixture; live pending** | The portal tile showed the captured HMI session (observing and recording). A scripted `cmd.reset` click produced requested, delivered, page-input, rendered, frame and fixture-acknowledgement records. The fixture acknowledgement is not PLC evidence. |
+| H1 live observations and commands | **Pass** | Live M8 boot `1580380594210` after the user's PLC reboot. The HMI read a clean baseline (Stopped, no fault, no item, no pending completion, hardware passthrough, then simulation applied) and issued acknowledged commands (H2 attempt 3). |
+| H2 Start/Stop/Reset/Auto, faults, alarms, disconnect | **Partial pass** | Attempt 3 (`artifacts/hmi/h2/2026-11-01T13-46-58-698Z/`), every operator command a trusted click in the portal session, live PLC results:<br>• Auto on: readback.<br>• Start: `StartAccepted=TRUE`, Mode Auto, motor command, running feedback; encoder 300 → 853.<br>• Stop: `StopAck` echoed, Stopping then Stopped.<br>• Start, then Auto off: Mode Stopped.<br>• Start with Auto off: **rejected by PLC** (`StartAccepted=FALSE`).<br>• Injected drive overload: **fault 10 raised (transition observed)**.<br>• Reset while overloaded: **rejected** (`ResetAccepted=FALSE`).<br>• Cause cleared, then Reset: **applied**; alarm cleared on an observed transition; Mode stayed Stopped (no restart).<br>The run then stopped safely: the headed capture window began scaling injected input ×1.25 (dispatched 999,334; page saw 1249,418), so a Start click hit empty space and nothing was actuated. Carton/item display, HMI link interruption and the ConnectorStale step are pending a headless rerun. |
+| H3 portal session and correlated evidence | **Pass (live, partial run)** | Attempt 3 ran the live HMI in the portal's controlled browser. Each command has an agent request, CDP delivery, page input, PLC acknowledgement, the outcome the page rendered, and a captured frame. 10 cited frames are in `evidence-frames/`. |
+
+Earlier live attempts, retained unchanged:
+- `2026-11-01T13-33-45-242Z`: authenticated, but every 103-node Read was refused with `BadTooManyOperations`; fixed by batching. No write.
+- `2026-11-01T13-38-06-654Z`: the controls moved when the ConnectorStale banner cleared, so the first click missed its target; fixed with a fixed-height message bar, an always-present fault strip, and target refresh before each click. No write; the PLC ended Stopped, fault-free and simulated.
 
 ### H2 runner
 
