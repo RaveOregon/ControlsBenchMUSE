@@ -73,6 +73,19 @@ Branch `ui/m10-portal-host` adds `src/host/` and `ui/src/adapters/host/`.
 
 See `docs/m10-portal-host.md`.
 
+## M10 operator HMI lane — 2026-11-01
+
+Branch `hmi/m10-operator-hmi` (worktree `.claude/worktrees/m10-operator-hmi`) merges Lane A `3ab99ff` and Lane B `7886dfd`. It adds `src/hmi/`: a polished three-page browser operator HMI (Operation, Alarms, Engineering) for M8 build 8001, served at `http://127.0.0.1:5181/`. The user prefers this over native IronPython or WebVisu screens; no PLC change is needed.
+- It reads one batched OPC UA poll through Lane A's M8 transport, on its own session.
+- It writes only the four operator requests: Start, Stop and Reset sequences, and AutoRequest. Start/Stop/Reset are applied or rejected only from the PLC acknowledgement. Auto has no acknowledgement field and is confirmed by a labelled readback.
+- Alarm history is recorded by the HMI service from observed transitions, with a stated time basis. The review marker is HMI-local. ConnectorStale stays a bench banner.
+- `npm run hmi:portal` / `hmi:live:portal` mount the HMI in Lane B's portal through its `hmi` and `hmiSourceFactory` options. The tile shows the same controlled session that a scripted or agent click operates.
+- The agent seam is `POST /api/agent-actions/execute`. Requested action, delivered input, page input, PLC acknowledgement and screen frame are kept as separate journal records.
+- H0 passes on labelled fixtures from the recorded M10 trace, and H3 passes on fixture. The test suite passes 68/68.
+- **H1/H2 live is not run:** the CODESYS Control Win V3 service was stopped. `scripts/run-hmi-h2-live.ps1` is ready; it uses Lane A's connector and world as the only field-input writer and never resets unexplained state.
+
+See `docs/m10-operator-hmi.md`.
+
 ## M8 and portal convergence — 2026-10-31
 
 M8-A through M8-D passed live in `codesys/conveyordemo.project`, build 8001/interface 1, map `m8-conveyor-1.0.2`. The primary run contains 104 acknowledged methodical images; independent audits passed normal routing, misroute, stop, failed divert and reset, with supplemental feedback/overload evidence. Read `codesys/demo/HANDOFF.md` and `RESULTS.md` for limits, including writable read-group exposure and counter-reset ambiguity. M8-E WebVisu remains unauthored. The frozen measurement fixture is unchanged.
