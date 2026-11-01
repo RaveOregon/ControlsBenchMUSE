@@ -1,6 +1,6 @@
 # Wonder campaign lane
 
-The subsequent convergence review and production-path corrections are documented in [wonder-review-fixes.md](wonder-review-fixes.md). That document supersedes the original portal scope/label and owner-entry assumptions below and records the newer verification and W3 outcome.
+The subsequent convergence review and production-path corrections are documented in [wonder-review-fixes.md](wonder-review-fixes.md). That document supersedes the original portal scope/label and owner-entry assumptions below. The separately authorized real model run is documented in [wonder-w3-checkpoint.md](wonder-w3-checkpoint.md): W3 partial, three generation calls, two grounded findings, no novel adaptive follow-up, $4 conservative allowance consumed. W4 remains unrun.
 
 Base: verified `codex/m10-convergence` `13c55b3` (66 runtime/host/view and 51 UI tests; preserved 302-ack M10 replay). The original checkout's uncommitted task packet and other edits remain untouched. Codex implements; `muse-wonder-1.0`, Standard mode, high reasoning is the product model.
 
@@ -38,7 +38,7 @@ Primary docs checked 2026-11-01: [Responses](https://dev.meta.ai/docs/protocols/
 | W0 | Pass | This contract, `src/campaign/process-port.ts`, and `representative-context.json` in the retained proof. Child API agreement remains a W4 dependency. |
 | W1 | Pass | Ten new offline tests exercise four native Responses turns, exact tool-result pairing and observations, a novel evidence-dependent follow-up, grounded finding/report, different hypotheses for different outputs, malformed/incomplete/text/repeated/stale replies, duplicate actions, cancellation/late responses, timeout, request admission, campaign/session stops, blind-result filtering and unsupported claims. Lease tests verify campaign contract handling with an injected boundary; they do not qualify child scheduling. |
 | W2 | Pass | All 302 historical M10 acknowledgements/outputs retain exact values and source lineage. Six original findings remain in the separate source report; the new review has its own findings. Recorded physical proposals cannot execute. Production `CampaignHost`/`HostedSession`/`WorkspaceStore` show the one authoritative activity/actions/cost/findings projection. |
-| W3 | Prepared, not run | Four-request maximum recorded-M10 Wonder checkpoint; preserved raw request/response/usage/native call lineage, token-count admission and durable reservations. No real API call has been made. |
+| W3 | Partial | Three real Wonder generation responses completed a recorded-M10 review, with six applied semantic actions, two findings and 30 exact PLC claims. Raw native lineage and five exact delivered tool results are preserved. All inspections were selected initially; a new evidence-dependent investigation was not demonstrated. Failed preflight plus successful decisions consumed the approved $4 conservative allowance. See the checkpoint handoff. |
 | W4 | Prepared adapter/factory, live not run | Provider-loop factory omits `HostedCampaign.run()`. Offline injection proves ledger/HMI identity and forwarded action revisions. It refuses launch without the compatible pinned owner adapter, child leases, observed signals, handoff evidence and common ownership. Normal/fault/live Wonder-selected follow-up remain unverified. |
 
 Original offline verification: `2026-11-01T17-36-24-146Z`, against code commit `1979835f0096a7b268183d718b2f442791b9e720`: TypeScript pass, **81/81 root tests**, offline artifact generation pass. This preserved run did not cover the three defects identified in the later convergence review. `artifacts/wonder-verification/latest.json` selects the newest verification; see the correction handoff for its result. The older full UI/build/browser-view convergence proof remains recorded in `artifacts/m10-convergence`; it is not represented as a new live test.
@@ -63,7 +63,9 @@ Open `http://127.0.0.1:5179`, then Start Campaign. This is an explicitly labeled
 
 Pause/Stop use the existing runtime semantics and bounded adapter drain. Stop retains the last confirmed image; Exit Simulation is explicit and separately observed. Reset requires a new campaign. Steering is explicitly rejected as unsupported and its text is not delivered to Muse. HMI actions/clips and actual branch execution/world rewriting remain unsupported; a branch checkpoint alone is not a new executed branch.
 
-### Optional W3 launch, scheduled with integrator
+### W3 launch, separately scheduled with integrator
+
+The completed checkpoint and consumed allowance are recorded in [wonder-w3-checkpoint.md](wonder-w3-checkpoint.md). The command below documents the launcher for a future separately authorized run; it does not extend or reset that allowance. `--max-decisions=3` narrows the default four-decision bound.
 
 Recheck the linked primary Meta pricing first. The current admission constants are $4/M input and $20/M output with **no cache discount**; counting includes server history. Every generation is limited to 4,000 total output/reasoning tokens. No hosted tools, hidden repair calls or retry. A preflight failure also retains a conservative $1 reservation. At most four admitted decisions reserve $4, below the campaign $5 hard stop; incomplete work finalizes as incomplete/stopped rather than a fabricated pass.
 

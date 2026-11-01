@@ -1,0 +1,16 @@
+{
+  "gate": "W3",
+  "status": "partial_mechanics_pass_adaptive_followup_not_demonstrated",
+  "assessment": "artifacts/wonder/checkpoint-2026-11-01T22-14-56-275Z/assessment.json",
+  "attempts": [
+    "artifacts/wonder/checkpoint-2026-11-01T22-10-17-207Z",
+    "artifacts/wonder/checkpoint-2026-11-01T22-14-56-275Z"
+  ],
+  "generationRequests": 3,
+  "conservativeUsd": 4,
+  "estimatedUsageUsd": 0.6262904,
+  "billingVerified": false,
+  "remainingApprovedConservativeUsd": 0,
+  "plcContacted": false,
+  "W4": "not run"
+}

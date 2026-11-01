@@ -1,7 +1,7 @@
 {
-  "directory": "artifacts/wonder-verification/2026-11-01T20-12-06-726Z",
+  "directory": "artifacts/wonder-verification/2026-11-01T22-13-36-278Z",
   "status": "pass",
-  "sourceCommit": "f9f6083990a94ef226a00356fc55a79efebff161",
+  "sourceCommit": "7d8d85a5e3611bf4ec8bcb3647887ac8a75bdefe",
   "actualModelCalls": 0,
   "actualSpendUsd": 0
 }

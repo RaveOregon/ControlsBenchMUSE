@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "base": "13c55b3",
+  "W0": "contract and representative-context.json",
+  "W1": "offline native Responses stub, four turns and adaptive investigation",
+  "W2": "302 recorded M10 acknowledgements and six original findings retained",
+  "actualModelCalls": 0,
+  "actualSpendUsd": 0,
+  "stubGenerationCalls": 4,
+  "sourceSha256": "e7f7fa9810e017f5d4430a87454600d8c54d42517e69b84fbdae33b9b8cb7829",
+  "plcContacted": false,
+  "W3": "prepared separately, not run",
+  "W4": "pending owner isolation/recovery handoff, not run"
+}

@@ -1,0 +1,21 @@
+{
+  "gate": "W3",
+  "status": "inspect-artifacts-before-pass",
+  "model": "muse-wonder-1.0",
+  "accountedDecisionAttempts": 3,
+  "generationRequestsAttempted": 3,
+  "conservativeCampaignUsd": 3,
+  "durableSessionUsd": 4,
+  "maxGenerationAttempts": 3,
+  "maximumConservativeCampaignUsd": 3,
+  "perRequestAdmissionUsd": 1,
+  "pricing": {
+    "checkedOn": "2026-11-01",
+    "source": "https://dev.meta.ai/docs/pricing-rate-limits",
+    "inputUsdPerMillion": 4,
+    "outputUsdPerMillion": 20
+  },
+  "plcContacted": false,
+  "evidence": "recorded M10 only",
+  "liveCampaign": "not run"
+}
