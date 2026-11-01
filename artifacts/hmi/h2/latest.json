@@ -1,5 +1,5 @@
 {
   "status": "failed",
-  "directory": "artifacts/hmi/h2/2026-11-01T14-08-43-860Z",
-  "error": "Error: PLC ConnectorStale=true at applied 1908260601830/128"
+  "directory": "artifacts/hmi/h2/2026-11-01T14-54-26-866Z",
+  "error": "Error: Coordinator: PLC ConnectorStale=true at applied 27900185613718/1"
 }

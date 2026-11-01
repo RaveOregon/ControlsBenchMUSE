@@ -3,6 +3,7 @@
 // coordinator's 10 Hz commits and heartbeat.
 
 import { fork, type ChildProcess } from "node:child_process";
+import { constants, getPriority, setPriority } from "node:os";
 import { fileURLToPath } from "node:url";
 
 type Reply = { id: number; ok: boolean; value?: unknown; error?: string };
@@ -11,6 +12,8 @@ type Notice = { event: string; message?: string; pid?: number };
 export class CoordinatorProcess {
   readonly child: ChildProcess;
   failure?: string;
+  /** OS scheduling priority applied to the coordinator (above normal when the OS allows it). */
+  priority?: number | string;
   unexpectedFault?: string;
   #next = 0;
   #pending = new Map<number, { resolve: (v: unknown) => void; reject: (e: Error) => void; timer: ReturnType<typeof setTimeout> }>();
@@ -20,6 +23,9 @@ export class CoordinatorProcess {
   constructor(options: { dir: string; env: Record<string, string | undefined>; fake?: boolean; script?: string }) {
     const script = options.script ?? fileURLToPath(new URL("../../scripts/hmi-h2-coordinator.js", import.meta.url));
     this.child = fork(script, options.fake ? ["--fake"] : [], { env: { ...options.env, H2_DIR: options.dir }, stdio: ["ignore", "inherit", "inherit", "ipc"] });
+    // The coordinator is the bench's timing-critical writer: favour it over HMI, portal and capture work.
+    try { setPriority(this.child.pid!, constants.priority.PRIORITY_ABOVE_NORMAL); this.priority = getPriority(this.child.pid!); }
+    catch (error) { this.priority = `unchanged (${error instanceof Error ? error.message : String(error)})`; }
     let readyResolve!: () => void, readyReject!: (e: Error) => void;
     this.#ready = new Promise((resolve, reject) => { readyResolve = resolve; readyReject = reject; });
     this.#ready.catch(() => {}); // surfaced through call() and failure

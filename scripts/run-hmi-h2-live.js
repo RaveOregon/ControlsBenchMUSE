@@ -15,6 +15,7 @@ import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
+import { spawnSync } from "node:child_process";
 import { createM8NativeTransport } from "../src/live/m8-native-transport.ts";
 import { m8Map } from "../src/live/m8-map.ts";
 import { CoordinatorProcess } from "../src/hmi/coordinator-process.ts";
@@ -51,7 +52,7 @@ for (const rel of ["artifacts/m10/operator-status.json", "codesys/demo/operator-
   if (existsSync(f) && JSON.parse(readFileSync(f, "utf8").replace(/^﻿/, "")).active) throw new Error(`${f} reports an active runtime owner; coordinate before H2`);
 }
 mkdirSync(join(mainRoot, "artifacts/m10"), { recursive: true });
-const lock = openSync(lockPath, "wx");
+let lock = openSync(lockPath, "wx");
 writeFileSync(lockPath, JSON.stringify({ owner: "hmi-h2-live", pid: process.pid, directory: resolve(dir), startedAtIso: result.startedAtIso, hmiCommandsPermitted: true }) + "\n");
 
 const worldTrace = `${dir}/world-transport.jsonl`; // written by the coordinator process
@@ -109,9 +110,21 @@ async function tool(name, args) {
 
 try {
   if (result.projectSha256 !== frozenProjectHash) throw new Error("M8 project differs from the frozen accepted build");
+  // A watcher request may name a saved failed run to reconcile first (explicit, recorded; refuses on any mismatch).
+  const request = existsSync("artifacts/hmi/h2/operator-request.json") ? JSON.parse(readFileSync("artifacts/hmi/h2/operator-request.json", "utf8").replace(/^﻿/, "")) : {};
+  if (request.recoverFrom && request.action === "run") {
+    log(`reconciling ${request.recoverFrom} before H2 (request ${request.id})`);
+    // The recovery takes the runtime lock itself; this runner re-claims it afterwards.
+    closeSync(lock); unlinkSync(lockPath);
+    const recovery = spawnSync(process.execPath, ["scripts/recover-hmi-h2-baseline.js", request.recoverFrom], { stdio: "inherit", env: { ...process.env, OPC_USER: userName, OPC_PASSWORD: secret } });
+    lock = openSync(lockPath, "wx");
+    writeFileSync(lockPath, JSON.stringify({ owner: "hmi-h2-live", pid: process.pid, directory: resolve(dir), startedAtIso: result.startedAtIso, hmiCommandsPermitted: true }) + "\n");
+    result.recovery = { reference: request.recoverFrom, requestId: request.id, exitCode: recovery.status, latest: JSON.parse(readFileSync("artifacts/hmi/h2/recovery-latest.json", "utf8")) };
+    if (recovery.status !== 0) throw new Error("Baseline reconciliation failed; H2 not started");
+  }
   // ---- HMI observes first (read-only until the baseline is explained) ----
   service = new HmiService({ source: { kind: "live_plc", endpoint: m8Map.endpoint, userConfigured: true, transportFactory: hmiTransportFactory },
-    artifactRoot: `${dir}/hmi`, pollIntervalMs: 250, sharedPollIntervalMs: 500, commandPolicy: "enabled", ownershipRoots: roots });
+    artifactRoot: `${dir}/hmi`, pollIntervalMs: 250, sharedPollIntervalMs: 1000, commandPolicy: "enabled", ownershipRoots: roots });
   let bridge;
   const hub = new HmiHub({ captureIntervalMs: 1000, artifactDir: `${dir}/portal-hmi`, onChange: (view, change) => bridge?.onHubChange(view, change) });
   bridge = new PortalSessionBridge(service, hub);
@@ -137,9 +150,14 @@ try {
   record("portal-session", { summary: `Portal ${portalUrl} observing HMI session ${hub.view.sessionId} (${hub.view.browser})`, hmiSession: hub.view, portalUrl, client: bridge.portalClient() });
 
   // ---- Simulation coordinator (Lane A connector + preserved world) in its own process ----
+  // Quiet the HMI's own OPC reads while the coordinator initializes; its first ticks have the least heartbeat margin.
+  await sleep(2000);
+  service.link.setPollInterval(3000);
   coord = new CoordinatorProcess({ dir, env: { ...process.env, OPC_USER: userName, OPC_PASSWORD: secret } });
   const started = await coord.call("start", {}, 90_000);
-  result.coordinatorPid = started.pid;
+  Object.assign(result, { coordinatorPid: started.pid, coordinatorPriority: coord.priority });
+  await sleep(1500);
+  service.link.setPollInterval(1000);
   await until(() => hmiValue("GVL_BenchRead.SimApplied") === true && hmiValue("GVL_BenchRead.ConnectorStale") === false && hmiValue("GVL_BenchRead.Active_D1_HomeFB") === true, "HMI sees applied simulation image", 10_000);
   record("coordinator", { summary: `Simulation applied by coordinator process ${started.pid}; world at rest with divert home limits and destinations ready`, plc: plcState() });
   const guard = () => { if (coord.unexpectedFault) throw new Error(coord.unexpectedFault); if (coord.failure) throw new Error(`Coordinator: ${coord.failure}`); };
