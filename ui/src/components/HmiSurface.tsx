@@ -17,10 +17,10 @@ export function HmiConfiguration({ source, onConfigure, state, hosted }: { sourc
   if (hosted && state) {
     const hmi = state.hmi;
     const active = hmi.state === 'observing' || hmi.state === 'stale' || hmi.state === 'connecting';
-    return <section className="panel"><header><h2>PLC HMI / WebVisu source</h2><span className={`tag hmi-state-${hmi.state}`}>{hmi.state.replace('_', ' ')}</span></header>
+    return <section className="panel"><header><h2>Operator HMI source</h2><span className={`tag hmi-state-${hmi.state}`}>{hmi.state.replace('_', ' ')}</span></header>
       <form className="body" onSubmit={e => { e.preventDefault(); try { const url = validatedMediaUrl(value.trim()); const r = hosted.configure(url); setNote(r.ok ? 'Requested. The host opens a controlled browser on this URL; observation starts with the first captured frame.' : r.reason); } catch (err) { setNote(String(err)); } }}>
-        <label className="field">WebVisu URL (opened by the portal host)<input value={value} onChange={e => setValue(e.target.value)} placeholder="http://127.0.0.1:8080/webvisu.htm" /></label>
-        <div className="actions"><button className="btn" type="submit">{active ? 'Reconnect source' : 'Observe WebVisu'}</button>{active && <button className="btn" type="button" onClick={() => { const r = hosted.disconnect(); setNote(r.ok ? 'Disconnect requested.' : r.reason); }}>Stop observing</button>}</div>
+        <label className="field">Browser HMI URL (opened by the portal host)<input value={value} onChange={e => setValue(e.target.value)} placeholder="http://127.0.0.1:5181/?capture=portal" /></label>
+        <div className="actions"><button className="btn" type="submit">{active ? 'Reconnect source' : 'Observe HMI'}</button>{active && <button className="btn" type="button" onClick={() => { const r = hosted.disconnect(); setNote(r.ok ? 'Disconnect requested.' : r.reason); }}>Stop observing</button>}</div>
         <p className="muted">{note || hmi.detail}</p>
         <p className="muted">The tile shows only frames captured from this page. A configured URL is not an observation, and observation is not an HMI requirement verdict.</p>
       </form></section>;
@@ -49,8 +49,8 @@ export function HmiSurface({ state, source, nowEpochMs, onSelect }: { state: Wor
   }, [expanded]);
   const legacyEmbed = state.mode === 'live' && source?.kind === 'webvisu' && !state.host;
   const f = model.frame;
-  return <section className={`panel hmi${expanded ? ' hmi-expanded' : ''}`} aria-label="PLC HMI / WebVisu" role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined}>
-    <header><h2>PLC HMI / WebVisu</h2>
+  return <section className={`panel hmi${expanded ? ' hmi-expanded' : ''}`} aria-label="Operator HMI" role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined}>
+    <header><h2>Operator HMI</h2>
       <span className={`tag hmi-state-${model.connection}`} title={model.detail}>{model.connection.replace('_', ' ')}</span>
       {model.recording && <span className="tag live" title="Frames are being captured and retained as evidence">● recording</span>}
       <span className={`tag ${state.mode}`}>{state.mode === 'replay' ? 'recorded evidence' : 'actual HMI only'}</span>
