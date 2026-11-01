@@ -13,3 +13,7 @@ codesys/*.zip
 codesys/*.bootinfo
 codesys/*.bootinfo_guids
 codesys/*.compileinfo
+
+# Operator HMI: runtime claim and bulky per-second portal frames (curated frames are copied into evidence explicitly).
+artifacts/hmi/runtime-claim.json
+artifacts/hmi/runs/*/portal-hmi/hmi-frames/
