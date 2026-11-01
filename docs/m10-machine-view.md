@@ -218,6 +218,21 @@ It writes `audit/audit.json`, clean screenshots, and annotated screenshots. Logi
 
 `npm run view:preview` plays the current package smoothly.
 
+### Third pass: divert paddles (2026-11-01)
+
+The engineer reported that the extended paddles looked as if they sat in front of the lane and blocked the conveyor before the divert. The audit now has an **actuator sweep**. For each divert at home and at full travel, it draws probe cartons along the route a carton physically takes:
+
+- **homed:** the main lane;
+- **extended:** the main lane up to the station, then the branch.
+
+It then hit-tests the paddle shape against each carton body in Chrome. It also checks that cartons are painted above actuators. `refine-01` failed with 4 errors, all paddle-through-carton, and 2 warnings that cartons were painted beneath the paddles. The generation prompt (v2) now states the rule as well.
+
+**Wonder pass 3:** `resp_6ae6ae0cdb37ab3a51a04b95`, reasoning max, 268 s, 26,692 input / 44,082 output tokens. It is accounted at a $1.25 reservation; about $0.99 at published rates. Wonder moved the pivot downstream and to the outer side, so the extended paddle forms a guide wall along the turn and the homed paddle lies flush on the far edge. It painted cartons last and removed the overflowing route text from cartons.
+
+The automatic gate initially kept the incumbent. The candidate's only errors were outlined "unknown" value text, and the cause was a **host bug**, not Wonder's. `prepareSvg` marked text bindings with `data-cb-value="unknown"` and never cleared that attribute, so Wonder's unknown-indicator styling outlined the values and, after the stroke fix, hid them. Bound text now carries health only, and a test covers it. After the fix, `scripts/promote-machine-view.js` re-validated, browser-checked and re-audited the preserved candidate with no model call: 0 errors, 0 warnings. It was promoted and the decision is recorded in `promotion.json`. Its generation record still shows the original automatic disposition.
+
+Accounted spend for the four view calls: $1.00 + $1.25 + $1.25 = $3.50 (about $2.32 at published rates).
+
 ## Limitations
 
 - The replay evidence is Gate B `surrogate_contract`, a world trace with no PLC, and is labelled that way. Live M8 snapshots depend on lane A/B feeding `buildSnapshot`.

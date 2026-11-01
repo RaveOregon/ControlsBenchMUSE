@@ -35,6 +35,7 @@ for (const name of ["view.manifest.json", "equipment.json", "view-bindings.json"
 const audit = JSON.parse(await readFile(join(parentDir, "audit", "audit.json"), "utf8"));
 if (audit.svgSha256 !== sha256(parentFiles["view.svg"])) throw new Error("Incumbent audit is stale; run scripts/audit-machine-view.js first");
 const transient = audit.findings.filter(f => f.category === "transient_overlap").length;
+if (audit.schemaVersion !== "controlsbench.machine-view.audit.v1") throw new Error("Unsupported audit version");
 if (audit.counts.error === 0 && transient === 0 && !process.argv.includes("--force")) { console.log("[refine] audit has no errors or transient overlaps; second pass not needed"); process.exit(0); }
 
 // ---- single-call guard per parent
@@ -74,11 +75,16 @@ Engineers will watch this view live, so it must read instantly and move smoothly
 - Do not draw decorative lines through text.
 - Make the exit chutes curve away from the main lane: give each branch path at least 5 points over its first 0.35 m, so the carton heading changes gradually (about 6-8 degrees per 0.05 m) instead of snapping 35 degrees. The first point must still sit exactly on the main path at the divert station, and the drawn chute must follow the same polyline.
 - Style [data-cb-source="plc"] distinctly from [data-cb-source="world"] (the incumbent relied on shape alone).
+- Actuator findings (A##) come from a sweep: the "divertN-extended" screenshots draw many probe cartons along the route a carton physically takes with that divert fully extended (main lane up to the station, then the branch); "home" draws them along the main lane. The paddle must not touch any probe carton in either pose, and cartons must be painted above it. An engineer reviewing the current view said the extended paddle looks like it sits in front of the lane and blocks the conveyor before the divert. Redesign the divert glyph so, when extended, it reads as a guide wall along the outer side of the turn into the chute, and when homed it lies flush along the far lane edge. Keep the rotate binding driven by D1_Position/D2_Position.
 - Preserve what worked: the caption saying it is not the PLC HMI, the side panel for unlocated devices, the selectable equipment groups, a common px-per-metre scale, and binding coverage. You may rename ids; bindings must match the new SVG.
 `.trim();
 
+const actuatorFindings = audit.findings.filter(f => f.category === "actuator");
+const imageNames = actuatorFindings.length
+  ? ["divert1-extended.png", "divert2-extended.png", "divert1-home.png", "a-diverted.clean.png"]
+  : ["a-diverted.png", "b-diverted.png", "no-data.png", "a-diverted.clean.png"];
 const images = [];
-for (const name of ["a-diverted.png", "b-diverted.png", "no-data.png", "a-diverted.clean.png"]) {
+for (const name of imageNames) {
   const bytes = await readFile(join(parentDir, "audit", name));
   images.push({ name, sha256: sha256(bytes), bytes: bytes.length, dataUrl: `data:image/png;base64,${bytes.toString("base64")}` });
 }
@@ -108,7 +114,8 @@ const body = {
 
 const startedAt = new Date();
 const stamp = startedAt.toISOString().replace(/[:.]/g, "-");
-const relativeDirectory = `artifacts/machine-view/${stamp}-${model}-refine-01`;
+const generationNumber = (Number(/-refine-(\d+)$/.exec(parentRel)?.[1] ?? 0) + 1).toString().padStart(2, "0");
+const relativeDirectory = `artifacts/machine-view/${stamp}-${model}-refine-${generationNumber}`;
 const outDir = resolve(relativeDirectory);
 await mkdir(join(outDir, "generation"), { recursive: true });
 const parent = { relativeDirectory: parentRel, packageId: parentManifest.packageId, svgSha256: audit.svgSha256, audit: { errors: audit.counts.error, warnings: audit.counts.warning, transientOverlaps: transient, file: `${parentRel}/audit/audit.json` } };
@@ -130,7 +137,7 @@ const request = {
     { role: "world_assumptions", path: `${worldDir}/assumptions.md`, sha256: sha256(assumptionsText), bytes: assumptionsText.length },
     ...images.map(i => ({ role: "screenshot", path: `${parentRel}/audit/${i.name}`, sha256: i.sha256, bytes: i.bytes }))
   ],
-  promptVersion: "machine-view-refine-prompt-v1",
+  promptVersion: "machine-view-refine-prompt-v2",
   promptSha256: sha256(`${developer}\n\n${userText}`),
   outputSchemaName: "controlsbench_machine_view_refinement_v1",
   outputSchemaSha256: sha256(jsonText(refineSchema)),
@@ -202,7 +209,7 @@ const record = {
   browserCheck,
   audit: candidateAudit,
   disposition,
-  repairLineage: [{ attempt: 1, kind: "presentation_refinement", parent: parentRel, disposition }],
+  repairLineage: [...(JSON.parse(await readFile(join(parentDir, "generation.json"), "utf8")).repairLineage ?? []), { attempt: Number(generationNumber), kind: "presentation_refinement", parent: parentRel, disposition, engineerFeedback: actuatorFindings.length ? "Extended divert paddles look as if they block the conveyor before the divert." : null }],
   policy: "One bounded call. No retry. The candidate replaces the incumbent only if it is view-valid, passes the browser check and has fewer audit errors (or equal errors and fewer warnings).",
   packageId: assembled.manifest.packageId
 };

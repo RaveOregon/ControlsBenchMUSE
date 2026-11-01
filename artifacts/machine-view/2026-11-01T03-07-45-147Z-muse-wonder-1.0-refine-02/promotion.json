@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "controlsbench.machine-view.promotion.v1",
+  "decidedAt": "2026-11-01T03:20:46.136Z",
+  "package": "artifacts/machine-view/2026-11-01T03-07-45-147Z-muse-wonder-1.0-refine-02",
+  "packageId": "conveyor-demo-baseline.view.386c365a96d8",
+  "originalDisposition": "retained_incumbent_not_better",
+  "reason": "Rejected only for 'unknown' text legibility. Root cause was a host bug: prepareSvg marked text bindings with data-cb-value=unknown and never cleared it, so Muse's unknown-indicator styling hid live values. Host fixed; bound text now carries health only.",
+  "modelCalls": 0,
+  "incumbent": {
+    "package": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
+    "auditErrors": 4,
+    "auditWarnings": 2
+  },
+  "candidate": {
+    "viewValid": true,
+    "browserCheckPassed": true,
+    "auditErrors": 0,
+    "auditWarnings": 0,
+    "auditExit": 0,
+    "browserExit": 0
+  },
+  "hostSources": {
+    "src/machine-view/host.ts": "45d92434b0423b463b9a388f0ca8759e2bb8d14c85fc75b82be4e39bd32ceeb7",
+    "src/machine-view/frame.ts": "e5512b473da87eef1cd90c4ad6e3d5b50a96f4ee4c6bb8f6a0f2818f01a8d053",
+    "src/machine-view/audit.ts": "f241c683ec4b23e45f413b4af3d35c7424853565ccbb4a5e6e8c900ab75f8345"
+  },
+  "disposition": "promoted_after_host_fix"
+}

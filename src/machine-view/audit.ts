@@ -32,7 +32,7 @@ export interface MeasuredScene {
 
 export interface AuditFinding {
   id: string;
-  category: "text_overlap" | "text_on_indicator" | "outside_view" | "legibility" | "transient_overlap" | "motion";
+  category: "text_overlap" | "text_on_indicator" | "outside_view" | "legibility" | "transient_overlap" | "actuator" | "motion";
   severity: "error" | "warning";
   scenarios: string[];
   elements: string[];
@@ -111,7 +111,7 @@ export function auditLayout(scenes: readonly MeasuredScene[], t: LayoutThreshold
       } else merged.set(key, { id: "", category: "legibility", severity: "warning", scenarios: [scene.scenario], elements: [text.key], detail: `Labels below ${t.minFontPx} px at 1280 px width: ${label}` });
     }
   }
-  const order = { text_overlap: 0, text_on_indicator: 1, outside_view: 2, transient_overlap: 3, legibility: 4, motion: 5 };
+  const order: Record<AuditFinding["category"], number> = { text_overlap: 0, text_on_indicator: 1, outside_view: 2, transient_overlap: 3, legibility: 4, actuator: 5, motion: 6 };
   return [...merged.values()].sort((a, b) => order[a.category] - order[b.category]).map((f, i) => ({ ...f, id: `L${String(i + 1).padStart(2, "0")}` }));
 }
 
@@ -197,8 +197,34 @@ export function auditMotion(pkg: LoadedPackage, runs: Record<string, readonly Vi
 
 const round1 = (v: number) => Math.round(v * 10) / 10;
 
-export function buildAuditReport(packageId: string, layout: AuditFinding[], motion: { summary: MotionSummary; findings: AuditFinding[] }, scenarios: string[]): AuditReport {
-  const findings = [...layout, ...motion.findings];
+// ---------------------------------------------------------------------------------------------
+// Actuators: a drawn actuator must agree with the world's physical path. Measured in the
+// browser by sampling a carton along each path with the actuator at home and at full travel.
+
+export interface ActuatorSample { equipmentId: string; element: string; pose: "home" | "extended"; path: string; positionM: number; overlapPoints: number }
+export interface ActuatorMeasurement { samples: ActuatorSample[]; paintedBeneath: Array<{ element: string; container: string }> }
+
+export function auditActuators(m: ActuatorMeasurement, minPoints = 3): AuditFinding[] {
+  const findings: AuditFinding[] = [];
+  const groups = new Map<string, ActuatorSample[]>();
+  for (const s of m.samples) if (s.overlapPoints >= minPoints) {
+    const key = `${s.equipmentId}|${s.pose}|${s.path}`;
+    groups.set(key, [...(groups.get(key) ?? []), s]);
+  }
+  for (const [key, hits] of groups) {
+    const [equipmentId, pose, path] = key.split("|") as [string, string, string];
+    const from = Math.min(...hits.map(h => h.positionM)), to = Math.max(...hits.map(h => h.positionM));
+    findings.push({
+      id: "", category: "actuator", severity: "error", scenarios: [`${equipmentId}-${pose}`], elements: [hits[0]!.element, "entities"],
+      detail: `${equipmentId} drawn ${pose === "home" ? "at home" : "fully extended"} intersects a carton travelling on path "${path}" from ${from.toFixed(2)} to ${to.toFixed(2)} m (${Math.max(...hits.map(h => h.overlapPoints))} sample points): the carton would visibly pass through the actuator, which contradicts the world (${pose === "home" ? "a homed divert must leave the lane clear" : "the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it"})`
+    });
+  }
+  for (const p of m.paintedBeneath) findings.push({ id: "", category: "actuator", severity: "warning", scenarios: ["document-order"], elements: [p.element, p.container], detail: `Cartons (#${p.container}) are painted beneath #${p.element}; draw the carton container after every actuator so a carton is never covered by equipment` });
+  return findings.map((f, i) => ({ ...f, id: `A${String(i + 1).padStart(2, "0")}` }));
+}
+
+export function buildAuditReport(packageId: string, layout: AuditFinding[], motion: { summary: MotionSummary; findings: AuditFinding[] }, scenarios: string[], actuators: AuditFinding[] = []): AuditReport {
+  const findings = [...layout, ...actuators, ...motion.findings];
   const error = findings.filter(f => f.severity === "error").length;
   const warning = findings.length - error;
   return { schemaVersion: AUDIT_VERSION, packageId, passed: error === 0, counts: { error, warning }, findings, motion: motion.summary, scenarios };

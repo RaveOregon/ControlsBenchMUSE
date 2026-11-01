@@ -6,7 +6,7 @@
 //   node scripts/audit-machine-view.js [--package <dir>]
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { auditLayout, auditMotion, buildAuditReport } from "../src/machine-view/audit.ts";
+import { auditActuators, auditLayout, auditMotion, buildAuditReport } from "../src/machine-view/audit.ts";
 import { applyFrame, buildSnapshot, resolveFrame } from "../src/machine-view/frame.ts";
 import { TRUSTED_CSS, prepareSvg } from "../src/machine-view/host.ts";
 import { jsonText, validatePackage } from "../src/machine-view/package.ts";
@@ -95,9 +95,69 @@ for (const s of [...stable, ...sweep]) {
   scenes.push({ scenario: s.id, sweep: Boolean(s.sweep), file, ...measured });
 }
 
+// Actuator geometry: sweep cartons along each path with each divert at home and fully extended.
+const type = pkg.equipment.entityTypes[0];
+const pathOf = (id) => type.paths.find(p => p.id === id);
+const actuatorSamples = [];
+let paintedBeneath = [];
+const rotates = pkg.bindings.bindings.filter(b => b.kind === "rotate");
+const entityBinding = pkg.bindings.bindings.find(b => b.kind === "entities");
+for (const rot of rotates) {
+  const channel = contract.channels.find(c => c.id === rot.channel);
+  const divert = pkg.equipment.equipment.find(e => e.id === channel.equipmentId);
+  const station = divert.geometry.stationM;
+  const branch = type.paths.find(p => p.branchFrom && p.branchFrom.atM === station);
+  for (const pose of ["home", "extended"]) {
+    const value = pose === "home" ? rot.inputMin : rot.inputMax;
+    const cartons = [];
+    const add = (path, from, to, step) => { for (let m = from; m <= to + 1e-9; m += step) cartons.push({ path, m: Math.round(m * 1000) / 1000 }); };
+    // Homed: cartons run the whole main lane past this divert. Extended: up to the station on main, then the branch.
+    if (pose === "home") add("main", Math.max(0, station - 0.6), Math.min(pathOf("main").toM, station + 0.6), 0.05);
+    else { add("main", Math.max(0, station - 0.8), station - 0.05, 0.05); if (branch) add(branch.id, station + 0.05, Math.min(branch.toM, station + 0.6), 0.05); }
+    const snapshot = buildSnapshot(contract.channels, { ...base, raw: { ...all(c => c.normalValue), [channel.signal]: value }, outputs: all(c => c.normalValue),
+      entities: cartons.map((c, i) => ({ id: `probe-${i}`, type: type.type, state: { positionM: c.m, path: c.path, itemId: "", requestedRoute: null, velocityMps: 0, jammed: false } })) });
+    const root = parseSvg(prepareSvg(pkg));
+    applyFrame(root, resolveFrame(pkg, snapshot));
+    const file = join(outDir, `${divert.id}-${pose}.html`);
+    await writeFile(file, page(serializeSvg(root), `${divert.id} ${pose}: carton sweep`));
+    await browser.navigate(file);
+    await browser.waitFor("document.readyState === 'complete' && Boolean(document.querySelector('#cb-stage > svg'))");
+    const result = await browser.evaluate(`(() => {
+      const svg = document.querySelector("#cb-stage > svg");
+      const paddle = document.getElementById(${JSON.stringify(rot.element)});
+      const shapes = [paddle, ...paddle.querySelectorAll("*")].filter(n => typeof n.isPointInFill === "function");
+      const toLocal = (shape, x, y) => { const p = svg.createSVGPoint(); p.x = x; p.y = y; return p.matrixTransform(shape.getScreenCTM().inverse()); };
+      const hit = (x, y) => shapes.some(s => { const p = toLocal(s, x, y); return s.isPointInFill(p) || s.isPointInStroke(p); });
+      const out = [];
+      for (const clone of svg.querySelectorAll("[data-cb-clone]")) {
+        const parts = [...clone.querySelectorAll("rect,path,polygon")].filter(n => !n.closest("text"));
+        const body = parts.sort((a, b) => { const A = a.getBBox(), B = b.getBBox(); return B.width * B.height - A.width * A.height; })[0];
+        if (!body) continue;
+        const bb = body.getBBox(), m = body.getScreenCTM();
+        let n = 0;
+        for (let i = 1; i <= 7; i++) for (let j = 1; j <= 3; j++) {
+          const p = svg.createSVGPoint(); p.x = bb.x + bb.width * (0.05 + 0.9 * (i - 1) / 6); p.y = bb.y + bb.height * (0.15 + 0.7 * (j - 1) / 2);
+          const s = p.matrixTransform(m); if (hit(s.x, s.y)) n++;
+        }
+        out.push({ key: clone.getAttribute("data-cb-clone"), n });
+      }
+      const container = document.getElementById(${JSON.stringify(entityBinding.container)});
+      const beneath = Boolean(paddle.compareDocumentPosition(container) & Node.DOCUMENT_POSITION_PRECEDING);
+      return { out, beneath };
+    })()`);
+    for (const r of result.out) {
+      const c = cartons[Number(r.key.split("-")[1])];
+      actuatorSamples.push({ equipmentId: divert.id, element: rot.element, pose, path: c.path, positionM: c.m, overlapPoints: r.n });
+    }
+    if (result.beneath && !paintedBeneath.some(p => p.element === rot.element)) paintedBeneath.push({ element: rot.element, container: entityBinding.container });
+    await writeFile(join(outDir, `${divert.id}-${pose}.png`), await browser.screenshot());
+  }
+}
+const actuators = auditActuators({ samples: actuatorSamples, paintedBeneath });
+
 const layout = auditLayout(scenes);
 const motion = auditMotion(pkg, runs);
-const result = buildAuditReport(pkg.manifest.packageId, layout, motion, scenes.map(s => s.scenario));
+const result = buildAuditReport(pkg.manifest.packageId, layout, motion, scenes.map(s => s.scenario), actuators);
 
 // Annotated screenshots of the stable scenarios.
 const screenshots = [];
@@ -118,6 +178,6 @@ for (const scene of scenes.filter(s => !s.sweep)) {
 }
 browser.close();
 
-const audit = { ...result, auditedAt: new Date().toISOString(), package: relative, svgSha256: report.hashes["view.svg"], screenshots, thresholds: { note: "text overlap: >=4 px2 and >=4% of the smaller label with 1 px clearance; label over indicator: >=15%; minimum 10 px font at 1280 px width; carton jump: >3x median step; belt alias: step >=40% of mark period" } };
+const audit = { ...result, auditedAt: new Date().toISOString(), package: relative, svgSha256: report.hashes["view.svg"], screenshots, actuatorSweep: actuatorSamples.filter(s => s.overlapPoints > 0), thresholds: { note: "text overlap: >=4 px2 and >=4% of the smaller label with 1 px clearance; label over indicator: >=15%; minimum 10 px font at 1280 px width; carton jump: >3x median step; belt alias: step >=40% of mark period" } };
 await writeFile(join(outDir, "audit.json"), jsonText(audit));
 console.log(JSON.stringify({ package: relative, passed: audit.passed, counts: audit.counts, motion: audit.motion, findings: audit.findings.map(f => `${f.id} ${f.severity} ${f.category}: ${f.detail} [${f.scenarios.length} scenario(s)]`) }, null, 2));

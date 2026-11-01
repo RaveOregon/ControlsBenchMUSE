@@ -1,12 +1,91 @@
 {
   "schemaVersion": "controlsbench.machine-view.audit.v1",
   "packageId": "conveyor-demo-baseline.view.edc8a31062ac",
-  "passed": true,
+  "passed": false,
   "counts": {
-    "error": 0,
-    "warning": 0
+    "error": 4,
+    "warning": 2
   },
-  "findings": [],
+  "findings": [
+    {
+      "id": "A01",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert1-extended"
+      ],
+      "elements": [
+        "d1_paddle",
+        "entities"
+      ],
+      "detail": "divert1 drawn fully extended intersects a carton travelling on path \"main\" from 1.50 to 1.55 m (3 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A02",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert1-extended"
+      ],
+      "elements": [
+        "d1_paddle",
+        "entities"
+      ],
+      "detail": "divert1 drawn fully extended intersects a carton travelling on path \"exitA\" from 1.65 to 1.75 m (5 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A03",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert2-extended"
+      ],
+      "elements": [
+        "d2_paddle",
+        "entities"
+      ],
+      "detail": "divert2 drawn fully extended intersects a carton travelling on path \"main\" from 2.70 to 2.75 m (3 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A04",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert2-extended"
+      ],
+      "elements": [
+        "d2_paddle",
+        "entities"
+      ],
+      "detail": "divert2 drawn fully extended intersects a carton travelling on path \"exitB\" from 2.85 to 2.95 m (5 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A05",
+      "category": "actuator",
+      "severity": "warning",
+      "scenarios": [
+        "document-order"
+      ],
+      "elements": [
+        "d1_paddle",
+        "carton_container"
+      ],
+      "detail": "Cartons (#carton_container) are painted beneath #d1_paddle; draw the carton container after every actuator so a carton is never covered by equipment"
+    },
+    {
+      "id": "A06",
+      "category": "actuator",
+      "severity": "warning",
+      "scenarios": [
+        "document-order"
+      ],
+      "elements": [
+        "d2_paddle",
+        "carton_container"
+      ],
+      "detail": "Cartons (#carton_container) are painted beneath #d2_paddle; draw the carton container after every actuator so a carton is never covered by equipment"
+    }
+  ],
   "motion": {
     "frames": 320,
     "periodMs": 100,
@@ -141,7 +220,7 @@
     "cp5-missed-a@8400ms",
     "cp5-missed-a@8700ms"
   ],
-  "auditedAt": "2026-11-01T02:57:05.007Z",
+  "auditedAt": "2026-11-01T03:19:25.071Z",
   "package": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
   "svgSha256": "58236216e9e3bc517bf6af1c6e8b24d22a4372e3e241134b0475e564f43f5efc",
   "screenshots": [
@@ -159,6 +238,136 @@
     "runout.png",
     "stale.clean.png",
     "stale.png"
+  ],
+  "actuatorSweep": [
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.4,
+      "overlapPoints": 1
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.45,
+      "overlapPoints": 2
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.5,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.55,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.65,
+      "overlapPoints": 5
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.7,
+      "overlapPoints": 4
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.75,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.8,
+      "overlapPoints": 2
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.6,
+      "overlapPoints": 1
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.65,
+      "overlapPoints": 2
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.7,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.75,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 2.85,
+      "overlapPoints": 5
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 2.9,
+      "overlapPoints": 4
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 2.95,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 3,
+      "overlapPoints": 2
+    }
   ],
   "thresholds": {
     "note": "text overlap: >=4 px2 and >=4% of the smaller label with 1 px clearance; label over indicator: >=15%; minimum 10 px font at 1280 px width; carton jump: >3x median step; belt alias: step >=40% of mark period"

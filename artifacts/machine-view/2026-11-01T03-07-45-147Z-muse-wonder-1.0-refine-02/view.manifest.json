@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "controlsbench.machine-view.package.v1",
+  "packageId": "conveyor-demo-baseline.view.386c365a96d8",
+  "name": "Conveyor Bench — Demo Baseline: generated machine view",
+  "status": "generated",
+  "entry": {
+    "file": "view.svg",
+    "mediaType": "image/svg+xml",
+    "sha256": "eb74f3e393d73608c300e1f18307e6ebd0910af7075fc0176ed8c5a19f5d776f"
+  },
+  "files": {
+    "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+    "view-bindings.json": "9dd12bdd73cf11f94802ff6595ee05538f180e0bc556939b47f43c1a6c9cc823",
+    "view.svg": "eb74f3e393d73608c300e1f18307e6ebd0910af7075fc0176ed8c5a19f5d776f"
+  },
+  "compatibility": {
+    "machineId": "conveyor-demo-baseline",
+    "worldId": "conveyor-demo-baseline",
+    "worldPackageVersion": "0.5.0",
+    "stateSchemaVersion": "1.0.0",
+    "worldManifestSha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+    "worldSourceSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "specificationSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "signalMapVersion": "m8-conveyor-1.0.2",
+    "snapshotSchema": "controlsbench.machine-view.snapshot.v1",
+    "protocol": "controlsbench.machine-view.protocol.v1"
+  },
+  "selectableEquipment": [
+    "mainLane",
+    "drive",
+    "encoder",
+    "peEntry",
+    "peD1Approach",
+    "divert1",
+    "exitA",
+    "peExitA",
+    "peD2Approach",
+    "divert2",
+    "exitB",
+    "peExitB",
+    "runout",
+    "peRunout",
+    "stackLight"
+  ],
+  "units": {
+    "length": "m",
+    "speed": "m/s",
+    "position": "%",
+    "count": "count",
+    "current": "A"
+  },
+  "truthBoundary": "Shows simulated physical truth (generated world raw image and entities) and observed PLC outputs from host-supplied snapshots. Not the PLC HMI and not evidence of PLC correctness. No credentials, network access or command authority.",
+  "authority": {
+    "plcCommands": false,
+    "credentials": false,
+    "network": false,
+    "scripts": "host_runtime_only"
+  },
+  "provenance": {
+    "generation": "generation.json",
+    "validation": "validation.json",
+    "model": "muse-wonder-1.0",
+    "responseId": "resp_6ae6ae0cdb37ab3a51a04b95",
+    "generatedAt": "2026-11-01T03:12:13.473Z"
+  },
+  "layoutAssumptions": [
+    "Scale is 180 px per metre for all paths; main lane runs horizontally at y=260 from x=70 (0 m) to x=826 (4.2 m); stations match equipment.json inferred demo geometry, not measured dimensions or PLC thresholds.",
+    "Each exit branch has points every 0.05 m over its first 0.35 m with heading increasing about 6 degrees per step to 36 degrees, then continues straight at 36 degrees; each branch first point is exactly the main-path divert point and the drawn 36 px-wide chute follows the identical polyline.",
+    "Divert redesign: pivot is local (42,-24), 42 px downstream/east and 24 px north of the station. The 88 by 6 paddle at 0 percent is horizontal with centreline y=-24 and lower face y=-21, 3 px north of the belt edge at y=-18 and 5 px clear of the carton band at y=-16. Rotating 0 to 36 degrees places its segment from (42,-24) to about (113,28); its centreline is about 30 px north-east of the straight branch centreline and its carton-facing side about 27 px away, leaving about 11 px beyond the 16 px carton half-width. It therefore reads as an outer guide wall, not a lane-blocking arm, and does not reach approaching cartons west of the station.",
+    "Carton travel bands are treated as belt/chute width plus clearance: static labels and state lamps are kept well clear of the main and chute centrelines. Main photoeye lamps are 48 units above the main centreline; divert lamps are in callout boxes 88-160 units above it; chute photoeye and ready lamps/labels are offset about 80 units south-west in counter-rotated groups so their text is horizontal.",
+    "Colour and source meaning is shape plus colour, not shape alone: PLC observed outputs use square lamps or violet square frames, a thick violet stroke, saturated purple ON fill and pale violet OFF fill; world simulated truth uses circular lamps, teal stroke, green ON and pale grey OFF. Photoeyes turn amber when true, overload turns red, not-ready turns pale red. Unknown is white with dashed grey stroke, visually distinct from pale solid OFF. A PLC command alone never moves a paddle or paints physical motion.",
+    "Drive, encoder and stack light have no specified location and remain only in the clearly labelled side panel at x=948..1182, implying no measured location.",
+    "Carton template is 54 px (0.3 m at 180 px/m) by 32 px centred on its origin along +x and shows only the itemId line to avoid the long route word overflowing the nominal carton; no carton is drawn statically. Belt marks repeat every 40 px, extend one period beyond each belt end, are clipped to the belt, and move only from the host Encoder_Count belt binding.",
+    "The entity container is intentionally the final element in document order, after the template and all equipment and side-panel groups, so host carton clones are always painted above belts, chutes, photoeyes and both divert paddles."
+  ]
+}

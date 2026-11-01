@@ -38,7 +38,7 @@ html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#11151a}
 #cb-stage{position:absolute;top:24px;left:0;right:0;bottom:0}
 #cb-stage>svg{display:block;width:100%;height:100%}
 [data-cb-template]{display:none !important}
-text[data-cb-source],tspan[data-cb-source]{stroke:none !important}
+text[data-cb-source],tspan[data-cb-source],text[data-cb-health],tspan[data-cb-health]{stroke:none !important}
 [data-cb-health="held"]{opacity:.75 !important}
 [data-cb-health="stale"]{opacity:.5 !important;stroke-dasharray:4 3 !important}
 [data-cb-health="unknown"],[data-cb-health="bad"]{opacity:.3 !important;stroke-dasharray:2 2 !important}
@@ -123,12 +123,16 @@ export function requiredElementIds(pkg: LoadedPackage): string[] {
 export function prepareSvg(pkg: LoadedPackage): string {
   if (pkg.svg === null) throw new Error("Package has no validated view");
   const root = parseSvg(pkg.svg);
-  const valueBound = new Set(pkg.bindings.bindings.filter(b => b.kind !== "anchor" && b.kind !== "entities").map(b => b.element));
+  // Text bindings show the value as text and never carry data-cb-value (that state hook is for
+  // indicators); marking them would leave stale "unknown" state styling on live values.
+  const valueBound = new Set(pkg.bindings.bindings.filter(b => b.kind === "state" || b.kind === "rotate" || b.kind === "belt").map(b => b.element));
+  const healthOnly = new Set(pkg.bindings.bindings.filter(b => b.kind === "text").map(b => b.element));
   const templates = new Set(pkg.bindings.bindings.filter(b => b.kind === "entities").map(b => b.element));
   const labels = new Map(pkg.equipment.equipment.map(e => [e.id, e.label]));
   for (const { el } of walk(root)) {
     const id = el.attrs.id;
     if (id !== undefined && valueBound.has(id)) { el.attrs["data-cb-health"] = "unknown"; el.attrs["data-cb-value"] = "unknown"; }
+    else if (id !== undefined && healthOnly.has(id)) el.attrs["data-cb-health"] = "unknown";
     if (id !== undefined && templates.has(id)) el.attrs["data-cb-template"] = "";
     const equipmentId = el.attrs["data-cb-equipment"];
     if (equipmentId !== undefined && labels.has(equipmentId)) {

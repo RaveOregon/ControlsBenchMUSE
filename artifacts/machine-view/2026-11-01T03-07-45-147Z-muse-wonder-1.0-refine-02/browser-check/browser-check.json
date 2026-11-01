@@ -1,0 +1,144 @@
+{
+  "checkedAt": "2026-11-01T03:20:22.526Z",
+  "package": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.claude\\worktrees\\m10-machine-view\\artifacts\\machine-view\\2026-11-01T03-07-45-147Z-muse-wonder-1.0-refine-02",
+  "packageId": "conveyor-demo-baseline.view.386c365a96d8",
+  "svgSha256": "eb74f3e393d73608c300e1f18307e6ebd0910af7075fc0176ed8c5a19f5d776f",
+  "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "sandbox": "allow-scripts (no allow-same-origin)",
+  "evidenceClassOfReplay": "surrogate_contract (Gate B world trace; no PLC)",
+  "scenarios": [
+    {
+      "id": "01-no-data",
+      "note": "before any snapshot: every bound element unknown",
+      "frames": 0,
+      "result": {
+        "ready": 47,
+        "applied": 0,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "01-no-data.png"
+    },
+    {
+      "id": "02-a-approach",
+      "note": "Gate B cp5-routed-a, carton approaching divert 1 with D1 extended",
+      "frames": 1,
+      "result": {
+        "ready": 47,
+        "applied": 1,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "02-a-approach.png"
+    },
+    {
+      "id": "03-a-diverted",
+      "note": "Gate B cp5-routed-a, carton on exit A",
+      "frames": 1,
+      "result": {
+        "ready": 47,
+        "applied": 1,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "03-a-diverted.png"
+    },
+    {
+      "id": "04-b-diverted",
+      "note": "Gate B cp6-routed-b, carton on exit B",
+      "frames": 1,
+      "result": {
+        "ready": 47,
+        "applied": 1,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "04-b-diverted.png"
+    },
+    {
+      "id": "05-runout",
+      "note": "Gate B cp6-runout, carton at runout photoeye",
+      "frames": 1,
+      "result": {
+        "ready": 47,
+        "applied": 1,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "05-runout.png"
+    },
+    {
+      "id": "06-stale",
+      "note": "same as 03 but connector stale for 2.4 s",
+      "frames": 1,
+      "result": {
+        "ready": 47,
+        "applied": 1,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "06-stale.png"
+    },
+    {
+      "id": "07-unknown-world",
+      "note": "PLC outputs only; world image and entities not supplied",
+      "frames": 1,
+      "result": {
+        "ready": 47,
+        "applied": 1,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": "07-unknown-world.png"
+    },
+    {
+      "id": "08-replay-sequence",
+      "note": "full cp5-routed-a replay at 10 Hz through the runtime",
+      "frames": 59,
+      "result": {
+        "ready": 47,
+        "applied": 59,
+        "missing": [],
+        "errors": [],
+        "foreign": [],
+        "done": true
+      },
+      "passed": true,
+      "screenshot": null
+    }
+  ],
+  "cspProbe": {
+    "passed": true,
+    "result": {
+      "ready": 47,
+      "applied": 0,
+      "missing": [],
+      "errors": [],
+      "foreign": [],
+      "done": true
+    },
+    "note": "Markup containing <script> and an event handler was injected directly into srcdoc, bypassing the validator; no message from it reached the host."
+  },
+  "passed": true
+}

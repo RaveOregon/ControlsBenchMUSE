@@ -365,6 +365,8 @@ test("isolated srcdoc: sandbox without same-origin, CSP with no network, only th
   const stage = parseSvg(/<div id="cb-stage">([\s\S]*?)<\/div><style>/.exec(doc)![1]!);
   const ids = indexById(stage);
   assert.equal(ids.get("peEntry_beam")!.attrs["data-cb-health"], "unknown", "bound elements start unknown");
+  assert.equal(ids.get("panel_Encoder_Count")!.attrs["data-cb-health"], "unknown", "bound text starts unknown");
+  assert.equal(ids.get("panel_Encoder_Count")!.attrs["data-cb-value"], undefined, "bound text never carries indicator state, so state styling cannot hide its value");
   assert.equal(ids.get("carton_tpl")!.attrs["data-cb-template"], "");
   assert.equal(ids.get("peEntry_anchor")!.attrs.role, "button");
   assert.ok(!/opc\.tcp|password|MODEL_API_KEY/i.test(doc));
@@ -399,8 +401,17 @@ test("preserved Muse Wonder package still validates against the frozen contract 
   const record = JSON.parse(await read(`${dir}/generation.json`));
   assert.equal(record.status, "completed");
   if (record.purpose === "machine_view_refinement") {
-    assert.equal(record.disposition, "promoted");
-    assert.ok(record.audit.errors < record.parent.audit.errors, "promoted refinement has fewer audit errors than its parent");
+    if (record.disposition !== "promoted") {
+      // Promoted later, without a model call, after a host fix; the decision is preserved.
+      const promotion = JSON.parse(await read(`${dir}/promotion.json`));
+      assert.equal(promotion.disposition, "promoted_after_host_fix");
+      assert.equal(promotion.modelCalls, 0);
+      assert.equal(promotion.candidate.auditErrors, 0);
+      assert.ok(promotion.candidate.auditErrors < promotion.incumbent.auditErrors);
+    } else assert.ok(record.audit.errors < record.parent.audit.errors, "promoted refinement has fewer audit errors than its parent");
+    const audit = JSON.parse(await read(`${dir}/audit/audit.json`));
+    assert.equal(audit.svgSha256, sha256(files["view.svg"]!), "audit covers the promoted SVG");
+    assert.equal(audit.counts.error, 0);
     const parentRecord = JSON.parse(await read(`${record.parent.relativeDirectory}/generation.json`));
     assert.equal(parentRecord.status, "completed", "parent generation stays preserved");
   } else assert.equal(record.repairLineage.length, 0);

@@ -10,7 +10,7 @@ import { allowedElements } from "./svg.ts";
 
 const allowedElementsList = [...allowedElements];
 
-export const PROMPT_VERSION = "machine-view-prompt-v1";
+export const PROMPT_VERSION = "machine-view-prompt-v2";
 export const OUTPUT_SCHEMA_NAME = "controlsbench_machine_view_v1";
 
 const nullable = (type: string) => ({ type: [type, "null"] });
@@ -98,6 +98,8 @@ BINDING KINDS (fields not used by a kind must be null):
 - entities {element, container, entityType}: element is a template group for one ${type.type} drawn centred on (0,0) along +x at nominal length ${type.nominalLengthM} m on the main-path scale; container is an empty <g> the host fills with clones. The host sets each clone's transform from (path, positionM) through entityPaths and sets data-cb-health, data-cb-path, data-cb-route (A, B or unassigned), data-cb-jammed and data-cb-entity, and fills descendants marked data-cb-field with one of: ${entityFields.join(", ")}. Include at least data-cb-field="itemId". The template must not be inside the container, and no other binding may target an element inside the template.
 
 ENTITY PATHS: return entityPaths, one polyline per path in SVG user units with metre stations m (strictly increasing), covering ${paths}. Branch paths must begin exactly at the main path's point for their divert station. Use one common pixel-per-metre scale for all paths and draw the visible belt and chutes on these lines. Path value "runout" is drawn on "main".
+
+ACTUATORS AND DEPTH: the drawing must agree with the world's physics. A carton stays on the main path until a divert station, then (if that divert is fully extended) follows the branch path from that station. So a homed paddle must lie flush along the lane edge, entirely outside the carton band, and a fully extended paddle must lie beside the carton's actual route (main up to the station, then the branch), acting as a guide wall on the outer side of the turn. No part of a paddle, home or extended, may cross the carton band of the path the carton actually takes. Put the entity container after all equipment in document order so cartons are painted above the belt and every actuator. The audit sweeps cartons along each path with each divert homed and extended and rejects any intersection.
 
 COVERAGE: every channel in the binding contract must be bound by at least one state, text, rotate or belt binding. PLC commands (source plc_output) and world feedback (world_raw) for the same device must be visibly distinct and both shown, so a device is never painted as moving because a command is on: style [data-cb-source="plc"] differently from [data-cb-source="world"]. Equipment without a specified location (drive, encoder, stack light) belongs in a clearly labelled side panel; do not imply a measured location.
 
