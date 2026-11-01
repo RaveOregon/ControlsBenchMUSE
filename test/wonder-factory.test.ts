@@ -75,6 +75,7 @@ test("W3/W4: checkpoint cannot spend without its flag and live factory refuses a
     await assert.rejects(factory.create({ ledger: new CampaignLedger("no-handoff"), hmi, scope: { normal: true } }), /W4 not ready/);
     assert.equal(called, false);
     assert.throws(() => execFileSync(process.execPath, ["scripts/run-wonder-checkpoint.js"], { encoding: "utf8", windowsHide: true, stdio: "pipe" }), /W3 not run/);
+    for (const bound of ["0", "5", "1.5"]) assert.throws(() => execFileSync(process.execPath, ["scripts/run-wonder-checkpoint.js", "--authorize-paid-wonder-checkpoint", `--max-decisions=${bound}`], { encoding: "utf8", windowsHide: true, stdio: "pipe" }), /max-decisions must/);
   } finally {
     if (old !== undefined) process.env.CONTROLSBENCH_WONDER_PROCESS_MODULE = old;
     if (oldPin !== undefined) process.env.CONTROLSBENCH_WONDER_PROCESS_COMMIT = oldPin;
