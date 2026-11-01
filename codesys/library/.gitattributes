@@ -4,4 +4,4 @@ scripts/*.py text eol=lf
 *.library binary
 *.compiled-library binary
 *.project binary
-builds/**/result.json -text
+builds/**/result.json text eol=lf

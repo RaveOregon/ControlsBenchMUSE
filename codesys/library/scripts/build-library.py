@@ -18,6 +18,11 @@ def log(message):
 def digest(path):
     with open(path, 'rb') as f: return hashlib.sha256(f.read()).hexdigest()
 
+
+def write_json(path, value):
+    with open(path, 'wb') as f:
+        f.write((json.dumps(value, indent=2, separators=(',', ': ')) + '\n').encode('utf-8'))
+
 def messages():
     records = []
     errors = []
@@ -169,6 +174,6 @@ except Exception:
     log(result['error'])
 finally:
     if projects.primary is not None: projects.primary.close()
-    with open(os.path.join(OUT, 'result.json'), 'w') as f: json.dump(result, f, indent=2)
-    with open(os.path.join(ROOT, 'artifacts', 'latest.json'), 'w') as f: json.dump({'directory': OUT, 'status': result['status']}, f, indent=2)
+    write_json(os.path.join(OUT, 'result.json'), result)
+    write_json(os.path.join(ROOT, 'artifacts', 'latest.json'), {'directory': OUT, 'status': result['status']})
     log('Finished: ' + result['status'])
