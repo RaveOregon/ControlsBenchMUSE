@@ -84,8 +84,11 @@ button.chip:focus-visible { outline: 2px solid #9cc3ec; outline-offset: 2px; }
 .nav-meta .clock { font-family: var(--mono); color: var(--text); font-size: 13px; }
 
 /* ---------- Banners ---------- */
-.banners:empty { display: none; }
-.banner { display: flex; align-items: center; gap: 10px; padding: 7px 16px; font-size: 13px; border-bottom: 1px solid; }
+.banners { display: flex; height: 34px; background: var(--surface); border-bottom: 1px solid var(--line); overflow: hidden; }
+.banner { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0 16px; font-size: 13px; border-right: 1px solid; white-space: nowrap; }
+.banner .msg { overflow: hidden; text-overflow: ellipsis; }
+.banner.quiet { color: var(--faint); border-color: transparent; font-size: 12.5px; }
+.banner.bad { order: 0; } .banner.warn { order: 1; } .banner.info { order: 2; }
 .banner b { font-weight: 650; }
 .banner.warn { background: var(--warn-soft); border-color: var(--warn-line); color: #5a3b00; }
 .banner.bad { background: var(--alarm-soft); border-color: var(--alarm-line); color: #6d1712; }
@@ -107,9 +110,15 @@ main { flex: 1; padding: 12px 16px 16px; }
 .op-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: stretch; }
 
 /* ---------- Fault strip ---------- */
-.fault-strip { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; padding: 8px 14px; border-radius: var(--radius); background: var(--alarm-soft); border: 1px solid var(--alarm-line); border-left: 6px solid var(--alarm); }
-.fault-strip .fs-main { min-width: 0; }
-.fault-strip .fs-line { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.fault-strip { display: flex; align-items: center; gap: 14px; height: 60px; margin-bottom: 12px; padding: 0 14px; border-radius: var(--radius); background: var(--alarm-soft); border: 1px solid var(--alarm-line); border-left: 6px solid var(--alarm); }
+.fault-strip .fs-main { min-width: 0; flex: 1; }
+.fault-strip .fs-line { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; overflow: hidden; }
+.fault-strip .fs-line .cause, .fault-strip .when { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fault-strip.none { background: var(--surface); border-color: var(--line); border-left-color: #9aa4af; }
+.fault-strip.none .code { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.fault-strip.none .text { color: var(--muted); font-weight: 600; font-size: 14px; }
+.fault-strip.none .when { color: var(--faint); }
+.fault-strip.none a { color: var(--accent); font-weight: 600; }
 .fault-strip[hidden] { display: none; }
 .fault-strip .code { font: 700 13px var(--mono); color: #fff; background: var(--alarm); border-radius: 4px; padding: 3px 8px; white-space: nowrap; }
 .fault-strip .text { font-size: 16px; font-weight: 700; color: #5e140f; }

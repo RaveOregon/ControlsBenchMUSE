@@ -47,7 +47,8 @@ export function mountOperation(page: HTMLElement): () => void {
   // ----- Fault strip -----
   const fCode = h("span", { class: "code" }), fText = h("span", { class: "text" }), fCause = h("span", { class: "cause" }), fWhen = h("div", { class: "when" });
   const fLink = h("a", { text: "View alarm details →", attrs: { href: "#/alarms", "data-hmi-target": HMI_TARGETS.activeFaultLink } });
-  const strip = h("div", { class: "fault-strip", attrs: { role: "alert", "data-hmi-status": "active-fault", hidden: "" } }, fCode, h("div", { class: "fs-main" }, h("div", { class: "fs-line" }, fText, fCause), fWhen), fLink);
+  // Always present at a fixed height, so controls never move when a fault appears or clears.
+  const strip = h("div", { class: "fault-strip none", attrs: { role: "alert", "data-hmi-status": "active-fault" } }, fCode, h("div", { class: "fs-main" }, h("div", { class: "fs-line" }, fText, fCause), fWhen), fLink);
 
   // ----- Counts (PLC cumulative counters) -----
   const countEl = (label: string, status: string) => { const n = h("span", { class: "n", text: "—" }); return { n, el: h("div", { class: "count", attrs: { "data-hmi-status": status } }, n, h("span", { class: "l", text: label })) }; };
@@ -88,9 +89,9 @@ export function mountOperation(page: HTMLElement): () => void {
   const bStop = cmdButton("stop", HMI_TARGETS.stop, "STOP", "Removes run command", "stop");
   const bReset = cmdButton("reset", HMI_TARGETS.reset, "RESET", "Clears latch · no restart", "reset");
   const resetHint = h("div", { class: "muted", attrs: { style: "font-size:11.5px;align-self:center;line-height:1.35" }, text: "Reset never starts the machine. Start is a separate request." });
-  const segOn = h("button", { class: "seg", text: "ON", attrs: { type: "button", "data-hmi-target": HMI_TARGETS.autoOn, "aria-label": "Auto request on", "aria-pressed": "false" },
+  const segOn = h("button", { class: "seg", text: "ON", attrs: { type: "button", "data-hmi-target": HMI_TARGETS.autoOn, "aria-label": "Auto request on", "aria-pressed": "false", "data-action": "auto_on" },
     on: { click: e => void sendCommand("auto_on", HMI_TARGETS.autoOn, e as MouseEvent, "operation") } });
-  const segOff = h("button", { class: "seg", text: "OFF", attrs: { type: "button", "data-hmi-target": HMI_TARGETS.autoOff, "aria-label": "Auto request off", "aria-pressed": "false" },
+  const segOff = h("button", { class: "seg", text: "OFF", attrs: { type: "button", "data-hmi-target": HMI_TARGETS.autoOff, "aria-label": "Auto request off", "aria-pressed": "false", "data-action": "auto_off" },
     on: { click: e => void sendCommand("auto_off", HMI_TARGETS.autoOff, e as MouseEvent, "operation") } });
   const autoRow = h("div", { class: "auto-switch", attrs: { role: "group", "aria-label": "Auto request" } },
     h("div", { class: "lbl" }, "AUTO", h("small", { text: "Retained request bit" })), segOn, segOff);
@@ -119,8 +120,13 @@ export function mountOperation(page: HTMLElement): () => void {
     const st = store.state; if (!st) return;
     // Fault strip
     const fault = st.alarms.active.find(a => a.kind === "fault") ?? st.alarms.active.find(a => a.kind === "exception");
-    show(strip, !!fault);
-    if (fault) {
+    if (!fault) {
+      setClass(strip, "fault-strip none");
+      setText(fCode, "NO FAULT"); setText(fText, "No active machine fault"); setText(fCause, ""); fCause.title = "";
+      setText(fWhen, st.snapshot ? `Latest PLC observation ${fmtTime(st.snapshot.receivedAtIso)}${store.fresh() ? "" : " (not fresh)"}` : "No PLC observation yet");
+      setText(fLink, "Alarm history →"); setAttr(fLink, "href", "#/alarms");
+    } else {
+      setText(fLink, "View alarm details →");
       setClass(strip, `fault-strip${fault.kind === "exception" ? " exception" : ""}`);
       setText(fCode, `${fault.kind === "fault" ? "FAULT" : "EXCEPTION"} ${fault.code}`);
       setText(fText, fault.plcText || "(no PLC text)");

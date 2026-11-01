@@ -12,7 +12,7 @@ import { OperatorCommands, type CommandRequest } from "./commands.ts";
 import type { FixtureControl, FixturePlc } from "./fixture.ts";
 import { HmiJournal } from "./journal.ts";
 import { PlcLink, type TransportFactory } from "./link.ts";
-import type { AgentActionView, ClientView, CommandAction, CommandView, HmiStateView, IdentityView, OwnershipView, SnapshotView, TargetRect } from "./protocol.ts";
+import type { AgentActionView, ClientView, CommandAction, CommandView, HmiStateView, HmiStreamMessage, IdentityView, OwnershipView, SnapshotView, TargetRect } from "./protocol.ts";
 import { HMI_PROTOCOL_VERSION } from "./protocol.ts";
 import { EXPECTED_BUILD_ID, EXPECTED_INTERFACE_VERSION, MAP_VERSION, P, resetPreconditions, startPreconditions } from "./signals.ts";
 
@@ -61,6 +61,9 @@ export class HmiService {
   url = "";
   readonly #o: HmiServiceOptions;
   readonly #listeners = new Set<(state: HmiStateView) => void>();
+  readonly #controlListeners = new Set<(message: Extract<HmiStreamMessage, { type: "targets-request" }>) => void>();
+  readonly #targetRequests = new Map<string, () => void>();
+  #targetRequestSequence = 0;
   readonly #clients = new Map<string, ClientView & { label: string }>();
   readonly #targets = new Map<string, { route: string; viewport: { width: number; height: number }; publishedAtIso: string; targets: TargetRect[] }>();
   readonly #agentActions = new Map<string, AgentActionView>();
@@ -188,6 +191,17 @@ export class HmiService {
   }
 
   subscribe(listener: (state: HmiStateView) => void): () => void { this.#listeners.add(listener); return () => this.#listeners.delete(listener); }
+  subscribeControl(listener: (message: Extract<HmiStreamMessage, { type: "targets-request" }>) => void): () => void { this.#controlListeners.add(listener); return () => this.#controlListeners.delete(listener); }
+
+  /** Asks a page to republish its targets as laid out now; resolves when it has. */
+  refreshTargets(clientSessionId: string, timeoutMs = 1500): Promise<void> {
+    const requestId = `targets-${++this.#targetRequestSequence}`;
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => { this.#targetRequests.delete(requestId); reject(new Error(`Page ${clientSessionId} did not republish its targets within ${timeoutMs} ms`)); }, timeoutMs);
+      this.#targetRequests.set(requestId, () => { clearTimeout(timer); resolve(); });
+      for (const l of this.#controlListeners) l({ type: "targets-request", requestId, clientSessionId });
+    });
+  }
 
   #notify(): void {
     if (this.#notifyTimer) return;
@@ -223,6 +237,8 @@ export class HmiService {
       return id && ID.test(id) && x !== undefined && y !== undefined && w !== undefined && h !== undefined ? [{ id, label: str(t.label, 80) ?? id, x, y, width: w, height: h, enabled: t.enabled === true, route }] : [];
     });
     this.#targets.set(client.clientSessionId, { route, viewport: { width: num(vp?.width) ?? 0, height: num(vp?.height) ?? 0 }, publishedAtIso: new Date().toISOString(), targets });
+    const requestId = str(body.requestId, 40);
+    if (requestId) { this.#targetRequests.get(requestId)?.(); this.#targetRequests.delete(requestId); }
     return { count: targets.length };
   }
 
@@ -251,7 +267,10 @@ export class HmiService {
     const client = typeof body.clientSessionId === "string" ? this.#client(body.clientSessionId) : undefined;
     const input = body.input as Record<string, unknown> | undefined;
     const uiActionRef = input && client ? this.recordInput({ ...input, clientSessionId: client.clientSessionId }) : undefined;
-    const agent = uiActionRef ? [...this.#agentActions.values()].find(a => a.pageInput?.reference === uiActionRef) : undefined;
+    const target = str(body.target, 80);
+    const agent = uiActionRef ? [...this.#agentActions.values()].find(a => a.pageInput?.reference === uiActionRef)
+      ?? [...this.#agentActions.values()].reverse().find(a => a.clientSessionId === client?.clientSessionId && a.targetId === target && !a.commandRequestId
+        && a.status === "delivered" && Date.now() - Date.parse(a.delivered?.atIso ?? "") < 3000) : undefined;
     const request: CommandRequest = { requestId: String(body.requestId ?? ""), action: body.action as CommandAction,
       origin: agent ? "agent_seam" : body.origin === "test" ? "test" : "operator_browser", clientSessionId: client?.clientSessionId, target: str(body.target, 80),
       uiActionRef, agentActionRef: agent?.reference };
@@ -300,6 +319,14 @@ export class HmiService {
     action.screen = { frameRef: str(body.frameRef, 200) ?? "", capturedAtIso: str(body.capturedAtIso, 40) ?? "", sha256: str(body.sha256, 64), renderedStatus: str(body.renderedStatus, 200) };
     action.status = "observed";
     this.journal.append("agent.action.screen", { reference: action.reference, screen: action.screen, commandRequestId: action.commandRequestId });
+    return structuredClone(action);
+  }
+
+  /** Delivered, but the page never reported the input on the intended target. */
+  agentActionInconclusive(reference: string, detail: string): AgentActionView {
+    const action = this.#agentAction(reference);
+    action.status = "inconclusive"; action.detail = detail;
+    this.journal.append("agent.action.inconclusive", { reference, detail });
     return structuredClone(action);
   }
 

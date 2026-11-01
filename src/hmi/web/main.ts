@@ -65,6 +65,10 @@ async function boot(): Promise<void> {
     const es = new EventSource(`/api/stream?client=${encodeURIComponent(store.clientSessionId)}`);
     es.addEventListener("state", e => store.set((JSON.parse((e as MessageEvent).data) as Extract<HmiStreamMessage, { type: "state" }>).state));
     es.addEventListener("heartbeat", () => { store.lastMessageMs = Date.now(); });
+    es.addEventListener("targets-request", e => {
+      const m = JSON.parse((e as MessageEvent).data) as Extract<HmiStreamMessage, { type: "targets-request" }>;
+      if (m.clientSessionId === store.clientSessionId) publishTargets(m.requestId);
+    });
     es.onerror = () => { if (store.serviceConnected) { store.serviceConnected = false; store.emit(); } };
   };
   connect();
@@ -77,18 +81,19 @@ async function boot(): Promise<void> {
   let targetTimer = 0, lastTargets = "";
   function scheduleTargets(): void {
     if (targetTimer || !store.clientSessionId) return;
-    targetTimer = window.setTimeout(() => {
-      targetTimer = 0;
+    targetTimer = window.setTimeout(() => { targetTimer = 0; publishTargets(); }, 150);
+  }
+  /** Publishes the visible targets as laid out now. A requestId answers a service request and is never deduplicated. */
+  function publishTargets(requestId?: string): void {
       const targets = [...document.querySelectorAll<HTMLElement>("[data-hmi-target]")].filter(el => el.offsetParent !== null).map(el => {
         const r = el.getBoundingClientRect();
         return { id: el.dataset.hmiTarget!, label: el.getAttribute("aria-label") ?? el.textContent?.trim().slice(0, 80) ?? "", x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height),
           enabled: !(el as HTMLButtonElement).disabled };
       });
       const body = JSON.stringify({ route, targets, w: innerWidth, h: innerHeight });
-      if (body === lastTargets) return;
+      if (!requestId && body === lastTargets) return;
       lastTargets = body;
-      void post("/api/targets", { clientSessionId: store.clientSessionId, route, viewport: { width: innerWidth, height: innerHeight, devicePixelRatio }, targets }).catch(() => { lastTargets = ""; });
-    }, 150);
+      void post("/api/targets", { clientSessionId: store.clientSessionId, route, viewport: { width: innerWidth, height: innerHeight, devicePixelRatio }, targets, requestId }).catch(() => { lastTargets = ""; });
   }
   window.addEventListener("resize", scheduleTargets);
 

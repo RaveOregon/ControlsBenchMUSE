@@ -184,7 +184,9 @@ export interface HmiStateView {
 
 export type HmiStreamMessage =
   | { type: "state"; state: HmiStateView }
-  | { type: "heartbeat"; serverNowIso: string };
+  | { type: "heartbeat"; serverNowIso: string }
+  /** Asks one page to republish its target rectangles as laid out now (before an agent click). */
+  | { type: "targets-request"; requestId: string; clientSessionId: string };
 
 /** Stable semantic target IDs for browser automation and vision agents. */
 export const HMI_TARGETS = {

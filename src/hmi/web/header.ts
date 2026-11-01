@@ -35,12 +35,14 @@ export function mountHeader(root: HTMLElement): { update: () => void; setRoute: 
   const clock = h("span", { class: "clock", text: "--:--:--" });
   const cmdState = h("span", { text: "" });
   root.append(h("nav", { class: "navbar", attrs: { "aria-label": "HMI pages" } }, h("div", { class: "tabs" }, ...tabs.map(t => t.b)), h("div", { class: "nav-meta" }, cmdState, clock)));
-  const banners = h("div", { class: "banners", attrs: { "aria-live": "polite" } });
+  // Fixed-height message bar: banners never push the page down or move the controls.
+  const quiet = h("div", { class: "banner quiet", text: "No connection, simulation or ownership messages" });
+  const banners = h("div", { class: "banners", attrs: { "aria-live": "polite", "data-hmi-status": "message-bar" } }, quiet);
   root.append(banners);
   const bannerEls = new Map<string, HTMLElement>();
   const banner = (key: string, kind: "warn" | "bad" | "info", tag: string | null, html: string | null, title?: string) => {
     let el = bannerEls.get(key);
-    if (html === null) { if (el) { el.remove(); bannerEls.delete(key); } return; }
+    if (html === null) { if (el) { el.remove(); bannerEls.delete(key); } show(quiet, bannerEls.size === 0); return; }
     if (!el) {
       el = h("div", { attrs: { "data-hmi-banner": key, role: kind === "bad" ? "alert" : "status" } }, h("span", { class: "tag" }), h("span", { class: "msg" }));
       bannerEls.set(key, el); banners.append(el);
@@ -48,7 +50,8 @@ export function mountHeader(root: HTMLElement): { update: () => void; setRoute: 
     setClass(el, `banner ${kind}`);
     const t = el.querySelector(".tag") as HTMLElement; setText(t, tag ?? ""); show(t, !!tag);
     setText(el.querySelector(".msg")!, html);
-    setAttr(el, "title", title ?? null);
+    setAttr(el, "title", title ? `${html} — ${title}` : html);
+    show(quiet, bannerEls.size === 0);
   };
 
   function update(): void {

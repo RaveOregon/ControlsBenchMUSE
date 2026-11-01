@@ -130,6 +130,10 @@ export const OUTCOME_TEXT: Record<string, string> = {
   timed_out: "No PLC ack", failed: "Failed", refused: "Not sent"
 };
 export const ACTION_TEXT: Record<CommandAction, string> = { start: "Start", stop: "Stop", reset: "Reset", auto_on: "Auto on", auto_off: "Auto off" };
-export function outcomeLabel(c: CommandView): string { return c.outcome === "applied" && c.ackKind === "readback" ? "Readback confirmed" : OUTCOME_TEXT[c.outcome] ?? c.outcome; }
+export function outcomeLabel(c: CommandView): string {
+  const label = c.outcome === "applied" && c.ackKind === "readback" ? "Readback confirmed" : OUTCOME_TEXT[c.outcome] ?? c.outcome;
+  // Fixture acknowledgements are emulated; never call them PLC results.
+  return store.state?.identity.source.kind === "fixture" ? label.replace(" by PLC", " (fixture ack)").replace("No PLC ack", "No fixture ack") : label;
+}
 
 export const BUS = { navigate: (_route: string) => {} };

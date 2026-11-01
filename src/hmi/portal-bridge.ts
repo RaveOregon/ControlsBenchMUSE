@@ -45,6 +45,8 @@ export class PortalSessionBridge {
   async executeAgentAction(body: Record<string, unknown>): Promise<{ action: AgentActionView; command?: CommandView }> {
     const clientSessionId = this.portalClient();
     if (!clientSessionId || !this.#source || !this.hub.observing) throw Object.assign(new Error("No observed portal HMI session to operate"), { status: 409 });
+    // Re-read the layout immediately before delivery; a rectangle published earlier may no longer be where the control is.
+    await this.service.refreshTargets(clientSessionId);
     const requested = this.service.requestAgentAction({ ...body, clientSessionId });
     if (requested.status === "inconclusive" || !requested.targetRect) return { action: requested };
     const r = requested.targetRect;
@@ -68,6 +70,8 @@ export class PortalSessionBridge {
     const rendered = command && [...this.service.journal.tail].reverse().find(rec => rec.type === "ui.rendered" && rec.data.requestId === command.requestId);
     const observed = this.service.agentActionObserved({ reference: requested.reference, frameRef: frame.reference, capturedAtIso: frame.capturedAtIso, sha256: frame.sha256,
       renderedStatus: rendered ? `page rendered: ${String(rendered.data.text)} at ${rendered.atIso}` : command ? "page has not reported rendering this outcome" : undefined });
+    if (!observed.pageInput) return { action: this.service.agentActionInconclusive(requested.reference,
+      `Delivered at (${x}, ${y}), but the page recorded no input on ${requested.targetId}. No command was sent; the frame shows what the page displayed.`), command };
     return { action: observed, command };
   }
 }

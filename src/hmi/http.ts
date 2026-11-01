@@ -52,8 +52,9 @@ export function createHmiServer(service: HmiService, options: { heartbeatMs?: nu
     const send = (m: HmiStreamMessage) => { res.write(`event: ${m.type}\ndata: ${JSON.stringify(m)}\n\n`); if (client) service.touchClient(client); };
     send({ type: "state", state: service.state() });
     const off = service.subscribe(state => send({ type: "state", state }));
+    const offControl = service.subscribeControl(message => { if (!client || message.clientSessionId === client) send(message); });
     const beat = setInterval(() => send({ type: "heartbeat", serverNowIso: new Date().toISOString() }), options.heartbeatMs ?? 5000);
-    req.on("close", () => { off(); clearInterval(beat); });
+    req.on("close", () => { off(); offControl(); clearInterval(beat); });
   };
 
   const post: Record<string, (body: Record<string, unknown>) => unknown> = {
