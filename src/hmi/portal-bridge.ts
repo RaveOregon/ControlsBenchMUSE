@@ -19,6 +19,8 @@ export class PortalSessionBridge {
   readonly captureLabel: string;
   #source?: CdpWebVisuSource;
   #lastState?: string;
+  /** Page-side pointer inputs seen by Lane B's input script, to compare with what was dispatched. */
+  #inputs: Array<{ atMs: number; x?: number; y?: number; reference: string }> = [];
 
   constructor(service: HmiService, hub: HmiHub, captureLabel = "portal") { this.service = service; this.hub = hub; this.captureLabel = captureLabel; }
 
@@ -34,6 +36,8 @@ export class PortalSessionBridge {
       j.append("portal.session", { state: view.state, sessionId: view.sessionId, sourceId: view.sourceId, url: view.url, browser: view.browser, detail: view.detail });
     }
     if (change.frame) j.append("portal.frame", { reference: change.frame.reference, capturedAtIso: change.frame.capturedAtIso, requestedAtIso: change.frame.requestedAtIso, sha256: change.frame.sha256, pageUrl: change.frame.pageUrl });
+    if (change.action) this.#inputs.push({ atMs: Date.parse(change.action.atIso), x: change.action.x, y: change.action.y, reference: change.action.reference });
+    if (this.#inputs.length > 50) this.#inputs.shift();
     if (change.action) j.append("portal.input", { reference: change.action.reference, kind: change.action.kind, atIso: change.action.atIso, x: change.action.x, y: change.action.y, origin: change.action.origin });
   }
 
@@ -70,8 +74,12 @@ export class PortalSessionBridge {
     const rendered = command && [...this.service.journal.tail].reverse().find(rec => rec.type === "ui.rendered" && rec.data.requestId === command.requestId);
     const observed = this.service.agentActionObserved({ reference: requested.reference, frameRef: frame.reference, capturedAtIso: frame.capturedAtIso, sha256: frame.sha256,
       renderedStatus: rendered ? `page rendered: ${String(rendered.data.text)} at ${rendered.atIso}` : command ? "page has not reported rendering this outcome" : undefined });
-    if (!observed.pageInput) return { action: this.service.agentActionInconclusive(requested.reference,
-      `Delivered at (${x}, ${y}), but the page recorded no input on ${requested.targetId}. No command was sent; the frame shows what the page displayed.`), command };
+    if (!observed.pageInput) {
+      const seen = this.#inputs.find(i => i.atMs >= Date.parse(dispatchStartedAtIso) - 50);
+      const where = seen ? ` The page saw the pointer at (${seen.x}, ${seen.y}) [${seen.reference}]${seen.x !== x || seen.y !== y ? "; dispatch and page coordinates differ (window scaling or layout change)" : ""}.` : " The page reported no pointer input at all.";
+      return { action: this.service.agentActionInconclusive(requested.reference,
+        `Delivered at (${x}, ${y}), but the page recorded no input on ${requested.targetId}.${where} No command was sent; the frame shows what the page displayed.`), command };
+    }
     return { action: observed, command };
   }
 }
