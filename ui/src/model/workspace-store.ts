@@ -6,9 +6,31 @@
 
 import type { ActivityPhase, BudgetLimits, CheckStatus, EngineerCommand, MuseEvent, MuseEventBody, Provenance, RawValue, RuntimeFlagState, SourceClock, SourceMode, WorldRunInfo, ValueMetadata, CommandOutcome } from "./events.ts";
 import { isMeaningful } from "./events.ts";
+import type { HmiSessionView, HostEvidenceClass, HostInfo, ProjectionView } from "../../../src/host/protocol.ts";
 import { allPlannedChecks, defaultScope, type PlanCheck } from "./plan.ts";
 
-export type CampaignPhase = "ready" | "running" | "paused" | "stopped" | "completed" | "budget_hold";
+export type CampaignPhase = "ready" | "running" | "paused" | "stopped" | "completed" | "failed" | "budget_hold";
+
+/** Authoritative M9 campaign as delivered by the portal host. Rendered verbatim; never re-derived. */
+export interface HostedCampaignView {
+  campaignId: string;
+  label: string;
+  evidenceClass: HostEvidenceClass;
+  diagnosisMode: "known" | "blind";
+  projection?: ProjectionView;
+  /** Last accepted campaign sequence. */
+  throughSequence: number;
+  /** Envelope integrity failure; once set no further events are applied. */
+  integrityError?: string;
+}
+
+export interface HostLinkView {
+  state: "connected" | "reconnecting" | "disconnected";
+  detail: string;
+  info?: HostInfo;
+}
+
+const NOT_OBSERVED: HmiSessionView = { state: "not_configured", recording: false, frameCount: 0, detail: "No HMI source configured. HMI not observed/tested.", changedAtIso: "" };
 
 export interface CheckState extends PlanCheck {
   status: CheckStatus;
@@ -124,7 +146,12 @@ export interface EpisodeState {
 }
 
 export interface WorkspaceState {
-  commands: Record<string, { requestId: string; command: string; payload?: Record<string, unknown>; outcome: CommandOutcome; deadlineMs: number; detail?: string }>;
+  commands: Record<string, { requestId: string; command: string; payload?: Record<string, unknown>; outcome: CommandOutcome; deadlineMs: number; detail?: string; evidenceRefs?: string[] }>;
+  /** Present only when a portal host supplies an M9 campaign. */
+  hosted?: HostedCampaignView;
+  host?: HostLinkView;
+  /** Actual HMI capture session. `not_configured` means HMI not observed/tested. */
+  hmi: HmiSessionView;
   findingReviews: Record<string, "accepted" | "follow_up">;
   mode: SourceMode;
   phase: CampaignPhase;
@@ -174,7 +201,8 @@ const KEY_EVENT_LIMIT = 3_000;
 
 /** High-rate records that stay in the trace but not in the key-event list. */
 export function isDense(event: MuseEvent): boolean {
-  return event.kind === "connector.commit" || event.kind === "connector.ack" || event.kind === "plc.heartbeat" || (event.kind === "raw.input" && typeof event.value !== "boolean");
+  return event.kind === "connector.commit" || event.kind === "connector.ack" || event.kind === "plc.heartbeat" || (event.kind === "raw.input" && typeof event.value !== "boolean")
+    || (event.kind === "hmi.observation" && event.periodic === true) || event.kind === "budget.accounted";
 }
 
 function pushBounded(list: MuseEvent[], event: MuseEvent, limit: number): void {
@@ -193,6 +221,7 @@ export function createWorkspaceState(mode: SourceMode, signals: SignalDefinition
   const checks = Object.fromEntries(allPlannedChecks().map((check) => [check.id, { ...check, status: scope[check.id] ? "planned" : "out_of_scope" } as CheckState]));
   return {
     commands: {},
+    hmi: { ...NOT_OBSERVED },
     findingReviews: {},
     mode,
     phase: "ready",
@@ -247,13 +276,33 @@ export class WorkspaceStore {
   }
 
   /** Replace state for a fresh campaign while keeping scope, suppression, and simulation authority. */
-  resetForNewCampaign(): void {
+  resetForNewCampaign(options: { keepCommands?: boolean } = {}): void {
     const previous = this.state;
     const next = createWorkspaceState(previous.mode, previous.signals, previous.scope);
     next.suppressedOutputs = { ...previous.suppressedOutputs };
     next.connection.simulationRequested = previous.connection.simulationRequested;
     next.inputs = previous.inputs;
+    // The HMI session and host link outlive a campaign; command outcomes may still be pending.
+    next.hmi = previous.hmi;
+    next.host = previous.host;
+    if (options.keepCommands) next.commands = { ...previous.commands };
     this.state = next;
+    this.#emit();
+  }
+
+  /** Host-delivered M9 view. Not evidence: the evidence arrives as events. */
+  setHosted(view: HostedCampaignView | undefined): void {
+    this.state.hosted = view;
+    this.#emit();
+  }
+
+  setHostLink(link: HostLinkView): void {
+    this.state.host = link;
+    this.#emit();
+  }
+
+  setHmiSession(view: HmiSessionView): void {
+    this.state.hmi = view;
     this.#emit();
   }
 
@@ -471,7 +520,7 @@ export class WorkspaceStore {
       case "command.outcome": {
         const previous = s.commands[event.requestId];
         if (previous && previous.outcome !== "pending") break;
-        s.commands[event.requestId] = { requestId: event.requestId, command: event.command, payload: event.payload, outcome: event.outcome, deadlineMs: event.deadlineMs, detail: event.detail };
+        s.commands[event.requestId] = { requestId: event.requestId, command: event.command, payload: event.payload, outcome: event.outcome, deadlineMs: event.deadlineMs, detail: event.detail, evidenceRefs: event.evidenceRefs };
         if (event.outcome !== "applied") break;
         // Only an application acknowledgement changes confirmed coordinator state.
         // Raw input images and SimulationApplied still require connector observations.
@@ -707,10 +756,31 @@ export class WorkspaceStore {
         }
         break;
       }
+      case "campaign.status":
+        // M9 lifecycle is authoritative for a hosted campaign.
+        switch (event.status) {
+          case "preparing": s.phase = "ready"; break;
+          case "running": s.phase = "running"; s.startedAtMs ??= event.atMs; s.finalized = false; s.endedAtMs = undefined; break;
+          case "paused": s.phase = s.runtimeFlag?.state === "budget_stop" ? "budget_hold" : "paused"; break;
+          case "stopped": case "completed": case "failed":
+            s.phase = event.status;
+            this.#finalize(event.atMs, `Campaign ${event.status} before a verdict`);
+            break;
+        }
+        break;
+      case "budget.accounted":
+        s.budget.spentUsd = event.campaignUsd;
+        s.budget.reservedUsd = event.outstandingReservedUsd;
+        s.budget.level = budgetLevel(s.budget.spentUsd, s.budget.limits);
+        break;
       case "audit.check":
       case "agent.action":
       case "engineer.command":
       case "engineer.steer":
+      case "campaign.record":
+      case "campaign.action":
+      case "campaign.finding":
+      case "hmi.observation":
         break;
     }
   }
