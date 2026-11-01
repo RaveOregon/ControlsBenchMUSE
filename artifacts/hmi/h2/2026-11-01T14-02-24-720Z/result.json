@@ -1,0 +1,2318 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "directory": "artifacts/hmi/h2/2026-11-01T14-02-24-720Z",
+  "startedAtIso": "2026-11-01T14:02:24.811Z",
+  "modelCalls": 0,
+  "steps": [
+    {
+      "step": "baseline",
+      "atIso": "2026-11-01T14:02:30.971Z",
+      "summary": "Mode Stopped, fault 0, item false, completion pending false, sim true, boot 1580380594210",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": true,
+        "SimApplied": true,
+        "Active_Encoder_Count": 1386,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      },
+      "alarms": []
+    },
+    {
+      "step": "portal-session",
+      "atIso": "2026-11-01T14:02:33.304Z",
+      "summary": "Portal http://127.0.0.1:5189 observing HMI session hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276 (Edg/156.0.4314.58 · target 511EDDEF3945841D15AC7B8F71CD3C48 · headless)",
+      "hmiSession": {
+        "state": "observing",
+        "sourceId": "webvisu:127.0.0.1:5181",
+        "sourceKind": "webvisu",
+        "url": "http://127.0.0.1:5181/?capture=portal",
+        "recording": true,
+        "frameCount": 1,
+        "captureIntervalMs": 1000,
+        "staleAfterMs": 3000,
+        "detail": "Observing http://127.0.0.1:5181/?capture=portal",
+        "changedAtIso": "2026-11-01T14:02:33.264Z",
+        "sessionId": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276",
+        "browser": "Edg/156.0.4314.58 · target 511EDDEF3945841D15AC7B8F71CD3C48 · headless",
+        "startedAtIso": "2026-11-01T14:02:32.621Z",
+        "lastFrame": {
+          "reference": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:1",
+          "sessionId": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276",
+          "frameSequence": 1,
+          "capturedAtIso": "2026-11-01T14:02:33.254Z",
+          "requestedAtIso": "2026-11-01T14:02:32.624Z",
+          "contentType": "image/jpeg",
+          "byteLength": 127558,
+          "sha256": "c7e30b9c133626a445b93b992221a25c88f4e654d4ae50e407e82ece74c29f96",
+          "mediaUrl": "/api/hmi/frames/hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276/1",
+          "pageUrl": "http://127.0.0.1:5181/?capture=portal"
+        }
+      },
+      "portalUrl": "http://127.0.0.1:5189",
+      "client": "hmi-client-1-370acd4b"
+    },
+    {
+      "step": "coordinator",
+      "atIso": "2026-11-01T14:02:36.534Z",
+      "summary": "Simulation applied; world at rest with divert home limits and destinations ready",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 0,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "auto-on",
+      "atIso": "2026-11-01T14:02:37.023Z",
+      "summary": "AutoRequest readback is true. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:1",
+        "requester": "h2:auto-on",
+        "targetId": "cmd.auto.on",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:36.575Z",
+        "targetRect": {
+          "id": "cmd.auto.on",
+          "label": "Auto request on",
+          "x": 1061,
+          "y": 444,
+          "width": 86,
+          "height": 38,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:23:9ac47623cb26",
+          "atIso": "2026-11-01T14:02:36.611Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.auto.on"
+        },
+        "commandRequestId": "hmi-autoon-mvxwgcdu-12ddo311yxbg1q",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:36.575Z",
+          "x": 1104,
+          "y": 463,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:36.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:6",
+          "capturedAtIso": "2026-11-01T14:02:37.009Z",
+          "sha256": "47e2de25c17f5a900f72bdbd9a4ed23a9bf4cd1b5669009f1fcc1879531c0216",
+          "renderedStatus": "page rendered: Auto on · Readback confirmed at 2026-11-01T14:02:36.676Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-autoon-mvxwgcdu-12ddo311yxbg1q",
+        "action": "auto_on",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.auto.on",
+        "uiActionRef": "hmi-journal:23:9ac47623cb26",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:1",
+        "requestedAtIso": "2026-11-01T14:02:36.612Z",
+        "outcome": "applied",
+        "detail": "AutoRequest readback is true. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.",
+        "evidenceRefs": [
+          "hmi-journal:25:446956026aed",
+          "hmi-journal:28:d6ee44c97642",
+          "hmi-journal:29:3cb29fabd5f4"
+        ],
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.AutoRequest",
+            "value": true,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:36.615Z",
+        "ackKind": "readback",
+        "acknowledgedAtIso": "2026-11-01T14:02:36.617Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:36.617Z",
+          "mode": 0,
+          "modeText": "Stopped",
+          "faultCode": 0,
+          "motorRunCmd": false,
+          "driveRunningFb": false,
+          "autoRequest": true
+        }
+      }
+    },
+    {
+      "step": "start",
+      "atIso": "2026-11-01T14:02:39.547Z",
+      "summary": "PLC acknowledged GVL_DemoRead.Status.StartAck=4 with StartAccepted=TRUE. Mode at acknowledgement: Auto. Running: encoder 316 → 1063",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:2",
+        "requester": "h2:start",
+        "targetId": "cmd.start",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:37.036Z",
+        "targetRect": {
+          "id": "cmd.start",
+          "label": "START: Requires Auto on",
+          "x": 937,
+          "y": 307,
+          "width": 153,
+          "height": 56,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:38:681ca12558c3",
+          "atIso": "2026-11-01T14:02:37.057Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.start"
+        },
+        "commandRequestId": "hmi-start-mvxwgcqn-hg3i5pcbbeve",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:37.036Z",
+          "x": 1014,
+          "y": 335,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:37.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:8",
+          "capturedAtIso": "2026-11-01T14:02:37.514Z",
+          "sha256": "80bbf3e0370b02853ed976181a3f706068eabeb5e108537b2a5a8762f271da06",
+          "renderedStatus": "page rendered: Start · Applied by PLC at 2026-11-01T14:02:37.203Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-start-mvxwgcqn-hg3i5pcbbeve",
+        "action": "start",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.start",
+        "uiActionRef": "hmi-journal:38:681ca12558c3",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:2",
+        "requestedAtIso": "2026-11-01T14:02:37.058Z",
+        "outcome": "applied",
+        "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=4 with StartAccepted=TRUE. Mode at acknowledgement: Auto.",
+        "evidenceRefs": [
+          "hmi-journal:40:98542e3d17cb",
+          "hmi-journal:42:aba8a65b770b",
+          "hmi-journal:44:ffba991a7f7b"
+        ],
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is Stopped",
+            "met": true,
+            "observed": "Mode=Stopped"
+          },
+          {
+            "id": "auto",
+            "label": "Auto request is on",
+            "met": true,
+            "observed": "AutoRequest=true"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": true,
+            "observed": "clear"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": true,
+            "observed": "CompletionPending=false"
+          }
+        ],
+        "expectedSequence": 4,
+        "ackField": "GVL_DemoRead.Status.StartAck",
+        "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+        "ackKind": "plc_sequence_ack",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 4,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:37.065Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:37.125Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:37.125Z",
+          "mode": 1,
+          "modeText": "Auto",
+          "faultCode": 0,
+          "motorRunCmd": true,
+          "driveRunningFb": false,
+          "autoRequest": true
+        },
+        "accepted": true
+      },
+      "plc": {
+        "Mode": 1,
+        "ModeText": "Auto",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": true,
+        "Active_Drive_RunningFB": true,
+        "AutoRequest": true,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 1063,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "stop",
+      "atIso": "2026-11-01T14:02:41.352Z",
+      "summary": "PLC echoed GVL_DemoRead.Status.StopAck=2: Stop consumed. Mode at acknowledgement: Stopping. Coast: encoder 1211 → 1211; Mode Stopped",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:3",
+        "requester": "h2:stop",
+        "targetId": "cmd.stop",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:39.554Z",
+        "targetRect": {
+          "id": "cmd.stop",
+          "label": "STOP: Removes run command",
+          "x": 1098,
+          "y": 307,
+          "width": 153,
+          "height": 56,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:59:1b0fa4c96e8e",
+          "atIso": "2026-11-01T14:02:39.568Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.stop"
+        },
+        "commandRequestId": "hmi-stop-mvxwgeoe-1t6omy71vej176",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:39.554Z",
+          "x": 1175,
+          "y": 335,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:39.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:11",
+          "capturedAtIso": "2026-11-01T14:02:40.042Z",
+          "sha256": "8f02f90b31e8addafdaf39bf0826be35d4c414b5ea5773fc431dd583904bb7a9",
+          "renderedStatus": "page rendered: Stop · Applied by PLC at 2026-11-01T14:02:39.699Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-stop-mvxwgeoe-1t6omy71vej176",
+        "action": "stop",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.stop",
+        "uiActionRef": "hmi-journal:59:1b0fa4c96e8e",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:3",
+        "requestedAtIso": "2026-11-01T14:02:39.569Z",
+        "outcome": "applied",
+        "detail": "PLC echoed GVL_DemoRead.Status.StopAck=2: Stop consumed. Mode at acknowledgement: Stopping.",
+        "evidenceRefs": [
+          "hmi-journal:61:05df1e40e1df",
+          "hmi-journal:63:dde9baa8611a",
+          "hmi-journal:65:02b50da6e852"
+        ],
+        "expectedSequence": 2,
+        "ackField": "GVL_DemoRead.Status.StopAck",
+        "ackKind": "plc_sequence_echo",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StopSequence",
+            "value": 2,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:39.583Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:39.641Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:39.641Z",
+          "mode": 2,
+          "modeText": "Stopping",
+          "faultCode": 0,
+          "motorRunCmd": false,
+          "driveRunningFb": true,
+          "autoRequest": true
+        }
+      },
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 1211,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "start-2",
+      "atIso": "2026-11-01T14:02:42.073Z",
+      "summary": "PLC acknowledged GVL_DemoRead.Status.StartAck=5 with StartAccepted=TRUE. Mode at acknowledgement: Auto.",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:4",
+        "requester": "h2:start-2",
+        "targetId": "cmd.start",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:41.357Z",
+        "targetRect": {
+          "id": "cmd.start",
+          "label": "START: Requires Auto on",
+          "x": 937,
+          "y": 307,
+          "width": 153,
+          "height": 56,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:77:9f6601bbb6df",
+          "atIso": "2026-11-01T14:02:41.365Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.start"
+        },
+        "commandRequestId": "hmi-start-mvxwgg2c-1mpnv5j19axs27",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:41.357Z",
+          "x": 1014,
+          "y": 335,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:41.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:14",
+          "capturedAtIso": "2026-11-01T14:02:41.771Z",
+          "sha256": "ed2aa34eed747d24fb799b91064db7fc16f5c0a4d774b390e75024e3e2fa6120",
+          "renderedStatus": "page rendered: Start · Applied by PLC at 2026-11-01T14:02:41.481Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-start-mvxwgg2c-1mpnv5j19axs27",
+        "action": "start",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.start",
+        "uiActionRef": "hmi-journal:77:9f6601bbb6df",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:4",
+        "requestedAtIso": "2026-11-01T14:02:41.365Z",
+        "outcome": "applied",
+        "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=5 with StartAccepted=TRUE. Mode at acknowledgement: Auto.",
+        "evidenceRefs": [
+          "hmi-journal:79:609b5256069d",
+          "hmi-journal:82:3d705b283a5c",
+          "hmi-journal:83:358e4a108c43"
+        ],
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is Stopped",
+            "met": true,
+            "observed": "Mode=Stopped"
+          },
+          {
+            "id": "auto",
+            "label": "Auto request is on",
+            "met": true,
+            "observed": "AutoRequest=true"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": true,
+            "observed": "clear"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": true,
+            "observed": "CompletionPending=false"
+          }
+        ],
+        "expectedSequence": 5,
+        "ackField": "GVL_DemoRead.Status.StartAck",
+        "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+        "ackKind": "plc_sequence_ack",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 5,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:41.369Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:41.415Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:41.415Z",
+          "mode": 1,
+          "modeText": "Auto",
+          "faultCode": 0,
+          "motorRunCmd": true,
+          "driveRunningFb": false,
+          "autoRequest": true
+        },
+        "accepted": true
+      }
+    },
+    {
+      "step": "auto-off",
+      "atIso": "2026-11-01T14:02:43.096Z",
+      "summary": "AutoRequest readback is false. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change. Mode → Stopped",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:5",
+        "requester": "h2:auto-off",
+        "targetId": "cmd.auto.off",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:42.093Z",
+        "targetRect": {
+          "id": "cmd.auto.off",
+          "label": "Auto request off",
+          "x": 1154,
+          "y": 444,
+          "width": 86,
+          "height": 38,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:94:a729b74ed30b",
+          "atIso": "2026-11-01T14:02:42.118Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.auto.off"
+        },
+        "commandRequestId": "hmi-autooff-mvxwggn8-a9ldmrvfz6nj",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:42.094Z",
+          "x": 1197,
+          "y": 463,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:42.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:17",
+          "capturedAtIso": "2026-11-01T14:02:42.536Z",
+          "sha256": "39414a9ccb3f2326478367c27291b7ca99d1687a25be3a8839116a2353892a9f",
+          "renderedStatus": "page rendered: Auto off · Readback confirmed at 2026-11-01T14:02:42.177Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-autooff-mvxwggn8-a9ldmrvfz6nj",
+        "action": "auto_off",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.auto.off",
+        "uiActionRef": "hmi-journal:94:a729b74ed30b",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:5",
+        "requestedAtIso": "2026-11-01T14:02:42.118Z",
+        "outcome": "applied",
+        "detail": "AutoRequest readback is false. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.",
+        "evidenceRefs": [
+          "hmi-journal:96:3d0339ff894e",
+          "hmi-journal:98:c317ca6791ac",
+          "hmi-journal:99:d34d06cf4992"
+        ],
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.AutoRequest",
+            "value": false,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:42.146Z",
+        "ackKind": "readback",
+        "acknowledgedAtIso": "2026-11-01T14:02:42.147Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:42.147Z",
+          "mode": 2,
+          "modeText": "Stopping",
+          "faultCode": 0,
+          "motorRunCmd": false,
+          "driveRunningFb": true,
+          "autoRequest": false
+        }
+      },
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": false,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 1400,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "start-rejected",
+      "atIso": "2026-11-01T14:02:43.574Z",
+      "summary": "PLC acknowledged GVL_DemoRead.Status.StartAck=6 with StartAccepted=FALSE: request refused by the controller. See observed preconditions.",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:6",
+        "requester": "h2:start-refused-by-plc",
+        "targetId": "cmd.start",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:43.104Z",
+        "targetRect": {
+          "id": "cmd.start",
+          "label": "START: Requires Auto on",
+          "x": 937,
+          "y": 307,
+          "width": 153,
+          "height": 56,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:111:4b93affd37e6",
+          "atIso": "2026-11-01T14:02:43.129Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.start"
+        },
+        "commandRequestId": "hmi-start-mvxwghfa-ii8q2q1dlo4ep",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:43.104Z",
+          "x": 1014,
+          "y": 335,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:43.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:20",
+          "capturedAtIso": "2026-11-01T14:02:43.552Z",
+          "sha256": "1c0c5058dfa38bd7f5a68e3b286f775a37bc277e3d0ad9cfb8312006db71e70e",
+          "renderedStatus": "page rendered: Start · Rejected by PLC at 2026-11-01T14:02:43.185Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-start-mvxwghfa-ii8q2q1dlo4ep",
+        "action": "start",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.start",
+        "uiActionRef": "hmi-journal:111:4b93affd37e6",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:6",
+        "requestedAtIso": "2026-11-01T14:02:43.129Z",
+        "outcome": "rejected",
+        "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=6 with StartAccepted=FALSE: request refused by the controller. See observed preconditions.",
+        "evidenceRefs": [
+          "hmi-journal:113:2b3d4a64c106",
+          "hmi-journal:116:d88082bcea79",
+          "hmi-journal:117:265d7a00eab2"
+        ],
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is Stopped",
+            "met": true,
+            "observed": "Mode=Stopped"
+          },
+          {
+            "id": "auto",
+            "label": "Auto request is on",
+            "met": false,
+            "observed": "AutoRequest=false"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": true,
+            "observed": "clear"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": true,
+            "observed": "CompletionPending=false"
+          }
+        ],
+        "expectedSequence": 6,
+        "ackField": "GVL_DemoRead.Status.StartAck",
+        "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+        "ackKind": "plc_sequence_ack",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 6,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:43.137Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:43.140Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:43.140Z",
+          "mode": 0,
+          "modeText": "Stopped",
+          "faultCode": 0,
+          "motorRunCmd": false,
+          "driveRunningFb": false,
+          "autoRequest": false
+        },
+        "accepted": false
+      },
+      "unmet": [
+        {
+          "id": "auto",
+          "label": "Auto request is on",
+          "met": false,
+          "observed": "AutoRequest=false"
+        }
+      ]
+    },
+    {
+      "step": "fault-raised",
+      "atIso": "2026-11-01T14:02:45.355Z",
+      "summary": "PLC fault 10 'Drive overload' raised; basis transition_observed",
+      "alarm": {
+        "id": "alarm:1580380594210:1",
+        "kind": "fault",
+        "code": 10,
+        "plcText": "Drive overload",
+        "cause": "Drive overload input is on.",
+        "response": "Faulted, motor off.",
+        "state": "active",
+        "firstObservedAtIso": "2026-11-01T14:02:44.066Z",
+        "firstObservedBasis": "transition_observed",
+        "onsetAfterIso": "2026-11-01T14:02:43.559Z",
+        "plcSourceTimestamp": "2026-11-01T14:02:44.064Z",
+        "bootIdentity": "1580380594210",
+        "serviceSessionId": "hmi-svc-2026-11-01T14-02-24-822Z-3a91706e",
+        "related": {
+          "operation": [
+            "motor"
+          ],
+          "engineering": [
+            "Drive_Overload",
+            "Drive_RunningFB"
+          ]
+        }
+      },
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:23",
+      "plc": {
+        "Mode": 3,
+        "ModeText": "Faulted",
+        "FaultCode": 10,
+        "FaultText": "Drive overload",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": false,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 1400,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "reset-rejected",
+      "atIso": "2026-11-01T14:02:45.829Z",
+      "summary": "PLC acknowledged GVL_DemoRead.Status.ResetAck=3 with ResetAccepted=FALSE: request refused by the controller. See observed preconditions.",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:7",
+        "requester": "h2:reset-while-overloaded",
+        "targetId": "cmd.reset",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:45.361Z",
+        "targetRect": {
+          "id": "cmd.reset",
+          "label": "RESET: Clears latch · no restart",
+          "x": 937,
+          "y": 371,
+          "width": 153,
+          "height": 56,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:137:036f01be1816",
+          "atIso": "2026-11-01T14:02:45.371Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.reset"
+        },
+        "commandRequestId": "hmi-reset-mvxwgj5m-1o5qumm1fxm9ha",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:45.361Z",
+          "x": 1014,
+          "y": 399,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:45.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:25",
+          "capturedAtIso": "2026-11-01T14:02:45.821Z",
+          "sha256": "6481abb0bc50016b9d934be7aceb2670381e7ac5db2dbfab85f615777bde8f83",
+          "renderedStatus": "page rendered: Reset · Rejected by PLC at 2026-11-01T14:02:45.494Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-reset-mvxwgj5m-1o5qumm1fxm9ha",
+        "action": "reset",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.reset",
+        "uiActionRef": "hmi-journal:137:036f01be1816",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:7",
+        "requestedAtIso": "2026-11-01T14:02:45.372Z",
+        "outcome": "rejected",
+        "detail": "PLC acknowledged GVL_DemoRead.Status.ResetAck=3 with ResetAccepted=FALSE: request refused by the controller. See observed preconditions.",
+        "evidenceRefs": [
+          "hmi-journal:139:69c5b87091d8",
+          "hmi-journal:142:519947d84717",
+          "hmi-journal:143:2fa83dce7b92"
+        ],
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is not Auto or Stopping",
+            "met": true,
+            "observed": "Mode=Faulted"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": false,
+            "observed": "Drive_Overload=true"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "drive",
+            "label": "Drive running feedback off",
+            "met": true,
+            "observed": "Drive_RunningFB=false"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": true,
+            "observed": "clear"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": true,
+            "observed": "CompletionPending=false"
+          }
+        ],
+        "expectedSequence": 3,
+        "ackField": "GVL_DemoRead.Status.ResetAck",
+        "acceptedField": "GVL_DemoRead.Status.ResetAccepted",
+        "ackKind": "plc_sequence_ack",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.ResetSequence",
+            "value": 3,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:45.386Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:45.433Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:45.433Z",
+          "mode": 3,
+          "modeText": "Faulted",
+          "faultCode": 10,
+          "motorRunCmd": false,
+          "driveRunningFb": false,
+          "autoRequest": false
+        },
+        "accepted": false
+      },
+      "unmet": [
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": false,
+          "observed": "Drive_Overload=true"
+        }
+      ]
+    },
+    {
+      "step": "reset",
+      "atIso": "2026-11-01T14:02:46.640Z",
+      "summary": "PLC acknowledged GVL_DemoRead.Status.ResetAck=4 with ResetAccepted=TRUE. Mode at acknowledgement: Stopped. Alarm cleared (transition_observed); Reset did not start: Mode Stopped",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:8",
+        "requester": "h2:reset",
+        "targetId": "cmd.reset",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:46.139Z",
+        "targetRect": {
+          "id": "cmd.reset",
+          "label": "RESET: Clears latch · no restart",
+          "x": 937,
+          "y": 371,
+          "width": 153,
+          "height": 56,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:153:6fa80fbebdb9",
+          "atIso": "2026-11-01T14:02:46.182Z",
+          "isTrusted": true,
+          "hitTarget": "cmd.reset"
+        },
+        "commandRequestId": "hmi-reset-mvxwgjrt-1ajd12ftdmhtv",
+        "delivered": {
+          "atIso": "2026-11-01T14:02:46.139Z",
+          "x": 1014,
+          "y": 399,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:02:46.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:28",
+          "capturedAtIso": "2026-11-01T14:02:46.630Z",
+          "sha256": "57f0f1d6a6344668a6b3396a09aa22e5fdce1a8cdb33c26a93b0986159c646e0",
+          "renderedStatus": "page rendered: Reset · Applied by PLC at 2026-11-01T14:02:46.297Z"
+        }
+      },
+      "command": {
+        "requestId": "hmi-reset-mvxwgjrt-1ajd12ftdmhtv",
+        "action": "reset",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.reset",
+        "uiActionRef": "hmi-journal:153:6fa80fbebdb9",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:8",
+        "requestedAtIso": "2026-11-01T14:02:46.182Z",
+        "outcome": "applied",
+        "detail": "PLC acknowledged GVL_DemoRead.Status.ResetAck=4 with ResetAccepted=TRUE. Mode at acknowledgement: Stopped.",
+        "evidenceRefs": [
+          "hmi-journal:155:57b028589e15",
+          "hmi-journal:157:e786d7c42cd4",
+          "hmi-journal:160:dac9676d465f"
+        ],
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is not Auto or Stopping",
+            "met": true,
+            "observed": "Mode=Faulted"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "drive",
+            "label": "Drive running feedback off",
+            "met": true,
+            "observed": "Drive_RunningFB=false"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": true,
+            "observed": "clear"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": true,
+            "observed": "CompletionPending=false"
+          }
+        ],
+        "expectedSequence": 4,
+        "ackField": "GVL_DemoRead.Status.ResetAck",
+        "acceptedField": "GVL_DemoRead.Status.ResetAccepted",
+        "ackKind": "plc_sequence_ack",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.ResetSequence",
+            "value": 4,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:46.186Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:46.234Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:46.234Z",
+          "mode": 0,
+          "modeText": "Stopped",
+          "faultCode": 0,
+          "motorRunCmd": false,
+          "driveRunningFb": false,
+          "autoRequest": false
+        },
+        "accepted": true
+      },
+      "alarm": {
+        "id": "alarm:1580380594210:1",
+        "kind": "fault",
+        "code": 10,
+        "plcText": "Drive overload",
+        "cause": "Drive overload input is on.",
+        "response": "Faulted, motor off.",
+        "state": "cleared",
+        "firstObservedAtIso": "2026-11-01T14:02:44.066Z",
+        "firstObservedBasis": "transition_observed",
+        "onsetAfterIso": "2026-11-01T14:02:43.559Z",
+        "plcSourceTimestamp": "2026-11-01T14:02:44.064Z",
+        "bootIdentity": "1580380594210",
+        "serviceSessionId": "hmi-svc-2026-11-01T14-02-24-822Z-3a91706e",
+        "related": {
+          "operation": [
+            "motor"
+          ],
+          "engineering": [
+            "Drive_Overload",
+            "Drive_RunningFB"
+          ]
+        },
+        "clearedObservedAtIso": "2026-11-01T14:02:46.599Z",
+        "clearedAfterIso": "2026-11-01T14:02:46.083Z",
+        "clearBasis": "transition_observed"
+      },
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": false,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 1400,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "item-active",
+      "atIso": "2026-11-01T14:02:48.750Z",
+      "summary": "Tracked item 301 requested 1 effective 1",
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:34"
+    },
+    {
+      "step": "completion",
+      "atIso": "2026-11-01T14:02:52.293Z",
+      "summary": "Completion #1: item 301 exit 1 disposition 1; Exit A count 0 → 1",
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:38",
+      "plc": {
+        "Mode": 1,
+        "ModeText": "Auto",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": true,
+        "Active_Drive_RunningFB": true,
+        "AutoRequest": true,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 3689,
+        "ItemActive": false,
+        "CompletionPending": true,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "stop-2",
+      "atIso": "2026-11-01T14:02:54.696Z",
+      "summary": "PLC echoed GVL_DemoRead.Status.StopAck=3: Stop consumed. Mode at acknowledgement: Stopping.",
+      "command": {
+        "requestId": "hmi-stop-mvxwgpma-erzh5z11m18w6",
+        "action": "stop",
+        "origin": "agent_seam",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "target": "cmd.stop",
+        "uiActionRef": "hmi-journal:223:388bf5191843",
+        "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:11",
+        "requestedAtIso": "2026-11-01T14:02:53.754Z",
+        "outcome": "applied",
+        "detail": "PLC echoed GVL_DemoRead.Status.StopAck=3: Stop consumed. Mode at acknowledgement: Stopping.",
+        "evidenceRefs": [
+          "hmi-journal:225:b21761474cbe",
+          "hmi-journal:228:9c094adbde0c",
+          "hmi-journal:229:908410c3e711"
+        ],
+        "expectedSequence": 3,
+        "ackField": "GVL_DemoRead.Status.StopAck",
+        "ackKind": "plc_sequence_echo",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StopSequence",
+            "value": 3,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "deliveredAtIso": "2026-11-01T14:02:53.758Z",
+        "acknowledgedAtIso": "2026-11-01T14:02:53.804Z",
+        "atAck": {
+          "observedAtIso": "2026-11-01T14:02:53.804Z",
+          "mode": 2,
+          "modeText": "Stopping",
+          "faultCode": 0,
+          "motorRunCmd": false,
+          "driveRunningFb": true,
+          "autoRequest": true
+        }
+      },
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 4708,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "link-interrupted",
+      "atIso": "2026-11-01T14:02:57.835Z",
+      "summary": "HMI link reconnecting; Start target inconclusive (Target cmd.start is disabled on screen)",
+      "link": {
+        "state": "reconnecting",
+        "detail": "Opening OPC UA session to opc.tcp://127.0.0.1:4840",
+        "endpoint": "opc.tcp://127.0.0.1:4840",
+        "securityMode": "SignAndEncrypt",
+        "securityPolicy": "Basic256Sha256",
+        "userConfigured": true,
+        "pollIntervalMs": 500,
+        "staleAfterMs": 1500,
+        "totalPolls": 51,
+        "failedPolls": 3,
+        "consecutiveFailures": 3,
+        "reconnects": 0,
+        "plcScanning": true,
+        "sessionOpenedAtIso": "2026-11-01T14:02:30.924Z",
+        "lastError": "H2 simulated HMI-session read interruption (transport proxy; PLC unaffected)",
+        "lastPollOkAtIso": "2026-11-01T14:02:54.683Z",
+        "lastPollLatencyMs": 6,
+        "p95PollLatencyMs": 13,
+        "bootIdentity": "1580380594210"
+      },
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:46",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:12",
+        "requester": "h2:start-while-stale",
+        "targetId": "cmd.start",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:02:57.831Z",
+        "targetRect": {
+          "id": "cmd.start",
+          "label": "START: Requires Auto on",
+          "x": 937,
+          "y": 307,
+          "width": 153,
+          "height": 56,
+          "enabled": false,
+          "route": "operation"
+        },
+        "status": "inconclusive",
+        "detail": "Target cmd.start is disabled on screen"
+      }
+    },
+    {
+      "step": "link-recovered",
+      "atIso": "2026-11-01T14:03:00.902Z",
+      "summary": "HMI link fresh again after 1 reconnect(s)",
+      "link": {
+        "state": "connected",
+        "detail": "Polling",
+        "endpoint": "opc.tcp://127.0.0.1:4840",
+        "securityMode": "SignAndEncrypt",
+        "securityPolicy": "Basic256Sha256",
+        "userConfigured": true,
+        "pollIntervalMs": 500,
+        "staleAfterMs": 1500,
+        "totalPolls": 52,
+        "failedPolls": 3,
+        "consecutiveFailures": 0,
+        "reconnects": 1,
+        "plcScanning": true,
+        "sessionOpenedAtIso": "2026-11-01T14:03:00.847Z",
+        "lastPollOkAtIso": "2026-11-01T14:03:00.854Z",
+        "lastPollLatencyMs": 6,
+        "p95PollLatencyMs": 13,
+        "bootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "connector-stale",
+      "atIso": "2026-11-01T14:03:03.457Z",
+      "summary": "Coordinator stopped; PLC ConnectorStale TRUE shown as bench banner; no machine alarm created",
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:52",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": true,
+        "SimApplied": true,
+        "Active_Encoder_Count": 4708,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    },
+    {
+      "step": "view-alarms",
+      "atIso": "2026-11-01T14:03:03.878Z",
+      "summary": "Portal session shows alarms",
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:54",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:13",
+        "requester": "h2:nav-alarms",
+        "targetId": "nav.alarms",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:03:03.473Z",
+        "targetRect": {
+          "id": "nav.alarms",
+          "label": "Alarms0",
+          "x": 118,
+          "y": 56,
+          "width": 80,
+          "height": 41,
+          "enabled": true,
+          "route": "operation"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:267:947d89d8ba92",
+          "atIso": "2026-11-01T14:03:03.479Z",
+          "isTrusted": true,
+          "hitTarget": "nav.alarms"
+        },
+        "delivered": {
+          "atIso": "2026-11-01T14:03:03.474Z",
+          "x": 158,
+          "y": 77,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:03:03.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:54",
+          "capturedAtIso": "2026-11-01T14:03:03.870Z",
+          "sha256": "c584e607c8ed356ba74066ac07f5c929ce6c40db65e815b0241268c6c9a2d6b4"
+        }
+      }
+    },
+    {
+      "step": "view-engineering",
+      "atIso": "2026-11-01T14:03:04.270Z",
+      "summary": "Portal session shows engineering",
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:56",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:14",
+        "requester": "h2:nav-engineering",
+        "targetId": "nav.engineering",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:03:03.887Z",
+        "targetRect": {
+          "id": "nav.engineering",
+          "label": "Engineering",
+          "x": 200,
+          "y": 56,
+          "width": 112,
+          "height": 41,
+          "enabled": true,
+          "route": "alarms"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:275:f7da53c62677",
+          "atIso": "2026-11-01T14:03:03.892Z",
+          "isTrusted": true,
+          "hitTarget": "nav.engineering"
+        },
+        "delivered": {
+          "atIso": "2026-11-01T14:03:03.887Z",
+          "x": 256,
+          "y": 77,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:03:03.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:56",
+          "capturedAtIso": "2026-11-01T14:03:04.264Z",
+          "sha256": "e566ef6e671c1fb9c781ab6447a4dc6b6ac1128bfadfc82b6effb30b7762e10d"
+        }
+      }
+    },
+    {
+      "step": "view-operation",
+      "atIso": "2026-11-01T14:03:04.656Z",
+      "summary": "Portal session shows operation",
+      "frame": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:58",
+      "agent": {
+        "reference": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:15",
+        "requester": "h2:nav-operation",
+        "targetId": "nav.operation",
+        "clientSessionId": "hmi-client-1-370acd4b",
+        "requestedAtIso": "2026-11-01T14:03:04.277Z",
+        "targetRect": {
+          "id": "nav.operation",
+          "label": "Operation",
+          "x": 16,
+          "y": 56,
+          "width": 100,
+          "height": 41,
+          "enabled": true,
+          "route": "engineering"
+        },
+        "status": "observed",
+        "detail": "Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.",
+        "pageInput": {
+          "reference": "hmi-journal:285:a3d7ddba15e5",
+          "atIso": "2026-11-01T14:03:04.281Z",
+          "isTrusted": true,
+          "hitTarget": "nav.operation"
+        },
+        "delivered": {
+          "atIso": "2026-11-01T14:03:04.277Z",
+          "x": 66,
+          "y": 77,
+          "via": "CDP Input.dispatchMouseEvent (press+release) on the portal's controlled browser; dispatch completed 2026-11-01T14:03:04.",
+          "browserSession": "hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276"
+        },
+        "screen": {
+          "frameRef": "hmi-frame:hmi-fa62d85a-c17c-4000-90ee-d33a8e20e276:58",
+          "capturedAtIso": "2026-11-01T14:03:04.649Z",
+          "sha256": "385553929e1629867e50d9deffb355cff923acfb58180ee6b24acc5599dfde78"
+        }
+      }
+    }
+  ],
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+  "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+  "roles": {
+    "fieldInputs": "simulation coordinator (Lane A M8OpcUaConnector + preserved world)",
+    "wcs": "coordinator WCS tools",
+    "operator": "HMI service via portal controlled-browser clicks"
+  },
+  "finalPlc": {
+    "Mode": 0,
+    "ModeText": "Stopped",
+    "FaultCode": 0,
+    "FaultText": "",
+    "Motor_RunCmd": false,
+    "Active_Drive_RunningFB": false,
+    "AutoRequest": true,
+    "ConnectorStale": true,
+    "SimApplied": true,
+    "Active_Encoder_Count": 4708,
+    "ItemActive": false,
+    "CompletionPending": false,
+    "PlcBootIdentity": "1580380594210"
+  },
+  "journal": "artifacts\\hmi\\h2\\2026-11-01T14-02-24-720Z\\hmi\\runs\\2026-11-01T14-02-24-823Z-live_plc\\journal.jsonl",
+  "alarms": [
+    {
+      "id": "alarm:1580380594210:1",
+      "kind": "fault",
+      "code": 10,
+      "plcText": "Drive overload",
+      "cause": "Drive overload input is on.",
+      "response": "Faulted, motor off.",
+      "state": "cleared",
+      "firstObservedAtIso": "2026-11-01T14:02:44.066Z",
+      "firstObservedBasis": "transition_observed",
+      "onsetAfterIso": "2026-11-01T14:02:43.559Z",
+      "plcSourceTimestamp": "2026-11-01T14:02:44.064Z",
+      "bootIdentity": "1580380594210",
+      "serviceSessionId": "hmi-svc-2026-11-01T14-02-24-822Z-3a91706e",
+      "related": {
+        "operation": [
+          "motor"
+        ],
+        "engineering": [
+          "Drive_Overload",
+          "Drive_RunningFB"
+        ]
+      },
+      "clearedObservedAtIso": "2026-11-01T14:02:46.599Z",
+      "clearedAfterIso": "2026-11-01T14:02:46.083Z",
+      "clearBasis": "transition_observed"
+    }
+  ],
+  "commands": [
+    {
+      "requestId": "hmi-stop-mvxwgpma-erzh5z11m18w6",
+      "action": "stop",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.stop",
+      "uiActionRef": "hmi-journal:223:388bf5191843",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:11",
+      "requestedAtIso": "2026-11-01T14:02:53.754Z",
+      "outcome": "applied",
+      "detail": "PLC echoed GVL_DemoRead.Status.StopAck=3: Stop consumed. Mode at acknowledgement: Stopping.",
+      "evidenceRefs": [
+        "hmi-journal:225:b21761474cbe",
+        "hmi-journal:228:9c094adbde0c",
+        "hmi-journal:229:908410c3e711",
+        "hmi-journal:257:ce03b7905d4f"
+      ],
+      "expectedSequence": 3,
+      "ackField": "GVL_DemoRead.Status.StopAck",
+      "ackKind": "plc_sequence_echo",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.StopSequence",
+          "value": 3,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:53.758Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:53.804Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:53.804Z",
+        "mode": 2,
+        "modeText": "Stopping",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": true,
+        "autoRequest": true
+      },
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:03:00.854Z",
+        "mode": 0,
+        "modeText": "Stopped",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": true,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-start-mvxwgkhh-v4bf6m298prn",
+      "action": "start",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.start",
+      "uiActionRef": "hmi-journal:183:14b4f1bbacb6",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:10",
+      "requestedAtIso": "2026-11-01T14:02:47.096Z",
+      "outcome": "applied",
+      "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=7 with StartAccepted=TRUE. Mode at acknowledgement: Auto.",
+      "evidenceRefs": [
+        "hmi-journal:185:ffac78cde36d",
+        "hmi-journal:188:f4e195c5f719",
+        "hmi-journal:190:d5db86fae90c",
+        "hmi-journal:201:4b05214b9c97"
+      ],
+      "preconditions": [
+        {
+          "id": "mode",
+          "label": "Mode is Stopped",
+          "met": true,
+          "observed": "Mode=Stopped"
+        },
+        {
+          "id": "auto",
+          "label": "Auto request is on",
+          "met": false,
+          "observed": "AutoRequest=false"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "expectedSequence": 7,
+      "ackField": "GVL_DemoRead.Status.StartAck",
+      "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+      "ackKind": "plc_sequence_ack",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.StartSequence",
+          "value": 7,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:47.100Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:47.149Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:47.149Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": false,
+        "autoRequest": true
+      },
+      "accepted": true,
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:48.624Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": true,
+        "autoRequest": true,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-autoon-mvxwgk5g-nh6pwhlas40g",
+      "action": "auto_on",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.auto.on",
+      "uiActionRef": "hmi-journal:170:6eb77e7e3095",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:9",
+      "requestedAtIso": "2026-11-01T14:02:46.662Z",
+      "outcome": "applied",
+      "detail": "AutoRequest readback is true. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.",
+      "evidenceRefs": [
+        "hmi-journal:172:188962d0645f",
+        "hmi-journal:175:5ea6b9991339",
+        "hmi-journal:176:c60f3d684385"
+      ],
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.AutoRequest",
+          "value": true,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:46.664Z",
+      "ackKind": "readback",
+      "acknowledgedAtIso": "2026-11-01T14:02:46.666Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:46.666Z",
+        "mode": 0,
+        "modeText": "Stopped",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": true
+      }
+    },
+    {
+      "requestId": "hmi-reset-mvxwgjrt-1ajd12ftdmhtv",
+      "action": "reset",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.reset",
+      "uiActionRef": "hmi-journal:153:6fa80fbebdb9",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:8",
+      "requestedAtIso": "2026-11-01T14:02:46.182Z",
+      "outcome": "applied",
+      "detail": "PLC acknowledged GVL_DemoRead.Status.ResetAck=4 with ResetAccepted=TRUE. Mode at acknowledgement: Stopped.",
+      "evidenceRefs": [
+        "hmi-journal:155:57b028589e15",
+        "hmi-journal:157:e786d7c42cd4",
+        "hmi-journal:160:dac9676d465f",
+        "hmi-journal:200:03b2bd8989b7"
+      ],
+      "preconditions": [
+        {
+          "id": "mode",
+          "label": "Mode is not Auto or Stopping",
+          "met": true,
+          "observed": "Mode=Faulted"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "drive",
+          "label": "Drive running feedback off",
+          "met": true,
+          "observed": "Drive_RunningFB=false"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "expectedSequence": 4,
+      "ackField": "GVL_DemoRead.Status.ResetAck",
+      "acceptedField": "GVL_DemoRead.Status.ResetAccepted",
+      "ackKind": "plc_sequence_ack",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.ResetSequence",
+          "value": 4,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:46.186Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:46.234Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:46.234Z",
+        "mode": 0,
+        "modeText": "Stopped",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": false
+      },
+      "accepted": true,
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:48.624Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": true,
+        "autoRequest": true,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-reset-mvxwgj5m-1o5qumm1fxm9ha",
+      "action": "reset",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.reset",
+      "uiActionRef": "hmi-journal:137:036f01be1816",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:7",
+      "requestedAtIso": "2026-11-01T14:02:45.372Z",
+      "outcome": "rejected",
+      "detail": "PLC acknowledged GVL_DemoRead.Status.ResetAck=3 with ResetAccepted=FALSE: request refused by the controller. See observed preconditions.",
+      "evidenceRefs": [
+        "hmi-journal:139:69c5b87091d8",
+        "hmi-journal:142:519947d84717",
+        "hmi-journal:143:2fa83dce7b92",
+        "hmi-journal:199:28a9c77dd303"
+      ],
+      "preconditions": [
+        {
+          "id": "mode",
+          "label": "Mode is not Auto or Stopping",
+          "met": true,
+          "observed": "Mode=Faulted"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": false,
+          "observed": "Drive_Overload=true"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "drive",
+          "label": "Drive running feedback off",
+          "met": true,
+          "observed": "Drive_RunningFB=false"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "expectedSequence": 3,
+      "ackField": "GVL_DemoRead.Status.ResetAck",
+      "acceptedField": "GVL_DemoRead.Status.ResetAccepted",
+      "ackKind": "plc_sequence_ack",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.ResetSequence",
+          "value": 3,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:45.386Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:45.433Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:45.433Z",
+        "mode": 3,
+        "modeText": "Faulted",
+        "faultCode": 10,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": false
+      },
+      "accepted": false,
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:48.624Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": true,
+        "autoRequest": true,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-start-mvxwghfa-ii8q2q1dlo4ep",
+      "action": "start",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.start",
+      "uiActionRef": "hmi-journal:111:4b93affd37e6",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:6",
+      "requestedAtIso": "2026-11-01T14:02:43.129Z",
+      "outcome": "rejected",
+      "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=6 with StartAccepted=FALSE: request refused by the controller. See observed preconditions.",
+      "evidenceRefs": [
+        "hmi-journal:113:2b3d4a64c106",
+        "hmi-journal:116:d88082bcea79",
+        "hmi-journal:117:265d7a00eab2",
+        "hmi-journal:131:b29775b30663"
+      ],
+      "preconditions": [
+        {
+          "id": "mode",
+          "label": "Mode is Stopped",
+          "met": true,
+          "observed": "Mode=Stopped"
+        },
+        {
+          "id": "auto",
+          "label": "Auto request is on",
+          "met": false,
+          "observed": "AutoRequest=false"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "expectedSequence": 6,
+      "ackField": "GVL_DemoRead.Status.StartAck",
+      "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+      "ackKind": "plc_sequence_ack",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.StartSequence",
+          "value": 6,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:43.137Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:43.140Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:43.140Z",
+        "mode": 0,
+        "modeText": "Stopped",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": false
+      },
+      "accepted": false,
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:45.072Z",
+        "mode": 3,
+        "modeText": "Faulted",
+        "faultCode": 10,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": false,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-autooff-mvxwggn8-a9ldmrvfz6nj",
+      "action": "auto_off",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.auto.off",
+      "uiActionRef": "hmi-journal:94:a729b74ed30b",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:5",
+      "requestedAtIso": "2026-11-01T14:02:42.118Z",
+      "outcome": "applied",
+      "detail": "AutoRequest readback is false. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.",
+      "evidenceRefs": [
+        "hmi-journal:96:3d0339ff894e",
+        "hmi-journal:98:c317ca6791ac",
+        "hmi-journal:99:d34d06cf4992"
+      ],
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.AutoRequest",
+          "value": false,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:42.146Z",
+      "ackKind": "readback",
+      "acknowledgedAtIso": "2026-11-01T14:02:42.147Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:42.147Z",
+        "mode": 2,
+        "modeText": "Stopping",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": true,
+        "autoRequest": false
+      }
+    },
+    {
+      "requestId": "hmi-start-mvxwgg2c-1mpnv5j19axs27",
+      "action": "start",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.start",
+      "uiActionRef": "hmi-journal:77:9f6601bbb6df",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:4",
+      "requestedAtIso": "2026-11-01T14:02:41.365Z",
+      "outcome": "applied",
+      "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=5 with StartAccepted=TRUE. Mode at acknowledgement: Auto.",
+      "evidenceRefs": [
+        "hmi-journal:79:609b5256069d",
+        "hmi-journal:82:3d705b283a5c",
+        "hmi-journal:83:358e4a108c43",
+        "hmi-journal:130:7c398965198c"
+      ],
+      "preconditions": [
+        {
+          "id": "mode",
+          "label": "Mode is Stopped",
+          "met": true,
+          "observed": "Mode=Stopped"
+        },
+        {
+          "id": "auto",
+          "label": "Auto request is on",
+          "met": true,
+          "observed": "AutoRequest=true"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "expectedSequence": 5,
+      "ackField": "GVL_DemoRead.Status.StartAck",
+      "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+      "ackKind": "plc_sequence_ack",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.StartSequence",
+          "value": 5,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:41.369Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:41.415Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:41.415Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": false,
+        "autoRequest": true
+      },
+      "accepted": true,
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:45.072Z",
+        "mode": 3,
+        "modeText": "Faulted",
+        "faultCode": 10,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": false,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-stop-mvxwgeoe-1t6omy71vej176",
+      "action": "stop",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.stop",
+      "uiActionRef": "hmi-journal:59:1b0fa4c96e8e",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:3",
+      "requestedAtIso": "2026-11-01T14:02:39.569Z",
+      "outcome": "applied",
+      "detail": "PLC echoed GVL_DemoRead.Status.StopAck=2: Stop consumed. Mode at acknowledgement: Stopping.",
+      "evidenceRefs": [
+        "hmi-journal:61:05df1e40e1df",
+        "hmi-journal:63:dde9baa8611a",
+        "hmi-journal:65:02b50da6e852",
+        "hmi-journal:129:26612d48de36"
+      ],
+      "expectedSequence": 2,
+      "ackField": "GVL_DemoRead.Status.StopAck",
+      "ackKind": "plc_sequence_echo",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.StopSequence",
+          "value": 2,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:39.583Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:39.641Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:39.641Z",
+        "mode": 2,
+        "modeText": "Stopping",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": true,
+        "autoRequest": true
+      },
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:45.072Z",
+        "mode": 3,
+        "modeText": "Faulted",
+        "faultCode": 10,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": false,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-start-mvxwgcqn-hg3i5pcbbeve",
+      "action": "start",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.start",
+      "uiActionRef": "hmi-journal:38:681ca12558c3",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:2",
+      "requestedAtIso": "2026-11-01T14:02:37.058Z",
+      "outcome": "applied",
+      "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=4 with StartAccepted=TRUE. Mode at acknowledgement: Auto.",
+      "evidenceRefs": [
+        "hmi-journal:40:98542e3d17cb",
+        "hmi-journal:42:aba8a65b770b",
+        "hmi-journal:44:ffba991a7f7b",
+        "hmi-journal:54:9ae12757a962"
+      ],
+      "preconditions": [
+        {
+          "id": "mode",
+          "label": "Mode is Stopped",
+          "met": true,
+          "observed": "Mode=Stopped"
+        },
+        {
+          "id": "auto",
+          "label": "Auto request is on",
+          "met": true,
+          "observed": "AutoRequest=true"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "expectedSequence": 4,
+      "ackField": "GVL_DemoRead.Status.StartAck",
+      "acceptedField": "GVL_DemoRead.Status.StartAccepted",
+      "ackKind": "plc_sequence_ack",
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.StartSequence",
+          "value": 4,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:37.065Z",
+      "acknowledgedAtIso": "2026-11-01T14:02:37.125Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:37.125Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": false,
+        "autoRequest": true
+      },
+      "accepted": true,
+      "resulting": {
+        "observedAtIso": "2026-11-01T14:02:39.004Z",
+        "mode": 1,
+        "modeText": "Auto",
+        "faultCode": 0,
+        "motorRunCmd": true,
+        "driveRunningFb": true,
+        "autoRequest": true,
+        "settled": true
+      }
+    },
+    {
+      "requestId": "hmi-autoon-mvxwgcdu-12ddo311yxbg1q",
+      "action": "auto_on",
+      "origin": "agent_seam",
+      "clientSessionId": "hmi-client-1-370acd4b",
+      "target": "cmd.auto.on",
+      "uiActionRef": "hmi-journal:23:9ac47623cb26",
+      "agentActionRef": "hmi-agent-action:hmi-svc-2026-11-01T14-02-24-822Z-3a91706e:1",
+      "requestedAtIso": "2026-11-01T14:02:36.612Z",
+      "outcome": "applied",
+      "detail": "AutoRequest readback is true. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.",
+      "evidenceRefs": [
+        "hmi-journal:25:446956026aed",
+        "hmi-journal:28:d6ee44c97642",
+        "hmi-journal:29:3cb29fabd5f4"
+      ],
+      "writes": [
+        {
+          "path": "GVL_DemoWrite.AutoRequest",
+          "value": true,
+          "status": "Good (0x00000000)"
+        }
+      ],
+      "deliveredAtIso": "2026-11-01T14:02:36.615Z",
+      "ackKind": "readback",
+      "acknowledgedAtIso": "2026-11-01T14:02:36.617Z",
+      "atAck": {
+        "observedAtIso": "2026-11-01T14:02:36.617Z",
+        "mode": 0,
+        "modeText": "Stopped",
+        "faultCode": 0,
+        "motorRunCmd": false,
+        "driveRunningFb": false,
+        "autoRequest": true
+      }
+    }
+  ],
+  "finishedAt": "2026-11-01T14:03:05.408Z"
+}

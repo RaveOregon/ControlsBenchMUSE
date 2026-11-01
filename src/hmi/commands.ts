@@ -83,6 +83,7 @@ export class OperatorCommands {
 
     const refusal = this.#refusal();
     if (refusal) return this.#finish(command, "refused", `Not sent to the PLC: ${refusal}`);
+    this.#supersede(command.requestId);
     this.#inFlight = command.requestId;
     try {
       if (command.action === "auto_on" || command.action === "auto_off") await this.#auto(command, command.action === "auto_on");
@@ -168,6 +169,19 @@ export class OperatorCommands {
   #settle(command: CommandView): void {
     const t = Date.now();
     this.#settling.set(command.requestId, { untilMs: t + (this.#o.settleMs ?? 5000), stableSinceMs: t, last: command.atAck });
+  }
+
+  /** A new command ends earlier follow-up windows, so later effects are never attributed to an earlier command. */
+  #supersede(by: string): void {
+    for (const [id, s] of this.#settling) {
+      const command = this.#records.get(id)!;
+      this.#settling.delete(id);
+      if (!s.last) continue;
+      command.resulting = { ...s.last, settled: false, supersededBy: by };
+      const record = this.#o.journal.append("command.resulting_state", { requestId: id, resulting: command.resulting });
+      command.evidenceRefs.push(HmiJournal.ref(record));
+      this.#o.onChange?.(structuredClone(command));
+    }
   }
 
   /** Follows resulting PLC state after an acknowledgement until it is stable or the window ends. */

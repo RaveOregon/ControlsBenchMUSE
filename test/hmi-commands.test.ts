@@ -148,3 +148,18 @@ test("The HMI link refuses any write outside the four operator request paths", a
     assert.equal(plc.writes.length, 0);
   } finally { await cleanup(); }
 });
+
+test("a new command closes the previous command's follow-up window, so later effects are never attributed to it", async () => {
+  const { plc, service, cleanup } = await harness();
+  try {
+    const reset = await service.submitCommand({ requestId: "req-reset-sup-1", action: "reset", origin: "test" });
+    assert.equal(reset.outcome, "applied");
+    await new Promise(r => setTimeout(r, 60));
+    plc.set({ "GVL_DemoRead.Status.Mode": 1, "GVL_DemoRead.Status.Motor_RunCmd": true });
+    await service.submitCommand({ requestId: "req-start-sup-1", action: "start", origin: "test" });
+    const closed = service.commands.get("req-reset-sup-1")!.resulting!;
+    assert.equal(closed.supersededBy, "req-start-sup-1");
+    assert.equal(closed.settled, false);
+    assert.equal(closed.mode, 0, "the Reset record keeps the state observed before the next request");
+  } finally { await cleanup(); }
+});

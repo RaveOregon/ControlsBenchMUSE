@@ -88,6 +88,7 @@ button.chip:focus-visible { outline: 2px solid #9cc3ec; outline-offset: 2px; }
 .banner { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0 16px; font-size: 13px; border-right: 1px solid; white-space: nowrap; }
 .banner .msg { overflow: hidden; text-overflow: ellipsis; }
 .banner.quiet { color: var(--faint); border-color: transparent; font-size: 12.5px; }
+.banner[hidden], .tag[hidden] { display: none; }
 .banner.bad { order: 0; } .banner.warn { order: 1; } .banner.info { order: 2; }
 .banner b { font-weight: 650; }
 .banner.warn { background: var(--warn-soft); border-color: var(--warn-line); color: #5a3b00; }

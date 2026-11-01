@@ -109,7 +109,8 @@ export interface CommandView {
   detail: string;
   preconditions?: PreconditionView[];
   atAck?: ResultingStateView;
-  resulting?: ResultingStateView & { settled: boolean };
+  /** Follow-up PLC state; the window closes early (settled=false, supersededBy) when another command is issued. */
+  resulting?: ResultingStateView & { settled: boolean; supersededBy?: string };
   evidenceRefs: string[];
 }
 
