@@ -45,6 +45,11 @@ export function auditM10(directory) {
     const requested = trace.filter(e => e.kind === "commit.requested");
     requested.forEach((e, i) => { if (i) assert(e.sentAtMonotonicMs - requested[i - 1].sentAtMonotonicMs >= 100, "commit starts less than 100 ms apart"); });
   });
+  check("connected world advances with bounded elapsed time", () => {
+    const ticks = events.filter(e => e.type === "coordinator.event" && e.data.source.lane === "world" && e.data.source.data.action === "tick");
+    assert(ticks.length > 100);
+    for (const e of ticks) assert(e.data.source.data.tick.deltaMs > 0 && e.data.source.data.tick.deltaMs <= 300);
+  });
   check("write allowlist, separate valid/sequence ordering and Good timestamped reads", () => {
     const allow = new Set(writeSignals.map(s => s.iecPath));
     for (const e of trace) {
@@ -92,7 +97,9 @@ export function auditM10(directory) {
     const stopped = outputs.find(e => e.sequence > command.sequence && e.data.values["controller.Mode"] === 0);
     const resume = events.find(e => e.sequence > command.sequence && e.type === "controller.action" && e.data.action === "start");
     assert(stopped && resume); const held = events.filter(e => e.type === "world.raw_image" && e.sequence > stopped.sequence && e.sequence < resume.sequence);
-    assert(held.length >= 4); assert(held.every(e => e.data.image.Belt_SpeedActual === 0 && e.data.image.Encoder_Count === coast.stoppedEncoder));
+    const stoppedSource = events.find(e => e.id === stopped.data.sourceId).data.source;
+    assert(resume.data.observation.observedAtMonotonicMs - stoppedSource.atMonotonicMs >= 500);
+    assert(held.length >= 2); assert(held.every(e => e.data.image.Belt_SpeedActual === 0 && e.data.image.Encoder_Count === coast.stoppedEncoder));
   });
   check("failed-divert causal chain, faulted completion and final held simulation", () => {
     const faultTruth = events.find(e => e.type === "fault.truth"); assert.equal(faultTruth.data.truth.controlId, "fault.setDivertJam");
@@ -103,7 +110,9 @@ export function auditM10(directory) {
     assert.equal(result.finalObservation.values.Motor_RunCmd, false); assert.equal(result.finalObservation.simulationApplied, true);
     assert.equal(result.finalImage.Belt_SpeedActual, 0); assert.equal(result.finalObservation.values["controller.FaultCode"], 23);
   });
+  const intervals = commits.slice(1).map((r, i) => r.sentAtMonotonicMs - commits[i].sentAtMonotonicMs).sort((a,b) => a-b);
   return { schemaVersion: 1, status: "pass", checks, checkCount: checks.length, commitCount: commits.length,
+    measuredCommitIntervalMs: { min: intervals[0], p50: intervals[Math.floor(intervals.length/2)], p99: intervals[Math.floor(intervals.length*0.99)], max: intervals.at(-1) },
     claimBoundary: "Deterministic preserved-world/M9/M8 execution only; no paid Wonder, HMI or broader coverage claim." };
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

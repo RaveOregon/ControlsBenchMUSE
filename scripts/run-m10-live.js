@@ -26,6 +26,8 @@ const countedEvent = (kind, data) => {
 const result = { schemaVersion: 1, status: "failed", directory, modelCalls: 0, projectSha256: shaFile("codesys/conveyordemo.project"),
   worldSha256: shaFile("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts"),
   base: "m10-base/fa8d2ee", mapSha256: shaFile("codesys/demo/signal-map-v1.json") };
+if (process.env.M10_PREPARATION_DIR) result.baselinePreparation = { directory: process.env.M10_PREPARATION_DIR,
+  resultSha256: shaFile(`${process.env.M10_PREPARATION_DIR}/result.json`) };
 let connector;
 try {
   if (result.projectSha256 !== frozenProjectHash) throw new Error("M8 project differs from frozen accepted build");

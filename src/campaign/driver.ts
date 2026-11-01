@@ -32,6 +32,8 @@ export class CoordinatorCampaignDriver {
   readonly cadenceMs = 100;
   readonly operationTimeoutMs: number;
   readonly initializeTimeoutMs: number;
+  readonly elapsedStep: boolean;
+  readonly maximumStepMs: number;
   running = false;
   quarantined = false;
   failure?: ToolFailure;
@@ -52,10 +54,12 @@ export class CoordinatorCampaignDriver {
   #lastConfirmedAtMs = 0;
   #listeners = new Set<() => void>();
   #initialized = false;
-  constructor(coordinator: LiveWorldCoordinator, ledger: CampaignLedger, binding: ControlBinding, options: { clock?: Clock; operationTimeoutMs?: number; initializeTimeoutMs?: number } = {}) {
+  #lastWorldStepAtMs = 0;
+  constructor(coordinator: LiveWorldCoordinator, ledger: CampaignLedger, binding: ControlBinding, options: { clock?: Clock; operationTimeoutMs?: number; initializeTimeoutMs?: number; elapsedStep?: boolean; maximumStepMs?: number } = {}) {
     this.coordinator = coordinator; this.ledger = ledger; this.binding = binding;
     this.clock = options.clock ?? systemClock; this.operationTimeoutMs = options.operationTimeoutMs ?? 2000;
     this.initializeTimeoutMs = options.initializeTimeoutMs ?? this.operationTimeoutMs;
+    this.elapsedStep = options.elapsedStep ?? false; this.maximumStepMs = options.maximumStepMs ?? 300;
   }
   get connector(): BenchConnector { return this.coordinator.connector; }
   get lastImage(): RawSignalImage { return structuredClone(this.#lastImage); }
@@ -77,6 +81,7 @@ export class CoordinatorCampaignDriver {
   start(automatic = true): void {
     if (this.quarantined || this.resetHeld) throw new ToolFailure("stale", "Driver requires a new campaign after quarantine/reset");
     this.running = true; this.#auto = automatic;
+    this.#lastWorldStepAtMs = this.clock.now();
     if (automatic) { this.#nextDeadline = this.clock.now() + this.cadenceMs; this.#schedule(); }
   }
   async hold(stopClock = false): Promise<void> {
@@ -94,7 +99,7 @@ export class CoordinatorCampaignDriver {
     const selected = this.running ? this.#pending.splice(0) : [];
     try {
       await bounded(async () => {
-        const observation = await this.connector.observe();
+        const observation = this.connector.inspectLink ? await this.connector.inspectLink() : await this.connector.observe();
         if (this.quarantined) throw new ToolFailure("stale", "Late connector response ignored after quarantine");
         this.#fresh(observation);
         for (const p of selected) {
@@ -104,7 +109,11 @@ export class CoordinatorCampaignDriver {
           if (this.quarantined) throw new ToolFailure("stale", "Late world control response ignored after quarantine");
         }
         // Holding refreshes the unchanged complete image without advancing world time.
-        const receipt = this.running ? await this.coordinator.step(this.cadenceMs) : await this.connector.commit(this.#lastImage);
+        const now = this.clock.now(), delta = this.elapsedStep ? now - this.#lastWorldStepAtMs : this.cadenceMs;
+        if (this.running && this.elapsedStep && (!Number.isFinite(delta) || delta <= 0 || delta > this.maximumStepMs))
+          throw new ToolFailure("inconclusive", `World step gap ${delta} ms exceeds the declared ${this.maximumStepMs} ms observation bound; world not advanced`);
+        const receipt = this.running ? await this.coordinator.step(delta) : await this.connector.commit(this.#lastImage);
+        if (this.running) this.#lastWorldStepAtMs = now;
         if (this.quarantined) throw new ToolFailure("stale", "Late commit ignored after quarantine; reconcile physical state");
         this.#acceptReceipt(receipt);
         if (this.running) this.#flush(); else this.#recordDirectCommit(receipt, "campaign.hold");
@@ -168,8 +177,10 @@ export class CoordinatorCampaignDriver {
   }
   #fresh(o: ConnectorObservation): void {
     const ageMs = this.clock.now() - o.observedAtMonotonicMs;
-    if (o.connectorStale || !o.simulationApplied || ageMs < 0 || ageMs > this.operationTimeoutMs || (this.#boot && o.bootIdentity !== this.#boot))
-      throw new ToolFailure("stale", "Connector stale, simulation inactive, timestamp invalid or PLC boot changed");
+    if (o.connectorStale) throw new ToolFailure("stale", `PLC ConnectorStale=true at applied ${o.appliedEpoch}/${o.appliedSequence}`);
+    if (!o.simulationApplied) throw new ToolFailure("stale", "PLC simulation is inactive");
+    if (ageMs < 0 || ageMs > this.operationTimeoutMs) throw new ToolFailure("stale", `Observation timestamp age ${ageMs} ms is invalid`);
+    if (this.#boot && o.bootIdentity !== this.#boot) throw new ToolFailure("stale", "PLC boot identity changed");
     this.ledger.append("connector.state", { state: "fresh", reason: "Observed simulation active under stable PLC boot", ageMs });
   }
   #acceptReceipt(receipt: CommitReceipt): void {

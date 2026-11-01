@@ -20,7 +20,7 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
   const worldPath = new URL("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts", root);
   const world = withM8Observations((await import(worldPath.href)).default as GeneratedWorldModule);
   const coordinator = new LiveWorldCoordinator(world, connector, { seed: 20261031, worldVersion: world.manifest.packageVersion });
-  const driver = new CoordinatorCampaignDriver(coordinator, ledger, m8WorldBindings, { operationTimeoutMs: 5000, initializeTimeoutMs: 60_000 });
+  const driver = new CoordinatorCampaignDriver(coordinator, ledger, m8WorldBindings, { operationTimeoutMs: 5000, initializeTimeoutMs: 60_000, elapsedStep: true, maximumStepMs: 300 });
   const projectHash = shaFile(new URL("codesys/conveyordemo.project", root));
   assert.equal(projectHash, frozenProjectHash, "M8 project bytes changed from accepted build");
   const runtime = new CampaignRuntime({ ledger, driver, controller: m8ControllerActions(connector, ledger),
@@ -43,7 +43,7 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     }
   };
   const unsubscribe = driver.subscribe(monitor);
-  const healthy = () => { monitor(); if (unexplained) throw unexplained; if (runtime.status !== "running") throw new Error(`Campaign ${runtime.status}; stop without next experiment`); };
+  const healthy = () => { monitor(); if (unexplained) throw unexplained; if (driver.failure) throw driver.failure; if (runtime.status !== "running") throw new Error(`Campaign ${runtime.status}; stop without next experiment`); };
   async function tool(name: ToolCall["name"], args: Record<string, unknown>) {
     healthy();
     const r = await runtime.executeTool({ id: `m10-action-${++actionId}`, name, arguments: args });
@@ -61,8 +61,8 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     const output = latestOutput(); assert(output, "No PLC output evidence");
     return ledger.append("observation", { summary: `${label}; elapsed ${Math.round(performance.now() - began)} ms`, evidenceRefs: [output.id] }).id;
   }
-  async function complete(scenario: string, data: Record<string, unknown>) {
-    const output = latestOutput(); assert(output);
+  async function complete(scenario: string, data: Record<string, unknown>, output = latestOutput()) {
+    assert(output);
     const finding = await tool("record_finding", { id: scenario, title: `M10 ${scenario}: observed deterministic oracle`, experimentId: scenario,
       claims: ["Motor_RunCmd", "controller.Mode", "controller.FaultCode", "controller.CompletionSequence", "controller.CompletionExit", "controller.CompletionDisposition", "controller.CountExitA", "controller.CountExitB", "controller.CountRunout", "controller.CountMisroute", "controller.CountFaulted"]
         .map(signal => ({ evidenceId: output.id, signal, equals: (output.data.values as Record<string, unknown>)[signal] })),
@@ -118,6 +118,7 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     assert(stoppedPosition > positionAtCommand); assert(stoppedEncoder > encoderAtCommand);
     await tool("observe_for_duration", { durationMs: 500 });
     assert.equal(cartons()[0].state.positionM, stoppedPosition); assert.equal(raw().Encoder_Count, stoppedEncoder);
+    const stoppedEvidence = latestOutput();
     const coast = { positionAtCommand, encoderAtCommand, stoppedPosition, stoppedEncoder, commandRef: command.id };
     ledger.append("world.evidence", { source: { type: "m10.coast-measurement", data: coast } }, "truth");
     // Resume the same tracked carton to clear the physical world before the final fault trial.
@@ -125,7 +126,7 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     await tool("operator_action", { action: "start" });
     await wait(() => values()["controller.CompletionSequence"] === nextCompletion && cartons().length === 0, "Resumed Stop carton exits runout");
     assert.equal(values()["controller.CompletionExit"], 3); assert.equal(values()["controller.CompletionDisposition"], 2);
-    await tool("acknowledge_completion", { sequence: nextCompletion }); await complete("stop-coast", coast);
+    await tool("acknowledge_completion", { sequence: nextCompletion }); await complete("stop-coast", coast, stoppedEvidence);
     await wait(() => values()["controller.ReleaseReady"] === true && cartons().length === 0, "Ready for failed-divert trial");
     const faultBefore = { ...values() }; expectedFault = 23;
     await tool("inject_fault", { controlId: "fault.setDivertJam", parameters: { divert: 1, active: true } });

@@ -35,9 +35,9 @@ export class M8OpcUaConnector implements BenchConnector {
     return Object.fromEntries(names.map((n, i) => [n, samples[paths[i]].value]));
   }
   async #write(values: Record<string, RawValue>) { await this.transport.write(Object.entries(values).map(([name, value]) => ({ path: signalByLeaf(name).iecPath, value }))); }
-  async #snapshot(): Promise<ConnectorObservation> {
+  async #snapshot(linkOnly = false): Promise<ConnectorObservation> {
     const names = ["BuildId", "InterfaceVersion", "SimApplied", "ConnectorStale", "ActiveSlot", "AppliedEpoch", "AppliedSequence", "PlcBootIdentity", "PlcCycle", "PlcTimeUs", "OutputCaptureCycle", "OutputCaptureTimeUs",
-      ...rawInputs.map(n => `Active_${n}`), ...observedSignals.map(s => s.logical)];
+      ...(linkOnly ? [] : [...rawInputs.map(n => `Active_${n}`), ...observedSignals.map(s => s.logical)])];
     const deadline = performance.now() + 2000;
     while (performance.now() < deadline) {
       const before = await this.#read(["PlcCycle", "OutputCaptureCycle"]);
@@ -52,9 +52,13 @@ export class M8OpcUaConnector implements BenchConnector {
         bootIdentity: this.#boot, appliedEpoch: String(v.AppliedEpoch), appliedSequence: String(v.AppliedSequence), plcCycle: String(v.PlcCycle), plcTimeUs: String(v.PlcTimeUs),
         outputCaptureCycle: String(v.OutputCaptureCycle), outputCaptureTimeUs: String(v.OutputCaptureTimeUs),
         connectorStale: v.ConnectorStale === true, simulationApplied: v.SimApplied === true,
-        values: Object.fromEntries(observedSignals.map(s => [s.logical, v[s.logical]])) };
-      this.latest = o; this.event("observation", { observation: o, activeImage: Object.fromEntries(rawInputs.map(n => [n, v[`Active_${n}`]])) });
-      this.#activeImage = Object.fromEntries(rawInputs.map(n => [n, v[`Active_${n}`]])); return o;
+        values: linkOnly ? {} : Object.fromEntries(observedSignals.map(s => [s.logical, v[s.logical]])) };
+      if (linkOnly) this.event("link.observation", { observation: o });
+      else {
+        this.latest = o; this.#activeImage = Object.fromEntries(rawInputs.map(n => [n, v[`Active_${n}`]]));
+        this.event("observation", { observation: o, activeImage: this.#activeImage });
+      }
+      return o;
     }
     throw new Error("Cannot obtain coherent PLC/capture-cycle bracket");
   }
@@ -118,6 +122,7 @@ export class M8OpcUaConnector implements BenchConnector {
     });
   }
   observe(): Promise<ConnectorObservation> { return this.#serial(() => this.#snapshot()); }
+  inspectLink(): Promise<ConnectorObservation> { return this.#serial(() => this.#snapshot(true)); }
   action(action: "start" | "stop" | "reset" | "offer" | "completion_ack", parameters: Record<string, unknown>, actionId: string): Promise<ConnectorObservation> {
     return this.#serial(async () => {
       this.event("command.requested", { actionId, action, parameters });

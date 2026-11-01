@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "run": "artifacts/m10/2026-11-01T00-58-43-185Z",
+  "runResultSha256": "ccf91a559118f0369fb42d20f3c5a3d13f643c4300bbda202d281d1c8f6cf928",
+  "auditSha256": "a32fb019c86756d02175dde6f92e88d8ed8c8c87cbe9392868b32e6f8db0e79e",
+  "offlineVerification": "artifacts/m10/offline/2026-11-01T00-57-02-597Z",
+  "testedSourceHashesMatch": true,
+  "preparationResultSha256": "754965cee173bda08de77362898eb680fed0c2d6aaaa002b6b43b1031992d0c8",
+  "originalEvidenceHashesVerified": true,
+  "checkCount": 10,
+  "commitCount": 302,
+  "modelCalls": 0
+}

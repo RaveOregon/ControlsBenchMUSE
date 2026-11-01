@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "checks": [
+    {
+      "name": "frozen build, original world, evidence identities",
+      "passed": true
+    },
+    {
+      "name": "six completed experiments with exact grounded findings",
+      "passed": true
+    },
+    {
+      "name": "all commits complete, matched, monotonic and cycle-correlated",
+      "passed": true
+    },
+    {
+      "name": "raw commit dispatch never exceeds 10 Hz",
+      "passed": true
+    },
+    {
+      "name": "connected world advances with bounded elapsed time",
+      "passed": true
+    },
+    {
+      "name": "write allowlist, separate valid/sequence ordering and Good timestamped reads",
+      "passed": true
+    },
+    {
+      "name": "operator/WCS action IDs and PLC acknowledgements",
+      "passed": true
+    },
+    {
+      "name": "PLC completions A/B/unassigned/misroute and exactly-once counts",
+      "passed": true
+    },
+    {
+      "name": "Stop physical coast, then stationary hold, without fabricated field changes",
+      "passed": true
+    },
+    {
+      "name": "failed-divert causal chain, faulted completion and final held simulation",
+      "passed": true
+    }
+  ],
+  "checkCount": 10,
+  "commitCount": 302,
+  "measuredCommitIntervalMs": {
+    "min": 100.10629999999946,
+    "p50": 117.88940000000002,
+    "p99": 247.48619999999937,
+    "max": 266.9867000000013
+  },
+  "claimBoundary": "Deterministic preserved-world/M9/M8 execution only; no paid Wonder, HMI or broader coverage claim."
+}

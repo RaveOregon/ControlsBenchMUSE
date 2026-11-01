@@ -13,6 +13,8 @@ import type { Decision, ToolCall, ToolName } from "../src/campaign/contracts.ts"
 import { appendCoordinatorEvent } from "../src/campaign/live-evidence.ts";
 import { preservedM7Runtime } from "../src/campaign/m7-replay.ts";
 import { fileURLToPath } from "node:url";
+import { CoordinatorCampaignDriver } from "../src/campaign/driver.ts";
+import { preservedConveyorBindings } from "../src/campaign/conveyor-bindings.ts";
 import { WonderProvider } from "../src/campaign/wonder-provider.ts";
 
 const noWork: Decision = { summary: "Fixture decision", calls: [] };
@@ -72,6 +74,19 @@ test("automatic 10 Hz schedule remains independent of model latency", async () =
   for (let i = 0; i < 10; i++) { h.clock.advance(100); await flushMicrotasks(); }
   assert.equal(h.coordinator.context.time.tick, 10);
   await h.runtime.pause(); await agent; await h.runtime.stop();
+});
+
+test("elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap", async () => {
+  const h = await createHarness({ provider: inert() });
+  const driver = new CoordinatorCampaignDriver(h.coordinator, h.ledger, preservedConveyorBindings, { clock: h.clock, elapsedStep: true, maximumStepMs: 300 });
+  await driver.initialize(); driver.start(false);
+  h.clock.advance(180); await driver.tick(); assert.equal(h.coordinator.context.time.nowMs, 180);
+  await driver.hold(); h.clock.advance(2000); driver.start(false);
+  h.clock.advance(120); await driver.tick(); assert.equal(h.coordinator.context.time.nowMs, 300);
+  const image = driver.lastImage, sequence = h.connector.sequence;
+  h.clock.advance(301); await driver.tick(); assert(driver.quarantined);
+  assert.equal(h.coordinator.context.time.nowMs, 300); assert.deepEqual(driver.lastImage, image); assert.equal(h.connector.sequence, sequence);
+  assert.match(driver.failure!.message, /observation bound/);
 });
 
 test("M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate", async () => {

@@ -14,6 +14,7 @@ class ProtocolTransport implements M8Transport {
   values: Record<string, RawValue> = {};
   writes: { path: string; value: RawValue }[][] = [];
   torn = false; badQuality = false; boot = "boot-1"; build = 8001;
+  readSizes: number[] = [];
   constructor() {
     for (const s of requiredSignals) this.values[s.iecPath] = s.iecType === "ULINT" ? "0" : s.iecType.startsWith("STRING") ? "" : s.iecType === "BOOL" ? false : 0;
     Object.assign(this.values, { "GVL_DemoRead.BuildId": 8001, "GVL_DemoRead.InterfaceVersion": 1, "GVL_BenchRead.SimApplied": true });
@@ -21,6 +22,7 @@ class ProtocolTransport implements M8Transport {
   async open() {}
   async close() {}
   async read(paths: string[]) {
+    this.readSizes.push(paths.length);
     this.values["GVL_BenchRead.PlcBootIdentity"] = this.boot; this.values["GVL_DemoRead.BuildId"] = this.build;
     const at = new Date().toISOString();
     return Object.fromEntries(paths.map(p => [p, { value: this.values[p], status: this.badQuality ? "Bad" : "Good", sourceTimestamp: at, serverTimestamp: at, receivedAtIso: at }])) as Record<string, M8Sample>;
@@ -104,4 +106,13 @@ test("authentication failure stays read/write-free; dirty baseline is rejected b
     const dirty = new M8OpcUaConnector(t, () => {}, { requireStoppedBaseline: true });
     await assert.rejects(dirty.open(), /clean stopped M8 baseline/); assert.equal(t.writes.length, 0); await dirty.close();
   }
+});
+
+test("lightweight link inspection retains full receipt evidence without rereading the 72-field image/status batch", async () => {
+  const t = new ProtocolTransport(), c = new M8OpcUaConnector(t); await c.open();
+  const receipt = await c.commit(image()), full = c.latest; t.readSizes.length = 0;
+  const link = await c.inspectLink();
+  assert.deepEqual(link.values, {}); assert(t.readSizes.every(n => n <= 12));
+  assert.equal(c.latest, full); assert.equal(receipt.image.Encoder_Count, 0);
+  assert(Object.hasOwn(receipt.values, "controller.CompletionSequence")); await c.close();
 });

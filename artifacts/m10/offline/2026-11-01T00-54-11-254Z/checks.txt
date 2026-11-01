@@ -1,0 +1,47 @@
+
+✔ budget guard reserves, settles, and rejects campaign overspend (4.4696ms)
+✔ budget guard distinguishes timeout, repair warning/stop, heartbeat, and held wait (4.0017ms)
+✔ M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action (265.3192ms)
+✔ M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it (107.4592ms)
+✔ agent is asynchronous: pending model decision never clocks raw I/O (57.0188ms)
+✔ automatic 10 Hz schedule remains independent of model latency (65.6582ms)
+✔ elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap (37.092ms)
+✔ M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate (53.8784ms)
+✔ stale connector rejects new application, cancels waits, holds last confirmed image (45.4805ms)
+✔ hung connector is bounded, quarantined and never retried (36.6061ms)
+✔ model timeout settles reservation once, stops reasoning, and preserves world (31.0946ms)
+✔ hard budget at $5 prevents a sixth call, warns at $3, holds state (87.3254ms)
+✔ budget admission checks per request, check, repair, session; charged overrun is visible (3.6748ms)
+✔ Stop during a hung request settles costs and finalizes without hanging or applying late output (43.5781ms)
+✔ Stop drains bounded initialization before finalizing and never starts the campaign afterward (33.6598ms)
+✔ every bounded tool validates its envelope; unsupported capabilities are explicit (62.0429ms)
+✔ requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing (11.7917ms)
+✔ every event schema rejects missing fields and unknown event data (19.0728ms)
+✔ append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated (1042.8609ms)
+✔ blind context excludes injector truth, source controls, raw-effect causes, and prior author history (40.3135ms)
+✔ finding evidence is exact PLC observation, never simulator truth or invented IDs (29.1803ms)
+✔ M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements (1697.8493ms)
+✔ flattened event adapter rejects a nested receipt and forged derived output (25.5517ms)
+✔ valid tools: inspect, known fault/clear, branch, HMI references, wait, reset (50.7055ms)
+✔ operator Stop interrupts a pending world action and finalizes exactly one outcome (29.156ms)
+✔ stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently (103.3798ms)
+✔ Wonder is opt-in, single-call and bounded; stub transport only (64.0059ms)
+✔ M7 coordinator closes the generated world around the measurement PLC fixture (100.0107ms)
+✔ M8 map extends observation declarations without mutating preserved world behavior (10.4856ms)
+✔ M8 connector uses five separate ordered writes, exact active image and at most 10 Hz (249.1888ms)
+✔ M8 rejects wrong build, bad quality, boot changes and torn images without retrying (19.0911ms)
+✔ M8 WCS payload precedes sequence, operator ack is retained as campaign evidence (15.2339ms)
+✔ authentication failure stays read/write-free; dirty baseline is rejected before simulation writes (7.8038ms)
+✔ lightweight link inspection retains full receipt evidence without rereading the 72-field image/status batch (7.6093ms)
+✔ manifest validation rejects duplicate semantic roles (4.2781ms)
+✔ context begins with a zero PLC input image and records attributable effects (1.8968ms)
+✔ context enforces direction, increasing frame sequences, and declared controls (1.6235ms)
+✔ seeded random and scheduled controls are repeatable (3.6487ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4849.0788

@@ -1,0 +1,15 @@
+{
+  "status": "failed_stale_link",
+  "run": "artifacts/m10/2026-11-01T00-49-30-061Z",
+  "originalEvidenceUnchanged": true,
+  "hashesVerified": true,
+  "campaignReplayVerified": true,
+  "acknowledgedRawImages": 39,
+  "bootIdentity": "1534186706133",
+  "noObservedMachineFaultBeforeStop": true,
+  "lastEpoch": "263865245485077",
+  "lastSequence": "39",
+  "heartbeatToFirstObservedStaleMs": -5956.589600000001,
+  "underlyingFailure": "Connector stale, simulation inactive, timestamp invalid or PLC boot changed; last confirmed image retained. An outstanding transport operation may still complete; reconcile before reuse.",
+  "interpretation": "Full pre-step status/cycle bracketing starved heartbeat while PLC boot remained stable. Trial stopped with item 101 active; held inputs subsequently produced the declared transit timeout, reconciled in a separate preparation record."
+}

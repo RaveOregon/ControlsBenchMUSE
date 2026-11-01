@@ -7,7 +7,7 @@ const directory = `artifacts/m10/offline/${new Date().toISOString().replace(/[:.
 mkdirSync(directory, { recursive: true });
 const typecheck = execFileSync(process.execPath, ["node_modules/typescript/bin/tsc", "--noEmit"], { encoding: "utf8", windowsHide: true });
 const tests = execFileSync(process.execPath, ["--test", "test/proof-chassis.test.ts", "test/budget-guard.test.ts", "test/live-coordinator.test.ts", "test/campaign.test.ts", "test/m8-connector.test.ts"], { encoding: "utf8", windowsHide: true });
-const sources = ["src/live/m8-map.ts", "src/live/m8-opcua.ts", "src/live/m8-native-transport.ts", "src/campaign/m8-bindings.ts", "src/campaign/m10-rehearsal.ts", "src/campaign/contracts.ts", "src/campaign/runtime.ts", "src/campaign/driver.ts", "scripts/run-m10-live.js", "scripts/run-m10-live.ps1", "scripts/audit-m10.js"];
+const sources = ["src/live/connector.ts", "src/live/m8-map.ts", "src/live/m8-opcua.ts", "src/live/m8-native-transport.ts", "src/campaign/m8-bindings.ts", "src/campaign/m10-rehearsal.ts", "src/campaign/contracts.ts", "src/campaign/runtime.ts", "src/campaign/driver.ts", "scripts/run-m10-live.js", "scripts/run-m10-live.ps1", "scripts/prepare-m10-baseline.js", "scripts/audit-m10.js"];
 assert.equal(shaFile("codesys/conveyordemo.project"), frozenProjectHash);
 writeFileSync(`${directory}/checks.txt`, `${typecheck}\n${tests}`);
 const result = { schemaVersion: 1, status: "pass", checkedAt: new Date().toISOString(),

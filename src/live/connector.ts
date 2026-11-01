@@ -35,5 +35,7 @@ export interface BenchConnector {
   resetSession(): Promise<ConnectorObservation>;
   commit(image: Readonly<RawSignalImage>): Promise<CommitReceipt>;
   observe(): Promise<ConnectorObservation>;
+  // Optional lightweight fresh link/session check. No PLC-output claims are derived from it.
+  inspectLink?(): Promise<ConnectorObservation>;
   close(): Promise<void>;
 }

@@ -1,6 +1,8 @@
 # M10 deterministic M8 integration
 
-This lane starts from the unified `m10-base` (`fa8d2ee`) on `codex/m10-live-integration`. It connects the preserved Muse world 0.5.0, the M9 `CampaignRuntime` and actual M8 build 8001/interface 1. No model request is enabled in this runner. Live verdicts are available only when a timestamped run and its independent audit pass.
+**Live deterministic M10 passed on 2026-10-31.** All six scenarios passed against M8, and the independent saved-evidence audit passed 10 checks over 302 coherent images. Evidence: `artifacts/m10/2026-11-01T00-58-43-185Z/` (UTC directory timestamp). Both earlier failed attempts and the explicit baseline reconciliation remain preserved.
+
+This lane starts from the unified `m10-base` (`fa8d2ee`) on `codex/m10-live-integration`. It connects the preserved Muse world 0.5.0, the M9 `CampaignRuntime` and actual M8 build 8001/interface 1. No model request is enabled in this runner.
 
 ## Reproduce
 
@@ -19,9 +21,11 @@ The runner never downloads, edits or compiles the PLC. A read-only official MCP 
 - `src/live/m8-native-transport.ts` discovers exact IEC paths and rejects missing/ambiguous symbols, UA type mismatch, insufficient access and bad/missing timestamp quality. It logs actual resolved node IDs. Only mapped read/write fields in `GVL_BenchWrite` and `GVL_DemoWrite` are writable. M8's previously authorized read-group exposure exception is recorded; it does not enlarge the write allowlist.
 - `src/live/m8-opcua.ts` is a reusable, transport-injected `BenchConnector`. Each complete image is Float32/UDINT normalized and read back. Invalidation, payload/metadata, validity, requested slot/epoch, and requested sequence are five separate completed writes. Sequence is always last. Commit starts are at least 100 ms apart, including timer rounding; there is no catch-up burst. Every observation uses the M8 PLC/capture-cycle bracket and stable boot. Close retains simulation and its input image.
 - `src/campaign/m8-bindings.ts` binds `assign_route`, `operator_action(start|stop|reset)` and `acknowledge_completion` to sequenced M8 requests. Payload precedes the WCS sequence; accepted/rejected status and identity are checked. These are supervisory PLC actions, not HMI clicks. New v1 payload schemas are additive; existing events and flattened coordinator acknowledgements retain their shape.
-- `src/campaign/m10-rehearsal.ts` executes the six deterministic experiments through M9 tools and the independent 100 ms driver. Its provider is a zero-cost fixture that throws if called: no model or raw scan generation can enter this proof path.
+- `src/campaign/m10-rehearsal.ts` executes the six deterministic experiments through M9 tools and the independent 100 ms requested driver clock. Connected stepping uses actual elapsed time, with a declared 300 ms maximum observation gap; pause time is excluded. Its provider is a zero-cost fixture that throws if called: no model or raw scan generation can enter this proof path.
 
-Controller observations include mode, faults, release/offer/completion status, identities and counts, in addition to the authentic five raw outputs. Optional encoder-derived LREAL diagnostics remain in timestamped native samples; they are not substituted for raw encoder input or world physics. The inherited counter-reset/rollover ambiguity remains an M8 limitation. Assertions use scenario-relative counters and continuity within this campaign.
+The optional `BenchConnector.inspectLink()` returns a lightweight fresh session/boot/staleness check; the M8 implementation reads 12 fields instead of repeating the 72-field complete image/status read before every tick. This link check emits no PLC-output evidence. `observe()` and acknowledged commits still produce full bracketed controller observations and active-image verification. Existing connectors fall back to `observe()`, preserving compatibility and the existing flattened coordinator event shape.
+
+Controller observations include mode, faults, release/offer/completion status, identities and counts, in addition to the authentic five raw outputs. Optional encoder-derived LREAL diagnostics are declared in the source M8 map but are not used as oracles or substituted for raw encoder input/world physics. The inherited counter-reset/rollover ambiguity remains an M8 limitation. Assertions use scenario-relative counters and continuity within this campaign.
 
 ## Deterministic oracles
 
@@ -44,10 +48,33 @@ Every invocation creates a new `artifacts/m10/<UTC timestamp>/` and updates `lat
 
 The ledger keeps command intent/outcome, accepted controller acknowledgements, world controls/effects/entities, complete images, the existing flattened coordinator acknowledgements and correlated PLC responses. Transport evidence separately preserves write batches, Good status/timestamps, exact active-image readback and cycle brackets. The independent audit replays and checks hash identities, all six experiments/findings, commit continuity/coherence, 10 Hz ceiling, write ordering/allowlist, command acknowledgements, exit completions/counts, Stop/coast/hold and the failed-divert chain. It rejects a failed run rather than inferring a pass from a report summary.
 
-The current offline suite tests the protocol with an injected transport, not a software copy of the conveyor controller. Only new live M10 artifacts can establish the six controller/world scenarios. HMI authoring/capture and portal UI are separately owned. Wonder remains disabled pending the completed deterministic live audit and a later explicit authorization.
+The current offline suite passes 38 tests and tests the protocol with an injected transport, not a software copy of the conveyor controller. The separate live M10 evidence establishes the six controller/world scenarios. HMI authoring/capture and portal UI are separately owned. Wonder remains disabled and requires later explicit authorization.
 
 ## First connection attempt
 
 `artifacts/m10/2026-11-01T00-42-56-378Z/` stopped in initialization with `BadUserAccessDenied`, as preserved in the campaign ledger. There were no logged OPC value-read/write batches, raw commits, controller commands or PLC boot observation. The original result contains a generic setup assertion; the ledger retains the underlying denial. The runner now propagates that original cause, records connection phases and zero activity explicitly, and exports a report even on startup failure. It also checks the stopped/no-fault/no-carton/no-pending-completion baseline before its first simulation write. The user separately reported a PLC timeout/restart; this attempt cannot establish its cause or boot identity.
 
 No automatic retry follows an access denial or restart. Confirm the unchanged M8 application is in RUN and the current OPC username before a fresh masked prompt. Do not change security settings or the PLC program to bypass a denial. Each retry receives a new directory and epoch; earlier failed evidence is retained unchanged. Subsequent offline checks are timestamped too, with `artifacts/m10/offline/latest.json` pointing to the newest verification.
+
+## Stale A trial, reconciliation and final live proof
+
+The next attempt, `2026-11-01T00-49-30-061Z`, authenticated and acknowledged 39 complete images under stable boot `1534186706133`. It stopped in the A trial when a full pre-step status acquisition repeatedly crossed the 20 ms PLC-cycle bracket, starving the heartbeat. The first observed stale sample followed the last heartbeat by more than 500 ms. No machine fault was observed before the stop. The held active carton subsequently reached M8's declared 30 s transit timeout (fault 33); that later state was observed and preserved by preparation. The trial certifies no completed sort.
+
+The client fix separates lightweight link inspection from complete commit evidence, and feeds measured elapsed time to the unchanged world. `prepare-m10-baseline.js` only reconciles this specific saved stale A trial: matching boot, applied epoch/sequence and exact held image are mandatory, and only the held Auto state or its expected transit timeout are accepted. It records Stop, a declared fresh preserved-world input/counter baseline, completion acknowledgement and Reset. It does not reset arbitrary unexplained faults. Its separate evidence is `preparation-2026-11-01T00-58-28-089Z/`, ending Stopped/fault-free without changing PLC code.
+
+`run-m10-live.ps1 -Watch -PrepareBaseline` is the recorded recovery invocation. Watch mode holds the credential only in its PowerShell process, waits for fixed `run`, `prepare_then_run` or `stop` requests in the ignored `operator-request.json`, and never retries a failure by itself. It clears credentials on close or 30 minutes of idle time. The completed operator session was explicitly stopped and its status is inactive. Ordinary reproduction from a clean stopped baseline still uses `proof:m10:live`. Repeating after the final held fault requires a separate explicit baseline procedure; the runner deliberately refuses a dirty start.
+
+The successful run retained boot `1534186706133`, epoch `196518616187191`, and sequences 1–302, with capture cycle equal to PLC cycle for every acknowledgement. Commit intervals were min **100.106 ms**, median **117.889 ms**, p99 **247.486 ms**, max **266.987 ms**; effective cadence was **6.52 Hz**. This proves the 10 Hz ceiling and the bounded continuous-world exercise, not a new sustained 10 Hz transport qualification. Maximum world step was 265.7505 ms, within the declared 300 ms bound.
+
+| Scenario | Observed new PLC completion / result |
+|---|---|
+| A | Sequence 2, item 101, A / Sorted |
+| B | Sequence 3, item 102, B / Sorted |
+| Unassigned runout | Sequence 4, item 0, Runout / RunoutUnassigned |
+| Assigned runout | Sequence 5, item 103/A, Runout / Misrouted |
+| Stop/coast | Motor-off acknowledgement; carton 0.723351 → 0.839637 m, raw encoder 16709 → 16825, stationary hold; retained carton later cleared as sequence 6 / RunoutUnassigned |
+| Failed divert | Sequence 7, item 201, Faulted / Unknown, fault 23, motor off, no successful exit count |
+
+Completion sequence 1 and one faulted-carton count came from the preserved interrupted A trial. The successful campaign therefore has count **deltas** A +1, B +1, Runout +3, Misroute +1 and Faulted +1; cumulative final faulted count is 2. The reset/rebaseline is not credited as physical encoder travel. The final world is stopped at raw encoder 21613 and speed zero, with fault 23 and completion 7 held in simulation for inspection. After transport closure, connector stale may assert as designed without changing the held image.
+
+`audit.json` and the assessments sidecars verify the original evidence hashes, deterministic ledger replay, tested source hashes and linkage to the preparation record. No paid call, HMI operation/capture, UI edit, PLC program change or modification to M8's original evidence occurred.
