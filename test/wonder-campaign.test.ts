@@ -139,6 +139,22 @@ test("W1: warning/hard-stop refuses a sixth call and retains valid evidence", as
   assert(h.ledger.events.some(e => e.type === "plc.output")); assert.throws(() => h.runtime.resume(), /cannot resume/); await h.runtime.stop();
 });
 
+test("W1: oversized provider errors still settle the charge and hold without another turn", async () => {
+  let attempts = 0;
+  const h = await createHarness({ provider: { id: "verbose-failure-fixture", paid: true, estimatedRequestUsd: 1,
+    async decide() { attempts++; throw new Error("Provider failure: " + "details".repeat(3000)); }
+  }, paidAuthorized: true });
+  await h.runtime.start(false); await h.runtime.runAgent();
+  assert.equal(attempts, 1); assert.equal(h.runtime.status, "paused");
+  assert.equal(h.ledger.state.budget.campaignUsd, 1);
+  assert.equal(Object.keys(h.ledger.state.actions).length, 0);
+  const state = h.ledger.events.filter(e => e.type === "campaign.state").at(-1)!;
+  assert.match(String(state.data.reason), /^Model failed: Provider failure:/);
+  assert.match(String(state.data.reason), /no automatic retry$/);
+  assert(String(state.data.reason).length < 8000);
+  await h.runtime.stop(); assert.equal(h.runtime.getReport().status, "stopped");
+});
+
 test("W1: durable session charges span campaigns, lock concurrency, and retain crash reservations", () => {
   const dir = mkdtempSync(join(tmpdir(), "wonder-session-")), path = join(dir, "session.jsonl");
   try {
