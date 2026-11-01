@@ -127,7 +127,7 @@ export const enumOf = (table: Record<number, string>, v: Scalar | undefined) => 
 
 export const OUTCOME_TEXT: Record<string, string> = {
   sending: "Sending", pending: "Requested", delivered: "Written · awaiting PLC", applied: "Applied by PLC", rejected: "Rejected by PLC",
-  timed_out: "No PLC ack", failed: "Failed", refused: "Not sent"
+  timed_out: "No PLC ack", unconfirmed: "Unconfirmed", failed: "Failed", refused: "Not sent"
 };
 export const ACTION_TEXT: Record<CommandAction, string> = { start: "Start", stop: "Stop", reset: "Reset", auto_on: "Auto on", auto_off: "Auto off" };
 export function outcomeLabel(c: CommandView): string {

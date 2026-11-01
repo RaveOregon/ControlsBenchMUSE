@@ -271,13 +271,17 @@ try {
   if (service) { result.journal = service.journal.file; result.alarms = service.alarms.query({}).alarms; result.commands = service.commands.list(100); await service.stop(); }
   hmiServer?.close(); portal?.close();
   if (existsSync(worldTrace)) { writeFileSync(`${worldTrace}.gz`, gzipSync(readFileSync(worldTrace))); unlinkSync(worldTrace); }
-  // Keep the frames each step cites alongside the evidence; the per-second stream stays out of git.
+  // Keep every frame the evidence cites (steps and agent action screens) alongside it; the per-second stream stays out of git.
   const frameDir = `${dir}/evidence-frames`; mkdirSync(frameDir, { recursive: true });
-  const cited = new Set(JSON.stringify(result.steps).match(/hmi-frame:[^"]+/g) ?? []);
+  const journalLines = result.journal && existsSync(result.journal) ? readFileSync(result.journal, "utf8").trim().split("\n").filter(Boolean).map(l => JSON.parse(l)) : [];
+  const screenRefs = journalLines.filter(r => r.type === "agent.action.screen").map(r => r.data.screen?.frameRef).filter(Boolean);
+  const cited = new Set([...(JSON.stringify(result.steps).match(/hmi-frame:[^"]+/g) ?? []), ...screenRefs]);
+  result.missingCitedFrames = [];
   for (const ref of cited) {
     const [, session, seq] = ref.split(":");
     const file = `${dir}/portal-hmi/hmi-frames/${session.replace(/[^a-zA-Z0-9_-]/g, "_")}/${String(seq).padStart(6, "0")}.jpg`;
     if (existsSync(file)) copyFileSync(file, `${frameDir}/${session}-${String(seq).padStart(6, "0")}.jpg`);
+    else result.missingCitedFrames.push(ref);
   }
   result.finishedAt = new Date().toISOString();
   writeFileSync(`${dir}/result.json`, JSON.stringify(result, null, 2) + "\n");

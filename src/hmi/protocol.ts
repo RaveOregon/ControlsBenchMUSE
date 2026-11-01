@@ -56,6 +56,11 @@ export interface LinkView {
   bootIdentity?: string;
   previousBootIdentity?: string;
   bootChangedAtIso?: string;
+  /**
+   * Operator writes are held because a write did not complete in time and may still land. Cleared
+   * only after that write settles and a PLC read issued after the settlement succeeds.
+   */
+  quarantine?: { reason: string; sinceIso: string; paths: string[]; settledAtIso?: string; settledAs?: string };
 }
 
 export interface IdentityView {
@@ -72,7 +77,11 @@ export interface IdentityView {
 }
 
 export type CommandAction = "start" | "stop" | "reset" | "auto_on" | "auto_off";
-export type CommandOutcome = "pending" | "delivered" | "applied" | "rejected" | "timed_out" | "failed" | "refused";
+/**
+ * unconfirmed: the PLC decision could not be established from Good-quality samples, or the write
+ * itself did not complete and may still land. Never treated as applied or rejected.
+ */
+export type CommandOutcome = "pending" | "delivered" | "applied" | "rejected" | "timed_out" | "unconfirmed" | "failed" | "refused";
 export type CommandOrigin = "operator_browser" | "agent_seam" | "test";
 
 export interface PreconditionView { id: string; label: string; met: boolean | null; observed: string }
@@ -109,6 +118,8 @@ export interface CommandView {
   detail: string;
   preconditions?: PreconditionView[];
   atAck?: ResultingStateView;
+  /** The PLC samples the outcome was decided from (sequence, acknowledgement, accepted flag or readback), with their quality. */
+  confirmation?: Record<string, SampleView>;
   /** Follow-up PLC state; the window closes early (settled=false, supersededBy) when another command is issued. */
   resulting?: ResultingStateView & { settled: boolean; supersededBy?: string };
   evidenceRefs: string[];

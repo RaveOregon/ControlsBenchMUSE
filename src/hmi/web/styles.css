@@ -244,7 +244,7 @@ main { flex: 1; padding: 12px 16px 16px; }
 .outcome.pending, .outcome.delivered, .outcome.sending { color: var(--accent); border-color: #8fb0d0; background: var(--accent-soft); }
 .outcome.applied { color: var(--ok); border-color: #8bb79c; background: #e5f1e9; }
 .outcome.rejected { color: var(--alarm); border-color: var(--alarm-line); background: var(--alarm-soft); }
-.outcome.timed_out, .outcome.failed { color: var(--warn); border-color: var(--warn-line); background: var(--warn-soft); }
+.outcome.timed_out, .outcome.unconfirmed, .outcome.failed { color: var(--warn); border-color: var(--warn-line); background: var(--warn-soft); }
 .outcome.refused { color: var(--muted); border-color: var(--line); background: var(--surface); }
 
 .preconds { margin: 6px 0 0; padding: 0; list-style: none; font-size: 12px; }

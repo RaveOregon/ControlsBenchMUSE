@@ -100,6 +100,8 @@ export function mountHeader(root: HTMLElement): { update: () => void; setRoute: 
     banner("link", link.state === "stale" ? "warn" : "bad", "PLC link",
       !store.serviceConnected || link.state === "connected" ? (link.plcScanning === false ? "Reads succeed but PlcCycle is not advancing: the PLC application may not be running. Commands disabled." : null)
         : `${link.state === "stale" ? "Stale" : link.state === "connecting" ? "Connecting" : link.state === "reconnecting" ? "Lost — reconnecting" : link.state === "stopped" ? "Stopped" : "Disconnected"}. ${link.lastPollOkAtIso ? `Values held from ${fmtTime(link.lastPollOkAtIso, false)} (${fmtAge(age)} old).` : "No PLC values observed yet."} ${link.detail} Commands disabled.`);
+    const held = link.quarantine;
+    banner("quarantine", "bad", "Writes held", held ? `Operator writes held since ${fmtTime(held.sinceIso, false)}: ${held.reason}. ${held.settledAtIso ? `It settled (${held.settledAs}) at ${fmtTime(held.settledAtIso, false)}; awaiting a fresh PLC read.` : "Awaiting its settlement; the PLC may still apply it."} Commands disabled.` : null);
     const stale = store.bool(P.stale);
     banner("connector", "warn", "Bench diagnostic", stale ? "Simulation connector stale: no workstation heartbeat for more than 25 PLC scans. The PLC holds its inputs at the last applied image and its timers keep running. This is a connection diagnostic, not a machine alarm." : null);
     banner("ownership", "info", "Read-only", st.ownership.commandsEnabled ? null : `HMI commands disabled: ${st.ownership.reasons.join("; ")}. Polling every ${link.pollIntervalMs} ms.`);

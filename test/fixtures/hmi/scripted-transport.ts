@@ -19,6 +19,10 @@ export class ScriptedPlc {
   /** CODESYS rejected a 103-node Read with BadTooManyOperations on 2026-11-01; 72 nodes passed. */
   maxNodesPerRead = 72;
   readSizes: number[] = [];
+  /** Per-path sample fields to override (quality, timestamps, value type), as a server could return them. */
+  sampleOverride: Record<string, Partial<M8Sample>> = {};
+  /** Paths left out of read responses. */
+  omit = new Set<string>();
   #cycle = 1000n;
 
   constructor() {
@@ -36,9 +40,9 @@ export class ScriptedPlc {
     if (!this.freezeCycle) this.#cycle += 3n;
     this.values["GVL_BenchRead.PlcCycle"] = this.#cycle.toString(); this.values["GVL_BenchRead.OutputCaptureCycle"] = this.#cycle.toString();
     const at = new Date().toISOString();
-    return Object.fromEntries(paths.map(p => {
+    return Object.fromEntries(paths.filter(p => !this.omit.has(p)).map(p => {
       if (!(p in this.values)) throw new Error(`Read of unresolved M8 symbol ${p}`);
-      return [p, { value: this.values[p], status: "Good (0x00000000)", sourceTimestamp: at, serverTimestamp: at, receivedAtIso: at }];
+      return [p, { value: this.values[p], status: "Good (0x00000000)", sourceTimestamp: at, serverTimestamp: at, receivedAtIso: at, ...this.sampleOverride[p] }];
     }));
   }
 

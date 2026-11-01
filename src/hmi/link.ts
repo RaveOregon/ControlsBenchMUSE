@@ -25,6 +25,10 @@ export interface PlcLinkOptions {
   /** Nodes per OPC UA Read request. CODESYS rejects large batches with BadTooManyOperations (103 failed; 72 passes). */
   maxNodesPerRead?: number;
   backoffMs?: number[];
+  /** Operator write timeout. Default 5 s. A write that outlives it quarantines operator writes. */
+  writeTimeoutMs?: number;
+  /** After a write timeout, how long nothing else is issued on the session before it is closed. Default 10 s. */
+  writeDrainMs?: number;
   nowMs?: () => number;
   onSnapshot?: (snapshot: SnapshotView, previous?: SnapshotView) => void;
   onBootChange?: (from: string, to: string) => void;
@@ -35,6 +39,12 @@ const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 const AUTH_FAILURE = /BadUserAccessDenied|BadIdentityToken|BadSecurityChecksFailed|BadCertificate/i;
 // Deterministic request-shape rejections: a new session cannot fix them, so do not loop on reconnects.
 const REQUEST_REJECTED = /BadTooManyOperations/i;
+
+/** A write whose transport operation outlived its timeout. It was not cancelled and may still land. */
+export class WriteUnsettledError extends Error {
+  readonly paths: string[];
+  constructor(paths: string[], timeoutMs: number) { super(`Write to ${paths.join(", ")} did not complete within ${timeoutMs} ms`); this.paths = paths; }
+}
 
 export class PlcLink {
   readonly journal: HmiJournal;
@@ -55,6 +65,9 @@ export class PlcLink {
   #scanRef?: { cycle: string; atMs: number };
   #stopped = false;
   #wake?: () => void;
+  /** Holds the queue after a write timeout until that write settles or the drain deadline passes. */
+  #draining?: Promise<void>;
+  #quarantineSettledMs?: number;
 
   constructor(options: PlcLinkOptions) {
     this.#options = options; this.#factory = options.transportFactory; this.journal = options.journal;
@@ -71,6 +84,7 @@ export class PlcLink {
   /** A good read completed within the stale threshold. */
   get fresh(): boolean { return this.#view.state === "connected" && this.#lastOkMs !== undefined && this.#now() - this.#lastOkMs <= this.#view.staleAfterMs; }
   get lastWrite() { return this.#lastWrite.map(w => ({ ...w })); }
+  get quarantine(): LinkView["quarantine"] { return this.#view.quarantine && { ...this.#view.quarantine }; }
 
   values(): Record<string, Scalar> {
     return Object.fromEntries(Object.entries(this.#latest?.values ?? {}).filter(([, s]) => s.good).map(([p, s]) => [p, s.value]));
@@ -105,19 +119,25 @@ export class PlcLink {
   }
 
   /**
-   * Runs a transport operation in order with polls and other operations. A hung operation fails
-   * visibly after the timeout; the queue then moves on (the transport may still complete it).
+   * Runs a transport operation in order with polls and other operations. A hung read fails visibly
+   * after the timeout and the queue moves on. A hung write (writePaths given) is not cancelled by its
+   * timeout: it may still land, so operator writes are quarantined and nothing further is issued on
+   * the session until the write settles or the drain deadline closes the session.
    */
-  serial<T>(operation: (transport: M8Transport) => Promise<T>, timeoutMs = 5000): Promise<T> {
+  serial<T>(operation: (transport: M8Transport) => Promise<T>, timeoutMs = 5000, writePaths?: string[]): Promise<T> {
     const result = this.#tail.then(() => {
       if (!this.#transport) throw new Error("PLC link not connected");
-      const transport = this.#transport;
+      const op = operation(this.#transport);
       return new Promise<T>((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error(`PLC operation exceeded ${timeoutMs} ms`)), timeoutMs);
-        operation(transport).then(v => { clearTimeout(timer); resolve(v); }, e => { clearTimeout(timer); reject(e); });
+        const timer = setTimeout(() => {
+          if (!writePaths) return reject(new Error(`PLC operation exceeded ${timeoutMs} ms`));
+          this.#quarantineWrite(op, writePaths, timeoutMs);
+          reject(new WriteUnsettledError(writePaths, timeoutMs));
+        }, timeoutMs);
+        op.then(v => { clearTimeout(timer); resolve(v); }, e => { clearTimeout(timer); reject(e); });
       });
     });
-    this.#tail = result.catch(() => {});
+    this.#tail = result.catch(() => {}).then(() => this.#draining);
     return result;
   }
 
@@ -134,9 +154,33 @@ export class PlcLink {
   /** Operator write. Refuses anything outside the four M8 operator request paths. */
   async write(items: { path: string; value: RawValue }[]): Promise<Array<{ path: string; value: Scalar; status: string }>> {
     for (const item of items) if (!HMI_WRITE_ALLOWLIST.has(item.path)) throw new Error(`HMI write refused outside operator allowlist: ${item.path}`);
+    if (this.#view.quarantine) throw new Error(`HMI write refused: operator writes held (${this.#view.quarantine.reason})`);
     this.#lastWrite = [];
-    await this.serial(t => t.write(items));
+    await this.serial(t => t.write(items), this.#options.writeTimeoutMs ?? 5000, items.map(i => i.path));
     return this.lastWrite;
+  }
+
+  #quarantineWrite(op: Promise<unknown>, paths: string[], timeoutMs: number): void {
+    this.#quarantineSettledMs = undefined;
+    this.#view.quarantine = { reason: `write to ${paths.join(", ")} did not complete within ${timeoutMs} ms and may still land`,
+      sinceIso: new Date(this.#now()).toISOString(), paths };
+    this.journal.append("link.quarantined", this.#view.quarantine);
+    const settled = op.then(() => "completed", e => `failed: ${e instanceof Error ? e.message : String(e)}`).then(settledAs => {
+      this.#quarantineSettledMs = this.#now();
+      if (this.#view.quarantine) this.#view.quarantine = { ...this.#view.quarantine, settledAtIso: new Date(this.#quarantineSettledMs).toISOString(), settledAs };
+      this.journal.append("link.write_settled", { paths, settledAs });
+      this.#options.onChange?.();
+    });
+    const drainMs = this.#options.writeDrainMs ?? 10_000;
+    const expired = new Promise<boolean>(r => { const t = setTimeout(() => r(true), drainMs); t.unref?.(); });
+    this.#draining = Promise.race([settled.then(() => false), expired]).then(async timedOut => {
+      this.#draining = undefined;
+      if (!timedOut) return;
+      // Closing the session does not prove the write cannot land; the quarantine stays until it settles.
+      this.journal.append("link.drain_expired", { paths, drainMs });
+      await this.#closeTransport(`Outstanding write to ${paths.join(", ")} did not settle within ${drainMs} ms`);
+    });
+    this.#options.onChange?.();
   }
 
   #transportEvent: TransportEvent = (kind, data) => {
@@ -233,6 +277,10 @@ export class PlcLink {
       }
       if (boot) this.#view.bootIdentity = boot;
       this.#latest = snapshot;
+      if (this.#view.quarantine && this.#quarantineSettledMs !== undefined && requestedMs > this.#quarantineSettledMs) {
+        this.journal.append("link.quarantine_cleared", { ...this.#view.quarantine, freshReadRequestedAtIso: requestedAtIso, snapshotSequence: snapshot.sequence });
+        this.#view.quarantine = undefined;
+      }
       this.#set("connected", this.#view.plcScanning === false ? "Reads succeed but PlcCycle is not advancing: the PLC application may not be scanning." : "Polling");
       this.#options.onSnapshot?.(snapshot, previous);
     } catch (error) {

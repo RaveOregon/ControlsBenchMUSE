@@ -87,12 +87,18 @@ Branch `hmi/m10-operator-hmi` (worktree `.claude/worktrees/m10-operator-hmi`) me
   - Item 301/A completed at Exit A / Sorted, acknowledged by the WCS peer.
   - During an HMI-link interruption, Start was disabled and nothing was written; the link reconnected.
   - ConnectorStale showed as a banner and created no alarm.
-- Tests: 72/72. Screenshots: fixture and live, in `docs/screenshots/hmi/` (`live-index.json`), including the live portal pages.
+- Tests: 72/72 at `1a4a986` (115/115 after the review fixes). Screenshots: fixture and live, in `docs/screenshots/hmi/` (`live-index.json`), including the live portal pages.
 - **The PLC is left clean:** Stopped, no fault, no item, completion acknowledged, simulation held at rest, ConnectorStale TRUE. No lock is held, and the watcher's credential is cleared.
 - The 13 live attempts are all retained.
   - Four left M8 held after the coordinator timed out.
   - Each was reconciled by `scripts/recover-hmi-h2-baseline.js`, which follows Lane A's preparation pattern. It refuses unless boot, applied epoch/sequence, held image, counters and the predicted fault match that run exactly. All four reconciliations are recorded under `artifacts/hmi/h2/recovery-*`.
-- **Finding for Lane A:** the coordinator runs about 30 ms under its 300 ms observation bound on this laptop (Lane A's M10 max was 267 ms; H2 p99 227–246 ms). An extra OPC client, frame capture, and especially a browser loading the full portal UI can push one tick over the bound. Isolating the coordinator (own process, above-normal priority, lighter HMI polling during H2) made the passing run possible, but does not guarantee every run.
+- **Finding for Lane A:** the coordinator runs about 30 ms under its 300 ms observation bound on this laptop (Lane A's M10 max was 267 ms; H2 p99 227–246 ms). An extra OPC client, frame capture, and especially a browser loading the full portal UI can push one tick over the bound. Isolating the coordinator (own process, above-normal priority, lighter HMI polling during H2) made the passing run possible, but does not guarantee every run. Per the review, `maximumStepMs` stays 300.
+- **Codex review at `1a4a986`** (`docs/reviews/m10-hmi-1a4a986.md`): its three findings are fixed offline. No PLC was contacted.
+  - Command decisions now require Good, timestamped, correctly typed samples; otherwise the outcome is `unconfirmed`. The samples are kept as evidence.
+  - A write that outlives its timeout quarantines operator writes until it settles and a later read succeeds, so a later Stop cannot overtake it.
+  - The audit now requires the bytes of every cited frame.
+  - That stricter check found three uncopied agent-action frames in each passing run. They were supplemented from each run's capture store, by hash match against both run-time records (`evidence-frames-supplement.json`). All three runs re-audit 13/13.
+  - Tests are 115/115 and typecheck is clean. Integrate next into `codex/m10-convergence`.
 
 See `docs/m10-operator-hmi.md`.
 

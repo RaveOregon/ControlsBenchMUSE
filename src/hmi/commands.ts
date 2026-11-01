@@ -2,10 +2,13 @@
 // rejected only from the PLC's own acknowledgement (sequence echo plus accepted flag) or, for the
 // retained AutoRequest bit that has no acknowledgement field, from an explicit readback that is
 // labelled as such. A refused request never reached the PLC. A timed-out request may still apply.
+// Every sample a decision rests on must be Good quality, carry both timestamps and have the expected
+// type; otherwise the outcome is unconfirmed, never applied or rejected.
 
-import type { CommandAction, CommandOrigin, CommandView, OwnershipView, ResultingStateView, Scalar, SnapshotView } from "./protocol.ts";
+import type { M8Sample } from "../live/m8-opcua.ts";
+import type { CommandAction, CommandOrigin, CommandView, OwnershipView, ResultingStateView, SampleView, Scalar, SnapshotView } from "./protocol.ts";
 import { HmiJournal } from "./journal.ts";
-import type { PlcLink } from "./link.ts";
+import { WriteUnsettledError, type PlcLink } from "./link.ts";
 import { P, active, resetPreconditions, startPreconditions } from "./signals.ts";
 
 export interface CommandRequest {
@@ -47,6 +50,24 @@ function stateFrom(values: Record<string, Scalar>, observedAtIso: string): Resul
 }
 const sameState = (a: ResultingStateView, b: ResultingStateView) =>
   a.mode === b.mode && a.faultCode === b.faultCode && a.motorRunCmd === b.motorRunCmd && a.driveRunningFb === b.driveRunningFb;
+
+type Expect = "uint" | "bool";
+const timed = (iso: string | undefined) => !!iso && !Number.isNaN(Date.parse(iso));
+const goodQuality = (s: M8Sample) => String(s.status).startsWith("Good") && timed(s.sourceTimestamp) && timed(s.serverTimestamp);
+/** Why a sample cannot support a PLC decision, or undefined when it can. */
+function unusable(s: M8Sample | undefined, expect: Expect): string | undefined {
+  if (!s) return "missing";
+  if (!String(s.status).startsWith("Good")) return `quality ${s.status}`;
+  if (!timed(s.sourceTimestamp) || !timed(s.serverTimestamp)) return "missing or unreadable timestamp";
+  const typed = expect === "bool" ? typeof s.value === "boolean" : typeof s.value === "number" && Number.isInteger(s.value) && s.value >= 0;
+  return typed ? undefined : `unexpected value ${JSON.stringify(s.value)}`;
+}
+const sampleView = (s: M8Sample | undefined, expect: Expect): SampleView => s
+  ? { value: s.value as Scalar, status: s.status, good: !unusable(s, expect), sourceTimestamp: s.sourceTimestamp, serverTimestamp: s.serverTimestamp, receivedAtIso: s.receivedAtIso }
+  : { value: null, status: "Missing", good: false, sourceTimestamp: "", serverTimestamp: "", receivedAtIso: now() };
+/** Values of Good-quality samples only, for state shown at acknowledgement. */
+const goodValues = (samples: Record<string, M8Sample>): Record<string, Scalar> =>
+  Object.fromEntries(Object.entries(samples).filter(([, s]) => goodQuality(s)).map(([p, s]) => [p, s.value as Scalar]));
 
 export class OperatorCommands {
   readonly #o: OperatorCommandOptions;
@@ -91,7 +112,9 @@ export class OperatorCommands {
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       const delivered = !!command.deliveredAtIso;
-      this.#finish(command, delivered ? "timed_out" : "failed", delivered
+      if (error instanceof WriteUnsettledError) this.#finish(command, "unconfirmed", `${message}. A timeout is not cancellation: the PLC may still apply it. `
+        + "Operator writes are held until this write settles and a fresh PLC read follows; inspect before retrying.");
+      else this.#finish(command, delivered ? "timed_out" : "failed", delivered
         ? `Written, but acknowledgement could not be read: ${message}. The PLC may have applied it; inspect before retrying.`
         : `Write did not complete: ${message}. Whether the PLC received it is unconfirmed; inspect before retrying.`);
     } finally { this.#inFlight = undefined; }
@@ -103,6 +126,8 @@ export class OperatorCommands {
     if (!ownership.commandsEnabled) return ownership.reasons.join("; ") || "commands disabled";
     if (this.#inFlight) return `command ${this.#inFlight} is still awaiting its PLC acknowledgement`;
     const link = this.#o.link;
+    const held = link.quarantine;
+    if (held) return `operator writes held: ${held.reason}; ${held.settledAtIso ? "it has settled, awaiting a fresh PLC read" : "awaiting its settlement"}`;
     if (!link.fresh) return `PLC data is not fresh (link ${link.view.state})`;
     if (link.view.plcScanning === false) return "PlcCycle is not advancing; the PLC application may not be scanning";
     return this.#o.identityProblem();
@@ -113,9 +138,12 @@ export class OperatorCommands {
     command.deliveredAtIso = now(); command.outcome = "delivered"; command.detail = `AutoRequest := ${value} written; reading back`;
     this.#journal("command.delivered", command, { writes: command.writes });
     const samples = await this.#o.link.read(STATE_PATHS);
-    const values = Object.fromEntries(Object.entries(samples).map(([p, s]) => [p, s.value]));
-    command.ackKind = "readback"; command.acknowledgedAtIso = samples[P.autoRequest].receivedAtIso;
-    command.atAck = stateFrom(values, command.acknowledgedAtIso);
+    const values = goodValues(samples);
+    command.ackKind = "readback";
+    command.atAck = stateFrom(values, samples[P.autoRequest]?.receivedAtIso ?? now());
+    const problem = this.#confirm(command, samples, [[P.autoRequest, "bool"]]);
+    if (problem) return void this.#finish(command, "unconfirmed", `AutoRequest := ${value} written, but the readback is not usable (${problem}). Whether the request variable holds ${value} is unconfirmed; inspect before retrying.`);
+    command.acknowledgedAtIso = samples[P.autoRequest].receivedAtIso;
     if (values[P.autoRequest] !== value) return void this.#finish(command, "failed", `Readback AutoRequest=${String(values[P.autoRequest])} differs from the written ${value}`);
     this.#finish(command, "applied", `AutoRequest readback is ${value}. M8 has no Auto acknowledgement field: this confirms the request variable, not a mode change.${!value && values[P.mode] === 1 ? " Withdrawing Auto stops the conveyor while in Auto." : ""}`);
   }
@@ -123,29 +151,40 @@ export class OperatorCommands {
   async #sequenced(command: CommandView, action: "start" | "stop" | "reset"): Promise<void> {
     const paths = SEQ[action];
     const before = await this.#o.link.read([paths.seq, paths.ack]);
-    const current = Number(before[paths.seq].value);
-    if (!Number.isInteger(current) || current < 0) throw new Error(`Unreadable ${paths.seq}`);
+    const unreadable = this.#confirm(command, before, [[paths.seq, "uint"]]);
+    if (unreadable) return void this.#finish(command, "refused", `Not sent to the PLC: ${unreadable}, so the next request sequence cannot be established`);
+    const current = before[paths.seq].value as number;
     const expected = current + 1;
     if (expected > 0xffffffff) return void this.#finish(command, "refused", "Sequence would wrap; a new PLC session is required");
     Object.assign(command, { expectedSequence: expected, ackField: paths.ack, acceptedField: paths.accepted, ackKind: paths.accepted ? "plc_sequence_ack" : "plc_sequence_echo" });
     command.writes = await this.#o.link.write([{ path: paths.seq, value: expected }]);
     command.deliveredAtIso = now(); command.outcome = "delivered"; command.detail = `${paths.seq} := ${expected} written; awaiting ${paths.ack}`;
-    this.#journal("command.delivered", command, { writes: command.writes, previousSequence: current, previousAck: before[paths.ack].value });
+    this.#journal("command.delivered", command, { writes: command.writes, previousSequence: current, previousAck: sampleView(before[paths.ack], "uint") });
     const deadline = Date.now() + (this.#o.ackTimeoutMs ?? 2000);
+    let lastProblem: string | undefined;
     while (Date.now() < deadline) {
       const samples = await this.#o.link.read([paths.ack, ...(paths.accepted ? [paths.accepted] : []), ...STATE_PATHS]);
-      const ack = Number(samples[paths.ack].value);
+      lastProblem = unusable(samples[paths.ack], "uint");
+      if (lastProblem) {
+        lastProblem = `${paths.ack} ${lastProblem}`; this.#confirm(command, samples, [[paths.ack, "uint"]]);
+        await sleep(this.#o.ackPollMs ?? 40); continue;
+      }
+      const ack = samples[paths.ack].value as number;
       if (ack === expected) {
         // Ack and accepted are set in the same scan; a second read cannot straddle that scan.
         const confirm = paths.accepted ? await this.#o.link.read([paths.ack, paths.accepted]) : samples;
-        const values = Object.fromEntries(Object.entries(samples).map(([p, s]) => [p, s.value]));
-        command.acknowledgedAtIso = samples[paths.ack].receivedAtIso;
-        command.atAck = stateFrom(values, command.acknowledgedAtIso);
+        const values = goodValues(samples);
+        command.atAck = stateFrom(values, samples[paths.ack].receivedAtIso);
+        const problem = this.#confirm(command, confirm, paths.accepted ? [[paths.ack, "uint"], [paths.accepted, "bool"]] : [[paths.ack, "uint"]]);
+        if (problem) return void this.#finish(command, "unconfirmed", `${paths.ack}=${expected} was observed, but the confirmation read is not usable (${problem}). The PLC decision is unconfirmed; inspect before retrying.`);
+        if (confirm[paths.ack].value !== expected) return void this.#finish(command, "unconfirmed",
+          `${paths.ack} moved from ${expected} to ${String(confirm[paths.ack].value)} between reads: another request was acknowledged, so the accepted flag cannot be attributed to this one.`);
+        command.acknowledgedAtIso = confirm[paths.ack].receivedAtIso;
         if (!paths.accepted) {
           this.#settle(command);
-          return void this.#finish(command, "applied", `PLC echoed ${paths.ack}=${expected}: Stop consumed. Mode at acknowledgement: ${String(values[P.modeText])}.`);
+          return void this.#finish(command, "applied", `PLC echoed ${paths.ack}=${expected}: Stop consumed. Mode at acknowledgement: ${String(values[P.modeText] ?? "not Good quality")}.`);
         }
-        const accepted = confirm[paths.accepted].value === true && Number(confirm[paths.ack].value) === expected;
+        const accepted = confirm[paths.accepted].value === true;
         command.accepted = accepted;
         if (!accepted) command.preconditions = action === "start" ? startPreconditions({ ...this.#o.link.values(), ...values }) : resetPreconditions({ ...this.#o.link.values(), ...values });
         this.#settle(command);
@@ -156,14 +195,27 @@ export class OperatorCommands {
       if (ack > expected) return void this.#finish(command, "failed", `PLC acknowledged a later ${paths.ack}=${ack}: another writer issued a request; this request's effect is ambiguous`);
       await sleep(this.#o.ackPollMs ?? 40);
     }
+    if (lastProblem) return void this.#finish(command, "unconfirmed", `No usable ${paths.ack} within ${this.#o.ackTimeoutMs ?? 2000} ms (last read: ${lastProblem}). The write was delivered and may still apply; inspect before retrying.`);
     this.#finish(command, "timed_out", `No ${paths.ack}=${expected} within ${this.#o.ackTimeoutMs ?? 2000} ms. The write was delivered and may still apply; inspect before retrying.`);
+  }
+
+  /** Records the decision samples on the command and returns why they cannot support a decision, if so. */
+  #confirm(command: CommandView, samples: Record<string, M8Sample>, required: Array<[string, Expect]>): string | undefined {
+    command.confirmation ??= {};
+    const problems: string[] = [];
+    for (const [path, expect] of required) {
+      command.confirmation[path] = sampleView(samples[path], expect);
+      const problem = unusable(samples[path], expect);
+      if (problem) problems.push(`${path} ${problem}`);
+    }
+    return problems.length ? problems.join("; ") : undefined;
   }
 
   #finish(command: CommandView, outcome: CommandView["outcome"], detail: string): CommandView {
     command.outcome = outcome; command.detail = detail;
     if (outcome !== "refused") this.#o.link.pollSoon();
     this.#journal(`command.${outcome}`, command, { detail, expectedSequence: command.expectedSequence, accepted: command.accepted, atAck: command.atAck,
-      preconditions: outcome === "rejected" ? command.preconditions : undefined, acknowledgedAtIso: command.acknowledgedAtIso });
+      preconditions: outcome === "rejected" ? command.preconditions : undefined, acknowledgedAtIso: command.acknowledgedAtIso, confirmation: command.confirmation });
     return command;
   }
 

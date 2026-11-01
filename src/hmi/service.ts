@@ -33,6 +33,8 @@ export interface HmiServiceOptions {
   ackTimeoutMs?: number;
   settleMs?: number;
   staleAfterMs?: number;
+  writeTimeoutMs?: number;
+  writeDrainMs?: number;
 }
 
 const CHURN = new Set([P.plcCycle, P.outputCaptureCycle, "GVL_BenchRead.PlcHeartbeat", "GVL_BenchRead.PlcTimeUs", "GVL_BenchRead.OutputCaptureTimeUs", "GVL_DemoRead.Status.ScanTimeUs"]);
@@ -85,6 +87,7 @@ export class HmiService {
     this.link = new PlcLink({ transportFactory: factory, journal: this.journal, endpoint: source.kind === "fixture" ? "fixture://m10-recorded" : source.endpoint,
       securityMode: source.kind === "fixture" ? "None (fixture)" : "SignAndEncrypt", securityPolicy: source.kind === "fixture" ? "None (fixture)" : "Basic256Sha256",
       userConfigured: source.kind === "live_plc" && source.userConfigured, pollIntervalMs: options.pollIntervalMs ?? 250, staleAfterMs: options.staleAfterMs,
+      writeTimeoutMs: options.writeTimeoutMs, writeDrainMs: options.writeDrainMs,
       onSnapshot: (s, prev) => this.#onSnapshot(s, prev), onBootChange: (from, to) => this.alarms.bootChanged(from, to, new Date().toISOString()),
       onChange: () => { if (!this.link.connected) this.alarms?.linkLost(`PLC link ${this.link.view.state}`); this.#notify(); } });
     this.alarms = new AlarmRecorder({ journal: this.journal, serviceSessionId: this.serviceSessionId,

@@ -175,6 +175,7 @@ export function mountOperation(page: HTMLElement): () => void {
     const busyServer = st.commands.find(c => c.outcome === "pending" || c.outcome === "delivered");
     const busyLocal = [...store.local.values()].find(l => !l.error);
     const why = !store.serviceConnected ? "HMI service connection lost." : !st.ownership.commandsEnabled ? `Commands disabled: ${st.ownership.reasons.join("; ")}.`
+      : st.link.quarantine ? `Operator writes held: ${st.link.quarantine.reason}.`
       : !store.fresh() ? `PLC data not fresh (${st.link.state}).` : st.link.plcScanning === false ? "PLC is not scanning." : busyServer || busyLocal ? `Waiting for the PLC to acknowledge ${ACTION_TEXT[(busyServer ?? busyLocal)!.action]}.` : "";
     for (const [b, action] of commandButtons) {
       b.disabled = !!why;

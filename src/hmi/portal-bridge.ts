@@ -11,7 +11,7 @@ import type { AgentActionView, CommandView } from "./protocol.ts";
 import type { HmiService } from "./service.ts";
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
-const TERMINAL = new Set(["applied", "rejected", "timed_out", "failed", "refused"]);
+const TERMINAL = new Set(["applied", "rejected", "timed_out", "unconfirmed", "failed", "refused"]);
 
 export class PortalSessionBridge {
   readonly service: HmiService;

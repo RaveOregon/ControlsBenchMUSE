@@ -78,12 +78,17 @@ Only `GVL_DemoWrite.StartSequence`, `StopSequence`, `ResetSequence` and `AutoReq
 | Reset | `ResetSequence := n+1` | `ResetAck = n+1`, `ResetAccepted = TRUE` | `ResetAccepted = FALSE` |
 | Auto on/off | `AutoRequest := TRUE/FALSE` | labelled **readback** (M8 has no Auto acknowledgement field) | readback differs (`failed`) |
 
+Every sample a decision rests on (the request sequence before the write, the acknowledgement, the accepted flag, the Auto readback) must be Good quality, carry parseable source and server timestamps, and have the expected type (unsigned integer or BOOL). Those samples, with their quality, are kept on the command as `confirmation` and in its terminal journal record. State shown "at acknowledgement" uses Good samples only.
+
 Outcomes:
-- `refused`: not sent. Causes are read-only mode, another owner, stale data, a frozen PlcCycle, an unexpected controller identity, or another command in flight.
+- `refused`: not sent. Causes are read-only mode, another owner, stale data, a frozen PlcCycle, an unexpected controller identity, another command in flight, held operator writes (below), or a request sequence that could not be read with Good quality.
 - `delivered`: written, awaiting acknowledgement.
-- `applied` or `rejected`: from the PLC acknowledgement.
-- `timed_out`: written, with no acknowledgement within 2 s. The command may still apply, so inspect before retrying.
-- `failed`: the write did not complete, the readback differs, or another writer's later sequence made the outcome ambiguous.
+- `applied` or `rejected`: from a Good-quality PLC acknowledgement.
+- `unconfirmed`: the PLC decision could not be established. Either a confirmation sample was missing, not Good, untimestamped or of the wrong type; or the acknowledgement moved between the two reads; or the write itself outlived its timeout. Never treated as applied or rejected.
+- `timed_out`: written, with no acknowledgement within 2 s while the acknowledgement read Good. The command may still apply, so inspect before retrying.
+- `failed`: the transport rejected the write, the readback differs, or another writer's later sequence made the outcome ambiguous.
+
+**Held operator writes.** A write that outlives its 5 s timeout is not cancelled; it may still land. The link then quarantines operator writes (`link.quarantined`). Nothing else is issued on that session until the write settles, or until the 10 s drain deadline, when the session is closed. Every command is refused while the quarantine holds. It clears only after the write has settled (`link.write_settled`) **and** a PLC read issued after the settlement succeeds (`link.quarantine_cleared`). Opening a new session does not clear it. The header shows a "Writes held" banner and the controls give the reason.
 
 One command runs at a time, and request IDs are idempotent. After an acknowledgement, the resulting mode, fault, motor command, running feedback and AutoRequest are followed until they are stable for 1 s, or for at most 5 s.
 
@@ -152,14 +157,17 @@ A disabled target makes the action `inconclusive`, and nothing is delivered. The
 
 ## Tests
 
-This lane's tests are 28 of the suite: `test/hmi-commands.test.ts`, `test/hmi-alarms.test.ts`, `test/hmi-freshness.test.ts` and `test/hmi-coordinator-process.test.ts`. They run over a scripted protocol transport (`test/fixtures/hmi/scripted-transport.ts`), which answers sequences as each test scripts them; it is not a copy of the conveyor logic. It also enforces the observed 72-node Read limit. The tests cover:
+This lane's tests are 71 of the suite: `test/hmi-commands.test.ts`, `test/hmi-confirmation.test.ts`, `test/hmi-alarms.test.ts`, `test/hmi-freshness.test.ts`, `test/hmi-coordinator-process.test.ts` and `test/hmi-audit.test.ts`. They run over a scripted protocol transport (`test/fixtures/hmi/scripted-transport.ts`), which answers sequences as each test scripts them; it is not a copy of the conveyor logic. It also enforces the observed 72-node Read limit, and can return any sample with non-Good quality, no timestamps, the wrong type, or not at all. The tests cover:
 - Command acknowledgement: applied, rejected with preconditions, the Stop echo, timeout, ambiguous other-writer, Auto readback, ownership, read-only, stale, identity and in-flight refusals, idempotency, the write allowlist, and superseded follow-up windows.
+- Confirmation quality: Uncertain, Bad, missing and untimestamped acknowledgements on Start, Stop and Reset; the same, plus wrong types, on StartAccepted, ResetAccepted and the Auto readback; a non-Good request sequence refused before any write. All are `unconfirmed` or `refused`, never applied or rejected.
+- Held writes: a delayed Start write that outlives its timeout cannot be overtaken by a later Stop; the drain deadline closes the session, but the new session does not clear the quarantine.
+- H2 audit evidence, on a temporary copy of a preserved run: one cited frame missing, all frames missing, an empty frame and changed frame bytes each fail.
 - Alarm transitions: start-of-observation basis, raise and clear windows, ConnectorStale and bad quality not becoming alarms, exceptions, the review marker, persistence and restart continuity, gap-labelled clears, and boot change to unresolved.
 - Freshness: unchanged values staying fresh, stale with held values, reconnect with a fresh session, no retry after an auth rejection, scan check, boot change, batched reads under the node limit, and a stale threshold that follows the poll rate.
 - HTTP: identity, cross-origin refusal, TypeScript stripping and path confinement, fixture-only controls, and journal hash-chain verification.
 - The H2 coordinator process: start, world tool, carton query and stop over IPC, using Lane A's fake connector.
 
-The full suite is 72/72 (`npm test`, twice in a row; the two Lane B CDP tests need a non-sandboxed shell to launch Edge), and typecheck is clean.
+The full suite is 115/115 (`npm test`, twice in a row after the Codex review fixes; the two Lane B CDP tests need a non-sandboxed shell to launch Edge, and failed in the reviewer's sandbox with "Browser exited before exposing DevTools"), and typecheck is clean.
 
 ## Gate status
 
@@ -167,7 +175,7 @@ The full suite is 72/72 (`npm test`, twice in a row; the two Lane B CDP tests ne
 |---|---|---|
 | H0 interfaces and fixture rendering | **Pass** | Three pages render against labelled fixtures seeded from the recorded M10 trace (`test/fixtures/hmi/m10-recorded-states.json`; the source trace's SHA-256 is inside). The desktop layout was inspected at 1280×800. Screenshots: `docs/screenshots/hmi/fixture-1280-*.png`. |
 | H1 live observations and commands | **Pass** | Live M8 boot `1580380594210`, after the user rebooted the PLC. The HMI read a clean baseline on its own OPC UA session (103 fields in batches of at most 60 nodes) and issued PLC-acknowledged operator requests. |
-| H2 Start/Stop/Reset/Auto, faults, alarms, disconnect | **Pass (3 runs), each independently audited 13/13** | `artifacts/hmi/h2/2026-11-01T14-02-24-720Z` and `…T14-07-10-579Z` (single-process runner); `…T15-12-23-772Z` (**coordinator in its own process**). Re-check with `npm run hmi:audit -- <run>`; no PLC needed. |
+| H2 Start/Stop/Reset/Auto, faults, alarms, disconnect | **Pass (3 runs), each independently audited 13/13** (re-audited after the review's stricter frame check; see "Codex review at 1a4a986") | `artifacts/hmi/h2/2026-11-01T14-02-24-720Z` and `…T14-07-10-579Z` (single-process runner); `…T15-12-23-772Z` (**coordinator in its own process**). Re-check with `npm run hmi:audit -- <run>`; no PLC needed. |
 | H3 portal session and correlated evidence | **Pass (live)** | The live HMI was operated in the portal's controlled (headless) browser session. Every click has five linked records, and each frame's SHA-256 matches Lane B's session log. Live portal pages with the HMI tile: `live-portal-fault.png` (during fault 10) and `live-portal-final.png` (isolated run). |
 
 **H2, verified live through trusted clicks in the portal session, in all three passing runs:**
@@ -282,7 +290,23 @@ It claims `artifacts/m10/live.lock` in the main checkout and refuses an active L
 - Adding `"recoverFrom":"<failed run>"` reconciles first, and `"recoverOnly":true` stops after reconciling.
 - `{"action":"stop"}` ends the watcher.
 
-The watcher never retries by itself, and clears the credential after 30 minutes idle, on `stop`, or on Ctrl+C. Evidence goes to `artifacts/hmi/h2/<ts>/`: `result.json`, `audit.json`, the HMI journal and alarm history, `campaign.jsonl`, `world-transport.jsonl.gz` (written by the coordinator process), Lane B's `hmi-session.jsonl`, the cited frames, and `portal-page-final.png`. The per-second frame stream is not committed. `artifacts/hmi/.gitattributes` keeps evidence bytes exact.
+The watcher never retries by itself, and clears the credential after 30 minutes idle, on `stop`, or on Ctrl+C. Evidence goes to `artifacts/hmi/h2/<ts>/`: `result.json`, `audit.json`, the HMI journal and alarm history, `campaign.jsonl`, `world-transport.jsonl.gz` (written by the coordinator process), Lane B's `hmi-session.jsonl`, the cited frames, and `portal-page-final.png`. Cited frames are those referenced by the steps **and** by every agent-action screen in the journal; any that cannot be found are listed in `result.missingCitedFrames`, and the audit then fails. The per-second frame stream is not committed. `artifacts/hmi/.gitattributes` keeps evidence bytes exact.
+
+## Codex review at 1a4a986
+
+Review: `docs/reviews/m10-hmi-1a4a986.md` (main checkout). All three findings are fixed on this branch and checked offline with the reviewer's reproductions (`.worktrees/hmi-review/reproduce.mjs`, scripted transports and temporary evidence copies only). No PLC connection, command or recovery was made.
+
+| Finding | Fix | Reproduction now |
+|---|---|---|
+| P1: an Uncertain acknowledgement could be labelled applied | Decision samples must be Good, timestamped and correctly typed, or the outcome is `unconfirmed`; the samples are kept as evidence (see Commands). | Start with Uncertain StartAck and StartAccepted → `unconfirmed` |
+| P1: a timed-out write could land after a later acknowledged Stop | The write timeout quarantines operator writes until the write settles and a later read succeeds; the queue holds the session meanwhile (see Held operator writes). | Start `unconfirmed`, Stop `refused`, writes: StartSequence only |
+| P2: the audit passed with every cited frame removed | `cited-frames-preserved` derives the required set from agent-action screens and result steps, and requires each frame's bytes, non-empty, matching both Lane B's log and the action record. | Empty `evidence-frames` → audit fails |
+
+**Preserved runs, supplemented.** The stricter check showed that all three passing runs lacked three cited frames each. These were the agent-action screens for the second Auto on, Start and Stop, whose steps did not carry the frame reference, so the runner never copied them. The original bytes were still in each run's gitignored capture store, and their SHA-256 matched both values recorded during the run: Lane B's `hmi-session.jsonl` and the HMI journal's `agent.action.screen` record. They were copied into `evidence-frames/` on that basis only; no existing file changed. Each run's `evidence-frames-supplement.json` lists the frames, hashes, citing records and the reason. All three runs then re-audit 13/13. The runner now copies agent-action screens too.
+
+**Timing decision** (from the review): keep `maximumStepMs = 300`. A wider bound would be a separately declared profile with its own evidence. The next integrated gate is a repeatable attended campaign with the portal displayed, measuring cadence, step gaps and missed transitions under the HMI's load.
+
+**Merge target** (from the review): integrate into `codex/m10-convergence`, not `main` or the old Lane A/B branches. A simulated merge reports conflicts in `.gitignore`, `package.json`, `tsconfig.json` and `test/portal-host.test.ts`; keep the union of both sides, and in the portal-host test keep the convergence version's frame-snapshot hashing.
 
 ## Untested and limitations
 

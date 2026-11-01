@@ -48,7 +48,7 @@ export function auditHmiH2(dir) {
   });
 
   const terminal = new Map();
-  for (const r of journal) if (/^command\.(applied|rejected|timed_out|failed|refused)$/.test(r.type)) terminal.set(r.data.requestId, r);
+  for (const r of journal) if (/^command\.(applied|rejected|timed_out|unconfirmed|failed|refused)$/.test(r.type)) terminal.set(r.data.requestId, r);
   const requested = of("command.requested");
   check("command-sequence-and-plc-outcomes", () => {
     const seq = requested.map(r => `${r.data.action}:${terminal.get(r.data.requestId)?.data.outcome}`);
@@ -108,6 +108,27 @@ export function auditHmiH2(dir) {
     return `${n} clicks each with requested action, CDP delivery, trusted page input on the intended target, linked command (for controls), rendered outcome and a later frame whose SHA-256 matches Lane B's log`;
   });
   check("cited-frames-preserved", () => {
+    // Required set comes from what the evidence cites (agent screens and result steps), not from the files present.
+    const actionSha = new Map();
+    for (const r of of("agent.action.screen")) {
+      const { frameRef, sha256 } = r.data.screen ?? {};
+      if (!frameRef) continue;
+      assert.ok(!actionSha.has(frameRef) || actionSha.get(frameRef) === sha256, `${frameRef} cited with two different SHA-256 values`);
+      actionSha.set(frameRef, sha256);
+    }
+    const cited = new Set([...actionSha.keys(), ...(JSON.stringify(result.steps ?? []).match(/hmi-frame:[^"]+/g) ?? [])]);
+    assert.ok(cited.size > 0, "no frames cited");
+    const fileOf = ref => { const [, session, seq] = ref.split(":"); return join(dir, "evidence-frames", `${session}-${String(seq).padStart(6, "0")}.jpg`); };
+    for (const ref of cited) {
+      const frame = frames.get(ref);
+      assert.ok(frame, `${ref} not in Lane B session log`);
+      assert.ok(existsSync(fileOf(ref)), `${ref} cited but its frame bytes are missing`);
+      const bytes = readFileSync(fileOf(ref));
+      assert.ok(bytes.length > 0, `${ref} frame file is empty`);
+      assert.equal(sha(bytes), frame.sha256, `${ref} bytes differ from Lane B's log`);
+      if (actionSha.has(ref)) assert.equal(sha(bytes), actionSha.get(ref), `${ref} bytes differ from the agent action record`);
+    }
+    // Any extra preserved frame must still be a logged capture with matching bytes.
     const files = readdirSync(join(dir, "evidence-frames"));
     for (const f of files) {
       const [session, seq] = [f.slice(0, f.lastIndexOf("-")), Number(f.slice(f.lastIndexOf("-") + 1, -4))];
@@ -115,7 +136,7 @@ export function auditHmiH2(dir) {
       assert.ok(frame, `${f} not in session log`);
       assert.equal(sha(readFileSync(join(dir, "evidence-frames", f))), frame.sha256, `${f} bytes differ`);
     }
-    return `${files.length} cited frames, bytes match captured SHA-256`;
+    return `${cited.size} cited frames (${actionSha.size} from agent action screens) present; bytes match the action records and Lane B's SHA-256`;
   });
   check("alarm-transitions", () => {
     const raised = of("alarm.raised"), cleared = of("alarm.cleared");
@@ -162,7 +183,7 @@ export function auditHmiH2(dir) {
   return { schemaVersion: 1, directory: dir, auditedAt: new Date().toISOString(), pass, checks };
 }
 
-if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, "/").replace(/^\//, "")}`) {
+if (process.argv[1] && import.meta.url === `file:///${process.argv[1].replace(/\\/g, "/").replace(/^\//, "")}`) {
   const dir = process.argv[2] ?? JSON.parse(readFileSync("artifacts/hmi/h2/latest.json", "utf8")).directory;
   if (!existsSync(join(dir, "result.json"))) throw new Error(`No result.json in ${dir}`);
   const audit = auditHmiH2(dir);
