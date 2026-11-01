@@ -22,6 +22,7 @@ export type ActivityState =
   | "repair_warning"
   | "budget_hold"
   | "stopped"
+  | "failed"
   | "completed";
 
 export type Tone = "neutral" | "active" | "reasoning" | "waiting" | "paused" | "degraded" | "stalled" | "done";
@@ -113,6 +114,8 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
         return { label: "Coordinator", value: "stopped · image held", tone: "done" };
       case "completed":
         return { label: "Coordinator", value: "completed", tone: "done" };
+      case "failed":
+        return { label: "Coordinator", value: "failed · image held", tone: "stalled" };
       case "budget_hold":
         return { label: "Coordinator", value: "holding (budget)", tone: "stalled" };
       default:
@@ -171,6 +174,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
     return view({ state: "idle", tone: "neutral", headline: state.mode === "replay" ? "Ready — Play recorded campaign" : "Ready — review the plan scope, then Start Campaign", elapsedLabel: "—" });
   }
   if (state.phase === "completed") return view({ state: "completed", tone: "done", headline: "Campaign complete — run record finalized and held for inspection", elapsedLabel: "—" });
+  if (state.phase === "failed") return view({ state: "failed", tone: "stalled", headline: "Campaign failed — run record finalized; inspect the recorded cause before starting again", elapsedLabel: "—" });
   if (state.phase === "stopped") return view({ state: "stopped", tone: "done", headline: "Stopped — run record finalized; final raw image held for inspection", elapsedLabel: "—" });
   if (state.phase === "paused") return view({ state: "paused", tone: "paused", headline: state.mode === "replay" ? "Playback paused — recorded image held" : "Paused — current raw image held; the PLC keeps scanning", detail: inProgress ? `Was: ${inProgress}` : undefined, elapsedLabel: "—" });
   if (state.phase === "budget_hold") return view({ state: "budget_hold", tone: "stalled", headline: "Budget hard stop — no further model calls; state held until you extend or stop", detail: `Spent $${state.budget.spentUsd.toFixed(2)} of $${state.budget.limits?.campaignHardUsd.toFixed(2)}`, elapsedLabel: "—" });

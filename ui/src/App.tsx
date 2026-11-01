@@ -4,6 +4,10 @@ import { ContextPanel, CommandNotice, ExperimentPanel, FindingCard, ResultsPanel
 import { ingestHmiObservation, type HmiSource, type HmiObservation } from "./adapters/live/hmi-source.ts";
 import type { CoordinatorTransport, CoordinatorEventLike, CommandAcknowledgement } from "./adapters/live/coordinator-source.ts";
 import { LiveSession } from "./adapters/live/coordinator-source.ts";
+import { HostedSession } from "./adapters/host/hosted-session.ts";
+import { connectHostStream, detectHost, fetchTransport } from "./adapters/host/host-transport.ts";
+import { CampaignTruthPanel } from "./components/CampaignTruthPanel.tsx";
+import type { HostInfo } from "../../src/host/protocol.ts";
 import { verifyProvenance, type FixtureBundle, type ProvenanceCheck } from "./adapters/replay/fixtures.ts";
 import { parseWorldGeometry } from "./adapters/replay/geometry.ts";
 import { REPLAY_SPEEDS, ReplaySession } from "./adapters/replay/replay-session.ts";
@@ -28,27 +32,38 @@ const MAX_FRAME_STEP_MS = 1000;
 
 export function App() {
   const [bundle, setBundle] = useState<FixtureBundle | null>(null);
+  const [host, setHost] = useState<HostInfo | null | undefined>(undefined);
   const [error, setError] = useState<string>();
   useEffect(() => {
     import("./adapters/replay/fixtures-browser.ts")
       .then((module) => module.loadBrowserFixtures())
       .then(setBundle)
       .catch((reason: unknown) => setError(String(reason)));
+    detectHost().then(setHost, () => setHost(null));
   }, []);
   if (error) return <div className="loading">Could not load preserved evidence: {error}</div>;
-  if (!bundle) return <div className="loading">Loading preserved Gate A–D and M0–M7 evidence…</div>;
-  return <Workspace bundle={bundle} />;
+  if (!bundle || host === undefined) return <div className="loading">Loading preserved Gate A–D and M0–M7 evidence…</div>;
+  return <Workspace bundle={bundle} host={host} />;
 }
 
-function Workspace({ bundle }: { bundle: FixtureBundle }) {
+function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | null }) {
   const sessions = useMemo(() => {
     const signals: SignalDefinition[] = bundle.manifest.signals.map((signal) => ({ id: signal.id, direction: signal.direction, dataType: signal.dataType, role: signal.role, description: signal.description }));
     const outputIds = signals.filter((signal) => signal.direction === "plc_to_world").map((signal) => signal.id);
+    const bridge = new LiveSession(new WorkspaceStore("live", signals), outputIds);
+    const hosted = host ? new HostedSession(new WorkspaceStore("live", signals), { transport: fetchTransport() }) : null;
     return {
       replay: new ReplaySession(bundle, new WorkspaceStore("replay", signals)),
-      live: new LiveSession(new WorkspaceStore("live", signals), outputIds)
+      bridge,
+      hosted,
+      live: (hosted ?? bridge) as CampaignSource
     };
-  }, [bundle]);
+  }, [bundle, host]);
+  useEffect(() => {
+    if (!sessions.hosted) return;
+    const stream = connectHostStream(sessions.hosted);
+    return () => stream.close();
+  }, [sessions]);
   const geometry = useMemo(() => parseWorldGeometry(bundle.worldSource), [bundle]);
   const [provenance, setProvenance] = useState<ProvenanceCheck[] | null>(null);
   useEffect(() => {
@@ -58,7 +73,8 @@ function Workspace({ bundle }: { bundle: FixtureBundle }) {
   const [destination, setDestination] = useState<"Setup" | "Campaign" | "Results">("Campaign");
   const [hmiSource, setHmiSource] = useState<HmiSource | null>(null);
   const [visualSurface, setVisualSurface] = useState<"both" | "world" | "hmi">("both");
-  const [mode, setMode] = useState<SourceMode>("replay");
+  // A hosted portal opens on its live campaign; preserved replay remains one click away.
+  const [mode, setMode] = useState<SourceMode>(host ? "live" : "replay");
   const [speed, setSpeed] = useState(sessions.replay.speed);
   const [selection, setSelection] = useState<Selection>(null);
   const source: CampaignSource = mode === "replay" ? sessions.replay : sessions.live;
@@ -88,17 +104,24 @@ function Workspace({ bundle }: { bundle: FixtureBundle }) {
   useEffect(() => {
     const portal = {
       contractVersion: 1 as const,
-      attachCoordinator: (transport: CoordinatorTransport) => { sessions.live.attach(transport); setFrame(n => n + 1); },
-      detachCoordinator: () => { sessions.live.detach(); setFrame(n => n + 1); },
-      ingestCoordinatorEvents: (events: readonly CoordinatorEventLike[]) => sessions.live.ingestCoordinatorEvents(events),
-      acknowledge: (ack: CommandAcknowledgement) => sessions.live.acknowledge(ack),
-      ingestEvidence: (events: readonly import('./model/events.ts').MuseEvent[]) => sessions.live.store.applyEvents(events),
+      // V1 window bridge. When a portal host is attached, Live mode shows the host instead.
+      hosted: Boolean(sessions.hosted),
+      attachCoordinator: (transport: CoordinatorTransport) => { sessions.bridge.attach(transport); setFrame(n => n + 1); },
+      detachCoordinator: () => { sessions.bridge.detach(); setFrame(n => n + 1); },
+      ingestCoordinatorEvents: (events: readonly CoordinatorEventLike[]) => sessions.bridge.ingestCoordinatorEvents(events),
+      acknowledge: (ack: CommandAcknowledgement) => sessions.bridge.acknowledge(ack),
+      ingestEvidence: (events: readonly import('./model/events.ts').MuseEvent[]) => sessions.bridge.store.applyEvents(events),
       ingestHmi: (observation: HmiObservation) => { const target = observation.mode === 'live' ? sessions.live : sessions.replay; ingestHmiObservation(target.store, hmiSource, observation, target.nowMs()); }
     };
     (window as Window & { controlsBenchPortal?: typeof portal }).controlsBenchPortal = portal;
     return () => { delete (window as Window & { controlsBenchPortal?: typeof portal }).controlsBenchPortal; };
   }, [sessions, hmiSource]);
   const nowMs = source.nowMs();
+  const hostedSource = mode === "live" && sessions.hosted ? sessions.hosted : null;
+  const nowEpochMs = hostedSource ? hostedSource.nowEpochMs() : Date.now();
+  const truthActions = hostedSource ? { reviewFinding: (id: string, review: "accepted" | "rerun_requested") => hostedSource.reviewFinding(id, review), reportUrl: "/api/campaign/report", ledgerUrl: "/api/campaign/ledger" } : undefined;
+  const hmiControls = hostedSource ? { configure: (url: string) => hostedSource.configureHmi(url), disconnect: () => hostedSource.disconnectHmi() } : undefined;
+  const liveDetail = sessions.hosted ? `${state.host?.state === "connected" ? "host" : "host reconnecting"} · ${host?.factory.evidenceClass.replaceAll("_", " ")}` : undefined;
   const check = focusedCheck(state, selection);
   const pending = Object.values(state.commands).find(c => c.outcome === 'pending');
   const startReason = source.unavailableReason ?? (pending ? 'Awaiting application acknowledgement' : source.store.can('start').ok ? undefined : (source.store.can('start') as { reason: string }).reason);
@@ -113,6 +136,7 @@ function Workspace({ bundle }: { bundle: FixtureBundle }) {
         state={state}
         mode={mode}
         liveAttached={!sessions.live.unavailableReason}
+        liveDetail={liveDetail}
         onMode={(next) => {
           setMode(next);
           setSelection(null);
@@ -140,19 +164,21 @@ function Workspace({ bundle }: { bundle: FixtureBundle }) {
         <ActivityStrip view={view} speedNote={speedNote} />
         <CommandNotice state={state} />
         <main className="portal-main">
-          {destination === 'Setup' && <><div className="page-heading"><div><div className="eyebrow">{mode} · engineering setup</div><h1>Conveyor bench setup</h1><p>Imported specification, raw signal contract and visible world assumptions.</p></div></div><div className="setup-grid"><div><ContextPanel bundle={bundle} /><HmiConfiguration source={hmiSource} onConfigure={setHmiSource} /></div><div>{plan}<details className="inspector-disclosure"><summary>Connection & authority</summary><ConnectionPanel state={state} nowMs={nowMs} /></details></div></div></>}
+          {destination === 'Setup' && <><div className="page-heading"><div><div className="eyebrow">{mode} · engineering setup</div><h1>Conveyor bench setup</h1><p>Imported specification, raw signal contract and visible world assumptions.</p></div></div><div className="setup-grid"><div><ContextPanel bundle={bundle} /><HmiConfiguration source={hmiSource} onConfigure={setHmiSource} state={state} hosted={hmiControls} /></div><div>{plan}<details className="inspector-disclosure"><summary>Connection & authority</summary><ConnectionPanel state={state} nowMs={nowMs} /></details></div></div></>}
           {destination === 'Campaign' && <>
             <div className="page-heading"><div><div className="eyebrow">{mode === 'replay' ? 'RECORDED CAMPAIGN · nothing here is live' : 'LIVE CAMPAIGN'}</div><h1>Conveyor bench campaign</h1></div><button className="btn primary" disabled={Boolean(startReason)} title={startReason} onClick={() => source.start()}>{mode === 'replay' ? 'Play recorded campaign' : 'Start campaign'}</button></div>
-            {mode === 'live' && source.unavailableReason && <div className="source-notice"><b>Live coordinator not attached.</b> {source.unavailableReason}</div>}
-            <div className="experiment-grid"><ExperimentPanel state={state} check={check} onSelect={setSelection} /><FindingCard state={state} check={check} source={source} onSelect={setSelection} /></div>
+            {mode === 'live' && source.unavailableReason && <div className="source-notice"><b>{sessions.hosted ? 'Portal host unavailable.' : 'Live coordinator not attached.'}</b> {source.unavailableReason}</div>}
+            {/* Hosted campaigns show the M9 experiments and findings; the built-in check cards would cite unrelated preserved checks. */}
+            {hostedSource ? <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />
+              : <div className="experiment-grid"><ExperimentPanel state={state} check={check} onSelect={setSelection} /><FindingCard state={state} check={check} source={source} onSelect={setSelection} /></div>}
             <details className="inspector-disclosure"><summary>Steer Muse / request a targeted experiment</summary><SteeringBox state={state} onSteer={text => source.steer(text)} /></details>
             <div className="visual-heading"><h2>Observe the experiment</h2><div className="segmented" role="group" aria-label="Observation surfaces">{(['both','world','hmi'] as const).map(v => <button key={v} aria-pressed={visualSurface === v} onClick={() => setVisualSurface(v)}>{v === 'both' ? 'Side by side' : v === 'world' ? 'Simulated World' : 'PLC HMI'}</button>)}</div><details><summary>Generated geometry & assumptions</summary><p className="mono">World v{bundle.manifest.packageVersion}</p><pre className="document-text">{JSON.stringify(geometry, null, 2)}</pre><ul>{bundle.manifest.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></details></div>
-            <div className={visualSurface === 'both' ? 'observation-grid' : 'observation-single'}>{visualSurface !== 'hmi' && <MachineView state={state} geometry={geometry} onSelect={setSelection} />}{visualSurface !== 'world' && <HmiSurface state={state} source={hmiSource} onSelect={setSelection} />}</div>
+            <div className={visualSurface === 'both' ? 'observation-grid' : 'observation-single'}>{visualSurface !== 'hmi' && <MachineView state={state} geometry={geometry} onSelect={setSelection} />}{visualSurface !== 'world' && <HmiSurface state={state} source={hmiSource} nowEpochMs={nowEpochMs} onSelect={setSelection} />}</div>
             <EvidenceTimeline state={state} nowMs={nowMs} selection={selection} onSelect={setSelection} />
             <details className="inspector-disclosure"><summary>Campaign scope & checks</summary>{plan}</details>
             <details className="inspector-disclosure"><summary>Protocol diagnostics, budget & raw I/O</summary><ConnectionPanel state={state} nowMs={nowMs} /><BudgetPanel state={state} nowMs={nowMs} /><RawIoPanel state={state} nowMs={nowMs} onSelect={setSelection} onSuppress={(id, suppressed) => source.setSuppression(id, suppressed)} /></details>
           </>}
-          {destination === 'Results' && <ResultsPanel state={state} bundle={bundle} onSelect={setSelection} />}
+          {destination === 'Results' && <>{hostedSource && <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />}<ResultsPanel state={state} bundle={bundle} onSelect={setSelection} /></>}
         </main>
       </div>
       <Inspector nowMs={nowMs} state={state} selection={selection} provenance={provenance} onSelect={setSelection} />

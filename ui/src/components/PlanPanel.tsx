@@ -128,7 +128,7 @@ export function PlanPanel({ state, worldName, worldVersion, signalCounts, select
             budget <b>${(limits?.campaignHardUsd ?? 5).toFixed(2)}</b> hard stop
           </span>
         </div>
-        {state.phase === "ready" || state.phase === "stopped" || state.phase === "completed" ? (
+        {state.phase === "ready" || state.phase === "stopped" || state.phase === "completed" || state.phase === "failed" ? (
           <>
             <button
               className="btn primary"
