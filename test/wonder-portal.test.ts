@@ -3,21 +3,21 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import { CampaignHost } from "../src/host/campaign-host.ts";
 import { createCampaignFactory } from "../src/host/wonder-recorded-factory.ts";
-import { HostedSession } from "../ui/src/adapters/host/hosted-session.ts";
-import { WorkspaceStore } from "../ui/src/model/workspace-store.ts";
+import { createHostedBrowserSession } from "../ui/src/adapters/host/browser-session.ts";
 import { replay } from "../src/campaign/ledger.ts";
 import type { HostStreamMessage } from "../src/host/protocol.ts";
 
 test("W2: portal consumes recorded activity, costs, actions and findings from the one authoritative ledger", async () => {
   const manifest = JSON.parse(readFileSync(new URL("../artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json", import.meta.url), "utf8"));
   const host = new CampaignHost({ factory: createCampaignFactory() });
-  const store = new WorkspaceStore("replay", manifest.signals);
-  const portal = new HostedSession(store, { mode: "replay" });
+  const portal = createHostedBrowserSession(manifest.signals, { send(command) { host.submit(command); } });
+  const store = portal.store;
   const messages: HostStreamMessage[] = []; let delivered = Promise.resolve();
   const off = host.subscribe(message => { messages.push(message); delivered = delivered.then(() => portal.receive(message)); });
   try {
     assert.equal(host.info.factory.evidenceClass, "preserved_live_plc"); assert.match(host.info.factory.label, /Recorded/);
-    host.submit({ contractVersion: 1, requestId: "start-recorded", type: "start" }); await host.idle();
+    await delivered; assert.equal(portal.mode, "live");
+    assert.equal(portal.start().ok, true); await host.idle();
     assert(host.runtime); await host.runtime.runAgent(); await host.runtime.stop();
     // A new subscription flushes the finalized prefix and exercises reconnect/deduplication.
     const disconnect = host.subscribe(message => { delivered = delivered.then(() => portal.receive(message)); }, { campaignId: host.campaignId!, after: portal.lastSequence });
@@ -33,6 +33,6 @@ test("W2: portal consumes recorded activity, costs, actions and findings from th
     assert(host.report()!.claimBoundary!.includes("RECORDED"));
     host.submit({ contractVersion: 1, requestId: "steer-unsupported", type: "steer", payload: { text: "Run a new fault trial" } }); await host.idle(); await delivered;
     assert(messages.some(m => m.type === "ack" && m.ack.requestId === "steer-unsupported" && m.ack.outcome === "rejected" && /not delivered/.test(m.ack.detail)));
-    assert.equal(portal.unavailableReason, "Recorded campaign: read-only evidence; no PLC or model commands.");
+    assert.equal(portal.unavailableReason, undefined, "Current review controls stay available independently of the recorded PLC evidence");
   } finally { off(); await host.close(); }
 });

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
@@ -12,9 +12,45 @@ import { appendCoordinatorEvent } from "../src/campaign/live-evidence.ts";
 import { fixtureProvenance } from "../src/campaign/harness.ts";
 import type { IsolatedWonderSession } from "../src/campaign/process-port.ts";
 import type { CampaignFactoryContext } from "../src/host/campaign-factory.ts";
-import { verifyOwnerHandoff } from "../src/campaign/owner-handoff.ts";
+import { verifyOwnerEntry, verifyOwnerHandoff } from "../src/campaign/owner-handoff.ts";
 
 const hmi = { async perform() { throw new Error("Offline HMI unavailable"); } };
+test("owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "wonder-owner-entry-"));
+  const git = (...args: string[]) => execFileSync("git", ["-C", dir, ...args], { encoding: "utf8", windowsHide: true });
+  try {
+    git("init", "-q");
+    writeFileSync(join(dir, ".gitattributes"), "* -text\n");
+    mkdirSync(join(dir, "adapter"));
+    const code = "globalThis.__wonder_unreviewed_entry = true; throw new Error('This fixture must never be imported');\n";
+    const entry = join(dir, "adapter", "entry.js"); writeFileSync(entry, code);
+    git("add", ".gitattributes", "adapter/entry.js");
+    git("-c", "user.name=Offline fixture", "-c", "user.email=fixture@example.invalid", "commit", "-qm", "Pin owner entry fixture");
+    const pin = git("rev-parse", "HEAD").trim();
+    const evidence = JSON.stringify({ status: "pass", fixtureOnly: true });
+    const sha = (s: string) => createHash("sha256").update(s).digest("hex");
+    writeFileSync(join(dir, "evidence.json"), evidence);
+    const manifest = JSON.stringify({ contract: "controlsbench.wonder-process.v1", ownerCommit: pin, checks: Object.fromEntries(["isolation", "recovery", "campaignPort"].map(c => [c, { file: "evidence.json", sha256: sha(evidence) }])) });
+    const handoffPath = join(dir, "handoff.json"); writeFileSync(handoffPath, manifest);
+    let providers = 0;
+    const rejectedFactory = async (path: string, reason: RegExp) => {
+      const factory = createCampaignFactory({ processModule: path, handoffCommit: pin, handoffPath, handoffSha256: sha(manifest), provider() { providers++; throw new Error("Provider construction is forbidden"); } });
+      await assert.rejects(factory.create({ ledger: new CampaignLedger("invalid-entry"), hmi, scope: { normal: true } }), reason);
+      assert.equal(providers, 0); assert.equal((globalThis as any).__wonder_unreviewed_entry, undefined);
+    };
+    assert.equal(verifyOwnerEntry(entry, pin).entryRelative, "adapter/entry.js");
+    const untracked = join(dir, "adapter.ts"); writeFileSync(untracked, code);
+    assert.throws(() => verifyOwnerEntry(untracked, pin), /not a tracked regular file/);
+    await rejectedFactory(untracked, /not a tracked regular file/);
+    writeFileSync(entry, code + "// unreviewed edit\n");
+    assert.throws(() => verifyOwnerEntry(entry, pin), /bytes differ/);
+    await rejectedFactory(entry, /bytes differ/);
+    writeFileSync(entry, code);
+    const alias = join(dir, "redirected"); symlinkSync(join(dir, "adapter"), alias, process.platform === "win32" ? "junction" : "dir");
+    assert.throws(() => verifyOwnerEntry(join(alias, "entry.js"), pin), /redirects/);
+    await rejectedFactory(join(alias, "entry.js"), /redirects/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
 test("W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts", () => {
   const dir = mkdtempSync(join(tmpdir(), "wonder-owner-proof-"));
   const hash = (s: string) => createHash("sha256").update(s).digest("hex");
@@ -36,7 +72,7 @@ test("W3/W4: checkpoint cannot spend without its flag and live factory refuses a
   try {
     let called = false;
     const factory = createCampaignFactory({ provider() { called = true; throw new Error("must not construct provider"); } });
-    await assert.rejects(factory.create({ ledger: new CampaignLedger("no-handoff"), hmi, scope: {} }), /W4 not ready/);
+    await assert.rejects(factory.create({ ledger: new CampaignLedger("no-handoff"), hmi, scope: { normal: true } }), /W4 not ready/);
     assert.equal(called, false);
     assert.throws(() => execFileSync(process.execPath, ["scripts/run-wonder-checkpoint.js"], { encoding: "utf8", windowsHide: true, stdio: "pipe" }), /W3 not run/);
   } finally {

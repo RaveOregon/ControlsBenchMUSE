@@ -7,6 +7,7 @@
 export type RawValue = boolean | number | string | null;
 
 export interface ValueMetadata {
+  evidenceMode?: "recorded" | "current";
   quality?: "good" | "bad" | "unknown";
   freshness?: "current" | "held" | "stale" | "unknown";
   sourceTimestamp?: string;
@@ -38,6 +39,8 @@ export type SourceClock =
 
 export interface Provenance {
   mode: SourceMode;
+  /** Observation time is independent of the current host/review transport mode. */
+  evidenceMode?: "recorded" | "current";
   evidenceClass: EvidenceClass;
   /** Repo-relative artifact path, `replay:composer`, `workspace`, or `live:coordinator`. */
   source: string;

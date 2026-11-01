@@ -1,5 +1,7 @@
 # Wonder campaign lane
 
+The subsequent convergence review and production-path corrections are documented in [wonder-review-fixes.md](wonder-review-fixes.md). That document supersedes the original portal scope/label and owner-entry assumptions below and records the newer verification and W3 outcome.
+
 Base: verified `codex/m10-convergence` `13c55b3` (66 runtime/host/view and 51 UI tests; preserved 302-ack M10 replay). The original checkout's uncommitted task packet and other edits remain untouched. Codex implements; `muse-wonder-1.0`, Standard mode, high reasoning is the product model.
 
 ## W0: frozen integration boundary
@@ -39,7 +41,7 @@ Primary docs checked 2026-11-01: [Responses](https://dev.meta.ai/docs/protocols/
 | W3 | Prepared, not run | Four-request maximum recorded-M10 Wonder checkpoint; preserved raw request/response/usage/native call lineage, token-count admission and durable reservations. No real API call has been made. |
 | W4 | Prepared adapter/factory, live not run | Provider-loop factory omits `HostedCampaign.run()`. Offline injection proves ledger/HMI identity and forwarded action revisions. It refuses launch without the compatible pinned owner adapter, child leases, observed signals, handoff evidence and common ownership. Normal/fault/live Wonder-selected follow-up remain unverified. |
 
-Final offline verification: `artifacts/wonder-verification/latest.json` selects `2026-11-01T17-36-24-146Z`, against code commit `1979835f0096a7b268183d718b2f442791b9e720`: TypeScript pass, **81/81 root tests**, offline artifact generation pass. Source hashes stayed unchanged throughout verification. It includes existing deterministic M10, M7/M9, portal/CDP fixture and frozen machine-view regressions. Local Chrome captures only synthetic test pages. The older full UI/build/browser-view convergence proof remains recorded in `artifacts/m10-convergence`; it is not represented as a new live test.
+Original offline verification: `2026-11-01T17-36-24-146Z`, against code commit `1979835f0096a7b268183d718b2f442791b9e720`: TypeScript pass, **81/81 root tests**, offline artifact generation pass. This preserved run did not cover the three defects identified in the later convergence review. `artifacts/wonder-verification/latest.json` selects the newest verification; see the correction handoff for its result. The older full UI/build/browser-view convergence proof remains recorded in `artifacts/m10-convergence`; it is not represented as a new live test.
 
 `artifacts/wonder/latest.json` selects the representative proof. It contains `stub-campaign.jsonl`, `stub-exchanges.jsonl`, `stub-report.json`, `representative-context.json`, `recorded-campaign.jsonl`, `recorded-context.json`, `recorded-report.json`, `recorded-source-report.json`, and `result.json`. The stub uses the real Responses framing with an injected transport and a zero-cost provider label. Four stub generation responses, **zero real model calls, $0 real spend, zero PLC contacts**. Cost-stop tests simulate paid accounting; their $1 reservations are not real invoices. Import lineage is world/evidence metadata, never a fabricated model response.
 
@@ -51,8 +53,8 @@ From the dedicated worktree (install dependencies only if absent):
 
 ```powershell
 npm ci
-npm run proof:wonder
 npm --prefix ui ci
+npm run proof:wonder
 npm --prefix ui run build
 npm run host:wonder:recorded
 ```
@@ -94,7 +96,7 @@ $env:CONTROLSBENCH_WONDER_PRICING_REVIEWED = '2026-11-01'
 npm run host:wonder
 ```
 
-The portal loads before Start; opening the host is not PLC authorization. Start authorizes selected categories including adaptive work, without per-test prompts. A provided selection must use `io`, `startup`, `functional`, `runtime`, `faults`, `normal`, `edge`, `adaptive`; deselected categories stay unauthorized. Empty/default selection uses all those categories. Optional HMI observer/capture load must follow the owner's qualified settings and timing limits. No credential watcher, recovery launcher or native PLC fallback is wired into this lane. Owner handoff records a narrow timing margin; this factory does not relax the 300 ms guard or requalify timing.
+The portal loads before Start; opening the host is not PLC authorization. The host advertises an explicit category-selection mode, displayed by the production browser. Start forwards those exact category booleans, including every deselection. Historical check-ID selections remain separate; a previously narrowed checklist cannot silently authorize categories. Direct check-ID and empty scope payloads are rejected. Categories are `io`, `startup`, `functional`, `runtime`, `faults`, `normal`, `edge`, `adaptive`, within the configured 10 Hz bench only; higher-rate qualifications and recovery are excluded. Optional HMI observer/capture load must follow the owner's qualified settings and timing limits. No credential watcher, recovery launcher or native PLC fallback is wired into this lane. Owner handoff records a narrow timing margin; this factory does not relax the 300 ms guard or requalify timing.
 
 The factory checks the frozen PLC hash. Historical world LF hash is `a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6`; verified convergence's Git/Windows CRLF checkout hash is `277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5`. Both are explicitly pinned. The owner must report the actual loaded bytes, not substitute the historical hash. No generated world/view file was edited or normalized by this lane.
 

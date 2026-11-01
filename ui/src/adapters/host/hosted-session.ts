@@ -223,7 +223,7 @@ export class HostedSession implements CampaignSource {
     return { ok: true };
   }
 
-  start(): CommandResult { return this.#forward("start", "start", { scope: { ...this.store.state.scope } }); }
+  start(): CommandResult { return this.#forward("start", "start", { scope: this.store.campaignScope() }); }
   pause(): CommandResult { return this.#forward("pause", "pause"); }
   resume(): CommandResult { return this.#forward("resume", "resume"); }
   stop(): CommandResult { return this.#forward("stop", "stop"); }

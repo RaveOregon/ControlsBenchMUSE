@@ -19,7 +19,7 @@ import type { CampaignLedger } from "../campaign/ledger.ts";
 import { FakeProvider } from "../campaign/provider.ts";
 import type { CampaignProvider } from "../campaign/provider.ts";
 import { CampaignRuntime } from "../campaign/runtime.ts";
-import type { HostBudgetLimits, HostEvidenceClass } from "./protocol.ts";
+import type { HostBudgetLimits, HostEvidenceClass, HostScopeDefinition } from "./protocol.ts";
 
 export interface CampaignFactoryContext {
   /** Host-owned ledger. The runtime must append to exactly this ledger. */
@@ -44,6 +44,7 @@ export interface HostedCampaign {
 }
 
 export interface CampaignFactory {
+  scope?: HostScopeDefinition;
   id: string;
   label: string;
   evidenceClass: HostEvidenceClass;

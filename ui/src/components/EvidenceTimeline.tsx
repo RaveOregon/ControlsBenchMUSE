@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { TIMELINE_LANES, type MuseEvent, type TimelineLane } from "../model/events.ts";
 import { formatClock } from "../model/format.ts";
 import type { WorkspaceState } from "../model/workspace-store.ts";
-import { LANE_COLOR, LANE_LABEL, evidenceTag, shortSource } from "./labels.ts";
+import { LANE_COLOR, LANE_LABEL, eventEvidenceTag, shortSource } from "./labels.ts";
 import type { Selection } from "./selection.ts";
 
 const WINDOWS = [
@@ -141,7 +141,7 @@ export function EvidenceTimeline({ state, nowMs, selection, onSelect }: Props) {
       <div className="events" role="list">
         {recent.length === 0 && <div className="event-row muted">No events yet.</div>}
         {recent.map((event) => {
-          const tag = evidenceTag(event.provenance.evidenceClass, event.provenance.mode);
+          const tag = eventEvidenceTag(event.provenance);
           const lane = event.lane === "system" ? null : (event.lane as TimelineLane);
           return (
             <button key={event.id} type="button" className={`event-row${selection?.type === "event" && selection.id === event.id ? " selected" : ""}`} onClick={() => onSelect({ type: "event", id: event.id })}>

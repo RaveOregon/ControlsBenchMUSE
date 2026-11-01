@@ -10,7 +10,7 @@ const environment = { ...process.env };
 const chrome = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 if (!environment.CONTROLSBENCH_HMI_BROWSER && existsSync(chrome)) environment.CONTROLSBENCH_HMI_BROWSER = chrome;
 const checks = [];
-const sourcePaths = ["package.json", "tsconfig.json", ...["src", "test", "scripts"].flatMap(dir => readdirSync(dir, { recursive: true }).filter(p => /\.(ts|js)$/.test(String(p))).map(p => `${dir}/${String(p).replaceAll("\\", "/")}`))];
+const sourcePaths = ["package.json", "tsconfig.json", "ui/package.json", "ui/package-lock.json", "ui/tsconfig.json", "ui/vite.config.ts", ...["src", "test", "scripts", "ui/src", "ui/test"].flatMap(dir => readdirSync(dir, { recursive: true }).filter(p => /\.(ts|tsx|js)$/.test(String(p))).map(p => `${dir}/${String(p).replaceAll("\\", "/")}`))];
 const sourceHashes = () => Object.fromEntries(sourcePaths.map(path => [path, createHash("sha256").update(readFileSync(path)).digest("hex")]));
 const sources = sourceHashes(), sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8", windowsHide: true }).trim();
 function run(name, args) {
@@ -25,6 +25,10 @@ function run(name, args) {
 }
 run("typecheck", [fileURLToPath(new URL("bin/tsc", import.meta.resolve("typescript/package.json"))), "--noEmit"]);
 run("tests", ["--test", "--test-concurrency=1", ...readdirSync("test").filter(f => f.endsWith(".test.ts")).map(f => `test/${f}`)]);
+run("ui-typecheck", [fileURLToPath(new URL("bin/tsc", import.meta.resolve("typescript/package.json"))), "--noEmit", "-p", "ui/tsconfig.json"]);
+run("ui-tests", ["--test", ...readdirSync("ui/test").filter(f => f.endsWith(".test.ts")).map(f => `ui/test/${f}`)]);
+run("ui-build", ["ui/node_modules/vite/bin/vite.js", "build", "ui"]);
+run("portal-browser", ["scripts/check-wonder-portal.js", "--out", `${directory}/portal`]);
 run("offline-artifacts", ["scripts/run-wonder-offline.js"]);
 if (JSON.stringify(sources) !== JSON.stringify(sourceHashes())) throw new Error("Source changed during verification; rerun the gate");
 writeFileSync("artifacts/wonder-verification/latest.json", JSON.stringify({ directory, status: "pass", sourceCommit, actualModelCalls: 0, actualSpendUsd: 0 }, null, 2) + "\n");
