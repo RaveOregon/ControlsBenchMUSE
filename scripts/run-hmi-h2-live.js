@@ -197,7 +197,7 @@ try {
   await sleep(1200);
   const faultFrame = await hub.captureNow();
   record("fault-raised", { summary: `PLC fault 10 '${raised.plcText}' raised; basis ${raised.firstObservedBasis}`, alarm: raised, frame: faultFrame.reference, plc: plcState() });
-  record("portal-page-fault", { summary: "ControlsBench portal page with the live HMI tile during fault 10", portalPage: await portalShot(portalUrl, "fault") });
+  // No portal-page viewer mid-run: loading the full portal UI in a second browser starved the coordinator (attempts 6 and 9).
   r = await click("cmd.reset", "reset-while-overloaded"); expectOutcome(r, "rejected", "Reset while overloaded");
   record("reset-rejected", { summary: r.command.detail, agent: r.action, command: r.command, unmet: r.command.preconditions?.filter(p => p.met === false) });
   await tool("clear_fault", { controlId: "fault.setOverload", parameters: { active: false } });

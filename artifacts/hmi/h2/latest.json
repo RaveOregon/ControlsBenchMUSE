@@ -1,5 +1,5 @@
 {
   "status": "failed",
-  "directory": "artifacts/hmi/h2/2026-11-01T14-58-54-546Z",
-  "error": "Error: Auto on: expected applied, got inconclusive: Target cmd.auto.on is disabled on screen"
+  "directory": "artifacts/hmi/h2/2026-11-01T15-00-59-962Z",
+  "error": "Error: Coordinator failed: World step gap 342.3293999999987 ms exceeds the declared 300 ms observation bound; world not advanced"
 }

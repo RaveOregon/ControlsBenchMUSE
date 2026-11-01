@@ -27,15 +27,23 @@ const lastCommit = trace.filter(e => e.kind === "commit.acknowledged").at(-1)?.r
 const lastObservation = trace.filter(e => e.kind === "observation").at(-1);
 assert(lastCommit && lastObservation, "Reference lacks committed image or observation evidence");
 // Which held state the failed run left decides the only reconciliation allowed:
-//   transit-timeout: a tracked carton held in Auto (fault 33 expected); world reset, WCS ack, Reset.
+//   transit-timeout: a tracked carton held in Auto (fault 33 expected); fresh world at rest, WCS ack, Reset.
+//   injected-overload: the run's own injected drive overload, never cleared, held in the image (fault 10
+//   expected); fresh world at rest without it, Reset.
 //   start-feedback-timeout: Start accepted just before the heartbeat lapsed, image held at rest, no carton
 //   (fault 11 expected: motor running feedback missing on start); Stop and Reset only, image unchanged.
 const heldItem = lastObservation.observation.values["controller.ItemActive"] === true;
 const finalPlc = prior.finalPlc ?? {};
+const stimuli = readFileSync(join(reference, "campaign.jsonl"), "utf8").trim().split(/\r?\n/).map(l => JSON.parse(l))
+  .filter(e => e.type === "world.stimulus" && e.data.control?.id === "fault.setOverload");
+const overloadHeld = stimuli.length > 0 && stimuli.at(-1).data.control.payload.active === true && lastCommit.image.Drive_Overload === true;
 const path = heldItem ? "transit-timeout"
+  : overloadHeld && finalPlc.FaultCode === 10 && finalPlc.ItemActive === false ? "injected-overload"
   : finalPlc.Mode === 1 && finalPlc.Motor_RunCmd === true && finalPlc.Active_Drive_RunningFB === false && finalPlc.ItemActive === false ? "start-feedback-timeout" : undefined;
 assert(path, "Reference left a held state this procedure does not reconcile; decide separately");
 const itemId = heldItem ? Number(lastObservation.observation.values["controller.ActiveItemId"]) : 0;
+const AT_REST = { D1_HomeFB: true, D1_ExtendedFB: false, D2_HomeFB: true, D2_ExtendedFB: false, Drive_RunningFB: false, Runout_Ready: true,
+  PE_Entry: false, PE_D1Approach: false, PE_D2Approach: false, PE_ExitA: false, PE_ExitB: false, PE_Runout: false };
 
 const mainRoot = defaultOwnershipRoots().at(-1);
 for (const rel of ["artifacts/m10/operator-status.json", "codesys/demo/operator-status.json"]) {
@@ -73,42 +81,39 @@ try {
     assert.equal(v["controller.ItemActive"], false); assert.equal(v["controller.CompletionItemId"], itemId);
     assert.equal(v["controller.CompletionDisposition"], 4); assert.equal(v["controller.CompletionExit"], 0); assert.equal(v["controller.CompletionPending"], true);
   } else {
-    assert.equal(v["controller.FaultCode"], 11, "Expected fault 11 (motor running feedback missing on start); any other state needs a separate decision");
+    const expectedFault = path === "injected-overload" ? 10 : 11;
+    assert.equal(v["controller.FaultCode"], expectedFault, `Expected fault ${expectedFault} for ${path}; any other state needs a separate decision`);
     assert.equal(v["controller.Mode"], 3); assert.equal(v["controller.ItemActive"], false); assert.equal(v["controller.CompletionPending"], false);
     const img = lastCommit.image;
-    for (const [k, want] of Object.entries({ D1_HomeFB: true, D1_ExtendedFB: false, D2_HomeFB: true, D2_ExtendedFB: false, Drive_RunningFB: false, Drive_Overload: false, Runout_Ready: true,
-      PE_Entry: false, PE_D1Approach: false, PE_D2Approach: false, PE_ExitA: false, PE_ExitB: false, PE_Runout: false })) assert.equal(img[k], want, `held image is not at rest: ${k}`);
+    for (const [k, want] of Object.entries({ ...AT_REST, Drive_Overload: path === "injected-overload" })) assert.equal(img[k], want, `held image differs from the expected ${path} state: ${k}`);
   }
   for (const n of ["CountExitA", "CountExitB", "CountRunout", "CountMisroute"]) assert.equal(v[`controller.${n}`], lastObservation.observation.values[`controller.${n}`], `${n} changed`);
-  event("baseline.reconciliation-authorized", { reference, path, reason: path === "transit-timeout"
-    ? "User-authorized reconciliation: coordinator heartbeat starved; held Auto carton reached the declared transit timeout"
-    : "User-authorized reconciliation: coordinator heartbeat starved during start-up; Start accepted with the image held at rest, so motor feedback never arrived (fault 11)" });
+  event("baseline.reconciliation-authorized", { reference, path, reason: {
+    "transit-timeout": "User-authorized reconciliation: coordinator heartbeat starved; held Auto carton reached the declared transit timeout",
+    "injected-overload": "User-authorized reconciliation: the run stopped with its own injected drive overload still held in the image (fault 10)",
+    "start-feedback-timeout": "User-authorized reconciliation: coordinator heartbeat starved during start-up; Start accepted with the image held at rest, so motor feedback never arrived (fault 11)" }[path] });
   log(`state matches the failed run exactly (${path}); reconciling`);
   await connector.action("stop", {}, "recovery-stop");
-  if (path === "start-feedback-timeout") {
-    const reset = await connector.action("reset", {}, "recovery-reset");
-    const r = reset.values;
-    assert.equal(r["controller.Mode"], 0); assert.equal(r["controller.FaultCode"], 0); assert.equal(r.Motor_RunCmd, false);
-    assert.equal(r["controller.ItemActive"], false); assert.equal(r["controller.CompletionPending"], false);
-    Object.assign(result, { status: "pass", finalObservation: reset, finalImage: activeImage });
-    log("PLC Stopped, fault-free; held at-rest image unchanged");
-  } else {
-  const context = new InstrumentedWorldContext(world.manifest, { seed: 20261101, worldVersion: world.manifest.packageVersion });
-  await world.initialize(context, { seed: 20261101, worldVersion: world.manifest.packageVersion });
-  event("world.reset", { worldSha256: shaFile("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts"), sourceEvents: context.events,
-    reason: "Explicit removal of the invalid held carton and a new world baseline at rest; encoder reset is not physical travel evidence" });
-  await connector.resetSession();
-  let receipt;
-  for (let i = 0; i < 5; i++) receipt = await connector.commit(context.plc.currentInputState());
-  log("fresh world image applied; WCS peer acknowledges the aborted completion");
-  await connector.action("completion_ack", { sequence: receipt.values["controller.CompletionSequence"] }, "recovery-completion-ack");
+  let finalImage = activeImage;
+  if (path !== "start-feedback-timeout") {
+    const context = new InstrumentedWorldContext(world.manifest, { seed: 20261101, worldVersion: world.manifest.packageVersion });
+    await world.initialize(context, { seed: 20261101, worldVersion: world.manifest.packageVersion });
+    event("world.reset", { worldSha256: shaFile("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts"), sourceEvents: context.events,
+      reason: "Explicit replacement of the invalid held image with a new world baseline at rest; encoder reset is not physical travel evidence" });
+    await connector.resetSession();
+    let receipt;
+    for (let i = 0; i < 5; i++) receipt = await connector.commit(context.plc.currentInputState());
+    finalImage = receipt.image;
+    assert.equal(finalImage.Drive_Overload, false);
+    log("fresh world image at rest applied");
+    if (path === "transit-timeout") await connector.action("completion_ack", { sequence: receipt.values["controller.CompletionSequence"] }, "recovery-completion-ack");
+  }
   const reset = await connector.action("reset", {}, "recovery-reset");
   const r = reset.values;
   assert.equal(r["controller.Mode"], 0); assert.equal(r["controller.FaultCode"], 0); assert.equal(r.Motor_RunCmd, false);
   assert.equal(r["controller.ItemActive"], false); assert.equal(r["controller.CompletionPending"], false);
-  Object.assign(result, { status: "pass", finalObservation: reset, finalImage: receipt.image });
-  log("PLC Stopped, fault-free, no tracked item, no pending completion; simulation held at the new image");
-  }
+  Object.assign(result, { status: "pass", finalObservation: reset, finalImage });
+  log("PLC Stopped, fault-free, no tracked item, no pending completion; simulation held at rest");
 } catch (error) { result.error = error instanceof Error ? error.stack : String(error); process.exitCode = 1; console.error(error instanceof Error ? error.message : error); }
 finally {
   if (connector) await connector.close().catch(e => { result.status = "failed"; result.closeError = e.message; process.exitCode = 1; });
