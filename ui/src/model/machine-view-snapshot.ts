@@ -19,7 +19,7 @@ export function workspaceViewSnapshot(pkg: LoadedPackage, state: WorkspaceState,
   const quality: Record<string, Health> = {}, observedAtMs: Record<string, number> = {}, evidenceRefs: Record<string, string> = {};
   const samples = (prefix: string, values: Record<string, SignalValue>) => {
     for (const [id, v] of Object.entries(values)) {
-      quality[`${prefix}.${id}`] = v.quality === "bad" ? "bad" : v.freshness === "stale" ? "stale" : v.freshness === "held" ? "held" : v.quality === "unknown" || (prefix === "plc" && v.quality === undefined) ? "unknown" : "good";
+      quality[`${prefix}.${id}`] = v.quality === "bad" ? "bad" : recorded && (v.quality === "unknown" || (prefix === "plc" && v.quality === undefined)) ? "unknown" : v.freshness === "stale" ? "stale" : v.freshness === "held" ? "held" : v.quality === "unknown" || (prefix === "plc" && v.quality === undefined) ? "unknown" : "good";
       if (v.observedAtMs !== undefined) observedAtMs[`${prefix}.${id}`] = v.observedAtMs;
       if (v.eventId) evidenceRefs[`${prefix}.${id}`] = v.eventId.split("#")[0]!;
     }
