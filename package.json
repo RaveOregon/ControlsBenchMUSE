@@ -35,7 +35,8 @@
     "proof:gate-d:review": "node --env-file=.env scripts/review-gate-d-with-muse.js",
     "proof:m7:live": "powershell -ExecutionPolicy Bypass -File scripts/run-m7-live.ps1",
     "proof:m7:audit": "node scripts/audit-m7.js",
-    "spike:model": "node --env-file=.env scripts/run-model-spike.js"
+    "spike:model": "node --env-file=.env scripts/run-model-spike.js",
+    "hmi:audit": "node scripts/audit-hmi-h2.js"
   },
   "engines": {
     "node": ">=22"

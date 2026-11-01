@@ -161,6 +161,7 @@ export class OperatorCommands {
 
   #finish(command: CommandView, outcome: CommandView["outcome"], detail: string): CommandView {
     command.outcome = outcome; command.detail = detail;
+    if (outcome !== "refused") this.#o.link.pollSoon();
     this.#journal(`command.${outcome}`, command, { detail, expectedSequence: command.expectedSequence, accepted: command.accepted, atAck: command.atAck,
       preconditions: outcome === "rejected" ? command.preconditions : undefined, acknowledgedAtIso: command.acknowledgedAtIso });
     return command;

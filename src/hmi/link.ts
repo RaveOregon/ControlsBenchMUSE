@@ -54,6 +54,7 @@ export class PlcLink {
   /** Reference for the scan check: compared only across >= 100 ms so two reads inside one 20 ms PLC cycle never look frozen. */
   #scanRef?: { cycle: string; atMs: number };
   #stopped = false;
+  #wake?: () => void;
 
   constructor(options: PlcLinkOptions) {
     this.#options = options; this.#factory = options.transportFactory; this.journal = options.journal;
@@ -74,6 +75,9 @@ export class PlcLink {
   values(): Record<string, Scalar> {
     return Object.fromEntries(Object.entries(this.#latest?.values ?? {}).filter(([, s]) => s.good).map(([p, s]) => [p, s.value]));
   }
+
+  /** Starts the next poll now (after a command acknowledgement, so the whole page reflects the new PLC state). */
+  pollSoon(): void { this.#wake?.(); }
 
   setPollInterval(ms: number): void {
     if (ms === this.#view.pollIntervalMs) return;
@@ -159,7 +163,8 @@ export class PlcLink {
       const started = this.#now();
       await this.#poll(generation);
       const elapsed = this.#now() - started;
-      await sleep(Math.max(0, this.#view.pollIntervalMs - elapsed));
+      await new Promise<void>(resolve => { const t = setTimeout(resolve, Math.max(0, this.#view.pollIntervalMs - elapsed)); this.#wake = () => { clearTimeout(t); resolve(); }; });
+      this.#wake = undefined;
     }
   }
 
