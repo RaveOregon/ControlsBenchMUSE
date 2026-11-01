@@ -61,6 +61,18 @@ Read `docs/m9-campaign-runtime.md` for the proof matrix, budgets, hold/reset/exi
 
 This lane changes no `codesys/` file, CODESYS project, generated world, existing `src/live` file or Claude UI worktree. The preserved world has no WCS assign-route control; unconnected HMI checks remain inconclusive. Reset acknowledges zero inputs and stays simulated/held; a new world/campaign is required to resume after reset. Branching currently saves an evidence checkpoint rather than promising complete fault-state restoration. The M7 review is historical measurement-DUT evidence and certifies no final conveyor-controller routing/alarm/WCS/HMI coverage. `artifacts/m9/latest.json` identifies the preserved proof outputs.
 
+## M10 lane B portal host — 2026-10-31
+
+Branch `ui/m10-portal-host` adds `src/host/` and `ui/src/adapters/host/`.
+- `npm run host` serves the portal over SSE and POST.
+- The M9 ledger and projection are shown verbatim, with envelope hash-chain checks.
+- Commands are acknowledged only after the ledger events they cite.
+- A controlled-browser WebVisu capture feeds the HMI tile. With no frame it shows "HMI not observed/tested"; on loss it holds the last frame under a stale overlay.
+- Every run uses the fake connector until lane A supplies a `createCampaignFactory` module (`--campaign-module`).
+- No WebVisu, PLC or Muse call was exercised.
+
+See `docs/m10-portal-host.md`.
+
 ## M8 and portal convergence — 2026-10-31
 
 M8-A through M8-D passed live in `codesys/conveyordemo.project`, build 8001/interface 1, map `m8-conveyor-1.0.2`. The primary run contains 104 acknowledged methodical images; independent audits passed normal routing, misroute, stop, failed divert and reset, with supplemental feedback/overload evidence. Read `codesys/demo/HANDOFF.md` and `RESULTS.md` for limits, including writable read-group exposure and counter-reset ambiguity. M8-E WebVisu remains unauthored. The frozen measurement fixture is unchanged.

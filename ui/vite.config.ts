@@ -9,7 +9,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5178,
-    fs: { allow: [repoRoot] }
+    fs: { allow: [repoRoot] },
+    // Portal host (node scripts/host-portal.js). Without it, /api/host fails and Live uses the V1 window bridge.
+    proxy: { "/api": { target: process.env.CONTROLSBENCH_HOST_URL ?? "http://127.0.0.1:5179", changeOrigin: false } }
   },
   build: {
     outDir: "dist",

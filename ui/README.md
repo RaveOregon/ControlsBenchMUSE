@@ -48,6 +48,15 @@ The adapter explicitly maps flattened `commit.acknowledged` records from `src/li
 
 For HMI, configure a WebVisu URL or an external capture source ID in Setup. A WebVisu iframe hosts the actual configured page. A configured URL alone does not establish observed/tested status. External capture supplies `{ sourceId, mode, capturedAt, observation: 'action' | 'frame' | 'clip', note, mediaUrl?, endAt? }`. Frames/clips require real media; every accepted observation gets its own timeline lane and source timestamp. Vision-driven operation and an external capture/command server are not implemented in this UI lane.
 
+## Hosted mode (M10 lane B)
+
+`npm run host` from the repository root serves the built portal with an M9 campaign host. In hosted mode, Live shows:
+- the authoritative M9 projection, with evidence class, experiments, actions, findings and report;
+- command outcomes acknowledged only after the ledger evidence they cite;
+- the actual-HMI tile fed by a controlled WebVisu browser session.
+
+See `../docs/m10-portal-host.md`. The V1 window bridge below remains for unhosted use.
+
 ## Accessibility and validation
 
 Buttons/disclosures replace clickable layout containers; SVG devices support Enter/Space. Inspectors trap focus, close on Escape and restore focus. Focus outlines and reduced-motion styling are included. Desktop screenshots and verification notes are in `docs/screenshots/` and `HANDOFF.md`.

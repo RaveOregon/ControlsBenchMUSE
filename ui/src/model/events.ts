@@ -192,9 +192,31 @@ export type MuseEventBody =
   | { kind: "verdict"; status: CheckStatus; summary: string; observed?: string; evidence?: Record<string, unknown> }
   | { kind: "engineer.command"; command: EngineerCommand; detail: string }
   | { kind: "engineer.steer"; text: string }
-  | { kind: "command.outcome"; requestId: string; command: string; payload?: Record<string, unknown>; outcome: CommandOutcome; deadlineMs: number; detail?: string }
+  | { kind: "command.outcome"; requestId: string; command: string; payload?: Record<string, unknown>; outcome: CommandOutcome; deadlineMs: number; detail?: string; evidenceRefs?: string[] }
   | { kind: "finding.review"; findingId: string; action: "accepted" | "follow_up"; note: string }
-  | { kind: "hmi.observation"; observation: "action" | "frame" | "clip"; sourceId: string; capturedAt: string; note: string; mediaUrl?: string; endAt?: string };
+  | {
+      kind: "hmi.observation";
+      observation: "action" | "frame" | "clip";
+      sourceId: string;
+      capturedAt: string;
+      note: string;
+      mediaUrl?: string;
+      endAt?: string;
+      /** Stable evidence reference (e.g. `hmi-frame:<session>:<seq>`), when the producer issues one. */
+      reference?: string;
+      sessionId?: string;
+      sha256?: string;
+      /** Who produced the observation: the engineer's input in the controlled browser, a Muse tool, or an external capture. */
+      origin?: "engineer_browser" | "muse_tool" | "host_capture" | "external_capture";
+      /** Routine periodic frame: kept in the trace but not the key-event list. */
+      periodic?: boolean;
+    }
+  // ---- M9 campaign projection (hosted runtime). These never imply requirement pass/fail.
+  | { kind: "campaign.status"; status: "preparing" | "running" | "paused" | "stopped" | "completed" | "failed"; reason: string }
+  | { kind: "campaign.record"; type: string; data?: Record<string, unknown> }
+  | { kind: "campaign.action"; actionId: string; name?: string; status: string; message: string; evidenceRefs: string[] }
+  | { kind: "campaign.finding"; findingId: string; title: string; experimentId: string; claims: Array<{ evidenceId: string; signal: string; equals: RawValue }>; inference: string; uncertainty: string }
+  | { kind: "budget.accounted"; requestId: string; phase: "reserved" | "settled"; costUsd: number; campaignUsd: number; sessionUsd: number; outstandingReservedUsd: number; basis: string };
 
 export type MuseEvent = MuseEventBody & {
   id: string;
@@ -221,6 +243,11 @@ export function isMeaningful(event: MuseEvent): boolean {
     case "raw.input":
       // Continuous diagnostics change every tick; edges on discrete inputs are meaningful.
       return typeof event.value === "boolean";
+    case "hmi.observation":
+      // Routine capture frames are a heartbeat; inputs and Muse captures are activity.
+      return event.periodic !== true;
+    case "budget.accounted":
+      return false;
     default:
       return true;
   }
