@@ -80,3 +80,9 @@ Full ledgers and reports are engineer artifacts. `visibility: truth` includes un
 - `artifacts/m9/latest.json`: index to normal, adaptive and preserved-M7 ledgers/reports.
 
 These are integration fixtures, not invented live connection state. No UI files or PLC files were edited by this lane.
+
+## M10 convergence additions
+
+The optional `HostedCampaign.run()` hook executes the fixed M10 deterministic campaign instead of the provider loop. Resume continues that single executor; it must not restart the plan. Host commands still cite the same ledger, and the public projection/report do not gain simulator entities. The engineer view consumes separate truth-lane coordinator entity publications, their world time and exact evidence references; they remain excluded from blind model context.
+
+New flat `commit.acknowledged` source records may include optional `outputQuality: Record<signal, "good" | "bad" | "unknown">`. M8 supplies it only after checked Good samples. The original flat keys and derived event/reference shapes are unchanged; absence in historical ledgers stays unknown. Held-image receipts carry the same metadata. See `docs/m10-convergence.md` for the promoted-view mount, runtime ownership and later live launch.

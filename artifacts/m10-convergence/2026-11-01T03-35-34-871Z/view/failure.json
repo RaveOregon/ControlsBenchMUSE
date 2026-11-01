@@ -1,0 +1,33 @@
+{
+  "message": "AssertionError [ERR_ASSERTION]: equipment selection preserves evidence links",
+  "checks": [
+    {
+      "name": "promoted package mounts and acknowledges a preserved M10 frame",
+      "passed": true
+    },
+    {
+      "name": "latest.json selects promoted package",
+      "passed": true
+    },
+    {
+      "name": "renderer has scripts-only sandbox, no same-origin authority",
+      "passed": true
+    },
+    {
+      "name": "exitA recorded carton reaches mounted view",
+      "passed": true
+    },
+    {
+      "name": "exitA carton is supplied from coordinator evidence",
+      "passed": true
+    },
+    {
+      "name": "exitB recorded carton reaches mounted view",
+      "passed": true
+    },
+    {
+      "name": "exitB carton is supplied from coordinator evidence",
+      "passed": true
+    }
+  ]
+}

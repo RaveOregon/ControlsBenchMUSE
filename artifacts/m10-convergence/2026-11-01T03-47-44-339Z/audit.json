@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "sourceCommit": "bad693d7ed35b61d39e18ebe6be7aa270165d477",
+  "sourceFilesChecked": 146,
+  "changedSources": [],
+  "merged": [
+    "3ab99ff",
+    "7886dfd",
+    "042cc6a"
+  ],
+  "protectedFileDiff": [],
+  "plcProjectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "runtimeTests": 66,
+  "uiTests": 51,
+  "browserChecks": 13,
+  "viewPackageId": "conveyor-demo-baseline.view.386c365a96d8",
+  "livePlcExecuted": false,
+  "paidCalls": 0
+}

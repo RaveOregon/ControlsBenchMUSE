@@ -1,5 +1,7 @@
 # M10 lane B: hosted portal, command acknowledgement and actual HMI tile
 
+Convergence update: `codex/m10-convergence` now includes the qualified M8 factory and promoted Lane C view mount. `npm run host:m8` is the later masked launch; `npm run verify:convergence` verifies all three lanes offline. Read `docs/m10-convergence.md` for the current proof, ownership, custom three-page HMI connection and live limitations. The lane-specific status below is historical.
+
 Branch `ui/m10-portal-host` from `m10-base`. This lane adds a host process and portal adapters. It does not change `codesys/`, `src/live/`, `src/campaign/` or lane A's M8 connector. Until the M10 connector is merged, every hosted run uses the deterministic fake connector and is labeled `fake_connector`.
 
 ## Run

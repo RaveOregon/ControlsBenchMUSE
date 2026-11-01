@@ -1,0 +1,115 @@
+{
+  "status": "pass",
+  "package": {
+    "relativeDirectory": "artifacts/machine-view/2026-11-01T03-07-45-147Z-muse-wonder-1.0-refine-02",
+    "packageId": "conveyor-demo-baseline.view.386c365a96d8",
+    "viewValid": true,
+    "contractValid": true,
+    "browserCheckPassed": true,
+    "parent": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
+    "promotion": "promotion.json"
+  },
+  "evidence": "artifacts/m10/2026-11-01T00-58-43-185Z/campaign.jsonl",
+  "checks": [
+    {
+      "name": "promoted package mounts and acknowledges a preserved M10 frame",
+      "passed": true
+    },
+    {
+      "name": "latest.json selects promoted package",
+      "passed": true
+    },
+    {
+      "name": "renderer has scripts-only sandbox, no same-origin authority",
+      "passed": true
+    },
+    {
+      "name": "exitA recorded carton reaches mounted view",
+      "passed": true
+    },
+    {
+      "name": "exitA carton is supplied from coordinator evidence",
+      "passed": true
+    },
+    {
+      "name": "exitB recorded carton reaches mounted view",
+      "passed": true
+    },
+    {
+      "name": "exitB carton is supplied from coordinator evidence",
+      "passed": true
+    },
+    {
+      "name": "equipment selection preserves evidence links",
+      "passed": true
+    },
+    {
+      "name": "equipment evidence opens in the ledger inspector",
+      "passed": true
+    },
+    {
+      "name": "stale probe is visibly labeled separately from recorded evidence",
+      "passed": true
+    },
+    {
+      "name": "view runtime failure removes iframe and shows contract fallback",
+      "passed": true
+    },
+    {
+      "name": "all renderer acknowledgements have no missing elements",
+      "passed": true
+    },
+    {
+      "name": "no campaign or PLC connector was started",
+      "passed": true
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "exitA",
+      "campaignId": "m10-live",
+      "entities": {
+        "carton-1": {
+          "type": "carton",
+          "state": {
+            "positionM": 1.6119022500000009,
+            "velocityMps": 0.5,
+            "path": "exitA",
+            "requestedRoute": "A",
+            "itemId": "101",
+            "lengthM": 0.3,
+            "jammed": false
+          },
+          "atMs": 8073,
+          "eventId": "m10-live:331"
+        }
+      },
+      "time": 4001.742900000001
+    },
+    {
+      "path": "exitB",
+      "campaignId": "m10-live",
+      "entities": {
+        "carton-2": {
+          "type": "carton",
+          "state": {
+            "positionM": 2.9074728500000004,
+            "velocityMps": 0.5,
+            "path": "exitB",
+            "requestedRoute": "B",
+            "itemId": "102",
+            "lengthM": 0.3,
+            "jammed": false
+          },
+          "atMs": 16482,
+          "eventId": "m10-live:948"
+        }
+      },
+      "time": 12409.8744
+    }
+  ],
+  "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "livePlcExecuted": false,
+  "paidCalls": 0,
+  "limitation": "Selection and fallback are explicit protocol probes. No real HMI or combined live rehearsal was performed."
+}
