@@ -65,6 +65,27 @@ Required metadata, with exact serialization to be frozen alongside executable te
 
 An adapter reports capability limitations before a campaign starts. Transport cadence is measured separately per deployment/load. A portable interface does not imply identical performance across PLC products.
 
+## Data acquisition and future analysis — accepted product direction
+
+The installed library is also the foundation for streaming and recording machine signals for later PID tuning, signal processing, filtering and other engineering tools. It must remain useful during normal hardware passthrough; acquisition does not require enabling simulated input authority. The hackathon slice does not establish those analysis features or their sampling performance.
+
+Design and version the following now, implementing only the capabilities explicitly included in the current delivery:
+
+- **Signal provenance:** distinguish acquired raw hardware inputs, the selected inputs actually consumed by the application, authentic application outputs and physical-sink values after optional suppression. A recording must identify which of these it contains, including simulation/suppression state. Never present generated or substituted values as hardware measurements.
+- **Engineering context:** retain stable signal identities and raw native representations, plus separately versioned units, scaling, ranges, polarity and counter rollover metadata. PID profiles may map setpoint, process variable, controller output and controller mode through explicitly configured observation taps. Internal signals are not automatically part of the raw-I/O interface or a writable stimulus surface.
+- **Sampling and alignment:** define boot identity, task/domain, source cycle/time, capture phase, sample sequence and quality. Record source/sample time separately from workstation receipt time and acknowledge clock uncertainty. Do not imply simultaneous cross-task sampling. Coherent snapshots and fresh-value reads alone do not prove that every source sample was acquired.
+- **Delivery and gaps:** declare requested versus achieved sample rate, transport decimation, missing samples, counter discontinuities, duplicates and buffer overruns. Preserve gaps; reconstructed/interpolated values must be labelled as derived. Select sampling requirements from the process/analysis need and qualify the actual target/transport; the existing demo's OPC UA cadence is not a general PID acquisition qualification.
+- **Bounded acquisition:** provide explicit enable/disable and resource limits. A slow/disconnected workstation must not block PLC application execution or silently change control authority. A later bounded PLC-side sample buffer/batch exporter may be evaluated if transport polling misses source dynamics; it is distinct from the deferred stimulus playback feature and is not implemented by this prototype.
+- **Independent use:** passive observation/recording, simulation input selection and physical output suppression are separate capabilities. No PID excitation, tuning-parameter write or controller modification follows merely from permission to observe or record. Later active analysis tools use explicit, versioned interfaces and capability declarations.
+
+Maintain a capability/roadmap matrix alongside the actual adapter profile. Each item is marked implemented, compiled-only, runtime-validated, planned or unsupported, with its evidence/issue reference. Identify an extension point or explicit limitation for deferred work; a TODO does not count as a delivered streaming API. This prototype provides raw selection and output capture, but no qualified continuous acquisition/export pipeline, PID tuning service or signal-processing service.
+
+## Version control and compatibility
+
+Git must contain the common specification, vendor block/type source, adapter profile/schema, machine mapping definitions, consumer examples, conformance checks and changelog. Every delivered build binds their exact revisions/hashes to the library binary hashes and compiler/runtime compatibility information. Preserve previous builds and evidence; never update an old proof to describe newly changed blocks.
+
+Track library/package version, public FB/type API version, adapter/wire protocol version, machine map/schema version and future recording format version explicitly. Do not assume that one library version proves all these interfaces compatible. Document additive versus breaking changes, migration requirements and which consumers passed. A released version is immutable; keep prototype snapshots identified as such. Native File-Based Storage remains the preferred CODESYS source format once available; until then the text sources plus reproducible builder remain version-controlled alongside generated build artifacts.
+
 ## CODESYS extraction and acceptance gates
 
 1. **Contract freeze:** map each accepted behavior to existing M2/M5/M8/M10 evidence or an unproven conformance test. Resolve capacities/type topology, domain coordination and serialization. Record compatibility with the frozen demo protocol.

@@ -4,6 +4,8 @@ User authorized building reusable libraries now while leaving the proven running
 
 Delivered `ControlsBench Core` prototype 0.1.0.0, namespace `CB`: public raw-image/config/request/status types, DI/AI selectors, DO/AO authentic-command taps with downstream suppression, coherent per-domain session, and post-application output capture. No conveyor globals or controller logic live in the core. Two consumers use Library Manager references, not copied core code. Saved core text is reopened and checked against source.
 
+User clarification: these same hooks are the foundation for later passive streaming/recording, PID tuning, filtering/signal processing and other engineering tools during normal hardware passthrough. Version-control the blocks and common specification; track API/protocol/map/recording compatibility and explicitly flag deferred capabilities. `docs/plc-adapter-standard.md`, profile metadata 0.1.1 and `docs/library-build-lane-prompt.md` now capture this accepted direction. No acquisition pipeline or analysis service is claimed implemented; no FB source or compiled binary was changed for this clarification.
+
 The preserved `builds/prototype-0.1.0.0/result.json` records five compiler checkpoints, original demo hashes before/after, source/artifact hashes and no PLC/deployment. Its consumer harness has fourteen cases and two separately configured session instances. It is compiled **only**; neither instance isolation nor other runtime behavior is claimed tested. Start with `README.md` and `node codesys/library/scripts/audit-build.mjs`.
 
 Remaining gates:

@@ -1,5 +1,5 @@
 {
-  "profileVersion": "0.1.0",
+  "profileVersion": "0.1.1",
   "profileId": "controlsbench.codesys.raw-banks.prototype",
   "status": "offline_compilation_only",
   "library": {
@@ -56,6 +56,21 @@
     "boot_and_monotonic_time_platform_services",
     "output_suppression_masks_and_visible_physical_sink_state",
     "measured_transport_cadence_and_runtime_conformance"
+  ],
+  "versioning": {
+    "commonStandard": "prototype_0.1",
+    "publicApi": "prototype_0.1",
+    "adapterProtocol": 1,
+    "machineMap": "consumer_specific_version_and_hash_required",
+    "recordingFormat": "not_yet_defined",
+    "releasePolicy": "immutable_releases_preserve_prior_builds_and_evidence"
+  },
+  "futureCapabilities": [
+    {"id": "passive_streaming_and_recording", "status": "planned", "qualification": "none", "requires": "normal_passthrough_acquisition_and_separate_control_authority"},
+    {"id": "source_timed_input_output_sample_frames", "status": "planned", "qualification": "none", "requires": "signal_origin_task_cycle_phase_quality_sequence_and_gap_contract"},
+    {"id": "pid_signal_profile", "status": "planned", "qualification": "none", "requires": "explicit_PV_SP_output_mode_mapping_and_process_specific_sampling_qualification"},
+    {"id": "signal_processing_export", "status": "planned", "qualification": "none", "requires": "versioned_raw_representation_units_scaling_and_sample_format"},
+    {"id": "bounded_plc_sample_buffer", "status": "evaluation_only", "qualification": "none", "requires": "measured_need_capacity_overrun_and_task_cost_contract"}
   ],
   "existingM8ConnectorMapCompatible": false,
   "nativeFileBasedStorageConverted": false,

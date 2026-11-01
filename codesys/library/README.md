@@ -68,6 +68,12 @@ Stale/duplicate/invalid updates retain the prior image; skipped sequences are co
 
 The program sets `Done`, `Passed` and the first `FailedCase` (14 cases) when later executed. It also covers separate simulation/session reset semantics and a latched schema change retaining the original domain label. It uses synthetic monotonic timestamps and no hardware mapping. It is a conformance example, not an added task in the active controller. Live M2/M5/M10 regressions and real-time cycle cost remain separate release gates. New library namespaces, bank layouts and symbol paths are deliberately **not wire-compatible** with the frozen M8 adapter map; a later deployment needs new mapping, identity and regression evidence.
 
+## Broader ecosystem and versioning
+
+The user intends these hooks to support later passive signal streaming/recording, PID tuning and signal processing in normal hardware passthrough as well as simulation. These are accepted roadmap requirements, not features certified by the current compiler proof. `adapter-profile.json` identifies the planned capabilities. The common standard defines source provenance, task/time/quality/gap metadata, optional internal PID observation taps, bounded sampling and compatibility/version tracking. The current prototype has no qualified acquisition/export pipeline or analysis service; its raw selectors and output capture are the starting boundary.
+
+Version the blocks, common specification, profile, map and future recording format together through explicit compatibility records and source/build hashes. Add extension points or visible capability limitations now; qualify each later implementation against its own evidence. Passive recording does not automatically enable simulation or authorize parameter changes. See `docs/library-build-lane-prompt.md` for the expanded build-lane instructions.
+
 ## File sharing and migration
 
 Text sources in `source/` and `examples/` plus the builder are the editable source for this prototype; generated binary libraries are distributable artifacts. This is useful for Git today, but is not a native File-Based Storage project. See `FILE-BASED-STORAGE.md` for the installed-capability result and conversion plan.
