@@ -1,0 +1,2 @@
+# Byte-preserving checkout for the pinned adapter: the factory compares entry bytes exactly.
+* -text
