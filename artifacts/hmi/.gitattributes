@@ -1,0 +1,6 @@
+# Preserve the exact bytes of HMI evidence (hash-chained journals, ledgers, traces, frames).
+*.json -text
+*.jsonl -text
+*.gz -text
+*.jpg -text
+*.png -text
