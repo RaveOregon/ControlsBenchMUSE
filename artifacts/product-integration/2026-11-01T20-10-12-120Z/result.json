@@ -1,0 +1,262 @@
+{
+  "status": "pass",
+  "checks": [
+    "explicit zero-cost preview/review factory",
+    "HMI source is visibly a fixture",
+    "production browser attaches to host",
+    "Muse-generated machine view mounted",
+    "portal displays captured HMI pixels",
+    "HMI tile frame bytes match capture hash",
+    "Start Campaign is available",
+    "real portal Start produces a finalized fixture report",
+    "Start created a new campaign",
+    "report includes evidence-grounded findings"
+  ],
+  "factory": {
+    "id": "fixture-adaptive",
+    "label": "Fixture campaign · adaptive follow-up (fake connector)",
+    "evidenceClass": "fake_connector",
+    "claimBoundary": "Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.",
+    "connectorId": "deterministic-fake-connector-v1",
+    "supportsExitSimulation": true
+  },
+  "hmi": {
+    "kind": "fixture",
+    "label": "FIXTURE · M10 final held state",
+    "fixtureId": "m10-final-held",
+    "fixtureBasis": "recorded 2026-11-01T00:59:48.814Z in artifacts/m10/2026-11-01T00-58-43-185Z/transport.jsonl.gz (sha256 750f0494eac0…); command acknowledgements emulated by the fixture, not M8"
+  },
+  "frame": {
+    "reference": "hmi-frame:hmi-189822f1-5d34-4de3-a068-7b970601d009:395",
+    "sessionId": "hmi-189822f1-5d34-4de3-a068-7b970601d009",
+    "frameSequence": 395,
+    "capturedAtIso": "2026-11-01T20:10:12.486Z",
+    "requestedAtIso": "2026-11-01T20:10:12.446Z",
+    "contentType": "image/jpeg",
+    "byteLength": 147570,
+    "sha256": "4292bd54e01184820f91411c2f339684a9b3d4b09e8f5df31e571bdc4de78f93",
+    "mediaUrl": "/api/hmi/frames/hmi-189822f1-5d34-4de3-a068-7b970601d009/395",
+    "pageUrl": "http://127.0.0.1:5191/?capture=portal"
+  },
+  "report": {
+    "schemaVersion": "controlsbench.campaign.v1",
+    "campaignId": "portal-20261101201013518-3",
+    "status": "completed",
+    "provenance": {
+      "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+      "ioMap": "sha256:d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+      "plcBuild": "fake-measurement-fixture-v1",
+      "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+      "model": "deterministic-fake-v1",
+      "connector": "deterministic-fake-connector-v1"
+    },
+    "evidenceClass": "fake_connector",
+    "claimBoundary": "Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.",
+    "plan": {
+      "objective": "Investigate an unexpected fixture output",
+      "experiments": [
+        {
+          "id": "baseline",
+          "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+          "category": "normal",
+          "requirements": []
+        },
+        {
+          "id": "persistence-probe",
+          "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+          "category": "adaptive",
+          "requirements": []
+        }
+      ]
+    },
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+        "category": "normal",
+        "requirements": [],
+        "status": "completed",
+        "conclusion": "inconclusive",
+        "evidenceRefs": [
+          "portal-20261101201013518-3:69"
+        ]
+      },
+      {
+        "id": "persistence-probe",
+        "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+        "category": "adaptive",
+        "requirements": [],
+        "status": "completed",
+        "conclusion": "observed",
+        "evidenceRefs": [
+          "portal-20261101201013518-3:125"
+        ]
+      }
+    ],
+    "findings": [
+      {
+        "id": "persistent-output",
+        "title": "Green indication absent in both observation windows",
+        "experimentId": "persistence-probe",
+        "claims": [
+          {
+            "evidenceId": "portal-20261101201013518-3:125",
+            "signal": "StackLight_Green",
+            "equals": false
+          }
+        ],
+        "injectedTruthRefs": [],
+        "inference": "A longer observation did not resolve the output disagreement.",
+        "assumptions": [
+          "Expected green indication is a fixture hypothesis"
+        ],
+        "uncertainty": "This is not a specified conveyor requirement failure or a diagnosed physical fault.",
+        "review": "unreviewed"
+      }
+    ],
+    "budget": {
+      "campaignUsd": 0,
+      "sessionUsd": 0,
+      "checks": {
+        "planning": 0,
+        "baseline": 0,
+        "persistence-probe": 0
+      },
+      "repairs": {
+        "none": 0
+      },
+      "requests": {
+        "request-1": {
+          "requestId": "request-1",
+          "phase": "settled",
+          "costUsd": 0,
+          "campaignUsd": 0,
+          "sessionUsd": 0,
+          "checkUsd": 0,
+          "repairUsd": 0,
+          "checkId": "planning",
+          "repairEpisode": "none",
+          "basis": "fake_zero"
+        },
+        "request-2": {
+          "requestId": "request-2",
+          "phase": "settled",
+          "costUsd": 0,
+          "campaignUsd": 0,
+          "sessionUsd": 0,
+          "checkUsd": 0,
+          "repairUsd": 0,
+          "checkId": "baseline",
+          "repairEpisode": "none",
+          "basis": "fake_zero"
+        },
+        "request-3": {
+          "requestId": "request-3",
+          "phase": "settled",
+          "costUsd": 0,
+          "campaignUsd": 0,
+          "sessionUsd": 0,
+          "checkUsd": 0,
+          "repairUsd": 0,
+          "checkId": "baseline",
+          "repairEpisode": "none",
+          "basis": "fake_zero"
+        },
+        "request-4": {
+          "requestId": "request-4",
+          "phase": "settled",
+          "costUsd": 0,
+          "campaignUsd": 0,
+          "sessionUsd": 0,
+          "checkUsd": 0,
+          "repairUsd": 0,
+          "checkId": "persistence-probe",
+          "repairEpisode": "none",
+          "basis": "fake_zero"
+        }
+      }
+    },
+    "finalization": {
+      "summary": "Adaptive fixture investigation completed with grounded evidence",
+      "throughSequence": 141
+    },
+    "injectedTruth": [],
+    "worldEvidenceRefs": [
+      "portal-20261101201013518-3:12",
+      "portal-20261101201013518-3:13",
+      "portal-20261101201013518-3:14",
+      "portal-20261101201013518-3:15",
+      "portal-20261101201013518-3:16",
+      "portal-20261101201013518-3:17",
+      "portal-20261101201013518-3:18",
+      "portal-20261101201013518-3:19",
+      "portal-20261101201013518-3:20",
+      "portal-20261101201013518-3:21",
+      "portal-20261101201013518-3:22",
+      "portal-20261101201013518-3:23",
+      "portal-20261101201013518-3:24",
+      "portal-20261101201013518-3:25",
+      "portal-20261101201013518-3:26",
+      "portal-20261101201013518-3:27",
+      "portal-20261101201013518-3:28",
+      "portal-20261101201013518-3:29",
+      "portal-20261101201013518-3:30",
+      "portal-20261101201013518-3:31",
+      "portal-20261101201013518-3:32",
+      "portal-20261101201013518-3:33",
+      "portal-20261101201013518-3:34",
+      "portal-20261101201013518-3:54",
+      "portal-20261101201013518-3:62",
+      "portal-20261101201013518-3:70",
+      "portal-20261101201013518-3:101",
+      "portal-20261101201013518-3:110",
+      "portal-20261101201013518-3:118",
+      "portal-20261101201013518-3:126"
+    ],
+    "sourceEvidenceRefs": [
+      "portal-20261101201013518-3:5",
+      "portal-20261101201013518-3:6",
+      "portal-20261101201013518-3:7",
+      "portal-20261101201013518-3:8",
+      "portal-20261101201013518-3:49",
+      "portal-20261101201013518-3:50",
+      "portal-20261101201013518-3:57",
+      "portal-20261101201013518-3:58",
+      "portal-20261101201013518-3:65",
+      "portal-20261101201013518-3:66",
+      "portal-20261101201013518-3:96",
+      "portal-20261101201013518-3:97",
+      "portal-20261101201013518-3:105",
+      "portal-20261101201013518-3:106",
+      "portal-20261101201013518-3:113",
+      "portal-20261101201013518-3:114",
+      "portal-20261101201013518-3:121",
+      "portal-20261101201013518-3:122"
+    ],
+    "modelResponseRefs": [],
+    "plcEvidence": [
+      "portal-20261101201013518-3:11",
+      "portal-20261101201013518-3:53",
+      "portal-20261101201013518-3:61",
+      "portal-20261101201013518-3:69",
+      "portal-20261101201013518-3:100",
+      "portal-20261101201013518-3:109",
+      "portal-20261101201013518-3:117",
+      "portal-20261101201013518-3:125"
+    ],
+    "unresolved": [
+      {
+        "id": "await-green",
+        "name": "wait_for_condition",
+        "status": "timed_out",
+        "evidenceRefs": [],
+        "message": "Observation deadline reached without sufficient matching evidence"
+      }
+    ],
+    "untested": [],
+    "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+  },
+  "commandOrigin": "synthetic portal button click for offline integration testing",
+  "plcContacted": false,
+  "paidCalls": 0
+}
