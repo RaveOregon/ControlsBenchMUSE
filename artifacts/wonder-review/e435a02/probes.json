@@ -1,0 +1,62 @@
+{
+  "sourceCommit": "e435a02d51ad422224fd8a66a2e3fd44db4a5e92",
+  "reviewType": "offline contract probes",
+  "factoryProbe": {
+    "scopeKeys": [
+      "IO-1",
+      "IO-2",
+      "SM-1",
+      "SM-2",
+      "FN-1",
+      "FN-2",
+      "FN-3",
+      "FN-4",
+      "FN-5",
+      "RT-1",
+      "RT-2",
+      "RT-3",
+      "RT-4",
+      "RT-5",
+      "FR-1",
+      "FR-2",
+      "FR-3",
+      "FR-4",
+      "FR-5",
+      "NO-1",
+      "NO-2",
+      "ES-1",
+      "ES-2",
+      "ES-3",
+      "AI-1",
+      "AI-3",
+      "CQ-20",
+      "CQ-50",
+      "CQ-4",
+      "CQ-5",
+      "EV-1"
+    ],
+    "rejection": "Error: Wonder scope must select supported engineering categories",
+    "providerConstructed": false
+  },
+  "recordedBrowserProbe": {
+    "constructionMode": "live",
+    "hostedEvidenceClass": "preserved_live_plc",
+    "outputProvenance": {
+      "mode": "live",
+      "evidenceClass": "plc_measurement",
+      "source": "campaign:wonder-recorded",
+      "ref": "wonder-recorded:9; source wonder-recorded:6 (coordinator #4)",
+      "clock": "live_wall",
+      "recordedAt": "2026-11-01T00:59:02.681Z",
+      "run": "wonder-recorded",
+      "sourceAtMs": 20038.7257
+    },
+    "outputBadge": {
+      "text": "PLC · live",
+      "cls": "live",
+      "title": "Observed now from the attached coordinator."
+    }
+  },
+  "actualModelCalls": 0,
+  "plcContacted": false
+}
