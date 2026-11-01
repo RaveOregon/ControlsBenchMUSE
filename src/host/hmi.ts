@@ -243,7 +243,7 @@ export class HmiHub {
       perform: async (call: ToolCall, signal: AbortSignal) => {
         if (call.name === "request_hmi_action") throw new ToolFailure("inconclusive", "Muse HMI operation is not implemented; no click was delivered");
         if (call.arguments.kind !== "frame") throw new ToolFailure("inconclusive", "HMI clip capture is not implemented; request a frame");
-        if (!this.observing) throw new ToolFailure("inconclusive", "HMI not observed: no fresh controlled WebVisu session");
+        if (!this.observing) throw new ToolFailure("inconclusive", "HMI not observed: no fresh controlled browser HMI session");
         const frame = await this.captureNow();
         if (signal.aborted) throw new ToolFailure("inconclusive", "Capture completed after cancellation");
         return { reference: frame.reference, atIso: frame.capturedAtIso };

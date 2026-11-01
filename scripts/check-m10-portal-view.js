@@ -42,8 +42,8 @@ try {
   check("equipment selection preserves evidence links", await browser.waitFor(`document.querySelector('.view-selection button')?.textContent.includes('m10-live:')`));
   await browser.evaluate(`document.querySelector('.view-selection button').click();true`);
   check("equipment evidence opens in the ledger inspector", await browser.waitFor(`document.querySelector('.drawer .json')?.textContent.includes('m10-live:') || document.querySelector('.drawer .kv')?.textContent.includes('m10-live:')`));
-  await browser.evaluate(`document.querySelector('[aria-label="Close inspector"]').click();window.m10Replay.setLink('stale');true`);
-  check("stale probe is visibly labeled separately from recorded evidence", await browser.waitFor(`document.body.textContent.includes('Presentation probe: stale')`));
+  await browser.evaluate(`document.querySelector('[aria-label="Close inspector"]').click();window.m10Replay.setLink('disconnected');true`);
+  check("link-loss probe is visibly labeled separately from recorded evidence", await browser.waitFor(`document.body.textContent.includes('Presentation probe: disconnected')`));
   await browser.evaluate(`(()=>{const {f,token}=${probe};window.dispatchEvent(new MessageEvent('message',{source:f.contentWindow,data:{protocol:'controlsbench.machine-view.protocol.v1',token:JSON.parse(token),type:'error',message:'offline audit fallback probe'}}));return true;})()`);
   check("view runtime failure removes iframe and shows contract fallback", await browser.waitFor(`!document.querySelector('iframe') && document.querySelector('.generated-fallback')?.textContent.includes('offline audit fallback probe')`));
   writeFileSync(resolve(out, "fallback.png"), await browser.screenshot());

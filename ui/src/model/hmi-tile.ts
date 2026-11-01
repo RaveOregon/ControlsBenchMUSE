@@ -66,7 +66,7 @@ export function hmiTileModel(state: WorkspaceState, nowEpochMs: number): HmiTile
       identity: [["Source", media.sourceId], ...identity.filter(([k]) => k !== "Frames this session")], lastAction };
   }
 
-  const why = state.mode === "replay" ? "This record contains no HMI capture." : hmi.state === "connecting" ? "Opening the controlled WebVisu session; no frame captured yet."
-    : hmi.state === "error" ? hmi.detail : hmi.state === "not_configured" ? "Configure the WebVisu URL to observe the actual HMI." : hmi.detail;
+  const why = state.mode === "replay" ? "This record contains no HMI capture." : hmi.state === "connecting" ? "Opening the controlled browser HMI session; no frame captured yet."
+    : hmi.state === "error" ? hmi.detail : hmi.state === "not_configured" ? "Configure the browser HMI URL to observe the actual HMI." : hmi.detail;
   return { observed: false, headline: HMI_NOT_OBSERVED, detail: why, connection: hmi.state, recording: false, identity: hmi.sourceId ? identity : [], lastAction };
 }

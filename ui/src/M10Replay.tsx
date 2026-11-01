@@ -29,7 +29,7 @@ function Replay() {
     seek(events.length).catch(e => setError(String(e)));
     const witness = { seek, eventCount: events.length, events,
       state: () => current.current?.store.state,
-      setLink: (state: "fresh" | "stale" | "quarantined") => {
+      setLink: (state: "fresh" | "disconnected") => {
         const s = current.current;
         if (!s) return;
         s.store.state.connection.link = state === "fresh" ? "up" : "lost";

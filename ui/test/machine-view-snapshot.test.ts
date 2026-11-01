@@ -33,6 +33,8 @@ test("the mounted-view adapter preserves unknown/bad quality, aging, held state 
   const channel = pkg.bindings.channels.find(c => c.id === "plc.Motor_RunCmd")!;
   let snapshot = workspaceViewSnapshot(pkg, store.state, 100);
   assert.equal(resolveSample(channel, snapshot).display, "unknown"); assert.equal(snapshot.channels["world.PE_Entry"]!.evidenceRef, "c:1");
+  delete store.state.outputs.Motor_RunCmd.quality;
+  assert.equal(resolveSample(channel, workspaceViewSnapshot(pkg, store.state, 100)).display, "unknown", "missing PLC quality cannot be promoted to Good");
   store.state.outputs.Motor_RunCmd.quality = "bad";
   assert.equal(resolveSample(channel, workspaceViewSnapshot(pkg, store.state, 100)).health, "bad");
   snapshot = workspaceViewSnapshot(pkg, store.state, 2201); assert.equal(snapshot.link.state, "stale");

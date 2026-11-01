@@ -252,7 +252,7 @@ export class CampaignHost {
       case "configure_hmi": {
         const url = validateHmiUrl(p.url);
         const frame = await this.hmi.connect(this.#hmiSourceFactory(url));
-        return { outcome: "applied", detail: `Controlled WebVisu session observing ${url}; first frame captured`, evidenceRefs: [frame.reference] };
+        return { outcome: "applied", detail: `Controlled browser HMI session observing ${url}; first frame captured`, evidenceRefs: [frame.reference] };
       }
       case "disconnect_hmi":
         await this.hmi.disconnect();
