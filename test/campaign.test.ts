@@ -189,6 +189,7 @@ test("every bounded tool validates its envelope; unsupported capabilities are ex
   const h = await started();
   const inputs: Record<ToolName, Record<string, unknown>> = {
     inspect_spec: {}, inspect_signal_contract: {}, inspect_recent_evidence: { limit: 3 },
+    inspect_evidence_window: { ids: [], afterSequence: 0, throughSequence: 10, limit: 3 },
     introduce_carton: { itemId: "test", requestedRoute: null }, assign_route: { itemId: "test", route: "A" },
     operator_action: { action: "start" }, acknowledge_completion: { sequence: 0 },
     set_downstream_readiness: { destination: "B", ready: false }, inject_fault: { controlId: "fault.setOverload", parameters: { active: true } },

@@ -1840,7 +1840,8 @@
               "enum": [
                 "live-coordinator",
                 "campaign-driver",
-                "preserved-m7"
+                "preserved-m7",
+                "preserved-m10"
               ]
             },
             "source": {

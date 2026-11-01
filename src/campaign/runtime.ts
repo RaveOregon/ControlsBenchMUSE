@@ -1,26 +1,30 @@
 import { randomBytes } from "node:crypto";
 import { BudgetLimitError } from "../proof/budget-guard.ts";
-import type { CampaignEvent, Decision, Experiment, Finding, Outcome, Provenance, ToolCall, ToolResult } from "./contracts.ts";
+import type { CampaignEvent, Decision, DecisionLease, Experiment, Finding, Outcome, Provenance, ToolCall, ToolResult } from "./contracts.ts";
 import { CAMPAIGN_VERSION, toolSchemas, validate, validateDecision } from "./contracts.ts";
 import { CampaignLedger, digest, report } from "./ledger.ts";
 import { CampaignBudget } from "./budget.ts";
 import { bounded, DeadlineError, systemClock } from "./clock.ts";
 import type { Clock } from "./clock.ts";
-import { CoordinatorCampaignDriver, ToolFailure } from "./driver.ts";
+import { ToolFailure } from "./driver.ts";
 import type { HmiAdapter, SimulationExit } from "./driver.ts";
 import type { AgentContext, CampaignProvider, ProviderReply } from "./provider.ts";
+import type { CampaignDriver, DecisionLeaseReceipt } from "./process-port.ts";
+import { assertLogicalContext, blindEvidenceTypes, compactEvidence, contextResults, evidenceQuality } from "./model-context.ts";
 
 export interface CampaignOptions {
   ledger: CampaignLedger; provider: CampaignProvider; provenance: Provenance;
   evidenceClass: "fake_connector" | "preserved_live_plc" | "live_plc";
   claimBoundary: string; spec: string; signals: unknown; categories: string[];
-  driver?: CoordinatorCampaignDriver; budget?: CampaignBudget; clock?: Clock;
+  driver?: CampaignDriver; budget?: CampaignBudget; clock?: Clock;
   diagnosisMode?: "known" | "blind"; hmi?: HmiAdapter;
   paidAuthorized?: boolean; maxTurns?: number; toolTimeoutMs?: number;
-  controller?: { execute(call: ToolCall, signal: AbortSignal): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> };
+  requireDecisionLeases?: boolean;
+  capabilities?: unknown;
+  controller?: { execute(call: ToolCall, signal: AbortSignal, basedOnRevision?: number): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> };
 }
 const physicalTools = new Set(["introduce_carton", "assign_route", "set_downstream_readiness", "inject_fault", "clear_fault"]);
-const blindAllowed = new Set(["world.raw_image", "plc.acknowledged", "plc.output", "hmi.evidence", "observation", "discrepancy"]);
+const blindAllowed = blindEvidenceTypes;
 const terminal = new Set(["stopped", "completed", "failed"]);
 const usedProviders = new WeakSet<CampaignProvider>();
 
@@ -40,9 +44,11 @@ export class CampaignRuntime {
   #finalizing?: Promise<void>;
   #budgetBlocked = false;
   #hiddenSetup = false;
+  #reasoningLease: DecisionLease = { mode: "hold", timeoutMs: 300_000 };
   constructor(options: CampaignOptions) {
     if (!options.categories.length) throw new Error("Select campaign scope before Start Campaign");
-    if (options.provider.paid && !options.paidAuthorized) throw new Error("Paid provider requires explicit final-checkpoint authorization");
+    if (options.provider.paid && !options.paidAuthorized) throw new Error("Paid provider requires campaign authorization");
+    if (options.requireDecisionLeases && !options.driver?.decisionLeases) throw new Error("Verified isolated decision-lease interface is required");
     if (options.diagnosisMode === "blind" && usedProviders.has(options.provider)) throw new Error("Blind diagnosis requires a fresh provider instance/context");
     usedProviders.add(options.provider);
     this.options = options; this.ledger = options.ledger; this.clock = options.clock ?? systemClock;
@@ -82,17 +88,42 @@ export class CampaignRuntime {
       this.ledger.append("agent.request", { requestId: lease.id, phase: "started", model: this.options.provider.id, experimentId: checkId, elapsedMs: 0 });
       this.ledger.append("agent.activity", { phase: "reasoning", summary: "Choosing the next experiment action from recorded evidence", requestId: lease.id });
       let reply: ProviderReply | undefined, failure: unknown;
+      let decisionLease: DecisionLeaseReceipt | undefined;
+      let preserved = false;
+      const preserve = (response: Record<string, unknown>) => {
+        this.ledger.append("agent.response", { requestId: lease.id, responseHash: digest(response), response }, "truth");
+      };
       try {
-        reply = await bounded(signal => this.options.provider.decide(this.agentContext(), signal), this.budget.guard.limits.requestTimeoutMs, this.clock, this.#abort.signal);
-        if (reply.rawResponse) this.ledger.append("agent.response", { requestId: lease.id, responseHash: digest(reply.rawResponse), response: reply.rawResponse }, "truth");
+        reply = await bounded(async signal => {
+          const control = this.options.driver?.decisionLeases;
+          if (control) {
+            decisionLease = await control.begin(this.#reasoningLease, basedOnRevision, signal);
+            this.#checkLease(decisionLease, basedOnRevision);
+            preserve({ phase: "decision_lease_started", policy: this.#reasoningLease, receipt: decisionLease });
+            this.ledger.append("agent.activity", { phase: "decision_lease", summary: `Reasoning under explicit ${this.#reasoningLease.mode} lease; hold on expiry; PLC time continues`, requestId: lease.id });
+          }
+          return this.options.provider.decide(this.agentContext(), signal, { requestId: lease.id, preserve: record => { preserved = true; preserve(record); } });
+        }, Math.min(this.#reasoningLease.timeoutMs, this.budget.guard.limits.requestTimeoutMs), this.clock, this.#abort.signal);
+        if (reply.rawResponse && !preserved) preserve(reply.rawResponse);
         if (reply.error) failure = new Error(reply.error);
       } catch (error) { failure = error; }
+      if (decisionLease) {
+        try {
+          // Finish must hold/reconcile even after model cancellation; late decisions never release effects.
+          const receipt = await bounded(signal => this.options.driver!.decisionLeases!.finish(decisionLease!, signal),
+            this.options.toolTimeoutMs ?? 10_000, this.clock);
+          preserve({ phase: "decision_lease_finished", receipt });
+          this.#checkLease(receipt, basedOnRevision);
+          if (receipt.id !== decisionLease.id) throw new ToolFailure("stale", "Decision lease identity changed");
+        } catch (error) { failure ??= error; }
+      }
       const phase = failure ? (failure instanceof DeadlineError ? "timed_out" : this.#abort.signal.aborted ? "cancelled" : "failed") : "completed";
       this.ledger.append("agent.request", { requestId: lease.id, phase, model: this.options.provider.id, experimentId: checkId,
         elapsedMs: this.clock.now() - began, ...(reply?.usage ? { usage: reply.usage } : {}), ...(reply?.responseId ? { responseId: reply.responseId } : {}) });
       try {
-        this.budget.settle(lease, checkId, reply?.costUsd ?? this.options.provider.estimatedRequestUsd,
-          reply?.costUsd === 0 ? "fake_zero" : reply?.costUsd === undefined ? "conservative_reservation" : "provider_reported",
+        const reported = Number.isFinite(reply?.costUsd) && reply!.costUsd! >= 0 ? reply!.costUsd! : undefined;
+        this.budget.settle(lease, checkId, this.options.provider.paid ? Math.max(this.options.provider.estimatedRequestUsd, reported ?? 0) : reported ?? this.options.provider.estimatedRequestUsd,
+          this.options.provider.paid ? "conservative_reservation" : reported === 0 ? "fake_zero" : reported === undefined ? "conservative_reservation" : "provider_reported",
           phase === "timed_out" ? "timed_out" : failure ? "failed" : "settled");
       } catch (error) { await this.#budgetStop(error); return; }
       if (this.status !== "running") return;
@@ -100,7 +131,7 @@ export class CampaignRuntime {
       try {
         const decision = validateDecision(reply!.decision);
         const fingerprint = digest({ plan: decision.plan ?? null, complete: decision.completeExperiment ?? null,
-          calls: decision.calls.map(c => ({ name: c.name, arguments: c.arguments })) });
+          reasoningLease: decision.reasoningLease ?? null, calls: decision.calls.map(c => ({ name: c.name, arguments: c.arguments })) });
         repeats = fingerprint === lastFingerprint ? repeats + 1 : 0; lastFingerprint = fingerprint;
         if (repeats >= 2) { await this.pause("Repeated agent decision; state preserved"); return; }
         await this.applyDecision(decision, basedOnRevision);
@@ -109,11 +140,21 @@ export class CampaignRuntime {
   }
   agentContext(): AgentContext {
     const s = this.ledger.state;
+    const blind = this.diagnosisMode === "blind", recorded = this.options.evidenceClass === "preserved_live_plc";
+    const evidence = compactEvidence(this.ledger, blind);
+    const capabilities = this.options.capabilities ?? this.options.driver?.binding.describe ?? { readOnly: true };
+    assertLogicalContext(this.options.signals); assertLogicalContext(capabilities);
     return { schemaVersion: CAMPAIGN_VERSION, spec: this.options.spec, signals: structuredClone(this.options.signals),
-      capabilities: this.options.driver?.binding.describe ?? { readOnly: true },
+      capabilities: structuredClone(capabilities),
       state: { status: s.status, revision: s.revision, ...(s.plan ? { plan: s.plan } : {}), experiments: s.experiments,
         ...(s.activeExperiment ? { activeExperiment: s.activeExperiment } : {}) },
-      evidence: this.visibleEvidence(100), results: structuredClone(this.#results), diagnosisMode: this.diagnosisMode };
+      evidence, results: contextResults(this.#results, this.ledger, blind), diagnosisMode: this.diagnosisMode,
+      boundary: { evidenceClass: this.options.evidenceClass, claimBoundary: this.options.claimBoundary, categories: this.options.categories, recorded },
+      evidenceWindow: { throughSequence: s.sequence, selectedIds: evidence.map(e => e.id),
+        retrieval: "inspect_evidence_window: exact ids, or afterSequence exclusive / throughSequence inclusive, limit <=20. Original source retained in engineer ledger.",
+        quality: evidenceQuality(this.ledger, evidence, recorded, Date.parse(this.clock.iso())) },
+      budget: { campaignUsd: s.budget.campaignUsd, sessionUsd: s.budget.sessionUsd,
+        perRequestUsd: this.budget.guard.limits.perRequestUsd, campaignHardUsd: this.budget.guard.limits.campaignHardUsd } };
   }
   visibleEvidence(limit = Number.MAX_SAFE_INTEGER): CampaignEvent[] {
     return this.ledger.recentEvents(limit, e => e.visibility === "public" && (this.diagnosisMode !== "blind" || blindAllowed.has(e.type)));
@@ -121,6 +162,9 @@ export class CampaignRuntime {
   async applyDecision(decision: Decision, basedOnRevision: number): Promise<void> {
     validateDecision(decision);
     if (this.status !== "running" || basedOnRevision !== this.ledger.state.revision) throw new ToolFailure("stale", "Agent decision revision is no longer current");
+    if (decision.reasoningLease && !this.options.driver?.decisionLeases) throw new ToolFailure("rejected", "Decision leases unavailable on this adapter");
+    if (decision.reasoningLease?.condition && !this.#observedOutputs().includes(decision.reasoningLease.condition.signal)) throw new ToolFailure("rejected", "Lease condition must name a declared PLC observation");
+    if (decision.completeExperiment) this.#requireVisibleRefs(decision.completeExperiment.evidenceRefs);
     this.ledger.append("agent.activity", { phase: "decision", summary: decision.summary });
     if (decision.plan) {
       for (const e of decision.plan.experiments) this.#validateExperiment(e);
@@ -145,6 +189,7 @@ export class CampaignRuntime {
       if (this.status !== "running") break;
       this.#results.push(await this.executeTool(call, this.ledger.state.revision));
     }
+    if (decision.reasoningLease) this.#reasoningLease = structuredClone(decision.reasoningLease);
   }
   executeTool(call: ToolCall, basedOnRevision = this.ledger.state.revision): Promise<ToolResult> {
     const work = this.#execute(call, basedOnRevision);
@@ -165,7 +210,7 @@ export class CampaignRuntime {
       const timeout = call.name === "wait_for_condition" ? Number(call.arguments.timeoutMs) + 100
         : call.name === "observe_for_duration" ? Number(call.arguments.durationMs) + 100
         : this.options.toolTimeoutMs ?? 10_000;
-      const value = await bounded(signal => this.#dispatch(call, signal), timeout, this.clock, this.#abort.signal);
+      const value = await bounded(signal => this.#dispatch(call, signal, basedOnRevision), timeout, this.clock, this.#abort.signal);
       result = { actionId: call.id, status: "applied", message: value.message, evidenceRefs: value.evidenceRefs, ...(value.value !== undefined ? { value: value.value } : {}) };
       finish = call.name === "finish_campaign";
     } catch (error) {
@@ -180,11 +225,11 @@ export class CampaignRuntime {
     if (finish) queueMicrotask(() => { void this.#finalize("completed", String(call.arguments.summary)); });
     return result;
   }
-  async #dispatch(call: ToolCall, signal: AbortSignal): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> {
+  async #dispatch(call: ToolCall, signal: AbortSignal, basedOnRevision: number): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> {
     const p = call.arguments, driver = this.options.driver;
     if (["assign_route", "operator_action", "acknowledge_completion"].includes(call.name) && this.options.controller) {
       if (!this.ledger.state.activeExperiment) throw new ToolFailure("rejected", "Controller actions require an active authorized experiment");
-      return this.options.controller.execute(call, signal);
+      return this.options.controller.execute(call, signal, basedOnRevision);
     }
     if (physicalTools.has(call.name)) {
       if (!this.ledger.state.activeExperiment) throw new ToolFailure("rejected", "Start an experiment before a world intervention");
@@ -198,14 +243,26 @@ export class CampaignRuntime {
         this.ledger.append("fault.committed", { commitment });
         injectedTruthRef = this.ledger.append("fault.truth", { commitment, truth: call.arguments, salt }, "truth").id;
       }
-      const evidenceRefs = await driver.apply(call, signal);
+      const evidenceRefs = await driver.apply(call, signal, basedOnRevision);
       return { message: "World control executed and complete raw image acknowledged by connector", evidenceRefs,
         ...(injectedTruthRef ? { value: { injectedTruthRef } } : {}) };
     }
     switch (call.name) {
       case "inspect_spec": return { message: "Accepted specification", evidenceRefs: [], value: this.options.spec };
       case "inspect_signal_contract": return { message: "Configured signal contract", evidenceRefs: [], value: this.options.signals };
-      case "inspect_recent_evidence": return { message: "Recorded evidence with original IDs", evidenceRefs: [], value: this.visibleEvidence(Number(p.limit)) };
+      case "inspect_recent_evidence": {
+        const events = this.visibleEvidence(Number(p.limit));
+        return { message: "Recorded evidence with original IDs", evidenceRefs: events.map(e => e.id), value: events };
+      }
+      case "inspect_evidence_window": {
+        const ids = p.ids as string[];
+        if (ids.length) this.#requireVisibleRefs(ids);
+        if (Number(p.throughSequence) < Number(p.afterSequence)) throw new ToolFailure("rejected", "Invalid evidence sequence window");
+        const events = ids.length ? ids.map(id => this.ledger.getEvent(id)!) : this.ledger.evidenceWindow(Number(p.afterSequence), Number(p.throughSequence), Number(p.limit),
+          e => e.visibility === "public" && (this.diagnosisMode !== "blind" || blindAllowed.has(e.type)));
+        const selected = events.slice(0, Number(p.limit));
+        return { message: this.options.evidenceClass === "preserved_live_plc" ? "Exact recorded evidence; no new observation or PLC action" : "Exact evidence window", evidenceRefs: selected.map(e => e.id), value: selected };
+      }
       case "wait_for_condition": case "observe_for_duration": return this.#wait(call, signal);
       case "branch_or_reset_world": {
         if (!driver) throw new ToolFailure("inconclusive", "No active world to branch/reset");
@@ -259,7 +316,7 @@ export class CampaignRuntime {
     const driver = this.options.driver;
     if (!driver) return Promise.reject(new ToolFailure("inconclusive", "Cannot wait for future PLC behavior in preserved evidence"));
     const p = call.arguments, condition = call.name === "wait_for_condition";
-    if (condition && !driver.coordinator.world.manifest.signals.some(s => s.direction === "plc_to_world" && s.id === p.signal)) return Promise.reject(new ToolFailure("rejected", "Condition must name a declared observed PLC output"));
+    if (condition && !this.#observedOutputs().includes(String(p.signal))) return Promise.reject(new ToolFailure("rejected", "Condition must name a declared observed PLC output"));
     const began = this.clock.now(), timeout = Number(condition ? p.timeoutMs : p.durationMs), startSequence = this.ledger.state.sequence;
     this.ledger.append("agent.activity", { phase: condition ? "waiting_condition" : "observing", summary: condition ? `Waiting for ${p.signal} = ${p.equals}; deadline ${timeout} ms` : `Observing for ${timeout} ms` });
     return new Promise((resolve, reject) => {
@@ -361,6 +418,14 @@ export class CampaignRuntime {
   #validateExperiment(e: Experiment) {
     if (!/^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,150}$/.test(e.id) || ["constructor", "prototype", "__proto__"].includes(e.id)) throw new ToolFailure("rejected", "Invalid experiment ID");
     if (!this.options.categories.includes(e.category)) throw new ToolFailure("rejected", `Experiment category ${e.category} is outside authorized scope`);
+  }
+  #observedOutputs(): readonly string[] {
+    if (this.options.driver?.observedOutputIds) return this.options.driver.observedOutputIds;
+    return Array.isArray(this.options.signals) ? this.options.signals.filter(s => s.direction === "plc_to_world").map(s => String(s.id)) : [];
+  }
+  #checkLease(receipt: DecisionLeaseReceipt, revision: number) {
+    if (!receipt.valid || receipt.basedOnRevision !== revision || this.ledger.state.revision !== revision) throw new ToolFailure("stale", `Decision lease no longer valid: ${receipt.reason}`);
+    if (receipt.evidenceRefs.length) this.#requireVisibleRefs(receipt.evidenceRefs);
   }
   #requireVisibleRefs(refs: string[]) {
     if (!refs.every(id => { const e = this.ledger.getEvent(id); return e?.visibility === "public" && (this.diagnosisMode !== "blind" || blindAllowed.has(e.type)); })) throw new ToolFailure("rejected", "Evidence is absent or hidden from this diagnosis context");

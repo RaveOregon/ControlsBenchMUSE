@@ -8,6 +8,51 @@
         "minLength": 1,
         "maxLength": 8000
       },
+      "reasoningLease": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "enum": [
+              "hold",
+              "continue",
+              "condition_deadline"
+            ]
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "condition": {
+            "type": "object",
+            "properties": {
+              "signal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "equals": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "signal",
+              "equals"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "mode",
+          "timeoutMs"
+        ],
+        "additionalProperties": false
+      },
       "plan": {
         "type": "object",
         "properties": {
@@ -112,6 +157,7 @@
                 "inspect_spec",
                 "inspect_signal_contract",
                 "inspect_recent_evidence",
+                "inspect_evidence_window",
                 "introduce_carton",
                 "assign_route",
                 "operator_action",
@@ -174,6 +220,41 @@
         }
       },
       "required": [
+        "limit"
+      ],
+      "additionalProperties": false
+    },
+    "inspect_evidence_window": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 0,
+          "maxItems": 20
+        },
+        "afterSequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "throughSequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        }
+      },
+      "required": [
+        "ids",
+        "afterSequence",
+        "throughSequence",
         "limit"
       ],
       "additionalProperties": false

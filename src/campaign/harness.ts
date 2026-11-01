@@ -66,7 +66,7 @@ export function adaptivePolicy(context: AgentContext, turn: number): Decision {
 }
 
 let instance = 0;
-export async function createHarness(options: { adaptive?: boolean; provider?: CampaignProvider; file?: string; id?: string; diagnosisMode?: "known" | "blind" } = {}) {
+export async function createHarness(options: { adaptive?: boolean; provider?: CampaignProvider; file?: string; id?: string; diagnosisMode?: "known" | "blind"; paidAuthorized?: boolean } = {}) {
   const clock = new ManualClock();
   const provider = options.provider ?? new FakeProvider(options.adaptive ? adaptivePolicy : normalPolicy);
   const ledger = new CampaignLedger(options.id ?? "m9-fixture", { nowIso: () => clock.iso(), file: options.file });
@@ -79,7 +79,7 @@ export async function createHarness(options: { adaptive?: boolean; provider?: Ca
   const runtime = new CampaignRuntime({ ledger, provider, driver, clock, provenance: fixtureProvenance(provider.id),
     evidenceClass: "fake_connector", claimBoundary: "Deterministic fake PLC connector; no live PLC or final conveyor coverage.",
     spec: readFileSync(new URL("docs/conveyor-machine-spec.md", root), "utf8"), signals: world.manifest.signals,
-    categories: ["normal", "adaptive"], diagnosisMode: options.diagnosisMode });
+    categories: ["normal", "adaptive"], diagnosisMode: options.diagnosisMode, paidAuthorized: options.paidAuthorized });
   return { runtime, clock, ledger, connector, coordinator, driver, provider };
 }
 export async function flushMicrotasks(): Promise<void> { for (let i = 0; i < 30; i++) await Promise.resolve(); }
