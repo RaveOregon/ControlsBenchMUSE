@@ -158,6 +158,8 @@ try {
   Object.assign(result, { coordinatorPid: started.pid, coordinatorPriority: coord.priority });
   await sleep(1500);
   service.link.setPollInterval(1000);
+  await until(() => service.link.fresh && service.link.view.pollIntervalMs === 1000, "HMI fresh at the shared poll rate", 5000);
+  await sleep(600); // let the page render enabled controls from fresh data before the first click
   await until(() => hmiValue("GVL_BenchRead.SimApplied") === true && hmiValue("GVL_BenchRead.ConnectorStale") === false && hmiValue("GVL_BenchRead.Active_D1_HomeFB") === true, "HMI sees applied simulation image", 10_000);
   record("coordinator", { summary: `Simulation applied by coordinator process ${started.pid}; world at rest with divert home limits and destinations ready`, plc: plcState() });
   const guard = () => { if (coord.unexpectedFault) throw new Error(coord.unexpectedFault); if (coord.failure) throw new Error(`Coordinator: ${coord.failure}`); };

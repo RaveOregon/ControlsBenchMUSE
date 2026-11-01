@@ -1,5 +1,5 @@
 {
   "status": "failed",
-  "directory": "artifacts/hmi/h2/2026-11-01T14-54-26-866Z",
-  "error": "Error: Coordinator: PLC ConnectorStale=true at applied 27900185613718/1"
+  "directory": "artifacts/hmi/h2/2026-11-01T14-58-54-546Z",
+  "error": "Error: Auto on: expected applied, got inconclusive: Target cmd.auto.on is disabled on screen"
 }

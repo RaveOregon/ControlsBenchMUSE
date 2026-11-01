@@ -28,6 +28,21 @@ test("fresh means a recent good read; unchanged values are not stale", async () 
   } finally { await l.stop(); }
 });
 
+test("a slower poll rate raises the stale threshold with it, so healthy slow polling is never shown stale", async () => {
+  const plc = new ScriptedPlc(), l = new PlcLink({ transportFactory: event => plc.transport(event), journal: new HmiJournal(), endpoint: "scripted://m8", pollIntervalMs: 20 });
+  l.start();
+  try {
+    await waitFor(() => l.fresh, 1000, "fresh");
+    l.setPollInterval(600);
+    assert.equal(l.view.staleAfterMs, 2400);
+    await new Promise(r => setTimeout(r, 900));
+    assert.equal(l.view.state, "connected", "no stale flag between healthy slow polls");
+    const before = l.latest!.sequence;
+    l.setPollInterval(20);
+    await waitFor(() => l.latest!.sequence > before, 200, "faster rate applied at once");
+  } finally { await l.stop(); }
+});
+
 test("read failures turn the link stale with values held, then reconnect with a fresh session", async () => {
   const plc = new ScriptedPlc(), l = link(plc, { failuresBeforeReconnect: 50, pollIntervalMs: 20 });
   l.start();

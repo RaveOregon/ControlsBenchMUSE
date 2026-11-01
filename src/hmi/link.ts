@@ -79,10 +79,15 @@ export class PlcLink {
   /** Starts the next poll now (after a command acknowledgement, so the whole page reflects the new PLC state). */
   pollSoon(): void { this.#wake?.(); }
 
+  /** Changes the poll rate. Without an explicit staleAfterMs the stale threshold follows it, and a faster rate applies at once. */
   setPollInterval(ms: number): void {
     if (ms === this.#view.pollIntervalMs) return;
+    const faster = ms < this.#view.pollIntervalMs;
     this.journal.append("link.poll_interval", { from: this.#view.pollIntervalMs, to: ms });
-    this.#view.pollIntervalMs = ms; this.#options.onChange?.();
+    this.#view.pollIntervalMs = ms;
+    if (this.#options.staleAfterMs === undefined) this.#view.staleAfterMs = Math.max(1500, 4 * ms);
+    if (faster) this.pollSoon();
+    this.#options.onChange?.();
   }
 
   start(): void {
