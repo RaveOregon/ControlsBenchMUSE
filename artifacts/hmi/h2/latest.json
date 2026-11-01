@@ -1,5 +1,5 @@
 {
   "status": "failed",
-  "directory": "artifacts/hmi/h2/2026-11-01T15-04-28-721Z",
-  "error": "Error: Baseline reconciliation failed; H2 not started"
+  "directory": "artifacts/hmi/h2/2026-11-01T15-04-59-374Z",
+  "error": "Error: Coordinator: World step gap 321.6241999999984 ms exceeds the declared 300 ms observation bound; world not advanced"
 }

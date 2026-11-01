@@ -121,12 +121,14 @@ try {
     writeFileSync(lockPath, JSON.stringify({ owner: "hmi-h2-live", pid: process.pid, directory: resolve(dir), startedAtIso: result.startedAtIso, hmiCommandsPermitted: true }) + "\n");
     result.recovery = { reference: request.recoverFrom, requestId: request.id, exitCode: recovery.status, latest: JSON.parse(readFileSync("artifacts/hmi/h2/recovery-latest.json", "utf8")) };
     if (recovery.status !== 0) throw new Error("Baseline reconciliation failed; H2 not started");
+    if (request.recoverOnly === true) { result.status = "recovery-only"; throw Object.assign(new Error("Reconciliation only, as requested; H2 not started"), { recoveryOnly: true }); }
   }
   // ---- HMI observes first (read-only until the baseline is explained) ----
   service = new HmiService({ source: { kind: "live_plc", endpoint: m8Map.endpoint, userConfigured: true, transportFactory: hmiTransportFactory },
-    artifactRoot: `${dir}/hmi`, pollIntervalMs: 250, sharedPollIntervalMs: 1000, commandPolicy: "enabled", ownershipRoots: roots });
+    artifactRoot: `${dir}/hmi`, pollIntervalMs: 250, sharedPollIntervalMs: 2000, commandPolicy: "enabled", ownershipRoots: roots });
   let bridge;
-  const hub = new HmiHub({ captureIntervalMs: 1000, artifactDir: `${dir}/portal-hmi`, onChange: (view, change) => bridge?.onHubChange(view, change) });
+  // Periodic frames every 3 s keep capture load low; every step still captures its own frame on demand.
+  const hub = new HmiHub({ captureIntervalMs: 3000, artifactDir: `${dir}/portal-hmi`, onChange: (view, change) => bridge?.onHubChange(view, change) });
   bridge = new PortalSessionBridge(service, hub);
   hmiServer = createHmiServer(service, { extraPost: { "/api/agent-actions/execute": body => bridge.executeAgentAction(body) } });
   service.url = await listen(hmiServer, Number(args["hmi-port"]));
@@ -157,8 +159,8 @@ try {
   const started = await coord.call("start", {}, 90_000);
   Object.assign(result, { coordinatorPid: started.pid, coordinatorPriority: coord.priority });
   await sleep(1500);
-  service.link.setPollInterval(1000);
-  await until(() => service.link.fresh && service.link.view.pollIntervalMs === 1000, "HMI fresh at the shared poll rate", 5000);
+  service.link.setPollInterval(2000);
+  await until(() => service.link.fresh && service.link.view.pollIntervalMs === 2000, "HMI fresh at the shared poll rate", 5000);
   await sleep(600); // let the page render enabled controls from fresh data before the first click
   await until(() => hmiValue("GVL_BenchRead.SimApplied") === true && hmiValue("GVL_BenchRead.ConnectorStale") === false && hmiValue("GVL_BenchRead.Active_D1_HomeFB") === true, "HMI sees applied simulation image", 10_000);
   record("coordinator", { summary: `Simulation applied by coordinator process ${started.pid}; world at rest with divert home limits and destinations ready`, plc: plcState() });
@@ -258,9 +260,8 @@ try {
   record("portal-page-final", { summary: "ControlsBench portal page with the live HMI tile at the end", portalPage: await portalShot(portalUrl, "final") });
   result.status = "pass";
 } catch (error) {
-  result.error = error instanceof Error ? error.stack : String(error);
-  console.error(result.error);
-  process.exitCode = 1;
+  if (error?.recoveryOnly) { result.status = "recovery-only"; console.log(error.message); }
+  else { result.error = error instanceof Error ? error.stack : String(error); console.error(result.error); process.exitCode = 1; }
 } finally {
   // No reset, restart or passthrough on failure. Close sessions; the PLC keeps its state.
   if (coord && !coord.exited) await coord.close(`H2 stopped: ${result.error ? "unexplained result" : "complete"}`).catch(e => { result.closeError = e.message; });

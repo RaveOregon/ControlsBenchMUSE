@@ -40,7 +40,10 @@ const stimuli = readFileSync(join(reference, "campaign.jsonl"), "utf8").trim().s
 const overloadHeld = stimuli.length > 0 && stimuli.at(-1).data.control.payload.active === true && lastCommit.image.Drive_Overload === true;
 const path = heldItem ? "transit-timeout"
   : overloadHeld && finalPlc.FaultCode === 10 && finalPlc.ItemActive === false ? "injected-overload"
-  : finalPlc.Mode === 1 && finalPlc.Motor_RunCmd === true && finalPlc.Active_Drive_RunningFB === false && finalPlc.ItemActive === false ? "start-feedback-timeout" : undefined;
+  : finalPlc.Mode === 1 && finalPlc.Motor_RunCmd === true && finalPlc.Active_Drive_RunningFB === false && finalPlc.ItemActive === false ? "start-feedback-timeout"
+  // held-running: Auto with the belt running and no carton when the coordinator stopped; nothing times out,
+  // so Stop first, then a fresh at-rest image within M8's 4 s stop window, and verify Stopped (no Reset needed).
+  : finalPlc.Mode === 1 && finalPlc.Motor_RunCmd === true && finalPlc.Active_Drive_RunningFB === true && finalPlc.ItemActive === false && finalPlc.FaultCode === 0 ? "held-running" : undefined;
 assert(path, "Reference left a held state this procedure does not reconcile; decide separately");
 const itemId = heldItem ? Number(lastObservation.observation.values["controller.ActiveItemId"]) : 0;
 const AT_REST = { D1_HomeFB: true, D1_ExtendedFB: false, D2_HomeFB: true, D2_ExtendedFB: false, Drive_RunningFB: false, Runout_Ready: true,
@@ -81,6 +84,11 @@ try {
     assert.equal(v["controller.FaultCode"], 33, "Expected the declared 30 s transit timeout (fault 33); any other state needs a separate decision");
     assert.equal(v["controller.ItemActive"], false); assert.equal(v["controller.CompletionItemId"], itemId);
     assert.equal(v["controller.CompletionDisposition"], 4); assert.equal(v["controller.CompletionExit"], 0); assert.equal(v["controller.CompletionPending"], true);
+  } else if (path === "held-running") {
+    assert.equal(v["controller.FaultCode"], 0, "Expected no fault in the held-running state; any other state needs a separate decision");
+    assert.equal(v["controller.Mode"], 1); assert.equal(v.Motor_RunCmd, true); assert.equal(v["controller.ItemActive"], false); assert.equal(v["controller.CompletionPending"], false);
+    const img = lastCommit.image;
+    for (const [k, want] of Object.entries({ ...AT_REST, Drive_RunningFB: true, Drive_Overload: false })) assert.equal(img[k], want, `held image differs from the expected held-running state: ${k}`);
   } else {
     const expectedFault = path === "injected-overload" ? 10 : 11;
     assert.equal(v["controller.FaultCode"], expectedFault, `Expected fault ${expectedFault} for ${path}; any other state needs a separate decision`);
@@ -92,7 +100,8 @@ try {
   event("baseline.reconciliation-authorized", { reference, path, reason: {
     "transit-timeout": "User-authorized reconciliation: coordinator heartbeat starved; held Auto carton reached the declared transit timeout",
     "injected-overload": "User-authorized reconciliation: the run stopped with its own injected drive overload still held in the image (fault 10)",
-    "start-feedback-timeout": "User-authorized reconciliation: coordinator heartbeat starved during start-up; Start accepted with the image held at rest, so motor feedback never arrived (fault 11)" }[path] });
+    "start-feedback-timeout": "User-authorized reconciliation: coordinator heartbeat starved during start-up; Start accepted with the image held at rest, so motor feedback never arrived (fault 11)",
+    "held-running": "User-authorized reconciliation: the coordinator stopped (300 ms observation bound) with the belt held running in Auto and no carton" }[path] });
   log(`state matches the failed run exactly (${path}); reconciling`);
   await connector.action("stop", {}, "recovery-stop");
   let finalImage = activeImage;
@@ -109,7 +118,12 @@ try {
     log("fresh world image at rest applied");
     if (path === "transit-timeout") await connector.action("completion_ack", { sequence: receipt.values["controller.CompletionSequence"] }, "recovery-completion-ack");
   }
-  const reset = await connector.action("reset", {}, "recovery-reset");
+  let reset;
+  if (path === "held-running") {
+    // Stopping completes on running feedback off plus 200 ms of stationary encoder; no fault to reset.
+    const deadline = performance.now() + 3000;
+    do { await new Promise(r => setTimeout(r, 150)); reset = await connector.commit(finalImage); } while (reset.values["controller.Mode"] !== 0 && performance.now() < deadline);
+  } else reset = await connector.action("reset", {}, "recovery-reset");
   const r = reset.values;
   assert.equal(r["controller.Mode"], 0); assert.equal(r["controller.FaultCode"], 0); assert.equal(r.Motor_RunCmd, false);
   assert.equal(r["controller.ItemActive"], false); assert.equal(r["controller.CompletionPending"], false);
