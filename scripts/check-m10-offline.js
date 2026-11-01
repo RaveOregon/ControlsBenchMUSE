@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { shaFile, frozenProjectHash } from "../src/campaign/m10-rehearsal.ts";
 import assert from "node:assert/strict";
 
-const directory = "artifacts/m10/offline";
+const directory = `artifacts/m10/offline/${new Date().toISOString().replace(/[:.]/g, "-")}`;
 mkdirSync(directory, { recursive: true });
 const typecheck = execFileSync(process.execPath, ["node_modules/typescript/bin/tsc", "--noEmit"], { encoding: "utf8", windowsHide: true });
 const tests = execFileSync(process.execPath, ["--test", "test/proof-chassis.test.ts", "test/budget-guard.test.ts", "test/live-coordinator.test.ts", "test/campaign.test.ts", "test/m8-connector.test.ts"], { encoding: "utf8", windowsHide: true });
@@ -15,4 +15,5 @@ const result = { schemaVersion: 1, status: "pass", checkedAt: new Date().toISOSt
   testedSources: Object.fromEntries(sources.map(path => [path, shaFile(path)])),
   frozenProjectSha256: frozenProjectHash, liveGate: "pending_new_live_M10_evidence_and_audit" };
 writeFileSync(`${directory}/result.json`, JSON.stringify(result, null, 2) + "\n");
+writeFileSync("artifacts/m10/offline/latest.json", JSON.stringify({ status: result.status, directory }, null, 2) + "\n");
 console.log(JSON.stringify(result, null, 2));

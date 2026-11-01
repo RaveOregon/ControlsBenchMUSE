@@ -15,12 +15,19 @@ export function createM8NativeTransport(options: { userName: string; password: s
   const scalar = (value: any, type: string): RawValue => type === "ULINT" ? Array.isArray(value) ? String((BigInt(value[0]) << 32n) | BigInt(value[1])) : String(value) : value;
   return {
     async open() {
+      options.event("connection.attempt", { endpoint: options.endpoint ?? m8Map.endpoint,
+        securityMode: "SignAndEncrypt", securityPolicy: "Basic256Sha256", usernameConfigured: !!options.userName });
       client = opc.OPCUAClient.create({ applicationName: "NodeOPCUA-Client", endpointMustExist: false,
         securityMode: opc.MessageSecurityMode.SignAndEncrypt, securityPolicy: opc.SecurityPolicy.Basic256Sha256,
         automaticallyAcceptUnknownCertificate: true, connectionStrategy: { maxRetry: 0 }, requestedSessionTimeout: 60_000 });
-      await client.connect(options.endpoint ?? m8Map.endpoint);
-      session = await client.createSession({ type: opc.UserTokenType.UserName, userName: options.userName, password: options.password });
-      options.password = "";
+      try {
+        await client.connect(options.endpoint ?? m8Map.endpoint);
+        session = await client.createSession({ type: opc.UserTokenType.UserName, userName: options.userName, password: options.password });
+        options.event("connection.established", { authenticated: true });
+      } catch (error) {
+        options.event("connection.failed", { message: error instanceof Error ? error.message : String(error) });
+        throw error;
+      } finally { options.password = ""; }
       const candidates = new Map<string, Set<string>>(); const visited = new Set<string>();
       async function walk(nodeId: string, parts: string[], depth: number): Promise<void> {
         if (depth === 0 || visited.has(nodeId)) return; visited.add(nodeId);

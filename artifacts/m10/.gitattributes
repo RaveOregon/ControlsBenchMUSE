@@ -1,0 +1,5 @@
+# Preserve the exact bytes covered by each run's SHA-256 evidence manifest.
+*.json -text
+*.jsonl -text
+*.txt -text
+*.gz -text

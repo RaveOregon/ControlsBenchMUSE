@@ -91,7 +91,8 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     await complete(scenario, { completionSequence: sequence, exit, disposition, itemId: route ? Number(itemId) : 0 });
   }
   try {
-    await runtime.start(); assert.equal(runtime.status, "running", "M8 setup must complete before experiments");
+    await runtime.start();
+    if (runtime.status !== "running") throw new Error(String(ledger.state.report?.summary ?? "M8 setup failed before experiments"));
     assert.equal(values()["controller.Mode"], 0, "Require stopped baseline; do not recover an unexplained controller state");
     assert.equal(values()["controller.ItemActive"], false); assert.equal(values()["controller.CompletionPending"], false);
     const initialCounts = Object.fromEntries(["CountExitA", "CountExitB", "CountRunout", "CountMisroute", "CountFaulted"].map(n => [n, values()[`controller.${n}`]]));

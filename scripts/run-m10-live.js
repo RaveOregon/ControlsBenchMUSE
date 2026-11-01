@@ -1,7 +1,7 @@
 import { closeSync, openSync, mkdirSync, readFileSync, writeFileSync, unlinkSync, appendFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { gzipSync } from "node:zlib";
-import { CampaignLedger } from "../src/campaign/ledger.ts";
+import { CampaignLedger, report } from "../src/campaign/ledger.ts";
 import { createM8NativeTransport } from "../src/live/m8-native-transport.ts";
 import { M8OpcUaConnector } from "../src/live/m8-opcua.ts";
 import { runM10Rehearsal, shaFile, frozenProjectHash } from "../src/campaign/m10-rehearsal.ts";
@@ -15,6 +15,14 @@ mkdirSync(directory); const transportPath = `${directory}/transport.jsonl`;
 writeFileSync(transportPath, "", { flag: "wx" });
 const ledger = new CampaignLedger("m10-live", { file: `${directory}/campaign.jsonl` });
 const event = (kind, data) => appendFileSync(transportPath, JSON.stringify({ kind, atIso: new Date().toISOString(), atMonotonicMs: performance.now(), ...data }) + "\n");
+const transportActivity = { readBatches: 0, writeBatches: 0, commitRequests: 0, commitAcknowledgements: 0 };
+const countedEvent = (kind, data) => {
+  if (kind === "opc.read") transportActivity.readBatches++;
+  if (kind === "opc.write") transportActivity.writeBatches++;
+  if (kind === "commit.requested") transportActivity.commitRequests++;
+  if (kind === "commit.acknowledged") transportActivity.commitAcknowledgements++;
+  event(kind, data);
+};
 const result = { schemaVersion: 1, status: "failed", directory, modelCalls: 0, projectSha256: shaFile("codesys/conveyordemo.project"),
   worldSha256: shaFile("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts"),
   base: "m10-base/fa8d2ee", mapSha256: shaFile("codesys/demo/signal-map-v1.json") };
@@ -24,15 +32,17 @@ try {
   if (existsSync("codesys/demo/operator-status.json") && JSON.parse(readFileSync("codesys/demo/operator-status.json", "utf8")).active) throw new Error("M8 operator session owns runtime; stop and coordinate");
   const precheck = execFileSync(process.execPath, ["codesys/demo/tests/precheck.cjs"], { encoding: "utf8", timeout: 30_000, windowsHide: true });
   writeFileSync(`${directory}/precheck.json`, precheck);
-  const transport = createM8NativeTransport({ userName: process.env.OPC_USER, password: process.env.OPC_PASSWORD, event });
+  const transport = createM8NativeTransport({ userName: process.env.OPC_USER, password: process.env.OPC_PASSWORD, event: countedEvent });
   delete process.env.OPC_PASSWORD;
-  connector = new M8OpcUaConnector(transport, event);
+  connector = new M8OpcUaConnector(transport, countedEvent, { requireStoppedBaseline: true });
   Object.assign(result, await runM10Rehearsal(connector, ledger, message => console.log(`[M10] ${message}`)));
 } catch (error) { result.error = error instanceof Error ? error.stack : String(error); console.error(result.error); process.exitCode = 1; }
 finally {
   // No controller reset/recovery or passthrough transition on failure. Close transport only.
   if (connector) await connector.close().catch(error => { result.closeError = error.message; result.status = "failed"; process.exitCode = 1; });
   ledger.close();
+  result.transportActivity = transportActivity;
+  if (!result.report && ledger.events.length) result.report = report(ledger.events);
   writeFileSync(`${directory}/transport.jsonl.gz`, gzipSync(readFileSync(transportPath)));
   unlinkSync(transportPath);
   result.evidenceHashes = Object.fromEntries(["campaign.jsonl", "transport.jsonl.gz", ...(existsSync(`${directory}/precheck.json`) ? ["precheck.json"] : [])].map(file => [file, shaFile(`${directory}/${file}`)]));

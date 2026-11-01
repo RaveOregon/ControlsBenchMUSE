@@ -20,7 +20,10 @@ export class M8OpcUaConnector implements BenchConnector {
   #sequence = 0; #heartbeat = 0n; #slot = 255; #boot?: string;
   #lastCommitAt = -Infinity; #tail: Promise<unknown> = Promise.resolve(); #poisoned = false;
   latest?: ConnectorObservation;
-  constructor(transport: M8Transport, event: TransportEvent = () => {}) { this.transport = transport; this.event = event; }
+  readonly requireStoppedBaseline: boolean;
+  constructor(transport: M8Transport, event: TransportEvent = () => {}, options: { requireStoppedBaseline?: boolean } = {}) {
+    this.transport = transport; this.event = event; this.requireStoppedBaseline = options.requireStoppedBaseline ?? false;
+  }
   #serial<T>(operation: () => Promise<T>): Promise<T> {
     const result = this.#tail.then(async () => { if (this.#poisoned) throw new Error("M8 connector quarantined; no retry"); return operation(); });
     this.#tail = result.catch(() => { this.#poisoned = true; }); return result;
@@ -56,7 +59,15 @@ export class M8OpcUaConnector implements BenchConnector {
     throw new Error("Cannot obtain coherent PLC/capture-cycle bracket");
   }
   #activeImage: RawSignalImage = {};
-  open(): Promise<ConnectorObservation> { return this.#serial(async () => { await this.transport.open(); return this.#snapshot(); }); }
+  open(): Promise<ConnectorObservation> { return this.#serial(async () => {
+    await this.transport.open(); const observation = await this.#snapshot();
+    if (this.requireStoppedBaseline) {
+      const required: Record<string, RawValue> = { "controller.Mode": 0, "controller.FaultCode": 0, "controller.ItemActive": false,
+        "controller.CompletionPending": false, Motor_RunCmd: false };
+      for (const [name, value] of Object.entries(required)) if (observation.values[name] !== value) throw new Error(`Require clean stopped M8 baseline before any write: ${name}=${observation.values[name]}`);
+    }
+    return observation;
+  }); }
   resetSession(): Promise<ConnectorObservation> {
     return this.#serial(async () => {
       const v = await this.#read(["WorkstationHeartbeat", "SessionResetCount"]);

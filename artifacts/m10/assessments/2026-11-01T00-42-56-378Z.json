@@ -1,0 +1,13 @@
+{
+  "status": "failed_pre_stimulus",
+  "run": "artifacts/m10/2026-11-01T00-42-56-378Z",
+  "originalEvidenceUnchanged": true,
+  "hashesVerified": true,
+  "campaignReplayVerified": true,
+  "underlyingFailure": "Initialization failed:  serviceResult = BadUserAccessDenied (0x801f0000)",
+  "loggedTransportEvents": 0,
+  "acknowledgedRawImages": 0,
+  "observedBootIdentity": null,
+  "operatorReported": "PLC timed out and restarted",
+  "interpretation": "Access denied during initialization; no PLC stimulus recorded. Restart cause and current RUN/build/boot remain unobserved. No automatic retry."
+}

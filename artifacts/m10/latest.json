@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "directory": "artifacts/m10/2026-11-01T00-42-56-378Z",
+  "error": "AssertionError [ERR_ASSERTION]: M8 setup must complete before experiments\n+ actual - expected\n\n+ 'failed'\n- 'running'\n\n    at runM10Rehearsal (file:///C:/Users/steve/Documents/ControlsBenchMuse/src/campaign/m10-rehearsal.ts:94:35)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-m10-live.js:30:25"
+}

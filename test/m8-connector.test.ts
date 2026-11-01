@@ -94,3 +94,14 @@ test("M8 WCS payload precedes sequence, operator ack is retained as campaign evi
   await assert.rejects(adapter.execute({ id: "bad", name: "assign_route", arguments: { itemId: "not-a-UDINT", route: "B" } }, new AbortController().signal), /UDINT/);
   await c.close();
 });
+
+test("authentication failure stays read/write-free; dirty baseline is rejected before simulation writes", async () => {
+  const auth = new ProtocolTransport(); auth.open = async () => { throw new Error("BadUserAccessDenied"); };
+  const c = new M8OpcUaConnector(auth, () => {}, { requireStoppedBaseline: true });
+  await assert.rejects(c.open(), /BadUserAccessDenied/); assert.equal(auth.writes.length, 0); await c.close();
+  for (const [name, badValue] of Object.entries({ Mode: 1, FaultCode: 23, ItemActive: true, CompletionPending: true })) {
+    const t = new ProtocolTransport(); t.values[`GVL_DemoRead.Status.${name}`] = badValue;
+    const dirty = new M8OpcUaConnector(t, () => {}, { requireStoppedBaseline: true });
+    await assert.rejects(dirty.open(), /clean stopped M8 baseline/); assert.equal(t.writes.length, 0); await dirty.close();
+  }
+});

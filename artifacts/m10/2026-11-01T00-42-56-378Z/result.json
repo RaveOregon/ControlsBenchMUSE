@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "status": "failed",
+  "directory": "artifacts/m10/2026-11-01T00-42-56-378Z",
+  "modelCalls": 0,
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "worldSha256": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+  "base": "m10-base/fa8d2ee",
+  "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+  "error": "AssertionError [ERR_ASSERTION]: M8 setup must complete before experiments\n+ actual - expected\n\n+ 'failed'\n- 'running'\n\n    at runM10Rehearsal (file:///C:/Users/steve/Documents/ControlsBenchMuse/src/campaign/m10-rehearsal.ts:94:35)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///C:/Users/steve/Documents/ControlsBenchMuse/scripts/run-m10-live.js:30:25",
+  "evidenceHashes": {
+    "campaign.jsonl": "f1291a04c61029cd7817b0862e3acdc422a06b08ca7eefab974aad4df89107a2",
+    "transport.jsonl.gz": "9e72928e7a01615b4cf090daa617b4ca9d68531748f887f323f695eb4ca3ef63",
+    "precheck.json": "19e0d88663bd3bebd1f0c263c5808f4fdf56d5ce050643bf7eee1fc9cf0b76c6"
+  },
+  "finishedAt": "2026-11-01T00:43:18.509Z"
+}
