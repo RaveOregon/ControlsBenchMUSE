@@ -16,6 +16,9 @@ export class ScriptedPlc {
   opens = 0;
   closes = 0;
   freezeCycle = false;
+  /** CODESYS rejected a 103-node Read with BadTooManyOperations on 2026-11-01; 72 nodes passed. */
+  maxNodesPerRead = 72;
+  readSizes: number[] = [];
   #cycle = 1000n;
 
   constructor() {
@@ -28,6 +31,8 @@ export class ScriptedPlc {
 
   read(paths: string[]): Record<string, M8Sample> {
     if (this.readFails) throw new Error("scripted read failure");
+    this.readSizes.push(paths.length);
+    if (paths.length > this.maxNodesPerRead) throw new Error(" serviceResult = BadTooManyOperations (0x80100000)");
     if (!this.freezeCycle) this.#cycle += 3n;
     this.values["GVL_BenchRead.PlcCycle"] = this.#cycle.toString(); this.values["GVL_BenchRead.OutputCaptureCycle"] = this.#cycle.toString();
     const at = new Date().toISOString();

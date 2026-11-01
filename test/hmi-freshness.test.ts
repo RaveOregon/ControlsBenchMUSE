@@ -53,6 +53,24 @@ test("read failures turn the link stale with values held, then reconnect with a 
   } finally { await l2.stop(); }
 });
 
+test("reads are batched under the server's node limit; an oversized request is a configuration stop, not a reconnect loop", async () => {
+  const plc = new ScriptedPlc(), l = link(plc);
+  l.start();
+  try {
+    await waitFor(() => l.fresh, 1000, "fresh with batched reads");
+    assert.equal(Object.keys(l.latest!.values).length, 103);
+    assert.ok(Math.max(...plc.readSizes) <= 60);
+  } finally { await l.stop(); }
+  const plc2 = new ScriptedPlc(), l2 = link(plc2, { maxNodesPerRead: 200 });
+  l2.start();
+  try {
+    await waitFor(() => l2.view.state === "disconnected", 1000, "configuration stop");
+    await new Promise(r => setTimeout(r, 150));
+    assert.equal(plc2.opens, 1, "no reconnect loop");
+    assert.match(l2.view.detail, /configuration limit/);
+  } finally { await l2.stop(); }
+});
+
 test("a rejected credential stops reconnection instead of hammering the PLC", async () => {
   const plc = new ScriptedPlc(); plc.openError = "BadUserAccessDenied (0x801f0000)";
   const l = link(plc);

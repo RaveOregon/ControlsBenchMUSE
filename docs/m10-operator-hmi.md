@@ -100,7 +100,7 @@ On a rejection the HMI lists the observed Start or Reset preconditions from `FB_
 
 ## Freshness and disconnect handling
 
-One batched read of the 103 required map fields runs every 250 ms: no overlap, no catch-up bursts, and a 5 s operation timeout.
+The 103 required map fields are read every 250 ms in batches of at most 60 nodes per OPC UA Read request (CODESYS rejected a single 103-node Read with `BadTooManyOperations`; Lane A's 72-node reads pass): no overlap, no catch-up bursts, and a 5 s operation timeout.
 
 - **Fresh** means a good read within `max(1500 ms, 4 × interval)`. Unchanged values never count as stale just because they stopped changing.
 - **Read failure.** On a failed read the link goes stale and holds the last values. After 3 consecutive failures it closes the session and reconnects with backoff (1, 2, 5, 10, 15 s), each time with a fresh session.

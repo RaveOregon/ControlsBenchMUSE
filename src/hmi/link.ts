@@ -22,6 +22,8 @@ export interface PlcLinkOptions {
   /** Data age at which the link is shown stale. Default max(1500, 4 x interval). */
   staleAfterMs?: number;
   failuresBeforeReconnect?: number;
+  /** Nodes per OPC UA Read request. CODESYS rejects large batches with BadTooManyOperations (103 failed; 72 passes). */
+  maxNodesPerRead?: number;
   backoffMs?: number[];
   nowMs?: () => number;
   onSnapshot?: (snapshot: SnapshotView, previous?: SnapshotView) => void;
@@ -31,6 +33,8 @@ export interface PlcLinkOptions {
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 const AUTH_FAILURE = /BadUserAccessDenied|BadIdentityToken|BadSecurityChecksFailed|BadCertificate/i;
+// Deterministic request-shape rejections: a new session cannot fix them, so do not loop on reconnects.
+const REQUEST_REJECTED = /BadTooManyOperations/i;
 
 export class PlcLink {
   readonly journal: HmiJournal;
@@ -108,8 +112,14 @@ export class PlcLink {
     return result;
   }
 
+  /** Reads in batches of at most maxNodesPerRead nodes, in order, as one serialised operation. */
   async read(paths: string[]): Promise<Record<string, M8Sample>> {
-    return this.serial(t => t.read(paths));
+    const size = this.#options.maxNodesPerRead ?? 60;
+    return this.serial(async t => {
+      const samples: Record<string, M8Sample> = {};
+      for (let i = 0; i < paths.length; i += size) Object.assign(samples, await t.read(paths.slice(i, i + size)));
+      return samples;
+    });
   }
 
   /** Operator write. Refuses anything outside the four M8 operator request paths. */
@@ -220,7 +230,11 @@ export class PlcLink {
       const message = error instanceof Error ? error.message : String(error);
       this.#view.failedPolls++; this.#view.consecutiveFailures++; this.#view.lastError = message;
       this.journal.append("link.poll_failed", { message, consecutiveFailures: this.#view.consecutiveFailures });
-      if (this.#view.consecutiveFailures >= (this.#options.failuresBeforeReconnect ?? 3)) {
+      if (REQUEST_REJECTED.test(message)) {
+        await this.#closeTransport(`Server rejected the read request shape: ${message}`);
+        this.#set("disconnected", `PLC server rejected the HMI read request (${message}). This is a configuration limit, not a lost link; no automatic retry.`);
+        this.#generation++;
+      } else if (this.#view.consecutiveFailures >= (this.#options.failuresBeforeReconnect ?? 3)) {
         await this.#closeTransport(`Read failed ${this.#view.consecutiveFailures} times: ${message}`);
         this.#set("reconnecting", `PLC link lost (${message}). Last values held and marked stale; reconnecting.`);
       } else this.#checkStale();
