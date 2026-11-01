@@ -73,6 +73,35 @@ Branch `ui/m10-portal-host` adds `src/host/` and `ui/src/adapters/host/`.
 
 See `docs/m10-portal-host.md`.
 
+## M10 operator HMI lane — 2026-11-01
+
+Branch `hmi/m10-operator-hmi` (worktree `.claude/worktrees/m10-operator-hmi`) merges Lane A `3ab99ff` and Lane B `7886dfd`. It adds `src/hmi/`: a polished three-page browser operator HMI (Operation, Alarms, Engineering) for M8 build 8001, served at `http://127.0.0.1:5181/`. The user prefers this over native IronPython or WebVisu screens; no PLC change is needed.
+- It reads one batched OPC UA poll through Lane A's M8 transport, on its own session.
+- It writes only the four operator requests: Start, Stop and Reset sequences, and AutoRequest. Start/Stop/Reset are applied or rejected only from the PLC acknowledgement. Auto has no acknowledgement field and is confirmed by a labelled readback.
+- Alarm history is recorded by the HMI service from observed transitions, with a stated time basis. The review marker is HMI-local. ConnectorStale stays a bench banner.
+- `npm run hmi:portal` / `hmi:live:portal` mount the HMI in Lane B's portal through its `hmi` and `hmiSourceFactory` options. The tile shows the same controlled session that a scripted or agent click operates.
+- The agent seam is `POST /api/agent-actions/execute`. Requested action, delivered input, page input, PLC acknowledgement and screen frame are kept as separate journal records.
+- **Gates H0–H3 pass, H1–H3 live** against M8 boot `1580380594210`. H2 passed three times: `artifacts/hmi/h2/2026-11-01T14-02-24-720Z`, `…T14-07-10-579Z`, and `…T15-12-23-772Z` (the last with the simulation coordinator in its own process). `npm run hmi:audit -- <run>` passes 13/13 on each with no PLC. Every operator command was a trusted click in the portal's controlled session.
+  - Start/Stop/Auto were applied from PLC acknowledgements. Start with Auto off was rejected by the PLC.
+  - An injected overload raised fault 10. Reset was rejected while overloaded, then applied after the cause cleared; the alarm cleared on an observed transition, with no restart.
+  - Item 301/A completed at Exit A / Sorted, acknowledged by the WCS peer.
+  - During an HMI-link interruption, Start was disabled and nothing was written; the link reconnected.
+  - ConnectorStale showed as a banner and created no alarm.
+- Tests: 72/72 at `1a4a986` (115/115 after the review fixes). Screenshots: fixture and live, in `docs/screenshots/hmi/` (`live-index.json`), including the live portal pages.
+- **The PLC is left clean:** Stopped, no fault, no item, completion acknowledged, simulation held at rest, ConnectorStale TRUE. No lock is held, and the watcher's credential is cleared.
+- The 13 live attempts are all retained.
+  - Four left M8 held after the coordinator timed out.
+  - Each was reconciled by `scripts/recover-hmi-h2-baseline.js`, which follows Lane A's preparation pattern. It refuses unless boot, applied epoch/sequence, held image, counters and the predicted fault match that run exactly. All four reconciliations are recorded under `artifacts/hmi/h2/recovery-*`.
+- **Finding for Lane A:** the coordinator runs about 30 ms under its 300 ms observation bound on this laptop (Lane A's M10 max was 267 ms; H2 p99 227–246 ms). An extra OPC client, frame capture, and especially a browser loading the full portal UI can push one tick over the bound. Isolating the coordinator (own process, above-normal priority, lighter HMI polling during H2) made the passing run possible, but does not guarantee every run. Per the review, `maximumStepMs` stays 300.
+- **Codex review at `1a4a986`** (`docs/reviews/m10-hmi-1a4a986.md`): its three findings are fixed offline. No PLC was contacted.
+  - Command decisions now require Good, timestamped, correctly typed samples; otherwise the outcome is `unconfirmed`. The samples are kept as evidence.
+  - A write that outlives its timeout quarantines operator writes until it settles and a later read succeeds, so a later Stop cannot overtake it.
+  - The audit now requires the bytes of every cited frame.
+  - That stricter check found three uncopied agent-action frames in each passing run. They were supplemented from each run's capture store, by hash match against both run-time records (`evidence-frames-supplement.json`). All three runs re-audit 13/13.
+  - Tests are 115/115 and typecheck is clean. Integrate next into `codex/m10-convergence`.
+
+See `docs/m10-operator-hmi.md`.
+
 ## M8 and portal convergence — 2026-10-31
 
 M8-A through M8-D passed live in `codesys/conveyordemo.project`, build 8001/interface 1, map `m8-conveyor-1.0.2`. The primary run contains 104 acknowledged methodical images; independent audits passed normal routing, misroute, stop, failed divert and reset, with supplemental feedback/overload evidence. Read `codesys/demo/HANDOFF.md` and `RESULTS.md` for limits, including writable read-group exposure and counter-reset ambiguity. M8-E WebVisu remains unauthored. The frozen measurement fixture is unchanged.

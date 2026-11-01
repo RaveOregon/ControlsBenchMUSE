@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "status": "failed",
+  "directory": "artifacts/hmi/h2/2026-11-01T13-38-06-654Z",
+  "startedAtIso": "2026-11-01T13:38:06.776Z",
+  "modelCalls": 0,
+  "steps": [
+    {
+      "step": "baseline",
+      "atIso": "2026-11-01T13:38:16.248Z",
+      "summary": "Mode Stopped, fault 0, item false, completion pending false, sim false, boot 1580380594210",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": false,
+        "ConnectorStale": true,
+        "SimApplied": false,
+        "Active_Encoder_Count": 0,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      },
+      "alarms": []
+    },
+    {
+      "step": "portal-session",
+      "atIso": "2026-11-01T13:38:19.514Z",
+      "summary": "Portal http://127.0.0.1:5189 observing HMI session hmi-33204614-702d-403a-9237-9e027e91212e (Edg/156.0.4314.58 · target 0E143023311FB3467F44F4F72628EB55 · headed)",
+      "hmiSession": {
+        "state": "observing",
+        "sourceId": "webvisu:127.0.0.1:5181",
+        "sourceKind": "webvisu",
+        "url": "http://127.0.0.1:5181/?capture=portal",
+        "recording": true,
+        "frameCount": 1,
+        "captureIntervalMs": 1000,
+        "staleAfterMs": 3000,
+        "detail": "Observing http://127.0.0.1:5181/?capture=portal",
+        "changedAtIso": "2026-11-01T13:38:19.481Z",
+        "sessionId": "hmi-33204614-702d-403a-9237-9e027e91212e",
+        "browser": "Edg/156.0.4314.58 · target 0E143023311FB3467F44F4F72628EB55 · headed",
+        "startedAtIso": "2026-11-01T13:38:19.192Z",
+        "lastFrame": {
+          "reference": "hmi-frame:hmi-33204614-702d-403a-9237-9e027e91212e:1",
+          "sessionId": "hmi-33204614-702d-403a-9237-9e027e91212e",
+          "frameSequence": 1,
+          "capturedAtIso": "2026-11-01T13:38:19.469Z",
+          "requestedAtIso": "2026-11-01T13:38:19.195Z",
+          "contentType": "image/jpeg",
+          "byteLength": 149048,
+          "sha256": "fcac00e749823a25e2319ab8f595d668416419b6083b748b7b17432fbd1be418",
+          "mediaUrl": "/api/hmi/frames/hmi-33204614-702d-403a-9237-9e027e91212e/1",
+          "pageUrl": "http://127.0.0.1:5181/?capture=portal"
+        }
+      },
+      "portalUrl": "http://127.0.0.1:5189",
+      "client": "hmi-client-1-089d6829"
+    },
+    {
+      "step": "coordinator",
+      "atIso": "2026-11-01T13:38:23.124Z",
+      "summary": "Simulation applied; world at rest with divert home limits and destinations ready",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": false,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 0,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    }
+  ],
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+  "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+  "roles": {
+    "fieldInputs": "simulation coordinator (Lane A M8OpcUaConnector + preserved world)",
+    "wcs": "coordinator WCS tools",
+    "operator": "HMI service via portal controlled-browser clicks"
+  },
+  "error": "Error: Auto on: expected applied, got observed: Input delivered to the controlled browser. Page receipt, screen result and PLC acknowledgement are separate records.\n    at expectOutcome (file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/m10-operator-hmi/scripts/run-hmi-h2-live.js:92:90)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/m10-operator-hmi/scripts/run-hmi-h2-live.js:154:50\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "finalPlc": {
+    "Mode": 0,
+    "ModeText": "Stopped",
+    "FaultCode": 0,
+    "FaultText": "",
+    "Motor_RunCmd": false,
+    "Active_Drive_RunningFB": false,
+    "AutoRequest": false,
+    "ConnectorStale": false,
+    "SimApplied": true,
+    "Active_Encoder_Count": 0,
+    "ItemActive": false,
+    "CompletionPending": false,
+    "PlcBootIdentity": "1580380594210"
+  },
+  "journal": "artifacts\\hmi\\h2\\2026-11-01T13-38-06-654Z\\hmi\\runs\\2026-11-01T13-38-06-796Z-live_plc\\journal.jsonl",
+  "alarms": [],
+  "commands": [],
+  "finishedAt": "2026-11-01T13:38:29.033Z"
+}

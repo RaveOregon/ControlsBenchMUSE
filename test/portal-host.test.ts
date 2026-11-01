@@ -242,6 +242,7 @@ test("live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI 
     // A valid capture or SSE message already in flight may arrive after fail=true.
     // Hold the authoritative last valid capture, never an earlier client-side frame.
     const held = h.host.hmi.view.lastFrame!;
+    await new Promise(r => setTimeout(r, 300));
     const stale = hmiTileModel(h.store.state, Date.now());
     assert.equal(stale.overlay?.kind, "stale");
     assert.equal(stale.frame?.reference, held.reference);

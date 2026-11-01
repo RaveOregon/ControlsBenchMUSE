@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "run": "2026-11-01T14-07-10-579Z",
+  "addedAtIso": "2026-11-01T17:41:51.137Z",
+  "reason": "The H2 runner copied only frames cited in result.steps. These agent-action screens were cited in the HMI journal but not copied. Each was copied afterwards from the run's local capture store (gitignored) only because its bytes match both the SHA-256 Lane B logged at capture and the SHA-256 in the agent action record, both written during the run. No existing file was changed.",
+  "added": [
+    {
+      "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:29",
+      "file": "evidence-frames/hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d-000029.jpg",
+      "sha256": "a4fa7731a7d25e132600970d171ab81bde726b6e0c1c26e21563cbfea8cbc118",
+      "bytes": 142550,
+      "citedBy": "hmi-agent-action:hmi-svc-2026-11-01T14-07-10-745Z-ccc6b8f5:9",
+      "journalRecordHash": "ff61950c90cd488b9d3ac226f62dcc2bac988d5f86ff6a040712abe5352f341e",
+      "laneBFrameCapturedAtIso": "2026-11-01T14:07:31.696Z",
+      "source": "portal-hmi/hmi-frames/hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d/000029.jpg"
+    },
+    {
+      "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:32",
+      "file": "evidence-frames/hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d-000032.jpg",
+      "sha256": "b884d3db8ffbcf91f12a65269e0d08a34ab7c12539a7d7edc1942f2c7ed79e49",
+      "bytes": 141347,
+      "citedBy": "hmi-agent-action:hmi-svc-2026-11-01T14-07-10-745Z-ccc6b8f5:10",
+      "journalRecordHash": "69bd1766e1a72d6781ec03994a757c53b54cfa8d3ee8a45ad562c645910d5472",
+      "laneBFrameCapturedAtIso": "2026-11-01T14:07:32.186Z",
+      "source": "portal-hmi/hmi-frames/hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d/000032.jpg"
+    },
+    {
+      "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:42",
+      "file": "evidence-frames/hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d-000042.jpg",
+      "sha256": "752c6a2685ce04dbde0b19d715bb50c7c0f68c3735d03b2d34fbc9c91e9ba7d6",
+      "bytes": 140541,
+      "citedBy": "hmi-agent-action:hmi-svc-2026-11-01T14-07-10-745Z-ccc6b8f5:11",
+      "journalRecordHash": "e38c95c9512d61ece14889945f3d1c0ce485b4d29445a6a8c4b1552c6fedcc0c",
+      "laneBFrameCapturedAtIso": "2026-11-01T14:07:38.686Z",
+      "source": "portal-hmi/hmi-frames/hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d/000042.jpg"
+    }
+  ]
+}

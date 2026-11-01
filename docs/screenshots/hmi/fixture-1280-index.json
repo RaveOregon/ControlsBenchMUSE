@@ -1,0 +1,30 @@
+[
+  {
+    "file": "docs/screenshots/hmi/fixture-1280-operation.png",
+    "url": "http://127.0.0.1:5181/?capture=docs#/operation",
+    "capturedAtIso": "2026-11-01T03:28:58.516Z",
+    "sha256": "fe06709e4c9b1ec701b6ed066889edba095d7b76d1872ec92b15f80f781b2a41",
+    "viewport": "1280x800"
+  },
+  {
+    "file": "docs/screenshots/hmi/fixture-1280-alarms.png",
+    "url": "http://127.0.0.1:5181/?capture=docs#/alarms",
+    "capturedAtIso": "2026-11-01T03:29:04.184Z",
+    "sha256": "261d549a6169cdbe8fd1aab9175d7362919d53125a70ff2771e10481b9a5b0ef",
+    "viewport": "1280x800"
+  },
+  {
+    "file": "docs/screenshots/hmi/fixture-1280-engineering.png",
+    "url": "http://127.0.0.1:5181/?capture=docs#/engineering",
+    "capturedAtIso": "2026-11-01T03:29:08.803Z",
+    "sha256": "e48012909364921bbfcb1e24385aee47400de9ec3d27fe645796fe93d3f89514",
+    "viewport": "1280x800"
+  },
+  {
+    "file": "docs/screenshots/hmi/fixture-1280-portal.png",
+    "url": "http://127.0.0.1:5189/",
+    "capturedAtIso": "2026-11-01T03:29:13.454Z",
+    "sha256": "e868897202a868de146a96a379934111e446157de9f92225ef1231bc1f38900c",
+    "viewport": "1280x800"
+  }
+]

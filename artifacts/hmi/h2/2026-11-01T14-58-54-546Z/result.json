@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "status": "failed",
+  "directory": "artifacts/hmi/h2/2026-11-01T14-58-54-546Z",
+  "startedAtIso": "2026-11-01T14:58:54.715Z",
+  "modelCalls": 0,
+  "steps": [
+    {
+      "step": "baseline",
+      "atIso": "2026-11-01T14:59:15.630Z",
+      "summary": "Mode Stopped, fault 0, item false, completion pending false, sim true, boot 1580380594210",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": true,
+        "SimApplied": true,
+        "Active_Encoder_Count": 0,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      },
+      "alarms": []
+    },
+    {
+      "step": "portal-session",
+      "atIso": "2026-11-01T14:59:18.506Z",
+      "summary": "Portal http://127.0.0.1:5189 observing HMI session hmi-16ce62f8-8ab8-4081-93bd-b0fcca36ff01 (Edg/156.0.4314.58 · target 2F01C6EA760A3DEE7B04A30DECD23682 · headless)",
+      "hmiSession": {
+        "state": "observing",
+        "sourceId": "webvisu:127.0.0.1:5181",
+        "sourceKind": "webvisu",
+        "url": "http://127.0.0.1:5181/?capture=portal",
+        "recording": true,
+        "frameCount": 1,
+        "captureIntervalMs": 1000,
+        "staleAfterMs": 3000,
+        "detail": "Observing http://127.0.0.1:5181/?capture=portal",
+        "changedAtIso": "2026-11-01T14:59:18.490Z",
+        "sessionId": "hmi-16ce62f8-8ab8-4081-93bd-b0fcca36ff01",
+        "browser": "Edg/156.0.4314.58 · target 2F01C6EA760A3DEE7B04A30DECD23682 · headless",
+        "startedAtIso": "2026-11-01T14:59:18.001Z",
+        "lastFrame": {
+          "reference": "hmi-frame:hmi-16ce62f8-8ab8-4081-93bd-b0fcca36ff01:1",
+          "sessionId": "hmi-16ce62f8-8ab8-4081-93bd-b0fcca36ff01",
+          "frameSequence": 1,
+          "capturedAtIso": "2026-11-01T14:59:18.479Z",
+          "requestedAtIso": "2026-11-01T14:59:18.003Z",
+          "contentType": "image/jpeg",
+          "byteLength": 129794,
+          "sha256": "583dfc94ab49cc37c5677ce3eda5a6bc198822a5af1ff74af14f39709ff1e5d5",
+          "mediaUrl": "/api/hmi/frames/hmi-16ce62f8-8ab8-4081-93bd-b0fcca36ff01/1",
+          "pageUrl": "http://127.0.0.1:5181/?capture=portal"
+        }
+      },
+      "portalUrl": "http://127.0.0.1:5189",
+      "client": "hmi-client-1-684b404d"
+    },
+    {
+      "step": "coordinator",
+      "atIso": "2026-11-01T14:59:32.739Z",
+      "summary": "Simulation applied by coordinator process 62588; world at rest with divert home limits and destinations ready",
+      "plc": {
+        "Mode": 0,
+        "ModeText": "Stopped",
+        "FaultCode": 0,
+        "FaultText": "",
+        "Motor_RunCmd": false,
+        "Active_Drive_RunningFB": false,
+        "AutoRequest": true,
+        "ConnectorStale": false,
+        "SimApplied": true,
+        "Active_Encoder_Count": 0,
+        "ItemActive": false,
+        "CompletionPending": false,
+        "PlcBootIdentity": "1580380594210"
+      }
+    }
+  ],
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+  "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+  "roles": {
+    "fieldInputs": "simulation coordinator process (Lane A M8OpcUaConnector + preserved world), separate from the HMI/portal process",
+    "wcs": "coordinator WCS tools",
+    "operator": "HMI service via portal controlled-browser clicks"
+  },
+  "recovery": {
+    "reference": "artifacts/hmi/h2/2026-11-01T14-54-26-866Z",
+    "requestId": "h2-recover7-20261101T145853",
+    "exitCode": 0,
+    "latest": {
+      "status": "pass",
+      "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.claude\\worktrees\\m10-operator-hmi\\artifacts\\hmi\\h2\\recovery-2026-11-01T14-58-55-527Z",
+      "error": null
+    }
+  },
+  "coordinatorPid": 62588,
+  "coordinatorPriority": -7,
+  "error": "Error: Auto on: expected applied, got inconclusive: Target cmd.auto.on is disabled on screen\n    at expectOutcome (file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/m10-operator-hmi/scripts/run-hmi-h2-live.js:104:90)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/m10-operator-hmi/scripts/run-hmi-h2-live.js:166:50\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "finalPlc": {
+    "Mode": 0,
+    "ModeText": "Stopped",
+    "FaultCode": 0,
+    "FaultText": "",
+    "Motor_RunCmd": false,
+    "Active_Drive_RunningFB": false,
+    "AutoRequest": true,
+    "ConnectorStale": false,
+    "SimApplied": true,
+    "Active_Encoder_Count": 0,
+    "ItemActive": false,
+    "CompletionPending": false,
+    "PlcBootIdentity": "1580380594210"
+  },
+  "journal": "artifacts\\hmi\\h2\\2026-11-01T14-58-54-546Z\\hmi\\runs\\2026-11-01T14-59-05-458Z-live_plc\\journal.jsonl",
+  "alarms": [],
+  "commands": [],
+  "finishedAt": "2026-11-01T14:59:35.221Z"
+}

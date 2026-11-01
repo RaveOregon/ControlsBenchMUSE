@@ -1,0 +1,82 @@
+[
+  {
+    "file": "docs/screenshots/hmi/live-operation-running.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "periodic portal frame 2 s after the acknowledged Start",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:10",
+    "sha256": "ab5b0ddd3fdc95763fc1ef7f554548865ed93b88e5a668bafe9cd79797a64107",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-operation-fault.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "fault-raised",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:22",
+    "sha256": "fc405277914d19e96efd1960d9d1f6b7756717cfa752af0f7337062feb67d5ef",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-operation-reset-rejected.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "reset-rejected",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:24",
+    "sha256": "7d54813b848644e6bb1d6421cdb2d8ed33f8128280179eb0a4d8d8db2ff022ab",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-operation-completion.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "completion",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:38",
+    "sha256": "46ccdd35b31cb7c2fac0ba09840b2369198531ec527903b054c09eff8ed310c7",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-operation-link-lost.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "link-interrupted",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:46",
+    "sha256": "531076cf8b2303d7ccfd865e65a6f91fbda9ef688b468fa39bfe1429685bc95a",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-operation-connector-stale.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "connector-stale",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:51",
+    "sha256": "90e518822569c3bd16b2ec59a058f2a6d7023d908bd97f1eae1657c49a6d3156",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-alarms.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "view-alarms",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:53",
+    "sha256": "4ef3a93e3a24c5cd6ae55fb6cf9dfdcecd853c0f3e6b90c3b86c2b09dcfff60c",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-engineering.jpg",
+    "run": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+    "step": "view-engineering",
+    "frameRef": "hmi-frame:hmi-373db53d-c3b7-427a-9ab7-b4e090abb26d:55",
+    "sha256": "4b58dc4b86dc0143704af30c15a366d729d9e3c853c6bedd4b2779f4e9a95b5b",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-portal-fault.png",
+    "run": "artifacts/hmi/h2/2026-11-01T14-08-43-860Z",
+    "step": "portal-page-fault (separate headless viewer of the portal page)",
+    "frameRef": null,
+    "sha256": "20954c7c3e32689e3761624d16e0860d0f2dbb38ff3580dec2dca5a9963184cb",
+    "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-portal-final.png",
+    "run": "artifacts/hmi/h2/2026-11-01T15-12-23-772Z",
+    "step": "portal-page-final (separate headless viewer of the portal page, after the coordinator stopped)",
+    "frameRef": null,
+    "sha256": "d75e2594b46877adca1872ad87203309c692790df63921f481944422ab2b2b0c",
+    "source": "live M8 build 8001, boot 1580380594210; isolated-coordinator H2 pass"
+  }
+]

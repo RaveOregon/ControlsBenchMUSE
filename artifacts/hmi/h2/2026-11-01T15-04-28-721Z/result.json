@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "status": "failed",
+  "directory": "artifacts/hmi/h2/2026-11-01T15-04-28-721Z",
+  "startedAtIso": "2026-11-01T15:04:29.100Z",
+  "modelCalls": 0,
+  "steps": [],
+  "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+  "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+  "roles": {
+    "fieldInputs": "simulation coordinator process (Lane A M8OpcUaConnector + preserved world), separate from the HMI/portal process",
+    "wcs": "coordinator WCS tools",
+    "operator": "HMI service via portal controlled-browser clicks"
+  },
+  "recovery": {
+    "reference": "artifacts/hmi/h2/2026-11-01T15-00-59-962Z",
+    "requestId": "h2-recover9b-20261101T150427",
+    "exitCode": 1,
+    "latest": {
+      "status": "pass",
+      "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.claude\\worktrees\\m10-operator-hmi\\artifacts\\hmi\\h2\\recovery-2026-11-01T14-58-55-527Z",
+      "error": null
+    }
+  },
+  "error": "Error: Baseline reconciliation failed; H2 not started\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/m10-operator-hmi/scripts/run-hmi-h2-live.js:123:38\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async node:internal/modules/esm/loader:639:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)",
+  "finishedAt": "2026-11-01T15:04:30.194Z"
+}
