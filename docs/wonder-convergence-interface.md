@@ -2,6 +2,8 @@
 
 Coordination snapshot: 2026-11-01. This document records verified interfaces and integration requirements. It is **not** a completed coordinator IPC API or permission to acquire/recover the PLC.
 
+The later W1/W2 and H2 update at the end supersedes the earlier recorded HMI-state snapshot below. Historical snapshots remain for attribution.
+
 ## Base and proof
 
 Use `13c55b3` as the verified implementation base for `codex/wonder-campaign`. The subsequent convergence coordination commit is documentation only; no code rebase is required to start W0–W2. The qualifying code is `bad693d`; `13c55b3` adds the handoff and proof. `artifacts/m10-convergence/latest.json` selects the retained gate: 66 runtime/view tests, 51 UI tests, all typechecks/build, and 13 mounted-view browser checks.
@@ -47,3 +49,26 @@ These are requirements for the owner handshake, not invented method signatures:
 6. **Cancellation and failure:** stop/hold acknowledgements after draining bounded in-flight work; an explicit policy for parent loss, lease expiry, child exit, stale boot/session and ambiguous timed-out writes. Retain last valid state, forbid silent retry/recovery, and never release exclusive ownership based only on transport acceptance.
 
 W0–W2 may proceed with a deterministic stub of this boundary and preserved M10 evidence, with the missing live dependency stated. W3 spending and W4 live use remain separately gated under the Wonder task packet and runtime-owner coordination. No PLC, credential, recovery, network/model operation or other lane's implementation change was performed for this note.
+
+## Later coordination: Wonder W1/W2 and isolated H2
+
+The Wonder lane reports implemented W1/W2, a prior 80/80 offline suite and a final source-hashed rerun in progress. Its W0 contract commit is `560a8c0`, based on `13c55b3`; the checked committed branch tip still identifies W0. Its working-tree `src/campaign/process-port.ts` was read for interface coordination only. W1/W2 implementation, final evidence and handoff must be pinned to their forthcoming commits before convergence imports them. These reported results do not extend the existing convergence proof.
+
+The reported implementation includes a four-turn native Responses stub with an evidence-dependent follow-up, replay of all 302 preserved M10 outputs/source IDs into compact context and the authoritative portal/report, a separate provider-loop factory, durable main-checkout session accounting and admission checks, and an optional recorded-evidence W3 launcher. This coordination did not execute them, call a model or contact the PLC.
+
+Claude's newer committed HMI handoff is now `hmi/m10-operator-hmi` at `1a4a986`. Read `docs/m10-operator-hmi.md` at that commit and `artifacts/hmi/h2/2026-11-01T15-12-23-772Z/`. The saved audit reports 13/13 passing checks for an isolated-coordinator H2 run; the document records four explicit reconciliations and a final Stopped/no-fault/no-item/completion-acknowledged state, simulated inputs held at rest, ConnectorStale after coordinator shutdown, released lock and cleared watcher credential. This **supersedes** the older held-Auto snapshot as the latest recorded outcome examined here. It is not a fresh PLC observation or permission to operate it.
+
+The H2 pass demonstrates the recorded isolated H2 composition. Its handoff explicitly retains narrow timing margin and possible late-tick failures. It does not qualify a Wonder adapter or justify changing the 10 Hz ceiling/300 ms observation bound. The H2 RPC still creates a private child campaign ledger and fixed H2 plan and lacks the proposed Wonder lease/revision/source-stream protocol.
+
+### Adapter request for Claude / runtime owner
+
+The proposed campaign-level structural contract is named `controlsbench.wonder-process.v1`. This is a Wonder-side proposal, not an agreed child wire API. Its current shape is:
+
+- `IsolatedWonderSession`: exact host ledger; provenance; shared ownership path; structural driver; explicit sequenced controller adapter; simulation-exit adapter; bounded disposal; pinned owner handoff commit/evidence.
+- `CampaignDriver`: initialize/start/hold/apply/reset/exit, observation subscription and confirmed snapshot/image/evidence/freshness/quarantine/fault state. Declared observed-output IDs replace runtime access to coordinator internals.
+- `decisionLeases.begin(policy, basedOnRevision, signal)` and `finish(receipt, signal)`. The receipt carries stable ID, originating revision, validity/reason and evidence references. Hold, bounded continue and condition/deadline behavior must be implemented and enforced by the isolated child, including parent stalls/loss and interrupted or late receipts.
+- `controller.execute(call, signal, basedOnRevision)` preserves original action identity and revision and returns terminal outcome/evidence through the existing runtime pairing. It must not silently use the revision current on arrival.
+
+The owner adapter must also define ordered coordinator/world source delivery into the host ledger, exact derived evidence and entity/world time, source gap/deduplication behavior, boot/epoch identity, drained cancellation/stop, explicit passthrough observation and exclusive ownership. A private H2 child ledger cannot be relabeled as this host campaign. Handoff `isolationVerified`/`recoveryVerified` flags must be checked against pinned owner evidence and compatibility tests; self-asserted booleans alone do not establish qualification.
+
+The intended W4 factory fails closed without a compatible pinned owner adapter and recorded handoff. Keep W3/W4 not run until their separate execution gates are satisfied. The convergence/runtime owner accepts the structural-adapter direction for continued offline work; Claude's implementation and final wire agreement remain separately owned. No other lane's worktree, recovery path or live implementation was changed here.
