@@ -211,8 +211,8 @@ export function mountOperation(page: HTMLElement): () => void {
     setText(w.offerPending, store.bool(ST("OfferPending")) ? "Yes" : store.bool(ST("OfferPending")) === false ? "No" : "—");
     setText(w.offer, `#${store.value(ST("OfferAckSequence")) ?? "—"} · item ${store.value(ST("OfferAckItemId")) ?? "—"} · route ${enumOf(ROUTE, store.value(W("OfferRoute")))}`);
     const acc = store.bool(ST("OfferAccepted"));
-    const offerSeq = store.value(ST("OfferAckSequence")), reason = store.value(ST("OfferReason"));
-    setText(w.offerResult, acc === undefined ? "—" : offerSeq === 0 ? "No offer yet" : acc ? "Accepted" : reason === 0 ? "Not accepted" : `Rejected · ${enumOf(OFFER_REASON, reason)}`);
+    const offerSeq = store.value(ST("OfferAckSequence")), offerReason = store.value(ST("OfferReason"));
+    setText(w.offerResult, acc === undefined ? "—" : offerSeq === 0 ? "No offer yet" : acc ? "Accepted" : offerReason === 0 ? "Not accepted" : `Rejected · ${enumOf(OFFER_REASON, offerReason)}`);
     const pending = store.bool(ST("CompletionPending"));
     const completionSeq = store.value(ST("CompletionSequence"));
     setText(w.completion, pending === undefined ? "—" : completionSeq === 0 ? "None yet" : `${pending ? "Awaiting WCS ack" : "Acknowledged"} · #${completionSeq ?? "—"}`);
