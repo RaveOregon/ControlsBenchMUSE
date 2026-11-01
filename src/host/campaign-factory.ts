@@ -4,6 +4,8 @@
 // actions and passthrough adapter. The host, protocol and portal do not change.
 
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { LiveWorldCoordinator } from "../live/coordinator.ts";
 import type { GeneratedWorldModule } from "../proof/contracts.ts";
 import { acceptedBudgetLimits } from "../campaign/budget.ts";
@@ -26,10 +28,15 @@ export interface CampaignFactoryContext {
   hmi: HmiAdapter;
   /** Portal plan selection sent with Start, for factories that map it to categories. */
   scope: Record<string, boolean>;
+  /** Host's per-campaign artifact directory, alongside the authoritative ledger. */
+  artifactDirectory?: string;
 }
 
 export interface HostedCampaign {
   runtime: CampaignRuntime;
+  /** Optional deterministic campaign executor; otherwise use the provider loop. Must be single-flight/resumable. */
+  run?(): Promise<unknown>;
+  resumeBlockedReason?(): string | undefined;
   /** Explicit hardware-passthrough selection and observation. Omit when unsupported. */
   simulationExit?: SimulationExit;
   /** Release connector/session resources after the campaign is terminal and the host replaces it. */
@@ -87,7 +94,7 @@ export function fixtureCampaignFactory(options: { adaptive?: boolean; provider?:
 
 /** Loads an external factory module, e.g. the M10 live M8 factory: `export function createCampaignFactory(options)`. */
 export async function loadCampaignFactory(modulePath: string, options: Record<string, unknown> = {}): Promise<CampaignFactory> {
-  const module = await import(new URL(modulePath, `file:///${process.cwd().replaceAll("\\", "/")}/`).href) as { createCampaignFactory?: (o: Record<string, unknown>) => CampaignFactory | Promise<CampaignFactory> };
+  const module = await import(pathToFileURL(resolve(modulePath)).href) as { createCampaignFactory?: (o: Record<string, unknown>) => CampaignFactory | Promise<CampaignFactory> };
   if (typeof module.createCampaignFactory !== "function") throw new Error(`${modulePath} does not export createCampaignFactory(options)`);
   const factory = await module.createCampaignFactory(options);
   for (const key of ["id", "label", "evidenceClass", "claimBoundary", "connectorId"] as const) if (typeof factory[key] !== "string") throw new Error(`Campaign factory is missing ${key}`);

@@ -123,6 +123,18 @@ export class M8OpcUaConnector implements BenchConnector {
   }
   observe(): Promise<ConnectorObservation> { return this.#serial(() => this.#snapshot()); }
   inspectLink(): Promise<ConnectorObservation> { return this.#serial(() => this.#snapshot(true)); }
+  exitSimulation(): Promise<ConnectorObservation> {
+    return this.#serial(async () => {
+      await this.#write({ SimRequest: false });
+      const deadline = performance.now() + 2000;
+      while (performance.now() < deadline) {
+        const observation = await this.#snapshot();
+        if (!observation.simulationApplied) { this.event("simulation.exited", { observation }); return observation; }
+        await sleep(20);
+      }
+      throw new Error("Hardware passthrough was not observed; simulation exit is inconclusive");
+    });
+  }
   action(action: "start" | "stop" | "reset" | "offer" | "completion_ack", parameters: Record<string, unknown>, actionId: string): Promise<ConnectorObservation> {
     return this.#serial(async () => {
       this.event("command.requested", { actionId, action, parameters });

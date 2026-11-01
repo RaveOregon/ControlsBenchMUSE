@@ -4,9 +4,9 @@ import type { M8Sample, M8Transport, TransportEvent } from "./m8-opcua.ts";
 import type { RawValue } from "../proof/contracts.ts";
 
 // Loading the native OPC package is explicit; ordinary tests use injected transports.
-export function createM8NativeTransport(options: { userName: string; password: string; event: TransportEvent; endpoint?: string }): M8Transport {
+export function createM8NativeTransport(options: { userName: string; password: string; event: TransportEvent; endpoint?: string; modulePath?: string }): M8Transport {
   const require = createRequire(import.meta.url);
-  const opc = require("../../codesys/codesys_handoff/browser_hmi_handoff/opcua_relay/node_modules/node-opcua");
+  const opc = require(options.modulePath ?? "../../codesys/codesys_handoff/browser_hmi_handoff/opcua_relay/node_modules/node-opcua");
   let client: any, session: any;
   const nodes = new Map<string, string>();
   const allow = new Set(writeSignals.map(s => s.iecPath));

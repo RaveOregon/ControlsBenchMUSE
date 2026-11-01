@@ -11,14 +11,17 @@ import { CoordinatorCampaignDriver } from "./driver.ts";
 import { m8ControllerActions, m8WorldBindings } from "./m8-bindings.ts";
 import { FakeProvider } from "./provider.ts";
 import type { ToolCall, Experiment } from "./contracts.ts";
+import type { EvidenceClass } from "./contracts.ts";
+import type { HmiAdapter } from "./driver.ts";
 
 const root = new URL("../../", import.meta.url);
 export const shaFile = (path: URL | string) => createHash("sha256").update(readFileSync(path)).digest("hex");
 export const frozenProjectHash = "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628";
 export const scenarios = ["sort-a", "sort-b", "unassigned-runout", "assigned-runout-misroute", "stop-coast", "failed-divert"];
-export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: CampaignLedger, progress: (message: string) => void = () => {}) {
+let worldInstance = 0;
+export async function createM10Session(connector: M8OpcUaConnector, ledger: CampaignLedger, options: { hmi?: HmiAdapter; evidenceClass?: EvidenceClass; claimBoundary?: string } = {}) {
   const worldPath = new URL("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts", root);
-  const world = withM8Observations((await import(worldPath.href)).default as GeneratedWorldModule);
+  const world = withM8Observations((await import(`${worldPath.href}?m10=${++worldInstance}`)).default as GeneratedWorldModule);
   const coordinator = new LiveWorldCoordinator(world, connector, { seed: 20261031, worldVersion: world.manifest.packageVersion });
   const driver = new CoordinatorCampaignDriver(coordinator, ledger, m8WorldBindings, { operationTimeoutMs: 5000, initializeTimeoutMs: 60_000, elapsedStep: true, maximumStepMs: 300 });
   const projectHash = shaFile(new URL("codesys/conveyordemo.project", root));
@@ -27,11 +30,24 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     provider: new FakeProvider(() => { throw new Error("Deterministic rehearsal never requests a model decision"); }),
     provenance: { spec: shaFile(new URL("docs/conveyor-machine-spec.md", root)), ioMap: shaFile(new URL("codesys/demo/signal-map-v1.json", root)),
       plcBuild: `8001/interface-1/sha256:${projectHash}`, worldModule: shaFile(worldPath), model: "deterministic-M10-rehearsal-v1;zero-model-requests", connector: `${connector.id}/${m8Map.mapVersion}` },
-    evidenceClass: "live_plc", claimBoundary: "Six deterministic single-carton scenarios against M8 build 8001 using the preserved Muse world. No paid model or HMI evidence, no broader controller coverage.",
+    hmi: options.hmi, evidenceClass: options.evidenceClass ?? "live_plc", claimBoundary: options.claimBoundary ?? "Six deterministic single-carton scenarios against M8 build 8001 using the preserved Muse world. No paid model or HMI evidence, no broader controller coverage.",
     spec: readFileSync(new URL("docs/conveyor-machine-spec.md", root), "utf8"), signals: world.manifest.signals, categories: ["functional", "runtime", "faults"] });
+  return { connector, ledger, coordinator, driver, runtime, projectHash, resumeBlockedReason: undefined as string | undefined };
+}
+export type M10Session = Awaited<ReturnType<typeof createM10Session>>;
+
+export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: CampaignLedger, progress: (message: string) => void = () => {}) {
+  const session = await createM10Session(connector, ledger);
+  await session.runtime.start();
+  return executeM10Rehearsal(session, progress);
+}
+
+/** Runs after the host (or CLI) has started the authoritative runtime. Never opens another ledger. */
+export async function executeM10Rehearsal(session: M10Session, progress: (message: string) => void = () => {}) {
+  const { connector, ledger, coordinator, driver, runtime, projectHash } = session;
   const checks: { scenario: string; evidenceRefs: string[]; data: Record<string, unknown> }[] = [];
   let actionId = 0, expectedFault = 0, unexplained: Error | undefined;
-  const values = () => coordinator.latestObservation?.values ?? {};
+  const values = () => ledger.state.outputs;
   const cartons = () => [...coordinator.context.entityState.values()].filter(e => e.type === "carton");
   const raw = () => coordinator.context.plc.currentInputState();
   const latestOutput = () => ledger.recentEvents(1, e => e.type === "plc.output")[0];
@@ -45,17 +61,25 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
   const unsubscribe = driver.subscribe(monitor);
   const healthy = () => { monitor(); if (unexplained) throw unexplained; if (driver.failure) throw driver.failure; if (runtime.status !== "running") throw new Error(`Campaign ${runtime.status}; stop without next experiment`); };
   async function tool(name: ToolCall["name"], args: Record<string, unknown>) {
+    if (runtime.status === "paused") await wait(() => true, "Waiting for engineer Resume");
     healthy();
     const r = await runtime.executeTool({ id: `m10-action-${++actionId}`, name, arguments: args });
     if (r.status !== "applied") throw new Error(`${name} ${r.status}: ${r.message}`); if (name !== "finish_campaign") healthy(); return r;
   }
   async function wait(predicate: () => boolean, label: string, timeoutMs = 15_000) {
-    healthy(); const began = performance.now();
+    const began = performance.now();
     progress(label);
     await new Promise<void>((resolve, reject) => {
       let off = () => {};
-      const timer = setTimeout(() => { off(); reject(new Error(`Unexplained deadline: ${label}`)); }, timeoutMs);
-      const check = () => { try { healthy(); if (predicate()) { clearTimeout(timer); off(); resolve(); } } catch (e) { clearTimeout(timer); off(); reject(e); } };
+      let activeMs = 0, last = performance.now();
+      const check = () => { try {
+        const now = performance.now(); if (runtime.status === "running") activeMs += now - last; last = now;
+        if (runtime.status === "paused" && !driver.failure && !unexplained) return;
+        healthy();
+        if (activeMs >= timeoutMs) throw new Error(`Unexplained deadline: ${label}`);
+        if (predicate()) { clearInterval(timer); off(); resolve(); }
+      } catch (e) { clearInterval(timer); off(); reject(e); } };
+      const timer = setInterval(check, 20);
       off = driver.subscribe(check); check();
     });
     const output = latestOutput(); assert(output, "No PLC output evidence");
@@ -91,7 +115,6 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     await complete(scenario, { completionSequence: sequence, exit, disposition, itemId: route ? Number(itemId) : 0 });
   }
   try {
-    await runtime.start();
     if (runtime.status !== "running") throw new Error(String(ledger.state.report?.summary ?? "M8 setup failed before experiments"));
     assert.equal(values()["controller.Mode"], 0, "Require stopped baseline; do not recover an unexplained controller state");
     assert.equal(values()["controller.ItemActive"], false); assert.equal(values()["controller.CompletionPending"], false);
@@ -143,6 +166,11 @@ export async function runM10Rehearsal(connector: M8OpcUaConnector, ledger: Campa
     await runtime.stop();
     return { status: "pass", checks, finalImage: driver.lastImage, finalSnapshot: driver.lastSnapshot, finalObservation: connector.latest, report: runtime.getReport() };
   } catch (error) {
+    if (runtime.status === "paused" && !driver.failure && !unexplained) {
+      session.resumeBlockedReason = `Interrupted intervention needs reconciliation: ${error instanceof Error ? error.message : String(error)}. Stop and prepare a fresh campaign; no action is retried.`;
+      ledger.append("agent.activity", { phase: "interrupted", summary: session.resumeBlockedReason });
+      throw error;
+    }
     await runtime.stop(`M10 stopped on unexplained behavior: ${error instanceof Error ? error.message : String(error)}`);
     throw error;
   } finally { unsubscribe(); assert.equal(shaFile(new URL("codesys/conveyordemo.project", root)), projectHash, "PLC project changed during validation"); }

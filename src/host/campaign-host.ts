@@ -205,8 +205,10 @@ export class CampaignHost {
       }
       case "resume": {
         if (!runtime || !active || runtime.status !== "paused") return reject("Only a paused campaign can resume");
+        const blocked = active.hosted.resumeBlockedReason?.();
+        if (blocked) return reject(blocked);
         // The cancelled model request must settle (including its cost) before resuming.
-        if (active.agent) await active.agent;
+        if (active.agent && !active.hosted.run) await active.agent;
         runtime.resume();
         const e = stateEvent();
         this.#runAgent(active);
@@ -261,17 +263,18 @@ export class CampaignHost {
   async #create(scope: Record<string, boolean> | undefined): Promise<ActiveCampaign> {
     const previous = this.#active;
     if (previous) {
+      if (previous.agent) await previous.agent;
+      await previous.hosted.dispose?.();
       previous.ledger.close();
-      await previous.hosted.dispose?.().catch(() => {});
     }
     const campaignId = `portal-${new Date().toISOString().replace(/[-:.TZ]/g, "")}-${++this.#campaignCount}`;
-    let file: string | undefined;
-    if (this.#artifactDir) { const directory = join(this.#artifactDir, campaignId); mkdirSync(directory, { recursive: true }); file = join(directory, "campaign.jsonl"); }
+    let file: string | undefined, artifactDirectory: string | undefined;
+    if (this.#artifactDir) { artifactDirectory = join(this.#artifactDir, campaignId); mkdirSync(artifactDirectory, { recursive: true }); file = join(artifactDirectory, "campaign.jsonl"); }
     const ledger = new ObservedLedger(campaignId, { file });
     this.#active = undefined;
     let hosted: HostedCampaign;
     try {
-      hosted = await this.factory.create({ ledger, hmi: this.hmiAdapter, scope: { ...(scope ?? {}) } });
+      hosted = await this.factory.create({ ledger, hmi: this.hmiAdapter, scope: { ...(scope ?? {}) }, artifactDirectory });
       if (hosted.runtime.ledger !== ledger) throw new Error("the runtime must be built on the host-provided ledger");
     } catch (error) {
       ledger.close();
@@ -286,7 +289,10 @@ export class CampaignHost {
   }
 
   #runAgent(active: ActiveCampaign): void {
-    const tracked: Promise<void> = active.hosted.runtime.runAgent().catch(() => {}).finally(() => {
+    if (active.agent) return;
+    const tracked: Promise<void> = Promise.resolve().then(() => active.hosted.run ? active.hosted.run() : active.hosted.runtime.runAgent()).then(() => {}).catch(async error => {
+      if (active.hosted.runtime.status === "running") await active.hosted.runtime.stop(`Campaign executor failed: ${error instanceof Error ? error.message : String(error)}`);
+    }).finally(() => {
       if (active.agent === tracked) active.agent = undefined;
       this.#flush();
     });
