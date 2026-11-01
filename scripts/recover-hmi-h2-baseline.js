@@ -22,7 +22,7 @@ assert(reference.startsWith(h2Root + sep), "Reference must be a saved H2 run dir
 const prior = JSON.parse(readFileSync(join(reference, "result.json"), "utf8"));
 assert.equal(prior.status, "failed", "Only a failed run can be reconciled");
 // Only the two diagnosed coordinator-timing failures: heartbeat lapse (M8 ConnectorStale) or Lane A's 300 ms observation bound.
-assert.match(prior.error, /ConnectorStale=true|World step gap [d.]+ ms exceeds the declared 300 ms observation bound/, "Only a diagnosed coordinator-timing failure is reconciled here");
+assert.match(prior.error, /ConnectorStale=true|World step gap [0-9.]+ ms exceeds the declared 300 ms observation bound/, "Only a diagnosed coordinator-timing failure is reconciled here");
 const trace = gunzipSync(readFileSync(join(reference, "world-transport.jsonl.gz"))).toString("utf8").trim().split("\n").map(l => JSON.parse(l));
 const lastCommit = trace.filter(e => e.kind === "commit.acknowledged").at(-1)?.receipt;
 const lastObservation = trace.filter(e => e.kind === "observation").at(-1);
