@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "controlsbench.machine-view.package.v1",
+  "packageId": "conveyor-demo-baseline.view.0dc0f97cbd3d",
+  "name": "Conveyor Bench — Demo Baseline: generated machine view",
+  "status": "not_generated",
+  "entry": null,
+  "files": {
+    "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+    "view-bindings.json": "51bf215af7e638fbfcc6b5d1a76164649254ab43fcd5b64095b8f1f3afdabe6c"
+  },
+  "compatibility": {
+    "machineId": "conveyor-demo-baseline",
+    "worldId": "conveyor-demo-baseline",
+    "worldPackageVersion": "0.5.0",
+    "stateSchemaVersion": "1.0.0",
+    "worldManifestSha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+    "worldSourceSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "specificationSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "signalMapVersion": "m8-conveyor-1.0.2",
+    "snapshotSchema": "controlsbench.machine-view.snapshot.v1",
+    "protocol": "controlsbench.machine-view.protocol.v1"
+  },
+  "selectableEquipment": [
+    "mainLane",
+    "drive",
+    "encoder",
+    "peEntry",
+    "peD1Approach",
+    "divert1",
+    "exitA",
+    "peExitA",
+    "peD2Approach",
+    "divert2",
+    "exitB",
+    "peExitB",
+    "runout",
+    "peRunout",
+    "stackLight"
+  ],
+  "units": {
+    "length": "m",
+    "speed": "m/s",
+    "position": "%",
+    "count": "count",
+    "current": "A"
+  },
+  "truthBoundary": "Shows simulated physical truth (generated world raw image and entities) and observed PLC outputs from host-supplied snapshots. Not the PLC HMI and not evidence of PLC correctness. No credentials, network access or command authority.",
+  "authority": {
+    "plcCommands": false,
+    "credentials": false,
+    "network": false,
+    "scripts": "host_runtime_only"
+  },
+  "provenance": {
+    "generation": "generation.json",
+    "validation": "validation.json",
+    "model": null,
+    "responseId": null,
+    "generatedAt": null
+  },
+  "layoutAssumptions": []
+}

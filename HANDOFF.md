@@ -66,3 +66,17 @@ This lane changes no `codesys/` file, CODESYS project, generated world, existing
 M8-A through M8-D passed live in `codesys/conveyordemo.project`, build 8001/interface 1, map `m8-conveyor-1.0.2`. The primary run contains 104 acknowledged methodical images; independent audits passed normal routing, misroute, stop, failed divert and reset, with supplemental feedback/overload evidence. Read `codesys/demo/HANDOFF.md` and `RESULTS.md` for limits, including writable read-group exposure and counter-reset ambiguity. M8-E WebVisu remains unauthored. The frozen measurement fixture is unchanged.
 
 The merged `ui/` delivers Setup/Campaign/Results, preserved-evidence replay, actual flattened M7 mapping, acknowledged commands, separate world/HMI surfaces, findings and report export. It still requires a real host transport and an explicit M9 projection/report adapter; raw campaign ledger envelopes cannot be fed to the coordinator adapter. The generated machine view and actual HMI capture producer are not implemented by the merge. See `ui/HANDOFF.md`.
+
+## M10 lane C: generated machine view (2026-10-31)
+
+Branch `view/m10-machine-view` adds `src/machine-view/`:
+
+- a frozen equipment/binding contract derived from the spec, the world package and the M8 signal map;
+- a package validator;
+- a snapshot interface;
+- a sandboxed, CSP-locked iframe host with a contract fallback;
+- the preserved generation request format.
+
+One bounded Wonder call (`resp_6ae6a4c76cadb5210abb4efc`) produced `artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/`. The view is valid with 0 errors and one disclosed style warning, and needed no repair. The call took 46.8 s and is accounted at $1.00 conservative (about $0.36 at published rates). The headless-Chrome host check passed, including a CSP injection probe.
+
+The view shows simulated world truth and observed PLC outputs only. It has no credentials, network access or command authority. Lane B mounts it after `validatePackage(...).report.viewValid`; see `docs/m10-machine-view.md` for the mounting snippet. No `ui/`, `codesys/`, `src/live` or `src/campaign` file was changed. Shared edits are limited to `package.json` (test list plus `proof:view*` scripts) and the root `tsconfig.json` include.

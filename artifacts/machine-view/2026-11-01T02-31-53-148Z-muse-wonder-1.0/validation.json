@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "controlsbench.machine-view.validation.v1",
+  "contractValid": true,
+  "viewValid": true,
+  "packageId": "conveyor-demo-baseline.view.9aaafe9d3766",
+  "hashes": {
+    "view.manifest.json": "c8c8bb4416da6cd4f36cdc6d3c3c36255671ff7c58e089a287834fd98976fd2b",
+    "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+    "view-bindings.json": "18b77fea13f0f3ca4cd124d45ee2a91587ee88b3b64f812f46836ac50a975c4f",
+    "view.svg": "f3c10900637357dad1e997b25a7f12b3657eba5e81302535a5bd136060738cc7"
+  },
+  "checks": [
+    {
+      "id": "file.view.manifest.json",
+      "passed": true,
+      "severity": "error",
+      "detail": "view.manifest.json parsed"
+    },
+    {
+      "id": "file.equipment.json",
+      "passed": true,
+      "severity": "error",
+      "detail": "equipment.json parsed"
+    },
+    {
+      "id": "file.view-bindings.json",
+      "passed": true,
+      "severity": "error",
+      "detail": "view-bindings.json parsed"
+    },
+    {
+      "id": "manifest.schema",
+      "passed": true,
+      "severity": "error",
+      "detail": "schema controlsbench.machine-view.package.v1, packageId conveyor-demo-baseline.view.9aaafe9d3766"
+    },
+    {
+      "id": "manifest.authority",
+      "passed": true,
+      "severity": "error",
+      "detail": "Package declares no PLC command, credential or network authority; scripts come from the host runtime only"
+    },
+    {
+      "id": "manifest.snapshot_protocol",
+      "passed": true,
+      "severity": "error",
+      "detail": "snapshot schema controlsbench.machine-view.snapshot.v1"
+    },
+    {
+      "id": "integrity.equipment.json",
+      "passed": true,
+      "severity": "error",
+      "detail": "equipment.json sha256 matches"
+    },
+    {
+      "id": "integrity.view-bindings.json",
+      "passed": true,
+      "severity": "error",
+      "detail": "view-bindings.json sha256 matches"
+    },
+    {
+      "id": "equipment.schema",
+      "passed": true,
+      "severity": "error",
+      "detail": "15 unique equipment identities"
+    },
+    {
+      "id": "bindings.schema",
+      "passed": true,
+      "severity": "error",
+      "detail": "schema controlsbench.machine-view.bindings.v1"
+    },
+    {
+      "id": "bindings.contract",
+      "passed": true,
+      "severity": "error",
+      "detail": "Channels equal the frozen binding contract"
+    },
+    {
+      "id": "contract.equipment_hash",
+      "passed": true,
+      "severity": "error",
+      "detail": "contract equipment f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19 vs package f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19"
+    },
+    {
+      "id": "equipment.channels",
+      "passed": true,
+      "severity": "error",
+      "detail": "Every equipment channel is declared"
+    },
+    {
+      "id": "compatibility.world",
+      "passed": true,
+      "severity": "error",
+      "detail": "world conveyor-demo-baseline 0.5.0, manifest d4108df681ce"
+    },
+    {
+      "id": "security.no_credentials",
+      "passed": true,
+      "severity": "error",
+      "detail": "No credential, endpoint or node-ID pattern in package files"
+    },
+    {
+      "id": "view.entry",
+      "passed": true,
+      "severity": "error",
+      "detail": "view.svg present and hash-matched"
+    },
+    {
+      "id": "svg.parse",
+      "passed": true,
+      "severity": "error",
+      "detail": "159 elements, viewBox 1200x560"
+    },
+    {
+      "id": "svg.safety",
+      "passed": true,
+      "severity": "error",
+      "detail": "No script, external reference, animation, event handler or reserved override"
+    },
+    {
+      "id": "bindings.references",
+      "passed": true,
+      "severity": "error",
+      "detail": "40 bindings resolve to declared elements, channels and equipment"
+    },
+    {
+      "id": "coverage.channels",
+      "passed": true,
+      "severity": "error",
+      "detail": "All 25 channels are bound"
+    },
+    {
+      "id": "coverage.anchors",
+      "passed": true,
+      "severity": "error",
+      "detail": "Every stationed device is placed from equipment geometry"
+    },
+    {
+      "id": "coverage.motion",
+      "passed": true,
+      "severity": "error",
+      "detail": "Actuator and belt motion come from snapshot position/encoder channels"
+    },
+    {
+      "id": "coverage.entities",
+      "passed": true,
+      "severity": "error",
+      "detail": "Carton entities are drawn from supplied snapshots"
+    },
+    {
+      "id": "bindings.structure",
+      "passed": true,
+      "severity": "error",
+      "detail": "One transform owner per element; entity template isolated"
+    },
+    {
+      "id": "selection.equipment",
+      "passed": true,
+      "severity": "error",
+      "detail": "All 15 equipment identities are selectable"
+    },
+    {
+      "id": "geometry.paths",
+      "passed": true,
+      "severity": "error",
+      "detail": "Path drawings cover every world path and branches join their divert station"
+    },
+    {
+      "id": "style.state",
+      "passed": true,
+      "severity": "error",
+      "detail": "CSS styles data-cb-value states"
+    },
+    {
+      "id": "style.source",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CSS does not style data-cb-source; command/feedback rely on layout alone"
+    },
+    {
+      "id": "render.smoke",
+      "passed": true,
+      "severity": "error",
+      "detail": "Unknown, normal and asserted snapshots render without missing elements"
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    "style.source: CSS does not style data-cb-source; command/feedback rely on layout alone"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "derivedBy": "scripts/build-machine-view-contract.js",
+  "modelCalls": 0,
+  "sources": {
+    "specification": {
+      "path": "docs/conveyor-machine-spec.md",
+      "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185"
+    },
+    "worldManifest": {
+      "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+      "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448"
+    },
+    "worldSource": {
+      "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+      "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5"
+    },
+    "worldAssumptions": {
+      "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+      "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8"
+    },
+    "signalMap": {
+      "path": "codesys/demo/signal-map-v1.json",
+      "sha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0"
+    }
+  },
+  "equipmentSha256": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+  "contractSha256": "c1fb8e216909cb0893db81c56b07111450c43b370aebb0110c6e1c14167273f6"
+}
