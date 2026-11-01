@@ -1,0 +1,710 @@
+{
+  "schemaVersion": "controlsbench.machine-view.bindings.v1",
+  "contractSha256": "c1fb8e216909cb0893db81c56b07111450c43b370aebb0110c6e1c14167273f6",
+  "channels": [
+    {
+      "id": "plc.Motor_RunCmd",
+      "source": "plc_output",
+      "signal": "Motor_RunCmd",
+      "dataType": "BOOL",
+      "equipmentId": "drive",
+      "truthClass": "observed_plc_output",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "PLC command to belt drive."
+    },
+    {
+      "id": "plc.D1_ExtendCmd",
+      "source": "plc_output",
+      "signal": "D1_ExtendCmd",
+      "dataType": "BOOL",
+      "equipmentId": "divert1",
+      "truthClass": "observed_plc_output",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Extend divert 1 to exit A; deassert returns home."
+    },
+    {
+      "id": "plc.D2_ExtendCmd",
+      "source": "plc_output",
+      "signal": "D2_ExtendCmd",
+      "dataType": "BOOL",
+      "equipmentId": "divert2",
+      "truthClass": "observed_plc_output",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Extend divert 2 to exit B; deassert returns home."
+    },
+    {
+      "id": "plc.StackLight_Red",
+      "source": "plc_output",
+      "signal": "StackLight_Red",
+      "dataType": "BOOL",
+      "equipmentId": "stackLight",
+      "truthClass": "observed_plc_output",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Optional fault indication; observed only."
+    },
+    {
+      "id": "plc.StackLight_Green",
+      "source": "plc_output",
+      "signal": "StackLight_Green",
+      "dataType": "BOOL",
+      "equipmentId": "stackLight",
+      "truthClass": "observed_plc_output",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Optional running/ready indication; observed only."
+    },
+    {
+      "id": "world.PE_Entry",
+      "source": "world_raw",
+      "signal": "PE_Entry",
+      "dataType": "BOOL",
+      "equipmentId": "peEntry",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Carton blocks entry beam."
+    },
+    {
+      "id": "world.PE_D1Approach",
+      "source": "world_raw",
+      "signal": "PE_D1Approach",
+      "dataType": "BOOL",
+      "equipmentId": "peD1Approach",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Carton in divert 1 decision window."
+    },
+    {
+      "id": "world.PE_D2Approach",
+      "source": "world_raw",
+      "signal": "PE_D2Approach",
+      "dataType": "BOOL",
+      "equipmentId": "peD2Approach",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Carton on main lane toward divert 2."
+    },
+    {
+      "id": "world.PE_ExitA",
+      "source": "world_raw",
+      "signal": "PE_ExitA",
+      "dataType": "BOOL",
+      "equipmentId": "peExitA",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Carton passes exit A."
+    },
+    {
+      "id": "world.PE_ExitB",
+      "source": "world_raw",
+      "signal": "PE_ExitB",
+      "dataType": "BOOL",
+      "equipmentId": "peExitB",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Carton passes exit B."
+    },
+    {
+      "id": "world.PE_Runout",
+      "source": "world_raw",
+      "signal": "PE_Runout",
+      "dataType": "BOOL",
+      "equipmentId": "peRunout",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Carton passes runout."
+    },
+    {
+      "id": "world.D1_HomeFB",
+      "source": "world_raw",
+      "signal": "D1_HomeFB",
+      "dataType": "BOOL",
+      "equipmentId": "divert1",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": true,
+      "description": "Divert 1 fully home."
+    },
+    {
+      "id": "world.D1_ExtendedFB",
+      "source": "world_raw",
+      "signal": "D1_ExtendedFB",
+      "dataType": "BOOL",
+      "equipmentId": "divert1",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Divert 1 fully extended."
+    },
+    {
+      "id": "world.D2_HomeFB",
+      "source": "world_raw",
+      "signal": "D2_HomeFB",
+      "dataType": "BOOL",
+      "equipmentId": "divert2",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": true,
+      "description": "Divert 2 fully home."
+    },
+    {
+      "id": "world.D2_ExtendedFB",
+      "source": "world_raw",
+      "signal": "D2_ExtendedFB",
+      "dataType": "BOOL",
+      "equipmentId": "divert2",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Divert 2 fully extended."
+    },
+    {
+      "id": "world.Drive_RunningFB",
+      "source": "world_raw",
+      "signal": "Drive_RunningFB",
+      "dataType": "BOOL",
+      "equipmentId": "drive",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Actual drive-running feedback, delayed and suppressible."
+    },
+    {
+      "id": "world.Drive_Overload",
+      "source": "world_raw",
+      "signal": "Drive_Overload",
+      "dataType": "BOOL",
+      "equipmentId": "drive",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": false,
+      "description": "Simulated overload/trip; normally false."
+    },
+    {
+      "id": "world.ExitA_Ready",
+      "source": "world_raw",
+      "signal": "ExitA_Ready",
+      "dataType": "BOOL",
+      "equipmentId": "exitA",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": true,
+      "description": "Destination A can accept a carton."
+    },
+    {
+      "id": "world.ExitB_Ready",
+      "source": "world_raw",
+      "signal": "ExitB_Ready",
+      "dataType": "BOOL",
+      "equipmentId": "exitB",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": true,
+      "description": "Destination B can accept a carton."
+    },
+    {
+      "id": "world.Runout_Ready",
+      "source": "world_raw",
+      "signal": "Runout_Ready",
+      "dataType": "BOOL",
+      "equipmentId": "runout",
+      "truthClass": "simulated_physical_truth",
+      "unit": "boolean",
+      "normalValue": true,
+      "description": "Runout can accept a carton."
+    },
+    {
+      "id": "world.Belt_SpeedActual",
+      "source": "world_raw",
+      "signal": "Belt_SpeedActual",
+      "dataType": "REAL",
+      "equipmentId": "drive",
+      "truthClass": "simulated_physical_truth",
+      "unit": "m/s",
+      "normalValue": 0,
+      "description": "Diagnostic belt speed m/s."
+    },
+    {
+      "id": "world.Drive_Current",
+      "source": "world_raw",
+      "signal": "Drive_Current",
+      "dataType": "REAL",
+      "equipmentId": "drive",
+      "truthClass": "simulated_physical_truth",
+      "unit": "A",
+      "normalValue": 0,
+      "description": "Diagnostic drive current A."
+    },
+    {
+      "id": "world.D1_Position",
+      "source": "world_raw",
+      "signal": "D1_Position",
+      "dataType": "REAL",
+      "equipmentId": "divert1",
+      "truthClass": "simulated_physical_truth",
+      "unit": "%",
+      "normalValue": 0,
+      "description": "Divert 1 position 0-100%."
+    },
+    {
+      "id": "world.D2_Position",
+      "source": "world_raw",
+      "signal": "D2_Position",
+      "dataType": "REAL",
+      "equipmentId": "divert2",
+      "truthClass": "simulated_physical_truth",
+      "unit": "%",
+      "normalValue": 0,
+      "description": "Divert 2 position 0-100%."
+    },
+    {
+      "id": "world.Encoder_Count",
+      "source": "world_raw",
+      "signal": "Encoder_Count",
+      "dataType": "UDINT",
+      "equipmentId": "encoder",
+      "truthClass": "simulated_physical_truth",
+      "unit": "count",
+      "normalValue": 0,
+      "description": "Encoder count from physical belt motion; 1000/m, floored, wraps modulo 2^32."
+    }
+  ],
+  "entityPaths": [
+    {
+      "path": "main",
+      "points": [
+        {
+          "m": 0,
+          "x": 70,
+          "y": 260
+        },
+        {
+          "m": 0.5,
+          "x": 160,
+          "y": 260
+        },
+        {
+          "m": 1.2,
+          "x": 286,
+          "y": 260
+        },
+        {
+          "m": 1.6,
+          "x": 358,
+          "y": 260
+        },
+        {
+          "m": 2.4,
+          "x": 502,
+          "y": 260
+        },
+        {
+          "m": 2.8,
+          "x": 574,
+          "y": 260
+        },
+        {
+          "m": 3.6,
+          "x": 718,
+          "y": 260
+        },
+        {
+          "m": 4.2,
+          "x": 826,
+          "y": 260
+        }
+      ]
+    },
+    {
+      "path": "exitA",
+      "points": [
+        {
+          "m": 1.6,
+          "x": 358,
+          "y": 260
+        },
+        {
+          "m": 1.65,
+          "x": 366.95,
+          "y": 260.94
+        },
+        {
+          "m": 1.7,
+          "x": 375.75,
+          "y": 262.81
+        },
+        {
+          "m": 1.75,
+          "x": 384.31,
+          "y": 265.59
+        },
+        {
+          "m": 1.8,
+          "x": 392.54,
+          "y": 269.25
+        },
+        {
+          "m": 1.85,
+          "x": 400.33,
+          "y": 273.75
+        },
+        {
+          "m": 1.9,
+          "x": 407.61,
+          "y": 279.04
+        },
+        {
+          "m": 1.95,
+          "x": 414.9,
+          "y": 284.33
+        },
+        {
+          "m": 2.1,
+          "x": 436.74,
+          "y": 300.2
+        },
+        {
+          "m": 2.7,
+          "x": 524.11,
+          "y": 363.67
+        }
+      ]
+    },
+    {
+      "path": "exitB",
+      "points": [
+        {
+          "m": 2.8,
+          "x": 574,
+          "y": 260
+        },
+        {
+          "m": 2.85,
+          "x": 582.95,
+          "y": 260.94
+        },
+        {
+          "m": 2.9,
+          "x": 591.75,
+          "y": 262.81
+        },
+        {
+          "m": 2.95,
+          "x": 600.31,
+          "y": 265.59
+        },
+        {
+          "m": 3,
+          "x": 608.54,
+          "y": 269.25
+        },
+        {
+          "m": 3.05,
+          "x": 616.33,
+          "y": 273.75
+        },
+        {
+          "m": 3.1,
+          "x": 623.61,
+          "y": 279.04
+        },
+        {
+          "m": 3.15,
+          "x": 630.9,
+          "y": 284.33
+        },
+        {
+          "m": 3.3,
+          "x": 652.74,
+          "y": 300.2
+        },
+        {
+          "m": 3.9,
+          "x": 740.11,
+          "y": 363.67
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "id": "peEntry",
+      "kind": "anchor",
+      "element": "pe_entry_g",
+      "equipmentId": "peEntry",
+      "rotateWithPath": false
+    },
+    {
+      "id": "peD1Approach",
+      "kind": "anchor",
+      "element": "pe_d1_g",
+      "equipmentId": "peD1Approach",
+      "rotateWithPath": false
+    },
+    {
+      "id": "divert1",
+      "kind": "anchor",
+      "element": "divert1_g",
+      "equipmentId": "divert1",
+      "rotateWithPath": false
+    },
+    {
+      "id": "exitA",
+      "kind": "anchor",
+      "element": "exita_g",
+      "equipmentId": "exitA",
+      "rotateWithPath": true
+    },
+    {
+      "id": "peExitA",
+      "kind": "anchor",
+      "element": "pe_exita_g",
+      "equipmentId": "peExitA",
+      "rotateWithPath": true
+    },
+    {
+      "id": "peD2Approach",
+      "kind": "anchor",
+      "element": "pe_d2_g",
+      "equipmentId": "peD2Approach",
+      "rotateWithPath": false
+    },
+    {
+      "id": "divert2",
+      "kind": "anchor",
+      "element": "divert2_g",
+      "equipmentId": "divert2",
+      "rotateWithPath": false
+    },
+    {
+      "id": "exitB",
+      "kind": "anchor",
+      "element": "exitb_g",
+      "equipmentId": "exitB",
+      "rotateWithPath": true
+    },
+    {
+      "id": "peExitB",
+      "kind": "anchor",
+      "element": "pe_exitb_g",
+      "equipmentId": "peExitB",
+      "rotateWithPath": true
+    },
+    {
+      "id": "runout",
+      "kind": "anchor",
+      "element": "runout_g",
+      "equipmentId": "runout",
+      "rotateWithPath": false
+    },
+    {
+      "id": "peRunout",
+      "kind": "anchor",
+      "element": "pe_runout_g",
+      "equipmentId": "peRunout",
+      "rotateWithPath": false
+    },
+    {
+      "id": "world.PE_Entry",
+      "kind": "state",
+      "element": "pe_entry_beam",
+      "channel": "world.PE_Entry"
+    },
+    {
+      "id": "world.PE_D1Approach",
+      "kind": "state",
+      "element": "pe_d1_beam",
+      "channel": "world.PE_D1Approach"
+    },
+    {
+      "id": "world.PE_D2Approach",
+      "kind": "state",
+      "element": "pe_d2_beam",
+      "channel": "world.PE_D2Approach"
+    },
+    {
+      "id": "world.PE_ExitA",
+      "kind": "state",
+      "element": "pe_exita_beam",
+      "channel": "world.PE_ExitA"
+    },
+    {
+      "id": "world.PE_ExitB",
+      "kind": "state",
+      "element": "pe_exitb_beam",
+      "channel": "world.PE_ExitB"
+    },
+    {
+      "id": "world.PE_Runout",
+      "kind": "state",
+      "element": "pe_runout_beam",
+      "channel": "world.PE_Runout"
+    },
+    {
+      "id": "plc.Motor_RunCmd",
+      "kind": "state",
+      "element": "drive_cmd_ind",
+      "channel": "plc.Motor_RunCmd"
+    },
+    {
+      "id": "world.Drive_RunningFB",
+      "kind": "state",
+      "element": "drive_run_ind",
+      "channel": "world.Drive_RunningFB"
+    },
+    {
+      "id": "world.Drive_Overload",
+      "kind": "state",
+      "element": "drive_ovl_ind",
+      "channel": "world.Drive_Overload"
+    },
+    {
+      "id": "plc.D1_ExtendCmd",
+      "kind": "state",
+      "element": "d1_cmd_ind",
+      "channel": "plc.D1_ExtendCmd"
+    },
+    {
+      "id": "world.D1_HomeFB",
+      "kind": "state",
+      "element": "d1_home_ind",
+      "channel": "world.D1_HomeFB"
+    },
+    {
+      "id": "world.D1_ExtendedFB",
+      "kind": "state",
+      "element": "d1_ext_ind",
+      "channel": "world.D1_ExtendedFB"
+    },
+    {
+      "id": "plc.D2_ExtendCmd",
+      "kind": "state",
+      "element": "d2_cmd_ind",
+      "channel": "plc.D2_ExtendCmd"
+    },
+    {
+      "id": "world.D2_HomeFB",
+      "kind": "state",
+      "element": "d2_home_ind",
+      "channel": "world.D2_HomeFB"
+    },
+    {
+      "id": "world.D2_ExtendedFB",
+      "kind": "state",
+      "element": "d2_ext_ind",
+      "channel": "world.D2_ExtendedFB"
+    },
+    {
+      "id": "world.ExitA_Ready",
+      "kind": "state",
+      "element": "exita_ready_ind",
+      "channel": "world.ExitA_Ready"
+    },
+    {
+      "id": "world.ExitB_Ready",
+      "kind": "state",
+      "element": "exitb_ready_ind",
+      "channel": "world.ExitB_Ready"
+    },
+    {
+      "id": "world.Runout_Ready",
+      "kind": "state",
+      "element": "runout_ready_ind",
+      "channel": "world.Runout_Ready"
+    },
+    {
+      "id": "plc.StackLight_Red",
+      "kind": "state",
+      "element": "stack_red_ind",
+      "channel": "plc.StackLight_Red"
+    },
+    {
+      "id": "plc.StackLight_Green",
+      "kind": "state",
+      "element": "stack_green_ind",
+      "channel": "plc.StackLight_Green"
+    },
+    {
+      "id": "world.Belt_SpeedActual",
+      "kind": "text",
+      "element": "speed_val",
+      "channel": "world.Belt_SpeedActual",
+      "decimals": 2
+    },
+    {
+      "id": "world.Drive_Current",
+      "kind": "text",
+      "element": "current_val",
+      "channel": "world.Drive_Current",
+      "decimals": 2
+    },
+    {
+      "id": "world.Encoder_Count.text",
+      "kind": "text",
+      "element": "encoder_val",
+      "channel": "world.Encoder_Count",
+      "decimals": 0
+    },
+    {
+      "id": "world.D1_Position.text",
+      "kind": "text",
+      "element": "d1_pos_val",
+      "channel": "world.D1_Position",
+      "decimals": 0
+    },
+    {
+      "id": "world.D2_Position.text",
+      "kind": "text",
+      "element": "d2_pos_val",
+      "channel": "world.D2_Position",
+      "decimals": 0
+    },
+    {
+      "id": "world.D1_Position.rotate",
+      "kind": "rotate",
+      "element": "d1_paddle",
+      "channel": "world.D1_Position",
+      "inputMin": 0,
+      "inputMax": 100,
+      "angleMin": 0,
+      "angleMax": 50,
+      "pivotX": -18,
+      "pivotY": -20
+    },
+    {
+      "id": "world.D2_Position.rotate",
+      "kind": "rotate",
+      "element": "d2_paddle",
+      "channel": "world.D2_Position",
+      "inputMin": 0,
+      "inputMax": 100,
+      "angleMin": 0,
+      "angleMax": 50,
+      "pivotX": -18,
+      "pivotY": -20
+    },
+    {
+      "id": "world.Encoder_Count.belt",
+      "kind": "belt",
+      "element": "belt_marks",
+      "channel": "world.Encoder_Count",
+      "periodPx": 40
+    },
+    {
+      "id": "carton",
+      "kind": "entities",
+      "element": "carton_template",
+      "container": "carton_container",
+      "entityType": "carton"
+    }
+  ]
+}

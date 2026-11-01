@@ -13,6 +13,11 @@ import { jsonText, validatePackage } from "../src/machine-view/package.ts";
 import { replaySnapshots, type TraceRun } from "../src/machine-view/replay.ts";
 import { indexById, parseSvg, walk } from "../src/machine-view/svg.ts";
 import { fixturePaths, fixtureView } from "./fixtures/machine-view/fixture-view.ts";
+import { auditLayout, auditMotion, buildAuditReport, describeFindings, type MeasuredItem } from "../src/machine-view/audit.ts";
+import { MAX_TWEEN_MS, tweenFor } from "../src/machine-view/host.ts";
+import type { FrameOp } from "../src/machine-view/contracts.ts";
+
+const gateB = JSON.parse(await readFile(resolve(`${JSON.parse(await readFile(resolve("artifacts/generated-world/latest.json"), "utf8")).relativeDirectory}/gate-b-trace.json`), "utf8")) as { runs: TraceRun[] };
 
 const sha256 = (text: string) => createHash("sha256").update(text).digest("hex");
 const read = (path: string) => readFile(resolve(path), "utf8");
@@ -45,6 +50,7 @@ async function packageFor(view: GeneratedView | null, mutate?: (files: Record<st
 
 const validFixture = await packageFor(fixtureView(ctx.equipment, ctx.contract));
 const pkg = validFixture.pkg!;
+const replaySnapshotsFor = (label: string) => replaySnapshots(gateB.runs.find(r => r.label === label)!, { packageId: pkg.manifest.packageId, channels: ctx.contract.channels, evidenceClass: "surrogate_contract" });
 
 /** Re-hash an edited svg so the integrity check passes and the targeted check is exercised. */
 async function withSvg(edit: (svg: string) => string) {
@@ -392,7 +398,12 @@ test("preserved Muse Wonder package still validates against the frozen contract 
   assert.equal(report.packageId, latest.packageId);
   const record = JSON.parse(await read(`${dir}/generation.json`));
   assert.equal(record.status, "completed");
-  assert.equal(record.repairLineage.length, 0);
+  if (record.purpose === "machine_view_refinement") {
+    assert.equal(record.disposition, "promoted");
+    assert.ok(record.audit.errors < record.parent.audit.errors, "promoted refinement has fewer audit errors than its parent");
+    const parentRecord = JSON.parse(await read(`${record.parent.relativeDirectory}/generation.json`));
+    assert.equal(parentRecord.status, "completed", "parent generation stays preserved");
+  } else assert.equal(record.repairLineage.length, 0);
   assert.deepEqual(record.hashes.files, generated!.manifest.files);
   const requestRecord = JSON.parse(await read(`${dir}/generation/request.json`));
   assert.equal(sha256(JSON.stringify(requestRecord.body)), record.request.bodySha256, "preserved request body matches its recorded hash");
@@ -402,4 +413,51 @@ test("preserved Muse Wonder package still validates against the frozen contract 
   assert.equal(JSON.parse(output).svg, files["view.svg"], "package SVG is the unmodified model output");
   const frames = replaySnapshots((JSON.parse(await read(`${ctx.latest}/gate-b-trace.json`)) as { runs: TraceRun[] }).runs.find(r => r.label === "cp6-routed-b")!, { packageId: generated!.manifest.packageId, channels: ctx.contract.channels, evidenceClass: "surrogate_contract" });
   for (const f of frames) assert.deepEqual(render(f, generated!).missing, []);
+});
+
+test("easing is offered only between consecutive, current frames and never for degraded values", () => {
+  const a = snapshot({ sequence: 4, sourceTimeMs: 400, raw: { D1_Position: 20, Encoder_Count: 100 } });
+  const b = snapshot({ sequence: 5, sourceTimeMs: 500, raw: { D1_Position: 40, Encoder_Count: 150 } });
+  assert.equal(tweenFor(a, b, 0), 100);
+  assert.equal(tweenFor(null, b, 0), 0);
+  assert.equal(tweenFor(a, { ...b, frame: { ...b.frame, sequence: 9 } }, 0), 0, "a jump or scrub snaps");
+  assert.equal(tweenFor(a, { ...b, link: { state: "stale", ageMs: 900, reason: null } }, 0), 0, "stale snaps");
+  assert.equal(tweenFor(a, { ...b, frame: { ...b.frame, sourceTimeMs: 2400 } }, 0), 0, "a long gap snaps");
+  assert.equal(tweenFor({ ...a, frame: { ...a.frame, sourceTimeMs: null } }, { ...b, frame: { ...b.frame, sourceTimeMs: null } }, 400), MAX_TWEEN_MS, "live arrival gap is capped");
+  const motionOf = (s: ViewSnapshot, id: string) => resolveFrame(pkg, s).find((op): op is Extract<FrameOp, { op: "attrs" }> => op.op === "attrs" && op.id === id)?.motion;
+  assert.deepEqual(motionOf(b, "divert1_paddle"), { kind: "rotate", angle: 12, px: 0, py: -20 });
+  assert.equal(motionOf({ ...b, link: { state: "stale", ageMs: 900, reason: null } }, "divert1_paddle"), undefined, "stale value: exact end state, no easing data");
+  assert.equal(motionOf(snapshot({ quality: { "world.D1_Position": "bad" } }), "divert1_paddle"), undefined);
+  const withCarton = snapshot({ entities: [{ id: "c1", type: "carton", state: { positionM: 1, path: "main", itemId: "X", requestedRoute: null, velocityMps: 0.5, jammed: false } }] });
+  const item = resolveFrame(pkg, withCarton).find((op): op is Extract<FrameOp, { op: "entities" }> => op.op === "entities")!.items[0]!;
+  assert.deepEqual(item.motion, { kind: "pose", x: 260, y: 200, angle: 0 });
+  assert.match(runtimeSource("t"), /prefers-reduced-motion/);
+});
+
+test("presentation audit measures overlap, indicator cover, clipping, smeared text and motion", () => {
+  const item = (key: string, x: number, y: number, w = 40, h = 12, extra: Partial<MeasuredItem> = {}): MeasuredItem => ({ key, kind: "text", text: key, box: { x, y, width: w, height: h }, fontPx: 12, owner: null, moving: false, ...extra });
+  const findings = auditLayout([{ scenario: "s", viewport: { x: 0, y: 0, width: 500, height: 300 }, items: [
+    item("a", 10, 10), item("b", 30, 12),
+    item("c", 100, 100), item("lamp", 105, 100, 10, 10, { kind: "indicator" }),
+    item("edge", 480, 50),
+    item("smear", 200, 200, 40, 12, { strokePx: 2.2 }),
+    item("carton", 30, 14, 40, 12, { moving: true, owner: "clone:1" }),
+    item("tiny", 300, 250, 30, 10, { fontPx: 9 })
+  ] }]);
+  const cats = (c: string) => findings.filter(f => f.category === c);
+  assert.deepEqual(cats("text_overlap").map(f => f.elements), [["a", "b"]]);
+  assert.deepEqual(cats("text_on_indicator").map(f => f.elements), [["c", "lamp"]]);
+  assert.deepEqual(cats("outside_view").map(f => f.elements), [["edge"]]);
+  assert.ok(cats("transient_overlap").length >= 1 && cats("transient_overlap").every(f => f.severity === "warning"));
+  assert.ok(cats("legibility").some(f => f.severity === "error" && f.elements[0] === "smear"));
+  assert.ok(cats("legibility").some(f => f.severity === "warning" && f.elements.includes("tiny")));
+  const motion = auditMotion(pkg, { routed: replaySnapshotsFor("cp5-routed-a") });
+  assert.equal(motion.summary.carton.jumps, 0);
+  assert.equal(motion.summary.carton.medianStepPx, 10, "0.05 m per 100 ms frame at 200 px/m");
+  // The fixture's belt marks repeat every 20 px but move 10 px per frame: they would strobe.
+  assert.equal(motion.summary.belt.aliasRisk, true);
+  assert.ok(motion.findings.some(f => f.id === "M03" && f.severity === "error"));
+  const report = buildAuditReport("p", findings, motion, ["s"]);
+  assert.equal(report.passed, false);
+  assert.match(describeFindings(report), /\[error\/text_overlap\]/);
 });

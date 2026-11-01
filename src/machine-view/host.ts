@@ -30,7 +30,7 @@ export function contentSecurityPolicy(nonce: string): string {
   ].join("; ");
 }
 
-const TRUSTED_CSS = `
+export const TRUSTED_CSS = `
 html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#11151a}
 #cb-banner{display:block !important;visibility:visible !important;opacity:1 !important;position:fixed !important;left:0 !important;right:0 !important;top:0 !important;z-index:2147483647 !important;margin:0 !important;padding:4px 8px !important;min-height:16px !important;font:600 12px/16px system-ui,sans-serif !important;color:#fff !important;background:#2b3440 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;transform:none !important}
 #cb-banner[data-level="warn"]{background:#8a5a00 !important}
@@ -38,6 +38,7 @@ html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#11151a}
 #cb-stage{position:absolute;top:24px;left:0;right:0;bottom:0}
 #cb-stage>svg{display:block;width:100%;height:100%}
 [data-cb-template]{display:none !important}
+text[data-cb-source],tspan[data-cb-source]{stroke:none !important}
 [data-cb-health="held"]{opacity:.75 !important}
 [data-cb-health="stale"]{opacity:.5 !important;stroke-dasharray:4 3 !important}
 [data-cb-health="unknown"],[data-cb-health="bad"]{opacity:.3 !important;stroke-dasharray:2 2 !important}
@@ -46,31 +47,60 @@ html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#11151a}
 [data-cb-equipment]:focus,[data-cb-entity]:focus{outline:2px solid #4cc2ff !important}
 `;
 
-/** In-frame runtime. Plain ES2017; it only applies allow-listed operations and posts events. */
+/**
+ * In-frame runtime. Plain ES2017; it only applies allow-listed operations and posts events.
+ * Display easing: when the host marks a frame as the direct successor of the previous one
+ * (`tweenMs` > 0), good-health transforms ease linearly from the value currently drawn to the
+ * new recorded value over that interval. Nothing is extrapolated beyond the latest snapshot;
+ * the exact end-state attribute is written when the ease completes. Non-good health, new
+ * cartons, jumps, and prefers-reduced-motion all snap.
+ */
 export function runtimeSource(token: string): string {
   return `(function(){"use strict";
 var P=${JSON.stringify(VIEW_PROTOCOL_VERSION)},T=${JSON.stringify(token)},W=${JSON.stringify(writableAttributes)};
 var parentWin=window.parent,ids={},banner=document.getElementById("cb-banner"),stage=document.getElementById("cb-stage");
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches,anims=[],raf=0;
 function post(m){m.protocol=P;m.token=T;parentWin.postMessage(m,"*");}
 Array.prototype.forEach.call(stage.querySelectorAll("[id]"),function(el){ids[el.getAttribute("id")]=el;});
 function setAttrs(el,attrs){for(var k in attrs){if(Object.prototype.hasOwnProperty.call(attrs,k)&&W.indexOf(k)>=0)el.setAttribute(k,String(attrs[k]).slice(0,400));}}
 function sel(name,value){return "["+name+"=\\""+String(value).replace(/["\\\\]/g,"\\\\$&")+"\\"]";}
-function apply(ops){var missing=[];for(var i=0;i<ops.length;i++){var op=ops[i],el;
-if(op.op==="attrs"){el=ids[op.id];if(!el){missing.push(op.id);continue;}setAttrs(el,op.attrs||{});}
-else if(op.op==="text"){el=ids[op.id];if(!el){missing.push(op.id);continue;}el.textContent=String(op.text).slice(0,200);}
+function r2(v){return Math.round(v*100)/100;}
+function num(v){return typeof v==="number"&&isFinite(v);}
+function validMotion(m){if(!m||typeof m!=="object")return null;if(m.kind==="pose"&&num(m.x)&&num(m.y)&&num(m.angle))return m;if(m.kind==="rotate"&&num(m.angle)&&num(m.px)&&num(m.py))return m;if(m.kind==="belt"&&num(m.offset)&&num(m.period)&&m.period>0)return m;return null;}
+function wrapAngle(d){while(d>180)d-=360;while(d<-180)d+=360;return d;}
+function lerp(a,b,t){if(a.kind==="pose")return {kind:"pose",x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,angle:a.angle+wrapAngle(b.angle-a.angle)*t};
+if(a.kind==="rotate")return {kind:"rotate",angle:a.angle+(b.angle-a.angle)*t,px:b.px,py:b.py};
+var p=b.period,d=((b.offset-a.offset)%p+p)%p;if(d>p/2)d-=p;return {kind:"belt",offset:((a.offset+d*t)%p+p)%p,period:p};}
+function str(m){if(m.kind==="pose")return "translate("+r2(m.x)+" "+r2(m.y)+")"+(Math.abs(m.angle)>0.004?" rotate("+r2(m.angle)+")":"");
+if(m.kind==="rotate")return "rotate("+r2(m.angle)+" "+r2(m.px)+" "+r2(m.py)+")";return "translate("+r2(m.offset)+" 0)";}
+function cancel(el){for(var i=anims.length-1;i>=0;i--)if(anims[i].el===el)anims.splice(i,1);}
+function shown(el){for(var i=0;i<anims.length;i++)if(anims[i].el===el){var a=anims[i],t=Math.min(1,(performance.now()-a.start)/a.dur);return lerp(a.from,a.to,t);}return el.__cbMotion||null;}
+function step(now){raf=0;for(var i=anims.length-1;i>=0;i--){var a=anims[i],t=Math.min(1,(now-a.start)/a.dur);
+if(t>=1){a.el.setAttribute("transform",a.end);anims.splice(i,1);}else a.el.setAttribute("transform",str(lerp(a.from,a.to,t)));}
+if(anims.length)raf=requestAnimationFrame(step);}
+function place(el,attrs,motion,tween){var m=validMotion(motion),from=shown(el);cancel(el);setAttrs(el,attrs);
+if(m&&from&&from.kind===m.kind&&tween>0&&!reduce&&typeof attrs.transform==="string"){el.setAttribute("transform",str(from));anims.push({el:el,from:from,to:m,start:performance.now(),dur:tween,end:attrs.transform});if(!raf)raf=requestAnimationFrame(step);}
+el.__cbMotion=m;}
+function fill(c,item){Array.prototype.forEach.call(c.querySelectorAll("[data-cb-field]"),function(n){var f=n.getAttribute("data-cb-field");if(item.fields&&Object.prototype.hasOwnProperty.call(item.fields,f)){var v=String(item.fields[f]).slice(0,80);if(n.textContent!==v)n.textContent=v;}});}
+function apply(ops,tween){var missing=[];for(var i=0;i<ops.length;i++){var op=ops[i],el;
+if(op.op==="attrs"){el=ids[op.id];if(!el){missing.push(op.id);continue;}place(el,op.attrs||{},op.motion,tween);}
+else if(op.op==="text"){el=ids[op.id];if(!el){missing.push(op.id);continue;}var tx=String(op.text).slice(0,200);if(el.textContent!==tx)el.textContent=tx;}
 else if(op.op==="entities"){var tpl=ids[op.template],ctn=ids[op.container];if(!tpl||!ctn){missing.push(!tpl?op.template:op.container);continue;}
-Array.prototype.forEach.call(ctn.querySelectorAll(":scope > [data-cb-clone]"),function(c){c.remove();});
-(op.items||[]).slice(0,64).forEach(function(item){var c=tpl.cloneNode(true);c.removeAttribute("id");Array.prototype.forEach.call(c.querySelectorAll("[id]"),function(n){n.removeAttribute("id");});
-c.removeAttribute("data-cb-template");c.setAttribute("data-cb-clone",String(item.key).slice(0,80));c.setAttribute("tabindex","0");c.setAttribute("role","button");setAttrs(c,item.attrs||{});
-Array.prototype.forEach.call(c.querySelectorAll("[data-cb-field]"),function(n){var f=n.getAttribute("data-cb-field");if(item.fields&&Object.prototype.hasOwnProperty.call(item.fields,f))n.textContent=String(item.fields[f]).slice(0,80);});
-ctn.appendChild(c);});}
+var existing={};Array.prototype.forEach.call(ctn.querySelectorAll(":scope > [data-cb-clone]"),function(c){existing[c.getAttribute("data-cb-clone")]=c;});
+var keep={};(op.items||[]).slice(0,64).forEach(function(item){var key=String(item.key).slice(0,80),c=existing[key],fresh=!c;
+if(fresh){c=tpl.cloneNode(true);c.removeAttribute("id");Array.prototype.forEach.call(c.querySelectorAll("[id]"),function(n){n.removeAttribute("id");});
+c.removeAttribute("data-cb-template");c.setAttribute("data-cb-clone",key);c.setAttribute("tabindex","0");c.setAttribute("role","button");ctn.appendChild(c);}
+else c.removeAttribute("data-cb-outside");
+keep[key]=true;place(c,item.attrs||{},item.motion,fresh?0:tween);fill(c,item);});
+for(var k in existing)if(!keep[k]){cancel(existing[k]);existing[k].remove();}}
 else if(op.op==="selected"){Array.prototype.forEach.call(document.querySelectorAll("[data-cb-selected]"),function(n){n.removeAttribute("data-cb-selected");});
 if(op.equipmentId!==null)Array.prototype.forEach.call(stage.querySelectorAll(sel("data-cb-equipment",op.equipmentId)),function(n){n.setAttribute("data-cb-selected","true");});
 if(op.entityId!==null)Array.prototype.forEach.call(stage.querySelectorAll(sel("data-cb-entity",op.entityId)),function(n){n.setAttribute("data-cb-selected","true");});}
-else if(op.op==="banner"){banner.textContent=String(op.text).slice(0,600);banner.setAttribute("data-level",op.level==="bad"||op.level==="warn"?op.level:"info");}}
+else if(op.op==="banner"){var bt=String(op.text).slice(0,600);if(banner.textContent!==bt)banner.textContent=bt;banner.setAttribute("data-level",op.level==="bad"||op.level==="warn"?op.level:"info");}}
 return missing;}
 window.addEventListener("message",function(e){if(e.source!==parentWin)return;var m=e.data;if(!m||m.protocol!==P||m.token!==T||m.type!=="frame"||!Array.isArray(m.ops))return;
-var missing;try{missing=apply(m.ops);}catch(err){post({type:"error",message:String(err&&err.message||err).slice(0,300)});return;}
+var tween=num(m.tweenMs)?Math.max(0,Math.min(1000,m.tweenMs)):0,missing;
+try{missing=apply(m.ops,tween);}catch(err){post({type:"error",message:String(err&&err.message||err).slice(0,300)});return;}
 post({type:"applied",sequence:m.sequence,missing:missing.slice(0,50)});});
 function pick(t){var el=t&&t.closest?t.closest("[data-cb-entity],[data-cb-equipment]"):null;if(!el)return;
 post({type:"select",equipmentId:el.getAttribute("data-cb-entity")?null:el.getAttribute("data-cb-equipment"),entityId:el.getAttribute("data-cb-entity")||null});}
@@ -124,6 +154,22 @@ export type ViewHostStatus =
   | { state: "ready"; reason: null }
   | { state: "disposed"; reason: string };
 
+export const MAX_TWEEN_MS = 250;
+
+/**
+ * Easing interval for `next`, or 0 to snap. Eases only between directly consecutive frames of
+ * the same run whose link is current; the interval is the recorded source-time gap (replay)
+ * or, without source time, the arrival gap (live), capped so a late frame cannot drift.
+ */
+export function tweenFor(previous: ViewSnapshot | null, next: ViewSnapshot, arrivalGapMs: number): number {
+  if (!previous || previous.packageId !== next.packageId || previous.mode !== next.mode) return 0;
+  if (next.frame.sequence !== previous.frame.sequence + 1) return 0;
+  const current = (s: ViewSnapshot) => s.link.state === "fresh" || s.link.state === "not_connected";
+  if (!current(previous) || !current(next)) return 0;
+  const gap = next.frame.sourceTimeMs !== null && previous.frame.sourceTimeMs !== null ? next.frame.sourceTimeMs - previous.frame.sourceTimeMs : arrivalGapMs;
+  return gap > 0 && gap <= MAX_TWEEN_MS * 4 ? Math.min(gap, MAX_TWEEN_MS) : 0;
+}
+
 export interface EvidenceSelection {
   kind: "equipment" | "entity";
   equipmentId: string | null;
@@ -173,6 +219,8 @@ export class MachineViewController {
   #pending: { sequence: number; handle: unknown } | null = null;
   #readyHandle: unknown = null;
   #lastSelectAt = -Infinity;
+  #lastSent: ViewSnapshot | null = null;
+  #lastSentAt = 0;
   #counters = { framesSent: 0, framesApplied: 0, snapshotsRejected: 0, selections: 0 };
 
   constructor(options: ControllerOptions) {
@@ -302,7 +350,10 @@ export class MachineViewController {
   #send(snapshot: ViewSnapshot): void {
     if (!this.#opts.post || !this.#pkg) return;
     this.#frameSequence += 1;
-    const message: HostFrameMessage = { protocol: VIEW_PROTOCOL_VERSION, token: this.token, type: "frame", sequence: this.#frameSequence, ops: resolveFrame(this.#pkg, snapshot) };
+    const tweenMs = tweenFor(this.#lastSent, snapshot, this.#timers.now() - this.#lastSentAt);
+    this.#lastSent = snapshot;
+    this.#lastSentAt = this.#timers.now();
+    const message: HostFrameMessage = { protocol: VIEW_PROTOCOL_VERSION, token: this.token, type: "frame", sequence: this.#frameSequence, tweenMs, ops: resolveFrame(this.#pkg, snapshot) };
     try { this.#opts.post(message); } catch (error) { this.#fail(`Posting to the view failed: ${(error as Error).message}`); return; }
     this.#counters.framesSent += 1;
     if (!this.#pending) {

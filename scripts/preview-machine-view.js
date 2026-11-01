@@ -64,10 +64,10 @@ aside h3{margin:0 0 6px;font-size:14px}code{color:#9fd3ff}
 <script>
 const runs=${safe(runs)},equipment=${safe(equipment)},token=${safe(token)};
 const view=document.getElementById("view"),runSel=document.getElementById("run"),scrub=document.getElementById("scrub"),time=document.getElementById("time"),stale=document.getElementById("stale"),play=document.getElementById("play"),sel=document.getElementById("sel");
-let run=runs[0],i=0,playing=true,ready=false,seq=0,timer=null;
+let run=runs[0],i=0,playing=true,ready=false,seq=0,timer=null,tween=0;
 runs.forEach((r,k)=>runSel.add(new Option(r.title,k)));
-function send(){if(!ready)return;const ops=(stale.checked?run.stale:run.fresh)[i];view.contentWindow.postMessage({protocol:"controlsbench.machine-view.protocol.v1",token,type:"frame",sequence:++seq,ops},"*");scrub.value=i;time.textContent="t = "+(run.times[i]/1000).toFixed(1)+" s · frame "+(i+1)+"/"+run.fresh.length;}
-function tick(){if(!playing)return;i=(i+1)%run.fresh.length;send();}
+function send(){if(!ready)return;const ops=(stale.checked?run.stale:run.fresh)[i];view.contentWindow.postMessage({protocol:"controlsbench.machine-view.protocol.v1",token,type:"frame",sequence:++seq,tweenMs:stale.checked?0:tween,ops},"*");tween=0;scrub.value=i;time.textContent="t = "+(run.times[i]/1000).toFixed(1)+" s · frame "+(i+1)+"/"+run.fresh.length;}
+function tick(){if(!playing)return;const next=(i+1)%run.fresh.length;tween=next===i+1?run.times[next]-run.times[i]:0;i=next;send();}
 function load(k){run=runs[k];i=0;scrub.max=run.fresh.length-1;send();}
 runSel.onchange=()=>load(+runSel.value);scrub.oninput=()=>{i=+scrub.value;send();};stale.onchange=send;
 play.onclick=()=>{playing=!playing;play.textContent=playing?"Pause":"Play";};

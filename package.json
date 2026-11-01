@@ -17,6 +17,8 @@
     "proof:view:browser": "node scripts/check-machine-view-browser.js --package",
     "view:preview": "node scripts/preview-machine-view.js --open",
     "proof:view:wonder": "node --env-file=.env scripts/generate-machine-view.js",
+    "proof:view:audit": "node scripts/audit-machine-view.js",
+    "proof:view:refine": "node --env-file=.env scripts/refine-machine-view.js",
     "proof:generate": "node --env-file=.env scripts/generate-world-package.js",
     "proof:repair": "node --env-file=.env scripts/repair-world-package.js",
     "proof:align-manifest": "node --env-file=.env scripts/align-world-manifest.js",

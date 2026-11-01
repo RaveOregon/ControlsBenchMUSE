@@ -6,7 +6,7 @@
 import {
   VIEW_SNAPSHOT_VERSION, entityFields, evidenceClasses, healthStates, linkStates, writableAttributes,
   type Binding, type Channel, type ChannelSample, type EntitySample, type EquipmentFile, type FrameOp, type Health,
-  type LinkState, type ScalarValue, type ViewBindingsFile, type ViewEvidenceClass, type ViewManifest, type ViewSnapshot
+  type LinkState, type Motion, type ScalarValue, type ViewBindingsFile, type ViewEvidenceClass, type ViewManifest, type ViewSnapshot
 } from "./contracts.ts";
 import { PathMap, round } from "./geometry.ts";
 import { cloneElement, walk, type SvgElement } from "./svg.ts";
@@ -258,11 +258,14 @@ export function resolveFrame(pkg: LoadedPackage, snapshot: ViewSnapshot): FrameO
         if (!channel) break;
         const r = resolveSample(channel, snapshot);
         const attrs = healthAttrs(r);
+        let motion: Motion | undefined;
         if (r.shown && typeof r.value === "number" && binding.inputMax !== binding.inputMin) {
           const t = Math.min(1, Math.max(0, (r.value - binding.inputMin) / (binding.inputMax - binding.inputMin)));
-          attrs.transform = `rotate(${round(binding.angleMin + t * (binding.angleMax - binding.angleMin))} ${round(binding.pivotX)} ${round(binding.pivotY)})`;
+          const angle = round(binding.angleMin + t * (binding.angleMax - binding.angleMin));
+          attrs.transform = `rotate(${angle} ${round(binding.pivotX)} ${round(binding.pivotY)})`;
+          if (r.health === "good") motion = { kind: "rotate", angle, px: round(binding.pivotX), py: round(binding.pivotY) };
         }
-        ops.push({ op: "attrs", id: binding.element, attrs });
+        ops.push({ op: "attrs", id: binding.element, attrs, ...(motion ? { motion } : {}) });
         break;
       }
       case "belt": {
@@ -270,11 +273,14 @@ export function resolveFrame(pkg: LoadedPackage, snapshot: ViewSnapshot): FrameO
         if (!channel) break;
         const r = resolveSample(channel, snapshot);
         const attrs = healthAttrs(r);
+        let motion: Motion | undefined;
         if (r.shown && typeof r.value === "number" && encoder && encoder.countsPerM > 0 && binding.periodPx > 0 && beltScale > 0) {
           const travelPx = (r.value / encoder.countsPerM) * beltScale;
-          attrs.transform = `translate(${round(((travelPx % binding.periodPx) + binding.periodPx) % binding.periodPx)} 0)`;
+          const offset = round(((travelPx % binding.periodPx) + binding.periodPx) % binding.periodPx);
+          attrs.transform = `translate(${offset} 0)`;
+          if (r.health === "good") motion = { kind: "belt", offset, period: binding.periodPx };
         }
-        ops.push({ op: "attrs", id: binding.element, attrs });
+        ops.push({ op: "attrs", id: binding.element, attrs, ...(motion ? { motion } : {}) });
         break;
       }
       case "entities": {
@@ -294,6 +300,7 @@ export function resolveFrame(pkg: LoadedPackage, snapshot: ViewSnapshot): FrameO
             "aria-label": `${String(s.itemId ?? e.id)} on ${path || "unknown path"} at ${Number.isFinite(positionM) ? positionM.toFixed(3) : "unknown"} m (${p ? health : "unknown"})`
           };
           if (p) attrs.transform = `translate(${round(p.x)} ${round(p.y)})${p.angleDeg !== 0 ? ` rotate(${round(p.angleDeg)})` : ""}`;
+          const motion: Motion | undefined = p && health === "good" && !p.clamped ? { kind: "pose", x: round(p.x), y: round(p.y), angle: round(p.angleDeg) } : undefined;
           if (p?.clamped) attrs["data-cb-outside"] = "true";
           const fields: Record<string, string> = {
             itemId: String(s.itemId ?? e.id),
@@ -303,7 +310,7 @@ export function resolveFrame(pkg: LoadedPackage, snapshot: ViewSnapshot): FrameO
             velocityMps: typeof s.velocityMps === "number" ? s.velocityMps.toFixed(2) : "unknown",
             jammed: s.jammed === true ? "JAM" : ""
           };
-          return { key: e.id, attrs, fields };
+          return { key: e.id, attrs, fields, ...(motion ? { motion } : {}) };
         });
         if (type) ops.push({ op: "entities", template: binding.element, container: binding.container, items });
         break;

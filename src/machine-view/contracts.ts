@@ -201,14 +201,25 @@ export const reservedAttributes = ["data-cb-value", "data-cb-health", "data-cb-s
 export const writableAttributes: readonly string[] = [...reservedAttributes, "transform", "aria-label"];
 export const entityFields = ["itemId", "requestedRoute", "path", "positionM", "velocityMps", "jammed"] as const;
 
+/**
+ * Numeric form of a good-health transform, so the trusted runtime can ease between two
+ * consecutive recorded snapshots. It never extrapolates past the latest snapshot; the exact
+ * `transform` attribute is always the end state. Absent for non-good health (snap).
+ */
+export type Motion =
+  | { kind: "pose"; x: number; y: number; angle: number }
+  | { kind: "rotate"; angle: number; px: number; py: number }
+  | { kind: "belt"; offset: number; period: number };
+
 export type FrameOp =
-  | { op: "attrs"; id: string; attrs: Record<string, string> }
+  | { op: "attrs"; id: string; attrs: Record<string, string>; motion?: Motion }
   | { op: "text"; id: string; text: string }
-  | { op: "entities"; template: string; container: string; items: Array<{ key: string; attrs: Record<string, string>; fields: Record<string, string> }> }
+  | { op: "entities"; template: string; container: string; items: Array<{ key: string; attrs: Record<string, string>; fields: Record<string, string>; motion?: Motion }> }
   | { op: "selected"; equipmentId: string | null; entityId: string | null }
   | { op: "banner"; level: "info" | "warn" | "bad"; text: string };
 
-export interface HostFrameMessage { protocol: typeof VIEW_PROTOCOL_VERSION; token: string; type: "frame"; sequence: number; ops: FrameOp[] }
+/** `tweenMs` > 0 only when this frame directly follows the previous one on the recorded clock. */
+export interface HostFrameMessage { protocol: typeof VIEW_PROTOCOL_VERSION; token: string; type: "frame"; sequence: number; tweenMs: number; ops: FrameOp[] }
 
 export type ViewMessage =
   | { protocol: typeof VIEW_PROTOCOL_VERSION; token: string; type: "ready"; elementIds: string[] }

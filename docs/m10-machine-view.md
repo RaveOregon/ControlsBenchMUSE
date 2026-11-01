@@ -191,9 +191,36 @@ All of its assumptions are in `view.manifest.json`.
 
   Every scenario had zero missing elements and zero errors. In a CSP probe, script and an `onload` handler injected directly into srcdoc, bypassing the validator, never reached the host.
 
+## Presentation audit, second pass and smooth motion (2026-11-01)
+
+Validation proves the view is safe and fully bound. It does not check whether the view reads cleanly. `scripts/audit-machine-view.js` covers that: it renders the package in headless Chrome and measures every label and indicator across 7 fixed scenarios and a sweep of every third frame of 4 Gate B runs. Scenarios include no data and worst-case values ("unknown" and 10-digit counts). The audit reports:
+
+- label/label overlap and labels covering state indicators;
+- content outside the visible view;
+- smeared (outlined) text;
+- fonts under 10 px;
+- overlaps while a carton passes;
+- carton step jumps, abrupt heading changes and belt-mark strobing.
+
+It writes `audit/audit.json`, clean screenshots, and annotated screenshots. Logic lives in `src/machine-view/audit.ts`.
+
+**First view:** 9 errors and 9 warnings. Errors were divert labels on top of each other and on lamps/paddles, and position values hitting photoeye labels. Warnings were cartons covering labels, 9.6 px text and a 35° heading snap at each branch.
+
+**Second pass:** `scripts/refine-machine-view.js` made one bounded Wonder call at `reasoning: max`. It sent the incumbent SVG/bindings, the audit findings and 4 screenshots as vision input, and asked Wonder to also review the screenshots itself. The call was `resp_6ae6a9e22423a0a969914e65`, 235 s, 31,869 input / 42,179 output tokens (29,907 reasoning). It is accounted at a $1.25 reservation; about $0.97 at published rates. A candidate is promoted only if it is view-valid, passes the browser check and has fewer audit errors.
+
+**Result:** 0 errors and 0 warnings. `latest.json` now points to `…-refine-01`, and the original package stays preserved as its parent. Wonder's `visualReview` lists 13 issues it addressed, 6 of which it found itself beyond the audit (for example, photoeye lamps hidden under cartons and a decorative line through labels).
+
+**Host fixes:**
+
+- After the second pass, the screenshot showed values smeared by Wonder's `[data-cb-source]` stroke rule, which also hit text. The audit now treats outlined text as an error. The trusted host CSS sets `text[data-cb-source]{stroke:none !important}`, so this cannot recur in any generated view. The SVG bytes remain Muse's.
+- **Smooth motion:** frames now carry numeric motion for good-health transforms, and the runtime reuses carton elements by key. Between directly consecutive frames on a current link, the runtime eases linearly from the drawn value to the new recorded value over the recorded interval (100 ms at 10 Hz, capped at 250 ms). It never extrapolates past the latest snapshot. Stale, held, bad or unknown values snap, as do scrubs, gaps, new cartons and `prefers-reduced-motion`. See `tweenFor` in `host.ts`.
+- Wonder's curved chutes spread the branch turn across about 6 frames.
+
+`npm run view:preview` plays the current package smoothly.
+
 ## Limitations
 
 - The replay evidence is Gate B `surrogate_contract`, a world trace with no PLC, and is labelled that way. Live M8 snapshots depend on lane A/B feeding `buildSnapshot`.
-- Label text near the divert lamps overlaps slightly in the generated SVG. This is cosmetic, and fixing it would require a new generation or an engineer-approved edit, which would change the package hash.
+- The audit measures text and bound indicators, not every decorative line. Wonder's own screenshot review covered the rest in this pass.
 - Selection returns evidence references present in the snapshot. Opening the evidence is the portal's job.
 - One machine only. The broader arbitrary-machine ingestion path remains deferred, as `ui/docs/spec-driven-visuals-plan.md` records.
