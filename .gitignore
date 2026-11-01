@@ -13,3 +13,5 @@ codesys/*.zip
 codesys/*.bootinfo
 codesys/*.bootinfo_guids
 codesys/*.compileinfo
+artifacts/machine-view/*/preview/
+artifacts/machine-view/*/audit/*.html

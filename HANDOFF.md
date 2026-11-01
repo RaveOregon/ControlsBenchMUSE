@@ -90,3 +90,17 @@ The first M10 connection attempt, `artifacts/m10/2026-11-01T00-42-56-378Z/`, fai
 The subsequent `00-49-30-061Z` trial authenticated, then stopped after 39 images when repeated full pre-step cycle-bracket reads starved the heartbeat; its boot stayed stable and no machine fault was observed before stopping. The held carton later caused the declared transit fault 33. The client now uses optional lightweight `inspectLink()` for freshness, full bracketed reads for commits, and actual elapsed world steps bounded at 300 ms. A separate recorded preparation verified the exact saved boot/session/image, then used Stop, fresh-world rebaseline, completion acknowledgement and Reset before the successful campaign. All failed/preparation artifacts are retained; they are not relabeled as passes. Current offline verification is 38/38 under `offline/latest.json`.
 
 Measured successful cadence was 6.52 Hz effective (commit intervals 100.106–266.987 ms), never above 10 Hz; this is not a new sustained-rate qualification. Initial completion/fault counters include the interrupted trial, so the successful run's counters are adjudicated by deltas. The next integration step is to expose these M8 bindings and authoritative campaign/world/PLC evidence to the separately owned host/view lanes. Wonder remains disabled pending explicit user authorization.
+
+## M10 lane C: generated machine view (2026-10-31)
+
+Branch `view/m10-machine-view` adds `src/machine-view/`:
+
+- a frozen equipment/binding contract derived from the spec, the world package and the M8 signal map;
+- a package validator;
+- a snapshot interface;
+- a sandboxed, CSP-locked iframe host with a contract fallback;
+- the preserved generation request format.
+
+One bounded Wonder call (`resp_6ae6a4c76cadb5210abb4efc`) produced `artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/`. The view is valid with 0 errors and one disclosed style warning, and needed no repair. The call took 46.8 s and is accounted at $1.00 conservative (about $0.36 at published rates). The headless-Chrome host check passed, including a CSP injection probe.
+
+The view shows simulated world truth and observed PLC outputs only. It has no credentials, network access or command authority. Lane B mounts it after `validatePackage(...).report.viewValid`; see `docs/m10-machine-view.md` for the mounting snippet. No `ui/`, `codesys/`, `src/live` or `src/campaign` file was changed. Shared edits are limited to `package.json` (test list plus `proof:view*` scripts) and the root `tsconfig.json` include.

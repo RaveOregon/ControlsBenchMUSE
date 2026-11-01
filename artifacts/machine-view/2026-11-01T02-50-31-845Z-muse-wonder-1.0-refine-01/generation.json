@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "controlsbench.machine-view.generation.v1",
+  "purpose": "machine_view_refinement",
+  "status": "completed",
+  "parent": {
+    "relativeDirectory": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0",
+    "packageId": "conveyor-demo-baseline.view.9aaafe9d3766",
+    "svgSha256": "f3c10900637357dad1e997b25a7f12b3657eba5e81302535a5bd136060738cc7",
+    "audit": {
+      "errors": 9,
+      "warnings": 9,
+      "transientOverlaps": 7,
+      "file": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/audit/audit.json"
+    }
+  },
+  "request": {
+    "file": "generation/request.json",
+    "requestId": "machine-view-refine-2026-11-01T02-50-31-845Z",
+    "bodySha256": "f9617bb88c08ff36f842ce9a3d0227c747c1d965ba95f64b117ea8c2c2762cde",
+    "promptSha256": "c62aa615968001452f569dcedd7af5a87b258eeb1f8a82ac4f5cb9a7eed88805",
+    "promptVersion": "machine-view-refine-prompt-v1",
+    "outputSchemaSha256": "6e7026009053b7daf0a1b662c4549e7232ca147ab85e91f211cad06d92f10955",
+    "inputs": [
+      {
+        "role": "incumbent_view",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/view.svg",
+        "sha256": "f3c10900637357dad1e997b25a7f12b3657eba5e81302535a5bd136060738cc7",
+        "bytes": 12468
+      },
+      {
+        "role": "incumbent_bindings",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/view-bindings.json",
+        "sha256": "18b77fea13f0f3ca4cd124d45ee2a91587ee88b3b64f812f46836ac50a975c4f",
+        "bytes": 15701
+      },
+      {
+        "role": "audit",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/audit/audit.json",
+        "sha256": "be14d7232e422dfb64b61b3be2435802347d6f58f213b4f02f057740f0daaeaf",
+        "bytes": 0
+      },
+      {
+        "role": "equipment",
+        "path": "artifacts/machine-view/contract/equipment.json",
+        "sha256": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+        "bytes": 27359
+      },
+      {
+        "role": "binding_contract",
+        "path": "artifacts/machine-view/contract/binding-contract.json",
+        "sha256": "c1fb8e216909cb0893db81c56b07111450c43b370aebb0110c6e1c14167273f6",
+        "bytes": 8567
+      },
+      {
+        "role": "world_assumptions",
+        "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+        "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+        "bytes": 3826
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/audit/a-diverted.png",
+        "sha256": "44dfef42d57a826cb446206baa3fdae4d08448523c0ac31a6ef8b76aa2d5cc0e",
+        "bytes": 86748
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/audit/b-diverted.png",
+        "sha256": "3ee6bd85637554c0f2599094c464287f3a947164dcffdc12b1ae77e8a43b926b",
+        "bytes": 86470
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/audit/no-data.png",
+        "sha256": "7f957258aea5d2e875adfde798f131360091d1a3ab25ca1c270013dd09e3153c",
+        "bytes": 82778
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0/audit/a-diverted.clean.png",
+        "sha256": "033186ab405ed21ae43d3ca36d05840256ab5ff61d481e91fc49106c1f166862",
+        "bytes": 86126
+      }
+    ]
+  },
+  "identity": {
+    "endpoint": "https://api.meta.ai/v1/responses",
+    "requestedModel": "muse-wonder-1.0",
+    "reportedModel": "muse-wonder-1.0",
+    "responseId": "resp_6ae6a9e22423a0a969914e65",
+    "responseStatus": "completed",
+    "httpStatus": 200,
+    "headers": {
+      "date": "Sun, 01 Nov 2026 02:54:26 GMT",
+      "x-ratelimit-limit-requests": "3000",
+      "x-ratelimit-limit-tokens": "4000000",
+      "x-ratelimit-remaining-requests": "3000",
+      "x-ratelimit-remaining-tokens": "4000000",
+      "x-request-id": "c726f028-5d82-4966-9cb9-f0cd18058201"
+    },
+    "reasoning": {
+      "effort": "max",
+      "summary": "auto"
+    }
+  },
+  "timing": {
+    "startedAt": "2026-11-01T02:50:31.845Z",
+    "completedAt": "2026-11-01T02:54:27.277Z",
+    "requestDurationMs": 235398
+  },
+  "usage": {
+    "input_tokens": 31869,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 42179,
+    "output_tokens_details": {
+      "reasoning_tokens": 29907
+    },
+    "total_tokens": 74048
+  },
+  "cost": {
+    "accountedBasis": "conservative_reservation",
+    "reservedUsd": 1.25,
+    "settledUsd": 1.25,
+    "providerReportedUsd": null,
+    "publishedRateEstimateUsd": 0.9711,
+    "publishedRates": {
+      "inputPerM": 4,
+      "cachedInputPerM": 0.2,
+      "outputPerM": 20,
+      "source": "https://models.litellm.ai/models/muse-wonder-1.0 (checked 2026-10-31)"
+    },
+    "note": "The reservation is charged even on failure. The estimate applies published token rates to reported usage; it is not a billing record."
+  },
+  "hashes": {
+    "requestBody": "f9617bb88c08ff36f842ce9a3d0227c747c1d965ba95f64b117ea8c2c2762cde",
+    "responseBody": "4b18bb294b1d71ab8e389c1ab1ad7e6f00ca5cbe9740815733e55394f0cf1f5e",
+    "outputText": "a8bead7ff1b5ce0209ac423b941c56a94eff93e8ac9b363ba996102df5fec5ad",
+    "files": {
+      "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+      "view-bindings.json": "68e9da5e7f73f358472ff6385af5ad440aae4e38e7855653d5c12cdf6355f745",
+      "view.svg": "58236216e9e3bc517bf6af1c6e8b24d22a4372e3e241134b0475e564f43f5efc"
+    },
+    "manifest": "4383685e092e026c2de1803a2f63e9f532614c7ffbe0b28cc4a2b8f508b4bfcf"
+  },
+  "transportError": null,
+  "parseError": null,
+  "normalizationProblems": [],
+  "visualReview": [
+    {
+      "fix": "Rebuilt each divert indicator set as a two-row white callout 88-158 units above the belt: title row, then PLC square / Home circle / Ext circle spaced with gaps, then a separate Pos row; no label touches another label or lamp.",
+      "issue": "L01-L05: 'PLC cmd' overlapped 'Home' and covered the Home lamps and paddle area on both diverts in every snapshot."
+    },
+    {
+      "fix": "Position text now sits alone on its own row in the callout, starting at local x=-48 with clear space to the box edge, reserving room for 'unknown' and up to 10 digits; it is vertically separated from the photoeye labels below the callouts.",
+      "issue": "L02-L03: Divert position 'unknown' values overlapped the PE D2 Approach and PE Runout labels."
+    },
+    {
+      "fix": "All divert labels moved into the above-lane callouts, far above the paddle swing envelope (paddle rotates only below y about -24 local); paddle AABB no longer reaches any text.",
+      "issue": "L06-L09: Divert labels lay on the rotating paddles when extended."
+    },
+    {
+      "fix": "Every label and lamp moved off the travel bands: main photoeye lamps 48 units above the main centreline with labels above them, divert lamps in callouts above the lane, exit/runout lamps in horizontal south-west callouts 60+ units from chute centrelines; passing carton boxes (about 18 units half-height) cannot reach them.",
+      "issue": "L10-L16 and general transient overlap: carton itemId/route text covered on-lane labels (Ext, Pos%, PLC cmd, Home, Exit Ready) as cartons passed."
+    },
+    {
+      "fix": "All label classes raised to 12 user units, values 12, fine print 12, and carton route text to 11; no 9-10 px text remains.",
+      "issue": "L17: Many labels rendered below 10 px at 1280 px width (9.6 px)."
+    },
+    {
+      "fix": "Each branch path now has 7 segments over the first 0.35 m with headings 6,12,18,24,30,36,36 degrees (about 6 degrees per 0.05 m step) before continuing at 36 degrees; drawn chutes use the identical polylines and still start exactly on the main path.",
+      "issue": "M02: Carton heading snapped about 34.8 degrees in one frame at each branch."
+    },
+    {
+      "fix": "Added explicit [data-cb-source=plc] violet stroke/fill rules versus [data-cb-source=world] teal rules in addition to square-versus-circle shapes, violet frames around PLC stack lamps, and a legend stating the coding; unknown remains white dashed, distinct from pale-solid false.",
+      "issue": "Audit instruction: PLC versus world distinction relied on shape alone in the incumbent."
+    },
+    {
+      "fix": "Photoeye beam circles moved from the belt centreline to 48 units above it with a short leader to the sensor head; the beam line itself remains across the belt as the physical sensor glyph.",
+      "issue": "Self-observed: incumbent photoeye beam indicators sat on the belt centreline, so cartons completely hid the very lamp showing beam state."
+    },
+    {
+      "fix": "Exit PE and Exit Ready text now lives in a nested rotate(-36) subgroup that cancels the anchored rotation, rendering horizontal text south-west of the chute with a leader line, clear of both chute and main lane.",
+      "issue": "Self-observed: incumbent exit labels were rotated 35 degrees on the chutes, hard to read and with diagonal bounding boxes encroaching on lamps and cartons."
+    },
+    {
+      "fix": "Removed the long flow arrow line; flow is now stated only in the footer text and station order, and leader lines stop short of every label.",
+      "issue": "Self-observed: incumbent long flow line at y=340 crossed both chutes and passed under/through label areas, a decorative line through the reading field."
+    },
+    {
+      "fix": "Side-panel numeric values are end-anchored at x=1170 with a reserved field, so worst-case counts (4294967295) and 'unknown' grow leftwards into empty reserved space, never into the label.",
+      "issue": "Self-observed: incumbent side-panel values were start-anchored immediately after short labels, so a 10-digit encoder count could run toward the panel edge and crowd neighbouring text."
+    },
+    {
+      "fix": "Photoeye labels moved to the staggered row above the belt (labels at local y=-66, lamps at y=-48, divert callouts ending at y=-88 local), giving at least 10 units vertical clearance between rows at different heights.",
+      "issue": "Self-observed: incumbent below-belt photoeye labels for D2 Approach sat close to the Exit A chute diagonal and could be clipped by diverted cartons."
+    },
+    {
+      "fix": "Preserved: the red 'NOT the PLC HMI' caption, labelled side panel for unlocated drive/encoder/stack light, all 15 selectable equipment groups, common 180 px/m scale, full channel binding coverage, unknown-distinct-from-false styling.",
+      "issue": "Preservation check: features that worked in the incumbent (caption, side panel, selectability, scale, coverage) had to survive the revision."
+    }
+  ],
+  "validation": {
+    "file": "validation.json",
+    "contractValid": true,
+    "viewValid": true,
+    "errors": [],
+    "warnings": []
+  },
+  "browserCheck": {
+    "exitCode": 0,
+    "passed": true,
+    "file": "browser-check/browser-check.json"
+  },
+  "audit": {
+    "errors": 0,
+    "warnings": 0,
+    "transientOverlaps": 0,
+    "passed": true,
+    "file": "audit/audit.json"
+  },
+  "disposition": "promoted",
+  "repairLineage": [
+    {
+      "attempt": 1,
+      "kind": "presentation_refinement",
+      "parent": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0",
+      "disposition": "promoted"
+    }
+  ],
+  "policy": "One bounded call. No retry. The candidate replaces the incumbent only if it is view-valid, passes the browser check and has fewer audit errors (or equal errors and fewer warnings).",
+  "packageId": "conveyor-demo-baseline.view.edc8a31062ac"
+}

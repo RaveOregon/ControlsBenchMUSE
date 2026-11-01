@@ -1,0 +1,9 @@
+{
+  "relativeDirectory": "artifacts/machine-view/2026-11-01T03-07-45-147Z-muse-wonder-1.0-refine-02",
+  "packageId": "conveyor-demo-baseline.view.386c365a96d8",
+  "viewValid": true,
+  "contractValid": true,
+  "browserCheckPassed": true,
+  "parent": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
+  "promotion": "promotion.json"
+}

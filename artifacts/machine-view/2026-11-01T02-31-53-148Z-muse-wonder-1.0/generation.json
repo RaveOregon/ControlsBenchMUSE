@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "controlsbench.machine-view.generation.v1",
+  "purpose": "machine_view_generation",
+  "status": "completed",
+  "request": {
+    "file": "generation/request.json",
+    "requestId": "machine-view-2026-11-01T02-31-53-148Z",
+    "bodySha256": "e8dbdddb1e7d5b7d55e9edda1a26d71f8b7382532acdbadb02ee2f503f805500",
+    "promptSha256": "1506c6caffb8e4d0d72420fbd1bedb94a91a1bd5eba99dd023f8ccb0f5506ebe",
+    "promptVersion": "machine-view-prompt-v1",
+    "outputSchemaSha256": "c028891e85049541fe64b1cbcf7b8e7c85b6f35d37a06650939b7701c1a2b253",
+    "inputs": [
+      {
+        "role": "specification",
+        "path": "docs/conveyor-machine-spec.md",
+        "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+        "bytes": 31329
+      },
+      {
+        "role": "equipment",
+        "path": "artifacts/machine-view/contract/equipment.json",
+        "sha256": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+        "bytes": 27390
+      },
+      {
+        "role": "binding_contract",
+        "path": "artifacts/machine-view/contract/binding-contract.json",
+        "sha256": "c1fb8e216909cb0893db81c56b07111450c43b370aebb0110c6e1c14167273f6",
+        "bytes": 8567
+      },
+      {
+        "role": "world_manifest",
+        "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+        "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+        "bytes": 9909
+      },
+      {
+        "role": "world_assumptions",
+        "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+        "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+        "bytes": 3832
+      },
+      {
+        "role": "view_protocol",
+        "path": "src/machine-view/contracts.ts",
+        "sha256": "e8930bb8baabfab8a3161f42801b4556fae260ae2518148b27d6149dc79efc8e",
+        "bytes": 116
+      }
+    ]
+  },
+  "identity": {
+    "endpoint": "https://api.meta.ai/v1/responses",
+    "requestedModel": "muse-wonder-1.0",
+    "reportedModel": "muse-wonder-1.0",
+    "responseId": "resp_6ae6a4c76cadb5210abb4efc",
+    "responseStatus": "completed",
+    "httpStatus": 200,
+    "headers": {
+      "date": "Sun, 01 Nov 2026 02:32:39 GMT",
+      "x-ratelimit-limit-requests": "3000",
+      "x-ratelimit-limit-tokens": "4000000",
+      "x-ratelimit-remaining-requests": "2999",
+      "x-ratelimit-remaining-tokens": "4000000",
+      "x-request-id": "5bd79a3f-621a-4874-9570-9b34cbee083d"
+    }
+  },
+  "timing": {
+    "startedAt": "2026-11-01T02:31:53.148Z",
+    "completedAt": "2026-11-01T02:32:39.943Z",
+    "requestDurationMs": 46761
+  },
+  "usage": {
+    "input_tokens": 20699,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 13800,
+    "output_tokens_details": {
+      "reasoning_tokens": 3835
+    },
+    "total_tokens": 34499
+  },
+  "cost": {
+    "accountedBasis": "conservative_reservation",
+    "reservedUsd": 1,
+    "settledUsd": 1,
+    "providerReportedUsd": null,
+    "publishedRateEstimateUsd": 0.3588,
+    "publishedRates": {
+      "inputPerM": 4,
+      "cachedInputPerM": 0.2,
+      "outputPerM": 20,
+      "source": "https://models.litellm.ai/models/muse-wonder-1.0 (checked 2026-10-31)"
+    },
+    "note": "The reservation is charged even on failure. The estimate applies published token rates to reported usage; it is not a billing record."
+  },
+  "hashes": {
+    "requestBody": "e8dbdddb1e7d5b7d55e9edda1a26d71f8b7382532acdbadb02ee2f503f805500",
+    "responseBody": "3abf1dddfab04448344c83cb5937891d3e60780e8bbb4aa561a6c1fdb84138b8",
+    "outputText": "735cb040603d18c8da86bc5fb5fb251c5bcd5307396b82c8f0b3558c730a1c3b",
+    "files": {
+      "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+      "view-bindings.json": "18b77fea13f0f3ca4cd124d45ee2a91587ee88b3b64f812f46836ac50a975c4f",
+      "view.svg": "f3c10900637357dad1e997b25a7f12b3657eba5e81302535a5bd136060738cc7"
+    },
+    "manifest": "c8c8bb4416da6cd4f36cdc6d3c3c36255671ff7c58e089a287834fd98976fd2b"
+  },
+  "transportError": null,
+  "parseError": null,
+  "normalizationProblems": [],
+  "validation": {
+    "file": "validation.json",
+    "contractValid": true,
+    "viewValid": true,
+    "errors": [],
+    "warnings": [
+      "style.source: CSS does not style data-cb-source; command/feedback rely on layout alone"
+    ]
+  },
+  "browserCheck": {
+    "exitCode": 0,
+    "passed": true,
+    "file": "browser-check/browser-check.json"
+  },
+  "repairLineage": [],
+  "policy": "One bounded call. No automatic retry and no repair call; a failed view leaves the package in contract-fallback state for engineer review.",
+  "packageId": "conveyor-demo-baseline.view.9aaafe9d3766"
+}

@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "controlsbench.machine-view.audit.v1",
+  "packageId": "conveyor-demo-baseline.view.edc8a31062ac",
+  "passed": false,
+  "counts": {
+    "error": 4,
+    "warning": 2
+  },
+  "findings": [
+    {
+      "id": "A01",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert1-extended"
+      ],
+      "elements": [
+        "d1_paddle",
+        "entities"
+      ],
+      "detail": "divert1 drawn fully extended intersects a carton travelling on path \"main\" from 1.50 to 1.55 m (3 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A02",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert1-extended"
+      ],
+      "elements": [
+        "d1_paddle",
+        "entities"
+      ],
+      "detail": "divert1 drawn fully extended intersects a carton travelling on path \"exitA\" from 1.65 to 1.75 m (5 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A03",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert2-extended"
+      ],
+      "elements": [
+        "d2_paddle",
+        "entities"
+      ],
+      "detail": "divert2 drawn fully extended intersects a carton travelling on path \"main\" from 2.70 to 2.75 m (3 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A04",
+      "category": "actuator",
+      "severity": "error",
+      "scenarios": [
+        "divert2-extended"
+      ],
+      "elements": [
+        "d2_paddle",
+        "entities"
+      ],
+      "detail": "divert2 drawn fully extended intersects a carton travelling on path \"exitB\" from 2.85 to 2.95 m (5 sample points): the carton would visibly pass through the actuator, which contradicts the world (the carton follows the branch from the divert station; the extended actuator must sit beside that path, not across the lane before it)"
+    },
+    {
+      "id": "A05",
+      "category": "actuator",
+      "severity": "warning",
+      "scenarios": [
+        "document-order"
+      ],
+      "elements": [
+        "d1_paddle",
+        "carton_container"
+      ],
+      "detail": "Cartons (#carton_container) are painted beneath #d1_paddle; draw the carton container after every actuator so a carton is never covered by equipment"
+    },
+    {
+      "id": "A06",
+      "category": "actuator",
+      "severity": "warning",
+      "scenarios": [
+        "document-order"
+      ],
+      "elements": [
+        "d2_paddle",
+        "carton_container"
+      ],
+      "detail": "Cartons (#carton_container) are painted beneath #d2_paddle; draw the carton container after every actuator so a carton is never covered by equipment"
+    }
+  ],
+  "motion": {
+    "frames": 320,
+    "periodMs": 100,
+    "carton": {
+      "maxStepPx": 9,
+      "medianStepPx": 9,
+      "maxAngleStepDeg": 6,
+      "jumps": 0
+    },
+    "belt": {
+      "maxStepPx": 9,
+      "periodPx": 40,
+      "aliasRisk": false
+    },
+    "diverts": {
+      "d1_paddle": {
+        "maxStepDeg": 14.29
+      },
+      "d2_paddle": {
+        "maxStepDeg": 14.29
+      }
+    }
+  },
+  "scenarios": [
+    "no-data",
+    "idle",
+    "worst-case-values",
+    "a-diverted",
+    "b-diverted",
+    "runout",
+    "stale",
+    "cp5-routed-a@600ms",
+    "cp5-routed-a@900ms",
+    "cp5-routed-a@1200ms",
+    "cp5-routed-a@1500ms",
+    "cp5-routed-a@1800ms",
+    "cp5-routed-a@2100ms",
+    "cp5-routed-a@2400ms",
+    "cp5-routed-a@2700ms",
+    "cp5-routed-a@3000ms",
+    "cp5-routed-a@3300ms",
+    "cp5-routed-a@3600ms",
+    "cp5-routed-a@3900ms",
+    "cp5-routed-a@4200ms",
+    "cp5-routed-a@4500ms",
+    "cp5-routed-a@4800ms",
+    "cp5-routed-a@5100ms",
+    "cp5-routed-a@5400ms",
+    "cp5-routed-a@5700ms",
+    "cp6-routed-b@600ms",
+    "cp6-routed-b@900ms",
+    "cp6-routed-b@1200ms",
+    "cp6-routed-b@1500ms",
+    "cp6-routed-b@1800ms",
+    "cp6-routed-b@2100ms",
+    "cp6-routed-b@2400ms",
+    "cp6-routed-b@2700ms",
+    "cp6-routed-b@3000ms",
+    "cp6-routed-b@3300ms",
+    "cp6-routed-b@3600ms",
+    "cp6-routed-b@3900ms",
+    "cp6-routed-b@4200ms",
+    "cp6-routed-b@4500ms",
+    "cp6-routed-b@4800ms",
+    "cp6-routed-b@5100ms",
+    "cp6-routed-b@5400ms",
+    "cp6-routed-b@5700ms",
+    "cp6-routed-b@6000ms",
+    "cp6-routed-b@6300ms",
+    "cp6-routed-b@6600ms",
+    "cp6-routed-b@6900ms",
+    "cp6-routed-b@7200ms",
+    "cp6-routed-b@7500ms",
+    "cp6-routed-b@7800ms",
+    "cp6-routed-b@8100ms",
+    "cp6-runout@300ms",
+    "cp6-runout@600ms",
+    "cp6-runout@900ms",
+    "cp6-runout@1200ms",
+    "cp6-runout@1500ms",
+    "cp6-runout@1800ms",
+    "cp6-runout@2100ms",
+    "cp6-runout@2400ms",
+    "cp6-runout@2700ms",
+    "cp6-runout@3000ms",
+    "cp6-runout@3300ms",
+    "cp6-runout@3600ms",
+    "cp6-runout@3900ms",
+    "cp6-runout@4200ms",
+    "cp6-runout@4500ms",
+    "cp6-runout@4800ms",
+    "cp6-runout@5100ms",
+    "cp6-runout@5400ms",
+    "cp6-runout@5700ms",
+    "cp6-runout@6000ms",
+    "cp6-runout@6300ms",
+    "cp6-runout@6600ms",
+    "cp6-runout@6900ms",
+    "cp6-runout@7200ms",
+    "cp6-runout@7500ms",
+    "cp6-runout@7800ms",
+    "cp6-runout@8100ms",
+    "cp6-runout@8400ms",
+    "cp6-runout@8700ms",
+    "cp5-missed-a@300ms",
+    "cp5-missed-a@600ms",
+    "cp5-missed-a@900ms",
+    "cp5-missed-a@1200ms",
+    "cp5-missed-a@1500ms",
+    "cp5-missed-a@1800ms",
+    "cp5-missed-a@2100ms",
+    "cp5-missed-a@2400ms",
+    "cp5-missed-a@2700ms",
+    "cp5-missed-a@3000ms",
+    "cp5-missed-a@3300ms",
+    "cp5-missed-a@3600ms",
+    "cp5-missed-a@3900ms",
+    "cp5-missed-a@4200ms",
+    "cp5-missed-a@4500ms",
+    "cp5-missed-a@4800ms",
+    "cp5-missed-a@5100ms",
+    "cp5-missed-a@5400ms",
+    "cp5-missed-a@5700ms",
+    "cp5-missed-a@6000ms",
+    "cp5-missed-a@6300ms",
+    "cp5-missed-a@6600ms",
+    "cp5-missed-a@6900ms",
+    "cp5-missed-a@7200ms",
+    "cp5-missed-a@7500ms",
+    "cp5-missed-a@7800ms",
+    "cp5-missed-a@8100ms",
+    "cp5-missed-a@8400ms",
+    "cp5-missed-a@8700ms"
+  ],
+  "auditedAt": "2026-11-01T03:19:25.071Z",
+  "package": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
+  "svgSha256": "58236216e9e3bc517bf6af1c6e8b24d22a4372e3e241134b0475e564f43f5efc",
+  "screenshots": [
+    "no-data.clean.png",
+    "no-data.png",
+    "idle.clean.png",
+    "idle.png",
+    "worst-case-values.clean.png",
+    "worst-case-values.png",
+    "a-diverted.clean.png",
+    "a-diverted.png",
+    "b-diverted.clean.png",
+    "b-diverted.png",
+    "runout.clean.png",
+    "runout.png",
+    "stale.clean.png",
+    "stale.png"
+  ],
+  "actuatorSweep": [
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.4,
+      "overlapPoints": 1
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.45,
+      "overlapPoints": 2
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.5,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 1.55,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.65,
+      "overlapPoints": 5
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.7,
+      "overlapPoints": 4
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.75,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert1",
+      "element": "d1_paddle",
+      "pose": "extended",
+      "path": "exitA",
+      "positionM": 1.8,
+      "overlapPoints": 2
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.6,
+      "overlapPoints": 1
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.65,
+      "overlapPoints": 2
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.7,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "main",
+      "positionM": 2.75,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 2.85,
+      "overlapPoints": 5
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 2.9,
+      "overlapPoints": 4
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 2.95,
+      "overlapPoints": 3
+    },
+    {
+      "equipmentId": "divert2",
+      "element": "d2_paddle",
+      "pose": "extended",
+      "path": "exitB",
+      "positionM": 3,
+      "overlapPoints": 2
+    }
+  ],
+  "thresholds": {
+    "note": "text overlap: >=4 px2 and >=4% of the smaller label with 1 px clearance; label over indicator: >=15%; minimum 10 px font at 1280 px width; carton jump: >3x median step; belt alias: step >=40% of mark period"
+  }
+}

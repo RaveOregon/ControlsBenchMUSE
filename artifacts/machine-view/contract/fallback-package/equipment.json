@@ -1,0 +1,707 @@
+{
+  "schemaVersion": "controlsbench.machine-view.equipment.v1",
+  "machineId": "conveyor-demo-baseline",
+  "name": "Conveyor Bench — Demo Baseline",
+  "specification": {
+    "document": "docs/conveyor-machine-spec.md",
+    "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "locator": "accepted conveyor bench specification v0.5"
+  },
+  "world": {
+    "worldId": "conveyor-demo-baseline",
+    "packageVersion": "0.5.0",
+    "stateSchemaVersion": "1.0.0",
+    "manifest": {
+      "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+      "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+      "locator": "world.manifest.json"
+    },
+    "source": {
+      "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+      "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+      "locator": "world.ts"
+    },
+    "assumptions": {
+      "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+      "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+      "locator": "assumptions.md"
+    }
+  },
+  "signalMap": {
+    "document": "codesys/demo/signal-map-v1.json",
+    "sha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+    "locator": "codesys/demo/signal-map-v1.json",
+    "mapVersion": "m8-conveyor-1.0.2"
+  },
+  "units": {
+    "length": "m",
+    "speed": "m/s",
+    "position": "%",
+    "count": "count",
+    "current": "A"
+  },
+  "equipment": [
+    {
+      "id": "mainLane",
+      "kind": "conveyor_lane",
+      "label": "Main lane belt",
+      "description": "Infeed/main lane with one powered belt from entry to straight runout.",
+      "channels": [],
+      "geometry": {
+        "path": "main",
+        "fromM": 0,
+        "toM": 4.2
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "§2 Physical and logical layout"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG runoutEndM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        }
+      ],
+      "assumptions": [
+        "Lane length to carton removal is world configuration."
+      ]
+    },
+    {
+      "id": "drive",
+      "kind": "drive",
+      "label": "Belt drive",
+      "description": "Drive command, actual running feedback, overload and diagnostic speed/current.",
+      "channels": [
+        "plc.Motor_RunCmd",
+        "world.Drive_RunningFB",
+        "world.Drive_Overload",
+        "world.Belt_SpeedActual",
+        "world.Drive_Current"
+      ],
+      "geometry": null,
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DO-01 Motor_RunCmd"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-11 Drive_RunningFB"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-12 Drive_Overload"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 candidate diagnostic Belt_SpeedActual"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 candidate diagnostic Drive_Current"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG driveStartDelayMs, driveStopDelayMs, beltAccelMps2"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"drive\""
+        }
+      ],
+      "assumptions": [
+        "Drive location is unspecified; its drawing position implies no measured location."
+      ]
+    },
+    {
+      "id": "encoder",
+      "kind": "encoder",
+      "label": "Belt encoder",
+      "description": "Raw encoder counts from actual belt travel.",
+      "channels": [
+        "world.Encoder_Count"
+      ],
+      "geometry": null,
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 candidate diagnostic Encoder_Count"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG encoderCountsPerM, encoderModulus"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"encoder\""
+        }
+      ],
+      "assumptions": [
+        "1000 counts/m, floored, wrapping modulo 2^32 (world configuration)."
+      ]
+    },
+    {
+      "id": "peEntry",
+      "kind": "photoeye",
+      "label": "Entry photoeye",
+      "description": "Carton blocks the entry beam.",
+      "channels": [
+        "world.PE_Entry"
+      ],
+      "geometry": {
+        "path": "main",
+        "stationM": 0.5
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-01 PE_Entry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG peEntryM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"peEntry\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "peD1Approach",
+      "kind": "photoeye",
+      "label": "Divert 1 approach photoeye",
+      "description": "Carton in the decision window before divert 1.",
+      "channels": [
+        "world.PE_D1Approach"
+      ],
+      "geometry": {
+        "path": "main",
+        "stationM": 1.2
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-02 PE_D1Approach"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG peD1ApproachM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"peD1Approach\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "divert1",
+      "kind": "divert",
+      "label": "Divert 1 (to exit A)",
+      "description": "Two-position divert; extended sends a carton to exit A. Actual position at the decision point decides the path.",
+      "channels": [
+        "plc.D1_ExtendCmd",
+        "world.D1_HomeFB",
+        "world.D1_ExtendedFB",
+        "world.D1_Position"
+      ],
+      "geometry": {
+        "path": "main",
+        "stationM": 1.6
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DO-02 D1_ExtendCmd"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-07 D1_HomeFB"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-08 D1_ExtendedFB"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 candidate diagnostic D1_Position"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG divert1M, divertTravelMs"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"divert1\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "exitA",
+      "kind": "destination",
+      "label": "Exit A",
+      "description": "Diverted exit A chute and downstream readiness.",
+      "channels": [
+        "world.ExitA_Ready"
+      ],
+      "geometry": {
+        "path": "exitA",
+        "fromM": 1.6,
+        "toM": 2.7,
+        "stationM": 2.7
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-13 ExitA_Ready"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG exitAEndM"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "§2 Physical and logical layout"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"exitA\""
+        }
+      ],
+      "assumptions": [
+        "Chute length to carton removal is world configuration."
+      ]
+    },
+    {
+      "id": "peExitA",
+      "kind": "photoeye",
+      "label": "Exit A photoeye",
+      "description": "Carton passes diverted exit A.",
+      "channels": [
+        "world.PE_ExitA"
+      ],
+      "geometry": {
+        "path": "exitA",
+        "stationM": 2.1
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-04 PE_ExitA"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG peExitAM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"peExitA\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "peD2Approach",
+      "kind": "photoeye",
+      "label": "Divert 2 approach photoeye",
+      "description": "Carton continues on the main lane toward divert 2.",
+      "channels": [
+        "world.PE_D2Approach"
+      ],
+      "geometry": {
+        "path": "main",
+        "stationM": 2.4
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-03 PE_D2Approach"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG peD2ApproachM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"peD2Approach\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "divert2",
+      "kind": "divert",
+      "label": "Divert 2 (to exit B)",
+      "description": "Two-position divert; extended sends a carton to exit B.",
+      "channels": [
+        "plc.D2_ExtendCmd",
+        "world.D2_HomeFB",
+        "world.D2_ExtendedFB",
+        "world.D2_Position"
+      ],
+      "geometry": {
+        "path": "main",
+        "stationM": 2.8
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DO-03 D2_ExtendCmd"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-09 D2_HomeFB"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-10 D2_ExtendedFB"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 candidate diagnostic D2_Position"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG divert2M, divertTravelMs"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"divert2\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "exitB",
+      "kind": "destination",
+      "label": "Exit B",
+      "description": "Diverted exit B chute and downstream readiness.",
+      "channels": [
+        "world.ExitB_Ready"
+      ],
+      "geometry": {
+        "path": "exitB",
+        "fromM": 2.8,
+        "toM": 3.9,
+        "stationM": 3.9
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-14 ExitB_Ready"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG exitBEndM"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "§2 Physical and logical layout"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"exitB\""
+        }
+      ],
+      "assumptions": [
+        "Chute length to carton removal is world configuration."
+      ]
+    },
+    {
+      "id": "peExitB",
+      "kind": "photoeye",
+      "label": "Exit B photoeye",
+      "description": "Carton passes diverted exit B.",
+      "channels": [
+        "world.PE_ExitB"
+      ],
+      "geometry": {
+        "path": "exitB",
+        "stationM": 3.3
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-05 PE_ExitB"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG peExitBM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"peExitB\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "runout",
+      "kind": "destination",
+      "label": "Straight runout",
+      "description": "Straight runout (jackpot) and its readiness.",
+      "channels": [
+        "world.Runout_Ready"
+      ],
+      "geometry": {
+        "path": "main",
+        "fromM": 2.8,
+        "toM": 4.2,
+        "stationM": 4.2
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-15 Runout_Ready"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG runoutEndM"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "§2 Physical and logical layout"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"runout\""
+        }
+      ],
+      "assumptions": [
+        "Runout end is the world's carton-removal point."
+      ]
+    },
+    {
+      "id": "peRunout",
+      "kind": "photoeye",
+      "label": "Runout photoeye",
+      "description": "Carton passes the straight runout.",
+      "channels": [
+        "world.PE_Runout"
+      ],
+      "geometry": {
+        "path": "main",
+        "stationM": 3.6
+      },
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DI-06 PE_Runout"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts",
+          "sha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "locator": "world.ts CONFIG peRunoutM"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+          "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+          "locator": "assumptions.md Inferred configuration: geometry"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"peRunout\""
+        }
+      ],
+      "assumptions": [
+        "Station is the generated world's inferred demo layout, not a measured dimension or PLC threshold."
+      ]
+    },
+    {
+      "id": "stackLight",
+      "kind": "indicator",
+      "label": "Stack light",
+      "description": "Optional PLC indications, observed only.",
+      "channels": [
+        "plc.StackLight_Red",
+        "plc.StackLight_Green"
+      ],
+      "geometry": null,
+      "sources": [
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DO-04 StackLight_Red"
+        },
+        {
+          "document": "docs/conveyor-machine-spec.md",
+          "sha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "locator": "docs/conveyor-machine-spec.md §4 DO-05 StackLight_Green"
+        },
+        {
+          "document": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json",
+          "sha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "locator": "signals[].deviceId == \"stackLight\""
+        }
+      ],
+      "assumptions": [
+        "Stack light location is unspecified."
+      ]
+    }
+  ],
+  "entityTypes": [
+    {
+      "type": "carton",
+      "fields": [
+        "itemId",
+        "requestedRoute",
+        "path",
+        "positionM",
+        "velocityMps",
+        "jammed"
+      ],
+      "paths": [
+        {
+          "id": "main",
+          "fromM": 0,
+          "toM": 4.2,
+          "branchFrom": null
+        },
+        {
+          "id": "exitA",
+          "fromM": 1.6,
+          "toM": 2.7,
+          "branchFrom": {
+            "path": "main",
+            "atM": 1.6
+          }
+        },
+        {
+          "id": "exitB",
+          "fromM": 2.8,
+          "toM": 3.9,
+          "branchFrom": {
+            "path": "main",
+            "atM": 2.8
+          }
+        }
+      ],
+      "pathAliases": {
+        "runout": "main"
+      },
+      "nominalLengthM": 0.3
+    }
+  ],
+  "encoder": {
+    "channel": "world.Encoder_Count",
+    "countsPerM": 1000,
+    "modulus": 4294967296
+  },
+  "assumptions": [
+    "Equipment identities are the preserved generated world's device IDs; signal identities and types agree with the world manifest and M8 signal map.",
+    "Geometry stations come from the world's inferred demo configuration (world.ts CONFIG, restated in assumptions.md); they are not measured dimensions or PLC thresholds.",
+    "Carton positionM is distance along the carton's current path; exit A/B chutes continue from their divert station.",
+    "The world assigns path 'runout' only when a carton is removed; it is drawn on the main lane.",
+    "Drive, encoder and stack light have no specified location."
+  ]
+}

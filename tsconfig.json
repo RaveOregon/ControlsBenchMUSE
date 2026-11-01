@@ -10,5 +10,5 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["src/proof/**/*.ts", "src/live/**/*.ts", "src/campaign/**/*.ts", "src/host/**/*.ts", "test/**/*.ts"]
+  "include": ["src/proof/**/*.ts", "src/live/**/*.ts", "src/campaign/**/*.ts", "src/host/**/*.ts", "src/machine-view/**/*.ts", "test/**/*.ts"]
 }

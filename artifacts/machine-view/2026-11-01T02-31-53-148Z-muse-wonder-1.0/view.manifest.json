@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "controlsbench.machine-view.package.v1",
+  "packageId": "conveyor-demo-baseline.view.9aaafe9d3766",
+  "name": "Conveyor Bench — Demo Baseline: generated machine view",
+  "status": "generated",
+  "entry": {
+    "file": "view.svg",
+    "mediaType": "image/svg+xml",
+    "sha256": "f3c10900637357dad1e997b25a7f12b3657eba5e81302535a5bd136060738cc7"
+  },
+  "files": {
+    "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+    "view-bindings.json": "18b77fea13f0f3ca4cd124d45ee2a91587ee88b3b64f812f46836ac50a975c4f",
+    "view.svg": "f3c10900637357dad1e997b25a7f12b3657eba5e81302535a5bd136060738cc7"
+  },
+  "compatibility": {
+    "machineId": "conveyor-demo-baseline",
+    "worldId": "conveyor-demo-baseline",
+    "worldPackageVersion": "0.5.0",
+    "stateSchemaVersion": "1.0.0",
+    "worldManifestSha256": "d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+    "worldSourceSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "specificationSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "signalMapVersion": "m8-conveyor-1.0.2",
+    "snapshotSchema": "controlsbench.machine-view.snapshot.v1",
+    "protocol": "controlsbench.machine-view.protocol.v1"
+  },
+  "selectableEquipment": [
+    "mainLane",
+    "drive",
+    "encoder",
+    "peEntry",
+    "peD1Approach",
+    "divert1",
+    "exitA",
+    "peExitA",
+    "peD2Approach",
+    "divert2",
+    "exitB",
+    "peExitB",
+    "runout",
+    "peRunout",
+    "stackLight"
+  ],
+  "units": {
+    "length": "m",
+    "speed": "m/s",
+    "position": "%",
+    "count": "count",
+    "current": "A"
+  },
+  "truthBoundary": "Shows simulated physical truth (generated world raw image and entities) and observed PLC outputs from host-supplied snapshots. Not the PLC HMI and not evidence of PLC correctness. No credentials, network access or command authority.",
+  "authority": {
+    "plcCommands": false,
+    "credentials": false,
+    "network": false,
+    "scripts": "host_runtime_only"
+  },
+  "provenance": {
+    "generation": "generation.json",
+    "validation": "validation.json",
+    "model": "muse-wonder-1.0",
+    "responseId": "resp_6ae6a4c76cadb5210abb4efc",
+    "generatedAt": "2026-11-01T02:32:39.943Z"
+  },
+  "layoutAssumptions": [
+    "Scale is 200 px per metre for all paths; main lane runs horizontally at y=300 from x=80 (0 m) to x=920 (4.2 m).",
+    "Exit A and Exit B chutes branch 35 degrees downward from the main lane at 1.6 m and 2.8 m respectively, each 1.1 m long; branch point coordinates exactly match the main path points at those stations.",
+    "Geometry stations are the generated world's inferred demo layout, not measured dimensions or PLC thresholds.",
+    "Divert paddles pivot at the north lane edge (local -18,-20): 0 percent lies along the lane edge, 100 percent rotates 55 degrees clockwise visibly across the main lane toward the exit branch below.",
+    "Drive, encoder and stack light have no specified location and are therefore shown only in a clearly labelled side panel at x=950..1185 implying no measured location.",
+    "Colour meaning: purple squares are observed PLC outputs (data-cb-source plc), teal/amber/green circles are simulated world truth (data-cb-source world); PLC command on never by itself paints a device as physically moving, feedback is shown separately.",
+    "Unknown (before first snapshot) is white fill with grey dashed stroke, visually distinct from false which is solid light grey; true world photoeyes are amber, true feedbacks green, overload/red lamp red when true.",
+    "Carton template is 60 px long (0.3 m at 200 px/m) by 36 px high, centred on its local origin along +x; route/jam appearance is host-supplied per clone.",
+    "Belt marks repeat every 40 px and are clipped to the main belt; their offset is driven solely by the host belt binding from Encoder_Count."
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "httpStatus": 200,
+  "headers": {
+    "date": "Sun, 01 Nov 2026 03:12:12 GMT",
+    "x-ratelimit-limit-requests": "3000",
+    "x-ratelimit-limit-tokens": "4000000",
+    "x-ratelimit-remaining-requests": "3000",
+    "x-ratelimit-remaining-tokens": "4000000",
+    "x-request-id": "d460313a-092a-40ae-8cd5-f9da08096818"
+  },
+  "transportError": null,
+  "receivedAt": "2026-11-01T03:12:13.473Z",
+  "body": {
+    "top_logprobs": 0,
+    "temperature": 1,
+    "top_p": 1,
+    "service_tier": "auto",
+    "model": "muse-wonder-1.0",
+    "reasoning": {
+      "effort": "max",
+      "summary": "auto"
+    },
+    "background": false,
+    "text": {
+      "format": {
+        "type": "json_schema",
+        "description": "Revised ControlsBench machine view with visual self-review.",
+        "name": "controlsbench_machine_view_refinement_v1",
+        "schema": {
+          "required": [
+            "svg",
+            "entityPaths",
+            "bindings",
+            "layoutAssumptions",
+            "designNotes",
+            "visualReview"
+          ],
+          "properties": {
+            "bindings": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "angleMax": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "angleMin": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "channel": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "container": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "decimals": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "element": {
+                    "type": "string"
+                  },
+                  "entityType": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "equipmentId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "inputMax": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "inputMin": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "kind": {
+                    "enum": [
+                      "anchor",
+                      "state",
+                      "text",
+                      "rotate",
+                      "belt",
+                      "entities"
+                    ],
+                    "type": "string"
+                  },
+                  "periodPx": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "pivotX": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "pivotY": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "rotateWithPath": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "kind",
+                  "element",
+                  "channel",
+                  "equipmentId",
+                  "decimals",
+                  "inputMin",
+                  "inputMax",
+                  "angleMin",
+                  "angleMax",
+                  "pivotX",
+                  "pivotY",
+                  "periodPx",
+                  "container",
+                  "entityType",
+                  "rotateWithPath"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "designNotes": {
+              "type": "string"
+            },
+            "entityPaths": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "points": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "m": {
+                          "type": "number"
+                        },
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "m",
+                        "x",
+                        "y"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "path",
+                  "points"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "layoutAssumptions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "svg": {
+              "type": "string"
+            },
+            "visualReview": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "fix": {
+                    "type": "string"
+                  },
+                  "issue": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "issue",
+                  "fix"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "strict": true
+      }
+    },
+    "tools": [],
+    "tool_choice": "auto",
+    "truncation": "disabled",
+    "id": "resp_6ae6ae0cdb37ab3a51a04b95",
+    "object": "response",
+    "status": "completed",
+    "created_at": 1793502467,
+    "completed_at": 1793502732,
+    "error": null,
+    "incomplete_details": null,
+    "output": [
+      {
+        "type": "reasoning",
+        "id": "rs_6ae6ae0cdb37ab3a51a04b95:rs_01a19513d6d67028a85b3711cafa5ade",
+        "summary": [
+          {
+            "type": "summary_text",
+            "text": "Analyzing geometry and schema requirements to fix paddle placement and infer output fields."
+          },
+          {
+            "type": "summary_text",
+            "text": "Resolving SVG rotation direction and pivot geometry to place the guide wall on the outer side of the turn."
+          },
+          {
+            "type": "summary_text",
+            "text": "Mapping rotation angle and pivot to align the paddle with the branch direction while keeping it outside the carton band."
+          },
+          {
+            "type": "summary_text",
+            "text": "Refining the pivot location and rotation to keep the paddle clear of the main approach carton band."
+          },
+          {
+            "type": "summary_text",
+            "text": "Adjusting the rotation and placement to avoid intersecting both the approach and branch carton bands."
+          },
+          {
+            "type": "summary_text",
+            "text": "Switching to a curved polyline guide to maintain clearance along the branch path."
+          },
+          {
+            "type": "summary_text",
+            "text": "Parametrizing the extended pose geometry and verifying clearance against early branch cartons."
+          },
+          {
+            "type": "summary_text",
+            "text": "Refining clearance checks for the carton corner near the paddle segment."
+          },
+          {
+            "type": "summary_text",
+            "text": "Evaluating a bent guide rail design and downstream start point to maintain clearance."
+          },
+          {
+            "type": "summary_text",
+            "text": "Checking rotation parameters and segment placement to keep the guide outside the carton band."
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "type": "message",
+        "id": "msg_01a19517814d75f3b35f2f0dce7aaac9",
+        "role": "assistant",
+        "content": [
+          {
+            "type": "output_text",
+            "text": "{\"bindings\": [{\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"pe_entry_g\", \"entityType\": null, \"equipmentId\": \"peEntry\", \"id\": \"peEntry\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"pe_d1_g\", \"entityType\": null, \"equipmentId\": \"peD1Approach\", \"id\": \"peD1Approach\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"divert1_g\", \"entityType\": null, \"equipmentId\": \"divert1\", \"id\": \"divert1\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"exita_g\", \"entityType\": null, \"equipmentId\": \"exitA\", \"id\": \"exitA\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": true}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"pe_exita_g\", \"entityType\": null, \"equipmentId\": \"peExitA\", \"id\": \"peExitA\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": true}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"pe_d2_g\", \"entityType\": null, \"equipmentId\": \"peD2Approach\", \"id\": \"peD2Approach\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"divert2_g\", \"entityType\": null, \"equipmentId\": \"divert2\", \"id\": \"divert2\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"exitb_g\", \"entityType\": null, \"equipmentId\": \"exitB\", \"id\": \"exitB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": true}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"pe_exitb_g\", \"entityType\": null, \"equipmentId\": \"peExitB\", \"id\": \"peExitB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": true}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"runout_g\", \"entityType\": null, \"equipmentId\": \"runout\", \"id\": \"runout\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": null, \"decimals\": null, \"element\": \"pe_runout_g\", \"entityType\": null, \"equipmentId\": \"peRunout\", \"id\": \"peRunout\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"anchor\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": false}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.PE_Entry\", \"container\": null, \"decimals\": null, \"element\": \"pe_entry_beam\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.PE_Entry\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.PE_D1Approach\", \"container\": null, \"decimals\": null, \"element\": \"pe_d1_beam\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.PE_D1Approach\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.PE_D2Approach\", \"container\": null, \"decimals\": null, \"element\": \"pe_d2_beam\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.PE_D2Approach\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.PE_ExitA\", \"container\": null, \"decimals\": null, \"element\": \"pe_exita_beam\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.PE_ExitA\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.PE_ExitB\", \"container\": null, \"decimals\": null, \"element\": \"pe_exitb_beam\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.PE_ExitB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.PE_Runout\", \"container\": null, \"decimals\": null, \"element\": \"pe_runout_beam\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.PE_Runout\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"plc.Motor_RunCmd\", \"container\": null, \"decimals\": null, \"element\": \"drive_cmd_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"plc.Motor_RunCmd\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Drive_RunningFB\", \"container\": null, \"decimals\": null, \"element\": \"drive_run_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Drive_RunningFB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Drive_Overload\", \"container\": null, \"decimals\": null, \"element\": \"drive_ovl_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Drive_Overload\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"plc.D1_ExtendCmd\", \"container\": null, \"decimals\": null, \"element\": \"d1_cmd_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"plc.D1_ExtendCmd\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.D1_HomeFB\", \"container\": null, \"decimals\": null, \"element\": \"d1_home_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D1_HomeFB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.D1_ExtendedFB\", \"container\": null, \"decimals\": null, \"element\": \"d1_ext_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D1_ExtendedFB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"plc.D2_ExtendCmd\", \"container\": null, \"decimals\": null, \"element\": \"d2_cmd_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"plc.D2_ExtendCmd\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.D2_HomeFB\", \"container\": null, \"decimals\": null, \"element\": \"d2_home_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D2_HomeFB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.D2_ExtendedFB\", \"container\": null, \"decimals\": null, \"element\": \"d2_ext_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D2_ExtendedFB\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.ExitA_Ready\", \"container\": null, \"decimals\": null, \"element\": \"exita_ready_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.ExitA_Ready\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.ExitB_Ready\", \"container\": null, \"decimals\": null, \"element\": \"exitb_ready_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.ExitB_Ready\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Runout_Ready\", \"container\": null, \"decimals\": null, \"element\": \"runout_ready_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Runout_Ready\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"plc.StackLight_Red\", \"container\": null, \"decimals\": null, \"element\": \"stack_red_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"plc.StackLight_Red\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"plc.StackLight_Green\", \"container\": null, \"decimals\": null, \"element\": \"stack_green_ind\", \"entityType\": null, \"equipmentId\": null, \"id\": \"plc.StackLight_Green\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"state\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Belt_SpeedActual\", \"container\": null, \"decimals\": 2, \"element\": \"speed_val\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Belt_SpeedActual\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"text\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Drive_Current\", \"container\": null, \"decimals\": 2, \"element\": \"current_val\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Drive_Current\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"text\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Encoder_Count\", \"container\": null, \"decimals\": 0, \"element\": \"encoder_val\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Encoder_Count.text\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"text\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.D1_Position\", \"container\": null, \"decimals\": 0, \"element\": \"d1_pos_val\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D1_Position.text\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"text\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.D2_Position\", \"container\": null, \"decimals\": 0, \"element\": \"d2_pos_val\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D2_Position.text\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"text\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": 36, \"angleMin\": 0, \"channel\": \"world.D1_Position\", \"container\": null, \"decimals\": null, \"element\": \"d1_paddle\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D1_Position.rotate\", \"inputMax\": 100, \"inputMin\": 0, \"kind\": \"rotate\", \"periodPx\": null, \"pivotX\": 42, \"pivotY\": -24, \"rotateWithPath\": null}, {\"angleMax\": 36, \"angleMin\": 0, \"channel\": \"world.D2_Position\", \"container\": null, \"decimals\": null, \"element\": \"d2_paddle\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.D2_Position.rotate\", \"inputMax\": 100, \"inputMin\": 0, \"kind\": \"rotate\", \"periodPx\": null, \"pivotX\": 42, \"pivotY\": -24, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": \"world.Encoder_Count\", \"container\": null, \"decimals\": null, \"element\": \"belt_marks\", \"entityType\": null, \"equipmentId\": null, \"id\": \"world.Encoder_Count.belt\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"belt\", \"periodPx\": 40, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}, {\"angleMax\": null, \"angleMin\": null, \"channel\": null, \"container\": \"carton_container\", \"decimals\": null, \"element\": \"carton_template\", \"entityType\": \"carton\", \"equipmentId\": null, \"id\": \"carton\", \"inputMax\": null, \"inputMin\": null, \"kind\": \"entities\", \"periodPx\": null, \"pivotX\": null, \"pivotY\": null, \"rotateWithPath\": null}], \"designNotes\": \"Revised divert geometry: each paddle pivots at local (42,-24), downstream and north of its station. Home is horizontal along the north lane edge; at 100 percent it has rotated 36 degrees, starts east/north of the decision point, and runs south-east on the north-east outer side of the branch. Its south-west face remains about 27 user units from the branch centreline, clear of the 16-unit carton half-width, and its start is east of approaching main-lane cartons. The carton container is the last painted element.\", \"entityPaths\": [{\"path\": \"main\", \"points\": [{\"m\": 0, \"x\": 70, \"y\": 260}, {\"m\": 0.5, \"x\": 160, \"y\": 260}, {\"m\": 1.2, \"x\": 286, \"y\": 260}, {\"m\": 1.6, \"x\": 358, \"y\": 260}, {\"m\": 2.4, \"x\": 502, \"y\": 260}, {\"m\": 2.8, \"x\": 574, \"y\": 260}, {\"m\": 3.6, \"x\": 718, \"y\": 260}, {\"m\": 4.2, \"x\": 826, \"y\": 260}]}, {\"path\": \"exitA\", \"points\": [{\"m\": 1.6, \"x\": 358, \"y\": 260}, {\"m\": 1.65, \"x\": 366.95, \"y\": 260.94}, {\"m\": 1.7, \"x\": 375.75, \"y\": 262.81}, {\"m\": 1.75, \"x\": 384.31, \"y\": 265.59}, {\"m\": 1.8, \"x\": 392.54, \"y\": 269.25}, {\"m\": 1.85, \"x\": 400.33, \"y\": 273.75}, {\"m\": 1.9, \"x\": 407.61, \"y\": 279.04}, {\"m\": 1.95, \"x\": 414.9, \"y\": 284.33}, {\"m\": 2.1, \"x\": 436.74, \"y\": 300.2}, {\"m\": 2.7, \"x\": 524.11, \"y\": 363.67}]}, {\"path\": \"exitB\", \"points\": [{\"m\": 2.8, \"x\": 574, \"y\": 260}, {\"m\": 2.85, \"x\": 582.95, \"y\": 260.94}, {\"m\": 2.9, \"x\": 591.75, \"y\": 262.81}, {\"m\": 2.95, \"x\": 600.31, \"y\": 265.59}, {\"m\": 3, \"x\": 608.54, \"y\": 269.25}, {\"m\": 3.05, \"x\": 616.33, \"y\": 273.75}, {\"m\": 3.1, \"x\": 623.61, \"y\": 279.04}, {\"m\": 3.15, \"x\": 630.9, \"y\": 284.33}, {\"m\": 3.3, \"x\": 652.74, \"y\": 300.2}, {\"m\": 3.9, \"x\": 740.11, \"y\": 363.67}]}], \"layoutAssumptions\": [\"Scale is 180 px per metre for all paths; main lane runs horizontally at y=260 from x=70 (0 m) to x=826 (4.2 m); stations match equipment.json inferred demo geometry, not measured dimensions or PLC thresholds.\", \"Each exit branch has points every 0.05 m over its first 0.35 m with heading increasing about 6 degrees per step to 36 degrees, then continues straight at 36 degrees; each branch first point is exactly the main-path divert point and the drawn 36 px-wide chute follows the identical polyline.\", \"Divert redesign: pivot is local (42,-24), 42 px downstream/east and 24 px north of the station. The 88 by 6 paddle at 0 percent is horizontal with centreline y=-24 and lower face y=-21, 3 px north of the belt edge at y=-18 and 5 px clear of the carton band at y=-16. Rotating 0 to 36 degrees places its segment from (42,-24) to about (113,28); its centreline is about 30 px north-east of the straight branch centreline and its carton-facing side about 27 px away, leaving about 11 px beyond the 16 px carton half-width. It therefore reads as an outer guide wall, not a lane-blocking arm, and does not reach approaching cartons west of the station.\", \"Carton travel bands are treated as belt/chute width plus clearance: static labels and state lamps are kept well clear of the main and chute centrelines. Main photoeye lamps are 48 units above the main centreline; divert lamps are in callout boxes 88-160 units above it; chute photoeye and ready lamps/labels are offset about 80 units south-west in counter-rotated groups so their text is horizontal.\", \"Colour and source meaning is shape plus colour, not shape alone: PLC observed outputs use square lamps or violet square frames, a thick violet stroke, saturated purple ON fill and pale violet OFF fill; world simulated truth uses circular lamps, teal stroke, green ON and pale grey OFF. Photoeyes turn amber when true, overload turns red, not-ready turns pale red. Unknown is white with dashed grey stroke, visually distinct from pale solid OFF. A PLC command alone never moves a paddle or paints physical motion.\", \"Drive, encoder and stack light have no specified location and remain only in the clearly labelled side panel at x=948..1182, implying no measured location.\", \"Carton template is 54 px (0.3 m at 180 px/m) by 32 px centred on its origin along +x and shows only the itemId line to avoid the long route word overflowing the nominal carton; no carton is drawn statically. Belt marks repeat every 40 px, extend one period beyond each belt end, are clipped to the belt, and move only from the host Encoder_Count belt binding.\", \"The entity container is intentionally the final element in document order, after the template and all equipment and side-panel groups, so host carton clones are always painted above belts, chutes, photoeyes and both divert paddles.\"], \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" viewBox=\\\"0 0 1200 560\\\"><title>Conveyor Bench operating view</title><desc>Simulated physical truth and observed PLC outputs. Not the PLC HMI.</desc><defs><clipPath id=\\\"beltClip\\\"><rect x=\\\"70\\\" y=\\\"242\\\" width=\\\"756\\\" height=\\\"36\\\"/></clipPath><linearGradient id=\\\"beltGrad\\\" x1=\\\"0\\\" y1=\\\"0\\\" x2=\\\"0\\\" y2=\\\"1\\\"><stop offset=\\\"0\\\" stop-color=\\\"#475569\\\"/><stop offset=\\\"1\\\" stop-color=\\\"#1e293b\\\"/></linearGradient></defs><style>.bg{fill:#f1f5f9}.panel{fill:#ffffff;stroke:#94a3b8;stroke-width:1.5}.title{font-family:sans-serif;font-size:20px;font-weight:700;fill:#0f172a}.caption{font-family:sans-serif;font-size:12px;font-weight:700;fill:#b91c1c}.lbl{font-family:sans-serif;font-size:12px;font-weight:600;fill:#0f172a}.small{font-family:sans-serif;font-size:12px;fill:#0f172a}.note{font-family:sans-serif;font-size:12px;fill:#475569}.val{font-family:monospace;font-size:12px;fill:#0f172a}.belt{fill:url(#beltGrad);stroke:#0f172a;stroke-width:1.5}.chute{fill:none;stroke:#64748b;stroke-width:36;stroke-linecap:round;stroke-linejoin:round}.mark{stroke:#e2e8f0;stroke-width:3}.rail{stroke:#334155;stroke-width:2;fill:none}.tick{stroke:#334155;stroke-width:1.5}.peHead{fill:#fef3c7;stroke:#92400e;stroke-width:1.2}.beamLine{stroke:#f59e0b;stroke-width:1.5;stroke-dasharray:4 3}.leader{stroke:#64748b;stroke-width:1.5;fill:none}.callout{fill:#ffffff;stroke:#94a3b8;stroke-width:1.2}.framePlc{fill:none;stroke:#6d28d9;stroke-width:2}.ind{fill:#ffffff;stroke:#64748b;stroke-width:2;stroke-dasharray:4 3}.paddle{fill:#f97316;stroke:#7c2d12;stroke-width:1.5}.paddleLine{stroke:#ffedd5;stroke-width:1.5}.pivot{fill:#0f172a}.cartonBox{fill:#fde68a;stroke:#92400e;stroke-width:1.8}.cartonStripe{fill:#b45309}.cartonTxt{font-family:sans-serif;font-size:12px;font-weight:700;fill:#451a03}.stopBar{fill:#dc2626;stroke:#7f1d1d;stroke-width:1}[data-cb-value=\\\"unknown\\\"]{fill:#ffffff;stroke:#64748b;stroke-dasharray:4 3}[data-cb-source=\\\"plc\\\"]{stroke:#6d28d9;stroke-width:3}[data-cb-source=\\\"world\\\"]{stroke:#0f766e;stroke-width:2.5}[data-cb-source=\\\"plc\\\"][data-cb-value=\\\"true\\\"]{fill:#7c3aed;stroke:#4c1d95;stroke-width:3;stroke-dasharray:none}[data-cb-source=\\\"plc\\\"][data-cb-value=\\\"false\\\"]{fill:#ede9fe;stroke:#6d28d9;stroke-width:3;stroke-dasharray:none}[data-cb-source=\\\"world\\\"][data-cb-value=\\\"true\\\"]{fill:#22c55e;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:none}[data-cb-source=\\\"world\\\"][data-cb-value=\\\"false\\\"]{fill:#e2e8f0;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:none}.beam[data-cb-value=\\\"true\\\"]{fill:#f59e0b;stroke:#92400e;stroke-dasharray:none}.ovlInd[data-cb-value=\\\"true\\\"]{fill:#dc2626;stroke:#991b1b;stroke-dasharray:none}.readyInd[data-cb-value=\\\"false\\\"]{fill:#fca5a5;stroke:#b91c1c;stroke-dasharray:none}.redInd[data-cb-value=\\\"true\\\"]{fill:#ef4444;stroke:#4c1d95;stroke-width:3;stroke-dasharray:none}.redInd[data-cb-value=\\\"false\\\"]{fill:#e7e5e4;stroke:#6d28d9;stroke-width:3;stroke-dasharray:none}.grnInd[data-cb-value=\\\"true\\\"]{fill:#22c55e;stroke:#4c1d95;stroke-width:3;stroke-dasharray:none}.grnInd[data-cb-value=\\\"false\\\"]{fill:#e7e5e4;stroke:#6d28d9;stroke-width:3;stroke-dasharray:none}</style><rect class=\\\"bg\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"1200\\\" height=\\\"560\\\"/><text class=\\\"title\\\" x=\\\"24\\\" y=\\\"30\\\">Conveyor Bench - Operating View</text><text class=\\\"caption\\\" x=\\\"24\\\" y=\\\"50\\\">NOT the PLC HMI - shows SIMULATED PHYSICAL TRUTH (world) and OBSERVED PLC OUTPUTS only. No controls, no command authority.</text><text class=\\\"small\\\" x=\\\"24\\\" y=\\\"68\\\">PLC observed: violet squares / frames, purple ON. World truth: teal circles, green or amber ON. Unknown: white dashed. OFF: pale solid.</text><text class=\\\"note\\\" x=\\\"70\\\" y=\\\"88\\\">Off-lane status lamps and labels are kept clear of the belt and chute carton paths.</text><g data-cb-equipment=\\\"mainLane\\\" id=\\\"lane_main\\\"><polyline class=\\\"chute\\\" points=\\\"358,260 366.95,260.94 375.75,262.81 384.31,265.59 392.54,269.25 400.33,273.75 407.61,279.04 414.9,284.33 436.74,300.2 524.11,363.67\\\"/><polyline class=\\\"chute\\\" points=\\\"574,260 582.95,260.94 591.75,262.81 600.31,265.59 608.54,269.25 616.33,273.75 623.61,279.04 630.9,284.33 652.74,300.2 740.11,363.67\\\"/><rect class=\\\"belt\\\" x=\\\"70\\\" y=\\\"242\\\" width=\\\"756\\\" height=\\\"36\\\" rx=\\\"4\\\"/><g clip-path=\\\"url(#beltClip)\\\"><g id=\\\"belt_marks\\\"><line class=\\\"mark\\\" x1=\\\"30\\\" y1=\\\"245\\\" x2=\\\"30\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"70\\\" y1=\\\"245\\\" x2=\\\"70\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"110\\\" y1=\\\"245\\\" x2=\\\"110\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"150\\\" y1=\\\"245\\\" x2=\\\"150\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"190\\\" y1=\\\"245\\\" x2=\\\"190\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"230\\\" y1=\\\"245\\\" x2=\\\"230\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"270\\\" y1=\\\"245\\\" x2=\\\"270\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"310\\\" y1=\\\"245\\\" x2=\\\"310\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"350\\\" y1=\\\"245\\\" x2=\\\"350\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"390\\\" y1=\\\"245\\\" x2=\\\"390\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"430\\\" y1=\\\"245\\\" x2=\\\"430\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"470\\\" y1=\\\"245\\\" x2=\\\"470\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"510\\\" y1=\\\"245\\\" x2=\\\"510\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"550\\\" y1=\\\"245\\\" x2=\\\"550\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"590\\\" y1=\\\"245\\\" x2=\\\"590\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"630\\\" y1=\\\"245\\\" x2=\\\"630\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"670\\\" y1=\\\"245\\\" x2=\\\"670\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"710\\\" y1=\\\"245\\\" x2=\\\"710\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"750\\\" y1=\\\"245\\\" x2=\\\"750\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"790\\\" y1=\\\"245\\\" x2=\\\"790\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"830\\\" y1=\\\"245\\\" x2=\\\"830\\\" y2=\\\"275\\\"/><line class=\\\"mark\\\" x1=\\\"870\\\" y1=\\\"245\\\" x2=\\\"870\\\" y2=\\\"275\\\"/></g></g><line class=\\\"rail\\\" x1=\\\"70\\\" y1=\\\"242\\\" x2=\\\"826\\\" y2=\\\"242\\\"/><line class=\\\"rail\\\" x1=\\\"70\\\" y1=\\\"278\\\" x2=\\\"826\\\" y2=\\\"278\\\"/><line class=\\\"tick\\\" x1=\\\"70\\\" y1=\\\"278\\\" x2=\\\"70\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"160\\\" y1=\\\"278\\\" x2=\\\"160\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"286\\\" y1=\\\"278\\\" x2=\\\"286\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"358\\\" y1=\\\"278\\\" x2=\\\"358\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"502\\\" y1=\\\"278\\\" x2=\\\"502\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"574\\\" y1=\\\"278\\\" x2=\\\"574\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"718\\\" y1=\\\"278\\\" x2=\\\"718\\\" y2=\\\"287\\\"/><line class=\\\"tick\\\" x1=\\\"826\\\" y1=\\\"278\\\" x2=\\\"826\\\" y2=\\\"287\\\"/><text class=\\\"small\\\" x=\\\"70\\\" y=\\\"304\\\">MAIN LANE</text></g><g data-cb-equipment=\\\"peEntry\\\" id=\\\"pe_entry_g\\\" transform=\\\"translate(160 260)\\\"><line class=\\\"leader\\\" x1=\\\"0\\\" y1=\\\"-41\\\" x2=\\\"0\\\" y2=\\\"-34\\\"/><rect class=\\\"peHead\\\" x=\\\"-6\\\" y=\\\"-34\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\"/><line class=\\\"beamLine\\\" x1=\\\"0\\\" y1=\\\"-22\\\" x2=\\\"0\\\" y2=\\\"22\\\"/><circle class=\\\"ind beam\\\" id=\\\"pe_entry_beam\\\" cx=\\\"0\\\" cy=\\\"-48\\\" r=\\\"7\\\"/><text class=\\\"lbl\\\" x=\\\"0\\\" y=\\\"-66\\\" text-anchor=\\\"middle\\\">PE Entry 0.5m</text></g><g data-cb-equipment=\\\"peD1Approach\\\" id=\\\"pe_d1_g\\\" transform=\\\"translate(286 260)\\\"><line class=\\\"leader\\\" x1=\\\"0\\\" y1=\\\"-41\\\" x2=\\\"0\\\" y2=\\\"-34\\\"/><rect class=\\\"peHead\\\" x=\\\"-6\\\" y=\\\"-34\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\"/><line class=\\\"beamLine\\\" x1=\\\"0\\\" y1=\\\"-22\\\" x2=\\\"0\\\" y2=\\\"22\\\"/><circle class=\\\"ind beam\\\" id=\\\"pe_d1_beam\\\" cx=\\\"0\\\" cy=\\\"-48\\\" r=\\\"7\\\"/><text class=\\\"lbl\\\" x=\\\"0\\\" y=\\\"-66\\\" text-anchor=\\\"middle\\\">PE D1 Appr 1.2m</text></g><g data-cb-equipment=\\\"divert1\\\" id=\\\"divert1_g\\\" transform=\\\"translate(358 260)\\\"><rect class=\\\"callout\\\" x=\\\"-102\\\" y=\\\"-160\\\" width=\\\"204\\\" height=\\\"72\\\" rx=\\\"6\\\"/><text class=\\\"lbl\\\" x=\\\"-94\\\" y=\\\"-141\\\">Divert 1 to Exit A</text><rect class=\\\"ind\\\" id=\\\"d1_cmd_ind\\\" x=\\\"-94\\\" y=\\\"-131\\\" width=\\\"13\\\" height=\\\"13\\\"/><text class=\\\"small\\\" x=\\\"-77\\\" y=\\\"-120\\\">PLC cmd</text><circle class=\\\"ind\\\" id=\\\"d1_home_ind\\\" cx=\\\"-12\\\" cy=\\\"-124\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-2\\\" y=\\\"-120\\\">Home</text><circle class=\\\"ind\\\" id=\\\"d1_ext_ind\\\" cx=\\\"46\\\" cy=\\\"-124\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"56\\\" y=\\\"-120\\\">Ext</text><text class=\\\"small\\\" x=\\\"-94\\\" y=\\\"-99\\\">Pos %</text><text class=\\\"val\\\" id=\\\"d1_pos_val\\\" x=\\\"-48\\\" y=\\\"-99\\\">unknown</text><line class=\\\"leader\\\" x1=\\\"18\\\" y1=\\\"-88\\\" x2=\\\"41\\\" y2=\\\"-31\\\"/><g id=\\\"d1_paddle\\\"><rect class=\\\"paddle\\\" x=\\\"42\\\" y=\\\"-27\\\" width=\\\"88\\\" height=\\\"6\\\" rx=\\\"3\\\"/><line class=\\\"paddleLine\\\" x1=\\\"49\\\" y1=\\\"-24\\\" x2=\\\"123\\\" y2=\\\"-24\\\"/></g><circle class=\\\"pivot\\\" cx=\\\"42\\\" cy=\\\"-24\\\" r=\\\"4.5\\\"/></g><g data-cb-equipment=\\\"peExitA\\\" id=\\\"pe_exita_g\\\" transform=\\\"translate(436.74 300.2) rotate(36)\\\"><rect class=\\\"peHead\\\" x=\\\"-6\\\" y=\\\"-34\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\"/><line class=\\\"beamLine\\\" x1=\\\"0\\\" y1=\\\"-22\\\" x2=\\\"0\\\" y2=\\\"22\\\"/><g transform=\\\"rotate(-36)\\\"><line class=\\\"leader\\\" x1=\\\"-70\\\" y1=\\\"52\\\" x2=\\\"-14\\\" y2=\\\"-2\\\"/><circle class=\\\"ind beam\\\" id=\\\"pe_exita_beam\\\" cx=\\\"-80\\\" cy=\\\"62\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-66\\\" y=\\\"66\\\">PE Exit A</text></g></g><g data-cb-equipment=\\\"exitA\\\" id=\\\"exita_g\\\" transform=\\\"translate(524.11 363.67) rotate(36)\\\"><rect class=\\\"stopBar\\\" x=\\\"14\\\" y=\\\"-20\\\" width=\\\"6\\\" height=\\\"40\\\"/><g transform=\\\"rotate(-36)\\\"><line class=\\\"leader\\\" x1=\\\"-70\\\" y1=\\\"52\\\" x2=\\\"-14\\\" y2=\\\"-2\\\"/><circle class=\\\"ind readyInd\\\" id=\\\"exita_ready_ind\\\" cx=\\\"-80\\\" cy=\\\"62\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-66\\\" y=\\\"66\\\">Exit A Ready</text></g></g><g data-cb-equipment=\\\"peD2Approach\\\" id=\\\"pe_d2_g\\\" transform=\\\"translate(502 260)\\\"><line class=\\\"leader\\\" x1=\\\"0\\\" y1=\\\"-41\\\" x2=\\\"0\\\" y2=\\\"-34\\\"/><rect class=\\\"peHead\\\" x=\\\"-6\\\" y=\\\"-34\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\"/><line class=\\\"beamLine\\\" x1=\\\"0\\\" y1=\\\"-22\\\" x2=\\\"0\\\" y2=\\\"22\\\"/><circle class=\\\"ind beam\\\" id=\\\"pe_d2_beam\\\" cx=\\\"0\\\" cy=\\\"-48\\\" r=\\\"7\\\"/><text class=\\\"lbl\\\" x=\\\"0\\\" y=\\\"-66\\\" text-anchor=\\\"middle\\\">PE D2 Appr 2.4m</text></g><g data-cb-equipment=\\\"divert2\\\" id=\\\"divert2_g\\\" transform=\\\"translate(574 260)\\\"><rect class=\\\"callout\\\" x=\\\"-102\\\" y=\\\"-160\\\" width=\\\"204\\\" height=\\\"72\\\" rx=\\\"6\\\"/><text class=\\\"lbl\\\" x=\\\"-94\\\" y=\\\"-141\\\">Divert 2 to Exit B</text><rect class=\\\"ind\\\" id=\\\"d2_cmd_ind\\\" x=\\\"-94\\\" y=\\\"-131\\\" width=\\\"13\\\" height=\\\"13\\\"/><text class=\\\"small\\\" x=\\\"-77\\\" y=\\\"-120\\\">PLC cmd</text><circle class=\\\"ind\\\" id=\\\"d2_home_ind\\\" cx=\\\"-12\\\" cy=\\\"-124\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-2\\\" y=\\\"-120\\\">Home</text><circle class=\\\"ind\\\" id=\\\"d2_ext_ind\\\" cx=\\\"46\\\" cy=\\\"-124\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"56\\\" y=\\\"-120\\\">Ext</text><text class=\\\"small\\\" x=\\\"-94\\\" y=\\\"-99\\\">Pos %</text><text class=\\\"val\\\" id=\\\"d2_pos_val\\\" x=\\\"-48\\\" y=\\\"-99\\\">unknown</text><line class=\\\"leader\\\" x1=\\\"18\\\" y1=\\\"-88\\\" x2=\\\"41\\\" y2=\\\"-31\\\"/><g id=\\\"d2_paddle\\\"><rect class=\\\"paddle\\\" x=\\\"42\\\" y=\\\"-27\\\" width=\\\"88\\\" height=\\\"6\\\" rx=\\\"3\\\"/><line class=\\\"paddleLine\\\" x1=\\\"49\\\" y1=\\\"-24\\\" x2=\\\"123\\\" y2=\\\"-24\\\"/></g><circle class=\\\"pivot\\\" cx=\\\"42\\\" cy=\\\"-24\\\" r=\\\"4.5\\\"/></g><g data-cb-equipment=\\\"peExitB\\\" id=\\\"pe_exitb_g\\\" transform=\\\"translate(652.74 300.2) rotate(36)\\\"><rect class=\\\"peHead\\\" x=\\\"-6\\\" y=\\\"-34\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\"/><line class=\\\"beamLine\\\" x1=\\\"0\\\" y1=\\\"-22\\\" x2=\\\"0\\\" y2=\\\"22\\\"/><g transform=\\\"rotate(-36)\\\"><line class=\\\"leader\\\" x1=\\\"-70\\\" y1=\\\"52\\\" x2=\\\"-14\\\" y2=\\\"-2\\\"/><circle class=\\\"ind beam\\\" id=\\\"pe_exitb_beam\\\" cx=\\\"-80\\\" cy=\\\"62\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-66\\\" y=\\\"66\\\">PE Exit B</text></g></g><g data-cb-equipment=\\\"exitB\\\" id=\\\"exitb_g\\\" transform=\\\"translate(740.11 363.67) rotate(36)\\\"><rect class=\\\"stopBar\\\" x=\\\"14\\\" y=\\\"-20\\\" width=\\\"6\\\" height=\\\"40\\\"/><g transform=\\\"rotate(-36)\\\"><line class=\\\"leader\\\" x1=\\\"-70\\\" y1=\\\"52\\\" x2=\\\"-14\\\" y2=\\\"-2\\\"/><circle class=\\\"ind readyInd\\\" id=\\\"exitb_ready_ind\\\" cx=\\\"-80\\\" cy=\\\"62\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-66\\\" y=\\\"66\\\">Exit B Ready</text></g></g><g data-cb-equipment=\\\"peRunout\\\" id=\\\"pe_runout_g\\\" transform=\\\"translate(718 260)\\\"><line class=\\\"leader\\\" x1=\\\"0\\\" y1=\\\"-41\\\" x2=\\\"0\\\" y2=\\\"-34\\\"/><rect class=\\\"peHead\\\" x=\\\"-6\\\" y=\\\"-34\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\"/><line class=\\\"beamLine\\\" x1=\\\"0\\\" y1=\\\"-22\\\" x2=\\\"0\\\" y2=\\\"22\\\"/><circle class=\\\"ind beam\\\" id=\\\"pe_runout_beam\\\" cx=\\\"0\\\" cy=\\\"-48\\\" r=\\\"7\\\"/><text class=\\\"lbl\\\" x=\\\"0\\\" y=\\\"-66\\\" text-anchor=\\\"middle\\\">PE Runout 3.6m</text></g><g data-cb-equipment=\\\"runout\\\" id=\\\"runout_g\\\" transform=\\\"translate(826 260)\\\"><rect class=\\\"stopBar\\\" x=\\\"10\\\" y=\\\"-22\\\" width=\\\"7\\\" height=\\\"44\\\"/><line class=\\\"leader\\\" x1=\\\"-35\\\" y1=\\\"50\\\" x2=\\\"-8\\\" y2=\\\"12\\\"/><circle class=\\\"ind readyInd\\\" id=\\\"runout_ready_ind\\\" cx=\\\"-42\\\" cy=\\\"58\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"-28\\\" y=\\\"62\\\">Runout Ready</text></g><rect class=\\\"panel\\\" x=\\\"948\\\" y=\\\"78\\\" width=\\\"234\\\" height=\\\"434\\\" rx=\\\"8\\\"/><text class=\\\"lbl\\\" x=\\\"964\\\" y=\\\"100\\\">Side panel</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"118\\\">No measured location implied</text><g data-cb-equipment=\\\"drive\\\" id=\\\"drive_g\\\"><text class=\\\"lbl\\\" x=\\\"964\\\" y=\\\"144\\\">Belt drive</text><rect class=\\\"ind\\\" id=\\\"drive_cmd_ind\\\" x=\\\"964\\\" y=\\\"154\\\" width=\\\"14\\\" height=\\\"14\\\"/><text class=\\\"small\\\" x=\\\"984\\\" y=\\\"166\\\">PLC Motor_RunCmd</text><circle class=\\\"ind\\\" id=\\\"drive_run_ind\\\" cx=\\\"971\\\" cy=\\\"186\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"984\\\" y=\\\"190\\\">World RunningFB</text><circle class=\\\"ind ovlInd\\\" id=\\\"drive_ovl_ind\\\" cx=\\\"971\\\" cy=\\\"208\\\" r=\\\"7\\\"/><text class=\\\"small\\\" x=\\\"984\\\" y=\\\"212\\\">World Overload</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"238\\\">Speed m/s (world)</text><text class=\\\"val\\\" id=\\\"speed_val\\\" x=\\\"1170\\\" y=\\\"238\\\" text-anchor=\\\"end\\\">unknown</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"260\\\">Current A (world)</text><text class=\\\"val\\\" id=\\\"current_val\\\" x=\\\"1170\\\" y=\\\"260\\\" text-anchor=\\\"end\\\">unknown</text></g><g data-cb-equipment=\\\"encoder\\\" id=\\\"encoder_g\\\"><text class=\\\"lbl\\\" x=\\\"964\\\" y=\\\"292\\\">Belt encoder</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"316\\\">Count (world)</text><text class=\\\"val\\\" id=\\\"encoder_val\\\" x=\\\"1170\\\" y=\\\"316\\\" text-anchor=\\\"end\\\">unknown</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"336\\\">1000 counts/m, wraps 2^32</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"354\\\">Belt marks move from this only</text></g><g data-cb-equipment=\\\"stackLight\\\" id=\\\"stack_g\\\"><text class=\\\"lbl\\\" x=\\\"964\\\" y=\\\"386\\\">Stack light (PLC observed)</text><rect class=\\\"framePlc\\\" x=\\\"972\\\" y=\\\"396\\\" width=\\\"32\\\" height=\\\"32\\\"/><circle class=\\\"ind redInd\\\" id=\\\"stack_red_ind\\\" cx=\\\"988\\\" cy=\\\"412\\\" r=\\\"13\\\"/><text class=\\\"small\\\" x=\\\"1012\\\" y=\\\"416\\\">Red</text><rect class=\\\"framePlc\\\" x=\\\"972\\\" y=\\\"434\\\" width=\\\"32\\\" height=\\\"32\\\"/><circle class=\\\"ind grnInd\\\" id=\\\"stack_green_ind\\\" cx=\\\"988\\\" cy=\\\"450\\\" r=\\\"13\\\"/><text class=\\\"small\\\" x=\\\"1012\\\" y=\\\"454\\\">Green</text></g><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"486\\\">World = teal circles (sim truth)</text><text class=\\\"small\\\" x=\\\"964\\\" y=\\\"504\\\">PLC = violet squares / frames</text><text class=\\\"small\\\" x=\\\"24\\\" y=\\\"540\\\">Flow: Entry, D1 approach, Divert 1 / Exit A, D2 approach, Divert 2 / Exit B, Runout. Cartons are host-supplied entities; none drawn statically.</text><g id=\\\"carton_template\\\"><rect class=\\\"cartonBox\\\" x=\\\"-27\\\" y=\\\"-16\\\" width=\\\"54\\\" height=\\\"32\\\" rx=\\\"3\\\"/><rect class=\\\"cartonStripe\\\" x=\\\"-27\\\" y=\\\"-16\\\" width=\\\"54\\\" height=\\\"5\\\"/><text class=\\\"cartonTxt\\\" x=\\\"0\\\" y=\\\"7\\\" text-anchor=\\\"middle\\\" data-cb-field=\\\"itemId\\\">item</text></g><g id=\\\"carton_container\\\"></g></svg>\", \"visualReview\": [{\"fix\": \"Moved each paddle pivot to local (42,-24), downstream and north of the station, and changed rotation to 0-36 degrees so the extended paddle runs south-east on the north-east outer side of the branch, about 27 units from the branch centreline to its carton-facing side, clear of the 16-unit carton half-width and of approaching main-lane cartons.\", \"issue\": \"A01-A04: the extended divert paddles swung from the north edge across the lane before the station and then across the early branch, so probe cartons on the actual main-then-branch route passed through both paddles and the paddles read as barriers blocking the conveyor.\"}, {\"fix\": \"Moved carton_container to be the very last element in document order, after all equipment, the side panel and the carton template, so host clones always paint above the belt, chutes and both paddles.\", \"issue\": \"A05-A06: carton_container was painted before the divert groups, so d1_paddle and d2_paddle covered cartons.\"}, {\"fix\": \"Raised the home paddle centreline to y=-24 with 6-unit thickness, giving a 3-unit gap to the belt edge and 5 units to the carton band while remaining visually flush with the far lane edge.\", \"issue\": \"Self-found: in the home screenshot the parked orange paddle sat into the top edge of the belt and touched the carton band edge, making it look as if it rested on moving cartons.\"}, {\"fix\": \"Removed the requestedRoute second line from the carton template; the template now has a single centred itemId line and a plain top stripe, so no entity text can spill outside the 0.3 m carton.\", \"issue\": \"Self-found: in the sweep screenshots the route word 'unassigned' was wider than the 54-unit carton, spilled outside the box and collided with neighbouring probe-carton text, making entity labels illegible.\"}, {\"fix\": \"Made PLC OFF a pale violet/grey with a thick violet stroke and PLC ON saturated purple, world OFF pale grey with teal stroke and world ON green/amber; stack red/green OFF is now neutral grey inside the violet PLC frame and only saturated red/green means ON. Corrected the legend wording to squares/frames plus colour.\", \"issue\": \"Self-found: stack-light OFF lamps were tinted pink and green and could be read as half-on, and the legend described PLC as a 'violet ring' although the PLC devices are squares and square frames, so source distinction leaned on wording/shape alone.\"}, {\"fix\": \"Rerouted the divert leader to terminate at the new pivot (42,-24) north of the carton band, shortened chute leaders to stop at the chute band edge, and verified no leader crosses any label or lamp; labels and lamp clusters remain off all travel bands.\", \"issue\": \"Self-found: the divert callout leader ran to the old station-edge pivot and crossed the sweeping paddle area, while chute leader lines ran into the travel band toward the sensor points, creating distracting lines near labels and passing cartons.\"}]}",
+            "annotations": [],
+            "logprobs": []
+          }
+        ],
+        "status": "completed"
+      }
+    ],
+    "instructions": null,
+    "usage": {
+      "input_tokens": 26692,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 44082,
+      "output_tokens_details": {
+        "reasoning_tokens": 32001
+      },
+      "total_tokens": 70774
+    },
+    "parallel_tool_calls": true,
+    "store": true,
+    "max_output_tokens": 48000
+  }
+}

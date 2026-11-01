@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "controlsbench.machine-view.generation.v1",
+  "purpose": "machine_view_refinement",
+  "status": "completed",
+  "parent": {
+    "relativeDirectory": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
+    "packageId": "conveyor-demo-baseline.view.edc8a31062ac",
+    "svgSha256": "58236216e9e3bc517bf6af1c6e8b24d22a4372e3e241134b0475e564f43f5efc",
+    "audit": {
+      "errors": 4,
+      "warnings": 2,
+      "transientOverlaps": 0,
+      "file": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/audit/audit.json"
+    }
+  },
+  "request": {
+    "file": "generation/request.json",
+    "requestId": "machine-view-refine-2026-11-01T03-07-45-147Z",
+    "bodySha256": "3c7c84806b134361f02da28dafa48ec2bd1901d496975c84a166d3a2a7684892",
+    "promptSha256": "ed212bb278ab6d31c57b1eae6668e589fe2837a39f7c21de957d73dcf767acd7",
+    "promptVersion": "machine-view-refine-prompt-v2",
+    "outputSchemaSha256": "6e7026009053b7daf0a1b662c4549e7232ca147ab85e91f211cad06d92f10955",
+    "inputs": [
+      {
+        "role": "incumbent_view",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/view.svg",
+        "sha256": "58236216e9e3bc517bf6af1c6e8b24d22a4372e3e241134b0475e564f43f5efc",
+        "bytes": 13275
+      },
+      {
+        "role": "incumbent_bindings",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/view-bindings.json",
+        "sha256": "68e9da5e7f73f358472ff6385af5ad440aae4e38e7855653d5c12cdf6355f745",
+        "bytes": 16931
+      },
+      {
+        "role": "audit",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/audit/audit.json",
+        "sha256": "e7dc4ab413a2ea2f8a345a31bd8987887889a92da1dcd24a2a82562ac800c435",
+        "bytes": 0
+      },
+      {
+        "role": "equipment",
+        "path": "artifacts/machine-view/contract/equipment.json",
+        "sha256": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+        "bytes": 27359
+      },
+      {
+        "role": "binding_contract",
+        "path": "artifacts/machine-view/contract/binding-contract.json",
+        "sha256": "c1fb8e216909cb0893db81c56b07111450c43b370aebb0110c6e1c14167273f6",
+        "bytes": 8567
+      },
+      {
+        "role": "world_assumptions",
+        "path": "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/assumptions.md",
+        "sha256": "cb378dffb7d225cb66816c8752062f4b9905ea42e9aaee3c117e508d10b405f8",
+        "bytes": 3826
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/audit/divert1-extended.png",
+        "sha256": "bcd9e465eb74ad2190895f7c319b741c021be838126e757dac631e0adda9694f",
+        "bytes": 102116
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/audit/divert2-extended.png",
+        "sha256": "dcab7f903b2396a21d5c2f7bfffda33cc7853179ed33638d5bd129855adc560a",
+        "bytes": 102339
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/audit/divert1-home.png",
+        "sha256": "c8264739f9e88a8a81e5710129482d1126a5ab5b287281b46c41925ab0be0962",
+        "bytes": 89123
+      },
+      {
+        "role": "screenshot",
+        "path": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01/audit/a-diverted.clean.png",
+        "sha256": "f42a5aae21d6c8aa11f48e5e5f5fc530d737bbe42f9321bc54935b52ba255b50",
+        "bytes": 97296
+      }
+    ]
+  },
+  "identity": {
+    "endpoint": "https://api.meta.ai/v1/responses",
+    "requestedModel": "muse-wonder-1.0",
+    "reportedModel": "muse-wonder-1.0",
+    "responseId": "resp_6ae6ae0cdb37ab3a51a04b95",
+    "responseStatus": "completed",
+    "httpStatus": 200,
+    "headers": {
+      "date": "Sun, 01 Nov 2026 03:12:12 GMT",
+      "x-ratelimit-limit-requests": "3000",
+      "x-ratelimit-limit-tokens": "4000000",
+      "x-ratelimit-remaining-requests": "3000",
+      "x-ratelimit-remaining-tokens": "4000000",
+      "x-request-id": "d460313a-092a-40ae-8cd5-f9da08096818"
+    },
+    "reasoning": {
+      "effort": "max",
+      "summary": "auto"
+    }
+  },
+  "timing": {
+    "startedAt": "2026-11-01T03:07:45.147Z",
+    "completedAt": "2026-11-01T03:12:13.473Z",
+    "requestDurationMs": 268292
+  },
+  "usage": {
+    "input_tokens": 26692,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 44082,
+    "output_tokens_details": {
+      "reasoning_tokens": 32001
+    },
+    "total_tokens": 70774
+  },
+  "cost": {
+    "accountedBasis": "conservative_reservation",
+    "reservedUsd": 1.25,
+    "settledUsd": 1.25,
+    "providerReportedUsd": null,
+    "publishedRateEstimateUsd": 0.9884,
+    "publishedRates": {
+      "inputPerM": 4,
+      "cachedInputPerM": 0.2,
+      "outputPerM": 20,
+      "source": "https://models.litellm.ai/models/muse-wonder-1.0 (checked 2026-10-31)"
+    },
+    "note": "The reservation is charged even on failure. The estimate applies published token rates to reported usage; it is not a billing record."
+  },
+  "hashes": {
+    "requestBody": "3c7c84806b134361f02da28dafa48ec2bd1901d496975c84a166d3a2a7684892",
+    "responseBody": "665ab95ac4bdc3d086efabfb3e17d14f94b454a3a8f410c8887b38b30ae166dd",
+    "outputText": "76a42cae17ed00167b2bba5ee0abb04406e81dbe6bfc45ae996558e108b22a18",
+    "files": {
+      "equipment.json": "f6ea0c4818fa91292233fbfe934e19130fb8069f48520d6e80de02270fecfa19",
+      "view-bindings.json": "9dd12bdd73cf11f94802ff6595ee05538f180e0bc556939b47f43c1a6c9cc823",
+      "view.svg": "eb74f3e393d73608c300e1f18307e6ebd0910af7075fc0176ed8c5a19f5d776f"
+    },
+    "manifest": "2853069cc6e334d2b42baf3e27d41837b1974dfbc10c32244398edaf32e74883"
+  },
+  "transportError": null,
+  "parseError": null,
+  "normalizationProblems": [],
+  "visualReview": [
+    {
+      "fix": "Moved each paddle pivot to local (42,-24), downstream and north of the station, and changed rotation to 0-36 degrees so the extended paddle runs south-east on the north-east outer side of the branch, about 27 units from the branch centreline to its carton-facing side, clear of the 16-unit carton half-width and of approaching main-lane cartons.",
+      "issue": "A01-A04: the extended divert paddles swung from the north edge across the lane before the station and then across the early branch, so probe cartons on the actual main-then-branch route passed through both paddles and the paddles read as barriers blocking the conveyor."
+    },
+    {
+      "fix": "Moved carton_container to be the very last element in document order, after all equipment, the side panel and the carton template, so host clones always paint above the belt, chutes and both paddles.",
+      "issue": "A05-A06: carton_container was painted before the divert groups, so d1_paddle and d2_paddle covered cartons."
+    },
+    {
+      "fix": "Raised the home paddle centreline to y=-24 with 6-unit thickness, giving a 3-unit gap to the belt edge and 5 units to the carton band while remaining visually flush with the far lane edge.",
+      "issue": "Self-found: in the home screenshot the parked orange paddle sat into the top edge of the belt and touched the carton band edge, making it look as if it rested on moving cartons."
+    },
+    {
+      "fix": "Removed the requestedRoute second line from the carton template; the template now has a single centred itemId line and a plain top stripe, so no entity text can spill outside the 0.3 m carton.",
+      "issue": "Self-found: in the sweep screenshots the route word 'unassigned' was wider than the 54-unit carton, spilled outside the box and collided with neighbouring probe-carton text, making entity labels illegible."
+    },
+    {
+      "fix": "Made PLC OFF a pale violet/grey with a thick violet stroke and PLC ON saturated purple, world OFF pale grey with teal stroke and world ON green/amber; stack red/green OFF is now neutral grey inside the violet PLC frame and only saturated red/green means ON. Corrected the legend wording to squares/frames plus colour.",
+      "issue": "Self-found: stack-light OFF lamps were tinted pink and green and could be read as half-on, and the legend described PLC as a 'violet ring' although the PLC devices are squares and square frames, so source distinction leaned on wording/shape alone."
+    },
+    {
+      "fix": "Rerouted the divert leader to terminate at the new pivot (42,-24) north of the carton band, shortened chute leaders to stop at the chute band edge, and verified no leader crosses any label or lamp; labels and lamp clusters remain off all travel bands.",
+      "issue": "Self-found: the divert callout leader ran to the old station-edge pivot and crossed the sweeping paddle area, while chute leader lines ran into the travel band toward the sensor points, creating distracting lines near labels and passing cartons."
+    }
+  ],
+  "validation": {
+    "file": "validation.json",
+    "contractValid": true,
+    "viewValid": true,
+    "errors": [],
+    "warnings": []
+  },
+  "browserCheck": {
+    "exitCode": 0,
+    "passed": true,
+    "file": "browser-check/browser-check.json"
+  },
+  "audit": {
+    "errors": 5,
+    "warnings": 0,
+    "transientOverlaps": 0,
+    "passed": false,
+    "file": "audit/audit.json"
+  },
+  "disposition": "retained_incumbent_not_better",
+  "repairLineage": [
+    {
+      "attempt": 1,
+      "kind": "presentation_refinement",
+      "parent": "artifacts/machine-view/2026-11-01T02-31-53-148Z-muse-wonder-1.0",
+      "disposition": "promoted"
+    },
+    {
+      "attempt": 2,
+      "kind": "presentation_refinement",
+      "parent": "artifacts/machine-view/2026-11-01T02-50-31-845Z-muse-wonder-1.0-refine-01",
+      "disposition": "retained_incumbent_not_better",
+      "engineerFeedback": "Extended divert paddles look as if they block the conveyor before the divert."
+    }
+  ],
+  "policy": "One bounded call. No retry. The candidate replaces the incumbent only if it is view-valid, passes the browser check and has fewer audit errors (or equal errors and fewer warnings).",
+  "packageId": "conveyor-demo-baseline.view.386c365a96d8"
+}
