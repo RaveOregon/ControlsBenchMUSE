@@ -52,7 +52,8 @@ export class M8OpcUaConnector implements BenchConnector {
         bootIdentity: this.#boot, appliedEpoch: String(v.AppliedEpoch), appliedSequence: String(v.AppliedSequence), plcCycle: String(v.PlcCycle), plcTimeUs: String(v.PlcTimeUs),
         outputCaptureCycle: String(v.OutputCaptureCycle), outputCaptureTimeUs: String(v.OutputCaptureTimeUs),
         connectorStale: v.ConnectorStale === true, simulationApplied: v.SimApplied === true,
-        values: linkOnly ? {} : Object.fromEntries(observedSignals.map(s => [s.logical, v[s.logical]])) };
+        values: linkOnly ? {} : Object.fromEntries(observedSignals.map(s => [s.logical, v[s.logical]])),
+        ...(!linkOnly ? { outputQuality: Object.fromEntries(observedSignals.map(s => [s.logical, "good" as const])) } : {}) };
       if (linkOnly) this.event("link.observation", { observation: o });
       else {
         this.latest = o; this.#activeImage = Object.fromEntries(rawInputs.map(n => [n, v[`Active_${n}`]]));

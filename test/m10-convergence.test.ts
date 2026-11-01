@@ -15,6 +15,20 @@ import { HostedSession } from "../ui/src/adapters/host/hosted-session.ts";
 import { WorkspaceStore } from "../ui/src/model/workspace-store.ts";
 import { hmiTileModel } from "../ui/src/model/hmi-tile.ts";
 import { ProtocolTransport } from "./fixtures/m8-protocol-transport.ts";
+import { validatePackage, PACKAGE_FILES } from "../src/machine-view/package.ts";
+import { MachineViewController, requiredElementIds } from "../src/machine-view/host.ts";
+import { resolveFrame, validateSnapshot } from "../src/machine-view/frame.ts";
+import { VIEW_PROTOCOL_VERSION } from "../src/machine-view/contracts.ts";
+import { workspaceViewSnapshot } from "../ui/src/model/machine-view-snapshot.ts";
+
+async function promotedView() {
+  const root = new URL("../", import.meta.url);
+  const pointer = JSON.parse(readFileSync(new URL("artifacts/machine-view/latest.json", root), "utf8"));
+  const files = Object.fromEntries(PACKAGE_FILES.map(name => [name, readFileSync(new URL(`${pointer.relativeDirectory}/${name}`, root), "utf8")]));
+  const result = await validatePackage({ files, contract: JSON.parse(readFileSync(new URL("artifacts/machine-view/contract/binding-contract.json", root), "utf8")), worldManifestText: readFileSync(new URL("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json", root), "utf8") });
+  assert(result.report.viewValid, result.report.errors.join("; ")); assert(result.pkg); assert.equal(result.pkg.manifest.packageId, pointer.packageId);
+  return result as typeof result & { pkg: NonNullable<typeof result.pkg> };
+}
 
 const manifest = JSON.parse(readFileSync(new URL("../artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.manifest.json", import.meta.url), "utf8"));
 const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -40,6 +54,9 @@ test("M8 factory preflight is read-only, scope is explicit and ownership is excl
     assert.equal(check.plcContacted, false); assert.equal(check.paidCalls, 0); assert.equal(check.projectUnchanged, true);
     assert.equal(check.nativeModuleAvailable, false); assert.equal(check.runtimeOwned, false); assert.equal(check.ready, false);
     assert(!("password" in check)); assert.equal(transports.length, 0);
+    const host = new CampaignHost({ factory });
+    try { assert.equal((await command(host, "start", "bad-scope", { scope: false })).outcome, "rejected"); assert.equal(transports.length, 0); }
+    finally { await host.close(); }
     await assert.rejects(factory.create({ ledger: firstLedger, hmi, scope: { faults: false } }), /complete six-case scope/);
     assert(!existsSync(ownershipPath));
     const hosted = await factory.create({ ledger: firstLedger, hmi, scope: {} });
@@ -93,6 +110,7 @@ test("real M8 connector/driver uses the host ledger and HMI; the portal receives
     assert.equal(store.state.hosted!.evidenceClass, "fake_connector");
     for (const [id, value] of Object.entries(host.projection!.outputs)) assert.equal(store.state.outputs[id]?.value, value, id);
     assert.equal(store.state.outputs["controller.Mode"].value, 0);
+    assert.equal(store.state.outputs.Motor_RunCmd.quality, "good", "M8 connector's checked output quality survives the flattened coordinator event");
     assert(Object.values(store.state.entities).some(e => e.state.itemId === "host-probe"));
     for (const type of ["agent.activity", "experiment.started", "experiment.completed", "finding.created", "report.finalized", "controller.action", "world.raw_image", "plc.acknowledged"]) assert(host.events.some(e => e.type === type), type);
     const capture = host.events.find(e => e.type === "hmi.evidence")!;
@@ -136,7 +154,30 @@ test("the actual six-case executor pauses in place, resumes once and drains prom
 test("all preserved M10 controller evidence replays through the portal without becoming a new live claim", async () => {
   const events = readLedger(fileURLToPath(new URL("../artifacts/m10/2026-11-01T00-58-43-185Z/campaign.jsonl", import.meta.url)));
   const projection = replay(events), client = new HostedSession(new WorkspaceStore("replay", manifest.signals));
-  const mapped = await client.ingestEnvelopes(events[0].campaignId, events, projection, { evidenceClass: "preserved_live_plc" });
+  const loaded = await promotedView();
+  const controller = new MachineViewController({ ...loaded, post: m => queueMicrotask(() => controller.receive({ protocol: VIEW_PROTOCOL_VERSION, token: controller.token, type: "applied", sequence: m.sequence, missing: [] })) });
+  controller.receive({ protocol: VIEW_PROTOCOL_VERSION, token: controller.token, type: "ready", elementIds: requiredElementIds(loaded.pkg) });
+  const stops = ["exitA", "exitB"].map(path => events.findIndex(e => e.type === "world.evidence" && (e.data.source as any)?.data?.snapshot?.state?.path === path) + 1);
+  assert(stops.every(n => n > 0)); stops.push(events.length);
+  const mapped = [] as Awaited<ReturnType<typeof client.ingestEnvelopes>>;
+  let previous = 0;
+  try { for (const stop of stops) {
+    mapped.push(...await client.ingestEnvelopes(events[0].campaignId, events.slice(previous, stop), stop === events.length ? projection : undefined, { evidenceClass: "preserved_live_plc" })); previous = stop;
+    const snapshot = workspaceViewSnapshot(loaded.pkg, client.store.state, client.nowMs());
+    assert.deepEqual(validateSnapshot(loaded.pkg, snapshot), []);
+    assert(controller.push(snapshot).accepted); assert.equal(controller.status.state, "ready");
+    assert.equal(snapshot.evidenceClass, "preserved_live_plc"); assert.equal(snapshot.entities.supplied, true);
+    for (const entity of snapshot.entities.items) {
+      const source = events.find(e => e.id === entity.evidenceRef)!; assert.equal(source.type, "world.evidence");
+      const record = source.data.source as any; assert.deepEqual(entity.state, record.data.snapshot.state);
+      assert.equal(snapshot.frame.sourceTimeMs, record.atMs);
+      assert(controller.describeSelection(null, entity.id)?.evidenceRefs.includes(source.id));
+    }
+    const selection = controller.describeSelection(loaded.pkg.equipment.equipment.find(e => e.channels.length)!.id, null)!;
+    assert(selection.evidenceRefs.length); assert(selection.evidenceRefs.every(id => events.some(e => e.id === id)));
+    assert(resolveFrame(loaded.pkg, snapshot).some(op => op.op === "entities" && op.items.length));
+    assert.equal(snapshot.channels["plc.Motor_RunCmd"].health, "unknown", "historical ledgers without per-field quality stay unknown");
+  } } finally { controller.dispose(); }
   assert.equal(events.filter(e => e.type === "plc.acknowledged").length, 302);
   assert.equal(mapped.filter(e => e.kind === "connector.ack").length, 302);
   assert.deepEqual(client.store.state.hosted!.projection, projection);

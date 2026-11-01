@@ -15,6 +15,7 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
+    rollupOptions: { input: { portal: fileURLToPath(new URL("index.html", import.meta.url)), m10Replay: fileURLToPath(new URL("m10-replay.html", import.meta.url)) } },
     chunkSizeWarningLimit: 4000
   }
 });

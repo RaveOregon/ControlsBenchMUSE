@@ -6,6 +6,7 @@ import { formatClock, formatRaw, shortHash } from "../model/format.ts";
 import type { WorkspaceState } from "../model/workspace-store.ts";
 import { CLOCK_LABEL, evidenceTag } from "./labels.ts";
 import type { Selection } from "./selection.ts";
+import type { CampaignEnvelope } from "../../../src/host/protocol.ts";
 
 interface Props {
   state: WorkspaceState;
@@ -13,6 +14,7 @@ interface Props {
   selection: Selection;
   provenance: ProvenanceCheck[] | null;
   onSelect: (selection: Selection) => void;
+  lookupEnvelope?: (id: string) => CampaignEnvelope | undefined;
 }
 
 function eventBody(event: MuseEvent): Record<string, unknown> {
@@ -74,7 +76,7 @@ function ProvenanceTable({ event }: { event: MuseEvent }) {
   );
 }
 
-export function Inspector({ state, nowMs, selection, provenance, onSelect }: Props) {
+export function Inspector({ state, nowMs, selection, provenance, onSelect, lookupEnvelope }: Props) {
   const drawer = useRef<HTMLElement>(null);
   const open = selection !== null;
   useEffect(() => {
@@ -101,8 +103,9 @@ export function Inspector({ state, nowMs, selection, provenance, onSelect }: Pro
 
   if (selection.type === "event") {
     const event = state.keyEvents.find((candidate) => candidate.id === selection.id) ?? state.timeline.find((candidate) => candidate.id === selection.id) ?? state.verdicts.find((candidate) => candidate.id === selection.id);
+    const envelope = lookupEnvelope?.(selection.id);
     title = event ? event.summary : "Event";
-    content = !event ? (
+    content = !event && envelope ? <><p className="mono">{envelope.id} · {envelope.type} · {envelope.visibility}</p><p>Original campaign ledger envelope. World truth and observed PLC evidence remain separate.</p><pre className="json">{JSON.stringify(envelope, null, 2)}</pre></> : !event ? (
       <p className="muted">This event has scrolled out of the bounded in-memory trace. The preserved source file still holds it.</p>
     ) : (
       <>

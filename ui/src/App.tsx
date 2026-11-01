@@ -17,7 +17,7 @@ import { BudgetPanel } from "./components/BudgetPanel.tsx";
 import { ConnectionPanel } from "./components/ConnectionPanel.tsx";
 import { EvidenceTimeline } from "./components/EvidenceTimeline.tsx";
 import { Inspector } from "./components/Inspector.tsx";
-import { MachineView } from "./components/MachineView.tsx";
+import { GeneratedMachineView } from "./components/GeneratedMachineView.tsx";
 import { PlanPanel } from "./components/PlanPanel.tsx";
 import { RawIoPanel } from "./components/RawIoPanel.tsx";
 import type { Selection } from "./components/selection.ts";
@@ -173,7 +173,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
               : <div className="experiment-grid"><ExperimentPanel state={state} check={check} onSelect={setSelection} /><FindingCard state={state} check={check} source={source} onSelect={setSelection} /></div>}
             <details className="inspector-disclosure"><summary>Steer Muse / request a targeted experiment</summary><SteeringBox state={state} onSteer={text => source.steer(text)} /></details>
             <div className="visual-heading"><h2>Observe the experiment</h2><div className="segmented" role="group" aria-label="Observation surfaces">{(['both','world','hmi'] as const).map(v => <button key={v} aria-pressed={visualSurface === v} onClick={() => setVisualSurface(v)}>{v === 'both' ? 'Side by side' : v === 'world' ? 'Simulated World' : 'PLC HMI'}</button>)}</div><details><summary>Generated geometry & assumptions</summary><p className="mono">World v{bundle.manifest.packageVersion}</p><pre className="document-text">{JSON.stringify(geometry, null, 2)}</pre><ul>{bundle.manifest.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></details></div>
-            <div className={visualSurface === 'both' ? 'observation-grid' : 'observation-single'}>{visualSurface !== 'hmi' && <MachineView state={state} geometry={geometry} onSelect={setSelection} />}{visualSurface !== 'world' && <HmiSurface state={state} source={hmiSource} nowEpochMs={nowEpochMs} onSelect={setSelection} />}</div>
+            <div className={visualSurface === 'both' ? 'observation-grid' : 'observation-single'}>{visualSurface !== 'hmi' && <GeneratedMachineView state={state} nowMs={nowMs} onSelect={setSelection} />}{visualSurface !== 'world' && <HmiSurface state={state} source={hmiSource} nowEpochMs={nowEpochMs} onSelect={setSelection} />}</div>
             <EvidenceTimeline state={state} nowMs={nowMs} selection={selection} onSelect={setSelection} />
             <details className="inspector-disclosure"><summary>Campaign scope & checks</summary>{plan}</details>
             <details className="inspector-disclosure"><summary>Protocol diagnostics, budget & raw I/O</summary><ConnectionPanel state={state} nowMs={nowMs} /><BudgetPanel state={state} nowMs={nowMs} /><RawIoPanel state={state} nowMs={nowMs} onSelect={setSelection} onSuppress={(id, suppressed) => source.setSuppression(id, suppressed)} /></details>
@@ -181,7 +181,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
           {destination === 'Results' && <>{hostedSource && <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />}<ResultsPanel state={state} bundle={bundle} onSelect={setSelection} /></>}
         </main>
       </div>
-      <Inspector nowMs={nowMs} state={state} selection={selection} provenance={provenance} onSelect={setSelection} />
+      <Inspector nowMs={nowMs} state={state} selection={selection} provenance={provenance} onSelect={setSelection} lookupEnvelope={hostedSource ? id => hostedSource.getEnvelope(id) : undefined} />
     </div>
   );
 }

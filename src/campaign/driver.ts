@@ -202,7 +202,8 @@ export class CoordinatorCampaignDriver {
     this.#lastRefs = appendCoordinatorEvent(this.ledger, { sequence: ++this.#syntheticSequence, atIso: r.acknowledgedAtIso,
       atMonotonicMs: r.acknowledgedAtMonotonicMs, lane: "connector", data: { action: "commit.acknowledged", cause,
         workstationEpoch: r.workstationEpoch, workstationSequence: r.workstationSequence, slot: r.slot, latencyMs: r.latencyMs,
-        bootIdentity: r.bootIdentity, plcCycle: r.plcCycle, outputCaptureCycle: r.outputCaptureCycle, image: r.image, outputs: r.values } }, "campaign-driver");
+        bootIdentity: r.bootIdentity, plcCycle: r.plcCycle, outputCaptureCycle: r.outputCaptureCycle, image: r.image, outputs: r.values,
+        ...(r.outputQuality ? { outputQuality: r.outputQuality } : {}) } }, "campaign-driver");
   }
   #fault(error: unknown): ToolFailure {
     this.quarantined = true; this.running = false; this.#auto = false;

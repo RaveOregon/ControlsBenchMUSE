@@ -15,6 +15,8 @@ export interface ConnectorObservation {
   connectorStale: boolean;
   simulationApplied: boolean;
   values: Record<string, RawValue>;
+  /** Optional per-output quality verified by the connector; absence stays unknown. */
+  outputQuality?: Record<string, "good" | "bad" | "unknown">;
 }
 
 export interface CommitReceipt extends ConnectorObservation {

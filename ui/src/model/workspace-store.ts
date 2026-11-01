@@ -164,14 +164,14 @@ export interface WorkspaceState {
   signals: SignalDefinition[];
   inputs: Record<string, SignalValue>;
   outputs: Record<string, SignalValue & { origin?: string }>;
-  entities: Record<string, { type: string; state: Record<string, unknown>; atMs: number }>;
+  entities: Record<string, { type: string; state: Record<string, unknown>; atMs: number; eventId?: string }>;
   faults: Record<string, FaultState>;
   connection: ConnectionState;
   episode?: EpisodeState;
   step?: { phase: ActivityPhase; message: string; awaiting?: string; atMs: number; checkId?: string; eventId: string };
   waits: Record<string, WaitState>;
   runtimeFlag?: { state: RuntimeFlagState; message: string; elapsedMs?: number; atMs: number; exercise: boolean };
-  world: { run?: string; version?: string; lastHeartbeatAtMs?: number; tick?: number };
+  world: { run?: string; version?: string; lastHeartbeatAtMs?: number; tick?: number; entitiesSupplied?: boolean; sourceTimeMs?: number };
   agent: { active?: ModelCallState; calls: ModelCallState[]; assessment?: { text: string; checkId?: string; confidence?: number; hypotheses?: Array<{ label: string; confidence: number }>; atMs: number }; observations: number };
   budget: { limits?: BudgetLimits; spentUsd: number; reservedUsd: number; repairSpentUsd: Record<string, number>; failedRepairs: Record<string, number>; level: "normal" | "warning" | "hard_stop" };
   blind: { commitment?: string; sealedHash?: string; revealed?: Record<string, unknown> };
@@ -543,6 +543,8 @@ export class WorkspaceStore {
         const worldRun = event.world?.run;
         if (worldRun !== s.world.run) {
           s.entities = {};
+          s.world.entitiesSupplied = false;
+          s.world.sourceTimeMs = undefined;
           s.faults = {};
           s.waits = {};
         }
@@ -566,6 +568,8 @@ export class WorkspaceStore {
         s.step = { phase: event.phase, message: event.message, awaiting: event.awaiting, atMs: event.atMs, checkId: event.checkId, eventId: event.id };
         break;
       case "world.heartbeat":
+        s.world.entitiesSupplied = true;
+        s.world.sourceTimeMs = event.provenance.sourceAtMs;
         s.world.lastHeartbeatAtMs = event.atMs;
         s.world.tick = event.tick;
         break;
@@ -574,7 +578,9 @@ export class WorkspaceStore {
         s.world.lastHeartbeatAtMs = event.atMs;
         break;
       case "entity.publish":
-        s.entities[event.entityId] = { type: event.entityType, state: event.state, atMs: event.atMs };
+        s.world.entitiesSupplied = true;
+        s.world.sourceTimeMs = event.provenance.sourceAtMs;
+        s.entities[event.entityId] = { type: event.entityType, state: event.state, atMs: event.atMs, eventId: event.id.split("#")[0] };
         break;
       case "entity.remove":
         delete s.entities[event.entityId];

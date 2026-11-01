@@ -4,7 +4,8 @@ import { eventSchemas, obj, raw, str, validate } from "./contracts.ts";
 
 const flatCommit = obj({ action: { const: "commit.acknowledged" }, cause: str, workstationEpoch: str, workstationSequence: str,
   slot: { type: "integer", minimum: 0, maximum: 1 }, latencyMs: { type: "number", minimum: 0 }, bootIdentity: str,
-  plcCycle: str, outputCaptureCycle: str, image: { type: "object", additionalProperties: raw }, outputs: { type: "object", additionalProperties: raw } });
+  plcCycle: str, outputCaptureCycle: str, image: { type: "object", additionalProperties: raw }, outputs: { type: "object", additionalProperties: raw },
+  outputQuality: { type: "object", additionalProperties: { enum: ["good", "bad", "unknown"] } } }, ["outputQuality"]);
 function validateSource(source: CoordinatorEvent): void {
   validate(eventSchemas["coordinator.event"].properties!.source, source);
   if (source.data.action === "commit.acknowledged") {

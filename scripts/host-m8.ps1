@@ -2,6 +2,9 @@ param([string]$OpcUser = 'PLC', [string]$HmiUrl = '', [int]$Port = 5179)
 $ErrorActionPreference = 'Stop'
 Push-Location (Join-Path $PSScriptRoot '..')
 try {
+    if (-not $env:CONTROLSBENCH_HMI_BROWSER -and (Test-Path -LiteralPath 'C:\Program Files\Google\Chrome\Application\chrome.exe')) {
+        $env:CONTROLSBENCH_HMI_BROWSER = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+    }
     $m8HostSecret = Read-Host 'M8 OPC password (masked; server process only)' -AsSecureString
     $m8HostPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($m8HostSecret)
     try {

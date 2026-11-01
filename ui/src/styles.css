@@ -978,3 +978,6 @@ a { color: var(--accent); }
 .finding-record { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 10px; }
 .evidence-badge { font-size: 11px; font-weight: 650; }
 .text-button.ref { margin-left: 4px; font-size: 11px; }
+.generated-view-mount iframe { width: 100%; height: 420px; border: 0; display: block; }
+.generated-fallback { max-height: 420px; overflow: auto; }
+.view-selection { overflow-wrap: anywhere; font-size: 12px; }

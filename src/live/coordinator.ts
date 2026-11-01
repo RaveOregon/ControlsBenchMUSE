@@ -113,7 +113,8 @@ export class LiveWorldCoordinator {
       plcCycle: receipt.plcCycle,
       outputCaptureCycle: receipt.outputCaptureCycle,
       image: receipt.image,
-      outputs: receipt.values
+      outputs: receipt.values,
+      ...(receipt.outputQuality ? { outputQuality: receipt.outputQuality } : {})
     });
     return receipt;
   }

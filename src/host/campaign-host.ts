@@ -188,6 +188,7 @@ export class CampaignHost {
     switch (command.type) {
       case "start": {
         if (active && !TERMINAL.has(active.ledger.state.status)) return reject(`Campaign ${active.campaignId} is already ${active.ledger.state.status}`);
+        if (p.scope !== undefined && (p.scope === null || typeof p.scope !== "object" || Array.isArray(p.scope) || Object.values(p.scope).some(v => typeof v !== "boolean"))) return reject("Campaign scope must be an object of boolean selections");
         const next = await this.#create(p.scope as Record<string, boolean> | undefined);
         await next.hosted.runtime.start(true);
         this.#flush();

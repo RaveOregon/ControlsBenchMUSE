@@ -176,7 +176,8 @@ export class CampaignEventMapper {
       case "world.raw_image": {
         const image = rawRecord(d.image);
         const sd = source?.data ?? {};
-        const meta: ValueMetadata = { quality: "unknown", freshness: "current", workstationTimestamp: source?.atIso };
+        // Simulated raw values come from the validated acknowledged complete image, not OPC quality.
+        const meta: ValueMetadata = { quality: "good", freshness: "current", workstationTimestamp: source?.atIso };
         for (const [signalId, value] of Object.entries(image)) add("raw_input", this.#worldClass(), `${signalId} = ${String(value)}`, { kind: "raw.input", signalId, value, cause: `complete image seq ${text(d.sequence)} (${String(d.sourceId)})`, metadata: meta }, sourceRef);
         add("raw_input", this.#worldClass(), `Commit seq ${text(d.sequence)} → slot ${text(sd.slot)}`, { kind: "connector.commit", epoch: text(d.epoch), sequence: text(d.sequence), slot: Number.isInteger(sd.slot) ? Number(sd.slot) : null }, sourceRef);
         break;
@@ -194,7 +195,8 @@ export class CampaignEventMapper {
       }
       case "plc.output": {
         const values = rawRecord(d.values);
-        const metadata = Object.fromEntries(Object.keys(values).map(id => [id, { quality: "unknown", freshness: "current", workstationTimestamp: source?.atIso } satisfies ValueMetadata]));
+        const quality = source?.data?.outputQuality as Record<string, string> | undefined;
+        const metadata = Object.fromEntries(Object.keys(values).map(id => [id, { quality: quality?.[id] === "good" ? "good" : quality?.[id] === "bad" ? "bad" : "unknown", freshness: "current", workstationTimestamp: source?.atIso } satisfies ValueMetadata]));
         add("plc_output", this.#plcClass(), `PLC outputs @ cycle ${text(d.outputCaptureCycle)}`, { kind: "plc.output", values, origin: this.options.evidenceClass === "fake_connector" ? "surrogate_driver" : "plc", metadata }, sourceRef);
         break;
       }
