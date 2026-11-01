@@ -1,6 +1,7 @@
 import { BudgetLimitError, ModelBudgetGuard } from "../proof/budget-guard.ts";
 import type { RequestLease } from "../proof/budget-guard.ts";
 import { CampaignLedger } from "./ledger.ts";
+import type { DurableSessionAccount } from "./session-account.ts";
 
 export const acceptedBudgetLimits = Object.freeze({ perRequestUsd: 1, repairEpisodeUsd: 2, campaignWarningUsd: 3,
   campaignHardUsd: 5, sessionHardUsd: 15, requestTimeoutMs: 300_000,
@@ -12,13 +13,18 @@ export class CampaignBudget {
   readonly checkHardUsd: number;
   #checks = new Map<string, number>(); #repairs = new Map<string, number>();
   #reservations = new Map<string, { checkId: string; amount: number }>();
-  constructor(ledger: CampaignLedger, guard = new ModelBudgetGuard({ ...acceptedBudgetLimits }), checkHardUsd = 5) {
+  readonly session?: DurableSessionAccount;
+  constructor(ledger: CampaignLedger, guard = new ModelBudgetGuard({ ...acceptedBudgetLimits }), checkHardUsd = 5, session?: DurableSessionAccount) {
     this.ledger = ledger; this.guard = guard; this.checkHardUsd = checkHardUsd;
+    this.session = session;
+    if (session) this.guard.sessionSpentUsd = session.spentUsd;
   }
   reserve(estimate: number, checkId: string, nowMs: number, repairEpisode?: string): RequestLease {
     const pending = [...this.#reservations.values()].filter(r => r.checkId === checkId).reduce((sum, r) => sum + r.amount, 0);
     if ((this.#checks.get(checkId) ?? 0) + pending + estimate > this.checkHardUsd) throw new BudgetLimitError("check_limit", "Check budget would be exceeded");
     const lease = this.guard.reserve({ purpose: checkId, nowMs, estimatedCostUsd: estimate || 0.000001, repairEpisode });
+    if (this.session && estimate !== 1) throw new BudgetLimitError("durable_reservation", "Paid session requires $1 conservative request reservations");
+    this.session?.charge(lease.id);
     this.#reservations.set(lease.id, { checkId, amount: estimate });
     this.#record(lease, checkId, "reserved", estimate, estimate === 0 ? "fake_zero" : "conservative_reservation"); return lease;
   }

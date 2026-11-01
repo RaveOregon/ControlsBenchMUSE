@@ -7,6 +7,13 @@ export interface AgentContext {
   state: Pick<CampaignProjection, "status" | "revision" | "plan" | "experiments" | "activeExperiment">;
   evidence: CampaignEvent[]; results: ToolResult[];
   diagnosisMode: "known" | "blind";
+  boundary?: { evidenceClass: string; claimBoundary: string; categories: string[]; recorded: boolean };
+  evidenceWindow?: { throughSequence: number; selectedIds: string[]; retrieval: string; quality: Record<string, unknown> };
+  budget?: { campaignUsd: number; sessionUsd: number; perRequestUsd: number; campaignHardUsd: number };
+}
+export interface ProviderAudit {
+  requestId: string;
+  preserve(record: Record<string, unknown>): void;
 }
 export interface ProviderReply {
   decision: unknown; responseId?: string; usage?: Record<string, unknown>; costUsd?: number;
@@ -16,7 +23,7 @@ export interface CampaignProvider {
   readonly id: string;
   readonly estimatedRequestUsd: number;
   readonly paid: boolean;
-  decide(context: AgentContext, signal: AbortSignal): Promise<ProviderReply>;
+  decide(context: AgentContext, signal: AbortSignal, audit?: ProviderAudit): Promise<ProviderReply>;
 }
 
 // This fixture is intentionally the provider, not a conveyor investigator in the runtime.

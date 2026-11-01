@@ -161,6 +161,13 @@ export class CampaignLedger {
   eventsSince(sequence: number, type?: EventType): CampaignEvent[] {
     return structuredClone(this.#events.slice(sequence).filter(e => !type || e.type === type));
   }
+  evidenceWindow(after: number, through: number, limit: number, allowed: (event: Readonly<Pick<CampaignEvent, "type" | "visibility">>) => boolean): CampaignEvent[] {
+    const selected: CampaignEvent[] = [];
+    for (let i = Math.max(0, after); i < Math.min(through, this.#events.length) && selected.length < limit; i++) {
+      const e = this.#events[i]; if (allowed(Object.freeze({ type: e.type, visibility: e.visibility }))) selected.push(e);
+    }
+    return structuredClone(selected);
+  }
   recentEvents(limit: number, allowed: (event: Readonly<Pick<CampaignEvent, "type" | "visibility">>) => boolean): CampaignEvent[] {
     const selected: CampaignEvent[] = [];
     for (let i = this.#events.length - 1; i >= 0 && selected.length < limit; i--) {

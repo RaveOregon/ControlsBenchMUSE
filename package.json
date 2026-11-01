@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test --test-concurrency=1 test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts test/m8-connector.test.ts test/portal-host.test.ts test/cdp-webvisu.test.ts test/m10-convergence.test.ts test/machine-view.test.ts",
+    "test": "node --test --test-concurrency=1 test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts test/m8-connector.test.ts test/portal-host.test.ts test/cdp-webvisu.test.ts test/m10-convergence.test.ts test/machine-view.test.ts test/wonder-campaign.test.ts test/wonder-portal.test.ts test/wonder-factory.test.ts",
     "host": "node scripts/host-portal.js",
     "host:adaptive": "node scripts/host-portal.js --campaign fixture-adaptive",
     "host:m8": "powershell -ExecutionPolicy Bypass -File scripts/host-m8.ps1",
@@ -41,7 +41,11 @@
     "proof:gate-d:review": "node --env-file=.env scripts/review-gate-d-with-muse.js",
     "proof:m7:live": "powershell -ExecutionPolicy Bypass -File scripts/run-m7-live.ps1",
     "proof:m7:audit": "node scripts/audit-m7.js",
-    "spike:model": "node --env-file=.env scripts/run-model-spike.js"
+    "spike:model": "node --env-file=.env scripts/run-model-spike.js",
+    "proof:wonder": "node scripts/verify-wonder.js",
+    "host:wonder:recorded": "node scripts/host-portal.js --campaign-module src/host/wonder-recorded-factory.ts --artifacts artifacts/wonder-portal",
+    "proof:wonder:checkpoint": "node scripts/run-wonder-checkpoint.js",
+    "host:wonder": "node scripts/host-portal.js --campaign-module src/host/wonder-campaign-factory.ts --artifacts artifacts/wonder-portal"
   },
   "engines": {
     "node": ">=22"

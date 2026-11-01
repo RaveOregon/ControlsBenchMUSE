@@ -202,7 +202,7 @@ export class CampaignHost {
         if (!runtime || runtime.status !== "running") return reject("Only a running campaign can pause");
         await runtime.pause("Engineer paused campaign from the portal");
         const e = stateEvent();
-        return (runtime.status as string) === "paused" && e ? { outcome: "applied", detail: "Paused: world evolution frozen; held image refreshed; PLC keeps scanning", evidenceRefs: [e.id] } : reject(`Pause not confirmed (status ${runtime.status})`);
+        return (runtime.status as string) === "paused" && e ? { outcome: "applied", detail: "Paused: configured adapter acknowledged hold; PLC keeps scanning", evidenceRefs: [e.id] } : reject(`Pause not confirmed (status ${runtime.status})`);
       }
       case "resume": {
         if (!runtime || !active || runtime.status !== "paused") return reject("Only a paused campaign can resume");

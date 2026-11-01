@@ -49,6 +49,8 @@ export const toolSchemas = {
   inspect_spec: obj({}),
   inspect_signal_contract: obj({}),
   inspect_recent_evidence: obj({ limit: { type: "integer", minimum: 1, maximum: 100 } }),
+  inspect_evidence_window: obj({ ids: list(str, 0, 20), afterSequence: integer, throughSequence: integer,
+    limit: { type: "integer", minimum: 1, maximum: 20 } }),
   introduce_carton: obj({ itemId: str, requestedRoute: choice(["A", "B", "Unknown", null]) }),
   assign_route: obj({ itemId: str, route: choice(["A", "B", "Unknown"]) }),
   operator_action: obj({ action: choice(["start", "stop", "reset"]) }),
@@ -71,15 +73,24 @@ export interface ToolResult { actionId: string; status: Outcome; message: string
 const toolCallSchema = obj({ id: str, name: choice(Object.keys(toolSchemas)), arguments: record });
 export interface Decision {
   summary: string;
+  reasoningLease?: DecisionLease;
   plan?: { objective: string; experiments: Experiment[] };
   completeExperiment?: { id: string; evidenceRefs: string[]; conclusion: "observed" | "inconclusive" };
   calls: ToolCall[];
 }
+export interface DecisionLease {
+  mode: "hold" | "continue" | "condition_deadline";
+  timeoutMs: number;
+  condition?: { signal: string; equals: import("../proof/contracts.ts").RawValue };
+}
+export const decisionLeaseSchema = obj({ mode: choice(["hold", "continue", "condition_deadline"]), timeoutMs: duration,
+  condition: obj({ signal: str, equals: raw }) }, ["condition"]);
 export const decisionSchema = obj({ summary: str,
+  reasoningLease: decisionLeaseSchema,
   plan: obj({ objective: str, experiments: list(experimentSchema, 1, 40) }),
   completeExperiment: obj({ id: str, evidenceRefs: list(str, 1), conclusion: choice(["observed", "inconclusive"]) }),
   calls: list(toolCallSchema, 0, 8)
-}, ["plan", "completeExperiment"]);
+}, ["plan", "completeExperiment", "reasoningLease"]);
 
 const provenanceSchema = obj({ spec: str, ioMap: str, plcBuild: str, worldModule: str, model: str, connector: str });
 const coordinatorSchema = obj({ sequence: integer, atIso: str, atMonotonicMs: num,
@@ -106,7 +117,7 @@ export const eventSchemas = {
   "action.inconclusive": actionOutcome,
   "connector.state": obj({ state: choice(["fresh", "stale", "quarantined", "passthrough"]), reason: str, ageMs: num }),
   "controller.action": obj({ actionId: str, action: str, observation: record }),
-  "coordinator.event": obj({ origin: choice(["live-coordinator", "campaign-driver", "preserved-m7"]), source: coordinatorSchema }),
+  "coordinator.event": obj({ origin: choice(["live-coordinator", "campaign-driver", "preserved-m7", "preserved-m10"]), source: coordinatorSchema }),
   "world.stimulus": obj({ actionId: str, control: record }),
   "world.raw_image": obj({ sourceId: str, image, epoch: str, sequence: str }),
   "world.evidence": obj({ source: record }),
@@ -186,6 +197,9 @@ export function validate(schema: Schema, value: unknown, path = "$"): void {
 export function validateDecision(value: unknown): Decision {
   validate(decisionSchema, value);
   const decision = value as Decision;
+  if (decision.reasoningLease && (decision.reasoningLease.mode === "condition_deadline") !== !!decision.reasoningLease.condition)
+    throw new Error("Only a condition_deadline lease requires a condition");
+  if (new Set(decision.calls.map(c => c.id)).size !== decision.calls.length) throw new Error("Duplicate action IDs in decision");
   for (const call of decision.calls) validate(toolSchemas[call.name], call.arguments);
   return structuredClone(decision);
 }
