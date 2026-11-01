@@ -11,7 +11,7 @@ npm run hmi                 # fixture: recorded M10 final held state, http://127
 npm run hmi:portal          # fixture HMI + Lane B portal host (:5179) showing the captured HMI session
 npm run hmi:live            # live M8, masked password prompt, http://127.0.0.1:5181/
 npm run hmi:live:portal     # live M8 HMI shown in the portal from one controlled session
-powershell -File scripts/run-hmi-h2-live.ps1 [-Watch]   # H2 live verification (see Gate status)
+powershell -File scripts/run-hmi-h2-live.ps1 [-Watch] [-RecoverFrom <failed run>]   # H2 live verification (see Gate status)
 npm run hmi:audit           # independent audit of the latest saved H2 run (no PLC)
 ```
 
@@ -152,13 +152,14 @@ A disabled target makes the action `inconclusive`, and nothing is delivered. The
 
 ## Tests
 
-`test/hmi-commands.test.ts`, `test/hmi-alarms.test.ts` and `test/hmi-freshness.test.ts` contain 26 tests over a scripted protocol transport (`test/fixtures/hmi/scripted-transport.ts`). That transport answers sequences as each test scripts them; it is not a copy of the conveyor logic. They cover:
-- Command acknowledgement: applied, rejected with preconditions, the Stop echo, timeout, ambiguous other-writer, Auto readback, ownership, read-only, stale, identity and in-flight refusals, idempotency, and the write allowlist.
+This lane's tests are 28 of the suite: `test/hmi-commands.test.ts`, `test/hmi-alarms.test.ts`, `test/hmi-freshness.test.ts` and `test/hmi-coordinator-process.test.ts`. They run over a scripted protocol transport (`test/fixtures/hmi/scripted-transport.ts`), which answers sequences as each test scripts them; it is not a copy of the conveyor logic. It also enforces the observed 72-node Read limit. The tests cover:
+- Command acknowledgement: applied, rejected with preconditions, the Stop echo, timeout, ambiguous other-writer, Auto readback, ownership, read-only, stale, identity and in-flight refusals, idempotency, the write allowlist, and superseded follow-up windows.
 - Alarm transitions: start-of-observation basis, raise and clear windows, ConnectorStale and bad quality not becoming alarms, exceptions, the review marker, persistence and restart continuity, gap-labelled clears, and boot change to unresolved.
-- Freshness: unchanged values staying fresh, stale with held values, reconnect with a fresh session, no retry after an auth rejection, scan check, and boot change.
+- Freshness: unchanged values staying fresh, stale with held values, reconnect with a fresh session, no retry after an auth rejection, scan check, boot change, batched reads under the node limit, and a stale threshold that follows the poll rate.
 - HTTP: identity, cross-origin refusal, TypeScript stripping and path confinement, fixture-only controls, and journal hash-chain verification.
+- The H2 coordinator process: start, world tool, carton query and stop over IPC, using Lane A's fake connector.
 
-The full suite is 70/70 (`npm test`; the two Lane B CDP tests need a non-sandboxed shell to launch Edge), and typecheck is clean. 26 of the tests are this lane's.
+The full suite is 72/72 (`npm test`, twice in a row; the two Lane B CDP tests need a non-sandboxed shell to launch Edge), and typecheck is clean.
 
 ## Gate status
 
@@ -166,13 +167,13 @@ The full suite is 70/70 (`npm test`; the two Lane B CDP tests need a non-sandbox
 |---|---|---|
 | H0 interfaces and fixture rendering | **Pass** | Three pages render against labelled fixtures seeded from the recorded M10 trace (`test/fixtures/hmi/m10-recorded-states.json`; the source trace's SHA-256 is inside). The desktop layout was inspected at 1280×800. Screenshots: `docs/screenshots/hmi/fixture-1280-*.png`. |
 | H1 live observations and commands | **Pass** | Live M8 boot `1580380594210`, after the user rebooted the PLC. The HMI read a clean baseline on its own OPC UA session (103 fields in batches of at most 60 nodes) and issued PLC-acknowledged operator requests. |
-| H2 Start/Stop/Reset/Auto, faults, alarms, disconnect | **Pass (twice), independently audited** | Runs `artifacts/hmi/h2/2026-11-01T14-02-24-720Z` and `…T14-07-10-579Z`. `npm run hmi:audit -- <run>` (`scripts/audit-hmi-h2.js`) passes 13/13 checks on each, with no PLC needed. Details below. |
-| H3 portal session and correlated evidence | **Pass (live)** | The live HMI was operated in the portal's controlled (headless) browser session. Every click has five linked records, and each frame's SHA-256 matches Lane B's session log. The live portal page with the HMI tile during fault 10 is `docs/screenshots/hmi/live-portal-fault.png`. |
+| H2 Start/Stop/Reset/Auto, faults, alarms, disconnect | **Pass (3 runs), each independently audited 13/13** | `artifacts/hmi/h2/2026-11-01T14-02-24-720Z` and `…T14-07-10-579Z` (single-process runner); `…T15-12-23-772Z` (**coordinator in its own process**). Re-check with `npm run hmi:audit -- <run>`; no PLC needed. |
+| H3 portal session and correlated evidence | **Pass (live)** | The live HMI was operated in the portal's controlled (headless) browser session. Every click has five linked records, and each frame's SHA-256 matches Lane B's session log. Live portal pages with the HMI tile: `live-portal-fault.png` (during fault 10) and `live-portal-final.png` (isolated run). |
 
-**H2, verified live through trusted clicks in the portal session, in both passing runs:**
+**H2, verified live through trusted clicks in the portal session, in all three passing runs:**
 - Auto on: confirmed by readback.
 - Start: `StartAccepted=TRUE`. Mode Auto, motor command on, running feedback on, encoder advancing.
-- Stop: acknowledged by `StopAck` echo. Mode went Stopping then Stopped; the second run shows 141 counts of physical coast.
+- Stop: acknowledged by `StopAck` echo. Mode went Stopping then Stopped, with physical coast.
 - Auto off while running: Mode Stopped.
 - Start with Auto off: **rejected by the PLC**, with the unmet observed precondition listed.
 - Injected drive overload: **fault 10 raised**, by an observed transition with an onset window.
@@ -182,6 +183,8 @@ The full suite is 70/70 (`npm test`; the two Lane B CDP tests need a non-sandbox
 - HMI-session read interruption: link went to reconnecting. Start was **disabled on screen**, so no command was sent and nothing was written. The link recovered after one reconnect.
 - Coordinator stopped: the PLC asserted `ConnectorStale=TRUE`, shown only as the bench banner, and **no alarm was created**.
 - All three pages were visited in the same portal session.
+
+The isolated run's coordinator ran as pid 57920 at OS priority −7 (above normal), over 286 commits: gap p50 114, p95 222, p99 246, max 267 ms.
 
 **The audit checks:**
 - Provenance: the frozen M8 project hash, the map and world hashes, and zero model calls.
@@ -198,59 +201,101 @@ The full suite is 70/70 (`npm test`; the two Lane B CDP tests need a non-sandbox
 - ConnectorStale did not create an alarm.
 - Item/route completion, replayed from keyframe plus changes.
 
-Live screenshots, 1280×800 frames of the portal's controlled HMI session, are indexed with SHA-256 in `docs/screenshots/hmi/live-index.json`: `live-operation-running`, `-fault`, `-reset-rejected`, `-completion`, `-link-lost`, `-connector-stale`, `live-alarms`, `live-engineering` and `live-portal-fault`.
+Live screenshots, frames of the portal's controlled HMI session plus the two portal-page captures, are indexed with SHA-256 in `docs/screenshots/hmi/live-index.json`.
 
-**Every live attempt is retained unchanged, failures included.** Each failure found a real defect:
-1. `T13-33-45-242Z`: authenticated, but every 103-node Read was refused with `BadTooManyOperations`. Fixed by batching reads. No write.
-2. `T13-38-06-654Z`: the ConnectorStale banner cleared, the controls moved, and the first click missed its target. Fixed with a fixed-height message bar, an always-present fault strip, and target refresh before each click. No write.
-3. `T13-46-58-698Z`: passed through Reset. Then the **headed** capture window began scaling injected input ×1.25 (dispatched at 999,334; the page saw 1249,418), and a Start click hit empty space with nothing actuated. Fixed by capturing headless and adding a coordinate-mismatch diagnostic.
-4. `T14-02-24-720Z`: **pass.** Its audit exposed a follow-up window that absorbed a later command's effect, now closed with `supersededBy`.
-5. `T14-07-10-579Z`: **pass**, confirming the fix live.
-6. `T14-08-43-860Z`: **failed and left the PLC held (see below).** This run added a separate headless viewer of the portal page. During the item-301 trial the runner's Node event loop stalled for about 855 ms, with no PLC reads, HMI polls or frame captures. The coordinator heartbeat lapsed, the PLC asserted ConnectorStale, Lane A's driver faulted, and the runner stopped without any recovery. The cause of the stall is not proven. Candidates are synchronous file I/O, a GC pause, and scanning of new frame files. The structural defect is that this runner hosts the simulation coordinator in the same process as the HMI service, portal host and capture.
+### Every live attempt is retained, failures included
 
-**PLC state after attempt 6 (not recovered by this lane):**
-- **What the run left:** M8 boot `1580380594210` in **Auto**, motor command on, item 301 tracked, simulation held at the last image (running feedback TRUE, carton on the beams), and ConnectorStale TRUE.
-- **Expected since then, not observed:** with inputs frozen, M8's 30 s transit timer is expected to have latched fault 33. No later observation was made.
-- **What recovery needs:** an explicit, recorded baseline procedure: restore the field image (fresh world at rest), have the WCS acknowledge the aborted completion, then Reset.
-- **Why the H2 runner won't start:** it refuses this dirty baseline by design. Repetition needs that explicit procedure, not automatic recovery.
-- **Hazard:** none. This is CODESYS Control Win with no physical I/O.
+| # | Run (`artifacts/hmi/h2/2026-11-01T…`) | Result and cause | Fix |
+|---|---|---|---|
+| 1 | `13-33-45-242Z` | Every 103-node Read refused with `BadTooManyOperations`. No write. | Reads batched (≤60 nodes). |
+| 2 | `13-38-06-654Z` | The ConnectorStale banner cleared and the controls moved, so the first click missed. No write. | Fixed-height message bar, always-present fault strip, target refresh before each click. |
+| 3 | `13-46-58-698Z` | Passed through Reset, then the headed window scaled injected input ×1.25 and a click hit empty space. | Headless capture by default, plus a coordinate-mismatch diagnostic. |
+| 4 | `14-02-24-720Z` | **Pass.** | Its audit found a follow-up window absorbing a later command; now closed with `supersededBy`. |
+| 5 | `14-07-10-579Z` | **Pass.** | — |
+| 6 | `14-08-43-860Z` | An ~855 ms event-loop stall in the single-process runner, right after a mid-run portal-page viewer loaded. The coordinator heartbeat lapsed. **Held: carton in Auto, then fault 33.** | Coordinator moved to its own process; reconciliation script. |
+| 7 | `14-54-26-866Z` | Isolated coordinator. Its first tick was late and the link bracket retried under slow OPC reads, so the heartbeat lapsed. **Held: fault 11.** | Above-normal priority, quiet HMI polling during coordinator start-up. |
+| 8 | `14-58-54-546Z` | The HMI stale threshold stayed at 1.5 s while start-up polling was 3 s, so the page disabled its controls. Nothing sent; PLC clean. | Stale threshold follows the poll rate; H2 waits for fresh data. |
+| 9 | `15-00-59-962Z` | One coordinator tick took 342 ms (Lane A's 300 ms bound) while the mid-run portal viewer loaded. **Held: injected overload, fault 10.** | Mid-run portal viewer removed. |
+| 10, 11 | `15-03-56-819Z`, `15-04-28-721Z` | Reconciliation refused before connecting: its precondition named only the ConnectorStale signature, then a regex escape bug. No PLC contact. | Precondition accepts both diagnosed timing signatures. |
+| 12 | `15-04-59-374Z` | Passed through Reset, then one coordinator tick took 321 ms in the carton stage. **Held: belt running in Auto, no carton.** | Lighter observation load (HMI poll 2 s, periodic frames 3 s). |
+| 13 | `15-12-23-772Z` | **Pass, with the isolated coordinator.** Audit 13/13. | — |
 
-**Required change before more live H2 runs:** move the simulation coordinator into its own process, so HMI, portal or capture work cannot starve the heartbeat, as in Lane A's runner. The passed runs stand, because their coordinator never went stale and their audits pass. Attempt 6 shows the margin is not guaranteed.
+### Held-state reconciliation
+
+`scripts/recover-hmi-h2-baseline.js <failed run>` follows Lane A's `prepare-m10-baseline.js` pattern. It reconciles one saved failed run, and only one of the diagnosed coordinator-timing failures ("ConnectorStale=true" or Lane A's "World step gap … 300 ms observation bound").
+
+Before writing anything, it requires:
+- the same boot;
+- the same applied epoch and sequence;
+- the same held raw image as the run's last acknowledged commit;
+- unchanged exit counters;
+- the fault and state predicted for that run's path.
+
+| Path | Held state | Actions |
+|---|---|---|
+| transit-timeout | Carton held, fault 33 | Stop, fresh world at rest, WCS acknowledges the aborted completion, Reset |
+| start-feedback-timeout | Start accepted on a held at-rest image, fault 11 | Stop, Reset |
+| injected-overload | The run's own overload held, fault 10 | Stop, fresh world at rest, Reset |
+| held-running | Belt running in Auto, no carton | Stop, fresh world at rest within M8's 4 s stop window, verify Stopped |
+
+All four recorded reconciliations passed (`artifacts/hmi/h2/recovery-*/result.json`, `transport.jsonl.gz`). Each matched exactly and ended Stopped, fault-free, with no tracked item and nothing pending.
+
+**Final PLC state:** M8 boot `1580380594210`, Stopped, no fault, no item, completion acknowledged, simulation held at rest, and ConnectorStale TRUE because no coordinator is running. AutoRequest is TRUE, set by the last Auto click. The runtime lock is released and the watcher's credential is cleared.
+
+### Timing margin (finding for Lane A / review)
+
+Lane A's coordinator runs about 30 ms under its own 300 ms observation bound on this laptop:
+- Lane A's clean M10: max gap 267 ms.
+- The passing H2 runs here: p99 227–246 ms, max 228–267 ms.
+
+Concurrent work pushes individual ticks over the bound: a second OPC UA client, frame capture, and especially a browser loading the full portal UI. Moving the coordinator to its own process with above-normal priority, and lightening the HMI's observation load, made the passing run possible. **They do not guarantee every run.**
+
+Options for Lane A:
+- Lighter per-tick evidence (fewer bracket retries).
+- A bound sized for attended runs.
+- An OPC UA subscription for the HMI instead of polling.
+
+The H2 runner never retries and never recovers by itself. Each held state needed an explicit reconciliation.
 
 ### H2 runner
 
-`run-hmi-h2-live.ps1 [-Headed] [-Watch]` runs `node scripts/run-hmi-h2-live.js` with three separately attributable roles:
-- Field inputs: the preserved world through Lane A's connector, on its own OPC UA session.
+`run-hmi-h2-live.ps1 [-Headed] [-Watch] [-RecoverFrom <failed run>]` runs `node scripts/run-hmi-h2-live.js`, with three separately attributable roles:
+- Field inputs: the preserved world through Lane A's connector, in **its own process** (`scripts/hmi-h2-coordinator.js` via `src/hmi/coordinator-process.ts`, above-normal priority).
 - WCS: the coordinator's tools.
 - Operator: HMI clicks in the portal's controlled browser, on the HMI's OPC UA session.
 
 It claims `artifacts/m10/live.lock` in the main checkout and refuses an active Lane A or M8 operator session. Steps:
-1. Read-only baseline inspection. It stops unless the PLC is cleanly stopped, and it never resets unexplained state.
-2. Start the portal session (headless by default), then the coordinator.
-3. Auto on, Start, Stop.
-4. Start, Auto off, Start rejected.
-5. Overload: fault raised, Reset rejected, cause cleared, Reset applied.
-6. Item 301/A sort with completion and WCS acknowledgement, then Stop.
-7. HMI-session read interruption, then reconnect.
-8. Coordinator stopped: ConnectorStale.
-9. Page views and portal-page captures.
+1. Optional reconciliation of a named failed run; H2 starts only if it passes.
+2. Read-only baseline inspection; stop unless cleanly stopped.
+3. Portal session (headless).
+4. Coordinator start, with HMI polling quiet during start-up.
+5. Auto, Start, Stop.
+6. Start, Auto off, Start rejected.
+7. Overload: fault raised, Reset rejected, cause cleared, Reset applied.
+8. Item 301/A sort with completion and WCS acknowledgement, then Stop.
+9. HMI-session read interruption, then reconnect.
+10. Coordinator stopped: ConnectorStale.
+11. Page views, then a portal-page capture after the coordinator has stopped.
 
-`-Watch` keeps the masked credential in that PowerShell process for explicit follow-up runs, requested by writing `{"id":"<new>","action":"run"|"stop"}` to `artifacts/hmi/h2/operator-request.json`. It never retries by itself and clears the credential after 30 minutes idle, on `stop`, or on Ctrl+C. Evidence goes to `artifacts/hmi/h2/<ts>/`: `result.json`, `audit.json` (from the audit script), the HMI journal and alarm history, `campaign.jsonl`, `world-transport.jsonl.gz`, Lane B's `hmi-session.jsonl`, and the cited frames. The per-second frame stream is not committed. `artifacts/hmi/.gitattributes` keeps evidence bytes exact.
+`-Watch` keeps the masked credential in that PowerShell process for explicit follow-up requests written to `artifacts/hmi/h2/operator-request.json`:
+- `{"id":"<new>","action":"run"}` runs H2 again.
+- Adding `"recoverFrom":"<failed run>"` reconciles first, and `"recoverOnly":true` stops after reconciling.
+- `{"action":"stop"}` ends the watcher.
+
+The watcher never retries by itself, and clears the credential after 30 minutes idle, on `stop`, or on Ctrl+C. Evidence goes to `artifacts/hmi/h2/<ts>/`: `result.json`, `audit.json`, the HMI journal and alarm history, `campaign.jsonl`, `world-transport.jsonl.gz` (written by the coordinator process), Lane B's `hmi-session.jsonl`, the cited frames, and `portal-page-final.png`. The per-second frame stream is not committed. `artifacts/hmi/.gitattributes` keeps evidence bytes exact.
 
 ## Untested and limitations
 
-- **The PLC was left in a held Auto state with item 301** after failed attempt 6, as described above. It needs an explicit recovery decision.
-- The coordinator is not yet isolated in its own process inside the H2 runner. Fix this before more live runs.
-- The headed-window input scaling (×1.25) is unresolved. Headed operation by an engineer is fine, but scripted clicks must use the headless session or accept the mismatch diagnostic.
-- `hmi:live` / `hmi:live:portal` as standalone services were exercised only inside H2's in-process composition, not as separate long-running processes against the live PLC.
-- The fixture's command acknowledgements emulate a small subset of `FB_DemoConveyor` rules for rendering only, and are labelled "fixture ack".
-- Lane A's native transport uses the client application name `NodeOPCUA-Client` for both sessions. Attribution comes from the HMI journal (request, client session, origin) and the separate session, not from the PLC, which cannot tell writers apart.
-- The HMI read is a batched read, not cycle-bracketed like Lane A's commit evidence. `sameScanBracket` reports only whether PlcCycle equals OutputCaptureCycle within one batch.
-- Header values come from the last poll (500 ms while a lane owns the runtime). After an acknowledgement the link now polls immediately; before that change, an outcome frame could show "Applied" beside the previous poll's mode.
-- No hardware-passthrough commissioning, multi-operator conflict resolution, or user authentication on the HMI page is implemented. The HMI is loopback-only.
-- Lane B observations:
-  - Its `portal-host` live test failed once under concurrent headless-browser load, then passed 3/3.
-  - A hard-killed host or test leaves headless Edge processes (`controlsbench-hmi-*` profiles). This session's orphans were identified by a dead parent process and closed.
-  - Under the browser pane's emulation, the expanded tile image appeared cropped.
-  - The portal's own campaign factory is still the fixture, so its header reads "fake connector" beside the live HMI tile. That is accurate.
-- Paid Muse visual operation (S2) has not been run. The seam (`/api/agent-actions/execute`) and semantic targets are ready.
+- **Coordinator timing margin:** see above. Repeating H2 can still fail on a late coordinator tick. It fails safely and needs an explicit reconciliation.
+- **Headed-window input scaling** (×1.25) is unresolved. Headed operation by an engineer is fine, but scripted clicks must use the headless session or accept the mismatch diagnostic.
+- **Standalone live service:** `hmi:live` / `hmi:live:portal` were exercised only inside H2's composition, not as separate long-running processes against the live PLC.
+- **Fixture command acknowledgements** emulate a small subset of `FB_DemoConveyor` rules for rendering only, and are labelled "fixture ack".
+- **Attribution:** Lane A's native transport uses the client application name `NodeOPCUA-Client` for every session. Attribution comes from the HMI journal (request, client session, origin) and the separate sessions, not from the PLC.
+- **Read coherence:** the HMI read is batched, not cycle-bracketed like Lane A's commit evidence. `sameScanBracket` reports only whether PlcCycle equals OutputCaptureCycle within one batch.
+- **Header freshness:** header values come from the last poll (2 s during H2; 1 s by default while another lane owns the runtime). After an acknowledgement the link polls immediately.
+- **Not implemented:** hardware-passthrough commissioning, multi-operator conflict resolution, and user authentication on the HMI page. The HMI is loopback-only.
+- **Lane B notes:**
+  - A race in its portal-host test (the held frame was read before an in-flight capture landed) is fixed in `test/portal-host.test.ts`. This is the only edit in a Lane B file.
+  - Hard-killed hosts leave headless Edge processes (`controlsbench-hmi-*`). This session closed its own orphans by checking for a dead parent process.
+  - The portal's campaign factory is still the fixture, so the header reads "fake connector" beside the live HMI tile. That is accurate.
+- **Muse:** the paid visual-operation checkpoint (S2) has not been run. The seam (`/api/agent-actions/execute`) and semantic targets are ready.

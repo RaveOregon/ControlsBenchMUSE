@@ -70,5 +70,13 @@
     "frameRef": null,
     "sha256": "20954c7c3e32689e3761624d16e0860d0f2dbb38ff3580dec2dca5a9963184cb",
     "source": "live M8 build 8001, boot 1580380594210; captured from the portal's controlled HMI session (1280x800) unless noted"
+  },
+  {
+    "file": "docs/screenshots/hmi/live-portal-final.png",
+    "run": "artifacts/hmi/h2/2026-11-01T15-12-23-772Z",
+    "step": "portal-page-final (separate headless viewer of the portal page, after the coordinator stopped)",
+    "frameRef": null,
+    "sha256": "d75e2594b46877adca1872ad87203309c692790df63921f481944422ab2b2b0c",
+    "source": "live M8 build 8001, boot 1580380594210; isolated-coordinator H2 pass"
   }
 ]

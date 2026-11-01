@@ -81,14 +81,18 @@ Branch `hmi/m10-operator-hmi` (worktree `.claude/worktrees/m10-operator-hmi`) me
 - Alarm history is recorded by the HMI service from observed transitions, with a stated time basis. The review marker is HMI-local. ConnectorStale stays a bench banner.
 - `npm run hmi:portal` / `hmi:live:portal` mount the HMI in Lane B's portal through its `hmi` and `hmiSourceFactory` options. The tile shows the same controlled session that a scripted or agent click operates.
 - The agent seam is `POST /api/agent-actions/execute`. Requested action, delivered input, page input, PLC acknowledgement and screen frame are kept as separate journal records.
-- **Gates H0–H3 pass, H1–H3 live** against M8 boot `1580380594210`. H2 passed twice: `artifacts/hmi/h2/2026-11-01T14-02-24-720Z` and `…T14-07-10-579Z`. `npm run hmi:audit -- <run>` passes 13/13 on each with no PLC. Every operator command was a trusted click in the portal's controlled session.
+- **Gates H0–H3 pass, H1–H3 live** against M8 boot `1580380594210`. H2 passed three times: `artifacts/hmi/h2/2026-11-01T14-02-24-720Z`, `…T14-07-10-579Z`, and `…T15-12-23-772Z` (the last with the simulation coordinator in its own process). `npm run hmi:audit -- <run>` passes 13/13 on each with no PLC. Every operator command was a trusted click in the portal's controlled session.
   - Start/Stop/Auto were applied from PLC acknowledgements. Start with Auto off was rejected by the PLC.
   - An injected overload raised fault 10. Reset was rejected while overloaded, then applied after the cause cleared; the alarm cleared on an observed transition, with no restart.
   - Item 301/A completed at Exit A / Sorted, acknowledged by the WCS peer.
   - During an HMI-link interruption, Start was disabled and nothing was written; the link reconnected.
   - ConnectorStale showed as a banner and created no alarm.
-- Tests: 70/70. Screenshots: fixture and live, in `docs/screenshots/hmi/` (`live-index.json`).
-- **Open: the PLC was left held.** Attempt 6 (`…T14-08-43-860Z`) failed: an ~855 ms event-loop stall in the single-process H2 runner starved the coordinator heartbeat. The PLC was left in Auto with item 301, the image held and ConnectorStale TRUE; fault 33 is probably latched since. Recovery needs an explicit recorded baseline procedure, and H2 refuses the dirty baseline. Before more live H2 runs, move the coordinator into its own process.
+- Tests: 72/72. Screenshots: fixture and live, in `docs/screenshots/hmi/` (`live-index.json`), including the live portal pages.
+- **The PLC is left clean:** Stopped, no fault, no item, completion acknowledged, simulation held at rest, ConnectorStale TRUE. No lock is held, and the watcher's credential is cleared.
+- The 13 live attempts are all retained.
+  - Four left M8 held after the coordinator timed out.
+  - Each was reconciled by `scripts/recover-hmi-h2-baseline.js`, which follows Lane A's preparation pattern. It refuses unless boot, applied epoch/sequence, held image, counters and the predicted fault match that run exactly. All four reconciliations are recorded under `artifacts/hmi/h2/recovery-*`.
+- **Finding for Lane A:** the coordinator runs about 30 ms under its 300 ms observation bound on this laptop (Lane A's M10 max was 267 ms; H2 p99 227–246 ms). An extra OPC client, frame capture, and especially a browser loading the full portal UI can push one tick over the bound. Isolating the coordinator (own process, above-normal priority, lighter HMI polling during H2) made the passing run possible, but does not guarantee every run.
 
 See `docs/m10-operator-hmi.md`.
 
