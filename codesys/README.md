@@ -4,6 +4,8 @@ This directory contains the disposable Control Win project and measurement artif
 
 It is a connector/runtime proof fixture, not the final platform-specific interceptor library.
 
+`library/` now contains a separate reusable `ControlsBench Core` prototype and compiled Library Manager consumers. Its offline build passed; runtime conformance and live replacement remain separate gates. See `library/README.md` and `../docs/plc-adapter-standard.md`. The existing measurement/demo projects have not been switched to it. Native File-Based Storage migration is planned in `library/FILE-BASED-STORAGE.md`.
+
 ## Current fixture
 
 - `gngnf.project` is the minimal CODESYS Control Win V3 x64 project.

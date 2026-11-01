@@ -1,0 +1,109 @@
+{
+  "sources": {
+    "FB_CB_DO": "3b87e19ea226c5ca8fdb2a0ab180cde631d22447c837e3e3da925031b1a7de36", 
+    "ST_CB_Config": "6da9a98e607cdfc9a0ba086789107744f7a952d7f16d5b98c60bebd369c4c0c2", 
+    "ST_CB_Image": "658d78bbc2170afb7967d2b64f33f5bbe79e13c44825fac6b8e4c6defa3c129b", 
+    "FB_CB_AO": "071c9b73ce4cb8fee1982a508e84d0f4f0b4082c82cd47e74c81c1d1e4d76fc4", 
+    "FB_CB_DI": "70d57280ae52e834f380f7281b9c53e8d0d150731b9f5c0e9439bd214ab1e42f", 
+    "FB_CB_OutputCapture": "3422a2c34ef46a3e51bb4357db83b957f362183bd125e7b06285d7e0207a40d5", 
+    "FB_CB_AI": "b22ea4cd9572a14340b13ae4cc622e328073f5790684077c3c6d86388081db3c", 
+    "ST_CB_Status": "659afc07edfa3a36232122a2bba27bd0449c2cc8a1b61b5de859c8259ff76fa4", 
+    "FB_CB_Session": "14b8972c71a8d6f6fcc9a0c780cdb59f8501f78896fbc5e9b945ea8297cec34e", 
+    "ST_CB_Slot": "e2097de49f68ee355345b3a29728f3231a38d2a92be6ce8c779ba45ad96e7fa2", 
+    "ST_CB_Request": "e937d0ad9ad422ceab9d026a05e0cd666a75816a6bb58e9ca99d2bad81f8de44", 
+    "ST_CB_Numeric": "17a24b50d4d5d43d5983142015300e062823c7a43d930c53e1fb388a3c0a4194"
+  }, 
+  "artifacts": {
+    "ControlsBenchConsumer.compiled-library": "3d473e2b81650c1edd14e1654dd1cc93628f7a036f6904e969f61bee9821b313", 
+    "ControlsBenchConsumer.project": "1e3ad157b7dd387dbf54de7f8135e5aa3e231b81433cecc855dca3a626c178a4", 
+    "ControlsBenchConsumer.library": "0a4978a808124c2d9738afdbc908c18ef956044d1f344f7bb8d65dbc5f0c640a", 
+    "ControlsBenchCore.library": "7c6974f08381cb4bf11244c3109d74e6ae73a41b2c98c60fecf17c27f5f56200", 
+    "ControlsBenchCore.compiled-library": "ff13780717a7500bd1f2596d0b68c89e28e2cd86030fa3c78ddb10a8f4d7413d"
+  }, 
+  "namespace": "CB", 
+  "libraryVersion": "0.1.0.0", 
+  "sourceReadback": "all public DUT/FB declarations and implementations match", 
+  "frozenDemoAfter": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628", 
+  "status": "pass", 
+  "consumerSource": "7fa39920bb4abe98ee8c7bd9e52497e9b1c2e8af4e920f2931c74a67acc30557", 
+  "runtimeChecks": "compiled only; test harness not deployed or executed", 
+  "compiler": "New library default under CODESYS 3.5.22.30; consumer application inherits M8 compiler settings", 
+  "plcContacted": false, 
+  "fbsAvailable": false, 
+  "libraryRepository": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\plc-library\\codesys\\library\\repository", 
+  "frozenDemoBefore": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628", 
+  "installedLibrary": "ControlsBench Core, 0.1.0.0 (ControlsBench)", 
+  "deployed": false, 
+  "steps": [
+    {
+      "step": "core-pool-check", 
+      "errors": [], 
+      "messages": [
+        "No Offline Help installed", 
+        "------ Build started: Application:  -------", 
+        "Typify code...", 
+        "Compile complete -- 0 errors, 0 warnings", 
+        "Additional code checks ...", 
+        "Additional code checks complete -- 0 errors"
+      ]
+    }, 
+    {
+      "step": "compiled-library", 
+      "errors": [], 
+      "messages": [
+        "No Offline Help installed", 
+        "------ Build started: Application:  -------", 
+        "Typify code...", 
+        "Compile complete -- 0 errors, 0 warnings", 
+        "Additional code checks ...", 
+        "Additional code checks complete -- 0 errors", 
+        "core-pool-check: 0 compiler errors"
+      ]
+    }, 
+    {
+      "step": "independent-consumer-pool-check", 
+      "errors": [], 
+      "messages": [
+        "------ Build started: Application:  -------", 
+        "Typify code...", 
+        "Compile complete -- 0 errors, 0 warnings", 
+        "Additional code checks ...", 
+        "Additional code checks complete -- 0 errors", 
+        "core-pool-check: 0 compiler errors", 
+        "compiled-library: 0 compiler errors", 
+        "No valid license is available."
+      ]
+    }, 
+    {
+      "step": "independent-consumer-compiled", 
+      "errors": [], 
+      "messages": [
+        "------ Build started: Application:  -------", 
+        "Typify code...", 
+        "Compile complete -- 0 errors, 0 warnings", 
+        "Additional code checks ...", 
+        "Additional code checks complete -- 0 errors", 
+        "core-pool-check: 0 compiler errors", 
+        "compiled-library: 0 compiler errors", 
+        "independent-consumer-pool-check: 0 compiler errors", 
+        "No valid license is available."
+      ]
+    }, 
+    {
+      "step": "consumer-application-build", 
+      "errors": [], 
+      "messages": [
+        "------ Build started: Application: Device.Application -------", 
+        "Typify code...", 
+        "Compile complete -- 0 errors, 0 warnings", 
+        "Additional code checks ...", 
+        "Additional code checks complete -- 0 errors", 
+        "core-pool-check: 0 compiler errors", 
+        "compiled-library: 0 compiler errors", 
+        "independent-consumer-pool-check: 0 compiler errors", 
+        "independent-consumer-compiled: 0 compiler errors"
+      ]
+    }
+  ], 
+  "consumerApplication": "1e3ad157b7dd387dbf54de7f8135e5aa3e231b81433cecc855dca3a626c178a4"
+}

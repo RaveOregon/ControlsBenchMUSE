@@ -1,0 +1,7 @@
+source/*.st text eol=lf
+examples/*.st text eol=lf
+scripts/*.py text eol=lf
+*.library binary
+*.compiled-library binary
+*.project binary
+builds/**/result.json -text

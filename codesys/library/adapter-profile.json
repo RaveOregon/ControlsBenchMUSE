@@ -1,0 +1,63 @@
+{
+  "profileVersion": "0.1.0",
+  "profileId": "controlsbench.codesys.raw-banks.prototype",
+  "status": "offline_compilation_only",
+  "library": {
+    "title": "ControlsBench Core",
+    "company": "ControlsBench",
+    "version": "0.1.0.0",
+    "namespace": "CB",
+    "source": "source/",
+    "testedBuildEnvironment": "CODESYS 3.5.22.30, CODESYS V3.5 SP22 Patch 3"
+  },
+  "rawBanks": [
+    {"path": "Digital", "type": "BOOL", "count": 64, "lowerBound": 0},
+    {"path": "Numeric.Signed", "type": "DINT", "bits": 32, "signed": true, "count": 32, "lowerBound": 0},
+    {"path": "Numeric.Unsigned", "type": "UDINT", "bits": 32, "signed": false, "count": 32, "lowerBound": 0},
+    {"path": "Numeric.RealValue", "type": "REAL", "bits": 32, "encoding": "IEEE754_binary32", "count": 16, "lowerBound": 0}
+  ],
+  "unsupportedFieldTypes": ["LINT", "ULINT", "LREAL", "STRING", "arbitrary_structures"],
+  "semantics": {
+    "oneWriterPerDomain": true,
+    "coldSelection": "hardware",
+    "simulationEntry": "raw_zero",
+    "linkLoss": "hold_last_simulated_image_and_report_stale",
+    "simulationReset": "rising_SimulationResetRequest_zeros_image_and_revision_remains_simulated",
+    "sessionReset": "rising_SessionResetRequest_clears_revision_retains_image",
+    "exit": "SimRequest_false_restores_hardware",
+    "slotCount": 2,
+    "commitEdge": "RequestedSequence_change_written_last",
+    "sequenceChangeRequiredAcrossEpochs": true,
+    "maximumOutstandingCommits": 1,
+    "slotReuse": "only_after_applied_acknowledgement_or_explicit_rejected_request_resolution",
+    "completeImageAcrossBanks": true,
+    "timeUnit": "microseconds_monotonic_ULINT",
+    "timeoutComparison": "elapsed_strictly_greater_than_TimeoutUs",
+    "bootIdentity": "nonzero_consumer_platform_service_changes_on_restart",
+    "newEpoch": "no_prior_epoch_or_explicit_reset_or_elapsed_stale_at_scan_entry",
+    "reconfigure": "config_boot_or_backward_clock_change_latches_requires_explicit_reinitialization",
+    "outputs": "observe_original_commands_suppression_only_changes_physical_sink",
+    "captureOrder": "after_application_in_same_domain_task_cycle",
+    "outputReadGuard": "fresh_ordered_revision_fields_revision_reads_equal_nonzero_even_PublicationRevision",
+    "threading": "domain_called_once_per_task_cycle_no_cross_task_atomicity_claim",
+    "simulationRunsOnWorkstation": true,
+    "plcPatternPlayback": false
+  },
+  "onboardingRequired": [
+    "machine_spec_and_raw_io_source_references",
+    "vendor_runtime_compiler_application_build_identity",
+    "domain_schema_ids_and_complete_map_hash",
+    "distinct_request_and_session_instance_per_domain",
+    "explicit_channel_identity_direction_bank_index_native_encoding_zero_normal",
+    "lossless_native_type_mapping_or_visible_unsupported_type_rejection",
+    "configured_counts_and_capacity_validation",
+    "raw_acquisition_then_session_then_application_then_output_tap_and_capture",
+    "transport_binding_and_access_rights",
+    "boot_and_monotonic_time_platform_services",
+    "output_suppression_masks_and_visible_physical_sink_state",
+    "measured_transport_cadence_and_runtime_conformance"
+  ],
+  "existingM8ConnectorMapCompatible": false,
+  "nativeFileBasedStorageConverted": false,
+  "otherVendorsValidated": []
+}
