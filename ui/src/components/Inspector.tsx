@@ -24,12 +24,13 @@ function eventBody(event: MuseEvent): Record<string, unknown> {
 
 function ProvenanceTable({ event }: { event: MuseEvent }) {
   const p = event.provenance;
-  const tag = evidenceTag(p.evidenceClass, p.mode);
+  const evidenceMode = p.sourceMode ?? p.mode;
+  const tag = evidenceTag(p.evidenceClass, evidenceMode);
   return (
     <dl className="kv">
       <dt>Mode</dt>
       <dd>
-        <span className={`tag ${p.mode}`}>{p.mode === "replay" ? "replay — recorded, not live" : "live"}</span>
+        <span className={`tag ${evidenceMode}`}>{evidenceMode === "replay" ? "replay — recorded, not live" : "live"}</span>
       </dd>
       <dt>Evidence class</dt>
       <dd>

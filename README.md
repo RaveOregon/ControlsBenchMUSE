@@ -2,6 +2,12 @@
 
 ControlsBench Muse is a controls-engineer workstation concept for autonomous bench testing of executing PLC logic. Muse generates a behaviorally sufficient external world from a functional specification and raw I/O contract, operates the system under test, adapts its investigation, and preserves traceable evidence.
 
+## Integrated application — current entry point
+
+On `codex/product-integration`, run `npm ci`, `npm --prefix ui ci`, then `npm start`. This builds and serves the combined portal, generated machine view and captured browser HMI at `http://127.0.0.1:5190/` (HMI service `:5191`). The default is an explicitly labelled zero-cost preview with a fake connector/provider and recorded HMI fixture. Start Campaign begins the preview; opening the application alone does not start it. Ctrl+C shuts down its services.
+
+See [docs/product-integration.md](docs/product-integration.md) for the exact full-path command, recorded review, live M8 launch, verification and outstanding live-Wonder adapter gate. The historical proof sections below retain their original scope and do not supersede that integration status.
+
 ## Current proof status
 
 Gates A, B, C, and D passed on 2026-10-29 using the same `muse-wonder-1.0` behavioral world:

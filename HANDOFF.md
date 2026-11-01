@@ -1,5 +1,7 @@
 # ControlsBench Muse — cross-computer handoff
 
+Current application integration: `codex/product-integration`, worktree `C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\product-integration`. Read `docs/product-integration.md` first. `npm start` there launches the combined portal/generated-view/captured-HMI preview on :5190/:5191; it does not contact a PLC or paid model by default. Wonder and corrected HMI code are merged. A compatible isolated live-Wonder adapter and its live proof remain outstanding; H2 isolation alone is not that adapter. Older lane notes below retain their historical scope.
+
 Updated 2026-10-31. Read this before extending the prototype. The user wants a useful Meta hackathon slice, not a polished production conveyor or a large architecture exercise.
 
 ## Product promise and current decisions

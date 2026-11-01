@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { CampaignRuntime } from "../campaign/runtime.ts";
@@ -9,7 +9,8 @@ import { WonderResponsesProvider, fileExchangeJournal, wonderPricing } from "../
 import { digest } from "../campaign/ledger.ts";
 import { fileHash } from "../campaign/harness.ts";
 import { verifyOwnerHandoff } from "../campaign/owner-handoff.ts";
-import { execFileSync } from "node:child_process";
+import { verifyOwnerEntry } from "../campaign/owner-entry.ts";
+import { resolveWonderScope } from "./wonder-scope.ts";
 import type { IsolatedWonderSession } from "../campaign/process-port.ts";
 import type { CampaignProvider } from "../campaign/provider.ts";
 import type { CampaignFactory, CampaignFactoryContext } from "./campaign-factory.ts";
@@ -18,7 +19,6 @@ const root = new URL("../../", import.meta.url);
 // Verified convergence checkout uses Git's CRLF conversion; historical M10 recorded LF bytes.
 // Pin both explicitly. Neither world nor view bytes are rewritten by this lane.
 const convergenceWorldCheckoutHash = "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5";
-const categories = ["io", "startup", "functional", "runtime", "faults", "normal", "edge", "adaptive"];
 export interface WonderFactoryOptions {
   processModule?: string;
   handoffCommit?: string;
@@ -40,8 +40,8 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
     evidenceClass, claimBoundary, connectorId: "isolated-m8-process-v1", outputIds: ["Motor_RunCmd", "D1_ExtendCmd", "D2_ExtendCmd", "StackLight_Red", "StackLight_Green"],
     limits: { ...acceptedBudgetLimits }, supportsExitSimulation: true,
     async create(context) {
-      const scope = Object.keys(context.scope).length ? Object.entries(context.scope).filter(([, value]) => value).map(([key]) => key) : categories;
-      if (!scope.length || Object.keys(context.scope).some(key => !categories.includes(key))) throw new Error("Wonder scope must select supported engineering categories");
+      const selection = resolveWonderScope(context.scope);
+      const scope = selection.categories;
       const processModule = options.processModule ?? process.env.CONTROLSBENCH_WONDER_PROCESS_MODULE;
       const pin = options.handoffCommit ?? process.env.CONTROLSBENCH_WONDER_PROCESS_COMMIT;
       const pricing = options.pricingReviewedOn ?? process.env.CONTROLSBENCH_WONDER_PRICING_REVIEWED;
@@ -49,20 +49,15 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
       const handoffSha256 = options.handoffSha256 ?? process.env.CONTROLSBENCH_WONDER_HANDOFF_SHA256;
       if (!injected && (!processModule || !pin || !/^[a-f0-9]{40}$/.test(pin) || !handoffPath || !handoffSha256)) throw new Error("W4 not ready: completed isolated coordinator/recovery handoff module, full owner commit and pinned evidence manifest required; no PLC/model contact");
       const handoff = injected ? undefined : verifyOwnerHandoff(resolve(handoffPath!), handoffSha256!, pin!);
-      if (!injected) {
-        const moduleDirectory = dirname(resolve(processModule!));
-        const ownerRoot = execFileSync("git", ["-C", moduleDirectory, "rev-parse", "--show-toplevel"], { encoding: "utf8", windowsHide: true }).trim();
-        const ownerHead = execFileSync("git", ["-C", ownerRoot, "rev-parse", "HEAD"], { encoding: "utf8", windowsHide: true }).trim();
-        const codeChanges = execFileSync("git", ["-C", ownerRoot, "status", "--porcelain", "--", "src", "scripts"], { encoding: "utf8", windowsHide: true }).trim();
-        if (ownerHead !== pin || codeChanges) throw new Error("Owner adapter checkout must match its pinned commit with unchanged src/scripts");
-      }
+      const ownerEntry = injected ? undefined : verifyOwnerEntry(processModule!, pin!);
       if (!injected && pricing !== wonderPricing.checkedOn) throw new Error("Reverify documented Wonder Standard rates and set CONTROLSBENCH_WONDER_PRICING_REVIEWED; no model contact");
       if (!injected && (!context.artifactDirectory || !process.env.MODEL_API_KEY)) throw new Error("Persistent campaign artifacts and local MODEL_API_KEY are required");
       const paths = commonWonderPaths();
       let account: DurableSessionAccount | undefined, session: IsolatedWonderSession | undefined;
       try {
         if (!injected) { mkdirSync(dirname(paths.session), { recursive: true }); account = new DurableSessionAccount(paths.session, context.ledger.campaignId); }
-        const open = options.openSession ?? (await import(pathToFileURL(resolve(processModule!)).href)).createWonderSession;
+        if (ownerEntry && context.artifactDirectory) writeFileSync(join(context.artifactDirectory, "owner-entry.json"), JSON.stringify(ownerEntry, null, 2) + "\n");
+        const open = options.openSession ?? (await import(pathToFileURL(ownerEntry!.entry).href)).createWonderSession;
         if (typeof open !== "function") throw new Error("Owner module must export createWonderSession(context) for controlsbench.wonder-process.v1");
         session = await open(context);
         if (session!.contract !== "controlsbench.wonder-process.v1" || session!.ledger !== context.ledger || !session!.driver.decisionLeases
@@ -82,11 +77,13 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
         const budget = new CampaignBudget(context.ledger, undefined, 5, account);
         const manifest = JSON.parse(readFileSync(new URL("world.manifest.json", world), "utf8"));
         const signals = [...manifest.signals, ...session!.driver.observedOutputIds!.filter(id => !manifest.signals.some((s: any) => s.id === id)).map(id => ({ id, direction: "plc_to_world", description: "Declared observed M8 controller diagnostic; see accepted spec" }))];
+        if (selection.qualificationReferences.length) context.ledger.append("agent.activity", { phase: "scope", summary: `Preserved qualification references ${selection.qualificationReferences.join(", ")} are not new qualification runs; the existing 10 Hz ceiling remains in force.` });
         const runtime = new CampaignRuntime({ ledger: context.ledger, provider, budget, driver: session!.driver, controller: session!.controller, hmi: context.hmi,
           paidAuthorized: !injected, requireDecisionLeases: true, evidenceClass, claimBoundary, categories: scope,
           provenance: { ...session!.provenance, model: provider.id, ioMap: digest(signals) }, spec: readFileSync(new URL("docs/conveyor-machine-spec.md", root), "utf8"), signals,
           capabilities: { world: "preserved Muse conveyor 0.5.0", semantic: session!.driver.binding.describe,
             operator: "configured direct sequenced controller adapter; not an HMI click", decisionLeases: ["hold", "continue", "condition_deadline"],
+            selection, qualificationRuns: "unsupported; selected CQ checks are historical references only, no cadence change",
             hmi: "host frame capture only; actions/clips unsupported unless host explicitly implements them", branch: "snapshot only; no fork execution", rewrite: "unsupported" } });
         const active = session;
         return { runtime, simulationExit: active!.simulationExit, dispose: async () => { try { await active!.dispose(); } finally { account?.close(); } } };

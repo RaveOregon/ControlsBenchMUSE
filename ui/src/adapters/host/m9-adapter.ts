@@ -53,8 +53,9 @@ export class CampaignEventMapper {
     const d = env.data;
     const source = (d.sourceId ? (lookup(String(d.sourceId))?.data.source as Source | undefined) : undefined);
     const add = (lane: EventLane, evidenceClass: EvidenceClass, summary: string, body: MuseEventBody, extra: Partial<Provenance> = {}) => {
-      const provenance: Provenance = { mode: this.options.mode, evidenceClass, source: `campaign:${env.campaignId}`, ref: env.id,
-        clock: this.options.mode === "live" ? "live_wall" : "recorded_wall", recordedAt: env.atIso, run: env.campaignId, ...extra };
+      const historical = this.options.evidenceClass === "preserved_live_plc" && ["plc_measurement", "world_model"].includes(evidenceClass);
+      const provenance: Provenance = { mode: this.options.mode, ...(historical ? { sourceMode: "replay" as const } : {}), evidenceClass, source: `campaign:${env.campaignId}`, ref: env.id,
+        clock: historical || this.options.mode === "replay" ? "recorded_wall" : "live_wall", recordedAt: env.atIso, run: env.campaignId, ...extra };
       out.push({ ...body, id: out.length ? `${env.id}#${out.length}` : env.id, atMs: at, lane, summary, provenance } as MuseEvent);
     };
     const record = (lane: EventLane, evidenceClass: EvidenceClass, summary: string) => add(lane, evidenceClass, summary, { kind: "campaign.record", type: env.type, data: d });
@@ -153,8 +154,9 @@ export class CampaignEventMapper {
         const ref = { recordedAt: s?.atIso, sourceAtMs: s?.atMonotonicMs, ref: `${env.id}; ${text(d.origin)} coordinator #${s?.sequence ?? "?"}` };
         if (sd.action === "connector.open" && !this.#episodeOpen) {
           this.#episodeOpen = true;
+          const current = this.options.evidenceClass !== "preserved_live_plc";
           add("system", this.#plcClass(), "Campaign connector session", { kind: "episode.start", episodeId: env.campaignId, title: this.options.label ?? "Hosted M9 campaign", checkIds: [],
-            world: { worldId: "conveyor", worldVersion: "0.5.0", run: env.campaignId }, connectorExpected: true, plcExpected: true, worldExpected: true, timeScale: 1,
+            world: { worldId: "conveyor", worldVersion: "0.5.0", run: env.campaignId }, connectorExpected: current, plcExpected: current, worldExpected: current, timeScale: 1,
             note: `Evidence class ${this.options.evidenceClass}` }, ref);
         }
         const observation = sd.observation as { bootIdentity?: string; plcCycle?: string } | undefined;
@@ -177,7 +179,7 @@ export class CampaignEventMapper {
         const image = rawRecord(d.image);
         const sd = source?.data ?? {};
         // Simulated raw values come from the validated acknowledged complete image, not OPC quality.
-        const meta: ValueMetadata = { quality: "good", freshness: "current", workstationTimestamp: source?.atIso };
+        const meta: ValueMetadata = { quality: "good", freshness: this.options.evidenceClass === "preserved_live_plc" ? "unknown" : "current", workstationTimestamp: source?.atIso };
         for (const [signalId, value] of Object.entries(image)) add("raw_input", this.#worldClass(), `${signalId} = ${String(value)}`, { kind: "raw.input", signalId, value, cause: `complete image seq ${text(d.sequence)} (${String(d.sourceId)})`, metadata: meta }, sourceRef);
         add("raw_input", this.#worldClass(), `Commit seq ${text(d.sequence)} → slot ${text(sd.slot)}`, { kind: "connector.commit", epoch: text(d.epoch), sequence: text(d.sequence), slot: Number.isInteger(sd.slot) ? Number(sd.slot) : null }, sourceRef);
         break;
@@ -196,7 +198,7 @@ export class CampaignEventMapper {
       case "plc.output": {
         const values = rawRecord(d.values);
         const quality = source?.data?.outputQuality as Record<string, string> | undefined;
-        const metadata = Object.fromEntries(Object.keys(values).map(id => [id, { quality: quality?.[id] === "good" ? "good" : quality?.[id] === "bad" ? "bad" : "unknown", freshness: "current", workstationTimestamp: source?.atIso } satisfies ValueMetadata]));
+        const metadata = Object.fromEntries(Object.keys(values).map(id => [id, { quality: quality?.[id] === "good" ? "good" : quality?.[id] === "bad" ? "bad" : "unknown", freshness: this.options.evidenceClass === "preserved_live_plc" ? "unknown" : "current", workstationTimestamp: source?.atIso } satisfies ValueMetadata]));
         add("plc_output", this.#plcClass(), `PLC outputs @ cycle ${text(d.outputCaptureCycle)}`, { kind: "plc.output", values, origin: this.options.evidenceClass === "fake_connector" ? "surrogate_driver" : "plc", metadata }, sourceRef);
         break;
       }

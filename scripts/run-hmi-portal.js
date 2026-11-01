@@ -17,6 +17,9 @@ import { CampaignHost } from "../src/host/campaign-host.ts";
 import { fixtureCampaignFactory, loadCampaignFactory } from "../src/host/campaign-factory.ts";
 import { CdpWebVisuSource } from "../src/host/cdp-webvisu.ts";
 import { HmiHub } from "../src/host/hmi.ts";
+import { createCampaignFactory as m8Factory, m8Preflight } from "../src/host/m8-campaign-factory.ts";
+import { createCampaignFactory as recordedFactory } from "../src/host/wonder-recorded-factory.ts";
+import { createCampaignFactory as wonderFactory } from "../src/host/wonder-campaign-factory.ts";
 import { createPortalServer, listen as listenPortal } from "../src/host/http.ts";
 
 const { values } = parseArgs({ options: {
@@ -24,9 +27,12 @@ const { values } = parseArgs({ options: {
   "hmi-port": { type: "string", default: "5181" }, "portal-port": { type: "string", default: "5179" },
   "poll-ms": { type: "string", default: "250" }, "shared-poll-ms": { type: "string", default: "1000" }, commands: { type: "string", default: "auto" },
   artifacts: { type: "string", default: "artifacts/hmi" }, "hmi-headless": { type: "boolean", default: false },
-  "capture-ms": { type: "string", default: "1000" }, "campaign-module": { type: "string" }
+  "capture-ms": { type: "string", default: "1000" }, "campaign-module": { type: "string" }, campaign: { type: "string", default: "fixture" }
 } });
 if (!!values.fixture === values.live) throw new Error("Choose exactly one of --fixture <state> or --live");
+if (!["auto", "enabled", "disabled"].includes(values.commands)) throw new Error("--commands must be auto, enabled or disabled");
+if (!values["campaign-module"] && !["fixture", "fixture-adaptive", "m8", "wonder-recorded", "wonder"].includes(values.campaign)) throw new Error("Unknown campaign mode");
+if (["m8", "wonder"].includes(values.campaign) && !values.live) throw new Error("A live campaign requires a live HMI source");
 
 let source;
 if (values.live) {
@@ -35,7 +41,7 @@ if (values.live) {
   delete process.env.OPC_PASSWORD;
   const { createM8NativeTransport } = await import("../src/live/m8-native-transport.ts");
   const { m8Map } = await import("../src/live/m8-map.ts");
-  source = { kind: "live_plc", endpoint: m8Map.endpoint, userConfigured: true, transportFactory: event => createM8NativeTransport({ userName, password: secret, event }) };
+  source = { kind: "live_plc", endpoint: m8Map.endpoint, userConfigured: true, transportFactory: event => createM8NativeTransport({ userName, password: secret, event, modulePath: m8Preflight().modulePath }) };
 } else source = { kind: "fixture", plc: new FixturePlc(values.fixture, { emulate: !values["no-emulate"] }) };
 
 const service = new HmiService({ source, artifactRoot: values.artifacts, pollIntervalMs: Number(values["poll-ms"]), sharedPollIntervalMs: Number(values["shared-poll-ms"]), commandPolicy: values.commands });
@@ -47,8 +53,12 @@ const hmiServer = createHmiServer(service, { extraPost: { "/api/agent-actions/ex
 service.url = await listen(hmiServer, Number(values["hmi-port"]));
 await service.start();
 
-const factory = values["campaign-module"] ? await loadCampaignFactory(values["campaign-module"]) : fixtureCampaignFactory();
-const host = new CampaignHost({ factory, artifactDir: artifactDir ? `${artifactDir}/portal-host` : undefined, hmi: hub,
+const factory = values["campaign-module"] ? await loadCampaignFactory(values["campaign-module"])
+  : values.campaign === "m8" ? m8Factory()
+  : values.campaign === "wonder" ? wonderFactory()
+  : values.campaign === "wonder-recorded" ? recordedFactory()
+  : fixtureCampaignFactory({ adaptive: values.campaign === "fixture-adaptive" });
+const host = new CampaignHost({ factory, artifactDir: artifactDir ? `${artifactDir}/portal-host` : undefined, commandTimeoutMs: factory.evidenceClass === "live_plc" ? 90_000 : 15_000, hmi: hub,
   hmiSourceFactory: url => bridge.attachSource(new CdpWebVisuSource(url, { headless: values["hmi-headless"], width: 1280, height: 800 })) });
 const staticDir = new URL("../ui/dist/", import.meta.url);
 const portal = createPortalServer({ host, staticDir: existsSync(staticDir) ? staticDir.pathname.replace(/^\/([A-Za-z]:)/, "$1") : undefined });

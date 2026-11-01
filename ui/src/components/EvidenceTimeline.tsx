@@ -141,7 +141,7 @@ export function EvidenceTimeline({ state, nowMs, selection, onSelect }: Props) {
       <div className="events" role="list">
         {recent.length === 0 && <div className="event-row muted">No events yet.</div>}
         {recent.map((event) => {
-          const tag = evidenceTag(event.provenance.evidenceClass, event.provenance.mode);
+          const tag = evidenceTag(event.provenance.evidenceClass, event.provenance.sourceMode ?? event.provenance.mode);
           const lane = event.lane === "system" ? null : (event.lane as TimelineLane);
           return (
             <button key={event.id} type="button" className={`event-row${selection?.type === "event" && selection.id === event.id ? " selected" : ""}`} onClick={() => onSelect({ type: "event", id: event.id })}>

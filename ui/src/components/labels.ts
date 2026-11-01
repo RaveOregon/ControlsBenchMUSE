@@ -30,7 +30,7 @@ export function evidenceTag(evidenceClass: EvidenceClass, mode: SourceMode, avai
     case "surrogate_contract":
       return { text: "surrogate", cls: "surrogate", title: "Generated world against the surrogate PLC-output driver. No PLC involved." };
     case "plc_measurement":
-      return recorded ? { text: "PLC · recorded", cls: "plc", title: "Measured against CODESYS Control Win on 2026-10-30; replayed, not live." } : { text: "PLC · live", cls: "live", title: "Observed now from the attached coordinator." };
+      return recorded ? { text: "PLC · recorded", cls: "plc", title: "Historical PLC measurement; see its original source timestamp. No current PLC observation." } : { text: "PLC · live", cls: "live", title: "Observed now from the attached coordinator." };
     case "world_model":
       return recorded ? { text: "world · recorded", cls: "surrogate", title: "Generated world evidence replayed from a record." } : { text: "world · live", cls: "live", title: "Generated world driving the PLC now." };
     case "agent_record":

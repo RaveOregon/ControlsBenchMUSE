@@ -37,7 +37,10 @@ export type SourceClock =
   | "live_wall"; // wall clock observed now
 
 export interface Provenance {
+  /** Presentation channel; prevents arbitrary replay events entering a live workspace. */
   mode: SourceMode;
+  /** Origin of physical evidence, independent of a currently hosted review/agent turn. */
+  sourceMode?: SourceMode;
   evidenceClass: EvidenceClass;
   /** Repo-relative artifact path, `replay:composer`, `workspace`, or `live:coordinator`. */
   source: string;
