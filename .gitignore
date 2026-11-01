@@ -17,3 +17,5 @@ codesys/*.compileinfo
 # Operator HMI: runtime claim and bulky per-second portal frames (curated frames are copied into evidence explicitly).
 artifacts/hmi/runtime-claim.json
 artifacts/hmi/**/hmi-frames/
+artifacts/hmi/h2/operator-request.json
+artifacts/hmi/h2/operator-status.json
