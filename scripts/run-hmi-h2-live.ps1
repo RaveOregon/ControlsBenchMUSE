@@ -1,4 +1,4 @@
-param([string]$OpcUser = 'PLC', [switch]$Headed, [switch]$Watch)
+param([string]$OpcUser = 'PLC', [switch]$Headed, [switch]$Watch, [string]$RecoverFrom = '')
 # H2 live verification of the CV-1 operator HMI. Prompts for the PLC password as a SecureString; it exists only in
 # this PowerShell process and the child process environment. Requires M8 build 8001 in RUN, a clean stopped baseline
 # and no other runtime owner. The run never resets an unexplained state.
@@ -6,6 +6,9 @@ param([string]$OpcUser = 'PLC', [switch]$Headed, [switch]$Watch)
 # -Watch keeps the credential in this process after a run and waits for an explicit request in
 # artifacts/hmi/h2/operator-request.json ({"id":"<new id>","action":"run"|"stop"}). It never retries by itself and
 # clears the credential on stop, Ctrl+C or 30 minutes idle.
+#
+# -RecoverFrom <saved failed run> first runs the explicit, recorded reconciliation of that run's held PLC state
+# (scripts/recover-hmi-h2-baseline.js). H2 runs only if the reconciliation passes.
 $ErrorActionPreference = 'Stop'
 Push-Location (Join-Path $PSScriptRoot '..')
 try {
@@ -24,10 +27,20 @@ try {
             try {
                 $env:OPC_USER = $OpcUser
                 $env:OPC_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($h2Ptr)
-                $h2Args = @()
-                if ($Headed) { $h2Args += '--headed' }
-                & node (Join-Path $PSScriptRoot 'run-hmi-h2-live.js') @h2Args
-                $h2Exit = $LASTEXITCODE
+                $h2Recovered = $true
+                if ($RecoverFrom) {
+                    & node (Join-Path $PSScriptRoot 'recover-hmi-h2-baseline.js') $RecoverFrom
+                    $h2Recovered = ($LASTEXITCODE -eq 0)
+                    $RecoverFrom = ''
+                    if (-not $h2Recovered) { Write-Warning 'Baseline reconciliation failed; H2 not started. Inspect the recovery evidence.' }
+                    $env:OPC_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($h2Ptr)
+                }
+                if ($h2Recovered) {
+                    $h2Args = @()
+                    if ($Headed) { $h2Args += '--headed' }
+                    & node (Join-Path $PSScriptRoot 'run-hmi-h2-live.js') @h2Args
+                    $h2Exit = $LASTEXITCODE
+                }
                 if ($h2Exit -ne 0) { Write-Warning 'H2 stopped. Evidence is preserved; inspect before any retry.' }
             }
             finally {

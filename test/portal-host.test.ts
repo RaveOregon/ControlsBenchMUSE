@@ -235,12 +235,14 @@ test("live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI 
     assert.equal(h.session.pause().ok, false, "nothing to pause after stop");
 
     // Capture loss: the last frame stays, under a stale overlay.
-    const held = h.store.state.hmi.lastFrame!.reference;
     h.hmi!.fail = true;
     await until(() => h.store.state.hmi.state === "stale", "stale HMI session");
+    // Read the held frame once stale: a periodic capture already in flight when `fail` was set may still land first.
+    const held = h.store.state.hmi.lastFrame!.reference;
+    await new Promise(r => setTimeout(r, 300));
     const stale = hmiTileModel(h.store.state, Date.now());
     assert.equal(stale.overlay?.kind, "stale");
-    assert.equal(stale.frame?.reference, held);
+    assert.equal(stale.frame?.reference, held, "no new frame while capture fails; the last frame stays");
     const off = await command(h, () => h.session.disconnectHmi(), "disconnect_hmi");
     assert.equal(off.outcome, "applied");
     await until(() => h.store.state.hmi.state === "disconnected", "disconnected");

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts test/m8-connector.test.ts test/portal-host.test.ts test/cdp-webvisu.test.ts test/hmi-commands.test.ts test/hmi-alarms.test.ts test/hmi-freshness.test.ts",
+    "test": "node --test test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts test/m8-connector.test.ts test/portal-host.test.ts test/cdp-webvisu.test.ts test/hmi-commands.test.ts test/hmi-alarms.test.ts test/hmi-freshness.test.ts test/hmi-coordinator-process.test.ts",
     "host": "node scripts/host-portal.js",
     "host:adaptive": "node scripts/host-portal.js --campaign fixture-adaptive",
     "hmi": "node scripts/run-hmi.js --fixture m10-final-held",

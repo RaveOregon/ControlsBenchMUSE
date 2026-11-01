@@ -4,25 +4,20 @@
 //
 // Roles stay separate and attributable:
 //   - Simulation coordinator (field inputs): Lane A's M8 connector + preserved Muse world 0.5.0 on its own
-//     OPC UA session, driven at the declared 10 Hz ceiling. Only it writes the raw input image.
+//     OPC UA session, in its own process (scripts/hmi-h2-coordinator.js), driven at the declared 10 Hz
+//     ceiling. Only it writes the raw input image. Nothing in this process can delay its heartbeat.
 //   - WCS peer: the coordinator's assign_route / acknowledge_completion tools.
 //   - Operator: the HMI service on a second OPC UA session. Every operator command here is a real
 //     trusted click on the HMI page in the portal's controlled browser session (Lane B HMI hub).
 // The run stops on the first unexplained result. It never resets an unexplained state.
-import { closeSync, copyFileSync, existsSync, mkdirSync, openSync, readFileSync, unlinkSync, writeFileSync, appendFileSync } from "node:fs";
+import { closeSync, copyFileSync, existsSync, mkdirSync, openSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { createM8NativeTransport } from "../src/live/m8-native-transport.ts";
-import { M8OpcUaConnector } from "../src/live/m8-opcua.ts";
-import { LiveWorldCoordinator } from "../src/live/coordinator.ts";
-import { m8Map, withM8Observations } from "../src/live/m8-map.ts";
-import { CampaignLedger } from "../src/campaign/ledger.ts";
-import { CampaignRuntime } from "../src/campaign/runtime.ts";
-import { CoordinatorCampaignDriver } from "../src/campaign/driver.ts";
-import { m8ControllerActions, m8WorldBindings } from "../src/campaign/m8-bindings.ts";
-import { FakeProvider } from "../src/campaign/provider.ts";
+import { m8Map } from "../src/live/m8-map.ts";
+import { CoordinatorProcess } from "../src/hmi/coordinator-process.ts";
 import { shaFile, frozenProjectHash } from "../src/campaign/m10-rehearsal.ts";
 import { HmiService, defaultOwnershipRoots } from "../src/hmi/service.ts";
 import { createHmiServer, listen } from "../src/hmi/http.ts";
@@ -46,7 +41,7 @@ const mainRoot = roots.at(-1);
 const result = { schemaVersion: 1, status: "failed", directory: dir, startedAtIso: new Date().toISOString(), modelCalls: 0, steps: [],
   projectSha256: shaFile("codesys/conveyordemo.project"), mapSha256: shaFile("codesys/demo/signal-map-v1.json"),
   worldSha256: shaFile("artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts"),
-  roles: { fieldInputs: "simulation coordinator (Lane A M8OpcUaConnector + preserved world)", wcs: "coordinator WCS tools", operator: "HMI service via portal controlled-browser clicks" } };
+  roles: { fieldInputs: "simulation coordinator process (Lane A M8OpcUaConnector + preserved world), separate from the HMI/portal process", wcs: "coordinator WCS tools", operator: "HMI service via portal controlled-browser clicks" } };
 const log = (m) => console.log(`[H2 ${new Date().toISOString().slice(11, 23)}] ${m}`);
 
 // Exclusive runtime claim honoured by Lane A's runner (it opens the same lock with "wx").
@@ -59,8 +54,7 @@ mkdirSync(join(mainRoot, "artifacts/m10"), { recursive: true });
 const lock = openSync(lockPath, "wx");
 writeFileSync(lockPath, JSON.stringify({ owner: "hmi-h2-live", pid: process.pid, directory: resolve(dir), startedAtIso: result.startedAtIso, hmiCommandsPermitted: true }) + "\n");
 
-const worldTrace = `${dir}/world-transport.jsonl`;
-const worldEvent = (kind, data) => appendFileSync(worldTrace, JSON.stringify({ kind, atIso: new Date().toISOString(), atMonotonicMs: performance.now(), ...data }) + "\n");
+const worldTrace = `${dir}/world-transport.jsonl`; // written by the coordinator process
 // Proxy for the HMI's own session only: lets the run interrupt HMI reads to verify disconnect handling. PLC unaffected.
 const hmiLinkControl = { failReads: false };
 const hmiTransportFactory = event => {
@@ -69,12 +63,16 @@ const hmiTransportFactory = event => {
     read: paths => hmiLinkControl.failReads ? Promise.reject(new Error("H2 simulated HMI-session read interruption (transport proxy; PLC unaffected)")) : inner.read(paths) };
 };
 
-let service, hmiServer, host, portal, runtime, connector, ledger, driver, unsubscribe;
+let service, hmiServer, host, portal, coord;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const hmiValue = path => { const s = service.link.latest?.values[path]; return s?.good ? s.value : undefined; };
 async function until(predicate, label, timeoutMs = 8000) {
   const deadline = Date.now() + timeoutMs;
-  while (!predicate()) { if (Date.now() > deadline) throw new Error(`Deadline: ${label}`); if (driver?.failure) throw driver.failure; await sleep(50); }
+  while (!predicate()) { if (Date.now() > deadline) throw new Error(`Deadline: ${label}`); if (coord?.failure) throw new Error(`Coordinator: ${coord.failure}`); await sleep(50); }
+}
+async function untilAsync(predicate, label, timeoutMs = 8000) {
+  const deadline = Date.now() + timeoutMs;
+  while (!(await predicate())) { if (Date.now() > deadline) throw new Error(`Deadline: ${label}`); if (coord?.failure) throw new Error(`Coordinator: ${coord.failure}`); await sleep(100); }
 }
 async function click(targetId, step) {
   const r = await (await fetch(`${service.url}api/agent-actions/execute`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ targetId, requester: `h2:${step}` }) })).json();
@@ -104,7 +102,7 @@ const plcState = () => Object.fromEntries(["GVL_DemoRead.Status.Mode", "GVL_Demo
   "GVL_DemoRead.Status.CompletionPending", "GVL_BenchRead.PlcBootIdentity"].map(p => [p.split(".").at(-1), hmiValue(p)]));
 const expectOutcome = (r, outcome, label) => { if (r.command?.outcome !== outcome) throw new Error(`${label}: expected ${outcome}, got ${r.command?.outcome ?? r.action?.status}: ${r.command?.detail ?? r.action?.detail}`); };
 async function tool(name, args) {
-  const r = await runtime.executeTool({ id: `h2-${name}-${Date.now()}`, name, arguments: args });
+  const r = await coord.call("tool", { name, args });
   if (r.status !== "applied") throw new Error(`${name} ${r.status}: ${r.message}`);
   return r;
 }
@@ -138,30 +136,13 @@ try {
   await until(() => hub.observing && !!bridge.portalClient() && !!service.targets(bridge.portalClient())?.targets.length, "portal HMI session observing", 30_000);
   record("portal-session", { summary: `Portal ${portalUrl} observing HMI session ${hub.view.sessionId} (${hub.view.browser})`, hmiSession: hub.view, portalUrl, client: bridge.portalClient() });
 
-  // ---- Simulation coordinator (Lane A connector + preserved world) ----
-  const worldPath = new URL("../artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts", import.meta.url);
-  const world = withM8Observations((await import(worldPath.href)).default);
-  connector = new M8OpcUaConnector(createM8NativeTransport({ userName, password: secret, event: worldEvent }), worldEvent, { requireStoppedBaseline: true });
-  ledger = new CampaignLedger("hmi-h2-live", { file: `${dir}/campaign.jsonl` });
-  const coordinator = new LiveWorldCoordinator(world, connector, { seed: 20261101, worldVersion: world.manifest.packageVersion });
-  driver = new CoordinatorCampaignDriver(coordinator, ledger, m8WorldBindings, { operationTimeoutMs: 5000, initializeTimeoutMs: 60_000, elapsedStep: true, maximumStepMs: 300 });
-  runtime = new CampaignRuntime({ ledger, driver, controller: m8ControllerActions(connector, ledger),
-    provider: new FakeProvider(() => { throw new Error("H2 never requests a model decision"); }),
-    provenance: { spec: shaFile("docs/conveyor-machine-spec.md"), ioMap: result.mapSha256, plcBuild: `8001/interface-1/sha256:${result.projectSha256}`, worldModule: result.worldSha256,
-      model: "none;H2 HMI operator verification", connector: `${connector.id}/${m8Map.mapVersion}` },
-    evidenceClass: "live_plc", claimBoundary: "HMI operator verification: Start/Stop/Reset/Auto, fault presentation, alarm transitions and disconnect handling against M8 build 8001 with the preserved world as field-input coordinator.",
-    spec: readFileSync("docs/conveyor-machine-spec.md", "utf8"), signals: world.manifest.signals, categories: ["functional", "runtime", "faults"] });
-  let expectedFault = 0;
-  unsubscribe = driver.subscribe(() => {
-    const fault = Number(coordinator.latestObservation?.values?.["controller.FaultCode"] ?? 0);
-    if (fault && fault !== expectedFault && !result.unexpectedFault) { result.unexpectedFault = fault; void runtime.pause(`Unexpected M8 fault ${fault}`); }
-  });
-  await runtime.start();
-  if (runtime.status !== "running") throw new Error("World coordinator failed to start");
-  await runtime.applyDecision({ summary: "HMI H2 verification: the coordinator supplies field inputs and WCS; the HMI is the operator", plan: { objective: "Verify the operator HMI against M8", experiments: [{ id: "hmi-h2", objective: "HMI operator verification", category: "runtime", requirements: [] }] }, calls: [] }, ledger.state.revision);
+  // ---- Simulation coordinator (Lane A connector + preserved world) in its own process ----
+  coord = new CoordinatorProcess({ dir, env: { ...process.env, OPC_USER: userName, OPC_PASSWORD: secret } });
+  const started = await coord.call("start", {}, 90_000);
+  result.coordinatorPid = started.pid;
   await until(() => hmiValue("GVL_BenchRead.SimApplied") === true && hmiValue("GVL_BenchRead.ConnectorStale") === false && hmiValue("GVL_BenchRead.Active_D1_HomeFB") === true, "HMI sees applied simulation image", 10_000);
-  record("coordinator", { summary: "Simulation applied; world at rest with divert home limits and destinations ready", plc: plcState() });
-  const guard = () => { if (result.unexpectedFault) throw new Error(`Unexpected M8 fault ${result.unexpectedFault}`); };
+  record("coordinator", { summary: `Simulation applied by coordinator process ${started.pid}; world at rest with divert home limits and destinations ready`, plc: plcState() });
+  const guard = () => { if (coord.unexpectedFault) throw new Error(coord.unexpectedFault); if (coord.failure) throw new Error(`Coordinator: ${coord.failure}`); };
 
   // ---- Auto / Start / Stop ----
   let r = await click("cmd.auto.on", "auto-on"); expectOutcome(r, "applied", "Auto on");
@@ -189,7 +170,7 @@ try {
   record("start-rejected", { summary: r.command.detail, agent: r.action, command: r.command, unmet: r.command.preconditions?.filter(p => p.met === false) });
 
   // ---- Fault presentation, Reset rejection and acceptance, alarm transitions ----
-  expectedFault = 10;
+  await coord.call("expect-fault", { code: 10 });
   await tool("inject_fault", { controlId: "fault.setOverload", parameters: { active: true } });
   await until(() => hmiValue("GVL_DemoRead.Status.FaultCode") === 10 && service.alarms.active().some(a => a.code === 10), "PLC fault 10 observed by HMI", 5000);
   const raised = service.alarms.active().find(a => a.code === 10);
@@ -203,7 +184,7 @@ try {
   await until(() => hmiValue("GVL_BenchRead.Active_Drive_Overload") === false, "overload input clear", 5000);
   r = await click("cmd.reset", "reset"); expectOutcome(r, "applied", "Reset after cause cleared");
   await until(() => hmiValue("GVL_DemoRead.Status.FaultCode") === 0 && !service.alarms.active().some(a => a.code === 10), "alarm cleared by observed transition", 5000);
-  expectedFault = 0;
+  await coord.call("expect-fault", { code: 0 });
   const cleared = service.alarms.query({ code: 10 }).alarms[0];
   record("reset", { summary: `${r.command.detail} Alarm ${cleared.state} (${cleared.clearBasis}); Reset did not start: Mode ${hmiValue("GVL_DemoRead.Status.ModeText")}`, agent: r.action, command: r.command, alarm: cleared, plc: plcState() });
   if (hmiValue("GVL_DemoRead.Status.Mode") !== 0 || hmiValue("GVL_DemoRead.Status.Motor_RunCmd") !== false) throw new Error("Reset implied a restart");
@@ -221,7 +202,7 @@ try {
   guard();
   record("completion", { summary: `Completion #${before.seq + 1}: item ${hmiValue("GVL_DemoRead.Status.CompletionItemId")} exit ${hmiValue("GVL_DemoRead.Status.CompletionExit")} disposition ${hmiValue("GVL_DemoRead.Status.CompletionDisposition")}; Exit A count ${before.a} → ${hmiValue("GVL_DemoRead.Status.CountExitA")}`,
     frame: (await hub.captureNow()).reference, plc: plcState() });
-  await until(() => [...coordinator.context.entityState.values()].every(e => e.type !== "carton"), "carton left the world", 10_000);
+  await untilAsync(async () => (await coord.call("cartons")) === 0, "carton left the world", 10_000);
   await tool("acknowledge_completion", { sequence: before.seq + 1 });
   await until(() => hmiValue("GVL_DemoRead.Status.CompletionPending") === false, "WCS acknowledgement observed", 5000);
   r = await click("cmd.stop", "stop-2"); expectOutcome(r, "applied", "Stop 2");
@@ -242,8 +223,7 @@ try {
 
   // ---- Bench diagnostic: stop the coordinator heartbeat; ConnectorStale is a banner, not an alarm ----
   const alarmCount = service.alarms.size;
-  await runtime.stop("HMI H2 complete; last image held in simulation");
-  await connector.close(); connector = undefined;
+  await coord.close("HMI H2 complete; last image held in simulation");
   await until(() => hmiValue("GVL_BenchRead.ConnectorStale") === true, "ConnectorStale observed by HMI", 10_000);
   await sleep(1500);
   const staleConnectorFrame = await hub.captureNow();
@@ -263,10 +243,8 @@ try {
   process.exitCode = 1;
 } finally {
   // No reset, restart or passthrough on failure. Close sessions; the PLC keeps its state.
-  unsubscribe?.();
-  if (runtime && !["stopped", "completed", "failed"].includes(runtime.status)) await runtime.stop(`H2 stopped: ${result.error ? "unexplained result" : "complete"}`).catch(() => {});
-  if (connector) await connector.close().catch(e => { result.closeError = e.message; });
-  ledger?.close();
+  if (coord && !coord.exited) await coord.close(`H2 stopped: ${result.error ? "unexplained result" : "complete"}`).catch(e => { result.closeError = e.message; });
+  if (coord?.failure) result.coordinatorFailure = coord.failure;
   if (service) result.finalPlc = plcState();
   if (host) await host.close().catch(() => {});
   if (service) { result.journal = service.journal.file; result.alarms = service.alarms.query({}).alarms; result.commands = service.commands.list(100); await service.stop(); }
