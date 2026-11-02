@@ -1,0 +1,55 @@
+{
+  "status": "inspected",
+  "mode": "inspect",
+  "scope": "live_plc",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\\portal-20261102234344698-1",
+  "heldStateSha256": "198ca9735708d6333fab1213d87f25944e5cdcc05f14ad23c0f4eac4287134e7",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "inspection": {
+    "bootIdentity": "1703372672414",
+    "appliedEpoch": "214766566219283",
+    "appliedSequence": "457",
+    "plcCycle": "24497",
+    "plcTimeUs": "1703870635543",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Auto",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 101,
+    "completionPending": true,
+    "completionSequence": 1,
+    "motorRunCmd": true,
+    "counters": {
+      "CountExitA": 1,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=1",
+      "controller.CompletionPending=true",
+      "Motor_RunCmd=true"
+    ]
+  },
+  "plan": [
+    {
+      "op": "stop"
+    },
+    {
+      "op": "fresh_world"
+    },
+    {
+      "op": "completion_ack",
+      "sequence": 1
+    },
+    {
+      "op": "await_stopped"
+    }
+  ],
+  "ownershipAfter": "released",
+  "transportSha256": "0f8c2aea2e3c69b57fc6e9d937a34a640ac02b19e984eb0e9369fc2e71bc395f",
+  "finishedAtIso": "2026-11-02T23:50:19.211Z"
+}

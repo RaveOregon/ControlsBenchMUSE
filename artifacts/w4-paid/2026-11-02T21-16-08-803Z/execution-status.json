@@ -1,0 +1,56 @@
+{
+  "status": "partial-output-limit-recovered",
+  "previousLaunchStatus": "waiting-for-runtime-start was historical; runtime restarted and trial ran",
+  "executedAfterBoot": "1703372672414",
+  "modelRequests": 2,
+  "maximumApprovedRequests": 3,
+  "conservativeSessionUsd": 7,
+  "remainingOriginalConservativeUsd": 1,
+  "audit": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\\portal-20261102234344698-1\\paid-retry-audit.json",
+  "recovery": {
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\\portal-20261102234344698-1\\completed-recovery-2026-11-02T23-50-25-911Z",
+    "resultSha256": "0d0a1c67ca6d10916a57b9891efa71b8a8ff2b764f5548a08d7c38f97d4bd5ae",
+    "transportSha256": "fa883314db8be30fd213ae08bb31138d40e83668b99b720cf2b3daee1da57b0e",
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "completion_ack",
+        "sequence": 1
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "final": {
+      "bootIdentity": "1703372672414",
+      "appliedEpoch": "189415276722486",
+      "appliedSequence": "6",
+      "plcCycle": "25325",
+      "plcTimeUs": "1703887470238",
+      "simulationApplied": true,
+      "connectorStale": false,
+      "mode": "Stopped",
+      "faultCode": 0,
+      "itemActive": false,
+      "activeItemId": 101,
+      "completionPending": false,
+      "completionSequence": 1,
+      "motorRunCmd": false,
+      "counters": {
+        "CountExitA": 1,
+        "CountExitB": 0,
+        "CountRunout": 0,
+        "CountMisroute": 0,
+        "CountFaulted": 0
+      },
+      "stoppedBaselineMismatches": []
+    },
+    "ownershipAfter": "released"
+  },
+  "claimBoundary": "Real Wonder normal A sort proved; fault, adaptive follow-up, HMI operation and full W4 pass remain unproved"
+}

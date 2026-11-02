@@ -30,3 +30,5 @@ artifacts/w4-paid/**/journal.jsonl
 artifacts/w4-paid/timing-*/observer/
 artifacts/w4-paid/timing-*/observer.stdout.txt
 artifacts/w4-paid/timing-*/observer.stderr.txt
+artifacts/w4-paid/**/portal-hmi/
+artifacts/w4-paid/**/live/alarm-history.jsonl

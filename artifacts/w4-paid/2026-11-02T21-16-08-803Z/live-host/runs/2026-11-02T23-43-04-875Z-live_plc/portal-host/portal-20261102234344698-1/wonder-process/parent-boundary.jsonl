@@ -1,0 +1,29 @@
+{"atIso":"2026-11-02T23:43:46.730Z","atMonotonicMs":42116.9148,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":47860,"nonce":"a4be5a93b202efbf","node":"v24.15.0","timeOriginEpochMs":1793663026551.476},"priority":-7}
+{"atIso":"2026-11-02T23:43:46.732Z","atMonotonicMs":42118.6022,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T23:43:46.756Z","atMonotonicMs":42142.8511,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":24}
+{"atIso":"2026-11-02T23:43:46.779Z","atMonotonicMs":42165.9009,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T23:43:53.359Z","atMonotonicMs":48745.79,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":6580}
+{"atIso":"2026-11-02T23:43:53.364Z","atMonotonicMs":48750.78,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T23:43:53.374Z","atMonotonicMs":48761.2942,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"portal-20261102234344698-1:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-02T23:43:53.376Z","atMonotonicMs":48762.6355,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":12}
+{"atIso":"2026-11-02T23:43:53.377Z","atMonotonicMs":48763.7857,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":3}
+{"atIso":"2026-11-02T23:44:05.106Z","atMonotonicMs":60492.3441,"kind":"request","id":5,"op":"leaseFinish","leaseId":"portal-20261102234344698-1:lease:1"}
+{"atIso":"2026-11-02T23:44:05.107Z","atMonotonicMs":60494.0104,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":421,"elapsedMs":2}
+{"atIso":"2026-11-02T23:44:05.136Z","atMonotonicMs":60522.1896,"kind":"request","id":6,"op":"controller","actionId":"act-start-1","name":"operator_action","action":"start","campaignRevision":6,"boundaryRevision":4}
+{"atIso":"2026-11-02T23:44:05.196Z","atMonotonicMs":60582.2386,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":425,"elapsedMs":60}
+{"atIso":"2026-11-02T23:44:05.726Z","atMonotonicMs":61113.1079,"kind":"request","id":7,"op":"controller","actionId":"assign-101-a","name":"assign_route","action":"offer","campaignRevision":8,"boundaryRevision":5}
+{"atIso":"2026-11-02T23:44:05.793Z","atMonotonicMs":61179.8271,"kind":"reply","id":7,"op":"controller","ok":true,"boundaryRevision":6,"throughSeq":457,"elapsedMs":67}
+{"atIso":"2026-11-02T23:44:05.805Z","atMonotonicMs":61192.0855,"kind":"request","id":8,"op":"apply","actionId":"introduce-101-a","name":"introduce_carton","campaignRevision":9,"boundaryRevision":6,"controlId":"carton.introduce"}
+{"atIso":"2026-11-02T23:44:06.032Z","atMonotonicMs":61418.6819,"kind":"reply","id":8,"op":"apply","ok":true,"boundaryRevision":7,"throughSeq":479,"elapsedMs":227}
+{"atIso":"2026-11-02T23:44:11.920Z","atMonotonicMs":67307.0011,"kind":"request","id":9,"op":"leaseBegin","campaignRevision":12,"leaseId":"portal-20261102234344698-1:lease:2","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-02T23:44:11.923Z","atMonotonicMs":67309.5335,"kind":"reply","id":9,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":867,"elapsedMs":3}
+{"atIso":"2026-11-02T23:44:50.379Z","atMonotonicMs":105765.4805,"kind":"request","id":10,"op":"leaseFinish","leaseId":"portal-20261102234344698-1:lease:2"}
+{"atIso":"2026-11-02T23:44:50.382Z","atMonotonicMs":105768.1109,"kind":"reply","id":10,"op":"leaseFinish","ok":true,"boundaryRevision":9,"throughSeq":2171,"elapsedMs":3}
+{"atIso":"2026-11-02T23:44:50.390Z","atMonotonicMs":105776.655,"kind":"request","id":11,"op":"hold","stopClock":false}
+{"atIso":"2026-11-02T23:44:50.428Z","atMonotonicMs":105814.5787,"kind":"reply","id":11,"op":"hold","ok":true,"boundaryRevision":10,"throughSeq":2178,"elapsedMs":38}
+{"atIso":"2026-11-02T23:44:50.430Z","atMonotonicMs":105816.9052,"kind":"request","id":12,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T23:44:50.431Z","atMonotonicMs":105818.0377,"kind":"reply","id":12,"op":"hold","ok":true,"boundaryRevision":10,"throughSeq":2178,"elapsedMs":1}
+{"atIso":"2026-11-02T23:44:50.434Z","atMonotonicMs":105820.6044,"kind":"request","id":13,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-02T23:44:50.452Z","atMonotonicMs":105838.1018,"kind":"reply","id":13,"op":"close","ok":true,"boundaryRevision":10,"throughSeq":2180,"elapsedMs":18}
+{"atIso":"2026-11-02T23:44:50.483Z","atMonotonicMs":105869.4677,"kind":"child.exit","code":0,"signal":null,"lastSeq":2180}
+{"atIso":"2026-11-02T23:44:50.484Z","atMonotonicMs":105870.6624,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock","boundaryRevision":10,"lastSeq":2180},"exit":{"code":0,"signal":null},"killed":false}

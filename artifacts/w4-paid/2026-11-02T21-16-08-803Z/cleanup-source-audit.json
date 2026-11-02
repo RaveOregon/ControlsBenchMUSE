@@ -1,0 +1,15 @@
+{
+  "recordedAfterRunAtIso": "2026-11-02T23:54:09.727Z",
+  "meaning": "Post-run current-source hashes, saved with the exact code tested and executed; not a fabricated pre-run attestation",
+  "tests": {
+    "passed": 8,
+    "failed": 0,
+    "network": "disabled"
+  },
+  "files": {
+    "scripts/w4-paid/recover-completed-hold.mjs": "bd90ffc0b9e8358c374607a268fb5d9f1dcb3df900cf72ee8d6808c49b6bd5af",
+    "scripts/w4-paid/recover-paid-completion.ps1": "1a43ad48110149f0e392ce93654815751fb1cc8c475f8b04fca03fdfc60fe63e",
+    "scripts/w4-paid/completed-recovery.test.mjs": "a89633a597f6a3311951aa3300470ea516e765f3a3d4d142d191c4b023b15548",
+    "scripts/w4-paid/audit-live-retry.mjs": "c85594c8e92c703a46c46ea7f1defc9aa4457da85dd5085c6feeecb8d87a9e99"
+  }
+}

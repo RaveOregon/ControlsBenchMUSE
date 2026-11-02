@@ -1,0 +1,129 @@
+{
+  "verifiedAtIso": "2026-11-02T23:51:58.029Z",
+  "status": "partial",
+  "claimBoundary": "Real Wonder normal A sort proved; fault, adaptive follow-up, HMI operation and full W4 pass remain unproved",
+  "campaignId": "portal-20261102234344698-1",
+  "ledgerEvents": 3153,
+  "originalEvidenceHashesVerified": 7,
+  "exactReportReconstruction": true,
+  "responseHashesVerified": 4,
+  "responseToolLineageVerified": true,
+  "terminalToolResultsVerified": 6,
+  "normalCompletionEvidence": "portal-20261102234344698-1:1024",
+  "normalPlcValues": {
+    "Motor_RunCmd": true,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": false,
+    "StackLight_Green": true,
+    "controller.Mode": 1,
+    "controller.ModeText": "Auto",
+    "controller.FaultCode": 0,
+    "controller.FaultText": "",
+    "controller.ExceptionCode": 0,
+    "controller.ExceptionText": "",
+    "controller.ReleaseReady": false,
+    "controller.ItemActive": false,
+    "controller.ActiveItemId": 101,
+    "controller.RequestedRoute": 1,
+    "controller.EffectiveRoute": 1,
+    "controller.ActualExit": 1,
+    "controller.Disposition": 1,
+    "controller.OfferAckSequence": 1,
+    "controller.OfferAckItemId": 101,
+    "controller.OfferAccepted": true,
+    "controller.OfferReason": 0,
+    "controller.OfferPending": false,
+    "controller.CompletionSequence": 1,
+    "controller.CompletionPending": true,
+    "controller.CompletionItemId": 101,
+    "controller.CompletionRoute": 1,
+    "controller.CompletionExit": 1,
+    "controller.CompletionDisposition": 1,
+    "controller.CountExitA": 1,
+    "controller.CountExitB": 0,
+    "controller.CountRunout": 0,
+    "controller.CountMisroute": 0,
+    "controller.CountFaulted": 0,
+    "controller.StartAck": 1,
+    "controller.StopAck": 0,
+    "controller.ResetAck": 0,
+    "controller.StartAccepted": true,
+    "controller.ResetAccepted": false,
+    "controller.EncoderDelta": 0
+  },
+  "modelRequests": 2,
+  "usage": [
+    {
+      "responseId": "resp_6ae92044190ad70ce7cc4f89",
+      "status": "completed",
+      "inputTokens": 14817,
+      "outputTokens": 1410,
+      "reasoningTokens": 818
+    },
+    {
+      "responseId": "resp_6ae9206f67ffbd2897594faf",
+      "status": "incomplete",
+      "inputTokens": 33764,
+      "outputTokens": 4113,
+      "reasoningTokens": 3010
+    }
+  ],
+  "estimatedUncachedTokenCostUsd": 0.304784,
+  "priceBoundary": "Uncached Standard estimate, not an invoice; no cache discount assumed",
+  "conservativeNewUsd": 2,
+  "conservativeSessionUsd": 7,
+  "remainingOriginalConservativeUsd": 1,
+  "failure": {
+    "kind": "provider_output_limit",
+    "reason": "max_output_tokens",
+    "maximumOutputTokens": 4000,
+    "incompleteDecisionExecuted": false
+  },
+  "recovery": {
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\\portal-20261102234344698-1\\completed-recovery-2026-11-02T23-50-25-911Z",
+    "resultSha256": "0d0a1c67ca6d10916a57b9891efa71b8a8ff2b764f5548a08d7c38f97d4bd5ae",
+    "transportSha256": "fa883314db8be30fd213ae08bb31138d40e83668b99b720cf2b3daee1da57b0e",
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "completion_ack",
+        "sequence": 1
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "final": {
+      "bootIdentity": "1703372672414",
+      "appliedEpoch": "189415276722486",
+      "appliedSequence": "6",
+      "plcCycle": "25325",
+      "plcTimeUs": "1703887470238",
+      "simulationApplied": true,
+      "connectorStale": false,
+      "mode": "Stopped",
+      "faultCode": 0,
+      "itemActive": false,
+      "activeItemId": 101,
+      "completionPending": false,
+      "completionSequence": 1,
+      "motorRunCmd": false,
+      "counters": {
+        "CountExitA": 1,
+        "CountExitB": 0,
+        "CountRunout": 0,
+        "CountMisroute": 0,
+        "CountFaulted": 0
+      },
+      "stoppedBaselineMismatches": []
+    },
+    "ownershipAfter": "released"
+  },
+  "next": "Reduce/structure reasoning and result context; allow sufficient output for high reasoning plus decision. A new trial must derive its remaining allowance from the original ceiling, not reuse this packet."
+}

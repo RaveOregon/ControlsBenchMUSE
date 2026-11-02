@@ -1,0 +1,30 @@
+{
+  "atIso": "2026-11-02T23:44:23.439Z",
+  "boot": "1703372672414",
+  "pollIntervalMs": 1000,
+  "ownership": {
+    "commandsEnabled": false,
+    "policy": "disabled",
+    "reasons": [
+      "HMI started with commands disabled (read-only)"
+    ],
+    "owners": [
+      {
+        "id": "m10-live-runner",
+        "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+        "detail": "M10 campaign runner holds the live lock"
+      }
+    ]
+  },
+  "values": {
+    "GVL_DemoRead.Status.ModeText": "Auto",
+    "GVL_DemoRead.Status.FaultCode": 0,
+    "GVL_DemoRead.Status.Motor_RunCmd": true,
+    "GVL_DemoRead.Status.ItemActive": false,
+    "GVL_DemoRead.Status.CompletionSequence": 1,
+    "GVL_DemoRead.Status.CompletionPending": true,
+    "GVL_DemoRead.Status.CountExitA": 1,
+    "GVL_DemoRead.Status.CountExitB": 0,
+    "GVL_DemoRead.Status.CountRunout": 0
+  }
+}

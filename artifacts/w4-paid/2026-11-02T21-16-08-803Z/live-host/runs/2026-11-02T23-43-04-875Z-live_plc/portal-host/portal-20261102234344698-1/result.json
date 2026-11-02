@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "contract": "controlsbench.w4-paid-post-run.v1",
+  "status": "held",
+  "campaignStatus": "stopped",
+  "scope": "live-m8",
+  "sourceCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\\portal-20261102234344698-1",
+  "claimBoundary": "Post-run retained-image record only; not a live recovery, W4 pass or PLC-state inspection",
+  "heldState": {
+    "file": "held-state.json",
+    "sha256": "198ca9735708d6333fab1213d87f25944e5cdcc05f14ad23c0f4eac4287134e7"
+  },
+  "evidenceHashes": {
+    "campaign.jsonl": "7c49f636e646710c9d2fed5b5b770effe8d8359f579f6e625d0da702a09b532e",
+    "wonder-process/child-stream.jsonl": "0b20c6861ffb96147dcebb76f5d0cec5f3a746e1172283abb27adf50b022abc2",
+    "wonder-process/child-transport.jsonl": "c168138e74e3b41022a02720082e9a89d854846f869459d8cb5c1b99450ceeeb",
+    "wonder-process/child-lifecycle.jsonl": "c6919fe6f1310c9aaeb09e04117499bd413016a4d247db86297eb3543a331b26",
+    "wonder-process/parent-boundary.jsonl": "f8ea3b3e246bb0ca47c202b97dd3476ba3053a864180a5b2937091a4b2f48b79",
+    "owner-entry.json": "d2398ffdca55e2ace2e33c60983829ac11b9ef0837ffa700e7d0045813061e53",
+    "w4-approval.json": "65ef88a88fc36edc5d44ce6bfa058743e0048b97bbefe30291f942d8688a73d6"
+  },
+  "currentInspectionRequired": true,
+  "recovery": "Run the pinned recover-w4-held.js with this directory and --artifacts \"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\"; inspect-only by default. Stop the owner host before recovery.",
+  "reportSha256": "5ad2f70595c9e83ebceda5559a15f9dfdc5b162d5610c0b9da32f33bc8691f9d",
+  "liveRecoveryQualified": false
+}

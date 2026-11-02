@@ -1,11 +1,18 @@
 {
   "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z",
   "packetSha256": "65ef88a88fc36edc5d44ce6bfa058743e0048b97bbefe30291f942d8688a73d6",
-  "status": "waiting-for-runtime-start",
-  "realApiRequests": 0,
-  "realPlcConnections": 0,
+  "status": "partial-output-limit-recovered",
+  "realApiRequests": 2,
+  "realPlcConnections": 1,
   "previousConservativeUsd": 5,
   "maximumNewConservativeUsd": 3,
   "aggregateConservativeCeilingUsd": 8,
-  "launchStatus": "launch-status.json"
+  "launchStatus": "launch-status.json",
+  "conservativeNewUsd": 2,
+  "aggregateConservativeUsd": 7,
+  "remainingOriginalConservativeUsd": 1,
+  "campaignId": "portal-20261102234344698-1",
+  "audit": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host\\runs\\2026-11-02T23-43-04-875Z-live_plc\\portal-host\\portal-20261102234344698-1\\paid-retry-audit.json",
+  "recovery": "pass: completed-sort held running",
+  "originalPacketReusable": false
 }
