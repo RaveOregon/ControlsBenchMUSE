@@ -1,8 +1,31 @@
 {
   "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z",
   "packetSha256": "2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9",
-  "status": "approved-ready-to-launch",
-  "realApiRequests": 0,
-  "realPlcConnections": 0,
-  "authorization": "authorization.json"
+  "status": "partial-trial-recovered-timing-requalified",
+  "realApiRequests": 1,
+  "realPlcConnections": 1,
+  "authorization": "authorization.json",
+  "newConservativeUsd": 1,
+  "aggregateConservativeUsd": 5,
+  "campaignId": "portal-20261102181837516-1",
+  "reason": "World gap 336 ms exceeds declared 300 ms bound",
+  "launchSourceChanged": true,
+  "freshHmiObservation": {
+    "atIso": "2026-11-02T18:21:21.556Z",
+    "mode": "Faulted",
+    "faultCode": 33,
+    "motorCommand": false,
+    "completionPending": true,
+    "connectorStale": true,
+    "file": "post-stop-hmi-observation.json"
+  },
+  "recovery": "pass: transit-timeout",
+  "timing": {
+    "status": "pass",
+    "maximumGapMs": 181,
+    "commits": 199,
+    "modelCalls": 0,
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\timing-2026-11-02T18-29-41-137Z"
+  },
+  "next": "Prepare retry against remaining original approval: at most 3 new conservative dollars, aggregate ceiling 8; original packet cannot be reused."
 }

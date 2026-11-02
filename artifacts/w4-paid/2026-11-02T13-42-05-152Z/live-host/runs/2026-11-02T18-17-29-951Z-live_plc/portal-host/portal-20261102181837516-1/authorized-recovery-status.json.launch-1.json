@@ -1,0 +1,8 @@
+﻿{
+    "finishedAtIso":  "2026-11-02T18:25:42.8321950+00:00",
+    "startedAtIso":  "2026-11-02T18:25:42.7765667+00:00",
+    "error":  "The term \u0027Get-FileHash\u0027 is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.",
+    "modelCalls":  0,
+    "status":  "refused-or-failed",
+    "reference":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\live-host\\runs\\2026-11-02T18-17-29-951Z-live_plc\\portal-host\\portal-20261102181837516-1"
+}

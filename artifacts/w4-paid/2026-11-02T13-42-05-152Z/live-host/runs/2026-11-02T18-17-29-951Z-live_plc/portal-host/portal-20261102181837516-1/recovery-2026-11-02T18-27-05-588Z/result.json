@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "pass",
+  "mode": "reconcile",
+  "scope": "live-m8",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\live-host\\runs\\2026-11-02T18-17-29-951Z-live_plc\\portal-host\\portal-20261102181837516-1",
+  "startedAtIso": "2026-11-02T18:27:05.590Z",
+  "modelCalls": 0,
+  "writesAuthorized": true,
+  "checks": [],
+  "heldStateSha256": "311f2f3a2ce6fc3f50b4dcb33b3192a921fb2fa6adfffca94ff139f21c7fc60a",
+  "resultSha256": "66d7a798e9b9cbaeda876e33fe2dd503857050fdf3491984faf127a8e1a97049",
+  "campaignId": "portal-20261102181837516-1",
+  "childIdentity": {
+    "pid": 9800,
+    "nonce": "a951f1483ce01d34",
+    "exitProvenByBoundJournal": true
+  },
+  "preflight": {
+    "projectUnchanged": true,
+    "runtimeOwned": false,
+    "legacySessionActive": false,
+    "nativeModuleAvailable": true,
+    "credentialsPresent": true,
+    "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+    "modulePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\codesys_handoff\\browser_hmi_handoff\\opcua_relay\\node_modules\\node-opcua",
+    "plcContacted": false,
+    "paidCalls": 0,
+    "ready": true
+  },
+  "ownership": {
+    "acquired": true
+  },
+  "inspection": {
+    "bootIdentity": "1683722766884",
+    "appliedEpoch": "113693933195217",
+    "appliedSequence": "143",
+    "plcCycle": "37471",
+    "plcTimeUs": "1684483162096",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Faulted",
+    "faultCode": 33,
+    "itemActive": false,
+    "activeItemId": 1001,
+    "completionPending": true,
+    "completionSequence": 1,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 1
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=3",
+      "controller.FaultCode=33",
+      "controller.CompletionPending=true"
+    ]
+  },
+  "classification": {
+    "path": "transit-timeout",
+    "supported": true,
+    "refusals": [],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "1683722766884",
+          "current": "1683722766884"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "113693933195217",
+            "sequence": "143"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "113693933195217",
+              "sequence": "143"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "only the recorded transit-timeout fields changed",
+        "ok": true,
+        "detail": []
+      },
+      {
+        "check": "fault 33, Faulted, motor and diverts off",
+        "ok": true
+      },
+      {
+        "check": "the run's tracked carton was aborted once with disposition 4 and no exit",
+        "ok": true,
+        "detail": {
+          "recordedItem": 1001,
+          "completion": {
+            "sequence": 1,
+            "item": 1001,
+            "disposition": 4,
+            "exit": 0
+          }
+        }
+      },
+      {
+        "check": "CountFaulted increased by exactly one",
+        "ok": true
+      }
+    ],
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "completion_ack",
+        "sequence": 1
+      },
+      {
+        "op": "reset"
+      }
+    ],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {
+      "Motor_RunCmd": [
+        true,
+        false
+      ],
+      "D1_ExtendCmd": [
+        true,
+        false
+      ],
+      "StackLight_Red": [
+        false,
+        true
+      ],
+      "StackLight_Green": [
+        true,
+        false
+      ],
+      "controller.Mode": [
+        1,
+        3
+      ],
+      "controller.ModeText": [
+        "Auto",
+        "Faulted"
+      ],
+      "controller.FaultCode": [
+        0,
+        33
+      ],
+      "controller.FaultText": [
+        "",
+        "Carton transit timeout"
+      ],
+      "controller.ItemActive": [
+        true,
+        false
+      ],
+      "controller.Disposition": [
+        0,
+        4
+      ],
+      "controller.CompletionSequence": [
+        0,
+        1
+      ],
+      "controller.CompletionPending": [
+        false,
+        true
+      ],
+      "controller.CompletionItemId": [
+        0,
+        1001
+      ],
+      "controller.CompletionRoute": [
+        0,
+        1
+      ],
+      "controller.CompletionDisposition": [
+        0,
+        4
+      ],
+      "controller.CountFaulted": [
+        0,
+        1
+      ]
+    },
+    "evidenceBasis": "H2 recovery-2026-11-01T14-54-13-612Z (transit-timeout) passed live with this sequence"
+  },
+  "finalObservation": {
+    "bootIdentity": "1683722766884",
+    "appliedEpoch": "189288278591566",
+    "appliedSequence": "5",
+    "plcCycle": "37516",
+    "plcTimeUs": "1684484077188",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Stopped",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 1001,
+    "completionPending": false,
+    "completionSequence": 1,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 1
+    },
+    "stoppedBaselineMismatches": []
+  },
+  "finalImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 0
+  },
+  "refusedWrites": 0,
+  "ownershipAfter": "released",
+  "finishedAtIso": "2026-11-02T18:27:12.645Z",
+  "transportSha256": "9ecb7a6833b9adf63b73906d70e763f96dabacb6b109c963ed784986517a3d82"
+}

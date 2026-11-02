@@ -21,3 +21,10 @@ artifacts/hmi/runtime-claim.json
 artifacts/hmi/**/hmi-frames/
 artifacts/hmi/h2/operator-request.json
 artifacts/hmi/h2/operator-status.json
+
+# W4 live observers retain rolling HMI captures locally. Commit the campaign,
+# recovery and commissioning journals plus explicit observer witnesses instead.
+artifacts/w4-paid/**/hmi-frames/
+artifacts/w4-paid/**/runtime-claim.json
+artifacts/w4-paid/**/journal.jsonl
+artifacts/w4-paid/timing-*/observer/

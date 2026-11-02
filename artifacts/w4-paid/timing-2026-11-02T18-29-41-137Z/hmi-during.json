@@ -1,0 +1,37 @@
+{
+  "atIso": "2026-11-02T18:30:18.991Z",
+  "link": {
+    "state": "connected",
+    "detail": "Polling",
+    "endpoint": "opc.tcp://127.0.0.1:4840",
+    "securityMode": "SignAndEncrypt",
+    "securityPolicy": "Basic256Sha256",
+    "userConfigured": true,
+    "pollIntervalMs": 1000,
+    "staleAfterMs": 4000,
+    "totalPolls": 29,
+    "failedPolls": 0,
+    "consecutiveFailures": 0,
+    "reconnects": 0,
+    "plcScanning": true,
+    "sessionOpenedAtIso": "2026-11-02T18:29:55.269Z",
+    "lastPollOkAtIso": "2026-11-02T18:30:18.758Z",
+    "lastPollLatencyMs": 7,
+    "p95PollLatencyMs": 12,
+    "bootIdentity": "1683722766884"
+  },
+  "ownership": {
+    "commandsEnabled": false,
+    "policy": "disabled",
+    "reasons": [
+      "HMI started with commands disabled (read-only)"
+    ],
+    "owners": [
+      {
+        "id": "m10-live-runner",
+        "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+        "detail": "M10 campaign runner holds the live lock"
+      }
+    ]
+  }
+}

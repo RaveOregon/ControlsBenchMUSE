@@ -1,0 +1,57 @@
+{
+  "verifiedAtIso": "2026-11-02T18:30:09.373Z",
+  "campaignId": "portal-20261102181837516-1",
+  "ledgerEvents": 1127,
+  "originalEvidenceHashesVerified": 7,
+  "paidTrial": "partial",
+  "modelRequests": 1,
+  "newConservativeUsd": 1,
+  "aggregateConservativeUsd": 5,
+  "recovery": {
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\live-host\\runs\\2026-11-02T18-17-29-951Z-live_plc\\portal-host\\portal-20261102181837516-1\\recovery-2026-11-02T18-27-05-588Z",
+    "resultSha256": "3743e1342d492c580a0464891a1c367b75e63bb675d16bed81cdfe30f10b23ee",
+    "transportSha256": "9ecb7a6833b9adf63b73906d70e763f96dabacb6b109c963ed784986517a3d82",
+    "path": "transit-timeout",
+    "steps": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "completion_ack",
+        "sequence": 1
+      },
+      {
+        "op": "reset"
+      }
+    ],
+    "finalObservation": {
+      "bootIdentity": "1683722766884",
+      "appliedEpoch": "189288278591566",
+      "appliedSequence": "5",
+      "plcCycle": "37516",
+      "plcTimeUs": "1684484077188",
+      "simulationApplied": true,
+      "connectorStale": false,
+      "mode": "Stopped",
+      "faultCode": 0,
+      "itemActive": false,
+      "activeItemId": 1001,
+      "completionPending": false,
+      "completionSequence": 1,
+      "motorRunCmd": false,
+      "counters": {
+        "CountExitA": 0,
+        "CountExitB": 0,
+        "CountRunout": 0,
+        "CountMisroute": 0,
+        "CountFaulted": 1
+      },
+      "stoppedBaselineMismatches": []
+    },
+    "ownershipAfter": "released"
+  },
+  "claimBoundary": "One native transit-timeout recovery passed; other recovery paths and general reliability remain unqualified"
+}

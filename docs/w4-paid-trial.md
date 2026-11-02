@@ -41,7 +41,23 @@ The existing pinned `recover-w4-held.js` accepts that format. Inspection remains
 - JavaScript syntax checks and PowerShell launcher parsing passed. Zero real API requests, zero new PLC connections and zero new charges occurred during this preparation.
 - The earlier `13-36-10` payload preparation is superseded by the packet above; no authorization or real call occurred for it.
 
-## Launch after approval
+## First live attempt — stopped, 2026-11-02
+
+Campaign `portal-20261102181837516-1` returned one real Wonder response, accepted Start and WCS route 1001/A, and introduced its carton. While waiting for completion, a 336 ms world-update gap exceeded the declared 300 ms bound. The connector quarantined, the campaign stopped, and the wrapper saved the exact report, held-state and terminal child journals. No fault or adaptive experiment completed. This is a partial attempt, not a W4 pass.
+
+Conservative accounting is now $5 aggregate: $4 historical plus $1 from this trial. The response used 14,820 input and 1,214 output tokens (estimated $0.08356, not invoiced cost). Do not reset accounting or restart with the old packet. The last saved PLC observation was Auto with motor and D1 commands on and carton 1001 active; a stopped campaign does not establish a stopped PLC. Inspect current state before reconciliation.
+
+Launching from the user's home directory exposed a launcher bug: HMI ownership discovery uses the process working directory, repeatedly failed Git discovery, and could not find the shared runtime lock that selects slower HMI polling. The external launcher now scopes the Node process to the immutable checkout and restores the caller's directory afterward. This correction has not been live-qualified, and timing causation is not yet proven. It changes the launch source hash, deliberately making the original packet unusable for another start.
+
+A fresh read-only HMI GET at 18:21:21 UTC observes Faulted, fault 33 (carton transit timeout), motor command false, completion pending and ConnectorStale true. Exact snapshot saved as `post-stop-hmi-observation.json` in the approved packet directory. The HMI reports a 250 ms polling interval, confirming it did not enter shared-runtime slower polling. This observation is not recovery qualification; no recovery writes occurred.
+
+## Original launch command (historical; do not rerun)
+
+**Superseding outcome:** the masked-prompt recovery passed on the real PLC at 18:27 UTC through the exact supported transit-timeout path (Stop, fresh world, acknowledge completion 1, Reset). The independently verified final state was Stopped, fault 0, motor off, no active item or pending completion, lock released. Original campaign hashes remain intact; `recovery-audit.json` binds the recovery transport and final state. This qualifies this native recovery path once, not every failure path.
+
+The fresh corrected host then passed zero-model commissioning `2026-11-02T18-29-55-042Z`, with live HMI capture active. HMI lock detection and the intended 1,000 ms shared polling were observed directly. The run recorded 199 cadence commits, p95 158 ms/max 181 ms, zero gaps over 300 ms; the 1,501 ms parent stall retained 13 child commits with a maximum 133 ms gap, and the 400 ms lease expired at 401 ms. All phases, including normal sort and overload/reset, passed. Final read-only inspection matched the stopped baseline and the lock was released. Archive and audit: `artifacts/w4-paid/timing-2026-11-02T18-29-41-137Z/` (nine original evidence hashes, 2,039-event chain, exact reconstructed report). One pass does not guarantee future timing.
+
+No additional model calls occurred. The app remains available as a zero-model live M8 observer with HMI commands disabled. Do not click Start expecting Wonder on this observer. A retry needs a fresh packet/source binding and must derive its remaining allowance from the original approval: at most $3 additional conservative charges, never more than $8 aggregate with W3. The original packet cannot be reused or treated as a new $4 allowance.
 
 Stop the previous observer with Ctrl+C in its PowerShell window to free :5190/:5191. This issues no PLC command. Then run from any directory:
 

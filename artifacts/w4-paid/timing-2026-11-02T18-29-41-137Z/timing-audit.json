@@ -1,0 +1,75 @@
+{
+  "verifiedAtIso": "2026-11-02T18:31:18.534Z",
+  "originalDirectory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin\\artifacts\\w4-commissioning\\2026-11-02T18-29-55-042Z",
+  "archivedDirectory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\timing-2026-11-02T18-29-41-137Z\\native-commissioning",
+  "evidenceHashesVerified": 9,
+  "ledgerEvents": 2039,
+  "reportReconstructedExactly": true,
+  "qualification": {
+    "passed": true,
+    "failures": []
+  },
+  "cadence": {
+    "commits": 199,
+    "held": 42,
+    "gapP50Ms": 109,
+    "gapP95Ms": 158,
+    "gapMaxMs": 181,
+    "gapsOver300Ms": 0,
+    "delayed": 27,
+    "faults": []
+  },
+  "parentStall": {
+    "stallMs": 1501,
+    "childCommitsDuringStall": 13,
+    "maxGapMs": 133
+  },
+  "finalState": {
+    "appliedEpoch": "259016654108879",
+    "appliedSequence": "200",
+    "appliedImageSha256": "be0ff3de93826fcb101ca797a6b16eae183317df47068b98cfd0549b534b485c",
+    "ownership": "released",
+    "postStopMatchesApplied": true,
+    "postStopBaselineMismatches": []
+  },
+  "modelCalls": 0,
+  "paidCalls": 0,
+  "observer": {
+    "atIso": "2026-11-02T18:30:18.991Z",
+    "link": {
+      "state": "connected",
+      "detail": "Polling",
+      "endpoint": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicy": "Basic256Sha256",
+      "userConfigured": true,
+      "pollIntervalMs": 1000,
+      "staleAfterMs": 4000,
+      "totalPolls": 29,
+      "failedPolls": 0,
+      "consecutiveFailures": 0,
+      "reconnects": 0,
+      "plcScanning": true,
+      "sessionOpenedAtIso": "2026-11-02T18:29:55.269Z",
+      "lastPollOkAtIso": "2026-11-02T18:30:18.758Z",
+      "lastPollLatencyMs": 7,
+      "p95PollLatencyMs": 12,
+      "bootIdentity": "1683722766884"
+    },
+    "ownership": {
+      "commandsEnabled": false,
+      "policy": "disabled",
+      "reasons": [
+        "HMI started with commands disabled (read-only)"
+      ],
+      "owners": [
+        {
+          "id": "m10-live-runner",
+          "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+          "detail": "M10 campaign runner holds the live lock"
+        }
+      ]
+    }
+  },
+  "claimBoundary": "One successful zero-model live commissioning run with corrected cwd and HMI capture. No guarantee of all future timing or completed Wonder W4."
+}

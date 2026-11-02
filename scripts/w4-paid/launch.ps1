@@ -62,8 +62,13 @@ try {
     Write-Host 'Open http://127.0.0.1:5190/ . All three W4 categories must be selected.'
     Write-Host 'Start Campaign launches the reviewed live Wonder trial: at most four requests / $4 new conservative accounting. No automatic retry.'
     $w4Args = @((Join-Path $w4Config.pinnedCheckout 'scripts/run-hmi-portal.js'), '--live', '--campaign', 'wonder', '--campaign-module', (Join-Path $PSScriptRoot 'factory.mjs'), '--portal-port', '5190', '--hmi-port', '5191', '--hmi-headless', '--commands', 'disabled', '--artifacts', $w4Packet.campaignArtifactRoot)
-    & node @w4Args
-    if ($LASTEXITCODE -ne 0) { throw 'Paid W4 host exited unsuccessfully. Preserve its evidence; do not automatically restart.' }
+    # HMI ownership discovery uses process.cwd(). Launch from the pinned checkout so
+    # it finds the shared runtime lock and selects its reduced polling interval.
+    Push-Location -LiteralPath $w4Config.pinnedCheckout
+    try {
+        & node @w4Args
+        if ($LASTEXITCODE -ne 0) { throw 'Paid W4 host exited unsuccessfully. Preserve its evidence; do not automatically restart.' }
+    } finally { Pop-Location }
 } finally {
     foreach ($w4Name in $w4Previous.Keys) { [Environment]::SetEnvironmentVariable($w4Name, $w4Previous[$w4Name]) }
     $env:MODEL_API_KEY = $w4KeyBefore
