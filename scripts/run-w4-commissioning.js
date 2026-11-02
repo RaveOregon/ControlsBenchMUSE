@@ -23,7 +23,7 @@ import { verifyOwnerEntry } from "../src/campaign/owner-handoff.ts";
 import { frozenProjectHash } from "../src/campaign/m10-rehearsal.ts";
 import { m8Preflight } from "../src/host/m8-campaign-factory.ts";
 import { createM8NativeTransport } from "../src/live/m8-native-transport.ts";
-import { HARNESS_CONTRACT, baselineMismatches, deriveHeldState, inspectionConnection, readJsonl, shaFile, summarizeInspection } from "./lib/w4-commissioning.ts";
+import { HARNESS_CONTRACT, baselineMismatches, commissioningQualification, deriveHeldState, inspectionConnection, readJsonl, shaFile, summarizeInspection } from "./lib/w4-commissioning.ts";
 
 const { values: args } = parseArgs({ options: { offline: { type: "boolean" }, "transport-module": { type: "string" }, "transport-options": { type: "string" },
   ownership: { type: "string" }, artifacts: { type: "string" }, module: { type: "string" }, "inspect-only": { type: "boolean" }, "offline-abort-at": { type: "string" },
@@ -196,6 +196,13 @@ try {
     const state = deriveHeldState({ directory, campaignId: ledger?.campaignId ?? "", reason: result.error?.split("\n")[0] ?? (result.status === "pass" ? "completed" : "stopped"),
       ownershipPath, ledgerEvents: events, identities: result.identities, childExit: session?.process.channel.exit ?? null, postStop });
     result.measurements.cadence = cadence(readJsonl(join(journals, "child-stream.jsonl")));
+    if (result.status === "pass") {
+      result.qualification = commissioningQualification(result.measurements);
+      if (!result.qualification.passed) {
+        result.status = "failed_qualification";
+        result.error = `Commissioning evidence did not qualify: ${result.qualification.failures.join("; ")}`;
+      }
+    }
     if (events.length) { result.report = report(events); writeFileSync(join(directory, "report.json"), JSON.stringify(result.report, null, 2) + "\n"); }
     if (result.status === "pass") {
       result.finalState = { appliedEpoch: state.plc.appliedEpoch, appliedSequence: state.plc.appliedSequence, appliedImageSha256: state.appliedImageSha256,
@@ -353,7 +360,7 @@ async function leaseCases(h, provider) {
     elapsedMs: r.boundary?.elapsedMs, worldHeld: r.boundary?.worldHeld, reason: r.reason, evidenceRefs: r.evidenceRefs })),
     parentStall: provider.stall, stallCommits: stallCommits(provider.stall), conditionHold, expiryHold, conditionHeldThroughSequence: conditionHeldSeq };
   for (const [name, hold] of [["condition", conditionHold], ["expiry", expiryHold]])
-    if (hold.distinctImages > 1 || BigInt(hold.plcCycleLast ?? 0) <= BigInt(hold.plcCycleFirst ?? 0)) throw new Error(`${name} hold did not show an unchanged image with PLC scans continuing: ${JSON.stringify(hold)}`);
+    if (hold.samples < 2 || hold.distinctImages !== 1 || BigInt(hold.plcCycleLast ?? 0) <= BigInt(hold.plcCycleFirst ?? 0)) throw new Error(`${name} hold did not show an unchanged image with PLC scans continuing: ${JSON.stringify(hold)}`);
   await h.complete("w4-leases", ["controller.Mode", "Motor_RunCmd"], "Child-enforced leases returned evidence-backed receipts; met condition and expiry held the world while PLC scans continued; late decisions were not applied.");
   phase("leases", { status: "pass", receipts: result.measurements.leases.receipts.map(r => `${r.mode}:${r.state}:${r.valid}`) });
 }
@@ -361,7 +368,9 @@ function stallCommits(stall) {
   if (!stall) return null;
   const ticks = readJsonl(join(directory, "wonder-process/child-stream.jsonl")).filter(e => e.record?.kind === "tick").map(e => Date.parse(e.atIso));
   const within = ticks.filter(t => t >= stall.startedAtEpochMs && t <= stall.endedAtEpochMs);
-  const gaps = within.slice(1).map((t, i) => t - within[i]);
+  // Include both stall edges: two closely-spaced commits alone cannot hide a long silent tail.
+  const edges = [stall.startedAtEpochMs, ...within, stall.endedAtEpochMs];
+  const gaps = edges.slice(1).map((t, i) => t - edges[i]);
   return { stallMs: Math.round(stall.endedAtEpochMs - stall.startedAtEpochMs), childCommitsDuringStall: within.length, maxGapMs: gaps.length ? Math.max(...gaps) : null };
 }
 

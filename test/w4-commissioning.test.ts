@@ -11,7 +11,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { createTransport, editBenchState, readBenchValue } from "./fixtures/w4-bench-transport.ts";
-import { AT_REST, ReadOnlyTransport, classifyHeldState } from "../scripts/lib/w4-commissioning.ts";
+import { AT_REST, ReadOnlyTransport, classifyHeldState, commissioningQualification, recordedChildExited } from "../scripts/lib/w4-commissioning.ts";
 import type { HeldState, Inspection } from "../scripts/lib/w4-commissioning.ts";
 import { rawInputs } from "../src/live/m8-map.ts";
 import type { RawValue } from "../src/proof/contracts.ts";
@@ -278,4 +278,40 @@ test("read-only inspection gate refuses every write until an explicit authorizat
   gate.authorize("test authorization");
   await gate.write([{ path: "GVL_DemoWrite.StopSequence", value: 1 }]);
   assert.equal(inner.writes.length, 1); assert.deepEqual(events, ["write.refused", "writes.authorized"]);
+});
+
+test("recovery distinguishes a recorded child exit from a reused PID, disconnect or foreign nonce", () => {
+  const record = { child: { pid: process.pid, nonce: "original-fork", exit: { code: 0, signal: null } } } as HeldState;
+  const journal = [{ kind: "child.ready", identity: { pid: process.pid, nonce: "original-fork" } }, { kind: "child.exit", code: 0, signal: null }];
+  // The saved PID deliberately names this living test process. The matching terminal event
+  // proves the original fork ended; this is not authority to adopt another runtime's lock.
+  assert.equal(recordedChildExited(record, journal), true);
+  assert.equal(recordedChildExited(record, journal.slice(0, 1)), false);
+  assert.equal(recordedChildExited(record, [{ ...journal[0], identity: { pid: process.pid, nonce: "other-fork" } }, journal[1]]), false);
+  assert.equal(recordedChildExited({ child: { ...record.child, exit: { code: null, signal: null } } } as HeldState,
+    [journal[0], { kind: "child.exit", code: null, signal: null }]), false, "IPC disconnect is not an OS terminal exit");
+  assert.equal(recordedChildExited(record, [journal[1], journal[0]]), false, "exit must follow this child's ready record");
+});
+
+test("live commissioning qualification rejects missing, slow, empty and late-expiry evidence", () => {
+  const good = { cadence: { commits: 100, gapMaxMs: 250, gapsOver300Ms: 0, faults: [] }, leases: {
+    stallCommits: { stallMs: 1500, childCommitsDuringStall: 7, maxGapMs: 250 },
+    receipts: [["hold", "released", true], ["continue", "released", true], ["condition_deadline", "released", true],
+      ["condition_deadline", "condition_met", false], ["condition_deadline", "released", true], ["continue", "expired", false]]
+      .map(([mode, state, valid]) => ({ mode, state, valid, timeoutMs: 400, elapsedMs: 500, worldHeld: true })),
+    conditionHold: { samples: 3, distinctImages: 1, plcCycleFirst: "100", plcCycleLast: "104" },
+    expiryHold: { samples: 3, distinctImages: 1, plcCycleFirst: "105", plcCycleLast: "109" } } };
+  assert.deepEqual(commissioningQualification(good), { passed: true, failures: [] });
+  assert.equal(commissioningQualification({}).passed, false);
+  const cases = [
+    (m: any) => { m.cadence.gapMaxMs = 301; m.cadence.gapsOver300Ms = 1; },
+    (m: any) => { m.cadence.faults.push("quarantined"); },
+    (m: any) => { m.leases.stallCommits.childCommitsDuringStall = 0; },
+    (m: any) => { m.leases.stallCommits.maxGapMs = 900; },
+    (m: any) => { m.leases.receipts.at(-1).elapsedMs = 1500; },
+    (m: any) => { m.leases.conditionHold.samples = 0; m.leases.conditionHold.distinctImages = 0; },
+    (m: any) => { m.leases.expiryHold.distinctImages = 2; },
+    (m: any) => { m.leases.expiryHold.plcCycleLast = m.leases.expiryHold.plcCycleFirst; }
+  ];
+  for (const mutate of cases) { const m = structuredClone(good); mutate(m); assert.equal(commissioningQualification(m).passed, false); }
 });

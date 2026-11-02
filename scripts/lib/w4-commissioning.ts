@@ -22,6 +22,46 @@ export const readJsonl = (path: string): Record<string, any>[] => existsSync(pat
   ? readFileSync(path, "utf8").split(/\r?\n/).filter(Boolean).map(line => JSON.parse(line)) : [];
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
+/** The hash-bound parent journal identifies one fork, even after Windows reuses its PID.
+ * Only a real terminal exit (not an IPC disconnect/error with no exit code) proves it is gone. */
+export function recordedChildExited(record: HeldState, boundary: Record<string, any>[]): boolean {
+  const ready = boundary.findIndex(e => e.kind === "child.ready" && e.identity?.pid === record.child.pid && e.identity?.nonce === record.child.nonce);
+  if (ready < 0 || !record.child.exit) return false;
+  return boundary.slice(ready + 1).some(e => e.kind === "child.exit"
+    && (Number.isInteger(e.code) || typeof e.signal === "string" && e.signal.length > 0)
+    && e.code === record.child.exit!.code && e.signal === record.child.exit!.signal);
+}
+
+/** Shared by the live harness and negative offline cases: missing measurements cannot pass.
+ * 10 Hz is the requested ceiling, while 300 ms remains the accepted observation-gap bound. */
+export function commissioningQualification(measurements: Record<string, any>): { passed: boolean; failures: string[] } {
+  const failures: string[] = [];
+  const require = (ok: boolean, message: string) => { if (!ok) failures.push(message); };
+  const cadence = measurements.cadence, leases = measurements.leases;
+  require(Number.isInteger(cadence?.commits) && cadence.commits >= 2, "At least two child commits are required");
+  require(Number.isFinite(cadence?.gapMaxMs) && cadence.gapMaxMs <= 300 && cadence.gapsOver300Ms === 0, "Child observation gap exceeds 300 ms or is missing");
+  require(Array.isArray(cadence?.faults) && cadence.faults.length === 0, "Child fault evidence is missing or contains faults");
+  const stall = leases?.stallCommits;
+  require(Number.isFinite(stall?.stallMs) && stall.stallMs >= 1500, "Parent stall must last at least 1500 ms");
+  require(Number.isInteger(stall?.childCommitsDuringStall) && stall.childCommitsDuringStall >= 2, "Child continuity during parent stall is unproven");
+  require(Number.isFinite(stall?.maxGapMs) && stall.maxGapMs <= 300, "Parent-stall observation gap (including its edges) exceeds 300 ms or is missing");
+  const receipts = leases?.receipts;
+  const expected = [["hold", "released", true], ["continue", "released", true], ["condition_deadline", "released", true],
+    ["condition_deadline", "condition_met", false], ["condition_deadline", "released", true], ["continue", "expired", false]];
+  require(Array.isArray(receipts) && same(receipts.map((r: any) => [r.mode, r.state, r.valid]), expected), "Six declared lease outcomes are required");
+  const expiry = Array.isArray(receipts) ? receipts.at(-1) : undefined;
+  require(expiry?.timeoutMs === 400 && Number.isFinite(expiry.elapsedMs) && expiry.elapsedMs >= 400 && expiry.elapsedMs <= 700
+    && expiry.worldHeld === true, "400 ms lease expiry must hold within the additional 300 ms observation bound");
+  for (const name of ["conditionHold", "expiryHold"]) {
+    const hold = leases?.[name];
+    let scansAdvance = false;
+    try { scansAdvance = hold?.plcCycleFirst !== undefined && hold?.plcCycleLast !== undefined && BigInt(hold.plcCycleLast) > BigInt(hold.plcCycleFirst); } catch { /* missing/invalid counters fail */ }
+    require(Number.isInteger(hold?.samples) && hold.samples >= 2 && hold.distinctImages === 1 && scansAdvance,
+      `${name} needs nonempty unchanged-image evidence with advancing PLC scans`);
+  }
+  return { passed: failures.length === 0, failures };
+}
+
 /** The connector's requireStoppedBaseline set: what every W4 run requires before its first write. */
 export const stoppedBaseline: Record<string, RawValue> = { "controller.Mode": 0, "controller.FaultCode": 0, "controller.ItemActive": false,
   "controller.CompletionPending": false, Motor_RunCmd: false };

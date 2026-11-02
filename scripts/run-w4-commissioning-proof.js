@@ -10,8 +10,9 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync,
 import { join, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 
-// Lane B integration candidate this lane starts from; everything here must be an addition to it.
-const base = "265242b";
+// Final application integration. Readiness changes are confined to the commissioning tools/tests
+// and the npm test registration; the already-qualified PLC/world/adapter/runtime remain unchanged.
+const base = "80a8019";
 const directory = `artifacts/w4-commissioning/offline-proof/${new Date().toISOString().replace(/[:.]/g, "-")}`;
 mkdirSync(directory, { recursive: true });
 const git = (...args) => execFileSync("git", args, { encoding: "utf8", windowsHide: true }).trim();
@@ -54,14 +55,15 @@ for (const file of walk(join(directory, "samples"))) {
   else samples[rel] = { sha256: sha(bytes) };
 }
 const clean = !dirty, typecheckPassed = typecheck.status === 0, testsPassed = tests.status === 0 && results.length > 0 && results.every(r => r.passed);
-const additionsOnly = changed.every(([status]) => status === "A");
-const status = clean && typecheckPassed && testsPassed && additionsOnly ? "pass" : "fail";
+const readinessPaths = new Set([...implementation, "artifacts/w4-commissioning/.gitattributes", "package.json"]);
+const boundaryPreserved = changed.every(([status, path]) => status === "A" || readinessPaths.has(path));
+const status = clean && typecheckPassed && testsPassed && boundaryPreserved ? "pass" : "fail";
 writeFileSync(join(directory, "result.json"), JSON.stringify({ status, contracts: ["controlsbench.w4-commissioning.v1", "controlsbench.w4-held-state.v1", "controlsbench.w4-recovery.v1"],
   atIso: new Date().toISOString(), node: process.version, platform: `${process.platform}-${process.arch}`, sourceCommit, baseCommit, clean, dirty: dirty ? dirty.split(/\r?\n/) : [],
   scope: "offline-fake-transport", fixture: "test/fixtures/w4-bench-transport.ts (protocol fixture with hand-written scripted reactions; not an M8 behavior oracle)",
   realChildProcess: true, realRuntime: true, livePlcExecuted: false, plcContacted: false, credentialsUsed: false, modelCalls: 0, paidCalls: 0, networkCalls: 0,
   liveCommissioningQualified: false, liveRecoveryQualified: false,
-  boundary: { additionsOnly, changedSinceBase: changed.map(([s, p]) => `${s} ${p}`), note: "No B adapter, process-port, runtime, contract, package or shared configuration file changed" },
+  boundary: { boundaryPreserved, changedSinceBase: changed.map(([s, p]) => `${s} ${p}`), note: "Existing-source changes confined to commissioning tools/tests and npm registration; B adapter, runtime, PLC and world unchanged" },
   typecheck: { passed: typecheckPassed, status: typecheck.status }, tests: { file: "test/w4-commissioning.test.ts", total: results.length, passed: results.filter(r => r.passed).length, results },
   establishes: ["The zero-model harness drives the real CampaignRuntime and isolated child through preconditions, read-only baseline, normal sort, six lease cases (incl. expiry under a 1.5 s parent stall), a declared overload fault and clean shutdown, and verifies the final state read-only",
     "Refusal before any PLC write: held lock, unclean baseline, live-mode test hooks, missing live pins",
@@ -73,5 +75,5 @@ writeFileSync(join(directory, "result.json"), JSON.stringify({ status, contracts
   samples, implementation: Object.fromEntries(implementation.map(p => [p, identity(p)])), dependencies: Object.fromEntries(dependencies.map(p => [p, identity(p)])),
   note: "Offline scope only. Live qualification needs D's zero-model commissioning run on the bench (scripts/run-w4-commissioning.ps1 -Run)." }, null, 2) + "\n");
 writeFileSync("artifacts/w4-commissioning/offline-proof/latest.json", JSON.stringify({ status, directory, sourceCommit }, null, 2) + "\n");
-console.log(`${status}: ${directory} (${results.filter(r => r.passed).length}/${results.length} tests, typecheck ${typecheckPassed ? "pass" : "fail"}, clean ${clean}, additions only ${additionsOnly})`);
+console.log(`${status}: ${directory} (${results.filter(r => r.passed).length}/${results.length} tests, typecheck ${typecheckPassed ? "pass" : "fail"}, clean ${clean}, boundary preserved ${boundaryPreserved})`);
 process.exitCode = status === "pass" ? 0 : 1;

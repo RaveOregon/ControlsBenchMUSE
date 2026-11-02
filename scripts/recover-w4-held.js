@@ -21,7 +21,7 @@ import { m8Preflight } from "../src/host/m8-campaign-factory.ts";
 import { createM8NativeTransport } from "../src/live/m8-native-transport.ts";
 import { InstrumentedWorldContext } from "../src/proof/world-context.ts";
 import { worldSeed } from "../src/live/wonder-process/index.ts";
-import { RECOVERY_SCHEMA, classifyHeldState, inspectionConnection, readJsonl, reconciledMismatches, sha256, shaFile, summarizeInspection } from "./lib/w4-commissioning.ts";
+import { RECOVERY_SCHEMA, classifyHeldState, inspectionConnection, readJsonl, recordedChildExited, reconciledMismatches, sha256, shaFile, summarizeInspection } from "./lib/w4-commissioning.ts";
 
 const { values: args, positionals } = parseArgs({ allowPositionals: true, options: { reconcile: { type: "boolean" }, authorize: { type: "string" },
   offline: { type: "boolean" }, "transport-module": { type: "string" }, "transport-options": { type: "string" }, ownership: { type: "string" }, artifacts: { type: "string" } } });
@@ -62,7 +62,11 @@ try {
   if (shaFile(worldPath) !== record.identities.worldSha256) fail("World bytes differ from the run's; run recovery from the run's checkout");
   if (record.ownership.path.toLowerCase() !== ownershipPath.toLowerCase()) fail(`Recorded ownership path ${record.ownership.path} differs from this session's ${ownershipPath}`);
   if (offline && ownershipPath.toLowerCase() === resolve(sharedLock).toLowerCase()) fail("Offline recovery must not use the shared main-checkout lock");
-  if (alive(record.child.pid)) fail(`The run's child process ${record.child.pid} is still running; it may still own the session`);
+  const childExitProven = recordedChildExited(record, readJsonl(join(reference, "wonder-process/parent-boundary.jsonl")));
+  result.childIdentity = { pid: record.child.pid, nonce: record.child.nonce, exitProvenByBoundJournal: childExitProven };
+  // An exit from this exact fork proves the original process is gone. A subsequent process
+  // with the same PID is a different owner; any competing runtime lock is still refused below.
+  if (!childExitProven && alive(record.child.pid)) fail(`The run's child process ${record.child.pid} is still running; it may still own the session`);
   if (!offline) {
     process.env.OPC_PASSWORD = credentials.password;
     const preflight = m8Preflight({ ownershipPath }); delete process.env.OPC_PASSWORD;
