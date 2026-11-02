@@ -38,7 +38,9 @@ let source;
 if (values.live) {
   if (!process.env.OPC_USER || !process.env.OPC_PASSWORD) throw new Error("Live mode needs OPC_USER/OPC_PASSWORD; run scripts/run-hmi-live.ps1 -Portal");
   const userName = process.env.OPC_USER, secret = process.env.OPC_PASSWORD;
-  delete process.env.OPC_PASSWORD;
+  // The separately pinned Wonder session reads this private environment at Start.
+  // HMI construction must not consume its credential before the child can initialize.
+  if (values.campaign !== "wonder") delete process.env.OPC_PASSWORD;
   const { createM8NativeTransport } = await import("../src/live/m8-native-transport.ts");
   const { m8Map } = await import("../src/live/m8-map.ts");
   source = { kind: "live_plc", endpoint: m8Map.endpoint, userConfigured: true, transportFactory: event => createM8NativeTransport({ userName, password: secret, event, modulePath: m8Preflight().modulePath }) };

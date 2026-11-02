@@ -26,6 +26,8 @@ try {
   const frame = current.hmi.lastFrame;
   const bytes = Buffer.from(await (await fetch(new URL(frame.mediaUrl, url))).arrayBuffer());
   check("HMI tile frame bytes match capture hash", createHash("sha256").update(bytes).digest("hex") === frame.sha256);
+  await browser.evaluate(`Array.from(document.querySelectorAll('button')).find(b=>b.textContent.trim()==='Setup').click();true`);
+  check("Setup names the actual configured factory", await browser.waitFor(`document.querySelector('[aria-label="Campaign plan"]')?.textContent.includes(${JSON.stringify(host.factory.label)})`));
   check("Start Campaign is available", await browser.waitFor("Array.from(document.querySelectorAll('button')).some(b => /^Start campaign$/i.test(b.textContent.trim()) && !b.disabled)"));
   await browser.evaluate("Array.from(document.querySelectorAll('button')).find(b => /^Start campaign$/i.test(b.textContent.trim()) && !b.disabled).click(); true");
   const deadline = Date.now() + 60_000;
@@ -38,6 +40,10 @@ try {
   check("real portal Start produces a finalized fixture report", report?.status === "completed");
   check("Start created a new campaign", report.campaignId !== host.campaignId);
   check("report includes evidence-grounded findings", Object.keys(report.findings ?? {}).length > 0);
+  if (host.factory.id === "fixture-adaptive") {
+    await browser.evaluate(`Array.from(document.querySelectorAll('button')).find(b=>b.textContent.trim()==='Campaign').click();true`);
+    check("finalized connector observation does not claim current freshness", await browser.waitFor(`document.querySelector('[aria-label="M9 campaign record"]')?.textContent.includes('current freshness not monitored')`));
+  }
   writeFileSync(`${out}/campaign.jsonl`, await (await fetch(`${url}/api/campaign/ledger`)).text());
   writeFileSync(`${out}/hmi-frame.jpg`, bytes);
   writeFileSync(`${out}/portal.png`, await browser.screenshot());

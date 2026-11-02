@@ -9,6 +9,7 @@ param(
 $ErrorActionPreference = 'Stop'
 Push-Location (Join-Path $PSScriptRoot '..')
 $cbOldBrowser = $env:CONTROLSBENCH_HMI_BROWSER
+$cbOldWonderModule = $env:CONTROLSBENCH_WONDER_PROCESS_MODULE
 $cbPasswordPointer = [IntPtr]::Zero
 try {
     if (-not $env:CONTROLSBENCH_HMI_BROWSER -and (Test-Path -LiteralPath 'C:\Program Files\Google\Chrome\Application\chrome.exe')) {
@@ -22,6 +23,9 @@ try {
     }
     if (-not (Test-Path -LiteralPath 'ui/dist/index.html')) { throw 'Build the UI first: npm --prefix ui run build' }
     if ($Mode -eq 'wonder') {
+        if (-not $env:CONTROLSBENCH_WONDER_PROCESS_MODULE) {
+            $env:CONTROLSBENCH_WONDER_PROCESS_MODULE = Join-Path $PSScriptRoot '../src/live/wonder-process/index.ts'
+        }
         foreach ($cbName in @('CONTROLSBENCH_WONDER_PROCESS_MODULE', 'CONTROLSBENCH_WONDER_PROCESS_COMMIT', 'CONTROLSBENCH_WONDER_HANDOFF', 'CONTROLSBENCH_WONDER_HANDOFF_SHA256', 'CONTROLSBENCH_WONDER_PRICING_REVIEWED', 'MODEL_API_KEY')) {
             if (-not [Environment]::GetEnvironmentVariable($cbName)) { throw "Live Wonder requires the reviewed isolated adapter handoff and private model configuration; missing $cbName. No PLC connection made." }
         }
@@ -52,5 +56,7 @@ try {
     }
     if ($null -eq $cbOldBrowser) { Remove-Item Env:CONTROLSBENCH_HMI_BROWSER -ErrorAction SilentlyContinue }
     else { $env:CONTROLSBENCH_HMI_BROWSER = $cbOldBrowser }
+    if ($null -eq $cbOldWonderModule) { Remove-Item Env:CONTROLSBENCH_WONDER_PROCESS_MODULE -ErrorAction SilentlyContinue }
+    else { $env:CONTROLSBENCH_WONDER_PROCESS_MODULE = $cbOldWonderModule }
     Pop-Location
 }

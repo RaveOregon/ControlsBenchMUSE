@@ -25,6 +25,12 @@ export function CampaignTruthPanel({ state, actions, onSelect }: { state: Worksp
   const p = hosted.projection;
   const badge = CLASS_LABEL[hosted.evidenceClass] ?? { text: hosted.evidenceClass, title: '', cls: '' };
   const connector = p?.connector as { state?: string; reason?: string; ageMs?: number } | undefined;
+  const finalized = p && ['completed', 'failed', 'stopped'].includes(p.status);
+  const recorded = hosted.evidenceClass === 'preserved_live_plc';
+  const connectorText = !connector ? 'no connector observation yet'
+    : recorded ? `Recorded source state: ${connector.state} · ${connector.reason}; no current PLC freshness`
+    : finalized ? `Last observed ${connector.state} · ${connector.reason} (age at observation ${Math.round(connector.ageMs ?? 0)} ms); campaign finalized — current freshness not monitored`
+    : `${connector.state} · ${connector.reason} (${Math.round(connector.ageMs ?? 0)} ms)`;
   const experiments = p ? Object.values(p.experiments) : [];
   const actionsList = p ? Object.entries(p.actions) : [];
   const findings = p ? Object.values(p.findings) : [];
@@ -37,7 +43,7 @@ export function CampaignTruthPanel({ state, actions, onSelect }: { state: Worksp
       <dl className="kv">
         <dt>Campaign</dt><dd className="mono">{hosted.campaignId} · seq {hosted.throughSequence} · revision {p?.revision ?? 0}</dd>
         <dt>Diagnosis</dt><dd>{hosted.diagnosisMode}</dd>
-        <dt>Connector</dt><dd className={connector?.state === 'fresh' ? undefined : 'quality-held'}>{connector ? `${connector.state} · ${connector.reason} (${Math.round(connector.ageMs ?? 0)} ms)` : 'no connector observation yet'}</dd>
+        <dt>Connector</dt><dd className={connector?.state === 'fresh' && !finalized && !recorded ? undefined : 'quality-held'}>{connectorText}</dd>
         <dt>Budget</dt><dd>campaign ${(p?.budget.campaignUsd ?? 0).toFixed(2)} · session ${(p?.budget.sessionUsd ?? 0).toFixed(2)}</dd>
         {p?.activeExperiment && <Fragment><dt>Active experiment</dt><dd className="mono">{p.activeExperiment}</dd></Fragment>}
       </dl>

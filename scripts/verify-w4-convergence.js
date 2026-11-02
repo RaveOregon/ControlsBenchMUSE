@@ -50,6 +50,7 @@ async function product(mode) {
     while (!url && !exited && Date.now() - began < 45_000) await new Promise(r => setTimeout(r, 100));
     assert(url && !exited, `Own ${mode} composition did not start; see ${out}/service.txt`);
     run(`product-${mode}`, ["scripts/check-product-browser.js", url, "--out", `${out}/browser`]);
+    run(`product-${mode}-qa`, ["scripts/w4-product-capture.js", url, `${out}/qa`]);
   } finally {
     if (!exited && child.connected) child.send({ type: "controlsbench.product.stop" });
     let timer;
@@ -61,8 +62,10 @@ async function product(mode) {
   }
 }
 try {
+  environment.W4_INTEGRATION_EVIDENCE = resolve(directory, "native-process-union");
   run("union-convergence", ["scripts/check-m10-convergence.js"]);
-  run("network-disabled-real-response-replay", ["--import", "./scripts/lib/network-disabled.js", "--test", "test/wonder-paid-replay.test.ts"]);
+  environment.W4_INTEGRATION_EVIDENCE = resolve(directory, "native-process-network-disabled");
+  run("network-disabled-real-response-replay", ["--import", "./scripts/lib/network-disabled.js", "--test", "--test-concurrency=1", "test/wonder-paid-replay.test.ts", "test/w4-integration.test.ts"]);
   run("wonder-production-browser", ["scripts/check-wonder-portal.js", "--out", `${directory}/wonder-browser`]);
   for (const runId of ["2026-11-01T14-02-24-720Z", "2026-11-01T14-07-10-579Z", "2026-11-01T15-12-23-772Z"]) {
     const audit = auditHmiH2(`artifacts/hmi/h2/${runId}`);

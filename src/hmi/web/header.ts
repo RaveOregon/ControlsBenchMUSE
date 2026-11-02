@@ -119,6 +119,8 @@ export function mountFooter(root: HTMLElement): () => void {
     setText(left, `client ${store.clientSessionId || "unregistered"}`);
     setAttr(left, "data-hmi-client-session", store.clientSessionId);
     setText(mid, `service ${st.identity.serviceSessionId}`);
-    setText(right, `Every value is an observed PLC sample. A click is not a PLC acknowledgement. Journal: ${st.identity.journal ?? "memory only"}`);
+    const basis = st.identity.source.kind === "fixture" ? "Fixture values include recorded, emulated and default samples; not current PLC observations."
+      : "PLC values come from observed samples; HMI-local fields remain separate.";
+    setText(right, `${basis} A click is not a PLC acknowledgement. Journal: ${st.identity.journal ?? "memory only"}`);
   };
 }

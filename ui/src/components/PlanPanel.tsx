@@ -126,7 +126,7 @@ export function PlanPanel({ state, worldName, worldVersion, signalCounts, select
       </header>
       <div className="body summary-card">
         <p>
-          <b style={{ color: "var(--text)" }}>{worldName}</b> · world v{worldVersion} · {signalCounts.inputs} raw inputs / {signalCounts.outputs} PLC outputs · Muse Wonder 1.0
+          <b style={{ color: "var(--text)" }}>{worldName}</b> · world v{worldVersion} · {signalCounts.inputs} raw inputs / {signalCounts.outputs} PLC outputs · {state.host?.info?.factory.label ?? (state.mode === "replay" ? "Recorded model activity" : "Provider not configured")}
         </p>
         <div className="summary-stats">
           <span>
