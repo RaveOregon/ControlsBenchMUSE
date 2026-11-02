@@ -39,7 +39,8 @@ function measure(name: string, data: Record<string, unknown>): void {
   mkdirSync(evidenceDir, { recursive: true });
   appendFileSync(join(evidenceDir, "measurements.jsonl"), JSON.stringify({ test: name, ...data }) + "\n");
 }
-function keepSample(name: string, dir: string): void { if (evidenceDir) cpSync(dir, join(evidenceDir, "samples", name), { recursive: true }); }
+// Journals and ledger only: a sampled session's temporary lock file is not evidence.
+function keepSample(name: string, dir: string): void { if (evidenceDir) cpSync(dir, join(evidenceDir, "samples", name), { recursive: true, filter: source => !source.endsWith("live.lock") }); }
 const alive = (pid: number) => { try { process.kill(pid, 0); return true; } catch { return false; } };
 
 interface Harness {
