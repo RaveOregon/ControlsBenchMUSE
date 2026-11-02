@@ -983,3 +983,10 @@ a { color: var(--accent); }
 .generated-view-mount iframe { width: 100%; height: 420px; border: 0; display: block; }
 .generated-fallback { max-height: 420px; overflow: auto; }
 .view-selection { overflow-wrap: anywhere; font-size: 12px; }
+@media (max-width: 600px) {
+  .app, .portal-main > * { min-width: 0; }
+  .topbar > * { min-width: 0; max-width: 100%; }
+  .topbar .mode-badge { flex-wrap: wrap; white-space: normal; }
+  .topbar .controls { width: 100%; }
+  .page-heading { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
