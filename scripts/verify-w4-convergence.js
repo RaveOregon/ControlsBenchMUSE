@@ -43,7 +43,7 @@ async function product(mode) {
   const exit = new Promise(resolveExit => child.once("exit", code => { exited = true; resolveExit(code); }));
   for (const stream of [child.stdout, child.stderr]) stream.on("data", bytes => {
     appendFileSync(join(out, "service.txt"), bytes); output += bytes;
-    url = /ControlsBench portal (http:\/\/127\.0\.0\.1:\d+\/)/.exec(output)?.[1];
+    url = /ControlsBench portal (http:\/\/127\.0\.0\.1:\d+\/?)/.exec(output)?.[1];
   });
   try {
     const began = Date.now();
