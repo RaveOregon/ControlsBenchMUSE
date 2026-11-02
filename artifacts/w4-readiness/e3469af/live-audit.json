@@ -1,0 +1,44 @@
+{
+  "status": "pass",
+  "sourceCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "scope": "live-m8-zero-model-commissioning",
+  "sourceDirectory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin\\artifacts\\w4-commissioning\\2026-11-02T13-10-27-030Z",
+  "archiveDirectory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\e3469af\\live-2026-11-02T13-10-27-030Z",
+  "resultSha256": "d4b543a529e5fca97a4049ce1bf774a9f83e7f1e69de626a274ba332c0902d6c",
+  "verifiedEvidenceFiles": 9,
+  "ledgerEvents": 1920,
+  "acknowledgements": 186,
+  "findings": 3,
+  "qualification": {
+    "passed": true,
+    "failures": []
+  },
+  "finalState": {
+    "bootIdentity": "1664380500149",
+    "appliedEpoch": "16979593606710",
+    "appliedSequence": "186",
+    "plcCycle": "56350",
+    "plcTimeUs": "1665524704866",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Stopped",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 2,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 1,
+      "CountExitB": 0,
+      "CountRunout": 1,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": []
+  },
+  "modelCalls": 0,
+  "paidCalls": 0,
+  "liveRecoveryQualified": false,
+  "wonderDirectedW4Passed": false
+}

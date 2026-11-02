@@ -65,3 +65,24 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\steve\Documents\Co
 The new launcher preserves source/manifest checks, additionally requires a live PLC HMI source and a current captured frame in an idle portal on :5190/:5191, and saves the observer identity/frame witness before the masked credential prompt. It then runs the existing pinned zero-model commissioning harness. This performs the declared PLC experiment; it makes no model request and does not recover/retry on failure. Both credential prompts remain local. On completion, share the result; preserve the observer process until the run has ended.
 
 The commissioning launcher was syntax-checked; its live observer preconditions and the new W4 runtime have not yet been exercised live. A passing read-only baseline is not a live commissioning pass.
+
+## Zero-model live commissioning: PASS
+
+The user ran the commissioning launcher successfully on the actual M8 controller with the live portal/HMI observer open. Run: `2026-11-02T13-10-27-030Z`; original evidence remains in the immutable commissioning checkout. Exact archived evidence: `artifacts/w4-readiness/e3469af/live-2026-11-02T13-10-27-030Z/`. The pre-run observer identity/frame witness is retained alongside it. No model call or paid request occurred.
+
+Independent saved-evidence audit: `artifacts/w4-readiness/e3469af/live-audit.json`. All nine cited evidence file hashes match; replay validates the 1,920-event campaign hash chain and reconstructs the saved report exactly. The qualification predicate passes independently, all seven phases pass, and the final read-only state agrees with the last applied image/epoch/sequence. There are 186 acknowledgements (initialization plus 185 cadence commits) and three explicitly scripted commissioning findings, not Muse findings.
+
+| Measurement | Observed |
+|---|---|
+| Cadence commits | 185, including 41 held commits |
+| Gap p50 / p95 / max | 117 / 186 / 218 ms; none over 300 ms |
+| Parent stall | 1,500 ms; child made 13 commits, largest stall gap 177 ms |
+| 400 ms lease expiry | 401 ms, world/image held; late decision not applied |
+| Condition/expiry holds | One distinct image in each, PLC cycles advanced |
+| Final state | Stopped, fault 0, no item or pending completion, motor off |
+| Final application | Epoch `16979593606710`, sequence `186`, exact image read back |
+| Ownership | Released |
+
+One assigned carton completed at Exit A; the unassigned lease carton completed at runout. Overload produced fault 10 and cleared through the declared Reset procedure. Simulation remains selected with the at-rest image held; ConnectorStale after the writer closes is the expected bench diagnostic. No passthrough, HMI operation, real write-timeout recovery or Wonder-directed W4 pass is implied.
+
+**Immediate next owner: this integration chat.** Prepare paid W4 by providing a hash-bound held-state export from an actual Wonder campaign's original child journals/ledger, using the existing recovery classification. Then prepare the reviewable Meta context and aggregate spend bound and commission the first real Wonder-directed normal/fault/post-observation investigation. Existing product HMI observation may continue; the observer portal's separate M8 campaign is not the paid Wonder runner. Do not rerun the successful commissioning sequence just to obtain another pass. The immutable source pin remains `e3469af`.
