@@ -1,0 +1,19 @@
+{
+  "status": "waiting-for-runtime-start",
+  "recordedAtIso": "2026-11-02T21:33:00.197Z",
+  "retryModelRequests": 0,
+  "retryNewConservativeUsd": 0,
+  "existingSessionConservativeUsd": 5,
+  "remainingOriginalConservativeUsd": 3,
+  "aggregateConservativeCeilingUsd": 8,
+  "plcService": "CODESYS Control Win V3 - x64",
+  "observedServiceState": "Stopped",
+  "opcEndpointListening": false,
+  "hmi": "reconnecting; no fresh PLC snapshot",
+  "directServiceStart": "denied by Windows service permissions",
+  "trayLaunch": "Computer Use app approval timed out",
+  "credentialEntered": false,
+  "paidTrialStarted": false,
+  "originalApprovalRemainsValid": true,
+  "next": "Start the CODESYS Control Win software runtime; confirm fresh stopped baseline; launch this same bounded retry after source/account revalidation. No automatic PLC reset or paid call while offline."
+}

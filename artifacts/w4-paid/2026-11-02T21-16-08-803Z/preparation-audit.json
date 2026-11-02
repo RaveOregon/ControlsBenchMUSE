@@ -1,0 +1,13 @@
+{
+  "verifiedAtIso": "2026-11-02T21:16:54.021Z",
+  "sourceCommit": "45e003b",
+  "networkDisabledTests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "engineHashesVerified": 639,
+  "launchHashesVerified": 6,
+  "remainingConservativeUsd": 3,
+  "aggregateConservativeCeilingUsd": 8,
+  "realApiRequestsDuringPreparation": 0
+}

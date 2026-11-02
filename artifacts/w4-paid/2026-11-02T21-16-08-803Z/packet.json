@@ -1,0 +1,85 @@
+{
+  "contract": "controlsbench.w4-paid-approval.v1",
+  "preparedAtIso": "2026-11-02T21:16:09.030Z",
+  "authorization": "pending user review; no calls authorized by this file alone",
+  "ownerCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "launchLayerCommit": "45e003b20b3319bde1edbe500fbe620490d9a07a",
+  "model": "muse-wonder-1.0",
+  "reasoning": "high",
+  "mode": "Standard",
+  "maximumModelRequests": 3,
+  "maximumNewConservativeUsd": 3,
+  "sessionBaseline": {
+    "sha256": "23f37e3df33909d1ca61a86df1141aaa227a17e39fbccfac52428ef38ab635ba",
+    "conservativeUsd": 5
+  },
+  "aggregateConservativeCeilingUsd": 8,
+  "pricingReviewedOn": "2026-11-02",
+  "pricingSource": "https://dev.meta.ai/docs/pricing-rate-limits",
+  "inputUsdPerMillion": 4,
+  "outputUsdPerMillion": 20,
+  "perRequestAdmissionUsd": 1,
+  "maximumOutputTokens": 4000,
+  "requestTimeoutMs": 300000,
+  "categories": [
+    "normal",
+    "faults",
+    "adaptive"
+  ],
+  "objective": {
+    "source": "engineer-selected W4 proof objective",
+    "goal": "Use the accepted specification to plan and perform a normal-operation experiment and a declared fault experiment on the live PLC. From returned PLC evidence, choose and execute a genuinely new follow-up investigation; cite its motivating observations. Produce grounded findings and finish with the controller Stopped, fault-free, no tracked item or pending completion.",
+    "discretion": "Choose your own hypotheses, fault, stimuli, observations and follow-up. No scripted sequence or predetermined verdict is supplied. 3 model decisions are available; group compatible semantic actions thoughtfully. If the budget or evidence is insufficient, report the missing proof honestly.",
+    "operation": "WCS assign_route is separate from carton requestedRoute metadata. Observe the actual completion sequence before acknowledging it. Stop and Reset are distinct sequenced operator commands. Default hold freezes world advancement while PLC scans and timers continue; do not assume a held active carton stops its PLC transit timer. Engine streaming continues independently of reasoning.",
+    "boundaries": "Preserved generated world 0.5.0; actual PLC build 8001/interface 1. No world/PLC edits, HMI operation, higher-rate qualification or automatic recovery. HMI pixels are separate engineer evidence."
+  },
+  "repositoryRoot": "C:/Users/steve/Documents/ControlsBenchMuse",
+  "campaignArtifactRoot": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T21-16-08-803Z\\live-host",
+  "launchSourceHashes": {
+    "scripts/w4-paid/support.mjs": "3097aeca7a69ac0a7c9edb40bcad23d0ae7d3af7820484f509d37749f5460749",
+    "scripts/w4-paid/factory.mjs": "3c5bfd1738d8120417e2222689b5bb19e5db0949792c98f4ae3387da3ebb880d",
+    "scripts/w4-paid/export-held.mjs": "e943de87b42494d406cde89e7930fc49ba3fa4dd362a347b177047e9034b2439",
+    "scripts/w4-paid/launch.ps1": "f09dd47a1079588de49006058fbe3295bfef4654a446886248a8efcc18f366da",
+    "scripts/w4-paid/start-approved-retry.ps1": "85a3498c18ef566167bbe74c2da90c6ec5bf771881787e77833ebad572491ca9",
+    "artifacts/w4-readiness/e3469af/launch.json": "344f559f29698dc40da990906eb7d81e705afc017d010ef1c0a0350f0ede3e47"
+  },
+  "dataTransfer": {
+    "destination": "https://api.meta.ai/v1",
+    "sends": [
+      "accepted conveyor specification",
+      "logical signal and semantic tool definitions",
+      "engineer objective",
+      "fresh live PLC raw-input/output observations and diagnostic values",
+      "action results, faults, experiment state and evidence identifiers",
+      "grounded findings and subsequent investigation results"
+    ],
+    "excludes": [
+      "PLC source/binaries",
+      "model/PLC credentials",
+      "opaque connection addresses/node IDs",
+      "generated world source",
+      "HMI pixels/video"
+    ],
+    "dynamics": "Live observations, times, revisions, IDs, decisions and paired tool outcomes are generated at run time; these dynamic fields are approved by class, not identical to the recorded example."
+  },
+  "limits": "One explicitly authorized retry only. 3 runtime turns and provider calls; failed/preflight/uncertain attempts retain charges. The durable baseline blocks reuse. Original $8 aggregate ceiling; no new allowance, reset or automatic retry.",
+  "recovery": "The bounded wrapper disposes the exact child and writes report.json, held-state.json and result.json beside the original ledger/journals. Recovery uses the pinned inspect-only procedure with --artifacts set to the campaign parent. Unknown/changed states refuse writes.",
+  "proofBoundary": "First paid trial partial due to 336 ms transport gap. Exact native recovery and corrected-host zero-model commissioning passed. Wonder normal/fault/adaptive proof is still outstanding.",
+  "originalApproval": {
+    "packet": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\packet.json",
+    "packetSha256": "2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9",
+    "authorization": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\authorization.json",
+    "retryInstruction": "Go for it",
+    "alreadySpentNewConservativeUsd": 1,
+    "maximumTotalNewConservativeUsd": 4
+  },
+  "staticPayloadSha256": "f48d6c4fd5e765cb166afebde5c13972ac663a5e94ec457add2abb083ef91a0e",
+  "exampleRequestSha256": "1af45e9cd692a147cfe236d7779878ebe63025c06292b4ba146eab43b28e3066",
+  "preview": {
+    "realApiRequests": 0,
+    "realPlcConnections": 0,
+    "realModelResponses": 0,
+    "tokenCountMeasured": false,
+    "meaning": "Actual provider HTTP shape with a local fetch stub and clearly recorded sample observations; not an exact future live request or a model result."
+  }
+}
