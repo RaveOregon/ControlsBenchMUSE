@@ -6,7 +6,12 @@ if ((Get-FileHash -LiteralPath $w4PacketPath -Algorithm SHA256).Hash.ToLowerInva
 $w4Packet = Get-Content -LiteralPath $w4PacketPath -Raw | ConvertFrom-Json
 $w4Root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
 $w4Config = Get-Content -LiteralPath (Join-Path $w4Root 'artifacts/w4-readiness/e3469af/launch.json') -Raw | ConvertFrom-Json
-if ($w4Packet.ownerCommit -ne $w4Config.sourceCommit -or $w4Packet.maximumModelRequests -lt 1 -or $w4Packet.maximumModelRequests -gt 4 -or $w4Packet.maximumModelRequests -ne $w4Packet.maximumNewConservativeUsd -or $w4Packet.aggregateConservativeCeilingUsd -ne 8 -or ($w4Packet.sessionBaseline.conservativeUsd + $w4Packet.maximumNewConservativeUsd) -gt 8) { throw 'Unexpected campaign envelope.' }
+$w4Ceiling = 8
+if ($w4Packet.approvalRevision) {
+    if ($w4Packet.approvalRevision.contract -ne 'controlsbench.w4-expanded-approval.v1' -or $w4Packet.approvalRevision.previousAggregateCeilingUsd -ne 8 -or $w4Packet.sessionBaseline.conservativeUsd -ne 7 -or $w4Packet.maximumModelRequests -ne 4 -or $w4Packet.maximumOutputTokens -ne 8000) { throw 'Unexpected expanded review.' }
+    $w4Ceiling = 11
+}
+if ($w4Packet.ownerCommit -ne $w4Config.sourceCommit -or $w4Packet.maximumModelRequests -lt 1 -or $w4Packet.maximumModelRequests -gt 4 -or $w4Packet.maximumModelRequests -ne $w4Packet.maximumNewConservativeUsd -or $w4Packet.aggregateConservativeCeilingUsd -ne $w4Ceiling -or ($w4Packet.sessionBaseline.conservativeUsd + $w4Packet.maximumNewConservativeUsd) -gt $w4Ceiling -or $w4Packet.maximumOutputTokens -gt 8000) { throw 'Unexpected campaign envelope.' }
 foreach ($w4Source in $w4Packet.launchSourceHashes.PSObject.Properties) {
     if ((Get-FileHash -LiteralPath (Join-Path $w4Root $w4Source.Name) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Source.Value) { throw "Launch source changed: $($w4Source.Name)" }
 }
@@ -61,7 +66,7 @@ try {
     $env:OPC_USER = 'PLC'
     $env:OPC_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($w4SecretPointer)
     Write-Host 'Open http://127.0.0.1:5190/ . All three W4 categories must be selected.'
-    Write-Host ('Start Campaign launches at most ' + $w4Packet.maximumModelRequests + ' requests / $' + $w4Packet.maximumNewConservativeUsd + ' remaining conservative allowance, within the original $8 aggregate ceiling. No automatic retry.')
+    Write-Host ('Start Campaign launches at most ' + $w4Packet.maximumModelRequests + ' requests / $' + $w4Packet.maximumNewConservativeUsd + ' conservative spending, within the reviewed $' + $w4Ceiling + ' aggregate ceiling; output allowance ' + $w4Packet.maximumOutputTokens + '. No automatic retry.')
     $w4Args = @((Join-Path $w4Config.pinnedCheckout 'scripts/run-hmi-portal.js'), '--live', '--campaign', 'wonder', '--campaign-module', (Join-Path $PSScriptRoot 'factory.mjs'), '--portal-port', '5190', '--hmi-port', '5191', '--hmi-headless', '--commands', 'disabled', '--artifacts', $w4Packet.campaignArtifactRoot)
     # HMI ownership discovery uses process.cwd(). Launch from the pinned checkout so
     # it finds the shared runtime lock and selects its reduced polling interval.

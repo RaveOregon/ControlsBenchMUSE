@@ -28,9 +28,17 @@ export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
   assert(Number.isInteger(turns) && turns >= 1 && turns <= 4, 'Invalid request allowance');
   assert.equal(packet.maximumNewConservativeUsd, turns, 'Each attempt needs a conservative dollar');
-  assert.equal(packet.aggregateConservativeCeilingUsd, 8, 'Original aggregate approval is $8');
+  const ceiling = packet.approvalRevision ? 11 : 8;
+  if (packet.approvalRevision) {
+    assert.equal(packet.approvalRevision.contract,'controlsbench.w4-expanded-approval.v1');
+    assert.equal(packet.approvalRevision.previousAggregateCeilingUsd,8);
+    assert.equal(packet.sessionBaseline?.conservativeUsd,7,'Expanded review is tied to the existing seven-dollar account');
+    assert.equal(turns,4); assert.equal(packet.maximumOutputTokens,8000);
+  }
+  assert.equal(packet.aggregateConservativeCeilingUsd, ceiling, packet.approvalRevision ? 'Expanded aggregate review is $11' : 'Original aggregate approval is $8');
   assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd) && packet.sessionBaseline.conservativeUsd >= 4);
-  assert(packet.sessionBaseline.conservativeUsd + turns <= 8, 'Remaining original approval would be exceeded');
+  assert(packet.sessionBaseline.conservativeUsd + turns <= ceiling, 'Remaining original approval would be exceeded');
+  assert(Number.isInteger(packet.maximumOutputTokens ?? 4000) && (packet.maximumOutputTokens ?? 4000)>=16 && (packet.maximumOutputTokens ?? 4000)<=8000,'Invalid provider output allowance');
   return turns;
 }
 
@@ -111,7 +119,8 @@ export function configureBoundedRuntime(runtime, packet) {
   const turns = packet ? trialEnvelope(packet) : 4;
   runtime.options.maxTurns = turns;
   runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: trialObjective(turns),
-    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, aggregateConservativeCeilingUsd: 8, source: 'remaining original approval; no accounting reset'}};
+    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000,
+      aggregateConservativeCeilingUsd: packet?.aggregateConservativeCeilingUsd ?? 8, source: packet?.approvalRevision ? 'explicit expanded packet approval required; existing account preserved' : 'remaining original approval; no accounting reset'}};
 }
 
 export function boundHostedCampaign(hosted, directory, {allowOffline = false, packet} = {}) {

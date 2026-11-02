@@ -11,6 +11,8 @@ const paths=commonWonderPaths(), accountBytes=existsSync(paths.session)?readFile
 const charges=accountBytes.toString('utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
 const baseline=charges.at(-1)?.totalUsd??0;
 const retry=process.argv.includes('--remaining-approved');
+const expanded=process.argv.includes('--expanded-allowance');
+assert(!(retry&&expanded),'Choose one review mode');
 const originalDirectory=join(root,'artifacts/w4-paid/2026-11-02T13-42-05-152Z');
 const originalSha='2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9';
 assert.equal(hashFile(join(originalDirectory,'packet.json')),originalSha);
@@ -18,23 +20,25 @@ const originalAuthorization=json(join(originalDirectory,'authorization.json'));
 assert.equal(originalAuthorization.packetSha256,originalSha);
 assert.equal(originalAuthorization.aggregateConservativeCeilingUsd,8);
 assert.equal(originalAuthorization.status,'approved-by-user');
-const turns=retry?8-baseline:4;
-assert(retry?baseline===5:baseline===4,'This preparation is for the reviewed first retry only; no automatic retries/reset');
+const turns=expanded?4:retry?8-baseline:4;
+const ceiling=expanded?11:8, outputTokens=expanded?8000:4000;
+assert(expanded?baseline===7:retry?baseline===5:baseline===4,'Preparation requires the exact reviewed account; no retries/reset');
 const objective=trialObjective(turns);
-const files=['scripts/w4-paid/support.mjs','scripts/w4-paid/factory.mjs','scripts/w4-paid/export-held.mjs','scripts/w4-paid/launch.ps1','scripts/w4-paid/start-approved-retry.ps1','artifacts/w4-readiness/e3469af/launch.json'];
+const files=['scripts/w4-paid/support.mjs','scripts/w4-paid/factory.mjs','scripts/w4-paid/export-held.mjs','scripts/w4-paid/launch.ps1',expanded?'scripts/w4-paid/start-expanded-trial.ps1':'scripts/w4-paid/start-approved-retry.ps1','artifacts/w4-readiness/e3469af/launch.json'];
 const packet={contract:'controlsbench.w4-paid-approval.v1',preparedAtIso:new Date().toISOString(),authorization:'pending user review; no calls authorized by this file alone',
   ownerCommit:configuration.sourceCommit,launchLayerCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim(),model:'muse-wonder-1.0',reasoning:'high',mode:'Standard',maximumModelRequests:turns,maximumNewConservativeUsd:turns,
-  sessionBaseline:{sha256:hash(accountBytes),conservativeUsd:baseline},aggregateConservativeCeilingUsd:8,
+  sessionBaseline:{sha256:hash(accountBytes),conservativeUsd:baseline},aggregateConservativeCeilingUsd:ceiling,
   pricingReviewedOn:'2026-11-02',pricingSource:'https://dev.meta.ai/docs/pricing-rate-limits',inputUsdPerMillion:4,outputUsdPerMillion:20,
-  perRequestAdmissionUsd:1,maximumOutputTokens:4000,requestTimeoutMs:300000,categories:['normal','faults','adaptive'],objective,
+  perRequestAdmissionUsd:1,maximumOutputTokens:outputTokens,requestTimeoutMs:300000,categories:['normal','faults','adaptive'],objective,
+  ...(expanded?{approvalRevision:{contract:'controlsbench.w4-expanded-approval.v1',previousAggregateCeilingUsd:8,requestedAtUserInstruction:'lets try again with more allowance',status:'pending explicit four-dollar / eleven-dollar aggregate approval',reason:'Prior request ended incomplete at 4000 output tokens; high reasoning retained, output allowance doubled; no proven engine changes'}}:{}),
   repositoryRoot:paths.root,campaignArtifactRoot:join(directory,'live-host'),
   launchSourceHashes:Object.fromEntries(files.map(path=>[path,hashFile(join(root,path))])),
   dataTransfer:{destination:'https://api.meta.ai/v1',sends:['accepted conveyor specification','logical signal and semantic tool definitions','engineer objective','fresh live PLC raw-input/output observations and diagnostic values','action results, faults, experiment state and evidence identifiers','grounded findings and subsequent investigation results'],
     excludes:['PLC source/binaries','model/PLC credentials','opaque connection addresses/node IDs','generated world source','HMI pixels/video'],
     dynamics:'Live observations, times, revisions, IDs, decisions and paired tool outcomes are generated at run time; these dynamic fields are approved by class, not identical to the recorded example.'},
-  limits:`One explicitly authorized retry only. ${turns} runtime turns and provider calls; failed/preflight/uncertain attempts retain charges. The durable baseline blocks reuse. Original $8 aggregate ceiling; no new allowance, reset or automatic retry.`,
+  limits:`One trial only, ${turns} runtime turns/provider requests at ${outputTokens} output tokens. Existing $${baseline} account remains; at most $${turns} further conservative charges, aggregate ceiling $${ceiling}. Failed/preflight/uncertain attempts retain charges. No reset or automatic retry. ${expanded?'Expanded monetary ceiling requires explicit user approval.':'Original allowance only.'}`,
   recovery:'The bounded wrapper disposes the exact child and writes report.json, held-state.json and result.json beside the original ledger/journals. Recovery uses the pinned inspect-only procedure with --artifacts set to the campaign parent. Unknown/changed states refuse writes.',
-  proofBoundary:'First paid trial partial due to 336 ms transport gap. Exact native recovery and corrected-host zero-model commissioning passed. Wonder normal/fault/adaptive proof is still outstanding.',
+  proofBoundary:'Real Wonder normal A sort passed; prior second request incomplete at max_output_tokens. Native recovery and corrected-host zero-model commissioning passed. Fault/adaptive proof remains outstanding; this trial starts fresh.',
   originalApproval:{packet:join(originalDirectory,'packet.json'),packetSha256:originalSha,authorization:join(originalDirectory,'authorization.json'),retryInstruction:retry?'Go for it':'original approval',alreadySpentNewConservativeUsd:baseline-4,maximumTotalNewConservativeUsd:4}};
 trialEnvelope(packet);
 verifyAccountBaseline(packet);
@@ -58,7 +62,7 @@ try {
   context.budget={campaignUsd:0,sessionUsd:baseline,perRequestUsd:1,campaignHardUsd:5};
   assertLogicalContext(context);
   let request;
-  const provider=new WonderResponsesProvider({apiKey:'offline-preview-not-a-key',explicitlyAuthorized:true,maxCalls:turns,
+  const provider=new WonderResponsesProvider({apiKey:'offline-preview-not-a-key',explicitlyAuthorized:true,maxCalls:turns,maxOutputTokens:outputTokens,
     journal:fileExchangeJournal(join(directory,'preview-local-exchanges.jsonl')),fetch:async(url,init)=>{
       if(String(url).endsWith('input_tokens')) return Response.json({input_tokens:0}); // shape capture only, not a real token count
       request=JSON.parse(init.body);throw new Error('OFFLINE_PREVIEW_CAPTURE_ONLY');
@@ -71,6 +75,6 @@ try {
   writeFileSync(join(directory,'packet.json'),JSON.stringify(packet,null,2)+'\n');
   const packetSha256=hashFile(join(directory,'packet.json'));
   if(retry)writeFileSync(join(directory,'authorization.json'),JSON.stringify({status:'approved-retry-within-original-allowance',recordedAtIso:new Date().toISOString(),answer:'Go for it',packetSha256,originalApproval:packet.originalApproval,maximumModelRequests:turns,maximumNewConservativeUsd:turns,aggregateConservativeCeilingUsd:8,dataScope:packet.dataTransfer},null,2)+'\n');
-  writeFileSync(join(root,'artifacts/w4-paid/latest.json'),JSON.stringify({directory,packetSha256,status:retry?'approved-retry-ready-to-launch':'awaiting-new-approval',realApiRequests:0,realPlcConnections:0,previousConservativeUsd:baseline,maximumNewConservativeUsd:turns,aggregateConservativeCeilingUsd:8},null,2)+'\n');
+  writeFileSync(join(root,'artifacts/w4-paid/latest.json'),JSON.stringify({directory,packetSha256,status:expanded?'awaiting-expanded-approval':retry?'approved-retry-ready-to-launch':'awaiting-new-approval',realApiRequests:0,realPlcConnections:0,previousConservativeUsd:baseline,maximumNewConservativeUsd:turns,maximumOutputTokens:outputTokens,aggregateConservativeCeilingUsd:ceiling},null,2)+'\n');
   console.log(JSON.stringify({directory,packetSha256,maximumNewConservativeUsd:turns,previousConservativeUsd:baseline,realApiRequests:0,realPlcConnections:0}));
 } finally {await hosted?.dispose();await session?.dispose();ledger.close();}

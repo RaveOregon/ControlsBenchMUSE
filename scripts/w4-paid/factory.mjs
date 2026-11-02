@@ -22,15 +22,16 @@ export function createCampaignFactory() {
     // Match the standard factory's host contract; the envelope supplements its existing limits.
     limits: {...acceptedBudgetLimits},
     scope: {mode: 'categories', choices: [{id: 'normal', title: 'Normal operation'}, {id: 'faults', title: 'Declared faults'}, {id: 'adaptive', title: 'Evidence-dependent follow-up'}],
-      description: `One bounded ${turns}-request trial within the remaining original approval: normal, declared fault and an observation-dependent follow-up. No HMI operation or PLC/world edits.`},
+      description: `One bounded ${turns}-request trial within ${packet.approvalRevision?'the explicit expanded review':'the remaining original approval'}: normal, declared fault and an observation-dependent follow-up. No HMI operation or PLC/world edits.`},
     async create(context) {
       assert.deepEqual(Object.entries(context.scope).filter(([, enabled]) => enabled).map(([id]) => id).sort(), ['adaptive', 'faults', 'normal'], 'Select all three W4 categories');
       assert(context.artifactDirectory, 'Persistent campaign directory required');
       verifyAccountBaseline(packet); // Checked before the original factory takes its durable lock.
       writeFileSync(join(context.artifactDirectory, 'w4-approval.json'), bytes, {flag: 'wx'});
-      context.ledger.append('world.evidence', {source: {kind: 'paid_w4_approval', packetSha256: hash(bytes), maximumModelRequests: turns, maximumNewConservativeUsd: turns, aggregateConservativeCeilingUsd: 8}}, 'truth');
+      context.ledger.append('world.evidence', {source: {kind: 'paid_w4_approval', packetSha256: hash(bytes), maximumModelRequests: turns, maximumNewConservativeUsd: turns,
+        maximumOutputTokens: packet.maximumOutputTokens ?? 4000, aggregateConservativeCeilingUsd: packet.aggregateConservativeCeilingUsd}}, 'truth');
       delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({provider: () => new WonderResponsesProvider({
-        apiKey: process.env.MODEL_API_KEY, explicitlyAuthorized: true, maxCalls: turns,
+        apiKey: process.env.MODEL_API_KEY, explicitlyAuthorized: true, maxCalls: turns, maxOutputTokens: packet.maximumOutputTokens ?? 4000,
         journal: fileExchangeJournal(join(context.artifactDirectory, 'wonder-exchanges.jsonl'))
       })});
       const hosted = await delegate.create(context);
