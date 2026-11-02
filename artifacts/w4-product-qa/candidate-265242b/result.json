@@ -1,0 +1,136 @@
+{
+  "pin": "265242b5c354e00373d51de3dc8d94ca66df5b73",
+  "checks": [
+    {
+      "name": "hosted UI",
+      "pass": true
+    },
+    {
+      "name": "captured fixture frame",
+      "pass": true
+    },
+    {
+      "name": "category choices visible",
+      "pass": true
+    },
+    {
+      "name": "single selected category",
+      "pass": true
+    },
+    {
+      "name": "Start clicked",
+      "pass": true
+    },
+    {
+      "name": "start applied",
+      "pass": true
+    },
+    {
+      "name": "narrow scope sent exactly",
+      "pass": true
+    },
+    {
+      "name": "Stop available before completion",
+      "pass": true
+    },
+    {
+      "name": "Stop applied and stopped",
+      "pass": true
+    },
+    {
+      "name": "authoritative report stopped",
+      "pass": true
+    },
+    {
+      "name": "export control present",
+      "pass": true
+    },
+    {
+      "name": "browser downloaded report",
+      "pass": true
+    },
+    {
+      "name": "new campaign available",
+      "pass": true
+    },
+    {
+      "name": "new campaign applied",
+      "pass": true
+    },
+    {
+      "name": "new distinct campaign",
+      "pass": true
+    },
+    {
+      "name": "second Stop applied",
+      "pass": true
+    },
+    {
+      "name": "disconnect available",
+      "pass": true
+    },
+    {
+      "name": "disconnect applied",
+      "pass": true
+    },
+    {
+      "name": "disconnected overlay on held frame",
+      "pass": true
+    }
+  ],
+  "id1": "portal-20261102025008267-1",
+  "id2": "portal-20261102025011038-2",
+  "commands": [
+    {
+      "contractVersion": 1,
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-1",
+      "type": "start",
+      "payload": {
+        "scope": {
+          "io": false,
+          "startup": false,
+          "functional": false,
+          "runtime": false,
+          "faults": false,
+          "normal": true,
+          "edge": false,
+          "adaptive": false
+        }
+      }
+    },
+    {
+      "contractVersion": 1,
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-2",
+      "type": "stop"
+    },
+    {
+      "contractVersion": 1,
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-3",
+      "type": "start",
+      "payload": {
+        "scope": {
+          "io": false,
+          "startup": false,
+          "functional": false,
+          "runtime": false,
+          "faults": false,
+          "normal": true,
+          "edge": false,
+          "adaptive": false
+        }
+      }
+    },
+    {
+      "contractVersion": 1,
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-4",
+      "type": "stop"
+    },
+    {
+      "contractVersion": 1,
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-5",
+      "type": "disconnect_hmi"
+    }
+  ],
+  "plcContacted": false,
+  "paidCalls": 0
+}

@@ -1,0 +1,3161 @@
+{
+  "mode": "live",
+  "phase": "stopped",
+  "finalConveyorRequirementsTested": false,
+  "hmiObserved": false,
+  "checks": [
+    {
+      "id": "IO-1",
+      "group": "io",
+      "title": "Authenticated OPC UA session and access rights",
+      "manipulate": "Open a SignAndEncrypt session; write a writable probe and two read-only symbols.",
+      "observe": "Endpoint identity, user token policy, write status codes, PLC cycle advance, negotiated intervals.",
+      "oracle": "Writable probe echoes; read-only symbols reject with BadNotWritable; PLC cycle advances.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m0-opcua-session.json (M0)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "IO-2",
+      "group": "io",
+      "title": "Typed raw scalar round-trip (15 BOOL, 4 REAL, 1 UDINT)",
+      "manipulate": "Commit zero, one, bound, UDINT max, and rollover images through the double-buffered slots.",
+      "observe": "Application-visible active image, applied epoch/sequence, PLC output types.",
+      "oracle": "Every mapped signal round-trips bit-exact at its declared width; outputs exposed as BOOL.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m1-opcua-result.json (M1)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "SM-1",
+      "group": "startup",
+      "title": "Zero-image startup",
+      "requirement": "Sim activation",
+      "manipulate": "Initialize the complete world-to-PLC image to false/zero before world readiness.",
+      "observe": "Initial raw effects and their causes, world activity, snapshot schema.",
+      "oracle": "World starts coherently with every startup raw effect attributed.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-a-trace.json (CP-1)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "SM-2",
+      "group": "startup",
+      "title": "Drive command/feedback causality",
+      "requirement": "R-01",
+      "manipulate": "Surrogate PLC drives Motor_RunCmd false → true → false → true.",
+      "observe": "Drive_RunningFB delay, belt speed, encoder counts.",
+      "oracle": "Feedback and motion follow the observed command through declared drive dynamics only.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-a-trace.json (CP-2)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FN-1",
+      "group": "functional",
+      "title": "Carton assigned A diverts at D1 by actual position",
+      "requirement": "R-02",
+      "manipulate": "Introduce carton CP5-A with D1_ExtendCmd asserted before the decision point.",
+      "observe": "D1 limit feedback, photoeye sequence, carton path, exit evidence.",
+      "oracle": "Carton physically exits A because D1 was actually extended at the interaction time.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp5-routed-a (CP-5)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FN-2",
+      "group": "functional",
+      "title": "Requested A without divert actuation reaches runout",
+      "requirement": "R-13",
+      "manipulate": "Introduce carton CP5-MISSED-A requesting A with no D1 command.",
+      "observe": "Carton path past D1 and D2, runout photoeye, exit evidence.",
+      "oracle": "The world does not honour the requested route; the carton runs out (a misroute for the PLC to report).",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp5-missed-a (CP-5)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FN-3",
+      "group": "functional",
+      "title": "Carton assigned B passes D1 and diverts at D2",
+      "requirement": "R-03",
+      "manipulate": "Introduce carton CP6-B with D2_ExtendCmd asserted.",
+      "observe": "D2 travel and limits, D2 approach and exit B photoeyes.",
+      "oracle": "Carton physically exits B; D1 remains home.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp6-routed-b (CP-6)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FN-4",
+      "group": "functional",
+      "title": "Unassigned carton runs out",
+      "requirement": "R-04",
+      "manipulate": "Introduce an unassigned carton with both diverts home.",
+      "observe": "Photoeye sequence to runout and exit evidence.",
+      "oracle": "Carton continues straight to runout as a normal disposition.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp6-runout (CP-6)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FN-5",
+      "group": "functional",
+      "title": "PLC routing decisions against the real controller",
+      "requirement": "R-02 – R-04",
+      "manipulate": "Drive the same world through the live interceptor with WCS route offers.",
+      "observe": "Actual PLC divert commands, completion counts, misroute reporting.",
+      "oracle": "PLC routes A/B/runout correctly from real outputs (not surrogate fixtures).",
+      "evidenceClass": "world_model",
+      "availability": "awaiting_live",
+      "evidenceSource": "Final routing controller not tested; M7 used the measurement DUT",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Real PLC requirement test"
+    },
+    {
+      "id": "RT-1",
+      "group": "runtime",
+      "title": "Raw encoder counts from physical travel",
+      "manipulate": "Run the belt for controlled intervals, then stop.",
+      "observe": "Encoder_Count raw UDINT before and after, including coast.",
+      "oracle": "Counts derive from continuous motion (1000/m, floored, wraps 2^32) and stop once motion settles.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-a-trace.json (CP-3)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "RT-2",
+      "group": "runtime",
+      "title": "Coherent image commit and acknowledgement latency",
+      "manipulate": "Stream 10,000 alternating images through alternating staging slots.",
+      "observe": "Applied sequence echo, per-commit latency, PLC output-capture cycle.",
+      "oracle": "Zero torn images; complete sequence coverage; latency distribution recorded.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m2-coherence-trace.jsonl (M2)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "RT-3",
+      "group": "runtime",
+      "title": "Qualified 10 Hz demo tier",
+      "manipulate": "Ten-minute full-demo raw image stream.",
+      "observe": "6,000/6,000 images; p99 229.645 ms.",
+      "oracle": "Methodical 10 Hz p99 ≤250 ms; 20/50 Hz remain failed tiers.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m3-result.json · methodical tier",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "RT-4",
+      "group": "runtime",
+      "title": "PLC task impact",
+      "manipulate": "Compare the disconnected ten-minute baseline with three qualified 10 Hz full-demo runs. Full M6 matrix deferred.",
+      "observe": "IEC cycle interval p99, absolute jitter, watchdog/omitted cycles.",
+      "oracle": "At 10 Hz, p99 interval and jitter within 1.20× baseline and zero inferred omitted cycles. Task watchdog was disabled.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m6-hackathon-result.json · reduced scope at 10 Hz only",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "RT-5",
+      "group": "runtime",
+      "title": "Not-hung and budget guards",
+      "manipulate": "Exercise slow request, repeated failed repair, exhausted budget, stalled heartbeat, held wait.",
+      "observe": "Guard classification, elapsed time, preserved world version.",
+      "oracle": "Each case is distinguished; hard limits stop model calls and preserve state.",
+      "evidenceClass": "audit",
+      "availability": "recorded",
+      "evidenceSource": "gate-c-result.json (CP-11)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Agent / evidence audit"
+    },
+    {
+      "id": "FR-1",
+      "group": "faults",
+      "title": "Photoeye stuck-high and bounce",
+      "requirement": "R-09, R-10",
+      "manipulate": "Hold PE_Entry stuck true, clear, then bounce it for 240 ms.",
+      "observe": "Raw PE_Entry versus physical occupancy; fault evidence and cleanup.",
+      "oracle": "Committed fault changes raw behaviour only; cleanup restores physical derivation.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp7-sensor (CP-7)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FR-2",
+      "group": "faults",
+      "title": "Run command without drive feedback",
+      "requirement": "R-11",
+      "manipulate": "Suppress Drive_RunningFB while Motor_RunCmd is true; introduce a carton.",
+      "observe": "Drive feedback, encoder, carton motion; recovery after clear.",
+      "oracle": "No feedback, no motion, encoder held at 0; drive recovers after cleanup.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp7-drive (CP-7)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FR-3",
+      "group": "faults",
+      "title": "Divert 1 jammed home",
+      "requirement": "R-13",
+      "manipulate": "Jam D1 then command D1_ExtendCmd.",
+      "observe": "D1 limits and position despite command; recovery after clear.",
+      "oracle": "D1 stays home under command while jammed and travels after cleanup.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-b-trace.json · cp7-divert (CP-7)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "FR-4",
+      "group": "faults",
+      "title": "PLC cold restart requires a new boot identity and epoch",
+      "manipulate": "Operator cold reset between M2 phases; workstation opens a fresh epoch.",
+      "observe": "Boot identity, cleared epoch/sequence state, first post-restart commit.",
+      "oracle": "New boot identity observed; old continuity not inferred; sequence 1 accepted in a new epoch.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m2-opcua-result.json (M2 post-restart)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "FR-5",
+      "group": "faults",
+      "title": "Connector loss holds the last simulated image",
+      "requirement": "R-21",
+      "manipulate": "Drop client session, secure channel, and subscription during simulation. Physical Ethernet/server-only loss is not isolated.",
+      "observe": "BenchLinkStale, held image, reconnect commit behaviour.",
+      "oracle": "PLC holds last image, stays simulated, flags stale after max(500 ms, 3× publish).",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m5-result.json · three practical loss cases; physical Ethernet/server-only not isolated",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "NO-1",
+      "group": "normal",
+      "title": "Carton travel, sensor geometry, decelerating stop and hold",
+      "requirement": "R-01",
+      "manipulate": "Introduce a carton on a running belt, then remove the run command.",
+      "observe": "Continuous carton position, PE_Entry occupancy, coast distance, settle time.",
+      "oracle": "Belt decelerates and coasts per declared dynamics, then carton and sensors hold.",
+      "evidenceClass": "surrogate_contract",
+      "availability": "recorded",
+      "evidenceSource": "gate-a-trace.json (CP-4)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "World-contract check"
+    },
+    {
+      "id": "NO-2",
+      "group": "normal",
+      "title": "Closed-loop measurement DUT on the real PLC",
+      "manipulate": "Start, accelerate, move one carton through a photoeye, stop, hold — through the interceptor.",
+      "observe": "Command → world response → raw commit → PLC ack → PLC output, every edge attributed.",
+      "oracle": "Live trace correlates each edge; surrogate and live evidence remain separately labeled.",
+      "evidenceClass": "world_model",
+      "availability": "recorded",
+      "evidenceSource": "artifacts/m7/m7-live-result.json · measurement DUT, not final routing controller",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Real PLC · measurement DUT"
+    },
+    {
+      "id": "ES-1",
+      "group": "edge",
+      "title": "Invalid payloads rejected without changing the active image",
+      "manipulate": "Commit negative belt speed, non-finite current, and out-of-range divert position.",
+      "observe": "Active image, InvalidPayload diagnostic counter.",
+      "oracle": "Each is rejected and attributed; the active image is unchanged.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m1-opcua-result.json (M1)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "ES-2",
+      "group": "edge",
+      "title": "Adversarial sequencing: duplicate, stale, skipped, invalid, old epoch",
+      "manipulate": "Send duplicate, stale, skipped, invalid-slot, incomplete, premature-valid, mismatched, reconnect, and old-epoch commits.",
+      "observe": "Applied sequence and each diagnostic counter.",
+      "oracle": "Rejected commits leave the active image unchanged and increment exactly the expected counter once.",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m2-opcua-result.json (M2)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "ES-3",
+      "group": "edge",
+      "title": "Contradictory limits and impossible exit combinations",
+      "requirement": "R-15, R-16",
+      "manipulate": "Force both D1 limits true; assert two exit photoeyes with one carton.",
+      "observe": "PLC alarm/diagnostic response and counts.",
+      "oracle": "No verified-divert claim and no double completion (PROBE: report observation and uncertainty).",
+      "evidenceClass": "world_model",
+      "availability": "awaiting_live",
+      "evidenceSource": "World supports fault.setContradictoryLimits; no PLC run recorded yet",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Real PLC requirement test"
+    },
+    {
+      "id": "AI-1",
+      "group": "adaptive",
+      "title": "Blind diagnosis of a hidden committed fault",
+      "manipulate": "Commit hidden fault truth, then give a fresh filtered Muse context only permitted observations.",
+      "observe": "Muse hypotheses, evidence citations, seal ordering, truth reveal.",
+      "oracle": "Diagnosis sealed before reveal; scoring distinguishes correct, incorrect, insufficient evidence.",
+      "evidenceClass": "agent_record",
+      "availability": "recorded",
+      "evidenceSource": "gate-c/* (CP-8)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Agent / evidence audit"
+    },
+    {
+      "id": "AI-3",
+      "group": "adaptive",
+      "title": "World revision with hot reload and rollback",
+      "manipulate": "Muse revises the world while the incumbent runs; a deliberately failing successor follows.",
+      "observe": "Compile/check, state migration hash, activation, rollback disposition.",
+      "oracle": "Valid candidate activates with preserved state; failing candidate rolls back to the healthy module.",
+      "evidenceClass": "agent_record",
+      "availability": "recorded",
+      "evidenceSource": "gate-c-result.json (CP-10)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Agent / evidence audit"
+    },
+    {
+      "id": "CQ-20",
+      "group": "runtime",
+      "title": "20 Hz runtime tier",
+      "manipulate": "Sustained 20 Hz full-demo stream",
+      "observe": "Applied revisions and latency",
+      "oracle": "99.9% within 150 ms",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m3-result.json · runtime tier",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "CQ-50",
+      "group": "runtime",
+      "title": "50 Hz preferred tier",
+      "manipulate": "Sustained 50 Hz full-demo stream",
+      "observe": "Applied cadence and latency",
+      "oracle": "99.9% within 60 ms",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m3-result.json · preferred tier",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "CQ-4",
+      "group": "io",
+      "title": "M4 output visibility",
+      "manipulate": "Steady transitions and bounded pulses",
+      "observe": "Five PLC outputs with status and timestamps",
+      "oracle": "Edges visible; pulse widths reported as bounds",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m4-result.json",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "CQ-5",
+      "group": "faults",
+      "title": "M5 loss and explicit recovery",
+      "manipulate": "Subscription, session and channel loss",
+      "observe": "Last committed image held, stale detection, explicit commit",
+      "oracle": "No staged image applies on heartbeat recovery",
+      "evidenceClass": "plc_measurement",
+      "availability": "recorded",
+      "evidenceSource": "codesys/artifacts/m5-result.json",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Connector qualification"
+    },
+    {
+      "id": "EV-1",
+      "group": "evidence",
+      "title": "Evidence package audit",
+      "manipulate": "Re-hash package, lineage, traces, model-call accounting, and verdicts.",
+      "observe": "12 deterministic audit checks and disclosed warnings.",
+      "oracle": "No critical gap; warnings disclosed rather than hidden.",
+      "evidenceClass": "audit",
+      "availability": "recorded",
+      "evidenceSource": "gate-d-result.json (CP-12)",
+      "addedBy": "plan",
+      "status": "not_run",
+      "summary": "Campaign stopped before a verdict",
+      "category": "Agent / evidence audit"
+    }
+  ],
+  "requirements": [
+    {
+      "requirement": "R-01",
+      "text": "Start/stop and no motion after stopping settles · HMI/command Start and Stop; watch motor, raw feedback, encoder, and carton position · MUST: Stop removes the motor run command and inhibits new feed; cartons decelerate to rest according to declared physics, then remain fixed. Drive feedback, raw speed, encoder counts, and motion must not contradict the declared stopping behavior. No drain-to-empty behavior.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-02",
+      "text": "Normal A sort · WCS assigns A; release one carton · MUST: D1 actuates in time, one A passage/completion, no B or runout passage, count once.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-03",
+      "text": "Normal B sort · WCS assigns B; release one carton · MUST: carton passes D1, D2 actuates in time, one B completion, count once.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-04",
+      "text": "Normal runout/jackpot · No valid route; release one carton · MUST: it continues straight to runout; report `runout-unassigned`, not a machine fault or successful A/B sort.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-05",
+      "text": "Late or conflicting route · Offer A after D1 is no longer reachable, or change an assigned route in transit · PROBE: do not claim successful A retroactively; use reachable route or runout and report actual disposition. Exact late-B policy TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-06",
+      "text": "Destination not ready · Block A or B before its decision point · PROBE: proposed exception and runout disposition; never count a blocked exit as successful.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-07",
+      "text": "Runout blocked · Set `Runout_Ready` false with an unroutable carton approaching · PROBE: proposed feed inhibit and belt stop before congestion; confirm policy before scoring.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-08",
+      "text": "Duplicate WCS offer · Repeat same sequence/item · MUST: no second carton or second completion.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-09",
+      "text": "Sensor bounce · Short repeated edges on entry or either approach photoeye · PROBE: no duplicate item/count or unstable divert decision. Exact debounce threshold and injection method TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-10",
+      "text": "Stuck/failed photoeye · Hold one PE true or false despite carton movement · PROBE: timeout/plausibility evidence, no invented completion; PLC reaction threshold TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-11",
+      "text": "Motor command without feedback · Suppress `Drive_RunningFB` after run command · MUST: detected drive-start fault, no virtual motion, no false completion. Detection deadline TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-12",
+      "text": "Motor overload/trip · Assert `Drive_Overload` during travel · MUST: motor command removed, new feed stopped, fault shown; no auto-restart after reset.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-13",
+      "text": "D1 fails to move · Assign A; hold D1 home or neither limit despite command · MUST: if carton reaches runout, report misroute, not A completion; fault indication and deadline TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-14",
+      "text": "D2 fails to move · Assign B; hold D2 home or neither limit despite command · MUST: if carton reaches runout, report misroute, not B completion; fault indication and deadline TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-15",
+      "text": "Contradictory limits · Assert home and extended feedback simultaneously on D1 or D2 · PROBE: expose inconsistent feedback and avoid a false verified-divert claim. Exact PLC alarm behavior TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-16",
+      "text": "Impossible exit combination · With **one** carton, assert A and B, A and runout, or B and runout photoeyes together · PROBE: no double completion/count; report contradiction and controller response.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-17",
+      "text": "Impossible sequence · Report exit before entry, D2 approach before entry, or a jump from D1 approach to an impossible exit · PROBE: identify suspect sequence and avoid an unearned pass. Do not assume one generic PLC alarm is required.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-18",
+      "text": "Command/feedback disagreement · Report motor running while command is off, or divert extended feedback without its command · PROBE: record diagnostic response; consider whether this reveals an unsafe or incorrectly counted state.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-19",
+      "text": "Carton jam · Hold carton at D1, D2, or runout while drive runs · MUST: timeout/fault or equivalent and no invented completion. Threshold TBD.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-20",
+      "text": "WCS link loss/recovery · Pause messages or heartbeat; resume · PROBE: visible link state, runout/hold according to policy, no duplicate completion on retry.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-21",
+      "text": "Transport interruption · Break/reconnect OPC UA during a run · MUST: stale evidence labeled, no false pass; recovery and PLC response recorded.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-22",
+      "text": "HMI congruence · Operate Start/Stop/Reset via visible HMI · MUST if vision included: button action, displayed state, and actual PLC state agree.",
+      "verdict": "not_run"
+    },
+    {
+      "requirement": "R-23",
+      "text": "Multi-carton spacing · Two close cartons with different routes · PROBE/stretch: each carton reaches one correct exit without identity merge or conflicting divert timing.",
+      "verdict": "not_run"
+    }
+  ],
+  "findingReviews": {},
+  "evidence": [
+    {
+      "kind": "budget.limits",
+      "limits": {
+        "perRequestUsd": 1,
+        "repairEpisodeUsd": 2,
+        "campaignWarningUsd": 3,
+        "campaignHardUsd": 5,
+        "sessionHardUsd": 15,
+        "requestTimeoutMs": 300000,
+        "failedRepairWarning": 3,
+        "failedRepairHard": 5,
+        "worldHeartbeatStaleMs": 2000
+      },
+      "id": "portal-20261102025008267-1:limits",
+      "atMs": 337,
+      "lane": "system",
+      "summary": "Budget limits",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "host",
+        "clock": "live_wall"
+      }
+    },
+    {
+      "kind": "campaign.status",
+      "status": "preparing",
+      "reason": "Campaign configured; PLC build immutable",
+      "id": "portal-20261102025008267-1:1",
+      "atMs": 337,
+      "lane": "system",
+      "summary": "Campaign preparing: Campaign configured; PLC build immutable",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:1",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.301Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "campaign.record",
+      "type": "provenance.recorded",
+      "data": {
+        "provenance": {
+          "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+          "ioMap": "sha256:d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+          "plcBuild": "fake-measurement-fixture-v1",
+          "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+          "model": "qa-waiting-provider",
+          "connector": "deterministic-fake-connector-v1"
+        },
+        "evidenceClass": "fake_connector",
+        "claimBoundary": "Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage."
+      },
+      "id": "portal-20261102025008267-1:2",
+      "atMs": 342,
+      "lane": "system",
+      "summary": "Evidence class fake_connector — Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:2",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.306Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "campaign.record",
+      "type": "campaign.authorized",
+      "data": {
+        "categories": [
+          "normal"
+        ],
+        "diagnosisMode": "known"
+      },
+      "id": "portal-20261102025008267-1:3",
+      "atMs": 346,
+      "lane": "agent",
+      "summary": "Start Campaign authorized normal (known diagnosis), including adaptive investigations",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "engineer_local",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:3",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.310Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "connector.link",
+      "state": "up",
+      "detail": "fresh: Observed simulation active under stable PLC boot",
+      "id": "portal-20261102025008267-1:4",
+      "atMs": 354,
+      "lane": "system",
+      "summary": "Connector fresh: Observed simulation active under stable PLC boot",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:4",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.318Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "simulation.state",
+      "applied": true,
+      "detail": "Connector observation reported simulation active under stable boot",
+      "id": "portal-20261102025008267-1:4#1",
+      "atMs": 354,
+      "lane": "system",
+      "summary": "SimulationApplied observed",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:4",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.318Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "episode.start",
+      "episodeId": "portal-20261102025008267-1",
+      "title": "QA controlled waiting provider · fake connector",
+      "checkIds": [],
+      "world": {
+        "worldId": "conveyor",
+        "worldVersion": "0.5.0",
+        "run": "portal-20261102025008267-1"
+      },
+      "connectorExpected": true,
+      "plcExpected": true,
+      "worldExpected": true,
+      "timeScale": 1,
+      "note": "Evidence class fake_connector",
+      "id": "portal-20261102025008267-1:5",
+      "atMs": 357,
+      "lane": "system",
+      "summary": "Campaign connector session",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:5; live-coordinator coordinator #1",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.313Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60578.5095
+      }
+    },
+    {
+      "kind": "plc.identity",
+      "bootIdentity": "fixture-boot-1",
+      "id": "portal-20261102025008267-1:5#1",
+      "atMs": 357,
+      "lane": "plc_ack",
+      "summary": "PLC boot identity fixture-boot-1",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:5; live-coordinator coordinator #1",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.313Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60578.5095
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_Entry",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "PE_Entry = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_D1Approach",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#1",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "PE_D1Approach = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_D2Approach",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#2",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "PE_D2Approach = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_ExitA",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#3",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "PE_ExitA = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_ExitB",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#4",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "PE_ExitB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_Runout",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#5",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "PE_Runout = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_HomeFB",
+      "value": true,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#6",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "D1_HomeFB = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_ExtendedFB",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#7",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "D1_ExtendedFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_HomeFB",
+      "value": true,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#8",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "D2_HomeFB = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_ExtendedFB",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#9",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "D2_ExtendedFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_RunningFB",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#10",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Drive_RunningFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_Overload",
+      "value": false,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#11",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Drive_Overload = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "ExitA_Ready",
+      "value": true,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#12",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "ExitA_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "ExitB_Ready",
+      "value": true,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#13",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "ExitB_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Runout_Ready",
+      "value": true,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#14",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Runout_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Belt_SpeedActual",
+      "value": 0,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#15",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Belt_SpeedActual = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_Current",
+      "value": 0,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#16",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Drive_Current = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_Position",
+      "value": 0,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#17",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "D1_Position = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_Position",
+      "value": 0,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#18",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "D2_Position = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Encoder_Count",
+      "value": 0,
+      "cause": "complete image seq 1 (portal-20261102025008267-1:8)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+      },
+      "id": "portal-20261102025008267-1:9#19",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Encoder_Count = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "connector.commit",
+      "epoch": "fixture-epoch-1",
+      "sequence": "1",
+      "slot": 1,
+      "id": "portal-20261102025008267-1:9#20",
+      "atMs": 367,
+      "lane": "raw_input",
+      "summary": "Commit seq 1 → slot 1",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:9; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "connector.ack",
+      "epoch": "fixture-epoch-1",
+      "sequence": "1",
+      "slot": 1,
+      "latencyMs": 0,
+      "outputCaptureCycle": "1",
+      "id": "portal-20261102025008267-1:10",
+      "atMs": 370,
+      "lane": "plc_ack",
+      "summary": "PLC applied seq 1 in 0.0 ms",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:10; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "plc.heartbeat",
+      "plcCycle": "1",
+      "id": "portal-20261102025008267-1:10#1",
+      "atMs": 370,
+      "lane": "system",
+      "summary": "PLC cycle 1",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:10; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "plc.output",
+      "values": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": false
+      },
+      "origin": "surrogate_driver",
+      "metadata": {
+        "Motor_RunCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+        },
+        "D1_ExtendCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+        },
+        "D2_ExtendCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+        },
+        "StackLight_Red": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+        },
+        "StackLight_Green": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.317Z"
+        }
+      },
+      "id": "portal-20261102025008267-1:11",
+      "atMs": 372,
+      "lane": "plc_output",
+      "summary": "PLC outputs @ cycle 1",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:11; source portal-20261102025008267-1:8 (coordinator #4)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.317Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60582.8879
+      }
+    },
+    {
+      "kind": "world.evidence",
+      "type": "world.initialized",
+      "data": {
+        "seed": 20261031,
+        "worldVersion": "0.5.0"
+      },
+      "id": "portal-20261102025008267-1:32",
+      "atMs": 425,
+      "lane": "world",
+      "summary": "Normal no-carton state established: photoeyes false, diverts home, drive stopped, exits ready, encoder zero",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:32; world evidence record (truth lane, engineer view only)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.389Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 0
+      }
+    },
+    {
+      "kind": "step",
+      "phase": "observing",
+      "message": "Conveyor world initialized in normal stopped state; cartons move only with actual drive running feedback.",
+      "id": "portal-20261102025008267-1:33",
+      "atMs": 427,
+      "lane": "system",
+      "summary": "Conveyor world initialized in normal stopped state; cartons move only with actual drive running feedback.",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:33; world activity record (truth lane, engineer view only)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.391Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 0
+      }
+    },
+    {
+      "kind": "campaign.status",
+      "status": "running",
+      "reason": "Selected scope authorized, including adaptive investigations",
+      "id": "portal-20261102025008267-1:35",
+      "atMs": 435,
+      "lane": "system",
+      "summary": "Campaign running: Selected scope authorized, including adaptive investigations",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:35",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.399Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "budget.accounted",
+      "requestId": "request-1",
+      "phase": "reserved",
+      "costUsd": 0,
+      "campaignUsd": 0,
+      "sessionUsd": 0,
+      "outstandingReservedUsd": 0,
+      "basis": "fake_zero",
+      "id": "portal-20261102025008267-1:36",
+      "atMs": 443,
+      "lane": "system",
+      "summary": "Budget reserved $0.00 (fake_zero); campaign $0.00",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "agent_record",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:36",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.407Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "agent.request.start",
+      "requestId": "request-1",
+      "purpose": "planning",
+      "model": "qa-waiting-provider",
+      "reservedUsd": 0,
+      "timeoutMs": 300000,
+      "id": "portal-20261102025008267-1:37",
+      "atMs": 448,
+      "lane": "agent",
+      "summary": "Muse request request-1 (qa-waiting-provider)",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "agent_record",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:37",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.412Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "step",
+      "phase": "reasoning",
+      "message": "Choosing the next experiment action from recorded evidence",
+      "id": "portal-20261102025008267-1:38",
+      "atMs": 452,
+      "lane": "system",
+      "summary": "Choosing the next experiment action from recorded evidence",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "agent_record",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:38",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.416Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-1",
+      "command": "start",
+      "payload": {
+        "scope": {
+          "io": false,
+          "startup": false,
+          "functional": false,
+          "runtime": false,
+          "faults": false,
+          "normal": true,
+          "edge": false,
+          "adaptive": false
+        }
+      },
+      "outcome": "applied",
+      "deadlineMs": 15281,
+      "detail": "Campaign portal-20261102025008267-1 running under QA controlled waiting provider · fake connector",
+      "evidenceRefs": [
+        "portal-20261102025008267-1:3",
+        "portal-20261102025008267-1:35"
+      ],
+      "kind": "command.outcome",
+      "id": "b9479e08-0fc3-4ff7-8005-640f39c32c88-1-applied",
+      "atMs": 457,
+      "lane": "system",
+      "summary": "start applied: Campaign portal-20261102025008267-1 running under QA controlled waiting provider · fake connector",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "engineer_local",
+        "source": "host:ack",
+        "ref": "portal-20261102025008267-1:3, portal-20261102025008267-1:35",
+        "clock": "live_wall"
+      }
+    },
+    {
+      "kind": "hmi.observation",
+      "observation": "frame",
+      "sourceId": "webvisu:127.0.0.1:5611",
+      "capturedAt": "2026-11-02T02:50:08.443Z",
+      "mediaUrl": "/api/hmi/frames/hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1/54",
+      "reference": "hmi-frame:hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1:54",
+      "sessionId": "hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1",
+      "sha256": "ff7a9fdb10a073c99394c5956a29214e7bcc21e07ab53f3812addf6d39abf022",
+      "origin": "host_capture",
+      "periodic": true,
+      "note": "Frame 54 of http://127.0.0.1:5611/?capture=portal (147612 bytes, sha256 ff7a9fdb10a0…)",
+      "id": "hmi-frame:hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1:54",
+      "atMs": 479,
+      "lane": "hmi",
+      "summary": "HMI frame 54",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "plc_measurement",
+        "source": "hmi:webvisu:127.0.0.1:5611",
+        "ref": "hmi-frame:hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1:54",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.443Z"
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_Entry",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "PE_Entry = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_D1Approach",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#1",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "PE_D1Approach = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_D2Approach",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#2",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "PE_D2Approach = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_ExitA",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#3",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "PE_ExitA = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_ExitB",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#4",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "PE_ExitB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_Runout",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#5",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "PE_Runout = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_HomeFB",
+      "value": true,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#6",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "D1_HomeFB = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_ExtendedFB",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#7",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "D1_ExtendedFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_HomeFB",
+      "value": true,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#8",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "D2_HomeFB = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_ExtendedFB",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#9",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "D2_ExtendedFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_RunningFB",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#10",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Drive_RunningFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_Overload",
+      "value": false,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#11",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Drive_Overload = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "ExitA_Ready",
+      "value": true,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#12",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "ExitA_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "ExitB_Ready",
+      "value": true,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#13",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "ExitB_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Runout_Ready",
+      "value": true,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#14",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Runout_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Belt_SpeedActual",
+      "value": 0,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#15",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Belt_SpeedActual = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_Current",
+      "value": 0,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#16",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Drive_Current = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_Position",
+      "value": 0,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#17",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "D1_Position = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_Position",
+      "value": 0,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#18",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "D2_Position = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Encoder_Count",
+      "value": 0,
+      "cause": "complete image seq 2 (portal-20261102025008267-1:42)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+      },
+      "id": "portal-20261102025008267-1:43#19",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Encoder_Count = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "connector.commit",
+      "epoch": "fixture-epoch-1",
+      "sequence": "2",
+      "slot": 0,
+      "id": "portal-20261102025008267-1:43#20",
+      "atMs": 627,
+      "lane": "raw_input",
+      "summary": "Commit seq 2 → slot 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:43; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "connector.ack",
+      "epoch": "fixture-epoch-1",
+      "sequence": "2",
+      "slot": 0,
+      "latencyMs": 0,
+      "outputCaptureCycle": "2",
+      "id": "portal-20261102025008267-1:44",
+      "atMs": 631,
+      "lane": "plc_ack",
+      "summary": "PLC applied seq 2 in 0.0 ms",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:44; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "plc.heartbeat",
+      "plcCycle": "2",
+      "id": "portal-20261102025008267-1:44#1",
+      "atMs": 631,
+      "lane": "system",
+      "summary": "PLC cycle 2",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:44; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "plc.output",
+      "values": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": false
+      },
+      "origin": "surrogate_driver",
+      "metadata": {
+        "Motor_RunCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+        },
+        "D1_ExtendCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+        },
+        "D2_ExtendCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+        },
+        "StackLight_Red": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+        },
+        "StackLight_Green": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:08.583Z"
+        }
+      },
+      "id": "portal-20261102025008267-1:45",
+      "atMs": 632,
+      "lane": "plc_output",
+      "summary": "PLC outputs @ cycle 2",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:45; source portal-20261102025008267-1:42 (coordinator #6)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:08.583Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 60848.1732
+      }
+    },
+    {
+      "kind": "command.outcome",
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-2",
+      "command": "stop",
+      "outcome": "pending",
+      "deadlineMs": 15853,
+      "id": "b9479e08-0fc3-4ff7-8005-640f39c32c88-2-pending",
+      "atMs": 853,
+      "lane": "system",
+      "summary": "stop pending host acknowledgement",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "engineer_local",
+        "source": "workspace",
+        "clock": "live_wall"
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_Entry",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "PE_Entry = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_D1Approach",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#1",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "PE_D1Approach = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_D2Approach",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#2",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "PE_D2Approach = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_ExitA",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#3",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "PE_ExitA = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_ExitB",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#4",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "PE_ExitB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "PE_Runout",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#5",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "PE_Runout = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_HomeFB",
+      "value": true,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#6",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "D1_HomeFB = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_ExtendedFB",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#7",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "D1_ExtendedFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_HomeFB",
+      "value": true,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#8",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "D2_HomeFB = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_ExtendedFB",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#9",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "D2_ExtendedFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_RunningFB",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#10",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Drive_RunningFB = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_Overload",
+      "value": false,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#11",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Drive_Overload = false",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "ExitA_Ready",
+      "value": true,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#12",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "ExitA_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "ExitB_Ready",
+      "value": true,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#13",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "ExitB_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Runout_Ready",
+      "value": true,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#14",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Runout_Ready = true",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Belt_SpeedActual",
+      "value": 0,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#15",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Belt_SpeedActual = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Drive_Current",
+      "value": 0,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#16",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Drive_Current = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D1_Position",
+      "value": 0,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#17",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "D1_Position = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "D2_Position",
+      "value": 0,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#18",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "D2_Position = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "raw.input",
+      "signalId": "Encoder_Count",
+      "value": 0,
+      "cause": "complete image seq 3 (portal-20261102025008267-1:50)",
+      "metadata": {
+        "quality": "good",
+        "freshness": "current",
+        "evidenceMode": "current",
+        "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+      },
+      "id": "portal-20261102025008267-1:51#19",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Encoder_Count = 0",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "connector.commit",
+      "epoch": "fixture-epoch-1",
+      "sequence": "3",
+      "slot": 1,
+      "id": "portal-20261102025008267-1:51#20",
+      "atMs": 1128,
+      "lane": "raw_input",
+      "summary": "Commit seq 3 → slot 1",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:51; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "connector.ack",
+      "epoch": "fixture-epoch-1",
+      "sequence": "3",
+      "slot": 1,
+      "latencyMs": 0,
+      "outputCaptureCycle": "3",
+      "id": "portal-20261102025008267-1:52",
+      "atMs": 1131,
+      "lane": "plc_ack",
+      "summary": "PLC applied seq 3 in 0.0 ms",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:52; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "plc.heartbeat",
+      "plcCycle": "3",
+      "id": "portal-20261102025008267-1:52#1",
+      "atMs": 1131,
+      "lane": "system",
+      "summary": "PLC cycle 3",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:52; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "plc.output",
+      "values": {
+        "Motor_RunCmd": false,
+        "D1_ExtendCmd": false,
+        "D2_ExtendCmd": false,
+        "StackLight_Red": false,
+        "StackLight_Green": false
+      },
+      "origin": "surrogate_driver",
+      "metadata": {
+        "Motor_RunCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+        },
+        "D1_ExtendCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+        },
+        "D2_ExtendCmd": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+        },
+        "StackLight_Red": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+        },
+        "StackLight_Green": {
+          "quality": "unknown",
+          "freshness": "current",
+          "evidenceMode": "current",
+          "workstationTimestamp": "2026-11-02T02:50:09.084Z"
+        }
+      },
+      "id": "portal-20261102025008267-1:53",
+      "atMs": 1134,
+      "lane": "plc_output",
+      "summary": "PLC outputs @ cycle 3",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "surrogate_contract",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:53; source portal-20261102025008267-1:50 (coordinator #8)",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.084Z",
+        "run": "portal-20261102025008267-1",
+        "sourceAtMs": 61349.9419
+      }
+    },
+    {
+      "kind": "step",
+      "phase": "investigating",
+      "message": "Coordinator overrun 501.4203999999954 ms; no catch-up burst",
+      "id": "portal-20261102025008267-1:55",
+      "atMs": 1139,
+      "lane": "system",
+      "summary": "Coordinator overrun 501.4203999999954 ms; no catch-up burst",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "agent_record",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:55",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.103Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "campaign.status",
+      "status": "stopped",
+      "reason": "Engineer stopped campaign from the portal",
+      "id": "portal-20261102025008267-1:56",
+      "atMs": 1145,
+      "lane": "system",
+      "summary": "Campaign stopped: Engineer stopped campaign from the portal",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:56",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.109Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "episode.end",
+      "episodeId": "portal-20261102025008267-1",
+      "id": "portal-20261102025008267-1:56#1",
+      "atMs": 1145,
+      "lane": "system",
+      "summary": "Campaign record finalized; live health expectations end",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:56",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.109Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "agent.request.end",
+      "requestId": "request-1",
+      "status": "cancelled",
+      "failed": true,
+      "durationMs": 705.4816000000064,
+      "costUsd": 0,
+      "note": "Cost is settled by the following budget.accounted record",
+      "id": "portal-20261102025008267-1:57",
+      "atMs": 1148,
+      "lane": "agent",
+      "summary": "Muse request request-1 cancelled after 705 ms",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "agent_record",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:57",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.112Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "budget.accounted",
+      "requestId": "request-1",
+      "phase": "settled",
+      "costUsd": 0,
+      "campaignUsd": 0,
+      "sessionUsd": 0,
+      "outstandingReservedUsd": 0,
+      "basis": "conservative_reservation",
+      "id": "portal-20261102025008267-1:58",
+      "atMs": 1150,
+      "lane": "system",
+      "summary": "Budget settled $0.00 (conservative_reservation); campaign $0.00",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "agent_record",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:58",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.114Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "kind": "campaign.record",
+      "type": "report.finalized",
+      "data": {
+        "summary": "Engineer stopped campaign from the portal",
+        "throughSequence": 58
+      },
+      "id": "portal-20261102025008267-1:59",
+      "atMs": 1152,
+      "lane": "conclusion",
+      "summary": "Report finalized through sequence 58: Engineer stopped campaign from the portal",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "audit",
+        "source": "campaign:portal-20261102025008267-1",
+        "ref": "portal-20261102025008267-1:59",
+        "evidenceMode": "current",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.116Z",
+        "run": "portal-20261102025008267-1"
+      }
+    },
+    {
+      "requestId": "b9479e08-0fc3-4ff7-8005-640f39c32c88-2",
+      "command": "stop",
+      "outcome": "applied",
+      "deadlineMs": 15853,
+      "detail": "Stopped: run record finalized; final image held for inspection",
+      "evidenceRefs": [
+        "portal-20261102025008267-1:56",
+        "portal-20261102025008267-1:59"
+      ],
+      "kind": "command.outcome",
+      "id": "b9479e08-0fc3-4ff7-8005-640f39c32c88-2-applied",
+      "atMs": 1154,
+      "lane": "system",
+      "summary": "stop applied: Stopped: run record finalized; final image held for inspection",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "engineer_local",
+        "source": "host:ack",
+        "ref": "portal-20261102025008267-1:56, portal-20261102025008267-1:59",
+        "clock": "live_wall"
+      }
+    },
+    {
+      "kind": "hmi.observation",
+      "observation": "frame",
+      "sourceId": "webvisu:127.0.0.1:5611",
+      "capturedAt": "2026-11-02T02:50:09.535Z",
+      "mediaUrl": "/api/hmi/frames/hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1/55",
+      "reference": "hmi-frame:hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1:55",
+      "sessionId": "hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1",
+      "sha256": "016776c6338793b97e8897cd19e2893a1bd47a463d85b19bd94fe29aa8721f21",
+      "origin": "host_capture",
+      "periodic": true,
+      "note": "Frame 55 of http://127.0.0.1:5611/?capture=portal (147630 bytes, sha256 016776c63387…)",
+      "id": "hmi-frame:hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1:55",
+      "atMs": 1571,
+      "lane": "hmi",
+      "summary": "HMI frame 55",
+      "provenance": {
+        "mode": "live",
+        "evidenceClass": "plc_measurement",
+        "source": "hmi:webvisu:127.0.0.1:5611",
+        "ref": "hmi-frame:hmi-9252ea9f-0f63-462a-b2a8-a0512fa5c9d1:55",
+        "clock": "live_wall",
+        "recordedAt": "2026-11-02T02:50:09.535Z"
+      }
+    }
+  ],
+  "traceScope": {
+    "receivedEventCount": 102,
+    "retainedEventCount": 97,
+    "note": "Bounded UI trace; complete raw evidence remains in the cited preserved artifacts."
+  },
+  "limitations": [
+    "M7 measurement DUT only; final routing controller not tested",
+    "M6 at 10 Hz only; 20/50 Hz delivery tiers failed",
+    "World projections do not prove PLC correctness"
+  ]
+}

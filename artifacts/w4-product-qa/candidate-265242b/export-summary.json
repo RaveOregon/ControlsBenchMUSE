@@ -1,0 +1,21 @@
+{
+  "mode": "live",
+  "phase": "stopped",
+  "keys": [
+    "mode",
+    "phase",
+    "finalConveyorRequirementsTested",
+    "hmiObserved",
+    "checks",
+    "requirements",
+    "findingReviews",
+    "evidence",
+    "traceScope",
+    "limitations"
+  ],
+  "traceScope": {
+    "receivedEventCount": 102,
+    "retainedEventCount": 97,
+    "note": "Bounded UI trace; complete raw evidence remains in the cited preserved artifacts."
+  }
+}
