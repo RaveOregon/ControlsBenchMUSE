@@ -1,0 +1,28 @@
+{"atIso":"2026-11-02T00:02:38.099Z","atMonotonicMs":1478.158,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":8488,"nonce":"aa6820f67a550c1f","node":"v24.15.0","timeOriginEpochMs":1793577757968.929},"priority":-7}
+{"atIso":"2026-11-02T00:02:38.100Z","atMonotonicMs":1478.9483,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T00:02:38.115Z","atMonotonicMs":1493.4524,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":15}
+{"atIso":"2026-11-02T00:02:38.130Z","atMonotonicMs":1508.4273,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T00:02:38.303Z","atMonotonicMs":1681.6486,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":173}
+{"atIso":"2026-11-02T00:02:38.310Z","atMonotonicMs":1688.3634,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T00:02:38.311Z","atMonotonicMs":1689.3683,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"wp-factory:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-02T00:02:38.312Z","atMonotonicMs":1690.365,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":2}
+{"atIso":"2026-11-02T00:02:38.312Z","atMonotonicMs":1690.7516,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:38.317Z","atMonotonicMs":1696.2203,"kind":"request","id":5,"op":"leaseFinish","leaseId":"wp-factory:lease:1"}
+{"atIso":"2026-11-02T00:02:38.318Z","atMonotonicMs":1697.1936,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:38.332Z","atMonotonicMs":1710.6068,"kind":"request","id":6,"op":"controller","actionId":"op-start","name":"operator_action","action":"start","campaignRevision":5,"boundaryRevision":4}
+{"atIso":"2026-11-02T00:02:38.338Z","atMonotonicMs":1716.7784,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":29,"elapsedMs":6}
+{"atIso":"2026-11-02T00:02:38.342Z","atMonotonicMs":1720.9759,"kind":"request","id":7,"op":"apply","actionId":"carton-1","name":"introduce_carton","campaignRevision":6,"boundaryRevision":5,"controlId":"carton.introduce"}
+{"atIso":"2026-11-02T00:02:38.447Z","atMonotonicMs":1825.4398,"kind":"reply","id":7,"op":"apply","ok":true,"boundaryRevision":6,"throughSeq":41,"elapsedMs":104}
+{"atIso":"2026-11-02T00:02:38.864Z","atMonotonicMs":2242.8892,"kind":"request","id":8,"op":"leaseBegin","campaignRevision":8,"leaseId":"wp-factory:lease:2","policy":{"mode":"continue","timeoutMs":5000}}
+{"atIso":"2026-11-02T00:02:38.877Z","atMonotonicMs":2255.6193,"kind":"reply","id":8,"op":"leaseBegin","ok":true,"boundaryRevision":6,"throughSeq":69,"elapsedMs":13}
+{"atIso":"2026-11-02T00:02:38.882Z","atMonotonicMs":2260.7473,"kind":"request","id":9,"op":"leaseFinish","leaseId":"wp-factory:lease:2"}
+{"atIso":"2026-11-02T00:02:38.883Z","atMonotonicMs":2261.5462,"kind":"reply","id":9,"op":"leaseFinish","ok":true,"boundaryRevision":6,"throughSeq":69,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:38.900Z","atMonotonicMs":2278.4122,"kind":"request","id":10,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T00:02:38.900Z","atMonotonicMs":2279.2645,"kind":"reply","id":10,"op":"hold","ok":true,"boundaryRevision":7,"throughSeq":69,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:39.055Z","atMonotonicMs":2433.8869,"kind":"request","id":11,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-02T00:02:39.058Z","atMonotonicMs":2436.3641,"kind":"integrity.fault","message":"Ingestion of source record seq 70 failed: Ledger is closed","lastSeq":70}
+{"atIso":"2026-11-02T00:02:39.059Z","atMonotonicMs":2437.3337,"kind":"request","id":12,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T00:02:39.059Z","atMonotonicMs":2438.0312,"kind":"stream.ignored_after_fault","seq":71,"recordKind":"world"}
+{"atIso":"2026-11-02T00:02:39.060Z","atMonotonicMs":2438.6206,"kind":"reply","id":11,"op":"close","ok":true,"boundaryRevision":7,"throughSeq":71,"elapsedMs":5}
+{"atIso":"2026-11-02T00:02:39.071Z","atMonotonicMs":2450.2439,"kind":"child.exit","code":0,"signal":null,"lastSeq":70}
+{"atIso":"2026-11-02T00:02:39.072Z","atMonotonicMs":2450.7992,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\AppData\\Local\\Temp\\wonder-process-factory-FiEPDo\\live.lock","boundaryRevision":7,"lastSeq":71},"exit":{"code":0,"signal":null},"killed":false}
