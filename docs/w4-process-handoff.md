@@ -247,6 +247,7 @@ All runs were on this workstation with Node v24.15.0.
 | `tsc --noEmit` | Pass |
 | Existing suite plus the new file, in PowerShell with the gate's Chrome path | **169/169** (155 existing + 14) |
 | Existing suite under the Bash sandbox | 153/155. The two CDP capture tests can't start Chrome there; both pass in PowerShell, as recorded in earlier lanes. |
+| Live entry fail-closed probe (scratch, not committed) | Scratch manifest citing these files, pinned to the then-HEAD `75ec0a1`, with no credentials in the environment. The manifest and own-checkout checks passed. The entry then refused without an artifact directory, then stopped at the M8 preflight (`credentialsPresent: false`), **before forking a child**. It took no lock and made no PLC contact. |
 
 Measured values (`measurements.jsonl`):
 
