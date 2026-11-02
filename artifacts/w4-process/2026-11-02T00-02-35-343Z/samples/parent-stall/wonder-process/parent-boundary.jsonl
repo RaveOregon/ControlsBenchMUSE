@@ -1,0 +1,20 @@
+{"atIso":"2026-11-02T00:02:39.317Z","atMonotonicMs":2696.2257,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":62876,"nonce":"c21ade9b2551bbb9","node":"v24.15.0","timeOriginEpochMs":1793577759182.91},"priority":-7}
+{"atIso":"2026-11-02T00:02:39.318Z","atMonotonicMs":2696.9361,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T00:02:39.333Z","atMonotonicMs":2711.6487,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":15}
+{"atIso":"2026-11-02T00:02:39.341Z","atMonotonicMs":2720.1908,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T00:02:39.523Z","atMonotonicMs":2901.7329,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":182}
+{"atIso":"2026-11-02T00:02:39.529Z","atMonotonicMs":2908.0895,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T00:02:39.530Z","atMonotonicMs":2908.7047,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"wp-stall:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-02T00:02:39.530Z","atMonotonicMs":2909.2534,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:39.531Z","atMonotonicMs":2909.8547,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:39.536Z","atMonotonicMs":2915.2105,"kind":"request","id":5,"op":"leaseFinish","leaseId":"wp-stall:lease:1"}
+{"atIso":"2026-11-02T00:02:39.538Z","atMonotonicMs":2916.3232,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:39.552Z","atMonotonicMs":2930.511,"kind":"request","id":6,"op":"leaseBegin","campaignRevision":5,"leaseId":"wp-stall:lease:2","policy":{"mode":"continue","timeoutMs":400}}
+{"atIso":"2026-11-02T00:02:39.553Z","atMonotonicMs":2931.6926,"kind":"reply","id":6,"op":"leaseBegin","ok":true,"boundaryRevision":4,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T00:02:41.058Z","atMonotonicMs":4437.0454,"kind":"request","id":7,"op":"leaseFinish","leaseId":"wp-stall:lease:2"}
+{"atIso":"2026-11-02T00:02:41.096Z","atMonotonicMs":4474.3085,"kind":"lease.terminal","detail":{"leaseId":"wp-stall:lease:2","state":"expired","valid":false,"reason":"Lease deadline 400 ms reached before the decision returned; world/image held at child +409 ms; PLC scan and timers continue; the unchanged complete image is re-committed every 100 ms without advancing world time","policy":{"mode":"continue","timeoutMs":400},"campaignRevision":5,"boundaryRevision":5,"basisSeq":44,"beganAtIso":"2026-11-02T00:02:39.553Z","worldHeld":true,"plcScanContinues":true,"terminalAtIso":"2026-11-02T00:02:39.962Z","elapsedMs":409}}
+{"atIso":"2026-11-02T00:02:41.186Z","atMonotonicMs":4564.872,"kind":"reply","id":7,"op":"leaseFinish","ok":true,"boundaryRevision":5,"throughSeq":94,"elapsedMs":128}
+{"atIso":"2026-11-02T00:02:41.191Z","atMonotonicMs":4570.27,"kind":"request","id":8,"op":"hold","stopClock":false}
+{"atIso":"2026-11-02T00:02:41.200Z","atMonotonicMs":4578.5209,"kind":"reply","id":8,"op":"hold","ok":true,"boundaryRevision":6,"throughSeq":98,"elapsedMs":8}
+{"atIso":"2026-11-02T00:02:41.212Z","atMonotonicMs":4590.8964,"kind":"request","id":9,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T00:02:41.213Z","atMonotonicMs":4591.594,"kind":"reply","id":9,"op":"hold","ok":true,"boundaryRevision":6,"throughSeq":98,"elapsedMs":1}

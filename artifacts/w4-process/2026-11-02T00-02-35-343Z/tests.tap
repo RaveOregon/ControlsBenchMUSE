@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: construction is read-only and reports the world bytes the child actually loaded
+ok 1 - construction is read-only and reports the world bytes the child actually loaded
+  ---
+  duration_ms: 900.0191
+  type: 'test'
+  ...
+# Subtest: provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage
+ok 2 - provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage
+  ---
+  duration_ms: 1273.7776
+  type: 'test'
+  ...
+# Subtest: parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz
+ok 3 - parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz
+  ---
+  duration_ms: 2159.272
+  type: 'test'
+  ...
+# Subtest: hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue
+ok 4 - hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue
+  ---
+  duration_ms: 1456.4282
+  type: 'test'
+  ...
+# Subtest: condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence
+ok 5 - condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence
+  ---
+  duration_ms: 1493.8354
+  type: 'test'
+  ...
+# Subtest: stale campaign/boundary revisions and duplicate action IDs are refused without replay
+ok 6 - stale campaign/boundary revisions and duplicate action IDs are refused without replay
+  ---
+  duration_ms: 1407.7082
+  type: 'test'
+  ...
+# Subtest: cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone
+ok 7 - cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone
+  ---
+  duration_ms: 760.0243
+  type: 'test'
+  ...
+# Subtest: source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion
+ok 8 - source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion
+  ---
+  duration_ms: 3536.2811
+  type: 'test'
+  ...
+# Subtest: child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation
+ok 9 - child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation
+  ---
+  duration_ms: 832.6666
+  type: 'test'
+  ...
+# Subtest: parent loss (steady): the child freezes world time, drains, closes and releases ownership
+ok 10 - parent loss (steady): the child freezes world time, drains, closes and releases ownership
+  ---
+  duration_ms: 1221.7643
+  type: 'test'
+  ...
+# Subtest: parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write
+ok 11 - parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write
+  ---
+  duration_ms: 3023.6891
+  type: 'test'
+  ...
+# Subtest: delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release
+ok 12 - delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release
+  ---
+  duration_ms: 3686.1254
+  type: 'test'
+  ...
+# Subtest: stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough
+ok 13 - stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough
+  ---
+  duration_ms: 2943.37
+  type: 'test'
+  ...
+# Subtest: parent silence: the child holds the world on its own and the engineer resume continues it
+ok 14 - parent silence: the child holds the world on its own and the engineer resume continues it
+  ---
+  duration_ms: 2291.0428
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 27362.9163

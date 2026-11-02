@@ -1,0 +1,382 @@
+{
+  "status": "pass",
+  "contract": "controlsbench.wonder-process.v1",
+  "wire": "controlsbench.wonder-process.wire.v1",
+  "atIso": "2026-11-02T00:03:03.949Z",
+  "node": "v24.15.0",
+  "platform": "win32-x64",
+  "sourceCommit": "9e98da72ed667368078922a8a5233b08886a8476",
+  "clean": true,
+  "dirty": [],
+  "entry": "src/live/wonder-process/index.ts",
+  "export": "createWonderSession",
+  "scope": "offline-fake-transport",
+  "transport": "test/fixtures/wonder-process-transport.ts (protocol fixture, not an M8 behavior oracle)",
+  "realChildProcess": true,
+  "livePlcExecuted": false,
+  "plcContacted": false,
+  "credentialsUsed": false,
+  "paidCalls": 0,
+  "networkCalls": 0,
+  "liveTimingQualified": false,
+  "liveRecoveryQualified": false,
+  "typecheck": {
+    "passed": true,
+    "status": 0
+  },
+  "tests": {
+    "file": "test/wonder-process.test.ts",
+    "total": 14,
+    "passed": 14,
+    "results": [
+      {
+        "name": "construction is read-only and reports the world bytes the child actually loaded",
+        "passed": true
+      },
+      {
+        "name": "provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage",
+        "passed": true
+      },
+      {
+        "name": "parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz",
+        "passed": true
+      },
+      {
+        "name": "hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue",
+        "passed": true
+      },
+      {
+        "name": "condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence",
+        "passed": true
+      },
+      {
+        "name": "stale campaign/boundary revisions and duplicate action IDs are refused without replay",
+        "passed": true
+      },
+      {
+        "name": "cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone",
+        "passed": true
+      },
+      {
+        "name": "source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion",
+        "passed": true
+      },
+      {
+        "name": "child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation",
+        "passed": true
+      },
+      {
+        "name": "parent loss (steady): the child freezes world time, drains, closes and releases ownership",
+        "passed": true
+      },
+      {
+        "name": "parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write",
+        "passed": true
+      },
+      {
+        "name": "delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release",
+        "passed": true
+      },
+      {
+        "name": "stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough",
+        "passed": true
+      },
+      {
+        "name": "parent silence: the child holds the world on its own and the engineer resume continues it",
+        "passed": true
+      }
+    ]
+  },
+  "checks": {
+    "isolation": {
+      "file": "isolation.json",
+      "sha256": "5f33de1b52722d6316aa3b2de91bb83b4df5b661b6738aa83f816f56c15336c0",
+      "status": "pass"
+    },
+    "recovery": {
+      "file": "recovery.json",
+      "sha256": "a0069c7907a60f1e40fa2b9073f932b72d2a4c677395ff3686322bc7819c476b",
+      "status": "pass"
+    },
+    "campaignPort": {
+      "file": "campaign-port.json",
+      "sha256": "0020a42a5711ddcdd710e88a679df0d1a233507bc68de9773d2c634d89b2ba41",
+      "status": "pass"
+    }
+  },
+  "measurements": [
+    {
+      "test": "factory-campaign",
+      "coordinatorSources": 15,
+      "plcOutputs": 6,
+      "ledgerEvents": 123,
+      "leaseStates": [
+        "released",
+        "released"
+      ],
+      "childExit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "test": "parent-stall",
+      "parentStallMs": 1500,
+      "leaseMode": "continue",
+      "leaseTimeoutMs": 400,
+      "childExpiredAfterMs": 409,
+      "commitsDuringStall": 14,
+      "maxCommitGapDuringStallMs": 110,
+      "heldSamplesAfterExpiry": 11,
+      "plcCycleDuringHold": [
+        "6",
+        "16"
+      ],
+      "lateDecisionEffects": 0
+    },
+    {
+      "test": "hold-lease",
+      "reasoningMs": 707,
+      "heldSamples": 6,
+      "worldTimeDuringHoldMs": 0,
+      "plcCycleDuringHold": [
+        "2",
+        "7"
+      ],
+      "receiptValid": true,
+      "campaignRevisionUnchanged": true
+    },
+    {
+      "test": "condition-lease",
+      "unmet": "released",
+      "met": "condition_met",
+      "metAfterMs": 86,
+      "evidence": "plc.output"
+    },
+    {
+      "test": "parent-loss-steady",
+      "drained": true,
+      "closed": true,
+      "ownership": "released",
+      "uncertainWrites": 0
+    },
+    {
+      "test": "parent-loss-hang",
+      "drained": false,
+      "closed": false,
+      "ownership": "retained_uncertain",
+      "uncertainWrites": 1
+    },
+    {
+      "test": "delayed-write",
+      "operationTimeoutMs": 1500,
+      "writeDelayMs": 2600,
+      "faultOutcome": "timed_out",
+      "uncertainPaths": [
+        "GVL_BenchWrite.Slot0_Valid"
+      ],
+      "settledAfterMs": 2614,
+      "writesStartedAfterFault": 0,
+      "drained": true,
+      "ownership": "released"
+    }
+  ],
+  "samples": [
+    "samples/factory-campaign",
+    "samples/parent-stall"
+  ],
+  "implementation": {
+    "scripts/run-wonder-process-proof.js": {
+      "blob": "1a07fa19f064d11a5d52467a769ce9c194d22d03",
+      "blobSha256": "7e22061401b7a07fcd33437161dc5b6707b2ddc5c23ec8ba1f138fbf59d50e4a",
+      "checkoutSha256": "7e22061401b7a07fcd33437161dc5b6707b2ddc5c23ec8ba1f138fbf59d50e4a"
+    },
+    "scripts/wonder-process-child.js": {
+      "blob": "9e7090199a84d16bceb0a8ec6ffb6327e08ce5b5",
+      "blobSha256": "b0bb9e415772ab5bd88dc5f79b79dd4a10ed8634ce7f489091ee0e9e02fe1166",
+      "checkoutSha256": "b0bb9e415772ab5bd88dc5f79b79dd4a10ed8634ce7f489091ee0e9e02fe1166"
+    },
+    "src/live/wonder-process/.gitattributes": {
+      "blob": "4a057e2dd1c467993fb4efbc254b5ca73eeb76d5",
+      "blobSha256": "a2db3b265bf480a7bfc92b0576f4e127f31c4563d6df882905e09f6eee45a601",
+      "checkoutSha256": "a2db3b265bf480a7bfc92b0576f4e127f31c4563d6df882905e09f6eee45a601"
+    },
+    "src/live/wonder-process/channel.ts": {
+      "blob": "b4251b977122fac3b00959116ced08774e60a87d",
+      "blobSha256": "aadaa7a713b1cdde87ff071df8a29a247339c24cb7ba818b89677674ec9ad85f",
+      "checkoutSha256": "aadaa7a713b1cdde87ff071df8a29a247339c24cb7ba818b89677674ec9ad85f"
+    },
+    "src/live/wonder-process/driver.ts": {
+      "blob": "fff476f5ae1fc175c0252b50eba25c3ca9a9e917",
+      "blobSha256": "68f3f910c98b52343d36e74b4664c97548a6480b08285902ac3df8b4d7b1a1dd",
+      "checkoutSha256": "68f3f910c98b52343d36e74b4664c97548a6480b08285902ac3df8b4d7b1a1dd"
+    },
+    "src/live/wonder-process/engine.ts": {
+      "blob": "e9d97ebe85076613ad35c5d39281814f9f8a3e36",
+      "blobSha256": "4f60d8b16907d63da82f8c975353346cde15db08286cfe32b95016a36d2c4f34",
+      "checkoutSha256": "4f60d8b16907d63da82f8c975353346cde15db08286cfe32b95016a36d2c4f34"
+    },
+    "src/live/wonder-process/index.ts": {
+      "blob": "e4d44773285dd9a8da22556bf826ab18baf4f332",
+      "blobSha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379",
+      "checkoutSha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379"
+    },
+    "src/live/wonder-process/ownership.ts": {
+      "blob": "0ee5992189ee0a7a5f0c3f01e11bae3fd5837c78",
+      "blobSha256": "7c10704916787f7afab0673cba16071f3555df4b30c73d7d1db539857c1badf4",
+      "checkoutSha256": "7c10704916787f7afab0673cba16071f3555df4b30c73d7d1db539857c1badf4"
+    },
+    "src/live/wonder-process/protocol.ts": {
+      "blob": "e33d09879aaf82e6ecd19d1152850c5d1d869e17",
+      "blobSha256": "eecbfcf0c9d56139be6749c9cd9f66a2e2f9a379dca20dcf9dc1bd86a5a47974",
+      "checkoutSha256": "eecbfcf0c9d56139be6749c9cd9f66a2e2f9a379dca20dcf9dc1bd86a5a47974"
+    },
+    "src/live/wonder-process/session.ts": {
+      "blob": "a5bc5ec269e354d037381b39d9802ddb7353a5f8",
+      "blobSha256": "89fbceb66295a2f8da63d74e88631c42d480debbfe27e554efb512b98b5372f7",
+      "checkoutSha256": "89fbceb66295a2f8da63d74e88631c42d480debbfe27e554efb512b98b5372f7"
+    },
+    "src/live/wonder-process/write-gate.ts": {
+      "blob": "97b28d9b729c1c2a1be3963b57ccc9960a52edbb",
+      "blobSha256": "1e00f6287f23cdc2472bef814074eaea114e17705f2404f35b58ff35f88ef337",
+      "checkoutSha256": "1e00f6287f23cdc2472bef814074eaea114e17705f2404f35b58ff35f88ef337"
+    },
+    "test/fixtures/wonder-process-parent.ts": {
+      "blob": "f2fdc20ade99952455257c1bac93ffce8b9da530",
+      "blobSha256": "0348751dbde095cc18c3c8f434d24e75457cec6eb196ba9c3841d98192089aa4",
+      "checkoutSha256": "0348751dbde095cc18c3c8f434d24e75457cec6eb196ba9c3841d98192089aa4"
+    },
+    "test/fixtures/wonder-process-transport.ts": {
+      "blob": "ef0f839347fa28056d06238824b8a41834496dea",
+      "blobSha256": "2d3c3acdf8ba6dfa0edc606f881e799a4b999d3193ff4d23015568761fb988a5",
+      "checkoutSha256": "2d3c3acdf8ba6dfa0edc606f881e799a4b999d3193ff4d23015568761fb988a5"
+    },
+    "test/wonder-process.test.ts": {
+      "blob": "09bf79355d188a036d01aad63b75cee4aee0f1e7",
+      "blobSha256": "11706beb302d475c980f305c17f6eac3a33338d46e0da5545a5883df30faf7f7",
+      "checkoutSha256": "11706beb302d475c980f305c17f6eac3a33338d46e0da5545a5883df30faf7f7"
+    }
+  },
+  "dependencies": {
+    "src/live/coordinator.ts": {
+      "blob": "fc4a4582d79e77631a069042cec75f9647c2508f",
+      "blobSha256": "a7eb731b551cd750ae570c8b88bce7838d3c21d21a878d188c655b62c245522d",
+      "checkoutSha256": "838b40634698ca7478b5b5f4cdf00999750676c80e40b5b9bb44c7d81dbed57f"
+    },
+    "src/live/connector.ts": {
+      "blob": "1f11a9748193bfe83f4d0c0c63d60e7592e8e6f3",
+      "blobSha256": "3537917e51bc85210062ab9bd96dad9e1ecd482074c97b75d0c97b657bbf4207",
+      "checkoutSha256": "ee651fe37beabdb8e68f04680b8212ac9ba09f19fc5812ee74f53fe0f94502df"
+    },
+    "src/live/m8-opcua.ts": {
+      "blob": "43364190c2637f26deaf394ec370663f9c180124",
+      "blobSha256": "50f949fa761eb0ebb895935d0884172219da716aab37306fe8979895b23ba95b",
+      "checkoutSha256": "6bc771442043ecbce06cd6afe3382568c98f5aac14f3a7b5818e91a572fb2087"
+    },
+    "src/live/m8-map.ts": {
+      "blob": "51454aa639380a2d7b0f24457e075ce8251f0404",
+      "blobSha256": "0989e72805684ed12a29f2378a94ec4e8d1429b5f4f072a3b2ea2654addb5467",
+      "checkoutSha256": "9ab54e23e0cdbaf9301f50881958b229669ff73d09245c941de3e13e8656e0f9"
+    },
+    "src/live/m8-native-transport.ts": {
+      "blob": "833d3743eed23842a967d499bc5442f92300045e",
+      "blobSha256": "50eed577e4407fe213eadc944d63a6d259d8b9a8b9ca7fe8bfe5e09c43c9dc58",
+      "checkoutSha256": "4ab9653c7172954d877eee96878eb5b9cf76d3e51b018e968e47fea43dfdbac6"
+    },
+    "src/proof/world-context.ts": {
+      "blob": "0a25373062c90db033fc01b3c5882e0377d5ee17",
+      "blobSha256": "c658df06def92286811582cce25958328f1cdf23a6913a3dde6c3dcb13318a9f",
+      "checkoutSha256": "3480f260021b5f2fc84020a01784044159d505a41e6d6c0238c135791fda3e02"
+    },
+    "src/campaign/clock.ts": {
+      "blob": "aaf962c4d43b91900ca565807e3811387ec66155",
+      "blobSha256": "8ff755653d63a973f00376a79d0c0a8ddcfc11765c256a33794c0da7f325b3d9",
+      "checkoutSha256": "ba5446a6a3faf47e89fd8b84df8d29f93ab6c6c8313d24fe59f9a08f833e2c68"
+    },
+    "src/campaign/live-evidence.ts": {
+      "blob": "5f88737b9290531deb76d1ac35a2852f62d71332",
+      "blobSha256": "bc8122920f2c021cf595316b96bfed2e94f3e4f31e4abea8b74f8759026c3f88",
+      "checkoutSha256": "5e99692d8084b1a9d5a1b583580ee51ac55eeb5fe7d814434e8798e8ac6a87ba"
+    },
+    "src/campaign/ledger.ts": {
+      "blob": "c882c02a5282ebf793ddd86b302bb920ee125da2",
+      "blobSha256": "f1554e0cbfe2fa56b8081ab830a2ca01b5e2857368dbaa003235117054dd954a",
+      "checkoutSha256": "1371088326fe9107818a42843d4b9dfe065c18aed9804cbf2447affbf4996536"
+    },
+    "src/campaign/contracts.ts": {
+      "blob": "f147c3611a183df1912e4a6bef72c907307e53c8",
+      "blobSha256": "a5debec091c57be1cbc20ca6d042f99b29adfd5c9e80ddf8ad32402ba4cb94b4",
+      "checkoutSha256": "c59a96a13c7a82b847326ebac3586dca0fde9b5932778f6ca04004e72f6e101d"
+    },
+    "src/campaign/driver.ts": {
+      "blob": "fbce8db53e883d07a1fa45af9dc87e33496e1c55",
+      "blobSha256": "bb672bdd22fe756032f1f58fef2b26d06e3ec937d6ec306699213500b31dc09f",
+      "checkoutSha256": "e0dd027fbd4a0501946d85a33213aff8d3d0ad4b3e95d3d79239fac6417a0ed8"
+    },
+    "src/campaign/process-port.ts": {
+      "blob": "7bbb962f0449323e46078cbcd984954b255aecc3",
+      "blobSha256": "29c3131c253822c628e4bce6ad0ef513994c25a4b377d8a2e9baa49f40c7884b",
+      "checkoutSha256": "4e1014a6a4f7ef0a4059f4decdb80211264ad86eae939efef2e261f0bdb56785"
+    },
+    "src/campaign/runtime.ts": {
+      "blob": "2a1854d355d692d777b94bf595bec6b65a6833cf",
+      "blobSha256": "961aa08ca8e31a660ea75b855152bb62fbfe21819cfca97c701ca1a2e9f4cd09",
+      "checkoutSha256": "3f8edc4cb70c9a419a1a187d1b9207599eba3cfa5743015f36896d0d0ac9fa2a"
+    },
+    "src/campaign/owner-handoff.ts": {
+      "blob": "54a76210883762e8cc85da51a993008c5056bf75",
+      "blobSha256": "9843d4cd0968f43660b264aebd9185149537f892618fa46bcbc4b3422c6676ee",
+      "checkoutSha256": "8cebec5d846d01a0431f3bc6485e4db248882904ebae81457af38a57efd7276e"
+    },
+    "src/campaign/m8-bindings.ts": {
+      "blob": "0853b440c52bac15445857e8d799359bbff5fb5e",
+      "blobSha256": "8c18d167755658bf2d509d3961d74a3e442bd77d1c41344ed9913accb249a0b2",
+      "checkoutSha256": "9fdff322c262718f80bd867b2b608fb2e5c84f0d3a99a67e8d1c211caf026b37"
+    },
+    "src/campaign/conveyor-bindings.ts": {
+      "blob": "b3d7acf439761092006155e17e379194f15b624a",
+      "blobSha256": "64ca1cbee40ad9143ad97a003e5dcf4636c77109a60374743fd5da68b4a035a0",
+      "checkoutSha256": "013cb28e3770c45ecf966f0ead8f1b2ff13150e347a33163067865f65d0af7e7"
+    },
+    "src/campaign/wonder-paths.ts": {
+      "blob": "58bcb62759b93491cbfe0730d13856f778590fb2",
+      "blobSha256": "e5dc3fc1ab19c657bd5a36e3ffaeee5b4752c23783ed69c657b80cadec48c93e",
+      "checkoutSha256": "12e380457f932be20f5bf45e61968d3c027832684ef4304ba855a2826ab9f9fd"
+    },
+    "src/host/m8-campaign-factory.ts": {
+      "blob": "b36cb94cf0851b034bd09780c90ddea2e653269a",
+      "blobSha256": "b60d009db552428ee4031769f6664b3a5ad0c9edc1f7fa705ba975a794902468",
+      "checkoutSha256": "bd249a1194f97c838cf9fcb1840e95e5e5409f80d1e52437142e8289228e6ca7"
+    },
+    "src/host/wonder-campaign-factory.ts": {
+      "blob": "f4e0dd7e68d695b946963caa3e9d12566417d861",
+      "blobSha256": "5b2caf8ce3e43d84d03ed81171b03286fca3cab2d59daf52a6954aad78a5bf85",
+      "checkoutSha256": "5569ec9a9556e4aa48b42a67c51eb5c474263efde752e9fc6e9435c7cf0981b9"
+    },
+    "test/fixtures/m8-protocol-transport.ts": {
+      "blob": "6c14cc3a0ff67a799a943838a4c4f726107f10b5",
+      "blobSha256": "87abebd89fac08f070b4922460681e0037fab67e82a924092653454133090006",
+      "checkoutSha256": "6544d39944646069ae105e66586f8eaa2059f10bc206d54abb9e5d3866fa25c1"
+    },
+    "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts": {
+      "blob": "050a91a11b1bfe056afb6c73d23e5bba65a2f74a",
+      "blobSha256": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+      "checkoutSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5"
+    },
+    "codesys/conveyordemo.project": {
+      "blob": "7c76f8f6eaf50a8289d5e34fe169faec477cd0cb",
+      "blobSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+      "checkoutSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628"
+    },
+    "codesys/demo/signal-map-v1.json": {
+      "blob": "88e7c4be584bac5dca424d20c8d43815afff781f",
+      "blobSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+      "checkoutSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0"
+    },
+    "docs/conveyor-machine-spec.md": {
+      "blob": "b41583a8522c2c51bfec01660e0a974eb0f3ef6a",
+      "blobSha256": "acd59972cb0219e107cb1b8f8d56e6a90fbbeb704015e7d2c17ec5c0fbb7c83d",
+      "checkoutSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185"
+    }
+  }
+}

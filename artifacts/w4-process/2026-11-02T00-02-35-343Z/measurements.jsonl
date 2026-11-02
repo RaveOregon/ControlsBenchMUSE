@@ -1,0 +1,7 @@
+{"test":"factory-campaign","coordinatorSources":15,"plcOutputs":6,"ledgerEvents":123,"leaseStates":["released","released"],"childExit":{"code":0,"signal":null}}
+{"test":"parent-stall","parentStallMs":1500,"leaseMode":"continue","leaseTimeoutMs":400,"childExpiredAfterMs":409,"commitsDuringStall":14,"maxCommitGapDuringStallMs":110,"heldSamplesAfterExpiry":11,"plcCycleDuringHold":["6","16"],"lateDecisionEffects":0}
+{"test":"hold-lease","reasoningMs":707,"heldSamples":6,"worldTimeDuringHoldMs":0,"plcCycleDuringHold":["2","7"],"receiptValid":true,"campaignRevisionUnchanged":true}
+{"test":"condition-lease","unmet":"released","met":"condition_met","metAfterMs":86,"evidence":"plc.output"}
+{"test":"parent-loss-steady","drained":true,"closed":true,"ownership":"released","uncertainWrites":0}
+{"test":"parent-loss-hang","drained":false,"closed":false,"ownership":"retained_uncertain","uncertainWrites":1}
+{"test":"delayed-write","operationTimeoutMs":1500,"writeDelayMs":2600,"faultOutcome":"timed_out","uncertainPaths":["GVL_BenchWrite.Slot0_Valid"],"settledAfterMs":2614,"writesStartedAfterFault":0,"drained":true,"ownership":"released"}

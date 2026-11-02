@@ -1,0 +1,22 @@
+✔ construction is read-only and reports the world bytes the child actually loaded (900.0191ms)
+✔ provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage (1273.7776ms)
+✔ parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz (2159.272ms)
+✔ hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue (1456.4282ms)
+✔ condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence (1493.8354ms)
+✔ stale campaign/boundary revisions and duplicate action IDs are refused without replay (1407.7082ms)
+✔ cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone (760.0243ms)
+✔ source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion (3536.2811ms)
+✔ child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation (832.6666ms)
+✔ parent loss (steady): the child freezes world time, drains, closes and releases ownership (1221.7643ms)
+✔ parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write (3023.6891ms)
+✔ delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release (3686.1254ms)
+✔ stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough (2943.37ms)
+✔ parent silence: the child holds the world on its own and the engineer resume continues it (2291.0428ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27362.9163
