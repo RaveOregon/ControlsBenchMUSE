@@ -1,0 +1,30 @@
+{
+  "status": "approved-by-user",
+  "recordedAtIso": "2026-11-02T13:51:42.183Z",
+  "packetSha256": "2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9",
+  "maximumGenerationRequests": 4,
+  "maximumNewConservativeUsd": 4,
+  "previousConservativeUsd": 4,
+  "aggregateConservativeCeilingUsd": 8,
+  "answer": "Approve the $4 live trial",
+  "dataScope": {
+    "destination": "https://api.meta.ai/v1",
+    "sends": [
+      "accepted conveyor specification",
+      "logical signal and semantic tool definitions",
+      "engineer objective",
+      "fresh live PLC raw-input/output observations and diagnostic values",
+      "action results, faults, experiment state and evidence identifiers",
+      "grounded findings and subsequent investigation results"
+    ],
+    "excludes": [
+      "PLC source/binaries",
+      "model/PLC credentials",
+      "opaque connection addresses/node IDs",
+      "generated world source",
+      "HMI pixels/video"
+    ],
+    "dynamics": "Live observations, times, revisions, IDs, decisions and paired tool outcomes are generated at run time; these dynamic fields are approved by class, not identical to the recorded example."
+  },
+  "execution": "pending local masked PLC credential and Start Campaign; no calls made by recording approval"
+}

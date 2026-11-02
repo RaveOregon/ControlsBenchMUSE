@@ -1,4 +1,6 @@
-# First live Wonder trial — prepared, awaiting new approval
+# First live Wonder trial — approved, launch pending
+
+The user explicitly approved **one $4 live trial** on 2026-11-02. `authorization.json` beside the packet preserves that answer and exact packet hash. Source/packet/account recheck passed after approval, with zero new calls or charges. Next: the prepared local launcher, masked PLC credential and Start Campaign. Do not interpret this approval as a second run or a reset of W3 accounting.
 
 This integration chat owns the trial. There is no task to delegate before launch. Zero-model commissioning has passed; the remaining product proof is real Wonder choosing experiments and a new investigation from live PLC observations, then producing grounded findings/report.
 
