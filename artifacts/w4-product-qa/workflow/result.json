@@ -1,0 +1,187 @@
+[
+  {
+    "step": "setup",
+    "buttons": [
+      {
+        "text": "Pause",
+        "disabled": true,
+        "title": "Only a running campaign can pause."
+      },
+      {
+        "text": "Stop",
+        "disabled": true,
+        "title": "No active campaign to stop."
+      },
+      {
+        "text": "Setup",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Results",
+        "disabled": false,
+        "title": ""
+      }
+    ],
+    "text": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nPause\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nReady — review the plan scope, then Start Campaign\nElapsed —\nCampaign — · live wall clock\nLast meaningful activity —\nMUSE\nidle\nCOORDINATOR\nready\nCONNECTOR\nnot attached\nWORLD\nnot loaded\nPLC\nnot connected\nLIVE · ENGINEERING SETUP\nConveyor bench setup\n\nImported specification, raw signal contract and visible world assumptions.\n\nIMPORTED ENGINEERING CONTEXT\nSPEC V0.5\nTwo diverts. One continuous physical world.\n\nOne conveyor lane → divert A → divert B → straight runout. Cartons follow actual actuator position. The world supplies raw device inputs; the PLC owns commands and decisions.\n\nCurrent live proof: measurement DUT, PE_Entry → Motor_RunCmd. Final routing controller and HMI requirements remain untested.\n\nImported specification · docs/conveyor-machine-spec.md\nWORLD ASSUMPTIONS & GEOMETRY\nWORLD V0.5.0\n\nGenerated physical truth is the model's diagnostic projection. Its geometry and assumptions do not establish PLC correctness.\n\nReview versioned assumptions\nIMPORTED RAW I/O MAP\nMANIFEST V0.5.0\n\n25 signals at the raw device boundary. Mapping is read from the preserved world manifest.\n\nInspect mapped signals\nOPERATOR HMI SOURCE\nOBSERVING\nBrowser HMI URL (opened by the portal host)\nReconnect source\nStop observing\n\nObserving http://127.0.0.1:5611/?capture=portal\n\nThe tile shows only frames captured from this page. A configured URL is not an observation, and observation is not an HMI requirement verdict.\n\nCAMPAIGN\nLIVE\n\nConveyor Bench — Demo Baseline · world v0.5.0 · 20 raw inputs / 5 PLC outputs · Muse Wonder 1.0\n\n31 checks in scope\n29 with preserved evidence\n2 awaiting live\nbudget $5.00 hard stop\nStart Campaign\n\nReview the selected scope. Replay plays preserved evidence only; live campaign actions require coordinator confirmation.\n\n▸\nI/O checks\n3\n▸\nStartup and mode checks\n2\n▸\nFunctional checks\n5\n▸\nFN-1\nCarton assigned A diverts at D1 by actual position\n▸\nFN-2\nRequested A without divert actuation reaches runout\n▸\nFN-3\nCarton assigned B passes D1 and diverts at D2\n▸\nFN-4\nUnassigned carton runs out\n▸\nFN-5\nPLC routing decisions against the real controller\n▸\nRuntime and timing checks\n7\n▸\nAlarms, faults, and recovery\n6\n▸\nNormal operation\n2\n▸\nEdge and stress checks\n3\n▸\nAdaptive investigations\n2\n▸\nAI-1\nBlind diagnosis of a hidden committed fault\n▸\nAI-3\nWorld revision with hot reload and rollback"
+  },
+  {
+    "step": "started",
+    "buttons": [
+      {
+        "text": "Pause",
+        "disabled": false,
+        "title": "Freeze world evolution and hold the current raw image"
+      },
+      {
+        "text": "Stop",
+        "disabled": false,
+        "title": "Finalize the run record and hold the final image for inspection"
+      },
+      {
+        "text": "Setup",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Results",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Start campaign",
+        "disabled": true,
+        "title": "A campaign is already active."
+      }
+    ],
+    "text": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nPause\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nObserving for 600 ms\nElapsed 0.1 s\nFixture campaign · adaptive follow-up (fake connector)\nCampaign 00:00 · live wall clock\nLast meaningful activity 0.1 s ago · Observing for 600 ms\nMUSE\nidle · last call 0.0 s\nCOORDINATOR\nobserving\nCONNECTOR\nup\nWORLD\nrunning · tick 5 · v0.5.0\nPLC\nalive · cycle 6\n\nstart · applied f3dba0b174-1 — Campaign portal-20261102021135967-1 running under Fixture campaign · adaptive follow-up (fake connector)\n\nLIVE CAMPAIGN\nConveyor bench campaign\nStart campaign\nM9 CAMPAIGN RECORD\nFAKE CONNECTOR · NO PLC\nRUNNING\n\nDeterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.\n\nCampaign\nportal-20261102021135967-1 · seq 109 · revision 10\nDiagnosis\nknown\nConnector\nfresh · Observed simulation active under stable PLC boot (0 ms)\nBudget\ncampaign $0.00 · session $0.00\nActive experiment\npersistence-probe\nProvenance\nPlan · Investigate an unexpected fixture output\nExperiment\tCategory\tStatus\tConclusion · evidence\nbaseline\nIntroduce an unassigned carton and observe the measurement fixture at rest\n\tnormal\tcompleted\tinconclusive #69\npersistence-probe\nDetermine whether observed StackLight_Green=false persists for a longer window\n\tadaptive\trunning\t—\nActions (3; 1 unresolved)\nFindings\n\nNo grounded finding recorded.\n\nReport not finalized. Experiment evidence only; no conveyor requirement coverage is certified.\n\nOpen M9 report\nDownload ledger (JSONL)\nSteer Muse / request a targeted experiment\nObserve the experiment\nSide by side\nSimulated World\nPLC HMI\nGenerated geometry & assumptions\nSIMULATED WORLD\nREADY\nOPERATOR HMI\nOBSERVING\n● RECORDING\nACTUAL HMI ONLY\nExpand\n\nCaptured pixels of the configured HMI page · observing Observing http://127.0.0.1:5611/?capture=portal\n\nCaptured\n2026-11-02T02:11:36.141Z (requested 2026-11-02T02:11:36.087Z)\nFrame age\n434 ms\nFrame\n#43\nRendered page\nhttp://127.0.0.1:5611/?capture=portal\nSHA-256\n3ae7a874719aba4e…\nEvidence ref\nhmi-frame:hmi-e9705159-fc1a-4b64-8748-1a69add17a0f:43\nInspect frame evidence\nHMI session identity\n\nSeparate from the simulated world view. This tile shows only captured pixels of the actual HMI; it never redraws the HMI from PLC values.\n\nEVIDENCE TRACE\n202 events · live · world → raw commit → PLC ack → PLC output → HMI → finding\n6 s\n20 s\n60 s\nall\nWorld action\nRaw input commit\nPLC acknow"
+  },
+  {
+    "pauseClicked": true
+  },
+  {
+    "step": "pause",
+    "buttons": [
+      {
+        "text": "Resume",
+        "disabled": false,
+        "title": "Resume from the held image"
+      },
+      {
+        "text": "Stop",
+        "disabled": false,
+        "title": "Finalize the run record and hold the final image for inspection"
+      },
+      {
+        "text": "Setup",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Results",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Start campaign",
+        "disabled": true,
+        "title": "A campaign is already active."
+      }
+    ],
+    "text": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nResume\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nPaused — current raw image held; the PLC keeps scanning\nElapsed —\nWas: Observing for 600 ms\nCampaign 00:01 · live wall clock\nLast meaningful activity 0.4 s ago · pause applied: Paused: configured adapter acknowledged hold; PLC keeps scanning\nMUSE\nidle · last call 0.0 s\nCOORDINATOR\npaused · image held\nCONNECTOR\nup\nWORLD\nheld · source clock stopped\nPLC\nalive · cycle 11\n\nstart · applied f3dba0b174-1 — Campaign portal-20261102021135967-1 running under Fixture campaign · adaptive follow-up (fake connector)\n\npause · applied f3dba0b174-2 — Paused: configured adapter acknowledged hold; PLC keeps scanning\n\nLIVE CAMPAIGN\nConveyor bench campaign\nStart campaign\nM9 CAMPAIGN RECORD\nFAKE CONNECTOR · NO PLC\nPAUSED\n\nDeterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.\n\nCampaign\nportal-20261102021135967-1 · seq 143 · revision 11\nDiagnosis\nknown\nConnector\nfresh · Observed simulation active under stable PLC boot (0 ms)\nBudget\ncampaign $0.00 · session $0.00\nActive experiment\npersistence-probe\nProvenance\nPlan · Investigate an unexpected fixture output\nExperiment\tCategory\tStatus\tConclusion · evidence\nbaseline\nIntroduce an unassigned carton and observe the measurement fixture at rest\n\tnormal\tcompleted\tinconclusive #69\npersistence-probe\nDetermine whether observed StackLight_Green=false persists for a longer window\n\tadaptive\trunning\t—\nActions (3; 0 unresolved)\nFindings\n\nNo grounded finding recorded.\n\nReport not finalized. Experiment evidence only; no conveyor requirement coverage is certified.\n\nOpen M9 report\nDownload ledger (JSONL)\nSteer Muse / request a targeted experiment\nObserve the experiment\nSide by side\nSimulated World\nPLC HMI\nGenerated geometry & assumptions\nSIMULATED WORLD\nREADY\nOPERATOR HMI\nOBSERVING\n● RECORDING\nACTUAL HMI ONLY\nExpand\n\nCaptured pixels of the configured HMI page · observing Observing http://127.0.0.1:5611/?capture=portal\n\nCaptured\n2026-11-02T02:11:36.141Z (requested 2026-11-02T02:11:36.087Z)\nFrame age\n1.0 s\nFrame\n#43\nRendered page\nhttp://127.0.0.1:5611/?capture=portal\nSHA-256\n3ae7a874719aba4e…\nEvidence ref\nhmi-frame:hmi-e9705159-fc1a-4b64-8748-1a69add17a0f:43\nInspect frame evidence\nHMI session identity\n\nSeparate from the simulated world view. This tile shows only captured pixels of the actual HMI; it never redraws the HMI"
+  },
+  {
+    "resumeClicked": true
+  },
+  {
+    "step": "resume",
+    "buttons": [
+      {
+        "text": "Pause",
+        "disabled": true,
+        "title": "Only a running campaign can pause."
+      },
+      {
+        "text": "Stop",
+        "disabled": true,
+        "title": "No active campaign to stop."
+      },
+      {
+        "text": "Setup",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Results",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Start campaign",
+        "disabled": false,
+        "title": ""
+      }
+    ],
+    "text": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nPause\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nCampaign complete — run record finalized and held for inspection\nElapsed —\nCampaign 00:01 · live wall clock\nLast meaningful activity 0.4 s ago · Report finalized through sequence 163: Adaptive fixture investigation completed with grou…\nMUSE\nidle · last call 0.0 s\nCOORDINATOR\ncompleted\nCONNECTOR\nidle\nWORLD\nheld · source clock stopped\nPLC\nlast boot fixture-boot-1\n\nstart · applied f3dba0b174-1 — Campaign portal-20261102021135967-1 running under Fixture campaign · adaptive follow-up (fake connector)\n\npause · applied f3dba0b174-2 — Paused: configured adapter acknowledged hold; PLC keeps scanning\n\nresume · applied f3dba0b174-3 — Resumed from the held image\n\nLIVE CAMPAIGN\nConveyor bench campaign\nStart campaign\nM9 CAMPAIGN RECORD\nFAKE CONNECTOR · NO PLC\nCOMPLETED\n\nDeterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.\n\nCampaign\nportal-20261102021135967-1 · seq 164 · revision 16\nDiagnosis\nknown\nConnector\nfresh · Observed simulation active under stable PLC boot (0 ms)\nBudget\ncampaign $0.00 · session $0.00\nProvenance\nPlan · Investigate an unexpected fixture output\nExperiment\tCategory\tStatus\tConclusion · evidence\nbaseline\nIntroduce an unassigned carton and observe the measurement fixture at rest\n\tnormal\tcompleted\tinconclusive #69\npersistence-probe\nDetermine whether observed StackLight_Green=false persists for a longer window\n\tadaptive\tcompleted\tobserved #149\nActions (5; 0 unresolved)\nFindings\nGreen indication absent in both observation windows\nUNREVIEWED\nObserved (exact PLC output)\nStackLight_Green = false #149\nInjected truth\nnone cited\nInference (unverified)\nA longer observation did not resolve the output disagreement.\nAssumptions\nExpected green indication is a fixture hypothesis\nUncertainty\nThis is not a specified conveyor requirement failure or a diagnosed physical fault.\nAccept finding\nRequest rerun (records request only)\n\nReport finalized through sequence 163: Adaptive fixture investigation completed with grounded evidence Experiment evidence only; no conveyor requirement coverage is certified.\n\nOpen M9 report\nDownload ledger (JSONL)\nSteer Muse / request a targeted experiment\nObserve the experiment\nSide by side\nSimulated World\nPLC HMI\nGenerated geometry & assumptions\nSIMULATED WORLD\nREADY\nOPERATOR HMI\nOBSERVING\n● RECORDING\nACTUAL H"
+  },
+  {
+    "stopClicked": false
+  },
+  {
+    "step": "stop",
+    "buttons": [
+      {
+        "text": "Pause",
+        "disabled": true,
+        "title": "Only a running campaign can pause."
+      },
+      {
+        "text": "Stop",
+        "disabled": true,
+        "title": "No active campaign to stop."
+      },
+      {
+        "text": "Setup",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Results",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Start campaign",
+        "disabled": false,
+        "title": ""
+      }
+    ],
+    "text": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nPause\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nCampaign complete — run record finalized and held for inspection\nElapsed —\nCampaign 00:01 · live wall clock\nLast meaningful activity 0.9 s ago · Report finalized through sequence 163: Adaptive fixture investigation completed with grou…\nMUSE\nidle · last call 0.0 s\nCOORDINATOR\ncompleted\nCONNECTOR\nidle\nWORLD\nheld · source clock stopped\nPLC\nlast boot fixture-boot-1\n\nstart · applied f3dba0b174-1 — Campaign portal-20261102021135967-1 running under Fixture campaign · adaptive follow-up (fake connector)\n\npause · applied f3dba0b174-2 — Paused: configured adapter acknowledged hold; PLC keeps scanning\n\nresume · applied f3dba0b174-3 — Resumed from the held image\n\nLIVE CAMPAIGN\nConveyor bench campaign\nStart campaign\nM9 CAMPAIGN RECORD\nFAKE CONNECTOR · NO PLC\nCOMPLETED\n\nDeterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.\n\nCampaign\nportal-20261102021135967-1 · seq 164 · revision 16\nDiagnosis\nknown\nConnector\nfresh · Observed simulation active under stable PLC boot (0 ms)\nBudget\ncampaign $0.00 · session $0.00\nProvenance\nPlan · Investigate an unexpected fixture output\nExperiment\tCategory\tStatus\tConclusion · evidence\nbaseline\nIntroduce an unassigned carton and observe the measurement fixture at rest\n\tnormal\tcompleted\tinconclusive #69\npersistence-probe\nDetermine whether observed StackLight_Green=false persists for a longer window\n\tadaptive\tcompleted\tobserved #149\nActions (5; 0 unresolved)\nFindings\nGreen indication absent in both observation windows\nUNREVIEWED\nObserved (exact PLC output)\nStackLight_Green = false #149\nInjected truth\nnone cited\nInference (unverified)\nA longer observation did not resolve the output disagreement.\nAssumptions\nExpected green indication is a fixture hypothesis\nUncertainty\nThis is not a specified conveyor requirement failure or a diagnosed physical fault.\nAccept finding\nRequest rerun (records request only)\n\nReport finalized through sequence 163: Adaptive fixture investigation completed with grounded evidence Experiment evidence only; no conveyor requirement coverage is certified.\n\nOpen M9 report\nDownload ledger (JSONL)\nSteer Muse / request a targeted experiment\nObserve the experiment\nSide by side\nSimulated World\nPLC HMI\nGenerated geometry & assumptions\nSIMULATED WORLD\nREADY\nOPERATOR HMI\nOBSERVING\n● RECORDING\nACTUAL H"
+  },
+  {
+    "step": "results",
+    "buttons": [
+      {
+        "text": "Pause",
+        "disabled": true,
+        "title": "Only a running campaign can pause."
+      },
+      {
+        "text": "Stop",
+        "disabled": true,
+        "title": "No active campaign to stop."
+      },
+      {
+        "text": "Setup",
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Results",
+        "disabled": false,
+        "title": ""
+      }
+    ],
+    "text": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nPause\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nCampaign complete — run record finalized and held for inspection\nElapsed —\nCampaign 00:01 · live wall clock\nLast meaningful activity 1.4 s ago · Report finalized through sequence 163: Adaptive fixture investigation completed with grou…\nMUSE\nidle · last call 0.0 s\nCOORDINATOR\ncompleted\nCONNECTOR\nidle\nWORLD\nheld · source clock stopped\nPLC\nlast boot fixture-boot-1\n\nstart · applied f3dba0b174-1 — Campaign portal-20261102021135967-1 running under Fixture campaign · adaptive follow-up (fake connector)\n\npause · applied f3dba0b174-2 — Paused: configured adapter acknowledged hold; PLC keeps scanning\n\nresume · applied f3dba0b174-3 — Resumed from the held image\n\nM9 CAMPAIGN RECORD\nFAKE CONNECTOR · NO PLC\nCOMPLETED\n\nDeterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.\n\nCampaign\nportal-20261102021135967-1 · seq 164 · revision 16\nDiagnosis\nknown\nConnector\nfresh · Observed simulation active under stable PLC boot (0 ms)\nBudget\ncampaign $0.00 · session $0.00\nProvenance\nPlan · Investigate an unexpected fixture output\nExperiment\tCategory\tStatus\tConclusion · evidence\nbaseline\nIntroduce an unassigned carton and observe the measurement fixture at rest\n\tnormal\tcompleted\tinconclusive #69\npersistence-probe\nDetermine whether observed StackLight_Green=false persists for a longer window\n\tadaptive\tcompleted\tobserved #149\nActions (5; 0 unresolved)\nFindings\nGreen indication absent in both observation windows\nUNREVIEWED\nObserved (exact PLC output)\nStackLight_Green = false #149\nInjected truth\nnone cited\nInference (unverified)\nA longer observation did not resolve the output disagreement.\nAssumptions\nExpected green indication is a fixture hypothesis\nUncertainty\nThis is not a specified conveyor requirement failure or a diagnosed physical fault.\nAccept finding\nRequest rerun (records request only)\n\nReport finalized through sequence 163: Adaptive fixture investigation completed with grounded evidence Experiment evidence only; no conveyor requirement coverage is certified.\n\nOpen M9 report\nDownload ledger (JSONL)\nLIVE · CAMPAIGN COVERAGE\nEvidence, findings & remaining work\n\n10 Hz is the working demo tier. Final conveyor requirements remain untested against the real routing controller.\n\nExport evidence report\n0\nPassed\n0\nFailed\n0\nInconclusive\n31\nNot run\n0\nRunning\nP"
+  }
+]

@@ -1,0 +1,342 @@
+CV-1Sort conveyor
+M8 build 8001 · interface 1 · map m8-conveyor-1.0.2
+PLC MODE
+Faulted
+PLC DATA
+Fresh · 62 ms
+INPUT SOURCE
+Simulation
+ALARMS
+1 active · F23 D1 extend feedback timeout
+FIXTURE · NOT A PLC
+Operation
+Alarms
+1
+Engineering
+Commands enabled
+21:10:33
+FIXTURE
+M10 final held state — recorded M10 sample replayed without a PLC. Command acknowledgements are emulated. Not live PLC evidence.
+READ-ONLY
+Diagnostics only. No tag writes, forcing or simulation-image writes exist on this page; only the simulation coordinator writes field inputs. Hover a row for source, server and receipt timestamps.
+RAW INPUTS · PLC ACTIVE IMAGE
+selected intercepted image
+SIGNAL	VALUE	QUALITY	AGE	SOURCE TIME
+PHOTO-EYES
+PE_Entry
+GVL_BenchRead.Active_PE_Entry
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+PE_D1Approach
+GVL_BenchRead.Active_PE_D1Approach
+	TRUE	Good · fx rec	79 ms	21:10:33.808
+PE_D2Approach
+GVL_BenchRead.Active_PE_D2Approach
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+PE_ExitA
+GVL_BenchRead.Active_PE_ExitA
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+PE_ExitB
+GVL_BenchRead.Active_PE_ExitB
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+PE_Runout
+GVL_BenchRead.Active_PE_Runout
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+DIVERT LIMIT FEEDBACK
+D1_HomeFB
+GVL_BenchRead.Active_D1_HomeFB
+	TRUE	Good · fx rec	79 ms	21:10:33.808
+D1_ExtendedFB
+GVL_BenchRead.Active_D1_ExtendedFB
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+D2_HomeFB
+GVL_BenchRead.Active_D2_HomeFB
+	TRUE	Good · fx rec	79 ms	21:10:33.808
+D2_ExtendedFB
+GVL_BenchRead.Active_D2_ExtendedFB
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+DRIVE
+Drive_RunningFB
+GVL_BenchRead.Active_Drive_RunningFB
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+Drive_Overload
+GVL_BenchRead.Active_Drive_Overload
+	FALSE	Good · fx rec	79 ms	21:10:33.808
+DESTINATION READINESS
+ExitA_Ready
+GVL_BenchRead.Active_ExitA_Ready
+	TRUE	Good · fx rec	79 ms	21:10:33.808
+ExitB_Ready
+GVL_BenchRead.Active_ExitB_Ready
+	TRUE	Good · fx rec	79 ms	21:10:33.808
+Runout_Ready
+GVL_BenchRead.Active_Runout_Ready
+	TRUE	Good · fx rec	79 ms	21:10:33.808
+ENCODER
+Encoder_Count
+GVL_BenchRead.Active_Encoder_Count · raw UDINT counts
+	21613	Good · fx rec	79 ms	21:10:33.808
+COMPATIBILITY REAL (NOT USED BY CONTROLLER)
+Belt_SpeedActual
+GVL_BenchRead.Active_Belt_SpeedActual
+	0	Good · fx rec	79 ms	21:10:33.808
+Drive_Current
+GVL_BenchRead.Active_Drive_Current
+	0	Good · fx rec	79 ms	21:10:33.808
+D1_Position
+GVL_BenchRead.Active_D1_Position
+	0	Good · fx rec	79 ms	21:10:33.808
+D2_Position
+GVL_BenchRead.Active_D2_Position
+	0	Good · fx rec	79 ms	21:10:33.808
+ACTUATOR COMMANDS & FEEDBACK
+PLC outputs vs limit/drive feedback
+SIGNAL	VALUE	QUALITY	AGE
+OUTPUTS (GVL_BENCHREAD)
+Motor_RunCmd
+GVL_BenchRead.Motor_RunCmd
+	FALSE	Good · fx rec	79 ms
+D1_ExtendCmd
+GVL_BenchRead.D1_ExtendCmd
+	FALSE	Good · fx rec	79 ms
+D2_ExtendCmd
+GVL_BenchRead.D2_ExtendCmd
+	FALSE	Good · fx rec	79 ms
+StackLight_Red
+GVL_BenchRead.StackLight_Red
+	TRUE	Good · fx rec	79 ms
+StackLight_Green
+GVL_BenchRead.StackLight_Green
+	FALSE	Good · fx rec	79 ms
+COMMAND VS FEEDBACK
+M1 run cmd → running FB
+derived by HMI
+	FALSE → FALSE	derived	
+D1 extend cmd → home / ext
+derived by HMI
+	FALSE → TRUE / FALSE	derived	
+D2 extend cmd → home / ext
+derived by HMI
+	FALSE → TRUE / FALSE	derived	
+DRIVE & ENCODER (PLC-DERIVED)
+EncoderDelta
+GVL_DemoRead.Status.EncoderDelta · counts per PLC window
+	0	Good · fx rec	63 ms
+BeltSpeedMps
+GVL_DemoRead.Status.BeltSpeedMps · m/s, PLC-derived
+	0	Good · fx def	63 ms
+TravelMetres
+GVL_DemoRead.Status.TravelMetres · 1000 counts/m
+	21.61	Good · fx def	63 ms
+ScanTimeUs
+GVL_DemoRead.Status.ScanTimeUs
+	184	Good · fx def	63 ms
+OPERATOR REQUESTS (READBACK) → PLC ACKNOWLEDGEMENT
+StartSequence
+GVL_DemoWrite.StartSequence
+	3	Good · fx req	79 ms
+StartAck
+GVL_DemoRead.Status.StartAck
+	3	Good · fx rec	63 ms
+StartAccepted
+GVL_DemoRead.Status.StartAccepted
+	TRUE	Good · fx rec	63 ms
+StopSequence
+GVL_DemoWrite.StopSequence
+	2	Good · fx req	79 ms
+StopAck
+GVL_DemoRead.Status.StopAck
+	2	Good · fx rec	63 ms
+ResetSequence
+GVL_DemoWrite.ResetSequence
+	3	Good · fx req	79 ms
+ResetAck
+GVL_DemoRead.Status.ResetAck
+	3	Good · fx rec	63 ms
+ResetAccepted
+GVL_DemoRead.Status.ResetAccepted
+	TRUE	Good · fx rec	63 ms
+AutoRequest
+GVL_DemoWrite.AutoRequest
+	TRUE	Good · fx req	79 ms
+WCS OFFER · COMPLETION
+WCS peer writes; read-only here
+SIGNAL	VALUE	QUALITY	AGE
+OFFER REQUEST (READBACK)
+OfferSequence
+GVL_DemoWrite.OfferSequence
+	5	Good · fx req	79 ms
+OfferItemId
+GVL_DemoWrite.OfferItemId
+	201	Good · fx req	79 ms
+OfferRoute
+GVL_DemoWrite.OfferRoute
+	1	Good · fx req	79 ms
+OFFER ACKNOWLEDGEMENT
+OfferAckSequence
+GVL_DemoRead.Status.OfferAckSequence
+	5	Good · fx rec	63 ms
+OfferAckItemId
+GVL_DemoRead.Status.OfferAckItemId
+	201	Good · fx rec	63 ms
+OfferAccepted
+GVL_DemoRead.Status.OfferAccepted
+	TRUE	Good · fx rec	63 ms
+OfferReason
+GVL_DemoRead.Status.OfferReason
+	0	Good · fx rec	63 ms
+OfferPending
+GVL_DemoRead.Status.OfferPending
+	FALSE	Good · fx rec	63 ms
+ReleaseReady
+GVL_DemoRead.Status.ReleaseReady
+	FALSE	Good · fx rec	63 ms
+COMPLETION
+CompletionSequence
+GVL_DemoRead.Status.CompletionSequence
+	7	Good · fx rec	63 ms
+CompletionPending
+GVL_DemoRead.Status.CompletionPending
+	TRUE	Good · fx rec	63 ms
+CompletionItemId
+GVL_DemoRead.Status.CompletionItemId
+	201	Good · fx rec	63 ms
+CompletionRoute
+GVL_DemoRead.Status.CompletionRoute
+	1	Good · fx rec	63 ms
+CompletionExit
+GVL_DemoRead.Status.CompletionExit
+	0	Good · fx rec	63 ms
+CompletionDisposition
+GVL_DemoRead.Status.CompletionDisposition
+	4	Good · fx rec	63 ms
+CompletionAck
+GVL_DemoWrite.CompletionAck · WCS ack readback
+	6	Good · fx req	79 ms
+CONTROLLER IDENTITY
+observed
+SIGNAL	VALUE	QUALITY	AGE
+BuildId
+GVL_DemoRead.BuildId
+	8001	Good · fx rec	79 ms
+InterfaceVersion
+GVL_DemoRead.InterfaceVersion
+	1	Good · fx rec	79 ms
+Signal map	m8-conveyor-1.0.2
+PlcBootIdentity
+GVL_BenchRead.PlcBootIdentity
+	1534186706133	Good · fx rec	79 ms
+ModeText
+GVL_DemoRead.Status.ModeText
+	Faulted	Good · fx rec	63 ms
+FaultCode
+GVL_DemoRead.Status.FaultCode
+	23	Good · fx rec	63 ms
+FaultText
+GVL_DemoRead.Status.FaultText
+	D1 extend feedback timeout	Good · fx rec	63 ms
+PlcCycle
+GVL_BenchRead.PlcCycle
+	58171	Good · fx rec	79 ms
+PlcHeartbeat
+GVL_BenchRead.PlcHeartbeat
+	58171	Good · fx def	79 ms
+PlcTimeUs
+GVL_BenchRead.PlcTimeUs
+	1793585433808000	Good · fx rec	79 ms
+SIMULATION & BENCH CONNECTOR
+connection diagnostics, not machine alarms
+SIGNAL	VALUE	QUALITY	AGE
+SIMULATION
+SimRequest
+GVL_BenchWrite.SimRequest · requested (readback)
+	TRUE	Good · fx req	79 ms
+SimApplied
+GVL_BenchRead.SimApplied · applied
+	TRUE	Good · fx rec	79 ms
+Requested vs applied
+derived by HMI
+	agree (TRUE)	derived	
+ConnectorStale
+GVL_BenchRead.ConnectorStale · bench diagnostic
+	FALSE	Good · fx rec	79 ms
+HEARTBEAT & APPLIED IMAGE
+WorkstationHeartbeat
+GVL_BenchWrite.WorkstationHeartbeat · readback
+	349	Good · fx req	79 ms
+RequestedEpoch
+GVL_BenchWrite.RequestedEpoch
+	196518616187191	Good · fx req	79 ms
+AppliedEpoch
+GVL_BenchRead.AppliedEpoch
+	196518616187191	Good · fx rec	79 ms
+RequestedSequence
+GVL_BenchWrite.RequestedSequence
+	302	Good · fx req	79 ms
+AppliedSequence
+GVL_BenchRead.AppliedSequence
+	302	Good · fx rec	79 ms
+Sequence lag (requested − applied)
+derived by HMI
+	0	derived	
+RequestedSlot
+GVL_BenchWrite.RequestedSlot
+	1	Good · fx req	79 ms
+ActiveSlot
+GVL_BenchRead.ActiveSlot
+	1	Good · fx rec	79 ms
+OutputCaptureCycle
+GVL_BenchRead.OutputCaptureCycle
+	58171	Good · fx rec	79 ms
+Same-scan bracket in HMI read
+derived by HMI
+	PlcCycle = OutputCaptureCycle	derived	
+COMMIT COUNTERS
+AppliedCommitCount
+GVL_BenchRead.AppliedCommitCount
+	302	Good · fx def	79 ms
+DuplicateCommitCount
+GVL_BenchRead.DuplicateCommitCount
+	0	Good · fx def	79 ms
+StaleCommitCount
+GVL_BenchRead.StaleCommitCount
+	0	Good · fx def	79 ms
+SkippedSequenceCount
+GVL_BenchRead.SkippedSequenceCount
+	0	Good · fx def	79 ms
+InvalidSlotCount
+GVL_BenchRead.InvalidSlotCount
+	0	Good · fx def	79 ms
+InvalidPayloadCount
+GVL_BenchRead.InvalidPayloadCount
+	0	Good · fx def	79 ms
+SlotMetadataMismatchCount
+GVL_BenchRead.SlotMetadataMismatchCount
+	0	Good · fx def	79 ms
+EpochRejectedCount
+GVL_BenchRead.EpochRejectedCount
+	0	Good · fx def	79 ms
+SessionResetCount
+GVL_BenchRead.SessionResetCount
+	0	Good · fx def	79 ms
+OPC UA SESSION · HMI SERVICE
+this HMI's own connection
+SIGNAL	VALUE	QUALITY	AGE
+Link state	connected — Polling
+Endpoint	fixture://m10-recorded
+Security	None (fixture) · None (fixture) · user none
+Session opened	21:08:21.288
+Poll interval / stale after	250 ms / 1500 ms
+Last good read	21:10:33.824 (63 ms ago)
+Read latency last / p95	30.0 ms / 32.0 ms
+Polls total / failed / consecutive	402 / 0 / 0
+Reconnects	0
+Last error	none
+PLC scanning	yes (PlcCycle advancing)
+Boot identity	1534186706133
+Runtime ownership	commands enabled (auto)
+Connected HMI clients	portal hmi-client-1-2e1268d7 · browser hmi-client-2-4b8a9b9d · browser hmi-client-3-071b89da
+HMI service session	hmi-svc-2026-11-02T02-08-21-115Z-66c70ea7
+Evidence journal	artifacts\hmi\runs\2026-11-02T02-08-21-128Z-fixture\journal.jsonl
+client hmi-client-3-071b89da
+service hmi-svc-2026-11-02T02-08-21-115Z-66c70ea7
+Every value is an observed PLC sample. A click is not a PLC acknowledgement. Journal: artifacts\hmi\runs\2026-11-02T02-08-21-128Z-fixture\journal.jsonl

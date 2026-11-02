@@ -1,0 +1,72 @@
+{
+  "factory": {
+    "id": "fixture-adaptive",
+    "label": "Fixture campaign · adaptive follow-up (fake connector)",
+    "evidenceClass": "fake_connector",
+    "claimBoundary": "Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.",
+    "connectorId": "deterministic-fake-connector-v1",
+    "supportsExitSimulation": true
+  },
+  "identity": {
+    "kind": "fixture",
+    "label": "FIXTURE · M10 final held state",
+    "fixtureId": "m10-final-held",
+    "fixtureBasis": "recorded 2026-11-01T00:59:48.814Z in artifacts/m10/2026-11-01T00-58-43-185Z/transport.jsonl.gz (sha256 750f0494eac0…); command acknowledgements emulated by the fixture, not M8"
+  },
+  "frame": {
+    "reference": "hmi-frame:hmi-e9705159-fc1a-4b64-8748-1a69add17a0f:69",
+    "sessionId": "hmi-e9705159-fc1a-4b64-8748-1a69add17a0f",
+    "frameSequence": 69,
+    "capturedAtIso": "2026-11-02T02:12:03.617Z",
+    "requestedAtIso": "2026-11-02T02:12:03.582Z",
+    "contentType": "image/jpeg",
+    "byteLength": 147597,
+    "sha256": "3778f3a8160fbe48a3f357b48a92dcb412e2cf8ad3ec7076eab15df550f483bb",
+    "mediaUrl": "/api/hmi/frames/hmi-e9705159-fc1a-4b64-8748-1a69add17a0f/69",
+    "pageUrl": "http://127.0.0.1:5611/?capture=portal"
+  },
+  "overflow": {
+    "viewport": 390,
+    "scrollWidth": 390
+  },
+  "checks": [
+    {
+      "name": "hosted portal",
+      "pass": true
+    },
+    {
+      "name": "operation: fixture identity visible",
+      "pass": true
+    },
+    {
+      "name": "operation: footer does not claim every value is an observed PLC sample",
+      "pass": false
+    },
+    {
+      "name": "alarms: fixture identity visible",
+      "pass": true
+    },
+    {
+      "name": "alarms: footer does not claim every value is an observed PLC sample",
+      "pass": false
+    },
+    {
+      "name": "engineering: fixture identity visible",
+      "pass": true
+    },
+    {
+      "name": "engineering: footer does not claim every value is an observed PLC sample",
+      "pass": false
+    },
+    {
+      "name": "capture SHA-256 matches frame bytes",
+      "pass": true
+    },
+    {
+      "name": "390px viewport has no page-wide overflow",
+      "pass": true
+    }
+  ],
+  "plcContacted": false,
+  "paidCalls": 0
+}
