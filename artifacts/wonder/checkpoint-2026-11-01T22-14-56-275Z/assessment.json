@@ -1,0 +1,135 @@
+{
+  "gate": "W3",
+  "status": "partial_mechanics_pass_adaptive_followup_not_demonstrated",
+  "scope": "Recorded M10 evidence only; no new PLC, HMI, fault injection or recovery",
+  "approvedPayloadSha256": "8e06045783a2fb0ceddf772d190d9872b11cf8450a67d0062a6b65f7336b7bbd",
+  "codeCommit": "7d8d85a5e3611bf4ec8bcb3647887ac8a75bdefe",
+  "firstAttempt": {
+    "directory": "artifacts/wonder/checkpoint-2026-11-01T22-10-17-207Z",
+    "status": "token_count_rejected_HTTP_400_named_tool_choice",
+    "generationRequests": 0,
+    "conservativeUsd": 1
+  },
+  "successfulCheckpoint": "artifacts/wonder/checkpoint-2026-11-01T22-14-56-275Z",
+  "model": "muse-wonder-1.0",
+  "standardMode": true,
+  "completedReview": true,
+  "modelAuthoredInitialExperiments": 2,
+  "completedExperiments": 2,
+  "executedActions": 6,
+  "allActionsApplied": true,
+  "groundedFindings": 2,
+  "exactPlcClaims": 30,
+  "pairedExactToolResultsDelivered": 5,
+  "nativeResponseLineageValidated": true,
+  "newEvidenceDependentFollowupAdded": false,
+  "qualityLimit": "All three evidence-window inspections were chosen in the initial response. Subsequent turns recorded findings and finished the initial plan; no novel post-observation investigation was proposed or executed.",
+  "turns": [
+    {
+      "turn": 1,
+      "responseId": "resp_6ae7b9f984353c4e4a42485c",
+      "previousResponseId": null,
+      "callId": "call_01a1992e705277a281ec1ac332b0106a",
+      "summary": "Recorded M10 review: inspect preserved evidence windows preceding the faulted tail to ground findings without new PLC actions.",
+      "tools": [
+        {
+          "id": "inspect-window-early",
+          "name": "inspect_evidence_window"
+        },
+        {
+          "id": "inspect-window-pre-fault",
+          "name": "inspect_evidence_window"
+        },
+        {
+          "id": "inspect-window-mid",
+          "name": "inspect_evidence_window"
+        }
+      ],
+      "usage": {
+        "input_tokens": 16387,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 1574,
+        "output_tokens_details": {
+          "reasoning_tokens": 1097
+        },
+        "total_tokens": 17961
+      }
+    },
+    {
+      "turn": 2,
+      "responseId": "resp_6ae7ba164034f75534ce49d7",
+      "previousResponseId": "resp_6ae7b9f984353c4e4a42485c",
+      "callId": "call_01a1992ed001750692f26ade9846a864",
+      "summary": "Record grounded findings from preserved plc.output evidence only; complete the D1-timeout experiment. No new PLC action, no HMI or live verdict.",
+      "tools": [
+        {
+          "id": "finding-d1-timeout-201",
+          "name": "record_finding"
+        },
+        {
+          "id": "finding-recorded-counts",
+          "name": "record_finding"
+        }
+      ],
+      "usage": {
+        "input_tokens": 54221,
+        "input_tokens_details": {
+          "cached_tokens": 16372
+        },
+        "output_tokens": 3806,
+        "output_tokens_details": {
+          "reasoning_tokens": 1440
+        },
+        "total_tokens": 58027
+      }
+    },
+    {
+      "turn": 3,
+      "responseId": "resp_6ae7ba25976ca7d6ad3a43ac",
+      "previousResponseId": "resp_6ae7ba164034f75534ce49d7",
+      "callId": "call_01a1992f1bb376e8ab0f92ae6173b843",
+      "summary": "Complete the recorded counts/completion experiment and finish the preserved-evidence review.",
+      "tools": [
+        {
+          "id": "finish-recorded-review",
+          "name": "finish_campaign"
+        }
+      ],
+      "usage": {
+        "input_tokens": 70653,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 793,
+        "output_tokens_details": {
+          "reasoning_tokens": 54
+        },
+        "total_tokens": 71446
+      }
+    }
+  ],
+  "usage": {
+    "inputTokens": 141261,
+    "cachedInputTokens": 16372,
+    "outputTokens": 6173,
+    "reasoningTokens": 2591,
+    "totalTokens": 147434
+  },
+  "accounting": {
+    "generationRequests": 3,
+    "tokenCountRequests": 4,
+    "conservativeUsd": 4,
+    "durableSessionUsd": 4,
+    "approvedConservativeCapUsd": 4,
+    "remainingApprovedConservativeUsd": 0,
+    "estimatedUsageUsd": 0.6262904,
+    "uncachedUsageUpperEstimateUsd": 0.688504,
+    "billingVerified": false,
+    "note": "Estimates use reported generation usage and verified Standard prices; invoices were not read. Failed preflight remains conservatively charged; no refund or silent retry."
+  },
+  "plcContacted": false,
+  "liveHmiOperated": false,
+  "W4": "not run; compatible owner adapter remains required"
+}

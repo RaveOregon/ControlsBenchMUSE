@@ -103,6 +103,20 @@ export function PlanPanel({ state, worldName, worldVersion, signalCounts, select
   const groups = [...PLAN_GROUPS, { id: "evidence" as const, title: "Evidence preservation", blurb: "Closing audit of the preserved run record." }];
   const limits = state.budget.limits;
 
+  const definition = state.host?.info?.factory.scope;
+  if (definition) return <section className="panel" aria-label="Campaign plan">
+    <header><h2>Campaign categories</h2><span className="tag">{state.host?.info?.factory.evidenceClass === "preserved_live_plc" ? "recorded evidence review" : "Wonder-directed"}</span></header>
+    <div className="body"><p>{state.host?.info?.factory.label}</p><p>{definition.description}</p>
+      {state.scopeNotice && <p role="status">{state.scopeNotice}</p>}
+      {definition.choices.map(choice => <label key={choice.id} style={{ display: "block", marginBottom: 8 }}>
+        <input type="checkbox" aria-label={`Include ${choice.title}`} checked={state.categoryScope?.[choice.id] === true} disabled={locked} onChange={e => onScope([choice.id], e.target.checked)} /> {choice.title}
+      </label>)}
+      {!locked && <button className="btn primary" disabled={Boolean(startDisabledReason)} onClick={() => { const result = onStart(); setStartNote(result.ok ? undefined : result.reason); }}>Start Campaign</button>}
+      <p className="muted">{startNote ?? startDisabledReason ?? "Start authorizes only these categories. The authoritative plan appears as the provider creates experiments."}</p>
+      {Object.values(state.hosted?.projection?.experiments ?? {}).map(e => <p key={e.id}><b>{e.id}</b> · {e.objective} · {e.status}</p>)}
+    </div>
+  </section>;
+
   return (
     <section className="panel" aria-label="Campaign plan">
       <header>

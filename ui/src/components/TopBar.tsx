@@ -8,6 +8,7 @@ interface Props {
   liveAttached: boolean;
   /** Overrides the live badge subtitle, e.g. the host's evidence class. */
   liveDetail?: string;
+  reviewingRecorded?: boolean;
   onMode: (mode: SourceMode) => void;
   speed: number;
   speeds: readonly number[];
@@ -25,7 +26,7 @@ interface Props {
   can: (command: "pause" | "resume" | "stop" | "reset_simulation" | "exit_simulation" | "enter_simulation") => CommandResult;
 }
 
-export function TopBar({ state, mode, liveAttached, liveDetail, onMode, speed, speeds, onSpeed, onSkip, onSources, commands, can }: Props) {
+export function TopBar({ state, mode, liveAttached, liveDetail, reviewingRecorded, onMode, speed, speeds, onSpeed, onSkip, onSources, commands, can }: Props) {
   const [note, setNote] = useState<string>();
   const [confirmExit, setConfirmExit] = useState(false);
   const run = (command: () => CommandResult) => () => {
@@ -51,7 +52,7 @@ export function TopBar({ state, mode, liveAttached, liveDetail, onMode, speed, s
         </span>
       ) : (
         <span className={`mode-badge live${liveAttached ? "" : " detached"}`} title={liveDetail}>
-          LIVE <span className="sub">{liveDetail ?? (liveAttached ? "coordinator attached" : "no coordinator attached")}</span>
+          {reviewingRecorded ? "HOSTED REVIEW" : "LIVE"} <span className="sub">{reviewingRecorded ? "recorded PLC/world evidence · current review activity" : liveDetail ?? (liveAttached ? "coordinator attached" : "no coordinator attached")}</span>
         </span>
       )}
       <div className="segmented" role="group" aria-label="Evidence source">
@@ -59,7 +60,7 @@ export function TopBar({ state, mode, liveAttached, liveDetail, onMode, speed, s
           Replay
         </button>
         <button aria-pressed={mode === "live"} onClick={() => onMode("live")}>
-          Live
+          {reviewingRecorded ? "Hosted review" : "Live"}
         </button>
       </div>
       {mode === "replay" && (

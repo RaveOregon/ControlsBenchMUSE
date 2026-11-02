@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "campaignId": "wonder-offline",
+  "status": "completed",
+  "provenance": {
+    "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ioMap": "sha256:d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+    "plcBuild": "fake-measurement-fixture-v1",
+    "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "model": "offline-Meta-Responses-stub-v1",
+    "connector": "deterministic-fake-connector-v1"
+  },
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Deterministic fake PLC connector; no live PLC or final conveyor coverage.",
+  "plan": {
+    "objective": "Investigate an unexpected fixture output",
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+        "category": "normal",
+        "requirements": []
+      },
+      {
+        "id": "persistence-probe",
+        "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+        "category": "adaptive",
+        "requirements": []
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "id": "baseline",
+      "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+      "category": "normal",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "inconclusive",
+      "evidenceRefs": [
+        "wonder-offline:80"
+      ]
+    },
+    {
+      "id": "persistence-probe",
+      "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+      "category": "adaptive",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "wonder-offline:147"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "persistent-output",
+      "title": "Green indication absent in both observation windows",
+      "experimentId": "persistence-probe",
+      "claims": [
+        {
+          "evidenceId": "wonder-offline:147",
+          "signal": "StackLight_Green",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "A longer observation did not resolve the output disagreement.",
+      "assumptions": [
+        "Expected green indication is a fixture hypothesis"
+      ],
+      "uncertainty": "This is not a specified conveyor requirement failure or a diagnosed physical fault.",
+      "review": "unreviewed"
+    }
+  ],
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {
+      "planning": 0,
+      "baseline": 0,
+      "persistence-probe": 0
+    },
+    "repairs": {
+      "none": 0
+    },
+    "requests": {
+      "request-1": {
+        "requestId": "request-1",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-2": {
+        "requestId": "request-2",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-3": {
+        "requestId": "request-3",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-4": {
+        "requestId": "request-4",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "persistence-probe",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      }
+    }
+  },
+  "finalization": {
+    "summary": "Adaptive fixture investigation completed with grounded evidence",
+    "throughSequence": 176
+  },
+  "injectedTruth": [],
+  "worldEvidenceRefs": [
+    "wonder-offline:12",
+    "wonder-offline:13",
+    "wonder-offline:14",
+    "wonder-offline:15",
+    "wonder-offline:16",
+    "wonder-offline:17",
+    "wonder-offline:18",
+    "wonder-offline:19",
+    "wonder-offline:20",
+    "wonder-offline:21",
+    "wonder-offline:22",
+    "wonder-offline:23",
+    "wonder-offline:24",
+    "wonder-offline:25",
+    "wonder-offline:26",
+    "wonder-offline:27",
+    "wonder-offline:28",
+    "wonder-offline:29",
+    "wonder-offline:30",
+    "wonder-offline:31",
+    "wonder-offline:32",
+    "wonder-offline:33",
+    "wonder-offline:34",
+    "wonder-offline:59",
+    "wonder-offline:67",
+    "wonder-offline:81",
+    "wonder-offline:116",
+    "wonder-offline:124",
+    "wonder-offline:132",
+    "wonder-offline:140",
+    "wonder-offline:148",
+    "wonder-offline:162"
+  ],
+  "sourceEvidenceRefs": [
+    "wonder-offline:5",
+    "wonder-offline:6",
+    "wonder-offline:7",
+    "wonder-offline:8",
+    "wonder-offline:54",
+    "wonder-offline:55",
+    "wonder-offline:62",
+    "wonder-offline:63",
+    "wonder-offline:76",
+    "wonder-offline:77",
+    "wonder-offline:111",
+    "wonder-offline:112",
+    "wonder-offline:119",
+    "wonder-offline:120",
+    "wonder-offline:127",
+    "wonder-offline:128",
+    "wonder-offline:135",
+    "wonder-offline:136",
+    "wonder-offline:143",
+    "wonder-offline:144",
+    "wonder-offline:157",
+    "wonder-offline:158"
+  ],
+  "modelResponseRefs": [
+    "wonder-offline:39",
+    "wonder-offline:40",
+    "wonder-offline:41",
+    "wonder-offline:42",
+    "wonder-offline:43",
+    "wonder-offline:74",
+    "wonder-offline:82",
+    "wonder-offline:83",
+    "wonder-offline:84",
+    "wonder-offline:85",
+    "wonder-offline:97",
+    "wonder-offline:98",
+    "wonder-offline:99",
+    "wonder-offline:100",
+    "wonder-offline:101",
+    "wonder-offline:155",
+    "wonder-offline:163",
+    "wonder-offline:164",
+    "wonder-offline:165",
+    "wonder-offline:166"
+  ],
+  "plcEvidence": [
+    "wonder-offline:11",
+    "wonder-offline:58",
+    "wonder-offline:66",
+    "wonder-offline:80",
+    "wonder-offline:115",
+    "wonder-offline:123",
+    "wonder-offline:131",
+    "wonder-offline:139",
+    "wonder-offline:147",
+    "wonder-offline:161"
+  ],
+  "unresolved": [
+    {
+      "id": "await-green",
+      "name": "wait_for_condition",
+      "status": "timed_out",
+      "evidenceRefs": [],
+      "message": "Observation deadline reached without sufficient matching evidence"
+    }
+  ],
+  "untested": [],
+  "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+}

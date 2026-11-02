@@ -5,7 +5,7 @@ import { shortSource } from "./labels.ts";
 
 export function ConnectionPanel({ state, nowMs }: { state: WorkspaceState; nowMs: number }) {
   const c = state.connection;
-  const replay = state.mode === "replay";
+  const replay = state.mode === "replay" || state.hosted?.evidenceClass === "preserved_live_plc";
   const scale = state.episode?.timeScale ?? 1;
   const timed = state.episode ? state.episode.clock !== "discrete" : !replay;
   const sorted = [...c.latencies].sort((left, right) => left - right);
@@ -27,10 +27,10 @@ export function ConnectionPanel({ state, nowMs }: { state: WorkspaceState; nowMs
       <div className="body">
         {replay && (
           <p className="muted" style={{ margin: "0 0 8px", fontSize: 12 }}>
-            Nothing on this panel is connected now. It re-presents M0–M2 measurements{recordedAt ? ` (last source recorded ${recordedAt})` : ""}{c.provenance ? ` from ${shortSource(c.provenance)}` : ""}.
+            This panel re-presents recorded connector/PLC evidence{recordedAt ? ` (last source recorded ${recordedAt})` : ""}{c.provenance ? ` from ${shortSource(c.provenance)}` : ""}. Current review activity and any separately observed HMI session have their own status.
           </p>
         )}
-        {state.episode && !state.episode.connectorExpected && c.link !== "none" && (
+        {!replay && state.episode && !state.episode.connectorExpected && c.link !== "none" && (
           <p style={{ margin: "0 0 8px", fontSize: 12, color: "var(--wait)" }}>
             The current record ({state.episode.title}) {state.episode.world ? "uses the surrogate PLC-output driver" : "has no connector"}; values below are from the last recorded connector session, not this record.
           </p>

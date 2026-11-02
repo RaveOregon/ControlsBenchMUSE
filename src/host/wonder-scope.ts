@@ -1,28 +1,22 @@
-import { allPlannedChecks, PLAN_GROUPS, QUALIFICATION_CHECKS } from "../../ui/src/model/plan.ts";
+import type { HostScopeDefinition } from "./protocol.ts";
 
-const categories = [...PLAN_GROUPS.map(g => g.id), "evidence"];
+export const wonderScope: HostScopeDefinition = {
+  mode: "categories", choices: [
+    { id: "io", title: "I/O evidence" }, { id: "startup", title: "Startup and modes" },
+    { id: "functional", title: "Functional experiments" }, { id: "runtime", title: "Runtime observations at qualified 10 Hz" },
+    { id: "faults", title: "Declared world faults" }, { id: "normal", title: "Normal operation" },
+    { id: "edge", title: "Declared edge cases" }, { id: "adaptive", title: "Evidence-dependent follow-up" }
+  ], description: "Select categories for Wonder-authored experiments. The historical per-check qualification list is separate. This authorizes only the configured 10 Hz bench; no 20/50 Hz qualification, transport requalification, PLC recovery or code changes."
+};
+export const recordedWonderScope: HostScopeDefinition = { mode: "categories", choices: [
+  { id: "evidence", title: "Recorded M10 evidence review" }, { id: "adaptive", title: "Recorded evidence comparison" }
+], description: "This fixed offline review requires both categories. It reviews recorded evidence and performs no new PLC actions or paid model calls. Historical per-check selections are retained separately." };
 
-/** The portal sends check IDs. Partial groups must not expand into whole-category authority. */
-export function resolveWonderScope(scope: Record<string, boolean>) {
-  const keys = Object.keys(scope);
-  if (!keys.length) return { categories, qualificationReferences: [] as string[] };
-  if (keys.every(key => categories.includes(key))) {
-    const selected = keys.filter(key => scope[key] === true);
-    if (!selected.length) throw new Error("Select at least one Wonder campaign category");
-    return { categories: selected, qualificationReferences: [] as string[] };
-  }
-  const planned = allPlannedChecks();
-  const known = new Set(planned.map(c => c.id));
-  if (keys.some(key => !known.has(key))) throw new Error("Wonder scope contains unknown check IDs or mixes categories and checks");
-  const qualification = new Set(QUALIFICATION_CHECKS.map(c => c.id));
-  const selected: string[] = [];
-  for (const category of categories) {
-    const checks = planned.filter(c => c.group === category && !qualification.has(c.id));
-    const included = checks.filter(c => scope[c.id] === true);
-    if (included.length && included.length !== checks.length)
-      throw new Error(`Wonder currently accepts complete engineering groups: ${category} has individually deselected checks. Select or deselect the whole group.`);
-    if (included.length) selected.push(category);
-  }
-  if (!selected.length) throw new Error("Select at least one supported Wonder campaign group; qualification references alone cannot authorize a campaign");
-  return { categories: selected, qualificationReferences: [...qualification].filter(id => scope[id] === true) };
+export function selectWonderScope(scope: Record<string, boolean>, definition: HostScopeDefinition): string[] {
+  const allowed = new Set(definition.choices.map(c => c.id));
+  if (!Object.keys(scope).length || Object.keys(scope).some(id => !allowed.has(id)))
+    throw new Error("This Wonder factory requires explicit category selections advertised by the host; historical check IDs are not campaign authorization");
+  const selected = Object.entries(scope).filter(([, value]) => value === true).map(([id]) => id);
+  if (!selected.length) throw new Error("Select at least one Wonder category");
+  return selected;
 }

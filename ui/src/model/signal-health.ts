@@ -2,6 +2,7 @@ import type { SignalValue, WorkspaceState } from './workspace-store.ts';
 import { plcStaleThresholdMs } from './activity.ts';
 export function signalHealth(value: SignalValue | undefined, state: WorkspaceState, nowMs: number): string {
   if (value?.value === undefined) return 'unknown';
+  if (value.evidenceMode === 'recorded') return `recorded · ${value.quality === 'bad' ? 'bad' : value.quality === 'good' ? 'good at source' : 'unknown quality'}`;
   if (value.quality === 'bad') return 'bad';
   if (value.freshness === 'stale') return 'stale';
   if (value.freshness === 'held' || state.connection.link === 'lost' || ['paused','stopped','completed','budget_hold'].includes(state.phase)) return 'held';

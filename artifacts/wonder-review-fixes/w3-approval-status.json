@@ -1,0 +1,23 @@
+{
+  "gate": "W3",
+  "status": "approved_executed_partial",
+  "actualModelCalls": 3,
+  "actualSpendUsd": null,
+  "conservativeChargesUsd": 4,
+  "plcContacted": false,
+  "model": "muse-wonder-1.0",
+  "destination": "https://api.meta.ai/v1/responses",
+  "maximumGenerationRequests": 4,
+  "maximumConservativeUsd": 4,
+  "payloadPreview": "artifacts/wonder-review-fixes/w3-payload-preview.json",
+  "previewSha256": "8e06045783a2fb0ceddf772d190d9872b11cf8450a67d0062a6b65f7336b7bbd",
+  "previewNote": "Representative actual context fields and recorded values; campaign IDs, current timestamps and evidence-dependent later tool results are determined at execution.",
+  "blockingReason": null,
+  "noRetryPerformed": true,
+  "estimatedUsageUsd": 0.6262904,
+  "remainingApprovedConservativeUsd": 0,
+  "userApproval": "User explicitly selected Approve this data transfer and cap on 2026-11-01",
+  "priorAutomaticRejection": "Automatic approval review rejected the paid command before process creation because exporting this recorded engineering payload to Meta requires explicit payload-specific user authorization. User permission to use Meta credits was acknowledged, but not accepted as sufficient data-transfer consent.",
+  "executionNote": "Initial HTTP 400 preflight preserved and charged $1; corrected distinct checkpoint limited to $3. No automatic retry or further paid run after cap exhaustion.",
+  "assessment": "artifacts/wonder/checkpoint-2026-11-01T22-14-56-275Z/assessment.json"
+}

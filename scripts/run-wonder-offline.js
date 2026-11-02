@@ -39,6 +39,6 @@ if (recorded.runtime.status !== "completed" || replay(ledger.events).evidenceCla
 ledger.close();
 write("result.json", { status: "pass", base: "13c55b3", W0: "contract and representative-context.json", W1: "offline native Responses stub, four turns and adaptive investigation", W2: "302 recorded M10 acknowledgements and six original findings retained",
   actualModelCalls: 0, actualSpendUsd: 0, stubGenerationCalls: calls, sourceSha256: recorded.source.sha256, plcContacted: false,
-  W3: "prepared separately, not run", W4: "pending owner isolation/recovery handoff, not run" });
+  W3: "not executed by this offline runner; see artifacts/wonder/w3-latest.json for the separately scheduled checkpoint", W4: "not run; compatible Wonder process adapter and live qualification remain pending" });
 writeFileSync("artifacts/wonder/latest.json", JSON.stringify({ directory, status: "pass", actualModelCalls: 0, actualSpendUsd: 0 }, null, 2) + "\n");
 console.log(`Wonder offline proof: ${directory}; zero real model calls, $0 spend, no PLC contact.`);

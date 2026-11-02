@@ -4,7 +4,7 @@ import { ContextPanel, CommandNotice, ExperimentPanel, FindingCard, ResultsPanel
 import { ingestHmiObservation, type HmiSource, type HmiObservation } from "./adapters/live/hmi-source.ts";
 import type { CoordinatorTransport, CoordinatorEventLike, CommandAcknowledgement } from "./adapters/live/coordinator-source.ts";
 import { LiveSession } from "./adapters/live/coordinator-source.ts";
-import { HostedSession } from "./adapters/host/hosted-session.ts";
+import { createHostedBrowserSession } from "./adapters/host/browser-session.ts";
 import { connectHostStream, detectHost, fetchTransport } from "./adapters/host/host-transport.ts";
 import { CampaignTruthPanel } from "./components/CampaignTruthPanel.tsx";
 import type { HostInfo } from "../../src/host/protocol.ts";
@@ -51,7 +51,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
     const signals: SignalDefinition[] = bundle.manifest.signals.map((signal) => ({ id: signal.id, direction: signal.direction, dataType: signal.dataType, role: signal.role, description: signal.description }));
     const outputIds = signals.filter((signal) => signal.direction === "plc_to_world").map((signal) => signal.id);
     const bridge = new LiveSession(new WorkspaceStore("live", signals), outputIds);
-    const hosted = host ? new HostedSession(new WorkspaceStore("live", signals), { transport: fetchTransport() }) : null;
+    const hosted = host ? createHostedBrowserSession(signals, fetchTransport()) : null;
     return {
       replay: new ReplaySession(bundle, new WorkspaceStore("replay", signals)),
       bridge,
@@ -137,6 +137,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
         mode={mode}
         liveAttached={!sessions.live.unavailableReason}
         liveDetail={liveDetail}
+        reviewingRecorded={host?.factory.evidenceClass === "preserved_live_plc"}
         onMode={(next) => {
           setMode(next);
           setSelection(null);
@@ -166,7 +167,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
         <main className="portal-main">
           {destination === 'Setup' && <><div className="page-heading"><div><div className="eyebrow">{mode} · engineering setup</div><h1>Conveyor bench setup</h1><p>Imported specification, raw signal contract and visible world assumptions.</p></div></div><div className="setup-grid"><div><ContextPanel bundle={bundle} /><HmiConfiguration source={hmiSource} onConfigure={setHmiSource} state={state} hosted={hmiControls} /></div><div>{plan}<details className="inspector-disclosure"><summary>Connection & authority</summary><ConnectionPanel state={state} nowMs={nowMs} /></details></div></div></>}
           {destination === 'Campaign' && <>
-            <div className="page-heading"><div><div className="eyebrow">{mode === 'replay' ? 'RECORDED CAMPAIGN · nothing here is live' : 'LIVE CAMPAIGN'}</div><h1>Conveyor bench campaign</h1></div><button className="btn primary" disabled={Boolean(startReason)} title={startReason} onClick={() => source.start()}>{mode === 'replay' ? 'Play recorded campaign' : 'Start campaign'}</button></div>
+            <div className="page-heading"><div><div className="eyebrow">{mode === 'replay' ? 'RECORDED CAMPAIGN · nothing here is live' : host?.factory.evidenceClass === 'preserved_live_plc' ? 'HOSTED REVIEW · recorded PLC/world evidence' : 'LIVE CAMPAIGN'}</div><h1>Conveyor bench campaign</h1></div><button className="btn primary" disabled={Boolean(startReason)} title={startReason} onClick={() => source.start()}>{mode === 'replay' ? 'Play recorded campaign' : 'Start campaign'}</button></div>
             {mode === 'live' && source.unavailableReason && <div className="source-notice"><b>{sessions.hosted ? 'Portal host unavailable.' : 'Live coordinator not attached.'}</b> {source.unavailableReason}</div>}
             {/* Hosted campaigns show the M9 experiments and findings; the built-in check cards would cite unrelated preserved checks. */}
             {hostedSource ? <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />

@@ -73,6 +73,7 @@ function humanizePurpose(purpose: string): string {
 }
 
 export function classifyActivity(state: WorkspaceState, nowMs: number): ActivityView {
+  const recordedEvidence = state.hosted?.evidenceClass === "preserved_live_plc";
   const episode = state.episode;
   const scale = episode?.timeScale ?? 1;
   const timed = episode ? episode.clock !== "discrete" : state.mode === "live";
@@ -125,6 +126,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   })();
 
   const connector: HealthPill = (() => {
+    if (recordedEvidence) return { label: "Connector", value: "recorded · no live link", tone: "neutral" };
     if (!episode?.connectorExpected) {
       if (episode?.world && !episode.plcIncluded) return { label: "Connector", value: "n/a · surrogate driver", tone: "neutral" };
       return { label: "Connector", value: conn.link === "none" ? "not attached" : "idle", tone: "neutral" };
@@ -136,6 +138,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   })();
 
   const plc: HealthPill = (() => {
+    if (recordedEvidence) return { label: "PLC", value: "recorded · not monitored", tone: "neutral" };
     if (!episode?.plcExpected) {
       if (episode?.world && !episode.plcIncluded) return { label: "PLC", value: "surrogate driver (no PLC)", tone: "neutral" };
       if (conn.bootIdentity) return { label: "PLC", value: `last boot ${conn.bootIdentity}`, tone: "neutral" };
@@ -148,6 +151,7 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   })();
 
   const world: HealthPill = (() => {
+    if (recordedEvidence) return { label: "World", value: "recorded · no live evolution", tone: "neutral" };
     if (!active && state.episode?.world) return { label: "World", value: "held · source clock stopped", tone: "paused" };
     if (flag?.state === "world_stalled") return { label: "World", value: `stalled ${formatSeconds(flag.elapsedMs)}${flag.exercise ? " (guard exercise)" : ""}`, tone: "stalled" };
     if (!episode?.worldExpected) {

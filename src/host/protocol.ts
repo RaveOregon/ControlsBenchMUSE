@@ -56,10 +56,15 @@ export interface HostBudgetLimits {
 }
 
 /** Static description of the host and the campaign factory it will use for Start Campaign. */
+export interface HostScopeDefinition {
+  mode: "categories";
+  choices: Array<{ id: string; title: string }>;
+  description: string;
+}
 export interface HostInfo {
   protocolVersion: typeof HOST_PROTOCOL_VERSION;
   hostId: string;
-  factory: { id: string; label: string; evidenceClass: HostEvidenceClass; claimBoundary: string; connectorId: string; supportsExitSimulation: boolean };
+  factory: { id: string; label: string; evidenceClass: HostEvidenceClass; claimBoundary: string; connectorId: string; supportsExitSimulation: boolean; scope?: HostScopeDefinition };
   limits: HostBudgetLimits;
   commandTimeoutMs: number;
   outputIds: string[];

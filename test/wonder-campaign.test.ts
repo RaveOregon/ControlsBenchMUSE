@@ -23,6 +23,7 @@ function transport(policy: (context: AgentContext, turn: number) => unknown | Pr
   const provider = new WonderResponsesProvider({ apiKey: "fixture-key-never-persist", explicitlyAuthorized: true, maxCalls: 5,
     journal: { append(record) { journal.push(structuredClone(record)); } }, fetch: (async (url: any, init: any) => {
       assert(init.signal); const body = JSON.parse(init.body); requests.push({ url: String(url), body });
+      assert.equal(body.tool_choice, "auto", "Live Meta preflight/generation support auto only");
       if (String(url).endsWith("input_tokens")) return Response.json({ input_tokens: options.inputTokens ?? 2000 });
       const context = JSON.parse(body.input.at(-1).content[0].text) as AgentContext;
       if (body.input[0]?.type === "function_call_output") context.results = JSON.parse(body.input[0].output).results;
@@ -47,6 +48,7 @@ test("W1: native multi-turn Responses decisions cause tools, exact observations,
   for (const context of contexts) for (const event of context.evidence) assert.deepEqual(event, h.ledger.getEvent(event.id));
   const calls = stub.requests.filter(r => r.url.endsWith("/responses"));
   assert.equal(calls[0].body.previous_response_id, undefined);
+  assert.equal(JSON.parse(calls[0].body.input.at(-1).content[0].text).providerBudget.remainingDecisionsAfterThis, 4);
   assert.equal(calls[1].body.previous_response_id, "response-1");
   assert.equal(calls[1].body.input[0].call_id, "call-1");
   assert.deepEqual(JSON.parse(calls[1].body.input[0].output).results, contexts[1].results);
@@ -135,6 +137,22 @@ test("W1: warning/hard-stop refuses a sixth call and retains valid evidence", as
   assert.equal(stub.generations, 5, JSON.stringify(h.ledger.events.filter(e => e.type === "campaign.state").at(-1)?.data)); assert.equal(h.runtime.status, "paused"); assert.equal(h.ledger.state.budget.campaignUsd, 5);
   assert(h.ledger.events.some(e => e.type === "budget.hard_stop"));
   assert(h.ledger.events.some(e => e.type === "plc.output")); assert.throws(() => h.runtime.resume(), /cannot resume/); await h.runtime.stop();
+});
+
+test("W1: oversized provider errors still settle the charge and hold without another turn", async () => {
+  let attempts = 0;
+  const h = await createHarness({ provider: { id: "verbose-failure-fixture", paid: true, estimatedRequestUsd: 1,
+    async decide() { attempts++; throw new Error("Provider failure: " + "details".repeat(3000)); }
+  }, paidAuthorized: true });
+  await h.runtime.start(false); await h.runtime.runAgent();
+  assert.equal(attempts, 1); assert.equal(h.runtime.status, "paused");
+  assert.equal(h.ledger.state.budget.campaignUsd, 1);
+  assert.equal(Object.keys(h.ledger.state.actions).length, 0);
+  const state = h.ledger.events.filter(e => e.type === "campaign.state").at(-1)!;
+  assert.match(String(state.data.reason), /^Model failed: Provider failure:/);
+  assert.match(String(state.data.reason), /no automatic retry$/);
+  assert(String(state.data.reason).length < 8000);
+  await h.runtime.stop(); assert.equal(h.runtime.getReport().status, "stopped");
 });
 
 test("W1: durable session charges span campaigns, lock concurrency, and retain crash reservations", () => {

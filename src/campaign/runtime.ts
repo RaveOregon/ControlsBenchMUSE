@@ -430,5 +430,9 @@ export class CampaignRuntime {
   #requireVisibleRefs(refs: string[]) {
     if (!refs.every(id => { const e = this.ledger.getEvent(id); return e?.visibility === "public" && (this.diagnosisMode !== "blind" || blindAllowed.has(e.type)); })) throw new ToolFailure("rejected", "Evidence is absent or hidden from this diagnosis context");
   }
-  #message(error: unknown): string { return error instanceof Error ? error.message : String(error); }
+  #message(error: unknown): string {
+    // Leave room for the surrounding state/action text in the 8,000-character ledger schema.
+    // A verbose provider/validation error must not prevent the hold and cost settlement.
+    return (error instanceof Error ? error.message : String(error)).slice(0, 4000) || "Unspecified failure";
+  }
 }

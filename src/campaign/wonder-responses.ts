@@ -48,16 +48,20 @@ export class WonderResponsesProvider implements CampaignProvider {
     try {
       assertLogicalContext({ signals: context.signals, capabilities: context.capabilities, evidence: context.evidence, results: context.results });
       const input: unknown[] = [];
+      const requestContext = { ...context, providerBudget: { decisionNumber: turn, maxDecisions: this.maxCalls,
+        remainingDecisionsAfterThis: this.maxCalls - turn } };
       if (this.#pendingCall) input.push({ type: "function_call_output", call_id: this.#pendingCall,
         output: JSON.stringify({ originatingDecision: this.#pendingCall, revision: context.state.revision,
           status: context.state.status, results: context.results }) });
       // Results travel once as paired tool output, not repeated inside the user state item.
-      input.push({ role: "user", content: [{ type: "input_text", text: JSON.stringify(this.#pendingCall ? { ...context, results: [] } : context) }] });
+      input.push({ role: "user", content: [{ type: "input_text", text: JSON.stringify(this.#pendingCall ? { ...requestContext, results: [] } : requestContext) }] });
       const body = { model: this.id, store: true, reasoning: { effort: "high", summary: "auto" },
         max_output_tokens: this.maxOutputTokens, parallel_tool_calls: false,
         ...(this.#previous ? { previous_response_id: this.#previous } : {}), instructions,
         tools: [{ type: "function", name: "campaign_decision", description: "Submit a plan, completion and ordered semantic calls to the bounded campaign runtime. Results arrive next turn.", parameters: decisionSchema, strict: false }],
-        tool_choice: { type: "function", name: "campaign_decision" },
+        // Meta's live endpoint rejects named/required choices (preserved W3 HTTP 400).
+        // Auto does not relax our one-new-decision-call validation below.
+        tool_choice: "auto",
         input: turn === 1 ? [{ role: "developer", content: [{ type: "input_text", text: JSON.stringify({ semanticTools: toolSchemas }) }] }, ...input] : input };
       if (Buffer.byteLength(JSON.stringify(body)) > 160_000) throw new Error("Compact context exceeds request byte limit; retrieve a smaller window");
       const countBody = { model: body.model, input: body.input, instructions: body.instructions, tools: body.tools,

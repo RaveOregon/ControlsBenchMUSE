@@ -159,6 +159,9 @@ export interface WorkspaceState {
   endedAtMs?: number;
   finalized: boolean;
   scope: Record<string, boolean>;
+  /** Explicit factory categories, separate from preserved per-check selections. */
+  categoryScope?: Record<string, boolean>;
+  scopeNotice?: string;
   checks: Record<string, CheckState>;
   checkOrder: string[];
   signals: SignalDefinition[];
@@ -285,6 +288,8 @@ export class WorkspaceStore {
     // The HMI session and host link outlive a campaign; command outcomes may still be pending.
     next.hmi = previous.hmi;
     next.host = previous.host;
+    next.categoryScope = previous.categoryScope;
+    next.scopeNotice = previous.scopeNotice;
     if (options.keepCommands) next.commands = { ...previous.commands };
     this.state = next;
     this.#emit();
@@ -297,6 +302,13 @@ export class WorkspaceStore {
   }
 
   setHostLink(link: HostLinkView): void {
+    const definition = link.info?.factory.scope;
+    if (definition?.mode === "categories") {
+      const old = this.state.categoryScope;
+      const narrowedChecks = Object.values(this.state.scope).some(value => !value);
+      this.state.categoryScope = Object.fromEntries(definition.choices.map(c => [c.id, old?.[c.id] ?? !narrowedChecks]));
+      if (!old && narrowedChecks) this.state.scopeNotice = "Your historical check deselections are retained. Select Wonder categories explicitly; none were authorized from the narrowed checklist.";
+    }
     this.state.host = link;
     this.#emit();
   }
@@ -327,7 +339,7 @@ export class WorkspaceStore {
       case "start":
         if (phase === "running" || phase === "paused" || phase === "budget_hold") return deny("A campaign is already active.");
         if (!simulated) return deny("Enter simulation before starting a campaign.");
-        if (!Object.values(this.state.scope).some(Boolean)) return deny("Select at least one check.");
+        if (!Object.values(this.campaignScope()).some(Boolean)) return deny(this.state.scopeNotice ?? "Select at least one check or category.");
         return { ok: true };
       case "pause":
         return phase === "running" ? { ok: true } : deny("Only a running campaign can pause.");
@@ -433,6 +445,13 @@ export class WorkspaceStore {
 
   setScope(ids: readonly string[], included: boolean): CommandResult {
     if (Object.values(this.state.commands).some(c => c.outcome === "pending") || this.state.phase === "running" || this.state.phase === "paused" || this.state.phase === "budget_hold") return { ok: false, reason: "Scope is locked once the campaign starts; steer Muse instead." };
+    if (this.state.host?.info?.factory.scope?.mode === "categories") {
+      const scope = { ...this.state.categoryScope };
+      if (ids.some(id => !Object.hasOwn(scope, id))) return { ok: false, reason: "This factory uses category selections; historical check selections remain separate." };
+      for (const id of ids) scope[id] = included;
+      this.state.categoryScope = scope; this.state.scopeNotice = undefined;
+      this.#emit(); return { ok: true };
+    }
     const scope = { ...this.state.scope };
     for (const id of ids) if (id in scope) scope[id] = included;
     this.state.scope = scope;
@@ -443,6 +462,7 @@ export class WorkspaceStore {
     this.#emit();
     return { ok: true };
   }
+  campaignScope(): Record<string, boolean> { return { ...(this.state.host?.info?.factory.scope ? this.state.categoryScope : this.state.scope) }; }
 
   steer(text: string, nowMs: number): CommandResult {
     const trimmed = text.trim();

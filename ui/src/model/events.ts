@@ -7,6 +7,7 @@
 export type RawValue = boolean | number | string | null;
 
 export interface ValueMetadata {
+  evidenceMode?: "recorded" | "current";
   quality?: "good" | "bad" | "unknown";
   freshness?: "current" | "held" | "stale" | "unknown";
   sourceTimestamp?: string;
@@ -37,10 +38,9 @@ export type SourceClock =
   | "live_wall"; // wall clock observed now
 
 export interface Provenance {
-  /** Presentation channel; prevents arbitrary replay events entering a live workspace. */
   mode: SourceMode;
-  /** Origin of physical evidence, independent of a currently hosted review/agent turn. */
-  sourceMode?: SourceMode;
+  /** Observation time is independent of the current host/review transport mode. */
+  evidenceMode?: "recorded" | "current";
   evidenceClass: EvidenceClass;
   /** Repo-relative artifact path, `replay:composer`, `workspace`, or `live:coordinator`. */
   source: string;

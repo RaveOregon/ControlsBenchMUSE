@@ -4,7 +4,7 @@ import type { ProvenanceCheck } from "../adapters/replay/fixtures.ts";
 import type { MuseEvent } from "../model/events.ts";
 import { formatClock, formatRaw, shortHash } from "../model/format.ts";
 import type { WorkspaceState } from "../model/workspace-store.ts";
-import { CLOCK_LABEL, evidenceTag } from "./labels.ts";
+import { CLOCK_LABEL, evidenceTag, eventEvidenceTag } from "./labels.ts";
 import type { Selection } from "./selection.ts";
 import type { CampaignEnvelope } from "../../../src/host/protocol.ts";
 
@@ -24,13 +24,12 @@ function eventBody(event: MuseEvent): Record<string, unknown> {
 
 function ProvenanceTable({ event }: { event: MuseEvent }) {
   const p = event.provenance;
-  const evidenceMode = p.sourceMode ?? p.mode;
-  const tag = evidenceTag(p.evidenceClass, evidenceMode);
+  const tag = eventEvidenceTag(p);
   return (
     <dl className="kv">
       <dt>Mode</dt>
       <dd>
-        <span className={`tag ${evidenceMode}`}>{evidenceMode === "replay" ? "replay — recorded, not live" : "live"}</span>
+        <span className={`tag ${p.mode}`}>{p.mode === "replay" ? "replay — recorded, not live" : p.evidenceMode === "recorded" ? "hosted review — recorded evidence" : "current hosted activity"}</span>
       </dd>
       <dt>Evidence class</dt>
       <dd>

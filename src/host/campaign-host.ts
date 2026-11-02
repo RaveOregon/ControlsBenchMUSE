@@ -79,7 +79,7 @@ export class CampaignHost {
   get info(): HostInfo {
     const f = this.factory;
     return { protocolVersion: HOST_PROTOCOL_VERSION, hostId: this.hostId,
-      factory: { id: f.id, label: f.label, evidenceClass: f.evidenceClass, claimBoundary: f.claimBoundary, connectorId: f.connectorId, supportsExitSimulation: f.supportsExitSimulation },
+      factory: { id: f.id, label: f.label, evidenceClass: f.evidenceClass, claimBoundary: f.claimBoundary, connectorId: f.connectorId, supportsExitSimulation: f.supportsExitSimulation, ...(f.scope ? { scope: f.scope } : {}) },
       limits: f.limits ?? { ...acceptedBudgetLimits }, commandTimeoutMs: this.commandTimeoutMs, outputIds: f.outputIds, serverNowIso: new Date().toISOString() };
   }
 

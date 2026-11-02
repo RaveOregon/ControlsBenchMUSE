@@ -4,28 +4,24 @@ import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { resolveWonderScope } from "../src/host/wonder-scope.ts";
-import { verifyOwnerEntry } from "../src/campaign/owner-entry.ts";
-import { defaultScope, allPlannedChecks } from "../ui/src/model/plan.ts";
+import { selectWonderScope, wonderScope } from "../src/host/wonder-scope.ts";
+import { verifyOwnerEntry } from "../src/campaign/owner-handoff.ts";
+import { defaultScope } from "../ui/src/model/plan.ts";
 import { CampaignHost } from "../src/host/campaign-host.ts";
 import { createCampaignFactory } from "../src/host/wonder-recorded-factory.ts";
 import { HostedSession } from "../ui/src/adapters/host/hosted-session.ts";
 import { WorkspaceStore } from "../ui/src/model/workspace-store.ts";
-import { evidenceTag } from "../ui/src/components/labels.ts";
+import { eventEvidenceTag } from "../ui/src/components/labels.ts";
 
-test("Wonder scope accepts the browser default and whole-group deselection without expanding partial checks or qualification rates", () => {
-  const scope = defaultScope();
-  const resolved = resolveWonderScope(scope);
-  assert.ok(resolved.categories.includes("functional"));
-  assert.ok(resolved.categories.includes("adaptive"));
-  assert.ok(resolved.qualificationReferences.includes("CQ-50"));
-  assert.ok(!resolved.categories.includes("CQ-50"));
-  for (const check of allPlannedChecks().filter(c => c.group === "faults")) scope[check.id] = false;
-  assert.ok(!resolveWonderScope(scope).categories.includes("faults"));
-  assert.throws(() => resolveWonderScope({ ...defaultScope(), "IO-1": false }), /individually deselected/);
-  assert.throws(() => resolveWonderScope({ "CQ-50": true }), /qualification references alone/);
-  assert.throws(() => resolveWonderScope({ invented: true }), /unknown check/);
-  assert.deepEqual(resolveWonderScope({ normal: true, adaptive: false }).categories, ["normal"]);
+test("Wonder scope uses the host's explicit categories and rejects legacy check/rate authorization", () => {
+  const scope = Object.fromEntries(wonderScope.choices.map(c => [c.id, true]));
+  const resolved = selectWonderScope(scope, wonderScope);
+  assert.ok(resolved.includes("functional")); assert.ok(resolved.includes("adaptive"));
+  scope.faults = false;
+  assert.ok(!selectWonderScope(scope, wonderScope).includes("faults"));
+  for (const legacy of [defaultScope(), { ...defaultScope(), "IO-1": false }, { "CQ-50": true }, { invented: true }, {}])
+    assert.throws(() => selectWonderScope(legacy, wonderScope), /explicit category selections/);
+  assert.deepEqual(selectWonderScope({ normal: true, adaptive: false }, wonderScope), ["normal"]);
 });
 
 test("Owner entry verification covers a tracked entry outside src/scripts and rejects changed or untracked code", () => {
@@ -38,9 +34,9 @@ test("Owner entry verification covers a tracked entry outside src/scripts and re
     writeFileSync(entry, "export const marker = 'pinned';\n");
     git("add", "adapter.ts"); git("commit", "-m", "pin offline fixture");
     const pin = git("rev-parse", "HEAD");
-    assert.equal(verifyOwnerEntry(entry, pin).entryPath, "adapter.ts");
+    assert.equal(verifyOwnerEntry(entry, pin).entryRelative, "adapter.ts");
     writeFileSync(entry, "export const marker = 'changed';\n");
-    assert.throws(() => verifyOwnerEntry(entry, pin), /entry differs/);
+    assert.throws(() => verifyOwnerEntry(entry, pin), /entry bytes differ/);
     writeFileSync(join(dir, "untracked.ts"), "throw new Error('must never import');\n");
     assert.throws(() => verifyOwnerEntry(join(dir, "untracked.ts"), pin));
   } finally { rmSync(dir, { recursive: true, force: true }); }
@@ -64,10 +60,10 @@ test("Production live HostedSession starts recorded review while physical eviden
     const output = store.state.timeline.find(e => e.kind === "plc.output")!;
     assert.ok(output);
     assert.equal(output.provenance.mode, "live", "presentation channel is the currently hosted review");
-    assert.equal(output.provenance.sourceMode, "replay", "physical evidence has its own historical origin");
+    assert.equal(output.provenance.evidenceMode, "recorded", "physical evidence has its own historical origin");
     assert.equal(output.provenance.clock, "recorded_wall");
-    assert.equal(evidenceTag(output.provenance.evidenceClass, output.provenance.sourceMode!).text, "PLC · recorded");
-    assert.ok(store.state.timeline.some(e => e.provenance.evidenceClass === "agent_record" && e.provenance.mode === "live" && !e.provenance.sourceMode));
+    assert.equal(eventEvidenceTag(output.provenance).text, "PLC · recorded");
+    assert.ok(store.state.timeline.some(e => e.provenance.evidenceClass === "agent_record" && e.provenance.mode === "live" && e.provenance.evidenceMode === "current"));
     assert.equal(store.state.episode?.plcIncluded, false, "historical samples do not start live PLC health expectations");
     assert.equal(store.state.episode?.connectorExpected, false);
     assert.equal(store.state.episode?.worldExpected, false);
