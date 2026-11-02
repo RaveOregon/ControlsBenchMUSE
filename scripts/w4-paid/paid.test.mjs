@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import test from 'node:test';
 import {pathToFileURL} from 'node:url';
-import {boundHostedCampaign, configuration, configureBoundedRuntime, fromPin, hash, json, pinned, readLedger, root, verifyAccountBaseline, writeHeldRecord} from './support.mjs';
+import {boundHostedCampaign, configuration, configureBoundedRuntime, fromPin, hash, json, pinned, readLedger, root, verifyAccountBaseline, writeHeldRecord, trialEnvelope} from './support.mjs';
 import {createCampaignFactory as paidFactory} from './factory.mjs';
 
 test('paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete', async () => {
@@ -14,7 +14,7 @@ test('paid factory refuses absent authorization, changed source and partial scop
   try {
     delete process.env.CONTROLSBENCH_W4_PACKET;delete process.env.CONTROLSBENCH_W4_APPROVAL_SHA256;
     assert.throws(()=>paidFactory(),/requires the reviewed packet/);
-    const packet={ownerCommit:configuration.sourceCommit,maximumNewConservativeUsd:4,maximumModelRequests:4,launchSourceHashes:{'scripts/w4-paid/support.mjs':'wrong'}};
+    const packet={ownerCommit:configuration.sourceCommit,maximumNewConservativeUsd:4,maximumModelRequests:4,sessionBaseline:{conservativeUsd:4},aggregateConservativeCeilingUsd:8,launchSourceHashes:{'scripts/w4-paid/support.mjs':'wrong'}};
     const text=JSON.stringify(packet),path=join(dir,'packet.json');writeFileSync(path,text);
     process.env.CONTROLSBENCH_W4_PACKET=path;process.env.CONTROLSBENCH_W4_APPROVAL_SHA256=hash(text);
     assert.throws(()=>paidFactory(),/Launch source changed/);
@@ -71,6 +71,36 @@ test('four simulated paid reservations stop before any fifth charge; no network 
     assert.equal(calls,4,JSON.stringify(ledger.events.filter(e=>e.type==='campaign.state')));assert.equal(account.spentUsd,4);assert.equal(runtime.budget.guard.leases.size,4);
     assert.equal(ledger.events.filter(e=>e.type==='budget.accounted'&&e.data.phase==='reserved').length,4);
     assert(ledger.events.some(e=>e.type==='campaign.state'&&/turn limit/.test(e.data.reason)));
+  } finally {account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
+});
+
+test('remaining approval refuses a reset and permits exactly three new reservations after the saved five', async () => {
+  const {CampaignLedger}=await fromPin('src/campaign/ledger.ts');
+  const {CampaignRuntime}=await fromPin('src/campaign/runtime.ts');
+  const {CampaignBudget}=await fromPin('src/campaign/budget.ts');
+  const {DurableSessionAccount}=await fromPin('src/campaign/session-account.ts');
+  const dir=mkdtempSync(join(tmpdir(),'w4-retry-cap-'));
+  const accountPath=join(dir,'account.jsonl');
+  const baseline=Array.from({length:5},(_,i)=>JSON.stringify({costUsd:1,totalUsd:i+1})).join('\n')+'\n';
+  writeFileSync(accountPath,baseline);
+  const packet={sessionBaseline:{conservativeUsd:5,sha256:hash(baseline)},maximumModelRequests:3,maximumNewConservativeUsd:3,aggregateConservativeCeilingUsd:8};
+  assert.equal(trialEnvelope(packet),3);
+  assert.throws(()=>trialEnvelope({...packet,maximumModelRequests:4,maximumNewConservativeUsd:4}),/Remaining original approval/);
+  assert.throws(()=>trialEnvelope({...packet,aggregateConservativeCeilingUsd:9}),/Original aggregate approval/);
+  assert.throws(()=>trialEnvelope({...packet,maximumModelRequests:0}),/Invalid request allowance/);
+  const ledger=new CampaignLedger('remaining-approval-fixture');
+  const account=new DurableSessionAccount(accountPath,'remaining-approval-fixture');
+  let calls=0;
+  try {
+    const runtime=new CampaignRuntime({ledger,provider:{id:'simulated-retry',paid:true,estimatedRequestUsd:1,async decide(){
+      const n=++calls;
+      return {decision:{summary:`Read-only fixture ${n}`,calls:[{id:`retry-${n}`,name:'inspect_evidence_window',arguments:{ids:[],afterSequence:0,throughSequence:ledger.state.sequence,limit:n}}]},costUsd:1};
+    }},budget:new CampaignBudget(ledger,undefined,5,account),paidAuthorized:true,evidenceClass:'fake_connector',claimBoundary:'Offline accounting only',categories:['normal'],spec:'fixture',signals:[],provenance:{spec:'fixture',ioMap:'fixture',plcBuild:'fixture',worldModule:'fixture',model:'fixture',connector:'none'}});
+    configureBoundedRuntime(runtime,packet);
+    assert.match(runtime.options.capabilities.engineerObjective.discretion,/3 model decisions/);
+    await runtime.start(false);await runtime.runAgent();await runtime.stop('fixture ended');
+    assert.equal(calls,3);assert.equal(account.spentUsd,8);assert.equal(runtime.budget.guard.leases.size,3);
+    assert.throws(()=>verifyAccountBaseline(packet,accountPath),/changed since/);
   } finally {account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
 });
 

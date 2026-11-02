@@ -24,6 +24,20 @@ export const objective = {
   boundaries: 'Preserved generated world 0.5.0; actual PLC build 8001/interface 1. No world/PLC edits, HMI operation, higher-rate qualification or automatic recovery. HMI pixels are separate engineer evidence.'
 };
 
+export function trialEnvelope(packet) {
+  const turns = packet.maximumModelRequests;
+  assert(Number.isInteger(turns) && turns >= 1 && turns <= 4, 'Invalid request allowance');
+  assert.equal(packet.maximumNewConservativeUsd, turns, 'Each attempt needs a conservative dollar');
+  assert.equal(packet.aggregateConservativeCeilingUsd, 8, 'Original aggregate approval is $8');
+  assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd) && packet.sessionBaseline.conservativeUsd >= 4);
+  assert(packet.sessionBaseline.conservativeUsd + turns <= 8, 'Remaining original approval would be exceeded');
+  return turns;
+}
+
+export function trialObjective(turns) {
+  return {...objective, discretion: objective.discretion.replace('Four model decisions', `${turns} model decisions`)};
+}
+
 /** Refuses a second/new campaign after this approval's baseline account has changed. */
 export function verifyAccountBaseline(packet, path = commonWonderPaths().session) {
   const bytes = existsSync(path) ? readFileSync(path) : Buffer.alloc(0);
@@ -36,6 +50,7 @@ export function verifyAccountBaseline(packet, path = commonWonderPaths().session
     assert.equal(record.costUsd, 1); assert.equal(record.totalUsd, ++total);
   }
   assert.equal(total, packet.sessionBaseline.conservativeUsd);
+  if (packet.aggregateConservativeCeilingUsd !== undefined) trialEnvelope(packet);
   assert(total + packet.maximumNewConservativeUsd <= 15, 'Durable session cap would be exceeded');
   return total;
 }
@@ -92,14 +107,15 @@ export function writeHeldRecord(directory, {allowOffline = false} = {}) {
 
 /** Reuse the provider/runtime unchanged. Limit before reservation so a fifth failed provider
  * call cannot consume another conservative dollar after four legitimate requests. */
-export function configureBoundedRuntime(runtime) {
-  runtime.options.maxTurns = 4;
-  runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: objective,
-    approvedRequestEnvelope: {maximumModelRequests: 4, maximumNewConservativeUsd: 4, source: 'reviewed one-campaign packet'}};
+export function configureBoundedRuntime(runtime, packet) {
+  const turns = packet ? trialEnvelope(packet) : 4;
+  runtime.options.maxTurns = turns;
+  runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: trialObjective(turns),
+    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, aggregateConservativeCeilingUsd: 8, source: 'remaining original approval; no accounting reset'}};
 }
 
-export function boundHostedCampaign(hosted, directory, {allowOffline = false} = {}) {
-  configureBoundedRuntime(hosted.runtime);
+export function boundHostedCampaign(hosted, directory, {allowOffline = false, packet} = {}) {
+  configureBoundedRuntime(hosted.runtime, packet);
   let finished;
   const dispose = () => finished ??= Promise.resolve(hosted.dispose?.());
   return {...hosted, dispose, async run() {
