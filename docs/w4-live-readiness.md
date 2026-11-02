@@ -41,3 +41,27 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\steve\Documents\Co
 The prepared launcher checks the manifest/proof hashes, the pinned HEAD and every tested source/frozen file, then prompts locally for the masked PLC password. It uses the exact tested source and skips repeating the already completed offline suite. The commissioning script still enforces the entry/preflight/ownership/read-only gates. This command makes **no writes**, performs no recovery and makes no model request. It records the current PLC baseline under `.worktrees/w4-commissioning-pin/artifacts/w4-commissioning/`.
 
 The launcher was syntax-checked and the manifest and owner entry verified offline. It has not been executed against a PLC. Share the inspection result, never the password, before the live commissioning run.
+
+## Live baseline inspected
+
+The user ran the prepared inspector successfully. Saved original: `.worktrees/w4-commissioning-pin/artifacts/w4-commissioning/2026-11-02T12-53-21-216Z/`. Native read-only baseline passed: boot `1664380500149`, Stopped, fault 0, motor command false, no item/completion pending, counters zero, simulation off, epoch/sequence 0. `wroteToPlc` is false. The endpoint alias warning did not prevent connection or inspection. This is a point-in-time observation; commissioning re-inspects before its first write.
+
+## Next live command sequence
+
+First PowerShell window, run the pinned live observer and leave it running:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-commissioning-pin\scripts\run-product.ps1" -Mode m8 -SkipBuild
+```
+
+Open `http://127.0.0.1:5190/` to see the live HMI tile. This portal is an observer during commissioning: do not start its separate deterministic campaign. The commissioning ledger/status comes from the harness in the second window.
+
+Second PowerShell window:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-live-readiness\artifacts\w4-readiness\e3469af\commission-plc.ps1"
+```
+
+The new launcher preserves source/manifest checks, additionally requires a live PLC HMI source and a current captured frame in an idle portal on :5190/:5191, and saves the observer identity/frame witness before the masked credential prompt. It then runs the existing pinned zero-model commissioning harness. This performs the declared PLC experiment; it makes no model request and does not recover/retry on failure. Both credential prompts remain local. On completion, share the result; preserve the observer process until the run has ended.
+
+The commissioning launcher was syntax-checked; its live observer preconditions and the new W4 runtime have not yet been exercised live. A passing read-only baseline is not a live commissioning pass.

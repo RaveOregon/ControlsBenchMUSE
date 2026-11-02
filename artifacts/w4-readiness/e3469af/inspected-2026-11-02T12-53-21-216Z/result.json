@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "contract": "controlsbench.w4-commissioning.v1",
+  "status": "inspected",
+  "scope": "live-m8",
+  "evidenceClass": "live_plc",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin\\artifacts\\w4-commissioning\\2026-11-02T12-53-21-216Z",
+  "startedAtIso": "2026-11-02T12:53:21.216Z",
+  "modelCalls": 0,
+  "paidCalls": 0,
+  "claimBoundary": "Zero-model W4 commissioning: declared deterministic commissioning steps and a scripted zero-cost lease provider through the isolated adapter. Not a Wonder decision, investigation, controller coverage or spend authorization.",
+  "loadNote": null,
+  "phases": [
+    {
+      "name": "preconditions",
+      "atIso": "2026-11-02T12:53:21.761Z",
+      "status": "pass"
+    },
+    {
+      "name": "baseline",
+      "atIso": "2026-11-02T12:53:31.346Z",
+      "status": "pass",
+      "summary": {
+        "bootIdentity": "1664380500149",
+        "appliedEpoch": "0",
+        "appliedSequence": "0",
+        "plcCycle": "3945",
+        "plcTimeUs": "1664460615838",
+        "simulationApplied": false,
+        "connectorStale": true,
+        "mode": "Stopped",
+        "faultCode": 0,
+        "itemActive": false,
+        "activeItemId": 0,
+        "completionPending": false,
+        "completionSequence": 0,
+        "motorRunCmd": false,
+        "counters": {
+          "CountExitA": 0,
+          "CountExitB": 0,
+          "CountRunout": 0,
+          "CountMisroute": 0,
+          "CountFaulted": 0
+        },
+        "stoppedBaselineMismatches": []
+      }
+    }
+  ],
+  "measurements": {},
+  "identities": {
+    "harness": {
+      "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+      "dirty": []
+    },
+    "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+    "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+    "specSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+    "node": "v24.15.0",
+    "module": {
+      "root": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin",
+      "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+      "entry": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin\\src\\live\\wonder-process\\index.ts",
+      "entryBlob": "e4d44773285dd9a8da22556bf826ab18baf4f332",
+      "entrySha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379",
+      "handoff": {
+        "path": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\e3469af\\manifest.json",
+        "sha256": "f866b8d7c9d4d7590b7752cd52e47f5ab422f89d8e96b0041d460e6ea20e0343"
+      }
+    },
+    "preflight": {
+      "projectUnchanged": true,
+      "runtimeOwned": false,
+      "legacySessionActive": false,
+      "nativeModuleAvailable": true,
+      "credentialsPresent": true,
+      "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+      "modulePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\codesys_handoff\\browser_hmi_handoff\\opcua_relay\\node_modules\\node-opcua",
+      "plcContacted": false,
+      "paidCalls": 0,
+      "ready": true
+    }
+  },
+  "child": null,
+  "wroteToPlc": false,
+  "evidenceHashes": {
+    "baseline.json": "852f6c6fe94e577d82c09e023b1f3d4189c480bd8bbaa9edffb1ff8eb4102f3e",
+    "inspection-transport.jsonl": "220a225f7691f76e91c2858b884b8decf7e39e689fe84cb57d56c71fd180c76b"
+  },
+  "finishedAtIso": "2026-11-02T12:53:31.351Z"
+}
