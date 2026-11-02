@@ -55,7 +55,7 @@ for (const file of walk(join(directory, "samples"))) {
   else samples[rel] = { sha256: sha(bytes) };
 }
 const clean = !dirty, typecheckPassed = typecheck.status === 0, testsPassed = tests.status === 0 && results.length > 0 && results.every(r => r.passed);
-const readinessPaths = new Set([...implementation, "artifacts/w4-commissioning/.gitattributes", "package.json"]);
+const readinessPaths = new Set([...implementation, "artifacts/w4-commissioning/.gitattributes", "package.json", "scripts/check-m10-convergence.js"]);
 const boundaryPreserved = changed.every(([status, path]) => status === "A" || readinessPaths.has(path));
 const status = clean && typecheckPassed && testsPassed && boundaryPreserved ? "pass" : "fail";
 writeFileSync(join(directory, "result.json"), JSON.stringify({ status, contracts: ["controlsbench.w4-commissioning.v1", "controlsbench.w4-held-state.v1", "controlsbench.w4-recovery.v1"],

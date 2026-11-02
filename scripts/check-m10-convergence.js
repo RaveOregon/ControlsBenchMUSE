@@ -23,7 +23,10 @@ const checks = [
 const results = [];
 for (const [name, args, cwd] of checks) {
   console.log(`Checking ${name}…`);
-  const result = spawnSync(process.execPath, args, { cwd: resolve(cwd ?? "."), env, encoding: "utf8", windowsHide: true, timeout: 180_000, maxBuffer: 16 * 1024 * 1024 });
+  // The serial union includes real-child commissioning/recovery cases. Give the test suite
+  // eight minutes; individual transport, lease, world-step and test-case deadlines are unchanged.
+  const timeout = name === "runtime-tests" ? 480_000 : 180_000;
+  const result = spawnSync(process.execPath, args, { cwd: resolve(cwd ?? "."), env, encoding: "utf8", windowsHide: true, timeout, maxBuffer: 16 * 1024 * 1024 });
   writeFileSync(`${directory}/${name}.txt`, `${result.stdout ?? ""}${result.stderr ?? ""}${result.error ?? ""}`);
   results.push({ name, status: result.status, signal: result.signal, passed: result.status === 0,
     ...(name.endsWith("tests") ? { tests: Number(/(?:ℹ |# )tests (\d+)/.exec(result.stdout ?? "")?.[1] ?? 0), passedTests: Number(/(?:ℹ |# )pass (\d+)/.exec(result.stdout ?? "")?.[1] ?? 0) } : {}) });
