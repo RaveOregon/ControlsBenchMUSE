@@ -42,6 +42,10 @@
     },
     "productionSourceMatchesVerifiedPin": true,
     "plcContacted": false,
-    "paidCalls": 0
-  }
+    "paidCalls": 0,
+    "offlineWorkflowSignoff": true,
+    "signoffScope": "requested offline workflow only; no live PLC/model, timing or recovery qualification"
+  },
+  "applicationBranch": "codex/product-integration",
+  "immutableRuntimeCheckoutCommit": "c77553cc8a455266916153da502ce820ad2ce69f"
 }
