@@ -28,3 +28,5 @@ artifacts/w4-paid/**/hmi-frames/
 artifacts/w4-paid/**/runtime-claim.json
 artifacts/w4-paid/**/journal.jsonl
 artifacts/w4-paid/timing-*/observer/
+artifacts/w4-paid/timing-*/observer.stdout.txt
+artifacts/w4-paid/timing-*/observer.stderr.txt

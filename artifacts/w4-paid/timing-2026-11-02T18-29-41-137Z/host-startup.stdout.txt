@@ -1,0 +1,6 @@
+CV-1 operator HMI http://127.0.0.1:5191/  [Live PLC · opc.tcp://127.0.0.1:4840]
+ControlsBench portal http://127.0.0.1:5190  (campaign factory: M8 live · full six-case deterministic campaign [live_plc])
+  portal HMI session: controlled headless browser on http://127.0.0.1:5191/?capture=portal
+  evidence: C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-live-readiness\artifacts\w4-paid\timing-2026-11-02T18-29-41-137Z\observer\runs\2026-11-02T18-29-49-910Z-live_plc
+  agent seam: POST http://127.0.0.1:5191/api/agent-actions/execute {"targetId":"cmd.stop","requester":"script"}
+18:29:53.109Z :client_base_impl              :122   Warning more than one endpoint matching ! opc.tcp://127.0.0.1:4840 opc.tcp://LAPTOP-F6AGVV7O:4840
