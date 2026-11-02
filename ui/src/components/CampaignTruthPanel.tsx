@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import type { CommandResult, WorkspaceState } from '../model/workspace-store.ts';
 import type { Selection } from './selection.ts';
 
-const CLASS_LABEL: Record<string, { text: string; title: string; cls: string }> = {
+export const HOST_EVIDENCE_LABEL: Record<string, { text: string; title: string; cls: string }> = {
   fake_connector: { text: 'FAKE CONNECTOR · no PLC', title: 'Deterministic fake PLC connector. No PLC behavior is evidenced.', cls: 'surrogate' },
   preserved_live_plc: { text: 'PRESERVED LIVE PLC · historical', title: 'Re-presented historical PLC evidence. No new PLC run.', cls: 'replay' },
   live_plc: { text: 'LIVE PLC', title: 'Actual running PLC through the live connector.', cls: 'live' }
@@ -23,7 +23,7 @@ export function CampaignTruthPanel({ state, actions, onSelect }: { state: Worksp
   const hosted = state.hosted;
   if (!hosted) return <section className="panel"><header><h2>M9 campaign record</h2><span className="tag">none</span></header><div className="body muted">{state.host ? 'No campaign yet. Start Campaign creates a new M9 ledger on the host.' : 'No portal host attached.'}</div></section>;
   const p = hosted.projection;
-  const badge = CLASS_LABEL[hosted.evidenceClass] ?? { text: hosted.evidenceClass, title: '', cls: '' };
+  const badge = HOST_EVIDENCE_LABEL[hosted.evidenceClass] ?? { text: hosted.evidenceClass, title: '', cls: '' };
   const connector = p?.connector as { state?: string; reason?: string; ageMs?: number } | undefined;
   const finalized = p && ['completed', 'failed', 'stopped'].includes(p.status);
   const recorded = hosted.evidenceClass === 'preserved_live_plc';

@@ -47,6 +47,12 @@ try {
     await browser.evaluate(`Array.from(document.querySelectorAll('button')).find(b=>b.textContent.trim()==='Campaign').click();true`);
     check("finalized connector observation does not claim current freshness", await browser.waitFor(`document.querySelector('[aria-label="M9 campaign record"]')?.textContent.includes('current freshness not monitored')`));
   }
+  await browser.evaluate(`Array.from(document.querySelectorAll('button')).find(b=>b.textContent.trim()==='Results').click();true`);
+  const expectedBadge = host.factory.evidenceClass === "fake_connector" ? "FAKE CONNECTOR · no PLC" : "PRESERVED LIVE PLC · historical";
+  check("Results preserves the actual physical evidence class", await browser.waitFor(`document.querySelector('[aria-label="Campaign result source"] .tag')?.textContent===${JSON.stringify(expectedBadge)}`));
+  check("hosted export uses the authoritative report endpoint", await browser.evaluate(`document.querySelector('a[download][href="/api/campaign/report"]')?.textContent==='Export evidence report'`));
+  const exported = await (await read(`${url}/api/campaign/report`)).json();
+  check("exported report retains campaign identity, findings and evidence class", exported.campaignId === report.campaignId && exported.evidenceClass === host.factory.evidenceClass && JSON.stringify(exported.findings) === JSON.stringify(report.findings));
   writeFileSync(`${out}/campaign.jsonl`, await (await read(`${url}/api/campaign/ledger`)).text());
   writeFileSync(`${out}/hmi-frame.jpg`, bytes);
   writeFileSync(`${out}/portal.png`, await browser.screenshot());
