@@ -123,6 +123,24 @@ This is an extension point, not an acquisition system. No reader, recording form
 
 Channels are allocated contiguously per bank in declaration order; append new channels to keep existing indices.
 
+## Build record: prototype-0.2.0.0
+
+Built 2026-11-02 02:31–02:32 UTC from clean commit `1eb0f4a6b76b012bffbd5f0d83666ac73190277e` with CODESYS 3.5.22.30, profile `CODESYS V3.5 SP22 Patch 3`, File-Based Storage 1.0.0.0. All eleven compiler checkpoints report zero errors and zero warnings. Consumer template `codesys/conveyordemo.project` SHA-256 `6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628` before and after. `builds/prototype-0.2.0.0/result.json` lists all 58 source hashes, 9 artifacts and 26 native files.
+
+| Artifact | SHA-256 |
+|---|---|
+| `ControlsBenchCore.library` | `f93830deb88470aa40c80cfc457a33ad37e5cc7c888554859c3e84265956a939` |
+| `ControlsBenchCore.compiled-library` (from binary) | `ddc166e68db2f58753be5175e129dde58ab822904142e96aa83f957de6393796` |
+| `ControlsBenchCore.fbs.compiled-library` (from native FBS) | `a93114d5d3dae9a8dbadde99a4696748edc211aa2e07e03677e0bc4b0f6a0cab` |
+| `consumers-binary/ControlsBenchConsumer.library` | `ce2da66dc188071d7c2d8a704198f2a57eef914031fce87c6af04aa4636bc551` |
+| `consumers-binary/ControlsBenchConsumer.compiled-library` | `fdb1d6992f55dd11d84070d776c7d8ddef30151e6166542ce28d4d74ce92d0f7` |
+| `consumers-binary/ControlsBenchConsumer.project` | `7cba9d5e418c09f076b412d875e71315f8fb157a9d1c2c25446c1f92b962745e` |
+| `consumers-fbs/ControlsBenchConsumer.library` | `7b751e5238feb4baa7c3bf1dfa48acd9faaca4b195c9b6535d42ef102b336be8` |
+| `consumers-fbs/ControlsBenchConsumer.compiled-library` | `8d4e7414d51e3af817d6d10901140151d7ef02bfb14ab330b59111007007d5bf` |
+| `consumers-fbs/ControlsBenchConsumer.project` | `82c3bbd650ddd0f28b0e7688f3115afcd17e10c18f240a6578886f8cc73da964` |
+
+Generated map identities: `conveyor-m8` SchemaId `16#C69AC9A1`, no taps; `tank-loop` SchemaId `16#908F6F3C`, TapSchemaId `16#A7F251A8`.
+
 ## Verification scope
 
 `examples/FB_CB_ConsumerChecks.st` has 46 cases across five session instances: passthrough and exact raw boundaries, raw-zero entry, every rejection class, representation limits, NaN bit preservation, timeouts at two call periods, heartbeat-only recovery, epoch rules, idle requests, all resets, exit, reinitialization, boot/clock/config latches, invalid configuration, output taps and suppression, capture, observation provenance and gap counters, independent domains, and both generated maps. It sets `Done`, `Passed`, `FailedCase` and `CasesRun` **when executed**. This lane compiled it; it has not been executed (gate G-RT-1).

@@ -1,0 +1,42 @@
+{attribute 'qualified_only'}
+NAMESPACE GVL_CB
+VAR_GLOBAL CONSTANT
+    // Interface versions. The package version is the library project version (VERSIONING.md).
+    API_VERSION_MAJOR : UINT := 0;
+    API_VERSION_MINOR : UINT := 2;
+    PROTOCOL_VERSION : UDINT := 2; // request, slot and status semantics of this raw-bank profile
+    FRAME_FORMAT_VERSION : UDINT := 1; // ST_CB_ObservationFrame layout and meaning
+    // Fixed capacities of ST_CB_Image. Configured channels occupy indices 0..Count-1.
+    DIGITAL_CAPACITY : UINT := 64;
+    SIGNED_CAPACITY : UINT := 32;
+    UNSIGNED_CAPACITY : UINT := 32;
+    REAL_CAPACITY : UINT := 16;
+    NO_SLOT : USINT := 255;
+    // Status.ConsumedResult: outcome of the last request event the session consumed.
+    RESULT_NONE : UINT := 0;
+    RESULT_ACCEPTED : UINT := 1;
+    RESULT_IDLE_CLEARED : UINT := 2;
+    RESULT_INVALID_SLOT : UINT := 3;
+    RESULT_INCOMPLETE_SLOT : UINT := 4;
+    RESULT_METADATA_MISMATCH : UINT := 5;
+    RESULT_DUPLICATE : UINT := 6;
+    RESULT_STALE : UINT := 7;
+    RESULT_EPOCH_REJECTED : UINT := 8;
+    RESULT_REPRESENTATION : UINT := 9;
+    RESULT_NOT_SIMULATED : UINT := 10;
+    RESULT_CONFIG_INVALID : UINT := 11;
+    RESULT_RECONFIGURE_REQUIRED : UINT := 12;
+    RESULT_SESSION_RESET : UINT := 13;
+    RESULT_SIMULATION_RESET : UINT := 14;
+    RESULT_SIMULATION_ENTRY : UINT := 15;
+    RESULT_REINITIALIZED : UINT := 16;
+    // Status.RejectBank: bank of the first channel that failed representation checks.
+    BANK_NONE : USINT := 0;
+    BANK_DIGITAL : USINT := 1;
+    BANK_SIGNED : USINT := 2;
+    BANK_UNSIGNED : USINT := 3;
+    BANK_REAL : USINT := 4;
+    // ST_CB_ObservationFrame.CapturePhase.
+    PHASE_POST_OUTPUT : USINT := 2;
+END_VAR
+END_NAMESPACE
