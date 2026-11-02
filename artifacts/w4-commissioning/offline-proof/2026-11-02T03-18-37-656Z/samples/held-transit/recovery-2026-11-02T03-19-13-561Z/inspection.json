@@ -1,0 +1,270 @@
+{
+  "heldStateSha256": "c1dc5b92870d4dc8d928dbec2f3ed5e5886517119a6d65e0184acf3162bf40b7",
+  "observation": {
+    "observedAtIso": "2026-11-02T03:19:13.594Z",
+    "observedAtMonotonicMs": 314.2956,
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "78616636617495",
+    "appliedSequence": "999",
+    "plcCycle": "13",
+    "plcTimeUs": "1300000",
+    "outputCaptureCycle": "13",
+    "outputCaptureTimeUs": "1300000",
+    "connectorStale": false,
+    "simulationApplied": true,
+    "values": {
+      "Motor_RunCmd": false,
+      "D1_ExtendCmd": false,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": true,
+      "StackLight_Green": false,
+      "controller.Mode": 3,
+      "controller.ModeText": "Faulted",
+      "controller.FaultCode": 33,
+      "controller.FaultText": "Carton transit timeout",
+      "controller.ExceptionCode": 0,
+      "controller.ExceptionText": "",
+      "controller.ReleaseReady": false,
+      "controller.ItemActive": false,
+      "controller.ActiveItemId": 401,
+      "controller.RequestedRoute": 1,
+      "controller.EffectiveRoute": 0,
+      "controller.ActualExit": 0,
+      "controller.Disposition": 4,
+      "controller.OfferAckSequence": 1,
+      "controller.OfferAckItemId": 401,
+      "controller.OfferAccepted": true,
+      "controller.OfferReason": 0,
+      "controller.OfferPending": false,
+      "controller.CompletionSequence": 1,
+      "controller.CompletionPending": true,
+      "controller.CompletionItemId": 401,
+      "controller.CompletionRoute": 1,
+      "controller.CompletionExit": 0,
+      "controller.CompletionDisposition": 4,
+      "controller.CountExitA": 0,
+      "controller.CountExitB": 0,
+      "controller.CountRunout": 0,
+      "controller.CountMisroute": 0,
+      "controller.CountFaulted": 1,
+      "controller.StartAck": 1,
+      "controller.StopAck": 0,
+      "controller.ResetAck": 1,
+      "controller.StartAccepted": true,
+      "controller.ResetAccepted": true,
+      "controller.EncoderDelta": 0
+    },
+    "outputQuality": {
+      "Motor_RunCmd": "good",
+      "D1_ExtendCmd": "good",
+      "D2_ExtendCmd": "good",
+      "StackLight_Red": "good",
+      "StackLight_Green": "good",
+      "controller.Mode": "good",
+      "controller.ModeText": "good",
+      "controller.FaultCode": "good",
+      "controller.FaultText": "good",
+      "controller.ExceptionCode": "good",
+      "controller.ExceptionText": "good",
+      "controller.ReleaseReady": "good",
+      "controller.ItemActive": "good",
+      "controller.ActiveItemId": "good",
+      "controller.RequestedRoute": "good",
+      "controller.EffectiveRoute": "good",
+      "controller.ActualExit": "good",
+      "controller.Disposition": "good",
+      "controller.OfferAckSequence": "good",
+      "controller.OfferAckItemId": "good",
+      "controller.OfferAccepted": "good",
+      "controller.OfferReason": "good",
+      "controller.OfferPending": "good",
+      "controller.CompletionSequence": "good",
+      "controller.CompletionPending": "good",
+      "controller.CompletionItemId": "good",
+      "controller.CompletionRoute": "good",
+      "controller.CompletionExit": "good",
+      "controller.CompletionDisposition": "good",
+      "controller.CountExitA": "good",
+      "controller.CountExitB": "good",
+      "controller.CountRunout": "good",
+      "controller.CountMisroute": "good",
+      "controller.CountFaulted": "good",
+      "controller.StartAck": "good",
+      "controller.StopAck": "good",
+      "controller.ResetAck": "good",
+      "controller.StartAccepted": "good",
+      "controller.ResetAccepted": "good",
+      "controller.EncoderDelta": "good"
+    }
+  },
+  "activeImage": {
+    "PE_Entry": true,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": true,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0.5,
+    "Drive_Current": 4.699999809265137,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 463
+  },
+  "classification": {
+    "path": null,
+    "supported": false,
+    "refusals": [
+      "applied epoch/sequence is the run's own last or in-flight commit",
+      "active raw image equals that commit's image exactly"
+    ],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": false,
+        "detail": {
+          "current": {
+            "epoch": "78616636617495",
+            "sequence": "999"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "78616636617495",
+              "sequence": "13"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": false
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      }
+    ],
+    "plan": [],
+    "matchedCommit": null,
+    "landedCommands": [],
+    "differences": {
+      "Motor_RunCmd": [
+        true,
+        false
+      ],
+      "D1_ExtendCmd": [
+        true,
+        false
+      ],
+      "StackLight_Red": [
+        false,
+        true
+      ],
+      "StackLight_Green": [
+        true,
+        false
+      ],
+      "controller.Mode": [
+        1,
+        3
+      ],
+      "controller.ModeText": [
+        "Auto",
+        "Faulted"
+      ],
+      "controller.FaultCode": [
+        0,
+        33
+      ],
+      "controller.FaultText": [
+        "",
+        "Carton transit timeout"
+      ],
+      "controller.ItemActive": [
+        true,
+        false
+      ],
+      "controller.Disposition": [
+        0,
+        4
+      ],
+      "controller.CompletionSequence": [
+        0,
+        1
+      ],
+      "controller.CompletionPending": [
+        false,
+        true
+      ],
+      "controller.CompletionItemId": [
+        0,
+        401
+      ],
+      "controller.CompletionRoute": [
+        0,
+        1
+      ],
+      "controller.CompletionDisposition": [
+        0,
+        4
+      ],
+      "controller.CountFaulted": [
+        0,
+        1
+      ]
+    }
+  }
+}

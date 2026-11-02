@@ -1,0 +1,21 @@
+{"atIso":"2026-11-02T03:19:08.918Z","atMonotonicMs":732.2299,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":63656,"nonce":"7af3baa15aec79b5","node":"v24.15.0","timeOriginEpochMs":1793589548782.631},"priority":-7}
+{"atIso":"2026-11-02T03:19:08.919Z","atMonotonicMs":733.4247,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T03:19:08.933Z","atMonotonicMs":747.3939,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":14}
+{"atIso":"2026-11-02T03:19:08.944Z","atMonotonicMs":758.934,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T03:19:09.139Z","atMonotonicMs":953.3049,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":194}
+{"atIso":"2026-11-02T03:19:09.142Z","atMonotonicMs":956.2758,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T03:19:09.143Z","atMonotonicMs":957.4994,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T03:19:09.169Z","atMonotonicMs":984.1006,"kind":"request","id":4,"op":"controller","actionId":"w4-1-operator_action","name":"operator_action","action":"reset","campaignRevision":7,"boundaryRevision":2}
+{"atIso":"2026-11-02T03:19:09.177Z","atMonotonicMs":991.7905,"kind":"reply","id":4,"op":"controller","ok":true,"boundaryRevision":3,"throughSeq":29,"elapsedMs":8}
+{"atIso":"2026-11-02T03:19:09.181Z","atMonotonicMs":996.1682,"kind":"request","id":5,"op":"controller","actionId":"w4-2-operator_action","name":"operator_action","action":"start","campaignRevision":8,"boundaryRevision":3}
+{"atIso":"2026-11-02T03:19:09.191Z","atMonotonicMs":1005.8518,"kind":"reply","id":5,"op":"controller","ok":true,"boundaryRevision":4,"throughSeq":30,"elapsedMs":10}
+{"atIso":"2026-11-02T03:19:09.608Z","atMonotonicMs":1422.7156,"kind":"request","id":6,"op":"controller","actionId":"w4-3-assign_route","name":"assign_route","action":"offer","campaignRevision":9,"boundaryRevision":4}
+{"atIso":"2026-11-02T03:19:09.616Z","atMonotonicMs":1431.0377,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":60,"elapsedMs":8}
+{"atIso":"2026-11-02T03:19:09.621Z","atMonotonicMs":1435.6207,"kind":"request","id":7,"op":"apply","actionId":"w4-4-introduce_carton","name":"introduce_carton","campaignRevision":10,"boundaryRevision":5,"controlId":"carton.introduce"}
+{"atIso":"2026-11-02T03:19:09.718Z","atMonotonicMs":1532.7939,"kind":"reply","id":7,"op":"apply","ok":true,"boundaryRevision":6,"throughSeq":75,"elapsedMs":97}
+{"atIso":"2026-11-02T03:19:10.493Z","atMonotonicMs":2307.2957,"kind":"request","id":8,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T03:19:10.494Z","atMonotonicMs":2308.4128,"kind":"reply","id":8,"op":"hold","ok":true,"boundaryRevision":7,"throughSeq":135,"elapsedMs":1}
+{"atIso":"2026-11-02T03:19:10.496Z","atMonotonicMs":2310.7359,"kind":"request","id":9,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-02T03:19:10.502Z","atMonotonicMs":2316.8646,"kind":"reply","id":9,"op":"close","ok":true,"boundaryRevision":7,"throughSeq":137,"elapsedMs":6}
+{"atIso":"2026-11-02T03:19:10.517Z","atMonotonicMs":2331.3594,"kind":"child.exit","code":0,"signal":null,"lastSeq":137}
+{"atIso":"2026-11-02T03:19:10.517Z","atMonotonicMs":2332.1756,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\AppData\\Local\\Temp\\w4-transit-gYn56t\\offline.lock","boundaryRevision":7,"lastSeq":137},"exit":{"code":0,"signal":null},"killed":false}

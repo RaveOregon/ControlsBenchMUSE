@@ -1,0 +1,222 @@
+{
+  "heldStateSha256": "49a5f1445b87b840d8023a723c50a45ced495718f400c8c6d5b66a66b09828ee",
+  "observation": {
+    "observedAtIso": "2026-11-02T03:19:22.538Z",
+    "observedAtMonotonicMs": 515.0288,
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "121271404063226",
+    "appliedSequence": "5",
+    "plcCycle": "5",
+    "plcTimeUs": "500000",
+    "outputCaptureCycle": "5",
+    "outputCaptureTimeUs": "500000",
+    "connectorStale": false,
+    "simulationApplied": true,
+    "values": {
+      "Motor_RunCmd": true,
+      "D1_ExtendCmd": false,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": false,
+      "StackLight_Green": true,
+      "controller.Mode": 1,
+      "controller.ModeText": "Auto",
+      "controller.FaultCode": 0,
+      "controller.FaultText": "",
+      "controller.ExceptionCode": 0,
+      "controller.ExceptionText": "",
+      "controller.ReleaseReady": true,
+      "controller.ItemActive": false,
+      "controller.ActiveItemId": 0,
+      "controller.RequestedRoute": 0,
+      "controller.EffectiveRoute": 0,
+      "controller.ActualExit": 0,
+      "controller.Disposition": 0,
+      "controller.OfferAckSequence": 0,
+      "controller.OfferAckItemId": 0,
+      "controller.OfferAccepted": false,
+      "controller.OfferReason": 0,
+      "controller.OfferPending": false,
+      "controller.CompletionSequence": 0,
+      "controller.CompletionPending": false,
+      "controller.CompletionItemId": 0,
+      "controller.CompletionRoute": 0,
+      "controller.CompletionExit": 0,
+      "controller.CompletionDisposition": 0,
+      "controller.CountExitA": 0,
+      "controller.CountExitB": 0,
+      "controller.CountRunout": 0,
+      "controller.CountMisroute": 0,
+      "controller.CountFaulted": 0,
+      "controller.StartAck": 1,
+      "controller.StopAck": 0,
+      "controller.ResetAck": 1,
+      "controller.StartAccepted": true,
+      "controller.ResetAccepted": true,
+      "controller.EncoderDelta": 24
+    },
+    "outputQuality": {
+      "Motor_RunCmd": "good",
+      "D1_ExtendCmd": "good",
+      "D2_ExtendCmd": "good",
+      "StackLight_Red": "good",
+      "StackLight_Green": "good",
+      "controller.Mode": "good",
+      "controller.ModeText": "good",
+      "controller.FaultCode": "good",
+      "controller.FaultText": "good",
+      "controller.ExceptionCode": "good",
+      "controller.ExceptionText": "good",
+      "controller.ReleaseReady": "good",
+      "controller.ItemActive": "good",
+      "controller.ActiveItemId": "good",
+      "controller.RequestedRoute": "good",
+      "controller.EffectiveRoute": "good",
+      "controller.ActualExit": "good",
+      "controller.Disposition": "good",
+      "controller.OfferAckSequence": "good",
+      "controller.OfferAckItemId": "good",
+      "controller.OfferAccepted": "good",
+      "controller.OfferReason": "good",
+      "controller.OfferPending": "good",
+      "controller.CompletionSequence": "good",
+      "controller.CompletionPending": "good",
+      "controller.CompletionItemId": "good",
+      "controller.CompletionRoute": "good",
+      "controller.CompletionExit": "good",
+      "controller.CompletionDisposition": "good",
+      "controller.CountExitA": "good",
+      "controller.CountExitB": "good",
+      "controller.CountRunout": "good",
+      "controller.CountMisroute": "good",
+      "controller.CountFaulted": "good",
+      "controller.StartAck": "good",
+      "controller.StopAck": "good",
+      "controller.ResetAck": "good",
+      "controller.StartAccepted": "good",
+      "controller.ResetAccepted": "good",
+      "controller.EncoderDelta": "good"
+    }
+  },
+  "activeImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": true,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0.219650000333786,
+    "Drive_Current": 4.419650077819824,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 24
+  },
+  "classification": {
+    "path": "held-running",
+    "supported": true,
+    "refusals": [],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "121271404063226",
+            "sequence": "5"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "121271404063226",
+              "sequence": "5"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "uncertain write GVL_DemoWrite.OfferSequence is resolvable by observation",
+        "ok": true
+      },
+      {
+        "check": "held image is the running at-rest image (no carton, no overload)",
+        "ok": true,
+        "detail": []
+      }
+    ],
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {},
+    "evidenceBasis": "H2 recovery-2026-11-01T15-12-24-875Z (held-running) passed live with this sequence"
+  }
+}
