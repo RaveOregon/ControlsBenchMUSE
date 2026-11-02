@@ -1,0 +1,1 @@
+{"status":"pass","checks":12,"directory":"artifacts/w4-convergence/2026-11-02T02-41-56-979Z/product-preview/browser"}

@@ -1,0 +1,7 @@
+{
+  "status": "superseded_candidate",
+  "sourceCommit": "265242b5c354e00373d51de3dc8d94ca66df5b73",
+  "reason": "Lane C later found Results/export provenance defects, corrected in c77553c and requalified in the final proof. Do not use this earlier commissioning candidate.",
+  "latest": "artifacts/w4-convergence/handoff-latest.json",
+  "liveRun": false
+}

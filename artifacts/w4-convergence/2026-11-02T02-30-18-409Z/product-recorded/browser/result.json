@@ -1,0 +1,16 @@
+{
+  "status": "fail",
+  "checks": [
+    "explicit zero-cost preview/review factory",
+    "HMI source is visibly a fixture",
+    "production browser attaches to host",
+    "Muse-generated machine view mounted",
+    "portal displays captured HMI pixels",
+    "HMI tile frame bytes match capture hash",
+    "Setup names the actual configured factory",
+    "Start Campaign is available"
+  ],
+  "error": "TypeError: fetch failed",
+  "plcContacted": false,
+  "paidCalls": 0
+}

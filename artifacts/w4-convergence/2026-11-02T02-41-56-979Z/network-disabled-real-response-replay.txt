@@ -1,0 +1,10 @@
+✔ W4 integration: native provider framing, real child, host ledger/HMI, tools, leases and observation-dependent fixture investigation (2247.4308ms)
+✔ recorded real-Wonder replies replay offline through native lineage, semantic tools and exact-claim report (10452.5703ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13424.8551

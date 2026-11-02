@@ -1,0 +1,32 @@
+{
+  "status": "offline_integration_pass_live_not_run",
+  "qualifyingSourceCommit": "c77553cc8a455266916153da502ce820ad2ce69f",
+  "proof": "artifacts/w4-convergence/2026-11-02T02-54-23-676Z/result.json",
+  "manifest": "artifacts/w4-convergence/handoff-c77553c/manifest.json",
+  "manifestSha256": "4418cdcb766b586292eb4cc3dfd49b0350c125c06e16b609eeb007cd67d190c3",
+  "entryValidation": "artifacts/w4-convergence/handoff-c77553c/entry-validation.json",
+  "preparedCheckout": "C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-runtime-pin",
+  "module": "src/live/wonder-process/index.ts",
+  "runtimeTests": 178,
+  "uiTests": 51,
+  "browserChecks": {
+    "preservedM10": 13,
+    "wonderStart": 13,
+    "preview": 15,
+    "recorded": 14,
+    "previewQA": 9,
+    "recordedQA": 11
+  },
+  "recordedH2Audits": [
+    13,
+    13,
+    13
+  ],
+  "W3": "partial; no real-model novel adaptive follow-up",
+  "W4": "live not run; native zero-model commissioning, final QA and new paid/export approval remain separate",
+  "actualModelCalls": 0,
+  "actualSpendUsd": 0,
+  "sharedConservativeAccountChanged": false,
+  "previousApprovalRemainingUsd": 0,
+  "plcContacted": false
+}

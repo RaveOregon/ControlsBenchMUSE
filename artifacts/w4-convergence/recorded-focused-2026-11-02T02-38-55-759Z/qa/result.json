@@ -1,0 +1,94 @@
+{
+  "factory": {
+    "id": "wonder-recorded-stub",
+    "label": "Recorded M10 · offline multi-turn provider fixture",
+    "evidenceClass": "preserved_live_plc",
+    "claimBoundary": "Recorded historical M10 PLC evidence, deterministic stub decisions; no new PLC or paid Wonder calls.",
+    "connectorId": "recorded-m10-read-only",
+    "supportsExitSimulation": false,
+    "scope": {
+      "mode": "categories",
+      "choices": [
+        {
+          "id": "evidence",
+          "title": "Recorded M10 evidence review"
+        },
+        {
+          "id": "adaptive",
+          "title": "Recorded evidence comparison"
+        }
+      ],
+      "description": "This fixed offline review requires both categories. It reviews recorded evidence and performs no new PLC actions or paid model calls. Historical per-check selections are retained separately."
+    }
+  },
+  "identity": {
+    "kind": "fixture",
+    "label": "FIXTURE · M10 final held state",
+    "fixtureId": "m10-final-held",
+    "fixtureBasis": "recorded 2026-11-01T00:59:48.814Z in artifacts/m10/2026-11-01T00-58-43-185Z/transport.jsonl.gz (sha256 750f0494eac0…); command acknowledgements emulated by the fixture, not M8"
+  },
+  "frame": {
+    "reference": "hmi-frame:hmi-655087d5-eacf-4643-af2c-14c1891370b1:9",
+    "sessionId": "hmi-655087d5-eacf-4643-af2c-14c1891370b1",
+    "frameSequence": 9,
+    "capturedAtIso": "2026-11-02T02:39:33.907Z",
+    "requestedAtIso": "2026-11-02T02:39:33.831Z",
+    "contentType": "image/jpeg",
+    "byteLength": 147566,
+    "sha256": "456476e189d2cef25ac7dab6478a3528b5688e331f4dd858bd740da51670a619",
+    "mediaUrl": "/api/hmi/frames/hmi-655087d5-eacf-4643-af2c-14c1891370b1/9",
+    "pageUrl": "http://127.0.0.1:64817/?capture=portal"
+  },
+  "overflow": {
+    "viewport": 390,
+    "scrollWidth": 453
+  },
+  "checks": [
+    {
+      "name": "hosted portal",
+      "pass": true
+    },
+    {
+      "name": "historical physical evidence label",
+      "pass": true
+    },
+    {
+      "name": "recorded events marked",
+      "pass": true
+    },
+    {
+      "name": "operation: fixture identity visible",
+      "pass": true
+    },
+    {
+      "name": "operation: footer does not claim every value is an observed PLC sample",
+      "pass": true
+    },
+    {
+      "name": "alarms: fixture identity visible",
+      "pass": true
+    },
+    {
+      "name": "alarms: footer does not claim every value is an observed PLC sample",
+      "pass": true
+    },
+    {
+      "name": "engineering: fixture identity visible",
+      "pass": true
+    },
+    {
+      "name": "engineering: footer does not claim every value is an observed PLC sample",
+      "pass": true
+    },
+    {
+      "name": "capture SHA-256 matches frame bytes",
+      "pass": true
+    },
+    {
+      "name": "390px viewport has no page-wide overflow",
+      "pass": false
+    }
+  ],
+  "plcContacted": false,
+  "paidCalls": 0
+}

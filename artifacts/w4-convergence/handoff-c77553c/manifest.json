@@ -1,0 +1,120 @@
+{
+  "contract": "controlsbench.wonder-process.v1",
+  "ownerCommit": "c77553cc8a455266916153da502ce820ad2ce69f",
+  "module": "src/live/wonder-process/index.ts",
+  "implementationCommit": "9e98da72ed667368078922a8a5233b08886a8476",
+  "checks": {
+    "isolation": {
+      "file": "../../w4-process/2026-11-02T00-02-35-343Z/isolation.json",
+      "sha256": "5f33de1b52722d6316aa3b2de91bb83b4df5b661b6738aa83f816f56c15336c0"
+    },
+    "recovery": {
+      "file": "../../w4-process/2026-11-02T00-02-35-343Z/recovery.json",
+      "sha256": "a0069c7907a60f1e40fa2b9073f932b72d2a4c677395ff3686322bc7819c476b"
+    },
+    "campaignPort": {
+      "file": "../../w4-process/2026-11-02T00-02-35-343Z/campaign-port.json",
+      "sha256": "0020a42a5711ddcdd710e88a679df0d1a233507bc68de9773d2c634d89b2ba41"
+    }
+  },
+  "integrationProof": {
+    "file": "../2026-11-02T02-54-23-676Z/result.json",
+    "sha256": "a696c7d53ed9410d01c807efcd2823a0eaf76120f03066eaf9061e8688d701a8"
+  },
+  "implementation": {
+    "scripts/run-wonder-process-proof.js": {
+      "blob": "1a07fa19f064d11a5d52467a769ce9c194d22d03",
+      "sha256": "7e22061401b7a07fcd33437161dc5b6707b2ddc5c23ec8ba1f138fbf59d50e4a",
+      "checkoutSha256": "d4c519383a813c0d341f7ca92ba2ece8da65aaaf170cc5c91e2dfb0dc810823d"
+    },
+    "scripts/wonder-process-child.js": {
+      "blob": "9e7090199a84d16bceb0a8ec6ffb6327e08ce5b5",
+      "sha256": "b0bb9e415772ab5bd88dc5f79b79dd4a10ed8634ce7f489091ee0e9e02fe1166",
+      "checkoutSha256": "1f6cc6bd00515f647dd22121299232f5c2e8f7604f6bf497a918e37d3767e925"
+    },
+    "src/live/wonder-process/.gitattributes": {
+      "blob": "4a057e2dd1c467993fb4efbc254b5ca73eeb76d5",
+      "sha256": "a2db3b265bf480a7bfc92b0576f4e127f31c4563d6df882905e09f6eee45a601",
+      "checkoutSha256": "a2db3b265bf480a7bfc92b0576f4e127f31c4563d6df882905e09f6eee45a601"
+    },
+    "src/live/wonder-process/channel.ts": {
+      "blob": "b4251b977122fac3b00959116ced08774e60a87d",
+      "sha256": "aadaa7a713b1cdde87ff071df8a29a247339c24cb7ba818b89677674ec9ad85f",
+      "checkoutSha256": "aadaa7a713b1cdde87ff071df8a29a247339c24cb7ba818b89677674ec9ad85f"
+    },
+    "src/live/wonder-process/driver.ts": {
+      "blob": "fff476f5ae1fc175c0252b50eba25c3ca9a9e917",
+      "sha256": "68f3f910c98b52343d36e74b4664c97548a6480b08285902ac3df8b4d7b1a1dd",
+      "checkoutSha256": "68f3f910c98b52343d36e74b4664c97548a6480b08285902ac3df8b4d7b1a1dd"
+    },
+    "src/live/wonder-process/engine.ts": {
+      "blob": "e9d97ebe85076613ad35c5d39281814f9f8a3e36",
+      "sha256": "4f60d8b16907d63da82f8c975353346cde15db08286cfe32b95016a36d2c4f34",
+      "checkoutSha256": "4f60d8b16907d63da82f8c975353346cde15db08286cfe32b95016a36d2c4f34"
+    },
+    "src/live/wonder-process/index.ts": {
+      "blob": "e4d44773285dd9a8da22556bf826ab18baf4f332",
+      "sha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379",
+      "checkoutSha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379"
+    },
+    "src/live/wonder-process/ownership.ts": {
+      "blob": "0ee5992189ee0a7a5f0c3f01e11bae3fd5837c78",
+      "sha256": "7c10704916787f7afab0673cba16071f3555df4b30c73d7d1db539857c1badf4",
+      "checkoutSha256": "7c10704916787f7afab0673cba16071f3555df4b30c73d7d1db539857c1badf4"
+    },
+    "src/live/wonder-process/protocol.ts": {
+      "blob": "e33d09879aaf82e6ecd19d1152850c5d1d869e17",
+      "sha256": "eecbfcf0c9d56139be6749c9cd9f66a2e2f9a379dca20dcf9dc1bd86a5a47974",
+      "checkoutSha256": "eecbfcf0c9d56139be6749c9cd9f66a2e2f9a379dca20dcf9dc1bd86a5a47974"
+    },
+    "src/live/wonder-process/session.ts": {
+      "blob": "a5bc5ec269e354d037381b39d9802ddb7353a5f8",
+      "sha256": "89fbceb66295a2f8da63d74e88631c42d480debbfe27e554efb512b98b5372f7",
+      "checkoutSha256": "89fbceb66295a2f8da63d74e88631c42d480debbfe27e554efb512b98b5372f7"
+    },
+    "src/live/wonder-process/write-gate.ts": {
+      "blob": "97b28d9b729c1c2a1be3963b57ccc9960a52edbb",
+      "sha256": "1e00f6287f23cdc2472bef814074eaea114e17705f2404f35b58ff35f88ef337",
+      "checkoutSha256": "1e00f6287f23cdc2472bef814074eaea114e17705f2404f35b58ff35f88ef337"
+    },
+    "test/fixtures/wonder-process-parent.ts": {
+      "blob": "f2fdc20ade99952455257c1bac93ffce8b9da530",
+      "sha256": "0348751dbde095cc18c3c8f434d24e75457cec6eb196ba9c3841d98192089aa4",
+      "checkoutSha256": "5bc91320a910220175e6efb8ef19b545528941f55d27fad96921a802b5b6626f"
+    },
+    "test/fixtures/wonder-process-transport.ts": {
+      "blob": "ef0f839347fa28056d06238824b8a41834496dea",
+      "sha256": "2d3c3acdf8ba6dfa0edc606f881e799a4b999d3193ff4d23015568761fb988a5",
+      "checkoutSha256": "47af46a6bd0579fb2f1249c739ec57f822a79e5088d7b81cbfbec11c8879bb81"
+    },
+    "test/wonder-process.test.ts": {
+      "blob": "09bf79355d188a036d01aad63b75cee4aee0f1e7",
+      "sha256": "11706beb302d475c980f305c17f6eac3a33338d46e0da5545a5883df30faf7f7",
+      "checkoutSha256": "03b24d2375896d7e6f27ea0ed9624f177fe659d18e3e7a719cbcf9c37927586e"
+    }
+  },
+  "qualification": {
+    "scope": "offline-integrated-real-child-fake-transport",
+    "purpose": "candidate for separately authorized first live commissioning",
+    "liveTimingQualified": false,
+    "liveRecoveryQualified": false,
+    "livePlcExecuted": false,
+    "establishes": [
+      "Reviewed immutable Lane A implementation",
+      "Source-pinned offline union and production-browser proof",
+      "Original-event host ledger, native provider pairing, controller/world tools and independent child leases"
+    ],
+    "doesNotEstablish": [
+      "Real Wonder adaptive W4 result",
+      "Live timing, native transport teardown or recovery",
+      "A W4 held-state recovery procedure",
+      "New data-transfer/spend authorization"
+    ],
+    "runtimeOwnerReviewRequired": "Read exact evidence scopes, current DUT/lock state, W4 payload and new bounded approval before use. H2 recovery only applies to matching H2 run formats."
+  },
+  "previousApproval": {
+    "W3": "partial",
+    "conservativeUsdConsumed": 4,
+    "remainingConservativeUsd": 0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "sourceCommit": "c77553cc8a455266916153da502ce820ad2ce69f",
+  "sourceFiles": 241,
+  "frozenFiles": 386,
+  "productionBuildFiles": 20,
+  "originalW3FilesUnchanged": 10,
+  "entry": {
+    "ownerRoot": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-runtime-pin",
+    "entryPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-runtime-pin\\src\\live\\wonder-process\\index.ts",
+    "entryRelative": "src/live/wonder-process/index.ts",
+    "entryBlob": "e4d44773285dd9a8da22556bf826ab18baf4f332",
+    "entrySha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379"
+  },
+  "verified": {
+    "evidenceRef": "sha256:4418cdcb766b586292eb4cc3dfd49b0350c125c06e16b609eeb007cd67d190c3",
+    "ownerCommit": "c77553cc8a455266916153da502ce820ad2ce69f"
+  },
+  "manifestSha256": "4418cdcb766b586292eb4cc3dfd49b0350c125c06e16b609eeb007cd67d190c3",
+  "scope": "offline_integrity_and_launch_preparation",
+  "plcContacted": false,
+  "actualModelCalls": 0,
+  "liveQualified": false
+}

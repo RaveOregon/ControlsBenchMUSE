@@ -1,0 +1,385 @@
+ControlsBench Musecampaign workspace
+LIVE
+host · fake connector
+Replay
+Live
+Pause
+Stop
+Reset Simulation
+Exit Simulation
+Sources
+Setup
+Campaign
+Results
+Conveyor bench / world v0.5.0
+Campaign complete — run record finalized and held for inspection
+Elapsed —
+Campaign 00:01 · live wall clock
+Last meaningful activity 4.1 s ago · Report finalized through sequence 156: Adaptive fixture investigation completed with grou…
+MUSE
+idle · last call 0.0 s
+COORDINATOR
+completed
+CONNECTOR
+idle
+WORLD
+held · source clock stopped
+PLC
+last boot fixture-boot-1
+LIVE CAMPAIGN
+Conveyor bench campaign
+Start campaign
+M9 CAMPAIGN RECORD
+FAKE CONNECTOR · NO PLC
+COMPLETED
+
+Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.
+
+Campaign
+portal-20261102025723263-1 · seq 157 · revision 15
+Diagnosis
+known
+Connector
+Last observed fresh · Observed simulation active under stable PLC boot (age at observation 0 ms); campaign finalized — current freshness not monitored
+Budget
+campaign $0.00 · session $0.00
+Provenance
+Plan · Investigate an unexpected fixture output
+Experiment	Category	Status	Conclusion · evidence
+baseline
+Introduce an unassigned carton and observe the measurement fixture at rest
+	normal	completed	inconclusive #69
+persistence-probe
+Determine whether observed StackLight_Green=false persists for a longer window
+	adaptive	completed	observed #140
+Actions (5; 0 unresolved)
+Findings
+Green indication absent in both observation windows
+UNREVIEWED
+Observed (exact PLC output)
+StackLight_Green = false #140
+Injected truth
+none cited
+Inference (unverified)
+A longer observation did not resolve the output disagreement.
+Assumptions
+Expected green indication is a fixture hypothesis
+Uncertainty
+This is not a specified conveyor requirement failure or a diagnosed physical fault.
+Accept finding
+Request rerun (records request only)
+
+Report finalized through sequence 156: Adaptive fixture investigation completed with grounded evidence Experiment evidence only; no conveyor requirement coverage is certified.
+
+Open M9 report
+Download ledger (JSONL)
+Steer Muse / request a targeted experiment
+Observe the experiment
+Side by side
+Simulated World
+PLC HMI
+Generated geometry & assumptions
+SIMULATED WORLD
+READY
+OPERATOR HMI
+OBSERVING
+● RECORDING
+ACTUAL HMI ONLY
+Expand
+
+Captured pixels of the configured HMI page · observing Observing http://127.0.0.1:56462/?capture=portal
+
+Captured
+2026-11-02T02:57:28.217Z (requested 2026-11-02T02:57:28.160Z)
+Frame age
+367 ms
+Frame
+#6
+Rendered page
+http://127.0.0.1:56462/?capture=portal
+SHA-256
+4a5cacae77c35c56…
+Evidence ref
+hmi-frame:hmi-88c6bb8c-b45f-47b5-882d-b07e184bc782:6
+Inspect frame evidence
+HMI session identity
+
+Separate from the simulated world view. This tile shows only captured pixels of the actual HMI; it never redraws the HMI from PLC values.
+
+EVIDENCE TRACE
+322 events · live · world → raw commit → PLC ack → PLC output → HMI → finding
+6 s
+20 s
+60 s
+all
+World action
+Raw input commit
+PLC acknowledgement
+PLC output
+HMI action / frame
+Fault
+Agent action
+Conclusion
+00:00
+00:00
+00:00
+00:00
+00:00
+00:00
+00:01
+Key events, newest first
+ include commits, acks, analog raw
+00:00
+CONCLUSION
+Report finalized through sequence 156: Adaptive fixture investigation completed with grounded evidence
+AUDIT
+00:00
+AGENT ACTION
+finish-adaptive applied: Deterministic completion checks passed; finalizing evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested finish_campaign · finish-adaptive
+MUSE · LIVE
+00:00
+AGENT ACTION
+record-disagreement applied: Finding recorded with exact PLC claims; inference remains unverified
+MUSE · LIVE
+00:00
+CONCLUSION
+Finding · Green indication absent in both observation windows
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested record_finding · record-disagreement
+MUSE · LIVE
+00:00
+CONCLUSION
+Experiment persistence-probe completed · observed (no requirement verdict)
+MUSE · LIVE
+00:00
+ACTIVITY
+Preserve the observed disagreement and its uncertainty
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-4 completed after 8 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-4 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+longer-window applied: Fresh connector evidence observed
+MUSE · LIVE
+00:00
+AGENT ACTION
+Observation: Observation window 600 ms completed
+MUSE · LIVE
+00:00
+ACTIVITY
+Observing for 600 ms
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested observe_for_duration · longer-window
+MUSE · LIVE
+00:00
+ACTIVITY
+Experiment persistence-probe running
+MUSE · LIVE
+00:00
+CONCLUSION
+Experiment baseline completed · inconclusive (no requirement verdict)
+MUSE · LIVE
+00:00
+ACTIVITY
+Run the newly added investigation
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-3 completed after 9 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-3 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+add-investigation applied: Provider-authored adaptive investigation added within authorized scope
+MUSE · LIVE
+00:00
+AGENT ACTION
+Plan updated: Investigate an unexpected fixture output (2 experiments)
+MUSE · LIVE
+00:00
+AGENT ACTION
+Experiment proposed · persistence-probe [adaptive]: Determine whether observed StackLight_Green=false persists for a longer window
+MUSE · LIVE
+00:00
+AGENT ACTION
+Adaptive follow-up · persistence-probe: Determine whether observed StackLight_Green=false persists for a longer window — Distinguish a transient observation from sustained output disagreement
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested create_followup_experiment · add-investigation
+MUSE · LIVE
+00:00
+ACTIVITY
+Unexpected output warrants a new observation-duration investigation
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-2 completed after 7 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-2 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+await-green timed_out: Observation deadline reached without sufficient matching evidence
+MUSE · LIVE
+00:00
+FAULT
+Discrepancy: Expected PLC condition was not observed within the bounded window
+MUSE · LIVE
+00:00
+ACTIVITY
+Waiting for StackLight_Green = true; deadline 300 ms
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested wait_for_condition · await-green
+MUSE · LIVE
+00:00
+ACTIVITY
+Experiment baseline running
+MUSE · LIVE
+00:00
+AGENT ACTION
+Experiment proposed · baseline [normal]: Introduce an unassigned carton and observe the measurement fixture at rest
+MUSE · LIVE
+00:00
+AGENT ACTION
+Plan: Investigate an unexpected fixture output (1 experiments)
+MUSE · LIVE
+00:00
+ACTIVITY
+Probe a declared expected output under a bounded wait
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-1 completed after 8 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-1 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+ACTIVITY
+Conveyor world initialized in normal stopped state; cartons move only with actual drive running feedback.
+SURROGATE
+00:00
+WORLD ACTION
+Normal no-carton state established: photoeyes false, diverts home, drive stopped, exits ready, encoder zero
+SURROGATE
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 1
+SURROGATE
+00:00
+RAW INPUT COMMIT
+Runout_Ready = true
+SURROGATE
+00:00
+RAW INPUT COMMIT
+ExitB_Ready = true
+SURROGATE
+00:00
+RAW INPUT COMMIT
+ExitA_Ready = true
+SURROGATE
+00:00
+RAW INPUT COMMIT
+Drive_Overload = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+Drive_RunningFB = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+D2_ExtendedFB = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+D2_HomeFB = true
+SURROGATE
+00:00
+RAW INPUT COMMIT
+D1_ExtendedFB = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+D1_HomeFB = true
+SURROGATE
+00:00
+RAW INPUT COMMIT
+PE_Runout = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+PE_ExitB = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+PE_ExitA = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+PE_D2Approach = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+PE_D1Approach = false
+SURROGATE
+00:00
+RAW INPUT COMMIT
+PE_Entry = false
+SURROGATE
+00:00
+PLC ACKNOWLEDGEMENT
+PLC boot identity fixture-boot-1
+SURROGATE
+00:00
+COORDINATOR
+Campaign connector session
+SURROGATE
+00:00
+COORDINATOR
+Connector fresh: Observed simulation active under stable PLC boot
+SURROGATE
+00:00
+AGENT ACTION
+Start Campaign authorized normal, adaptive (known diagnosis), including adaptive investigations
+ENGINEER
+Campaign scope & checks
+Protocol diagnostics, budget & raw I/O

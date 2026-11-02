@@ -1,0 +1,87 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "name": "production App displays the host's explicit recorded-review categories",
+      "status": "pass"
+    },
+    {
+      "name": "partial recorded scope is rejected without overriding a deselection",
+      "status": "pass"
+    },
+    {
+      "name": "partial selection creates no campaign or model",
+      "status": "pass"
+    },
+    {
+      "name": "normal production Start completes the authoritative recorded review",
+      "status": "pass"
+    },
+    {
+      "name": "review is completed in the authoritative ledger",
+      "status": "pass"
+    },
+    {
+      "name": "actual browser Start forwards category IDs and exact deselections",
+      "status": "pass"
+    },
+    {
+      "name": "Start acknowledgement is applied rather than timed out",
+      "status": "pass"
+    },
+    {
+      "name": "PLC and world per-event labels never say live",
+      "status": "pass"
+    },
+    {
+      "name": "campaign header labels the current session as a recorded-evidence review",
+      "status": "pass"
+    },
+    {
+      "name": "actual PLC event badge and tooltip describe a recorded source observation",
+      "status": "pass"
+    },
+    {
+      "name": "raw values remain recorded rather than aging as current PLC frames",
+      "status": "pass"
+    },
+    {
+      "name": "current review and recorded component liveness are separate",
+      "status": "pass"
+    },
+    {
+      "name": "event inspector identifies a hosted review with a recorded clock",
+      "status": "pass"
+    }
+  ],
+  "commands": [
+    {
+      "contractVersion": 1,
+      "requestId": "a726b8f0-6594-4b08-a64f-ae600df89ed1-1",
+      "type": "start",
+      "payload": {
+        "scope": {
+          "evidence": false,
+          "adaptive": true
+        }
+      }
+    },
+    {
+      "contractVersion": 1,
+      "requestId": "a726b8f0-6594-4b08-a64f-ae600df89ed1-2",
+      "type": "start",
+      "payload": {
+        "scope": {
+          "evidence": true,
+          "adaptive": true
+        }
+      }
+    }
+  ],
+  "campaignId": "portal-20261102022739419-2",
+  "source": "production App.tsx/bootstrap and hosted recorded-M10 factory",
+  "actualModelCalls": 0,
+  "spendUsd": 0,
+  "plcContacted": false,
+  "liveHmiOperated": false
+}

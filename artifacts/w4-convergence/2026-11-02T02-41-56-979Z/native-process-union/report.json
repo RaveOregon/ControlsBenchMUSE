@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "campaignId": "w4-offline-integration",
+  "status": "completed",
+  "provenance": {
+    "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ioMap": "f8c30539e336f55056f73d4d7ef467b10a9175a60dec3ec156ba1a7bb7a7ba80",
+    "plcBuild": "offline-fixture-transport;project-bytes-sha256:6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+    "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5;worldVersion:0.5.0;loaded-by-child:52488",
+    "model": "offline-native-framing-process-fixture",
+    "connector": "fixture-m8-transport/m8-conveyor-1.0.2;controlsbench.wonder-process.v1;child:e3bab1b94de9dc42"
+  },
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Offline isolated-process contract fixture; no real PLC or paid model.",
+  "plan": {
+    "objective": "Offline source lineage",
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Observe the configured protocol transport",
+        "category": "normal",
+        "requirements": []
+      },
+      {
+        "id": "after-observation",
+        "objective": "Inspect persistence of observed Motor_RunCmd=false",
+        "category": "adaptive",
+        "requirements": []
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "id": "baseline",
+      "objective": "Observe the configured protocol transport",
+      "category": "normal",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "w4-offline-integration:122"
+      ]
+    },
+    {
+      "id": "after-observation",
+      "objective": "Inspect persistence of observed Motor_RunCmd=false",
+      "category": "adaptive",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "w4-offline-integration:197"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "boundary",
+      "title": "Output observed through isolated child",
+      "experimentId": "after-observation",
+      "claims": [
+        {
+          "evidenceId": "w4-offline-integration:197",
+          "signal": "Motor_RunCmd",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "Source/tool lineage only",
+      "assumptions": [
+        "Scripted M8 protocol transport"
+      ],
+      "uncertainty": "Not an M8 behavior oracle or real Wonder/live proof",
+      "review": "unreviewed"
+    }
+  ],
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {
+      "planning": 0,
+      "baseline": 0,
+      "after-observation": 0
+    },
+    "repairs": {
+      "none": 0
+    },
+    "requests": {
+      "request-1": {
+        "requestId": "request-1",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-2": {
+        "requestId": "request-2",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-3": {
+        "requestId": "request-3",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-4": {
+        "requestId": "request-4",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "after-observation",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      }
+    }
+  },
+  "finalization": {
+    "summary": "Offline native-provider/process integration complete",
+    "throughSequence": 226
+  },
+  "injectedTruth": [],
+  "worldEvidenceRefs": [
+    "w4-offline-integration:12",
+    "w4-offline-integration:13",
+    "w4-offline-integration:14",
+    "w4-offline-integration:15",
+    "w4-offline-integration:16",
+    "w4-offline-integration:17",
+    "w4-offline-integration:18",
+    "w4-offline-integration:19",
+    "w4-offline-integration:20",
+    "w4-offline-integration:21",
+    "w4-offline-integration:22",
+    "w4-offline-integration:23",
+    "w4-offline-integration:24",
+    "w4-offline-integration:25",
+    "w4-offline-integration:26",
+    "w4-offline-integration:27",
+    "w4-offline-integration:28",
+    "w4-offline-integration:29",
+    "w4-offline-integration:30",
+    "w4-offline-integration:31",
+    "w4-offline-integration:32",
+    "w4-offline-integration:33",
+    "w4-offline-integration:34",
+    "w4-offline-integration:66",
+    "w4-offline-integration:67",
+    "w4-offline-integration:68",
+    "w4-offline-integration:69",
+    "w4-offline-integration:70",
+    "w4-offline-integration:85",
+    "w4-offline-integration:86",
+    "w4-offline-integration:87",
+    "w4-offline-integration:88",
+    "w4-offline-integration:89",
+    "w4-offline-integration:100",
+    "w4-offline-integration:101",
+    "w4-offline-integration:109",
+    "w4-offline-integration:110",
+    "w4-offline-integration:123",
+    "w4-offline-integration:124",
+    "w4-offline-integration:159",
+    "w4-offline-integration:160",
+    "w4-offline-integration:175",
+    "w4-offline-integration:176",
+    "w4-offline-integration:184",
+    "w4-offline-integration:185",
+    "w4-offline-integration:198",
+    "w4-offline-integration:199",
+    "w4-offline-integration:225",
+    "w4-offline-integration:226"
+  ],
+  "sourceEvidenceRefs": [
+    "w4-offline-integration:5",
+    "w4-offline-integration:6",
+    "w4-offline-integration:7",
+    "w4-offline-integration:8",
+    "w4-offline-integration:60",
+    "w4-offline-integration:61",
+    "w4-offline-integration:62",
+    "w4-offline-integration:79",
+    "w4-offline-integration:80",
+    "w4-offline-integration:81",
+    "w4-offline-integration:95",
+    "w4-offline-integration:96",
+    "w4-offline-integration:104",
+    "w4-offline-integration:105",
+    "w4-offline-integration:118",
+    "w4-offline-integration:119",
+    "w4-offline-integration:154",
+    "w4-offline-integration:155",
+    "w4-offline-integration:170",
+    "w4-offline-integration:171",
+    "w4-offline-integration:179",
+    "w4-offline-integration:180",
+    "w4-offline-integration:193",
+    "w4-offline-integration:194",
+    "w4-offline-integration:220",
+    "w4-offline-integration:221"
+  ],
+  "modelResponseRefs": [
+    "w4-offline-integration:39",
+    "w4-offline-integration:41",
+    "w4-offline-integration:42",
+    "w4-offline-integration:43",
+    "w4-offline-integration:44",
+    "w4-offline-integration:45",
+    "w4-offline-integration:46",
+    "w4-offline-integration:125",
+    "w4-offline-integration:127",
+    "w4-offline-integration:128",
+    "w4-offline-integration:129",
+    "w4-offline-integration:130",
+    "w4-offline-integration:131",
+    "w4-offline-integration:132",
+    "w4-offline-integration:146",
+    "w4-offline-integration:148",
+    "w4-offline-integration:149",
+    "w4-offline-integration:150",
+    "w4-offline-integration:151",
+    "w4-offline-integration:152",
+    "w4-offline-integration:161",
+    "w4-offline-integration:200",
+    "w4-offline-integration:202",
+    "w4-offline-integration:203",
+    "w4-offline-integration:204",
+    "w4-offline-integration:205",
+    "w4-offline-integration:206",
+    "w4-offline-integration:208"
+  ],
+  "plcEvidence": [
+    "w4-offline-integration:11",
+    "w4-offline-integration:65",
+    "w4-offline-integration:84",
+    "w4-offline-integration:99",
+    "w4-offline-integration:108",
+    "w4-offline-integration:122",
+    "w4-offline-integration:158",
+    "w4-offline-integration:174",
+    "w4-offline-integration:183",
+    "w4-offline-integration:197",
+    "w4-offline-integration:224"
+  ],
+  "unresolved": [],
+  "untested": [],
+  "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+}

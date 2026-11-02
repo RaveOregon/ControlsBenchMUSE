@@ -1,0 +1,142 @@
+CV-1Sort conveyor
+M8 build 8001 · interface 1 · map m8-conveyor-1.0.2
+PLC MODE
+Faulted
+PLC DATA
+Fresh · 64 ms
+INPUT SOURCE
+Simulation
+ALARMS
+1 active · F23 D1 extend feedback timeout
+FIXTURE · NOT A PLC
+Operation
+Alarms
+1
+Engineering
+Commands enabled
+21:39:30
+FIXTURE
+M10 final held state — recorded M10 sample replayed without a PLC. Command acknowledgements are emulated. Not live PLC evidence.
+FAULT 23
+D1 extend feedback timeout
+D1 extended feedback was absent 1200 ms after the extend command.
+Faulted; drive and divert commands removed; active carton aborted. Already active when this HMI began observing at 21:38:56; onset unknown.
+View alarm details →
+MACHINE OVERVIEW
+Observed PLC I/O, not the physical simulation · filled = on / blocked · amber = command and feedback disagree
+No tracked item
+Fault lamp
+Run lamp
+RUNOUT
+READY
+D1 · divert to A
+CMD EXT
+HOME
+EXT
+PE EXIT A
+READY
+EXIT A
+D2 · divert to B
+CMD EXT
+HOME
+EXT
+PE EXIT B
+READY
+EXIT B
+PE ENTRY
+PE D1 APPR
+PE D2 APPR
+PE RUNOUT
+M1
+CMD
+RUN
+OVERLOAD
+DRIVE
+COUNTS
+1
+EXIT A
+1
+EXIT B
+3
+RUNOUT
+1
+MISROUTE
+2
+FAULTED
+PLC cumulative since application start
+COMMAND VS FEEDBACK
+	COMMAND	FEEDBACK (OBSERVED)
+M1	OFF	
+STOPPED
+NO OVERLOAD
+Command and feedback agree
+
+D1	RETRACT	
+HOME
+EXTENDED
+At home limit
+
+D2	RETRACT	
+HOME
+EXTENDED
+At home limit
+CURRENT ITEM & ROUTE
+Tracked carton
+No
+Item ID
+201
+Requested route
+A
+Effective route
+A
+Actual exit (last)
+Unknown
+Disposition (last)
+Faulted
+Exception
+None
+RELEASE · WCS
+read-only here
+Release ready
+No
+Offer pending
+No
+Last offer
+#5 · item 201 · route A
+Offer result
+Accepted
+Completion
+Awaiting WCS ack · #7
+Record
+item 201 · A → Unknown · Faulted
+WCS ack (readback)
+6
+CONTROLS
+Sequenced M8 operator requests
+FAULTED
+Start ack 3 · Stop ack 2 · Reset ack 3
+START
+Requires Auto on
+STOP
+Removes run command
+RESET
+Clears latch · no restart
+Reset never starts the machine. Start is a separate request.
+AUTO
+Retained request bit
+ON
+OFF
+Start not possible now (HMI reading of the M8 rule; the PLC decides):
+✕
+Mode is Stopped
+Mode=Faulted
+✕
+All photo-eyes clear
+blocked: PE_D1Approach
+✕
+Completion acknowledged by WCS
+CompletionPending=true
+No operator commands in this HMI session.
+client hmi-client-2-23e0588e
+service hmi-svc-2026-11-02T02-38-56-239Z-0ce00968
+Fixture values include recorded, emulated and default samples; not current PLC observations. A click is not a PLC acknowledgement. Journal: C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-convergence\artifacts\w4-convergence\recorded-focused-2026-11-02T02-38-55-759Z\service\runs\2026-11-02T02-38-56-242Z-fixture\journal.jsonl

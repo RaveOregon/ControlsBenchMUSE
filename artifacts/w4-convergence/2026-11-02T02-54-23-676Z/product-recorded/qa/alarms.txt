@@ -1,0 +1,113 @@
+CV-1Sort conveyor
+M8 build 8001 · interface 1 · map m8-conveyor-1.0.2
+PLC MODE
+Faulted
+PLC DATA
+Fresh · 64 ms
+INPUT SOURCE
+Simulation
+ALARMS
+1 active · F23 D1 extend feedback timeout
+FIXTURE · NOT A PLC
+Operation
+Alarms
+1
+Engineering
+Commands enabled
+21:58:06
+FIXTURE
+M10 final held state — recorded M10 sample replayed without a PLC. Command acknowledgements are emulated. Not live PLC evidence.
+Controller capability
+M8 latches and exposes only its first fault (FaultCode/FaultText) and one current exception. It has no alarm list, alarm timestamps or alarm acknowledgement. Instances and times below are recorded by this HMI service from observed PLC transitions. Bench connection diagnostics such as ConnectorStale are shown in the header banner, not here.
+ACTIVE MACHINE ALARMS
+Observed PLC state
+F23
+D1 extend feedback timeout
+ACTIVE
+
+Cause: D1 extended feedback was absent 1200 ms after the extend command. Controller response: Faulted; drive and divert commands removed; active carton aborted.
+
+FIRST OBSERVED
+2026-11-01 21:57:35
+Already active when HMI began observing; onset unknown
+ONSET AFTER
+unknown
+previous good HMI read
+ACTIVE FOR
+31.2 s
+since first observation
+PLC TEXT SOURCE
+Status.FaultText
+first latched fault only
+PLC BOOT
+1534186706133
+REVIEW
+Not reviewed
+HMI marker, not a PLC ack
+Operation: command vs feedback →
+Engineering: D1_ExtendCmd, D1_ExtendedFB, D1_HomeFB →
+Mark reviewed
+RECORDED ALARM HISTORY
+Origin: HMI service observation
+STATE
+All
+Active
+Cleared
+Unresolved
+TYPE
+All
+Faults
+Exceptions
+PERIOD
+All recorded
+Last hour
+Today
+SEARCH
+1 of 1 matching
+STATE	CODE	PLC TEXT · CAUSE	FIRST OBSERVED	CLEARED OBSERVED	DURATION	PLC BOOT	REVIEW
+active	F23	D1 extend feedback timeout
+D1 extended feedback was absent 1200 ms after the extend command.
+	2026-11-01 21:57:35
+Already active when HMI began observing; onset unknown
+	—	29.9 s (active)	1534186706133	—
+In memory only for this fixture run (not persisted). HMI service wall clock at receipt of the OPC UA read that first showed the state. Onset lies after the previous good read (onsetAfterIso). OPC source timestamps are server sampling times, not PLC fault-onset times.
+RECOVERY PATH
+Review
+Optional HMI marker. Changes nothing in the PLC.
+Clear the cause
+Physical/field condition and WCS completion acknowledgement. Not done from this HMI.
+Reset (PLC request)
+Clears the latch only if the PLC accepts its preconditions. Never starts the machine.
+Start (PLC request)
+Separate request; requires Auto on and Start conditions.
+Reset conditions now (HMI reading of the M8 rule; the PLC decides):
+✓
+Mode is not Auto or Stopping
+Mode=Faulted
+✓
+Drive overload clear
+Drive_Overload=false
+✓
+D1 home, not extended
+home=true ext=false
+✓
+D2 home, not extended
+home=true ext=false
+✓
+Runout ready
+Runout_Ready=true
+✓
+Drive running feedback off
+Drive_RunningFB=false
+✕
+All photo-eyes clear
+blocked: PE_D1Approach
+✕
+Completion acknowledged by WCS
+CompletionPending=true
+
+Go to controls →
+
+client hmi-client-2-2ac0639f
+service hmi-svc-2026-11-02T02-57-35-248Z-6cdaeca1
+Fixture values include recorded, emulated and default samples; not current PLC observations. A click is not a PLC acknowledgement. Journal: C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-convergence\artifacts\w4-convergence\2026-11-02T02-54-23-676Z\product-recorded\service\runs\2026-11-02T02-57-35-250Z-fixture\journal.jsonl

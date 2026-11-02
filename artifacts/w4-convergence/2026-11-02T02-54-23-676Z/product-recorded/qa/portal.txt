@@ -1,0 +1,613 @@
+ControlsBench Musecampaign workspace
+HOSTED REVIEW
+recorded PLC/world evidence · current review activity
+Replay
+Hosted review
+Pause
+Stop
+Reset Simulation
+Exit Simulation
+Sources
+Setup
+Campaign
+Results
+Conveyor bench / world v0.5.0
+Campaign complete — run record finalized and held for inspection
+Elapsed —
+Campaign 00:00 · live wall clock
+Last meaningful activity 10.6 s ago · Report finalized through sequence 2587: Recorded M10 review completed; original evidence …
+MUSE
+idle · last call 0.0 s
+COORDINATOR
+completed
+CONNECTOR
+recorded · no live link
+WORLD
+recorded · no live evolution
+PLC
+recorded · not monitored
+HOSTED REVIEW · RECORDED PLC/WORLD EVIDENCE
+Conveyor bench campaign
+Start campaign
+M9 CAMPAIGN RECORD
+PRESERVED LIVE PLC · HISTORICAL
+COMPLETED
+
+RECORDED M10 evidence review. 302 historical M8 acknowledgements; zero new PLC actions. Proposed physical tools cannot run. No HMI or new live campaign verdict.
+
+Campaign
+portal-20261102025737556-1 · seq 2588 · revision 17
+Diagnosis
+known
+Connector
+no connector observation yet
+Budget
+campaign $0.00 · session $0.00
+Provenance
+Plan · Review historical M10 output evidence
+Experiment	Category	Status	Conclusion · evidence
+recorded-baseline
+Inspect final recorded M8 outputs
+	evidence	completed	observed #2534
+recorded-comparison
+Compare earlier recorded outputs against final controller.FaultCode=23
+	adaptive	completed	observed #2534
+Actions (6; 0 unresolved)
+Findings
+Recorded M10 final outputs
+UNREVIEWED
+Observed (exact PLC output)
+Motor_RunCmd = false #2534
+Injected truth
+none cited
+Inference (unverified)
+Recorded output is consistent with the historical faulted hold. This review performed no new fault trial.
+Assumptions
+Recorded M10 provenance and original six-case audit apply
+Uncertainty
+No current PLC state, fault recovery, HMI or Wonder quality claim.
+Accept finding
+Request rerun (records request only)
+
+Report finalized through sequence 2587: Recorded M10 review completed; original evidence remains historical Experiment evidence only; no conveyor requirement coverage is certified.
+
+Open M9 report
+Download ledger (JSONL)
+Steer Muse / request a targeted experiment
+Observe the experiment
+Side by side
+Simulated World
+PLC HMI
+Generated geometry & assumptions
+SIMULATED WORLD
+READY
+OPERATOR HMI
+OBSERVING
+● RECORDING
+ACTUAL HMI ONLY
+Expand
+
+Captured pixels of the configured HMI page · observing Observing http://127.0.0.1:50475/?capture=portal
+
+Captured
+2026-11-02T02:58:03.170Z (requested 2026-11-02T02:58:03.122Z)
+Frame age
+599 ms
+Frame
+#4
+Rendered page
+http://127.0.0.1:50475/?capture=portal
+SHA-256
+78f9f5d9275ac38d…
+Evidence ref
+hmi-frame:hmi-9b02025d-b6e9-4b91-beb7-8ac306c51bf8:4
+Inspect frame evidence
+HMI session identity
+
+Separate from the simulated world view. This tile shows only captured pixels of the actual HMI; it never redraws the HMI from PLC values.
+
+EVIDENCE TRACE
+8,227 events · live · world → raw commit → PLC ack → PLC output → HMI → finding
+6 s
+20 s
+60 s
+all
+World action
+Raw input commit
+PLC acknowledgement
+PLC output
+HMI action / frame
+Fault
+Agent action
+Conclusion
+00:00
+00:00
+00:00
+00:00
+00:00
+00:00
+00:01
+Key events, newest first
+ include commits, acks, analog raw
+00:00
+CONCLUSION
+Report finalized through sequence 2587: Recorded M10 review completed; original evidence remains historical
+AUDIT
+00:00
+AGENT ACTION
+finish-recorded applied: Deterministic completion checks passed; finalizing evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested finish_campaign · finish-recorded
+MUSE · LIVE
+00:00
+AGENT ACTION
+record-historical applied: Finding recorded with exact PLC claims; inference remains unverified
+MUSE · LIVE
+00:00
+CONCLUSION
+Finding · Recorded M10 final outputs
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested record_finding · record-historical
+MUSE · LIVE
+00:00
+CONCLUSION
+Experiment recorded-comparison completed · observed (no requirement verdict)
+MUSE · LIVE
+00:00
+ACTIVITY
+Record exact historical observations and their limitations
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-4 completed after 7 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-4 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+read-comparison-final applied: Exact recorded evidence; no new observation or PLC action
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested inspect_evidence_window · read-comparison-final
+MUSE · LIVE
+00:00
+ACTIVITY
+Experiment recorded-comparison running
+MUSE · LIVE
+00:00
+CONCLUSION
+Experiment recorded-baseline completed · observed (no requirement verdict)
+MUSE · LIVE
+00:00
+ACTIVITY
+Complete baseline and inspect the recorded comparison
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-3 completed after 8 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-3 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+read-earlier applied: Exact recorded evidence; no new observation or PLC action
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested inspect_evidence_window · read-earlier
+MUSE · LIVE
+00:00
+AGENT ACTION
+add-recorded-followup applied: Provider-authored adaptive investigation added within authorized scope
+MUSE · LIVE
+00:00
+AGENT ACTION
+Plan updated: Review historical M10 output evidence (2 experiments)
+MUSE · LIVE
+00:00
+AGENT ACTION
+Experiment proposed · recorded-comparison [adaptive]: Compare earlier recorded outputs against final controller.FaultCode=23
+MUSE · LIVE
+00:00
+AGENT ACTION
+Adaptive follow-up · recorded-comparison: Compare earlier recorded outputs against final controller.FaultCode=23 — Check recorded evidence for a changed controller state; do not imply a new PLC trial
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested create_followup_experiment · add-recorded-followup
+MUSE · LIVE
+00:00
+ACTIVITY
+Recorded fault 23 requires an earlier evidence comparison
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-2 completed after 6 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-2 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+read-final applied: Exact recorded evidence; no new observation or PLC action
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse requested inspect_evidence_window · read-final
+MUSE · LIVE
+00:00
+ACTIVITY
+Experiment recorded-baseline running
+MUSE · LIVE
+00:00
+AGENT ACTION
+Experiment proposed · recorded-baseline [evidence]: Inspect final recorded M8 outputs
+MUSE · LIVE
+00:00
+AGENT ACTION
+Plan: Review historical M10 output evidence (1 experiments)
+MUSE · LIVE
+00:00
+ACTIVITY
+Plan a recorded evidence review, with no live interventions
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-1 completed after 9 ms
+MUSE · LIVE
+00:00
+ACTIVITY
+Choosing the next experiment action from recorded evidence
+MUSE · LIVE
+00:00
+AGENT ACTION
+Muse request request-1 (deterministic-fake-v1)
+MUSE · LIVE
+00:00
+AGENT ACTION
+Start Campaign authorized evidence, adaptive (known diagnosis), including adaptive investigations
+ENGINEER
+00:00
+ACTIVITY
+Loaded 302 recorded M10 acknowledgements; no PLC/model connection or new intervention
+MUSE · LIVE
+00:00
+WORLD ACTION
+Drive running feedback now false
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51500
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+Drive_RunningFB = false
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51489
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_D1Approach = true
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51462
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51455
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51450
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_Entry = false
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51441
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51435
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51430
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51421
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_Entry = true
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51415
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51410
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51405
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51395
+PLC · RECORDED
+00:00
+WORLD ACTION
+Carton 201 placed at entry
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51390
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51381
+PLC · RECORDED
+00:00
+FAULT
+Fault control applied: fault.setDivertJam
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51375
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51365
+PLC · RECORDED
+00:00
+WORLD ACTION
+carton-5 removed: carton exited via runout
+WORLD · RECORDED
+00:00
+WORLD ACTION
+Carton stop-carton physically exited via runout
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51356
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51347
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51340
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51331
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51324
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51315
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51308
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_Runout = false
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51303
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51294
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51284
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_Runout = true
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51258
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51251
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51242
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51235
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51230
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51225
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51220
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51211
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51204
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51199
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51194
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_D2Approach = false
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51189
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51179
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51174
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51169
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_D2Approach = true
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51150
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51143
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51134
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51128
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51119
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51111
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51106
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51097
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51091
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51086
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_D1Approach = false
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51066
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51059
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51054
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51049
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51044
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+PE_D1Approach = true
+WORLD · RECORDED
+00:00
+WORLD ACTION
+Drive running feedback now true
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51034
+PLC · RECORDED
+00:00
+RAW INPUT COMMIT
+Drive_RunningFB = true
+WORLD · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 51007
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 50973
+PLC · RECORDED
+00:00
+PLC OUTPUT
+PLC outputs @ cycle 50963
+PLC · RECORDED
+00:00
+WORLD ACTION
+Drive running feedback now false
+WORLD · RECORDED
+Campaign scope & checks
+Protocol diagnostics, budget & raw I/O
