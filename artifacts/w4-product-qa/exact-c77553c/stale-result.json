@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "name": "held source was a fixture HMI frame",
+      "pass": true
+    },
+    {
+      "name": "capture failure marks frame stale",
+      "pass": true
+    },
+    {
+      "name": "same captured frame held",
+      "pass": true
+    },
+    {
+      "name": "held frame hash authentic",
+      "pass": true
+    }
+  ],
+  "first": {
+    "reference": "hmi-frame:hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5:1",
+    "sessionId": "hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5",
+    "frameSequence": 1,
+    "capturedAtIso": "2026-11-02T03:07:02.522Z",
+    "requestedAtIso": "2026-11-02T03:07:02.178Z",
+    "contentType": "image/jpeg",
+    "byteLength": 162535,
+    "sha256": "28c9b0760a3a6729ef9c093beeee8673b5c16beb1a29e2729300cad996566f0b",
+    "mediaUrl": "/api/hmi/frames/hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5/1",
+    "pageUrl": "http://127.0.0.1:5612/?capture=portal"
+  },
+  "view": {
+    "state": "stale",
+    "sourceId": "webvisu:127.0.0.1:5612",
+    "sourceKind": "webvisu",
+    "url": "http://127.0.0.1:5612/?capture=portal",
+    "recording": false,
+    "frameCount": 1,
+    "captureIntervalMs": 2000,
+    "staleAfterMs": 6000,
+    "detail": "Capture failed: QA injected capture interruption. Last frame held.",
+    "changedAtIso": "2026-11-02T03:07:04.533Z",
+    "sessionId": "hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5",
+    "browser": "Chrome/155.0.8059.86 · target B71C8EB94C733B48F507C286669C11A9 · headless",
+    "startedAtIso": "2026-11-02T03:07:02.177Z",
+    "lastFrame": {
+      "reference": "hmi-frame:hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5:1",
+      "sessionId": "hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5",
+      "frameSequence": 1,
+      "capturedAtIso": "2026-11-02T03:07:02.522Z",
+      "requestedAtIso": "2026-11-02T03:07:02.178Z",
+      "contentType": "image/jpeg",
+      "byteLength": 162535,
+      "sha256": "28c9b0760a3a6729ef9c093beeee8673b5c16beb1a29e2729300cad996566f0b",
+      "mediaUrl": "/api/hmi/frames/hmi-52041dc6-0372-4f21-94d1-7aa1db4320d5/1",
+      "pageUrl": "http://127.0.0.1:5612/?capture=portal"
+    }
+  },
+  "plcContacted": false
+}

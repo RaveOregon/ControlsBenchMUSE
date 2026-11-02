@@ -20,3 +20,7 @@ The final candidate must be pinned and rechecked, including the fixed export and
 ## Results fix retest
 
 B's committed production source `c77553cc8a455266916153da502ce820ad2ce69f` was merged into the QA branch (QA merge HEAD is recorded in the result JSON). The revised controlled browser regression passed 21/21: fixture Results label, report download and matching `fake_connector` evidence class, campaign ID, stopped status and provider provenance, in addition to scope, Stop, new campaign and disconnect. See `artifacts/w4-product-qa/candidate-c77553c/`. This is a preliminary retest; B's final verified commit and the remaining final requalification are still required.
+
+## Exact source-pin recheck
+
+B's source `c77553cc8a455266916153da502ce820ad2ce69f` was checked out detached in `.worktrees/w4-qa-final`; only the five untracked QA harness scripts were copied in, and `git diff --name-only` was empty. The full-path production launcher rebuilt the UI from another directory. `launcher-proof/result.json` passed 15 checks. The controlled fixture browser passed 21, HMI command presentation 6, stale capture 4, and recorded review 13; all results and screenshots are under `artifacts/w4-product-qa/exact-c77553c/`. Both QA services stopped and no listeners remained on 5610–5612. No real PLC, paid model, or live HMI was contacted. B independently reports its full offline gate passed on the same source. Final signoff remains conditional on B identifying the final handoff/integration commit and confirming that its production source is this verified pin.
