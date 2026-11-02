@@ -16,5 +16,3 @@ try {
  await click('Setup'); check('disconnect available',await wait(`Array.from(document.querySelectorAll('button')).some(b=>b.textContent.trim()==='Stop observing')`)); await click('Stop observing'); check('disconnect applied',await wait(`document.body.innerText.includes('disconnect hmi · applied') || document.body.innerText.includes('Disconnect requested.')`)); await click('Campaign'); check('disconnected overlay on held frame',await wait(`document.querySelector('.hmi-overlay')?.innerText.toLowerCase().includes('disconnect')`)); await screenshot('disconnected');
  writeFileSync(`${out}/result.json`,JSON.stringify({pin:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks,id1,id2,commands:await b.evaluate('window.qaCommands'),plcContacted:false,paidCalls:0},null,2)); console.log(JSON.stringify({checks:checks.length,status:'pass',out}));
 } catch(e){writeFileSync(`${out}/failure.json`,JSON.stringify({error:String(e),checks,body:await b.evaluate('document.body.innerText').catch(()=>''),commands:await b.evaluate('window.qaCommands').catch(()=>[])},null,2)); await screenshot('failure').catch(()=>{}); throw e} finally {b.close()}
-
-
