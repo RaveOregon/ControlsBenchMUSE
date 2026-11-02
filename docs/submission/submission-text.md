@@ -1,6 +1,6 @@
 # Submission text drafts
 
-Internal preparation document. Status snapshot: 2026-11-01 19:12 EST (2026-11-02 00:12 UTC). W3 is partial; W4 is pending.
+Internal preparation document. Status snapshot: 2026-11-01 21:38 EST (2026-11-02 02:38 UTC). W3 is partial; W4 is pending.
 
 The signed-in form's field names and character limits were not visible during drafting (see `official-requirements.md`). The blocks below are written for the fields a form like this usually has. Copy the real field list here, then trim each block to its limit. Every factual sentence maps to a row in `claims-checklist.md`. Replace each `[PENDING …]` sentence with its final text only after the closing evidence exists; otherwise use the fallback wording given.
 

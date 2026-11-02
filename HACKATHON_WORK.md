@@ -2,7 +2,7 @@
 
 This file shows what was built for ControlsBench Muse during the Meta Global AI Developer Hackathon and what came from elsewhere. The hackathon rules ask entrants to identify new work clearly. If you find something here that is wrong or missing, treat it as a defect.
 
-**Draft status.** This draft reflects the repository as of **2026-11-01 19:12 EST** (2026-11-02 00:12 UTC). Several branches were still active then, and the W4 lanes had just been dispatched. Items marked **[BUILDER TO CONFIRM]** need an answer from the builder before submission. Regenerate the commit list just before submitting (see the end of this file).
+**Draft status.** This draft reflects the repository as of **2026-11-01 21:38 EST** (2026-11-02 02:38 UTC). Several branches were still active then, including the offline W4 lanes. Items marked **[BUILDER TO CONFIRM]** need an answer from the builder before submission. Regenerate the commit list just before submitting (see the end of this file).
 
 ## Event window
 
@@ -15,7 +15,7 @@ This file shows what was built for ControlsBench Muse during the Meta Global AI 
 ## Repository history
 
 - The first commit, `1514ed9`, is dated 2026-10-29 09:12 EDT.
-- At the time of this draft the repository held 94 commits across all branches. All of them are dated between 2026-10-29 and 2026-11-01, inside the event window.
+- At the time of this draft the repository held 110 commits across all branches. All of them are dated between 2026-10-29 and 2026-11-01, inside the event window.
 - Every commit is authored by the builder's single Git identity. Some commits also carry a `Co-Authored-By` trailer for an AI coding agent (see [AI coding assistance](#ai-coding-assistance)).
 - History has not been squashed or rewritten. Keep it that way, so judges can check dates.
 
@@ -40,8 +40,10 @@ Each row is new work, committed during the event. Times are the builder's local 
 | Browser operator HMI for the M8 controller and its live verification | `src/hmi/`, `scripts/run-hmi*.js`, `scripts/audit-hmi-h2.js`, `artifacts/hmi/`, `docs/screenshots/hmi/` | `2db3f24` – `1a4a986`, review corrections `8e9d325` | Oct 31 – Nov 1 |
 | Multi-turn Wonder campaign provider, bounded paid checkpoint, and the W3 recorded-evidence checkpoint (partial) | `src/campaign/wonder-responses.ts`, `src/campaign/model-context.ts`, `docs/wonder-campaign.md`, `docs/wonder-w3-checkpoint.md`, `artifacts/wonder/`, `artifacts/wonder-verification/`, `test/wonder-paid-replay.test.ts` | `560a8c0`, `4a2ce22` – `e435a02`, `1acdb60` – `83d473a`, `7d8d85a` – `91c868d` | Nov 1 |
 | Independent reviews of the Wonder and HMI handoffs | `docs/wonder-review-*.md`, `artifacts/wonder-review/` (convergence branch) | `dbafddc`, `c338199`, `10b2b05`, `7c1a4dd`, `de0a796` | Nov 1 |
-| Integrated application: Wonder and HMI merges, one product launcher, verification, W4 lane packet | `scripts/run-product.ps1`, `docs/product-integration.md`, `docs/w4-parallel-lanes.md`, `artifacts/product-integration/` (integration branch) | `5664a54`, `82a7e57`, `de89a87`, `44b12aa`, `a5f3261` | Nov 1 |
-| Reusable CODESYS interceptor library, prototype 0.1.0.0 (compiled only), and its acquisition/versioning requirements | `codesys/library/`, `docs/plc-adapter-standard.md` | `3d86189`, `b64a7eb`, `87a7ca9` | Nov 1 |
+| Integrated application: Wonder and HMI merges, one product launcher, verification, W4 lane packet | `scripts/run-product.ps1`, `docs/product-integration.md`, `docs/w4-parallel-lanes.md`, `artifacts/product-integration/` (integration branch) | `5664a54`, `82a7e57`, `de89a87`, `44b12aa`, `a5f3261`, review `b78e654` | Nov 1 |
+| W4 lane A: isolated Wonder process adapter (offline; not live-qualified) | `src/live/wonder-process/`, `docs/w4-process-handoff.md` (process-adapter branch) | `ce533e7` – `85da842` | Nov 1 |
+| W4 lanes B and C: integration candidate and product QA (in progress) | W4 convergence and QA branches, `docs/w4-product-qa.md` | `3e2e51e` – `ce592ff`, `f43dd05` | Nov 1 |
+| Reusable CODESYS interceptor library: prototypes 0.1.0.0 and 0.2.0.0 (compiled only), machine maps, File-Based Storage pilot, versioning and capability matrix | `codesys/library/`, `docs/plc-adapter-standard.md` | `3d86189`, `b64a7eb`, `87a7ca9`, `1eb0f4a`, `2b404aa` | Nov 1 |
 | Submission materials | `README.md`, `HACKATHON_WORK.md`, `docs/submission/` | this branch | Nov 1 |
 
 At the time of this draft several of these components live on separate branches that have not been merged into `main`. The branch for each is listed in `docs/submission/claims-checklist.md`.

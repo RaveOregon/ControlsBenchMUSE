@@ -1,6 +1,6 @@
 # Three-minute demo storyboard
 
-Internal preparation document. Status snapshot: 2026-11-01 19:12 EST (2026-11-02 00:12 UTC). W3 is partial; W4 is pending. Claim IDs (C-xx, P-xx) refer to `claims-checklist.md`.
+Internal preparation document. Status snapshot: 2026-11-01 21:38 EST (2026-11-02 02:38 UTC). W3 is partial; W4 is pending (offline lanes A–C in progress, live lane D not started). Claim IDs (C-xx, P-xx) refer to `claims-checklist.md`.
 
 ## Goals and limits
 
@@ -184,6 +184,7 @@ Kiro does not own runtime or live sessions. Lane D is the single live owner for 
 - `.env`, the API key, or any terminal or editor showing credentials. **`.env` was the active editor tab while this storyboard was revised; close it before recording.**
 - The password prompt contents, browser profiles, bookmarks, email addresses and notifications.
 - The preview-mode portal, the HMI fixture or the stand-in capture page presented as live.
+- Screens with open Lane C provenance defects (`docs/w4-product-qa.md` on `codex/w4-product-qa`), until a requalified candidate fixes them: the fixture HMI footer that calls every value an observed PLC sample, and the preview Setup panel that names Muse Wonder 1.0 for the fixture provider.
 - The W3 recording presented as a live run or as an adaptive follow-up.
 - A portal header reading `fake connector` next to footage described as a live campaign.
 - A mock-up or reconstructed screenshot in a W4 slot.
