@@ -1,0 +1,24 @@
+{"atIso":"2026-11-02T03:19:17.796Z","atMonotonicMs":939.0878,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":9492,"nonce":"1ec7c4700c508a3b","node":"v24.15.0","timeOriginEpochMs":1793589557603.445},"priority":-7}
+{"atIso":"2026-11-02T03:19:17.797Z","atMonotonicMs":940.3415,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T03:19:17.818Z","atMonotonicMs":961.2187,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":21}
+{"atIso":"2026-11-02T03:19:17.837Z","atMonotonicMs":979.623,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T03:19:18.066Z","atMonotonicMs":1208.8095,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":229}
+{"atIso":"2026-11-02T03:19:18.068Z","atMonotonicMs":1211.5097,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T03:19:18.070Z","atMonotonicMs":1212.7567,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T03:19:18.119Z","atMonotonicMs":1262.2197,"kind":"request","id":4,"op":"controller","actionId":"w4-1-operator_action","name":"operator_action","action":"reset","campaignRevision":7,"boundaryRevision":2}
+{"atIso":"2026-11-02T03:19:18.132Z","atMonotonicMs":1275.5252,"kind":"reply","id":4,"op":"controller","ok":true,"boundaryRevision":3,"throughSeq":29,"elapsedMs":13}
+{"atIso":"2026-11-02T03:19:18.140Z","atMonotonicMs":1283.2787,"kind":"request","id":5,"op":"controller","actionId":"w4-2-operator_action","name":"operator_action","action":"start","campaignRevision":8,"boundaryRevision":3}
+{"atIso":"2026-11-02T03:19:18.154Z","atMonotonicMs":1297.4828,"kind":"reply","id":5,"op":"controller","ok":true,"boundaryRevision":4,"throughSeq":30,"elapsedMs":14}
+{"atIso":"2026-11-02T03:19:18.531Z","atMonotonicMs":1674.3162,"kind":"request","id":6,"op":"controller","actionId":"w4-3-assign_route","name":"assign_route","action":"offer","campaignRevision":9,"boundaryRevision":4}
+{"atIso":"2026-11-02T03:19:20.051Z","atMonotonicMs":3193.6262,"kind":"request","id":7,"op":"cancel","actionId":"w4-3-assign_route"}
+{"atIso":"2026-11-02T03:19:20.051Z","atMonotonicMs":3194.4685,"kind":"request","id":8,"op":"hold","stopClock":false}
+{"atIso":"2026-11-02T03:19:20.054Z","atMonotonicMs":3197.2113,"kind":"request","id":9,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T03:19:20.055Z","atMonotonicMs":3197.8742,"kind":"reply","id":6,"op":"controller","ok":false,"outcome":"timed_out","message":"Operation deadline exceeded","boundaryRevision":5,"throughSeq":61,"elapsedMs":1524}
+{"atIso":"2026-11-02T03:19:20.055Z","atMonotonicMs":3198.4484,"kind":"reply","id":7,"op":"cancel","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":5}
+{"atIso":"2026-11-02T03:19:20.056Z","atMonotonicMs":3198.9256,"kind":"cancel.result","actionId":"w4-3-assign_route","state":"controller_failed"}
+{"atIso":"2026-11-02T03:19:20.075Z","atMonotonicMs":3217.6573,"kind":"reply","id":8,"op":"hold","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":23}
+{"atIso":"2026-11-02T03:19:20.075Z","atMonotonicMs":3218.1875,"kind":"reply","id":9,"op":"hold","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":21}
+{"atIso":"2026-11-02T03:19:20.077Z","atMonotonicMs":3220.4185,"kind":"request","id":10,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-02T03:19:21.593Z","atMonotonicMs":4735.8789,"kind":"reply","id":10,"op":"close","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":1515}
+{"atIso":"2026-11-02T03:19:21.611Z","atMonotonicMs":4754.0412,"kind":"child.exit","code":0,"signal":null,"lastSeq":61}
+{"atIso":"2026-11-02T03:19:21.612Z","atMonotonicMs":4755.0631,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":false,"closed":false,"uncertainWrites":[{"paths":["GVL_DemoWrite.OfferSequence"],"startedAtIso":"2026-11-02T03:19:18.534Z","ageMs":3056}],"ownership":"retained_uncertain","ownershipPath":"C:\\Users\\steve\\AppData\\Local\\Temp\\w4-uncertain-tPxTJ9\\offline.lock","boundaryRevision":5,"lastSeq":61},"exit":{"code":0,"signal":null},"killed":false}

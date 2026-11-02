@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "inspected",
+  "mode": "inspect",
+  "scope": "offline-fake-transport",
+  "reference": "C:\\Users\\steve\\AppData\\Local\\Temp\\w4-uncertain-tPxTJ9\\runs\\2026-11-02T03-19-17-166Z",
+  "startedAtIso": "2026-11-02T03:19:22.488Z",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "checks": [],
+  "heldStateSha256": "49a5f1445b87b840d8023a723c50a45ced495718f400c8c6d5b66a66b09828ee",
+  "resultSha256": "0342625ad58c7e81c1a206baec766ddb41e9b9d55a088bd511111a465e35dac8",
+  "campaignId": "w4-commissioning-2026-11-02T03-19-17-166Z",
+  "ownership": {
+    "adopted": {
+      "owner": "wonder-process-v1",
+      "campaignId": "w4-commissioning-2026-11-02T03-19-17-166Z",
+      "childPid": 9492,
+      "parentPid": 54392,
+      "nonce": "1ec7c4700c508a3b",
+      "acquiredAtIso": "2026-11-02T03:19:17.840Z"
+    },
+    "originalSha256": "8ea053cef71c46b8860871b2e61905b6a3ac6ac08591237d9b313794343f33e6"
+  },
+  "inspection": {
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "121271404063226",
+    "appliedSequence": "5",
+    "plcCycle": "5",
+    "plcTimeUs": "500000",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Auto",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 0,
+    "motorRunCmd": true,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=1",
+      "Motor_RunCmd=true"
+    ]
+  },
+  "classification": {
+    "path": "held-running",
+    "supported": true,
+    "refusals": [],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "121271404063226",
+            "sequence": "5"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "121271404063226",
+              "sequence": "5"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "uncertain write GVL_DemoWrite.OfferSequence is resolvable by observation",
+        "ok": true
+      },
+      {
+        "check": "held image is the running at-rest image (no carton, no overload)",
+        "ok": true,
+        "detail": []
+      }
+    ],
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {},
+    "evidenceBasis": "H2 recovery-2026-11-01T15-12-24-875Z (held-running) passed live with this sequence"
+  },
+  "refusedWrites": 0,
+  "ownershipAfter": "restored the run's retained lock byte-for-byte",
+  "finishedAtIso": "2026-11-02T03:19:22.546Z",
+  "transportSha256": "cdc1f9df00262698519018d903319106e3fe781c021cd0d9b8ed5b19d1acae09"
+}

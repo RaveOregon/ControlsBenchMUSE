@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "pass",
+  "mode": "reconcile",
+  "scope": "offline-fake-transport",
+  "reference": "C:\\Users\\steve\\AppData\\Local\\Temp\\w4-uncertain-tPxTJ9\\runs\\2026-11-02T03-19-17-166Z",
+  "startedAtIso": "2026-11-02T03:19:23.130Z",
+  "modelCalls": 0,
+  "writesAuthorized": true,
+  "checks": [],
+  "heldStateSha256": "49a5f1445b87b840d8023a723c50a45ced495718f400c8c6d5b66a66b09828ee",
+  "resultSha256": "0342625ad58c7e81c1a206baec766ddb41e9b9d55a088bd511111a465e35dac8",
+  "campaignId": "w4-commissioning-2026-11-02T03-19-17-166Z",
+  "ownership": {
+    "adopted": {
+      "owner": "wonder-process-v1",
+      "campaignId": "w4-commissioning-2026-11-02T03-19-17-166Z",
+      "childPid": 9492,
+      "parentPid": 54392,
+      "nonce": "1ec7c4700c508a3b",
+      "acquiredAtIso": "2026-11-02T03:19:17.840Z"
+    },
+    "originalSha256": "8ea053cef71c46b8860871b2e61905b6a3ac6ac08591237d9b313794343f33e6"
+  },
+  "inspection": {
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "121271404063226",
+    "appliedSequence": "5",
+    "plcCycle": "5",
+    "plcTimeUs": "500000",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Auto",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 0,
+    "motorRunCmd": true,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=1",
+      "Motor_RunCmd=true"
+    ]
+  },
+  "classification": {
+    "path": "held-running",
+    "supported": true,
+    "refusals": [],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "121271404063226",
+            "sequence": "5"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "121271404063226",
+              "sequence": "5"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "uncertain write GVL_DemoWrite.OfferSequence is resolvable by observation",
+        "ok": true
+      },
+      {
+        "check": "held image is the running at-rest image (no carton, no overload)",
+        "ok": true,
+        "detail": []
+      }
+    ],
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {},
+    "evidenceBasis": "H2 recovery-2026-11-01T15-12-24-875Z (held-running) passed live with this sequence"
+  },
+  "finalObservation": {
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "35881210532557",
+    "appliedSequence": "6",
+    "plcCycle": "11",
+    "plcTimeUs": "1100000",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Stopped",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 0,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": []
+  },
+  "finalImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 0
+  },
+  "refusedWrites": 0,
+  "ownershipAfter": "released",
+  "finishedAtIso": "2026-11-02T03:19:23.933Z",
+  "transportSha256": "a4b07c2d452495ee863a0cee57bea7e6f44bfde1b6449157b80033b424350e4d"
+}

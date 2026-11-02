@@ -1,0 +1,473 @@
+{
+  "status": "pass",
+  "contracts": [
+    "controlsbench.w4-commissioning.v1",
+    "controlsbench.w4-held-state.v1",
+    "controlsbench.w4-recovery.v1"
+  ],
+  "atIso": "2026-11-02T03:20:00.339Z",
+  "node": "v24.15.0",
+  "platform": "win32-x64",
+  "sourceCommit": "1ff8f62be1fe75e35a77d2ffb087c8f9b923eee8",
+  "baseCommit": "265242b5c354e00373d51de3dc8d94ca66df5b73",
+  "clean": true,
+  "dirty": [],
+  "scope": "offline-fake-transport",
+  "fixture": "test/fixtures/w4-bench-transport.ts (protocol fixture with hand-written scripted reactions; not an M8 behavior oracle)",
+  "realChildProcess": true,
+  "realRuntime": true,
+  "livePlcExecuted": false,
+  "plcContacted": false,
+  "credentialsUsed": false,
+  "modelCalls": 0,
+  "paidCalls": 0,
+  "networkCalls": 0,
+  "liveCommissioningQualified": false,
+  "liveRecoveryQualified": false,
+  "boundary": {
+    "additionsOnly": true,
+    "changedSinceBase": [
+      "A artifacts/w4-commissioning/.gitattributes",
+      "A scripts/lib/w4-commissioning.ts",
+      "A scripts/recover-w4-held.js",
+      "A scripts/run-w4-commissioning-proof.js",
+      "A scripts/run-w4-commissioning.js",
+      "A scripts/run-w4-commissioning.ps1",
+      "A test/fixtures/w4-bench-transport.ts",
+      "A test/w4-commissioning.test.ts"
+    ],
+    "note": "No B adapter, process-port, runtime, contract, package or shared configuration file changed"
+  },
+  "typecheck": {
+    "passed": true,
+    "status": 0
+  },
+  "tests": {
+    "file": "test/w4-commissioning.test.ts",
+    "total": 9,
+    "passed": 9,
+    "results": [
+      {
+        "name": "commissioning refuses before any PLC write: held lock, unclean baseline, live-mode test hooks",
+        "passed": true
+      },
+      {
+        "name": "offline commissioning passes end to end through the real runtime and isolated child",
+        "passed": true
+      },
+      {
+        "name": "held mid-transit: exact record, transit-pending refusal, changed preconditions refused, authorized reconciliation",
+        "passed": true
+      },
+      {
+        "name": "uncertain write: a hung WCS offer quarantines, the lock is retained, inspection restores it, observation resolves the write",
+        "passed": true
+      },
+      {
+        "name": "child exit: the dead run's lock is adopted only with its nonce and no live host, then restored after inspection",
+        "passed": true
+      },
+      {
+        "name": "undeclared PLC fault stops held and is refused as outside the recorded paths",
+        "passed": true
+      },
+      {
+        "name": "a run held at the stopped baseline needs no reconciliation and is not written",
+        "passed": true
+      },
+      {
+        "name": "classification: recorded overload and start-feedback paths, late commit settlement, and refusals",
+        "passed": true
+      },
+      {
+        "name": "read-only inspection gate refuses every write until an explicit authorization",
+        "passed": true
+      }
+    ]
+  },
+  "establishes": [
+    "The zero-model harness drives the real CampaignRuntime and isolated child through preconditions, read-only baseline, normal sort, six lease cases (incl. expiry under a 1.5 s parent stall), a declared overload fault and clean shutdown, and verifies the final state read-only",
+    "Refusal before any PLC write: held lock, unclean baseline, live-mode test hooks, missing live pins",
+    "A run that stops after writing records held-state.json: exact applied image, boot, epoch, sequence, in-flight commit/commands, uncertain writes, item/completion state, ownership and evidence hashes",
+    "recover-w4-held.js reads through a write-refusing gate, refuses every changed precondition (boot, epoch/sequence, image, counters, fault, lock, record hash, authorization) with zero writes, and runs only the recorded H2 write sequence after re-checking in the same connection",
+    "Uncertain writes are resolved by observation; a late in-flight commit whose controller reaction the run never observed is refused; a dead run's retained lock is adopted only by nonce with no live child/host and restored byte-for-byte after inspection"
+  ],
+  "doesNotEstablish": [
+    "Live M8 commissioning (native session, 10 Hz cadence under portal/HMI load, real lease timing)",
+    "Live behavior of any recorded reconciliation path on a W4-held state",
+    "That the fixture's scripted reactions match M8 (they are not an oracle)",
+    "A Wonder decision, investigation, paid call or W4 pass"
+  ],
+  "samples": {
+    "samples/held-transit/baseline.json": {
+      "sha256": "1d1a8151eda6ec5b468c51d25697505f438bbadb12d07c1f4f0e6761fd0bfbf6"
+    },
+    "samples/held-transit/campaign.jsonl": {
+      "sha256": "d165ff9076516fd209a03c0ca911b7d8c95660b5876c1958f7f2b251730944d8"
+    },
+    "samples/held-transit/final-inspection.json": {
+      "sha256": "9920c3e410e96aa63f3979dd3c8d3ed818d30a329e6f5c79fbffc77eb369053c"
+    },
+    "samples/held-transit/held-state.json": {
+      "sha256": "c1dc5b92870d4dc8d928dbec2f3ed5e5886517119a6d65e0184acf3162bf40b7"
+    },
+    "samples/held-transit/inspection-transport.jsonl": {
+      "sha256": "b58fc4795f8b57cc12fb1419e57d7ba86cc24149b8d4fbe30745cf116c452b19"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-11-316Z/inspection.json": {
+      "sha256": "2f6f1fb0af691e016165ca242127803fdf7716235c2ce503794f49b3e012cf6c"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-11-316Z/result.json": {
+      "sha256": "38ddd7691997cf7a77aaac168ff093a872f83e3ef8a530ce6853bbfbd1a3e6f5"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-11-316Z/transport.jsonl": {
+      "sha256": "c3771e60f3d0c1727f79530d9b40d7c4562dbea0f6402c2817f21855d6eb30ce"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-11-821Z/inspection.json": {
+      "sha256": "41e38f3531873e4b526386175df830113d15f1f931273f869cf1760e8268355b"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-11-821Z/result.json": {
+      "sha256": "3bcceecf5488d5983cbbd6b3b807781873a7ce2a62c8418507e7339898f5c401"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-11-821Z/transport.jsonl": {
+      "sha256": "0add727fca6e669642329575dd20ef831a68a79506c82fcbbe25ad11c8bf9fd7"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-12-282Z/result.json": {
+      "sha256": "e3cdb7e9409355afde3a0f9a0e9710bbd3c431202ab6bb7d9f46d1c7d07ffbb6"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-12-759Z/result.json": {
+      "sha256": "82afa3a90587e65c80c0e9de2e485b2b9a03c27be64c92a634161a1ba47b079d"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-166Z/inspection.json": {
+      "sha256": "7465ffb5c3835fa96bee6ab412a97f051079e06d3e5043e4bbf43ff639c3a6d8"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-166Z/result.json": {
+      "sha256": "f894c898e3a181b0c82eb30ef8c62cebfb2577d92ba3c5153b9a5e6f4e71338e"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-166Z/transport.jsonl": {
+      "sha256": "a5e36ab726d102f5ef5494c9cc4574e37f739f0b59b7841b5e3b725eae17c367"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-561Z/inspection.json": {
+      "sha256": "370fee8063d6cb3f81731c3f3fc54a0708deea5234eb7f82c7abdeb400a7c406"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-561Z/result.json": {
+      "sha256": "bb6acef59e211407718fa33cfde8bc6792790e5a9977c1d1793841a3b4cd730d"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-561Z/transport.jsonl": {
+      "sha256": "fe01cc25afca4183d19eeff86a1af558bee65892f6f39dea3ae61bbe0b528b85"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-983Z/inspection.json": {
+      "sha256": "0c2c181699a639db7248595d112142ba538e71c62de2e1028b85cf3075c3be20"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-983Z/result.json": {
+      "sha256": "ea03f84c1de28c62da316e68dc90b029c22de278d06c72d87ae51921ded14dbb"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-13-983Z/transport.jsonl": {
+      "sha256": "fb96a7a05ac4db54aadb39b0b87f1204be37548d3bbb9db227841d374fbfa9e9"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-14-381Z/inspection.json": {
+      "sha256": "7d632fee886bf4f5837848e6b5d75be459ce1dba67d890887b0282278ff01289"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-14-381Z/result.json": {
+      "sha256": "f4d5f9a15c03011e9982993cdc02fdd7d04b6817c2989fb33a99148122a4a4c3"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-14-381Z/transport.jsonl": {
+      "sha256": "d48b3f90173689205e1a1798eb545c4d42460f0da5ed6a5acfff3969a8a362fd"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-14-777Z/inspection.json": {
+      "sha256": "9e248b735ed326df9663ad58c038b541e2774461e6a62f0da530bd5c888b86af"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-14-777Z/result.json": {
+      "sha256": "8b57c2faeee1f964aacc25b603e776a7b2d0f31e795f4e4336c6a221928ea69e"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-14-777Z/transport.jsonl": {
+      "sha256": "5c26a0502aeb43ddf88f2879b8255039fcfdcc06366a2306dd0cd6e47e2ebbe1"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-15-166Z/result.json": {
+      "sha256": "797ee0b77b3a8e810528498d8eed8bc4569e64b1f686cfd9673ac18b936d7528"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-15-529Z/result.json": {
+      "sha256": "cb1eb2e062c05b450e66c8c7093ab1e6c27b2f4faa0d901236c4ad43ab20f425"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-16-044Z/inspection.json": {
+      "sha256": "3094fb5e40bc4838c534d494424fd01db249000443ffe54dbbe66bdb98951383"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-16-044Z/result.json": {
+      "sha256": "66c8f34f9f3309d9de15d9f81548343d40df9be238115ff9b255cad072187ce6"
+    },
+    "samples/held-transit/recovery-2026-11-02T03-19-16-044Z/transport.jsonl": {
+      "sha256": "98cfdde9337a7b648c0b5fe6054cadab0ab3910118d492a05d3ffc58b35ddef5"
+    },
+    "samples/held-transit/recovery-latest.json": {
+      "sha256": "fc2fcd42ddd87e7a66c7136c57eb256f7d8cada142cd9e0541754cc1d6e9a1a8"
+    },
+    "samples/held-transit/report.json": {
+      "sha256": "099b419199f0ebdb1fd819d1bb73ab93cde151f6d24227c58cbc1d9b3305994c"
+    },
+    "samples/held-transit/result.json": {
+      "sha256": "597a60e1b2cc33d37e3cd6e462883de116870a19c4bebe4497f8bbe20669820a"
+    },
+    "samples/held-transit/wonder-process/child-lifecycle.jsonl": {
+      "sha256": "98d1c9086709fd5dffde950bcc74f9ee4a7da636dd191bc41c894eefeda6e898"
+    },
+    "samples/held-transit/wonder-process/child-stream.jsonl": {
+      "sha256": "d5dac7518ab80ac53361712c352af2248d58a2f3ebb97c39c1260ae976475fde"
+    },
+    "samples/held-transit/wonder-process/child-transport.jsonl": {
+      "sha256": "197840976b1616358512d7ba0c9b0dde7c3f16b843b315ba7826c098a60fb062"
+    },
+    "samples/held-transit/wonder-process/parent-boundary.jsonl": {
+      "sha256": "40bb2af191b9f448d28068eaabe17cf1031b462d876fef2241b13814b410ff74"
+    },
+    "samples/held-uncertain-write/baseline.json": {
+      "sha256": "f57e96e3b088195b42f5d2061dfe0536e73d6d6da87a4462357f8e9b7a56cfd3"
+    },
+    "samples/held-uncertain-write/campaign.jsonl": {
+      "sha256": "cda2fdb8b264b8b7673f291b62978f0b17ce2c6c5ead51e59de25fef80765b2e"
+    },
+    "samples/held-uncertain-write/final-inspection.json": {
+      "sha256": "1ef648a938108ff910290ab629745f496233f0b7d4f0677dbd2784ab0c91aaf3"
+    },
+    "samples/held-uncertain-write/held-state.json": {
+      "sha256": "49a5f1445b87b840d8023a723c50a45ced495718f400c8c6d5b66a66b09828ee"
+    },
+    "samples/held-uncertain-write/inspection-transport.jsonl": {
+      "sha256": "5d31d3bbbec073ad8bebf1364c5b4df34ba55c2b61a216e5fd5d441d8be40704"
+    },
+    "samples/held-uncertain-write/recovery-2026-11-02T03-19-22-486Z/inspection.json": {
+      "sha256": "299ce7c6d47b62dd9fdece6565abd52ce46b791ddb32df7dc858d2de48f994ff"
+    },
+    "samples/held-uncertain-write/recovery-2026-11-02T03-19-22-486Z/result.json": {
+      "sha256": "220fb14e34588a2b24466a285315edf2b6f3915a0b7e3b38350f86a77ac274ce"
+    },
+    "samples/held-uncertain-write/recovery-2026-11-02T03-19-22-486Z/transport.jsonl": {
+      "sha256": "cdc1f9df00262698519018d903319106e3fe781c021cd0d9b8ed5b19d1acae09"
+    },
+    "samples/held-uncertain-write/recovery-2026-11-02T03-19-23-128Z/inspection.json": {
+      "sha256": "bfff0b94ad5ca62d3f8db6fb4de25ca89da9e1c08a35b6378a133aecbc170c22"
+    },
+    "samples/held-uncertain-write/recovery-2026-11-02T03-19-23-128Z/result.json": {
+      "sha256": "49cf16029a10549e55aa4ba26c3719da2e0aa91d5a3fb617bc4f182214591aa6"
+    },
+    "samples/held-uncertain-write/recovery-2026-11-02T03-19-23-128Z/transport.jsonl": {
+      "sha256": "a4b07c2d452495ee863a0cee57bea7e6f44bfde1b6449157b80033b424350e4d"
+    },
+    "samples/held-uncertain-write/recovery-latest.json": {
+      "sha256": "8adabe7c191ea95aa419a92aa056688efccadb63bb59a39278a70f67b47b9726"
+    },
+    "samples/held-uncertain-write/report.json": {
+      "sha256": "5ec3347ac23acafda7f5e2889d4c72135e8e0dbfb0ffa17c302aebc65f52d0ff"
+    },
+    "samples/held-uncertain-write/result.json": {
+      "sha256": "0342625ad58c7e81c1a206baec766ddb41e9b9d55a088bd511111a465e35dac8"
+    },
+    "samples/held-uncertain-write/wonder-process/child-lifecycle.jsonl": {
+      "sha256": "8a962b2e6fc97307814aed0745428672177a123e4343a6cc8a547810811d3900"
+    },
+    "samples/held-uncertain-write/wonder-process/child-stream.jsonl": {
+      "sha256": "d300704801653c1763a8e0d97a65b0a18172db0442b4d6ba49bd64fd83f9b53d"
+    },
+    "samples/held-uncertain-write/wonder-process/child-transport.jsonl": {
+      "sha256": "26c97dd0a8b8335910159487db66cee99e1bff24d517dabc0c1fc1400268e067"
+    },
+    "samples/held-uncertain-write/wonder-process/parent-boundary.jsonl": {
+      "sha256": "698f68b52960c9b58d8d56c3aa03adc1c14146ecb821861a3769ba07fad8b545"
+    },
+    "samples/pass/baseline.json": {
+      "sha256": "e853ea6646c7fd2aaaf554904177a4aa4e3f42a7d73ad4545f7d50df06299fbb"
+    },
+    "samples/pass/campaign.jsonl": {
+      "sha256": "ee3a1e219fed781bce478384a30e5b2e9333c0dd7029b5eede1b074275773559",
+      "gz": "samples/pass/campaign.jsonl.gz",
+      "gzSha256": "bc6591098777febc2c0ebd1b369ed67202a66c764d1bca014f31b20865d36a03"
+    },
+    "samples/pass/final-inspection.json": {
+      "sha256": "6fe7c1a00cd8041574646651cef07df9689addca5e5a393a645c30059de7ddfa"
+    },
+    "samples/pass/inspection-transport.jsonl": {
+      "sha256": "29ae155489d40721bff10e94c8bcc799603c3ba1ad56a15bb66516e6258f0939"
+    },
+    "samples/pass/report.json": {
+      "sha256": "185f5f03062f091df8abc5c094c3921a1359eccef08c27e90d8f1be7745d1894"
+    },
+    "samples/pass/result.json": {
+      "sha256": "627c43c9fc2ccadcaf254dbabd9c64d442917f756bde98a6a87fd0c2bbd2d09e"
+    },
+    "samples/pass/wonder-process/child-lifecycle.jsonl": {
+      "sha256": "1e9bbdb5d46c8eb9507f3d819a90b8418875362c3fade4c919f98bbdb6216251"
+    },
+    "samples/pass/wonder-process/child-stream.jsonl": {
+      "sha256": "560829fae97f3c0f2c01f144b252cb058fe5e3352abe8a652356ed0d2d4ab172",
+      "gz": "samples/pass/wonder-process/child-stream.jsonl.gz",
+      "gzSha256": "eee958bd7a3a375e541ab4f5ae5afce60c292edbc03f26c3aa1159619b0cc2bf"
+    },
+    "samples/pass/wonder-process/child-transport.jsonl": {
+      "sha256": "29c00fdc0d1d6a4ed26dad7baf4d9c65d13adcbeb226931529a629b1ac98580e",
+      "gz": "samples/pass/wonder-process/child-transport.jsonl.gz",
+      "gzSha256": "f56f2c665ab0fda599cd28bc5206ac6a3af6ed7ee2e5e7a84d7147b74e95ff5f"
+    },
+    "samples/pass/wonder-process/parent-boundary.jsonl": {
+      "sha256": "cfee6a337ee84d5ddb4db9dc516da826394c86ea8e50679821cf1d1c5a58e430"
+    }
+  },
+  "implementation": {
+    "scripts/lib/w4-commissioning.ts": {
+      "blob": "8c4ddfbcd3ac18a9c2c392efa5e97946dc0b6fb4",
+      "blobSha256": "b1d5e005aca0ebd96daa87704c1566ee7cb11faed4c1f6a19097d5b9f6609701",
+      "checkoutSha256": "b1d5e005aca0ebd96daa87704c1566ee7cb11faed4c1f6a19097d5b9f6609701"
+    },
+    "scripts/run-w4-commissioning.js": {
+      "blob": "7b8738d301e853595b8162160b4603b754be1097",
+      "blobSha256": "c6df73dd3d7fc1681bab7a5139b86ecd8bd20342dd34c81a9be322602aa54ddb",
+      "checkoutSha256": "c6df73dd3d7fc1681bab7a5139b86ecd8bd20342dd34c81a9be322602aa54ddb"
+    },
+    "scripts/recover-w4-held.js": {
+      "blob": "1308f1d028a916a6df22841926e93cada75dbb1e",
+      "blobSha256": "04e39f47ba285b07ca3ea49495df8ca7ed0db74ebbdd701c1426623d15026e49",
+      "checkoutSha256": "04e39f47ba285b07ca3ea49495df8ca7ed0db74ebbdd701c1426623d15026e49"
+    },
+    "scripts/run-w4-commissioning.ps1": {
+      "blob": "a9f0d6aac41ed41709119ea3268916dde62c8251",
+      "blobSha256": "a1c59aa3ac9a728568b489befeb859a3bd77df6a1ffe8563cfcf1d6b5a10a364",
+      "checkoutSha256": "a1c59aa3ac9a728568b489befeb859a3bd77df6a1ffe8563cfcf1d6b5a10a364"
+    },
+    "scripts/run-w4-commissioning-proof.js": {
+      "blob": "1e2a7a10f059afae2534498449c6903829645d4d",
+      "blobSha256": "a7e994307294fd2aebb6665a3d0aedee253d1729f32524961e9fee6e5c394a00",
+      "checkoutSha256": "269d477b9f3e416988dd5dcf852f8612811ce6c5675359d2e7596b419a97ab5c"
+    },
+    "test/w4-commissioning.test.ts": {
+      "blob": "a20b8476011ddfc0ef02043c5647d16fd0144670",
+      "blobSha256": "8542d05d79fa2c7c312774a8a06d20b9637860628dc71c7c13d3e6f57d4bc4df",
+      "checkoutSha256": "f40f43bd8065eb0a40dd6882210e62406b445b26facea26860df4d20bca7c43e"
+    },
+    "test/fixtures/w4-bench-transport.ts": {
+      "blob": "8cc0c9d61cf8b460275b79ee65edc16c5ef58bd8",
+      "blobSha256": "dfadabf06923671210110061b0e01bb523c6eeaea2d1ad7a22d1d54c1f236930",
+      "checkoutSha256": "dfadabf06923671210110061b0e01bb523c6eeaea2d1ad7a22d1d54c1f236930"
+    }
+  },
+  "dependencies": {
+    "src/live/wonder-process/index.ts": {
+      "blob": "e4d44773285dd9a8da22556bf826ab18baf4f332",
+      "blobSha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379",
+      "checkoutSha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379"
+    },
+    "src/live/wonder-process/session.ts": {
+      "blob": "a5bc5ec269e354d037381b39d9802ddb7353a5f8",
+      "blobSha256": "89fbceb66295a2f8da63d74e88631c42d480debbfe27e554efb512b98b5372f7",
+      "checkoutSha256": "89fbceb66295a2f8da63d74e88631c42d480debbfe27e554efb512b98b5372f7"
+    },
+    "src/live/wonder-process/driver.ts": {
+      "blob": "fff476f5ae1fc175c0252b50eba25c3ca9a9e917",
+      "blobSha256": "68f3f910c98b52343d36e74b4664c97548a6480b08285902ac3df8b4d7b1a1dd",
+      "checkoutSha256": "68f3f910c98b52343d36e74b4664c97548a6480b08285902ac3df8b4d7b1a1dd"
+    },
+    "src/live/wonder-process/engine.ts": {
+      "blob": "e9d97ebe85076613ad35c5d39281814f9f8a3e36",
+      "blobSha256": "4f60d8b16907d63da82f8c975353346cde15db08286cfe32b95016a36d2c4f34",
+      "checkoutSha256": "4f60d8b16907d63da82f8c975353346cde15db08286cfe32b95016a36d2c4f34"
+    },
+    "src/live/wonder-process/channel.ts": {
+      "blob": "b4251b977122fac3b00959116ced08774e60a87d",
+      "blobSha256": "aadaa7a713b1cdde87ff071df8a29a247339c24cb7ba818b89677674ec9ad85f",
+      "checkoutSha256": "aadaa7a713b1cdde87ff071df8a29a247339c24cb7ba818b89677674ec9ad85f"
+    },
+    "src/live/wonder-process/write-gate.ts": {
+      "blob": "97b28d9b729c1c2a1be3963b57ccc9960a52edbb",
+      "blobSha256": "1e00f6287f23cdc2472bef814074eaea114e17705f2404f35b58ff35f88ef337",
+      "checkoutSha256": "1e00f6287f23cdc2472bef814074eaea114e17705f2404f35b58ff35f88ef337"
+    },
+    "src/live/wonder-process/ownership.ts": {
+      "blob": "0ee5992189ee0a7a5f0c3f01e11bae3fd5837c78",
+      "blobSha256": "7c10704916787f7afab0673cba16071f3555df4b30c73d7d1db539857c1badf4",
+      "checkoutSha256": "7c10704916787f7afab0673cba16071f3555df4b30c73d7d1db539857c1badf4"
+    },
+    "src/live/wonder-process/protocol.ts": {
+      "blob": "e33d09879aaf82e6ecd19d1152850c5d1d869e17",
+      "blobSha256": "eecbfcf0c9d56139be6749c9cd9f66a2e2f9a379dca20dcf9dc1bd86a5a47974",
+      "checkoutSha256": "eecbfcf0c9d56139be6749c9cd9f66a2e2f9a379dca20dcf9dc1bd86a5a47974"
+    },
+    "scripts/wonder-process-child.js": {
+      "blob": "9e7090199a84d16bceb0a8ec6ffb6327e08ce5b5",
+      "blobSha256": "b0bb9e415772ab5bd88dc5f79b79dd4a10ed8634ce7f489091ee0e9e02fe1166",
+      "checkoutSha256": "1f6cc6bd00515f647dd22121299232f5c2e8f7604f6bf497a918e37d3767e925"
+    },
+    "src/live/m8-opcua.ts": {
+      "blob": "43364190c2637f26deaf394ec370663f9c180124",
+      "blobSha256": "50f949fa761eb0ebb895935d0884172219da716aab37306fe8979895b23ba95b",
+      "checkoutSha256": "6bc771442043ecbce06cd6afe3382568c98f5aac14f3a7b5818e91a572fb2087"
+    },
+    "src/live/m8-map.ts": {
+      "blob": "51454aa639380a2d7b0f24457e075ce8251f0404",
+      "blobSha256": "0989e72805684ed12a29f2378a94ec4e8d1429b5f4f072a3b2ea2654addb5467",
+      "checkoutSha256": "9ab54e23e0cdbaf9301f50881958b229669ff73d09245c941de3e13e8656e0f9"
+    },
+    "src/live/m8-native-transport.ts": {
+      "blob": "833d3743eed23842a967d499bc5442f92300045e",
+      "blobSha256": "50eed577e4407fe213eadc944d63a6d259d8b9a8b9ca7fe8bfe5e09c43c9dc58",
+      "checkoutSha256": "4ab9653c7172954d877eee96878eb5b9cf76d3e51b018e968e47fea43dfdbac6"
+    },
+    "src/live/coordinator.ts": {
+      "blob": "fc4a4582d79e77631a069042cec75f9647c2508f",
+      "blobSha256": "a7eb731b551cd750ae570c8b88bce7838d3c21d21a878d188c655b62c245522d",
+      "checkoutSha256": "838b40634698ca7478b5b5f4cdf00999750676c80e40b5b9bb44c7d81dbed57f"
+    },
+    "src/campaign/runtime.ts": {
+      "blob": "69ddab890dd3811b098b9bbc27f3f3c4de74a004",
+      "blobSha256": "86169204886067a62d740740bfd69881e9db99fe04b23563f754657ff0cd45c1",
+      "checkoutSha256": "e06b44ec963f74b61de2369c3185e828c633f906c1ddc77f8306b69239661268"
+    },
+    "src/campaign/ledger.ts": {
+      "blob": "c882c02a5282ebf793ddd86b302bb920ee125da2",
+      "blobSha256": "f1554e0cbfe2fa56b8081ab830a2ca01b5e2857368dbaa003235117054dd954a",
+      "checkoutSha256": "1371088326fe9107818a42843d4b9dfe065c18aed9804cbf2447affbf4996536"
+    },
+    "src/campaign/process-port.ts": {
+      "blob": "7bbb962f0449323e46078cbcd984954b255aecc3",
+      "blobSha256": "29c3131c253822c628e4bce6ad0ef513994c25a4b377d8a2e9baa49f40c7884b",
+      "checkoutSha256": "4e1014a6a4f7ef0a4059f4decdb80211264ad86eae939efef2e261f0bdb56785"
+    },
+    "src/campaign/contracts.ts": {
+      "blob": "f147c3611a183df1912e4a6bef72c907307e53c8",
+      "blobSha256": "a5debec091c57be1cbc20ca6d042f99b29adfd5c9e80ddf8ad32402ba4cb94b4",
+      "checkoutSha256": "c59a96a13c7a82b847326ebac3586dca0fde9b5932778f6ca04004e72f6e101d"
+    },
+    "src/campaign/owner-handoff.ts": {
+      "blob": "71eba7ffdbd56024dce608abb6451838e64595da",
+      "blobSha256": "a64c754da56542fb4a1119b4e6a35ceaaf3733fcd38909038e538330111cc2cf",
+      "checkoutSha256": "288b3a511a4168e3a8b435229168ce29b76fe46b52ade8f37308f8672e1e3578"
+    },
+    "src/host/m8-campaign-factory.ts": {
+      "blob": "b36cb94cf0851b034bd09780c90ddea2e653269a",
+      "blobSha256": "b60d009db552428ee4031769f6664b3a5ad0c9edc1f7fa705ba975a794902468",
+      "checkoutSha256": "bd249a1194f97c838cf9fcb1840e95e5e5409f80d1e52437142e8289228e6ca7"
+    },
+    "test/fixtures/wonder-process-transport.ts": {
+      "blob": "ef0f839347fa28056d06238824b8a41834496dea",
+      "blobSha256": "2d3c3acdf8ba6dfa0edc606f881e799a4b999d3193ff4d23015568761fb988a5",
+      "checkoutSha256": "47af46a6bd0579fb2f1249c739ec57f822a79e5088d7b81cbfbec11c8879bb81"
+    },
+    "test/fixtures/m8-protocol-transport.ts": {
+      "blob": "6c14cc3a0ff67a799a943838a4c4f726107f10b5",
+      "blobSha256": "87abebd89fac08f070b4922460681e0037fab67e82a924092653454133090006",
+      "checkoutSha256": "6544d39944646069ae105e66586f8eaa2059f10bc206d54abb9e5d3866fa25c1"
+    },
+    "codesys/conveyordemo.project": {
+      "blob": "7c76f8f6eaf50a8289d5e34fe169faec477cd0cb",
+      "blobSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+      "checkoutSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628"
+    },
+    "codesys/demo/signal-map-v1.json": {
+      "blob": "88e7c4be584bac5dca424d20c8d43815afff781f",
+      "blobSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+      "checkoutSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0"
+    },
+    "artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts": {
+      "blob": "050a91a11b1bfe056afb6c73d23e5bba65a2f74a",
+      "blobSha256": "a467a4589850ba19bdb1caa80d30387b387b8861077013afb8974933c520b5d6",
+      "checkoutSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5"
+    }
+  },
+  "note": "Offline scope only. Live qualification needs D's zero-model commissioning run on the bench (scripts/run-w4-commissioning.ps1 -Run)."
+}

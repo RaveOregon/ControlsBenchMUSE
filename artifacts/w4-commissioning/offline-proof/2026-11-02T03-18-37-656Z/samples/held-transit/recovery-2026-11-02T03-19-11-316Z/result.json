@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "refused",
+  "mode": "inspect",
+  "scope": "offline-fake-transport",
+  "reference": "C:\\Users\\steve\\AppData\\Local\\Temp\\w4-transit-gYn56t\\runs\\2026-11-02T03-19-08-437Z",
+  "startedAtIso": "2026-11-02T03:19:11.317Z",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "checks": [],
+  "heldStateSha256": "c1dc5b92870d4dc8d928dbec2f3ed5e5886517119a6d65e0184acf3162bf40b7",
+  "resultSha256": "597a60e1b2cc33d37e3cd6e462883de116870a19c4bebe4497f8bbe20669820a",
+  "campaignId": "w4-commissioning-2026-11-02T03-19-08-437Z",
+  "ownership": {
+    "acquired": true
+  },
+  "inspection": {
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "78616636617495",
+    "appliedSequence": "13",
+    "plcCycle": "13",
+    "plcTimeUs": "1300000",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Auto",
+    "faultCode": 0,
+    "itemActive": true,
+    "activeItemId": 401,
+    "completionPending": false,
+    "completionSequence": 0,
+    "motorRunCmd": true,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=1",
+      "controller.ItemActive=true",
+      "Motor_RunCmd=true"
+    ]
+  },
+  "classification": {
+    "path": "transit-pending",
+    "supported": false,
+    "refusals": [
+      "tracked carton reached the declared 30 s transit timeout (fault 33)"
+    ],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "78616636617495",
+            "sequence": "13"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "78616636617495",
+              "sequence": "13"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "tracked carton reached the declared 30 s transit timeout (fault 33)",
+        "ok": false,
+        "detail": {
+          "activeItemId": 401,
+          "note": "Held Auto with a tracked carton: re-inspect after at least 30 s of held Auto; no write now"
+        }
+      }
+    ],
+    "plan": [],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {}
+  },
+  "error": "Error: Held state is not reconcilable by this procedure (unmet: tracked carton reached the declared 30 s transit timeout (fault 33))\n    at fail (file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/w4-commissioning/scripts/recover-w4-held.js:41:33)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/w4-commissioning/scripts/recover-w4-held.js:101:34",
+  "refusedWrites": 0,
+  "ownershipAfter": "released",
+  "finishedAtIso": "2026-11-02T03:19:11.354Z",
+  "transportSha256": "c3771e60f3d0c1727f79530d9b40d7c4562dbea0f6402c2817f21855d6eb30ce"
+}

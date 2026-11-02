@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "refused",
+  "mode": "reconcile",
+  "scope": "offline-fake-transport",
+  "reference": "C:\\Users\\steve\\AppData\\Local\\Temp\\w4-transit-gYn56t\\runs\\2026-11-02T03-19-08-437Z",
+  "startedAtIso": "2026-11-02T03:19:13.563Z",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "checks": [],
+  "heldStateSha256": "c1dc5b92870d4dc8d928dbec2f3ed5e5886517119a6d65e0184acf3162bf40b7",
+  "resultSha256": "597a60e1b2cc33d37e3cd6e462883de116870a19c4bebe4497f8bbe20669820a",
+  "campaignId": "w4-commissioning-2026-11-02T03-19-08-437Z",
+  "ownership": {
+    "acquired": true
+  },
+  "inspection": {
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "78616636617495",
+    "appliedSequence": "999",
+    "plcCycle": "13",
+    "plcTimeUs": "1300000",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Faulted",
+    "faultCode": 33,
+    "itemActive": false,
+    "activeItemId": 401,
+    "completionPending": true,
+    "completionSequence": 1,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 1
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=3",
+      "controller.FaultCode=33",
+      "controller.CompletionPending=true"
+    ]
+  },
+  "classification": {
+    "path": null,
+    "supported": false,
+    "refusals": [
+      "applied epoch/sequence is the run's own last or in-flight commit",
+      "active raw image equals that commit's image exactly"
+    ],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": false,
+        "detail": {
+          "current": {
+            "epoch": "78616636617495",
+            "sequence": "999"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "78616636617495",
+              "sequence": "13"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": false
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      }
+    ],
+    "plan": [],
+    "matchedCommit": null,
+    "landedCommands": [],
+    "differences": {
+      "Motor_RunCmd": [
+        true,
+        false
+      ],
+      "D1_ExtendCmd": [
+        true,
+        false
+      ],
+      "StackLight_Red": [
+        false,
+        true
+      ],
+      "StackLight_Green": [
+        true,
+        false
+      ],
+      "controller.Mode": [
+        1,
+        3
+      ],
+      "controller.ModeText": [
+        "Auto",
+        "Faulted"
+      ],
+      "controller.FaultCode": [
+        0,
+        33
+      ],
+      "controller.FaultText": [
+        "",
+        "Carton transit timeout"
+      ],
+      "controller.ItemActive": [
+        true,
+        false
+      ],
+      "controller.Disposition": [
+        0,
+        4
+      ],
+      "controller.CompletionSequence": [
+        0,
+        1
+      ],
+      "controller.CompletionPending": [
+        false,
+        true
+      ],
+      "controller.CompletionItemId": [
+        0,
+        401
+      ],
+      "controller.CompletionRoute": [
+        0,
+        1
+      ],
+      "controller.CompletionDisposition": [
+        0,
+        4
+      ],
+      "controller.CountFaulted": [
+        0,
+        1
+      ]
+    }
+  },
+  "error": "Error: Held state is not reconcilable by this procedure (unmet: applied epoch/sequence is the run's own last or in-flight commit; active raw image equals that commit's image exactly)\n    at fail (file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/w4-commissioning/scripts/recover-w4-held.js:41:33)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/.claude/worktrees/w4-commissioning/scripts/recover-w4-held.js:101:34",
+  "refusedWrites": 0,
+  "ownershipAfter": "released",
+  "finishedAtIso": "2026-11-02T03:19:13.599Z",
+  "transportSha256": "fe01cc25afca4183d19eeff86a1af558bee65892f6f39dea3ae61bbe0b528b85"
+}
