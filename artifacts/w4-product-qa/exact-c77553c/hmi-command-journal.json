@@ -1,0 +1,1816 @@
+{
+  "file": "artifacts\\w4-product-qa\\hmi-controlled\\runs\\2026-11-02T03-06-42-525Z-fixture\\journal.jsonl",
+  "records": [
+    {
+      "sequence": 1,
+      "atIso": "2026-11-02T03:06:42.548Z",
+      "type": "service.started",
+      "data": {
+        "identity": {
+          "protocolVersion": 1,
+          "serviceSessionId": "hmi-svc-2026-11-02T03-06-42-523Z-2fa7565a",
+          "startedAtIso": "2026-11-02T03:06:42.525Z",
+          "source": {
+            "kind": "fixture",
+            "label": "FIXTURE · M10 final held state",
+            "fixtureId": "m10-final-held",
+            "fixtureBasis": "recorded 2026-11-01T00:59:48.814Z in artifacts/m10/2026-11-01T00-58-43-185Z/transport.jsonl.gz (sha256 750f0494eac0…); command acknowledgements emulated by the fixture, not M8"
+          },
+          "machine": {
+            "id": "CV-1",
+            "name": "Sort conveyor",
+            "description": "Single lane · divert D1 to exit A · divert D2 to exit B · straight runout"
+          },
+          "mapVersion": "m8-conveyor-1.0.2",
+          "expectedBuildId": 8001,
+          "expectedInterfaceVersion": 1,
+          "url": "http://127.0.0.1:5612/",
+          "journal": "artifacts\\w4-product-qa\\hmi-controlled\\runs\\2026-11-02T03-06-42-525Z-fixture\\journal.jsonl"
+        },
+        "commandPolicy": "enabled",
+        "alarmHistoryLoaded": 0,
+        "alarmPersistence": "In memory only for this fixture run (not persisted). HMI service wall clock at receipt of the OPC UA read that first showed the state. Onset lies after the previous good read (onsetAfterIso). OPC source timestamps are server sampling times, not PLC fault-onset times."
+      },
+      "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "c16aacd01cbbff70d3c793bb6a46721635e22fcf8cbf4faf6d4948dccfaf9eb6"
+    },
+    {
+      "sequence": 2,
+      "atIso": "2026-11-02T03:06:42.633Z",
+      "type": "ownership.changed",
+      "data": {
+        "commandsEnabled": true,
+        "policy": "enabled",
+        "reasons": [],
+        "owners": []
+      },
+      "previousHash": "c16aacd01cbbff70d3c793bb6a46721635e22fcf8cbf4faf6d4948dccfaf9eb6",
+      "hash": "19040e429860afb0fe6662fdd1e2f62f4d97c9f85e2e7722520890fef0880cf8"
+    },
+    {
+      "sequence": 3,
+      "atIso": "2026-11-02T03:06:42.634Z",
+      "type": "transport.connection.attempt",
+      "data": {
+        "endpoint": "fixture://m10-recorded",
+        "fixture": "m10-final-held"
+      },
+      "previousHash": "19040e429860afb0fe6662fdd1e2f62f4d97c9f85e2e7722520890fef0880cf8",
+      "hash": "0bec3f7193328508711f85c351bbb806b9ce606eae6d1a42316b6ac2106f46bd"
+    },
+    {
+      "sequence": 4,
+      "atIso": "2026-11-02T03:06:42.664Z",
+      "type": "transport.connection.established",
+      "data": {
+        "authenticated": false,
+        "fixture": true
+      },
+      "previousHash": "0bec3f7193328508711f85c351bbb806b9ce606eae6d1a42316b6ac2106f46bd",
+      "hash": "1c7cb50b5c620d458b1dbed1e1da120dde53cc792f75bcaac833351e184c9bb6"
+    },
+    {
+      "sequence": 5,
+      "atIso": "2026-11-02T03:06:42.664Z",
+      "type": "transport.symbols.resolved",
+      "data": {
+        "resolvedCount": 103,
+        "readGroupWritableWarnings": [],
+        "writePolicy": "FIXTURE: operator allowlist only",
+        "nodeIds": {
+          "GVL_BenchRead.Active_PE_Entry": "fixture;s=GVL_BenchRead.Active_PE_Entry",
+          "GVL_BenchRead.Active_PE_D1Approach": "fixture;s=GVL_BenchRead.Active_PE_D1Approach",
+          "GVL_BenchRead.Active_PE_D2Approach": "fixture;s=GVL_BenchRead.Active_PE_D2Approach",
+          "GVL_BenchRead.Active_PE_ExitA": "fixture;s=GVL_BenchRead.Active_PE_ExitA",
+          "GVL_BenchRead.Active_PE_ExitB": "fixture;s=GVL_BenchRead.Active_PE_ExitB",
+          "GVL_BenchRead.Active_PE_Runout": "fixture;s=GVL_BenchRead.Active_PE_Runout",
+          "GVL_BenchRead.Active_D1_HomeFB": "fixture;s=GVL_BenchRead.Active_D1_HomeFB",
+          "GVL_BenchRead.Active_D1_ExtendedFB": "fixture;s=GVL_BenchRead.Active_D1_ExtendedFB",
+          "GVL_BenchRead.Active_D2_HomeFB": "fixture;s=GVL_BenchRead.Active_D2_HomeFB",
+          "GVL_BenchRead.Active_D2_ExtendedFB": "fixture;s=GVL_BenchRead.Active_D2_ExtendedFB",
+          "GVL_BenchRead.Active_Drive_RunningFB": "fixture;s=GVL_BenchRead.Active_Drive_RunningFB",
+          "GVL_BenchRead.Active_Drive_Overload": "fixture;s=GVL_BenchRead.Active_Drive_Overload",
+          "GVL_BenchRead.Active_ExitA_Ready": "fixture;s=GVL_BenchRead.Active_ExitA_Ready",
+          "GVL_BenchRead.Active_ExitB_Ready": "fixture;s=GVL_BenchRead.Active_ExitB_Ready",
+          "GVL_BenchRead.Active_Runout_Ready": "fixture;s=GVL_BenchRead.Active_Runout_Ready",
+          "GVL_BenchRead.Active_Belt_SpeedActual": "fixture;s=GVL_BenchRead.Active_Belt_SpeedActual",
+          "GVL_BenchRead.Active_Drive_Current": "fixture;s=GVL_BenchRead.Active_Drive_Current",
+          "GVL_BenchRead.Active_D1_Position": "fixture;s=GVL_BenchRead.Active_D1_Position",
+          "GVL_BenchRead.Active_D2_Position": "fixture;s=GVL_BenchRead.Active_D2_Position",
+          "GVL_BenchRead.Active_Encoder_Count": "fixture;s=GVL_BenchRead.Active_Encoder_Count",
+          "GVL_BenchWrite.SimRequest": "fixture;s=GVL_BenchWrite.SimRequest",
+          "GVL_BenchWrite.RequestedSlot": "fixture;s=GVL_BenchWrite.RequestedSlot",
+          "GVL_BenchWrite.RequestedEpoch": "fixture;s=GVL_BenchWrite.RequestedEpoch",
+          "GVL_BenchWrite.RequestedSequence": "fixture;s=GVL_BenchWrite.RequestedSequence",
+          "GVL_BenchWrite.WorkstationHeartbeat": "fixture;s=GVL_BenchWrite.WorkstationHeartbeat",
+          "GVL_BenchRead.SimApplied": "fixture;s=GVL_BenchRead.SimApplied",
+          "GVL_BenchRead.ConnectorStale": "fixture;s=GVL_BenchRead.ConnectorStale",
+          "GVL_BenchRead.ActiveSlot": "fixture;s=GVL_BenchRead.ActiveSlot",
+          "GVL_BenchRead.AppliedEpoch": "fixture;s=GVL_BenchRead.AppliedEpoch",
+          "GVL_BenchRead.AppliedSequence": "fixture;s=GVL_BenchRead.AppliedSequence",
+          "GVL_BenchRead.PlcHeartbeat": "fixture;s=GVL_BenchRead.PlcHeartbeat",
+          "GVL_BenchRead.PlcBootIdentity": "fixture;s=GVL_BenchRead.PlcBootIdentity",
+          "GVL_BenchRead.PlcCycle": "fixture;s=GVL_BenchRead.PlcCycle",
+          "GVL_BenchRead.PlcTimeUs": "fixture;s=GVL_BenchRead.PlcTimeUs",
+          "GVL_BenchRead.AppliedCommitCount": "fixture;s=GVL_BenchRead.AppliedCommitCount",
+          "GVL_BenchRead.DuplicateCommitCount": "fixture;s=GVL_BenchRead.DuplicateCommitCount",
+          "GVL_BenchRead.StaleCommitCount": "fixture;s=GVL_BenchRead.StaleCommitCount",
+          "GVL_BenchRead.SkippedSequenceCount": "fixture;s=GVL_BenchRead.SkippedSequenceCount",
+          "GVL_BenchRead.InvalidSlotCount": "fixture;s=GVL_BenchRead.InvalidSlotCount",
+          "GVL_BenchRead.InvalidPayloadCount": "fixture;s=GVL_BenchRead.InvalidPayloadCount",
+          "GVL_BenchRead.SlotMetadataMismatchCount": "fixture;s=GVL_BenchRead.SlotMetadataMismatchCount",
+          "GVL_BenchRead.EpochRejectedCount": "fixture;s=GVL_BenchRead.EpochRejectedCount",
+          "GVL_BenchRead.SessionResetCount": "fixture;s=GVL_BenchRead.SessionResetCount",
+          "GVL_BenchRead.Motor_RunCmd": "fixture;s=GVL_BenchRead.Motor_RunCmd",
+          "GVL_BenchRead.D1_ExtendCmd": "fixture;s=GVL_BenchRead.D1_ExtendCmd",
+          "GVL_BenchRead.D2_ExtendCmd": "fixture;s=GVL_BenchRead.D2_ExtendCmd",
+          "GVL_BenchRead.StackLight_Red": "fixture;s=GVL_BenchRead.StackLight_Red",
+          "GVL_BenchRead.StackLight_Green": "fixture;s=GVL_BenchRead.StackLight_Green",
+          "GVL_BenchRead.OutputCaptureCycle": "fixture;s=GVL_BenchRead.OutputCaptureCycle",
+          "GVL_BenchRead.OutputCaptureTimeUs": "fixture;s=GVL_BenchRead.OutputCaptureTimeUs",
+          "GVL_DemoWrite.StartSequence": "fixture;s=GVL_DemoWrite.StartSequence",
+          "GVL_DemoWrite.StopSequence": "fixture;s=GVL_DemoWrite.StopSequence",
+          "GVL_DemoWrite.ResetSequence": "fixture;s=GVL_DemoWrite.ResetSequence",
+          "GVL_DemoWrite.AutoRequest": "fixture;s=GVL_DemoWrite.AutoRequest",
+          "GVL_DemoWrite.OfferSequence": "fixture;s=GVL_DemoWrite.OfferSequence",
+          "GVL_DemoWrite.OfferItemId": "fixture;s=GVL_DemoWrite.OfferItemId",
+          "GVL_DemoWrite.OfferRoute": "fixture;s=GVL_DemoWrite.OfferRoute",
+          "GVL_DemoWrite.CompletionAck": "fixture;s=GVL_DemoWrite.CompletionAck",
+          "GVL_DemoRead.BuildId": "fixture;s=GVL_DemoRead.BuildId",
+          "GVL_DemoRead.InterfaceVersion": "fixture;s=GVL_DemoRead.InterfaceVersion",
+          "GVL_DemoRead.Status.Mode": "fixture;s=GVL_DemoRead.Status.Mode",
+          "GVL_DemoRead.Status.ModeText": "fixture;s=GVL_DemoRead.Status.ModeText",
+          "GVL_DemoRead.Status.FaultCode": "fixture;s=GVL_DemoRead.Status.FaultCode",
+          "GVL_DemoRead.Status.FaultText": "fixture;s=GVL_DemoRead.Status.FaultText",
+          "GVL_DemoRead.Status.ExceptionCode": "fixture;s=GVL_DemoRead.Status.ExceptionCode",
+          "GVL_DemoRead.Status.ExceptionText": "fixture;s=GVL_DemoRead.Status.ExceptionText",
+          "GVL_DemoRead.Status.Motor_RunCmd": "fixture;s=GVL_DemoRead.Status.Motor_RunCmd",
+          "GVL_DemoRead.Status.D1_ExtendCmd": "fixture;s=GVL_DemoRead.Status.D1_ExtendCmd",
+          "GVL_DemoRead.Status.D2_ExtendCmd": "fixture;s=GVL_DemoRead.Status.D2_ExtendCmd",
+          "GVL_DemoRead.Status.StackLight_Red": "fixture;s=GVL_DemoRead.Status.StackLight_Red",
+          "GVL_DemoRead.Status.StackLight_Green": "fixture;s=GVL_DemoRead.Status.StackLight_Green",
+          "GVL_DemoRead.Status.ReleaseReady": "fixture;s=GVL_DemoRead.Status.ReleaseReady",
+          "GVL_DemoRead.Status.ItemActive": "fixture;s=GVL_DemoRead.Status.ItemActive",
+          "GVL_DemoRead.Status.ActiveItemId": "fixture;s=GVL_DemoRead.Status.ActiveItemId",
+          "GVL_DemoRead.Status.RequestedRoute": "fixture;s=GVL_DemoRead.Status.RequestedRoute",
+          "GVL_DemoRead.Status.EffectiveRoute": "fixture;s=GVL_DemoRead.Status.EffectiveRoute",
+          "GVL_DemoRead.Status.ActualExit": "fixture;s=GVL_DemoRead.Status.ActualExit",
+          "GVL_DemoRead.Status.Disposition": "fixture;s=GVL_DemoRead.Status.Disposition",
+          "GVL_DemoRead.Status.OfferAckSequence": "fixture;s=GVL_DemoRead.Status.OfferAckSequence",
+          "GVL_DemoRead.Status.OfferAckItemId": "fixture;s=GVL_DemoRead.Status.OfferAckItemId",
+          "GVL_DemoRead.Status.OfferAccepted": "fixture;s=GVL_DemoRead.Status.OfferAccepted",
+          "GVL_DemoRead.Status.OfferReason": "fixture;s=GVL_DemoRead.Status.OfferReason",
+          "GVL_DemoRead.Status.OfferPending": "fixture;s=GVL_DemoRead.Status.OfferPending",
+          "GVL_DemoRead.Status.CompletionSequence": "fixture;s=GVL_DemoRead.Status.CompletionSequence",
+          "GVL_DemoRead.Status.CompletionPending": "fixture;s=GVL_DemoRead.Status.CompletionPending",
+          "GVL_DemoRead.Status.CompletionItemId": "fixture;s=GVL_DemoRead.Status.CompletionItemId",
+          "GVL_DemoRead.Status.CompletionRoute": "fixture;s=GVL_DemoRead.Status.CompletionRoute",
+          "GVL_DemoRead.Status.CompletionExit": "fixture;s=GVL_DemoRead.Status.CompletionExit",
+          "GVL_DemoRead.Status.CompletionDisposition": "fixture;s=GVL_DemoRead.Status.CompletionDisposition",
+          "GVL_DemoRead.Status.CountExitA": "fixture;s=GVL_DemoRead.Status.CountExitA",
+          "GVL_DemoRead.Status.CountExitB": "fixture;s=GVL_DemoRead.Status.CountExitB",
+          "GVL_DemoRead.Status.CountRunout": "fixture;s=GVL_DemoRead.Status.CountRunout",
+          "GVL_DemoRead.Status.CountMisroute": "fixture;s=GVL_DemoRead.Status.CountMisroute",
+          "GVL_DemoRead.Status.CountFaulted": "fixture;s=GVL_DemoRead.Status.CountFaulted",
+          "GVL_DemoRead.Status.StartAck": "fixture;s=GVL_DemoRead.Status.StartAck",
+          "GVL_DemoRead.Status.StopAck": "fixture;s=GVL_DemoRead.Status.StopAck",
+          "GVL_DemoRead.Status.ResetAck": "fixture;s=GVL_DemoRead.Status.ResetAck",
+          "GVL_DemoRead.Status.StartAccepted": "fixture;s=GVL_DemoRead.Status.StartAccepted",
+          "GVL_DemoRead.Status.ResetAccepted": "fixture;s=GVL_DemoRead.Status.ResetAccepted",
+          "GVL_DemoRead.Status.EncoderDelta": "fixture;s=GVL_DemoRead.Status.EncoderDelta",
+          "GVL_DemoRead.Status.BeltSpeedMps": "fixture;s=GVL_DemoRead.Status.BeltSpeedMps",
+          "GVL_DemoRead.Status.TravelMetres": "fixture;s=GVL_DemoRead.Status.TravelMetres",
+          "GVL_DemoRead.Status.ScanTimeUs": "fixture;s=GVL_DemoRead.Status.ScanTimeUs"
+        }
+      },
+      "previousHash": "1c7cb50b5c620d458b1dbed1e1da120dde53cc792f75bcaac833351e184c9bb6",
+      "hash": "a47e17d1c68e15652d1a319d775013c16164cd78787618026e6b64f5b72310a3"
+    },
+    {
+      "sequence": 6,
+      "atIso": "2026-11-02T03:06:42.665Z",
+      "type": "link.opened",
+      "data": {
+        "endpoint": "fixture://m10-recorded",
+        "reconnects": 0
+      },
+      "previousHash": "a47e17d1c68e15652d1a319d775013c16164cd78787618026e6b64f5b72310a3",
+      "hash": "6627c0d86d8718016bca975034f98b94b55292b267a86e1700e36e16c1293372"
+    },
+    {
+      "sequence": 7,
+      "atIso": "2026-11-02T03:06:42.665Z",
+      "type": "link.state",
+      "data": {
+        "state": "connected",
+        "detail": "Session open; awaiting first read"
+      },
+      "previousHash": "6627c0d86d8718016bca975034f98b94b55292b267a86e1700e36e16c1293372",
+      "hash": "c7a74755bb00ff2fc95b2568dd8f56350bffa54c6ba8200e2a56f99bc9f46845"
+    },
+    {
+      "sequence": 8,
+      "atIso": "2026-11-02T03:06:42.697Z",
+      "type": "plc.keyframe",
+      "data": {
+        "sequence": 1,
+        "receivedAtIso": "2026-11-02T03:06:42.697Z",
+        "latencyMs": 32,
+        "sameScanBracket": true,
+        "values": {
+          "GVL_BenchRead.Active_PE_Entry": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_PE_D1Approach": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_PE_D2Approach": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_PE_ExitA": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_PE_ExitB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_PE_Runout": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_D1_HomeFB": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_D1_ExtendedFB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_D2_HomeFB": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_D2_ExtendedFB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_Drive_RunningFB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_Drive_Overload": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_ExitA_Ready": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_ExitB_Ready": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_Runout_Ready": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_Belt_SpeedActual": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_Drive_Current": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_D1_Position": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_D2_Position": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Active_Encoder_Count": [
+            21613,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchWrite.SimRequest": [
+            true,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchWrite.RequestedSlot": [
+            1,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchWrite.RequestedEpoch": [
+            "196518616187191",
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchWrite.RequestedSequence": [
+            "302",
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchWrite.WorkstationHeartbeat": [
+            "349",
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.SimApplied": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.ConnectorStale": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.ActiveSlot": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.AppliedEpoch": [
+            "196518616187191",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.AppliedSequence": [
+            "302",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.PlcHeartbeat": [
+            "51544",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.PlcBootIdentity": [
+            "1534186706133",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.PlcCycle": [
+            "51544",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.PlcTimeUs": [
+            "1793588802679000",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.AppliedCommitCount": [
+            "302",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.DuplicateCommitCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.StaleCommitCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.SkippedSequenceCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.InvalidSlotCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.InvalidPayloadCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.SlotMetadataMismatchCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.EpochRejectedCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.SessionResetCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.Motor_RunCmd": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.D1_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.D2_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.StackLight_Red": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.StackLight_Green": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.OutputCaptureCycle": [
+            "51544",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_BenchRead.OutputCaptureTimeUs": [
+            "1793588802679000",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.StartSequence": [
+            3,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.StopSequence": [
+            2,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.ResetSequence": [
+            3,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.AutoRequest": [
+            true,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.OfferSequence": [
+            5,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.OfferItemId": [
+            201,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.OfferRoute": [
+            1,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoWrite.CompletionAck": [
+            6,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoRead.BuildId": [
+            8001,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoRead.InterfaceVersion": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.679Z"
+          ],
+          "GVL_DemoRead.Status.Mode": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ModeText": [
+            "Faulted",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.FaultCode": [
+            23,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.FaultText": [
+            "D1 extend feedback timeout",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ExceptionCode": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ExceptionText": [
+            "",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.Motor_RunCmd": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.D1_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.D2_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.StackLight_Red": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.StackLight_Green": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ReleaseReady": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ItemActive": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ActiveItemId": [
+            201,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.RequestedRoute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.EffectiveRoute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ActualExit": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.Disposition": [
+            4,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.OfferAckSequence": [
+            5,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.OfferAckItemId": [
+            201,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.OfferAccepted": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.OfferReason": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.OfferPending": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CompletionSequence": [
+            7,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CompletionPending": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CompletionItemId": [
+            201,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CompletionRoute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CompletionExit": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CompletionDisposition": [
+            4,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CountExitA": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CountExitB": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CountRunout": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CountMisroute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.CountFaulted": [
+            2,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.StartAck": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.StopAck": [
+            2,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ResetAck": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.StartAccepted": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ResetAccepted": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.EncoderDelta": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.BeltSpeedMps": [
+            0,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.TravelMetres": [
+            21.613,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ],
+          "GVL_DemoRead.Status.ScanTimeUs": [
+            "184",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:42.696Z"
+          ]
+        }
+      },
+      "previousHash": "c7a74755bb00ff2fc95b2568dd8f56350bffa54c6ba8200e2a56f99bc9f46845",
+      "hash": "531686b043973eae3baf70249a4af52c222cecd8ea4c86b9bd9d01c7a7761ebc"
+    },
+    {
+      "sequence": 9,
+      "atIso": "2026-11-02T03:06:42.698Z",
+      "type": "alarm.raised",
+      "data": {
+        "atIso": "2026-11-02T03:06:42.697Z",
+        "alarm": {
+          "id": "alarm:1534186706133:1",
+          "kind": "fault",
+          "code": 23,
+          "plcText": "D1 extend feedback timeout",
+          "cause": "D1 extended feedback was absent 1200 ms after the extend command.",
+          "response": "Faulted; drive and divert commands removed; active carton aborted.",
+          "state": "active",
+          "firstObservedAtIso": "2026-11-02T03:06:42.697Z",
+          "firstObservedBasis": "active_at_observation_start",
+          "plcSourceTimestamp": "2026-11-02T03:06:42.696Z",
+          "bootIdentity": "1534186706133",
+          "serviceSessionId": "hmi-svc-2026-11-02T03-06-42-523Z-2fa7565a",
+          "related": {
+            "operation": [
+              "d1"
+            ],
+            "engineering": [
+              "D1_ExtendCmd",
+              "D1_ExtendedFB",
+              "D1_HomeFB"
+            ]
+          }
+        }
+      },
+      "previousHash": "531686b043973eae3baf70249a4af52c222cecd8ea4c86b9bd9d01c7a7761ebc",
+      "hash": "746037a916a7eb4cd541e6524242492f19297c9ada2b0b43c53ecb6b3887667c"
+    },
+    {
+      "sequence": 10,
+      "atIso": "2026-11-02T03:06:57.796Z",
+      "type": "plc.keyframe",
+      "data": {
+        "sequence": 137,
+        "receivedAtIso": "2026-11-02T03:06:57.796Z",
+        "latencyMs": 32,
+        "sameScanBracket": true,
+        "values": {
+          "GVL_BenchRead.Active_PE_Entry": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_PE_D1Approach": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_PE_D2Approach": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_PE_ExitA": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_PE_ExitB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_PE_Runout": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_D1_HomeFB": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_D1_ExtendedFB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_D2_HomeFB": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_D2_ExtendedFB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_Drive_RunningFB": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_Drive_Overload": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_ExitA_Ready": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_ExitB_Ready": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_Runout_Ready": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_Belt_SpeedActual": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_Drive_Current": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_D1_Position": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_D2_Position": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Active_Encoder_Count": [
+            21613,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchWrite.SimRequest": [
+            true,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchWrite.RequestedSlot": [
+            1,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchWrite.RequestedEpoch": [
+            "196518616187191",
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchWrite.RequestedSequence": [
+            "302",
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchWrite.WorkstationHeartbeat": [
+            "349",
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.SimApplied": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.ConnectorStale": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.ActiveSlot": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.AppliedEpoch": [
+            "196518616187191",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.AppliedSequence": [
+            "302",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.PlcHeartbeat": [
+            "52299",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.PlcBootIdentity": [
+            "1534186706133",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.PlcCycle": [
+            "52299",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.PlcTimeUs": [
+            "1793588817780000",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.AppliedCommitCount": [
+            "302",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.DuplicateCommitCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.StaleCommitCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.SkippedSequenceCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.InvalidSlotCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.InvalidPayloadCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.SlotMetadataMismatchCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.EpochRejectedCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.SessionResetCount": [
+            "0",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.Motor_RunCmd": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.D1_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.D2_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.StackLight_Red": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.StackLight_Green": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.OutputCaptureCycle": [
+            "52299",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_BenchRead.OutputCaptureTimeUs": [
+            "1793588817780000",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.StartSequence": [
+            3,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.StopSequence": [
+            2,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.ResetSequence": [
+            3,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.AutoRequest": [
+            true,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.OfferSequence": [
+            5,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.OfferItemId": [
+            201,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.OfferRoute": [
+            1,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoWrite.CompletionAck": [
+            6,
+            "Good (0x00000000) [fixture: write-group]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoRead.BuildId": [
+            8001,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoRead.InterfaceVersion": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.780Z"
+          ],
+          "GVL_DemoRead.Status.Mode": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ModeText": [
+            "Faulted",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.FaultCode": [
+            23,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.FaultText": [
+            "D1 extend feedback timeout",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ExceptionCode": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ExceptionText": [
+            "",
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.Motor_RunCmd": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.D1_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.D2_ExtendCmd": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.StackLight_Red": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.StackLight_Green": [
+            false,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ReleaseReady": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ItemActive": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ActiveItemId": [
+            201,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.RequestedRoute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.EffectiveRoute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ActualExit": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.Disposition": [
+            4,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.OfferAckSequence": [
+            5,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.OfferAckItemId": [
+            201,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.OfferAccepted": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.OfferReason": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.OfferPending": [
+            false,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CompletionSequence": [
+            7,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CompletionPending": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CompletionItemId": [
+            201,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CompletionRoute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CompletionExit": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CompletionDisposition": [
+            4,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CountExitA": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CountExitB": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CountRunout": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CountMisroute": [
+            1,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.CountFaulted": [
+            2,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.StartAck": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.StopAck": [
+            2,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ResetAck": [
+            3,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.StartAccepted": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ResetAccepted": [
+            true,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.EncoderDelta": [
+            0,
+            "Good (0x00000000) [fixture: recorded]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.BeltSpeedMps": [
+            0,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.TravelMetres": [
+            21.613,
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ],
+          "GVL_DemoRead.Status.ScanTimeUs": [
+            "184",
+            "Good (0x00000000) [fixture: fixture default]",
+            "2026-11-02T03:06:57.796Z"
+          ]
+        }
+      },
+      "previousHash": "746037a916a7eb4cd541e6524242492f19297c9ada2b0b43c53ecb6b3887667c",
+      "hash": "def409d8d58e05dac67aa2ad0e710ab3e8c4418044ece1f8d547e599427ed580"
+    },
+    {
+      "sequence": 11,
+      "atIso": "2026-11-02T03:06:59.514Z",
+      "type": "client.registered",
+      "data": {
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "label": "browser",
+        "connectedAtIso": "2026-11-02T03:06:59.513Z",
+        "lastSeenAtIso": "2026-11-02T03:06:59.513Z",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "pageUrl": "http://127.0.0.1:5612/#/operation"
+      },
+      "previousHash": "def409d8d58e05dac67aa2ad0e710ab3e8c4418044ece1f8d547e599427ed580",
+      "hash": "2b520a8e219ffab3bd3dfb08a96c40c8539f8a84211dafcb0d26527df5429a7c"
+    },
+    {
+      "sequence": 12,
+      "atIso": "2026-11-02T03:06:59.697Z",
+      "type": "ui.input",
+      "data": {
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "target": "cmd.start",
+        "isTrusted": false,
+        "x": 0,
+        "y": 0,
+        "clientAtIso": "2026-11-02T03:06:59.696Z",
+        "route": "operation"
+      },
+      "previousHash": "2b520a8e219ffab3bd3dfb08a96c40c8539f8a84211dafcb0d26527df5429a7c",
+      "hash": "cb04a85a668031cf641038995e15507362212759de927cce258f0c1e80ad96b8"
+    },
+    {
+      "sequence": 13,
+      "atIso": "2026-11-02T03:06:59.698Z",
+      "type": "command.requested",
+      "data": {
+        "requestId": "hmi-start-mvyoh2i8-1w70ch7fs76wx",
+        "action": "start",
+        "origin": "operator_browser",
+        "outcome": "pending",
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "target": "cmd.start",
+        "uiActionRef": "hmi-journal:12:cb04a85a6680",
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is Stopped",
+            "met": false,
+            "observed": "Mode=Faulted"
+          },
+          {
+            "id": "auto",
+            "label": "Auto request is on",
+            "met": true,
+            "observed": "AutoRequest=true"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": false,
+            "observed": "blocked: PE_D1Approach"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": false,
+            "observed": "CompletionPending=true"
+          }
+        ],
+        "snapshotSequence": 154
+      },
+      "previousHash": "cb04a85a668031cf641038995e15507362212759de927cce258f0c1e80ad96b8",
+      "hash": "5508021758e99751c397df5863c7ec273c260dc28145dc3f795f499119b04871"
+    },
+    {
+      "sequence": 14,
+      "atIso": "2026-11-02T03:06:59.723Z",
+      "type": "transport.opc.write",
+      "data": {
+        "items": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 4,
+            "status": "Good (0x00000000)"
+          }
+        ]
+      },
+      "previousHash": "5508021758e99751c397df5863c7ec273c260dc28145dc3f795f499119b04871",
+      "hash": "dda4215a6fdeb7b1e27bd5330b75973419489af9d9e5933ea0a83cfdd62d2210"
+    },
+    {
+      "sequence": 15,
+      "atIso": "2026-11-02T03:06:59.723Z",
+      "type": "command.delivered",
+      "data": {
+        "requestId": "hmi-start-mvyoh2i8-1w70ch7fs76wx",
+        "action": "start",
+        "origin": "operator_browser",
+        "outcome": "delivered",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 4,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "previousSequence": 3,
+        "previousAck": {
+          "value": 3,
+          "status": "Good (0x00000000) [fixture: recorded]",
+          "good": true,
+          "sourceTimestamp": "2026-11-02T03:06:59.717Z",
+          "serverTimestamp": "2026-11-02T03:06:59.717Z",
+          "receivedAtIso": "2026-11-02T03:06:59.717Z"
+        }
+      },
+      "previousHash": "dda4215a6fdeb7b1e27bd5330b75973419489af9d9e5933ea0a83cfdd62d2210",
+      "hash": "4b3a6e9e712705a0a7cb2466647f00dcbdffa4d364476cd758e467dba14e3581"
+    },
+    {
+      "sequence": 16,
+      "atIso": "2026-11-02T03:06:59.780Z",
+      "type": "plc.change",
+      "data": {
+        "sequence": 155,
+        "receivedAtIso": "2026-11-02T03:06:59.779Z",
+        "changes": {
+          "GVL_DemoWrite.StartSequence": 4,
+          "GVL_DemoRead.Status.StartAck": 4,
+          "GVL_DemoRead.Status.StartAccepted": false
+        }
+      },
+      "previousHash": "4b3a6e9e712705a0a7cb2466647f00dcbdffa4d364476cd758e467dba14e3581",
+      "hash": "ebd5e870d34eee75befe1ff9fcedaac772a5f6f801772b2a7225176b483c8f3a"
+    },
+    {
+      "sequence": 17,
+      "atIso": "2026-11-02T03:06:59.810Z",
+      "type": "command.rejected",
+      "data": {
+        "requestId": "hmi-start-mvyoh2i8-1w70ch7fs76wx",
+        "action": "start",
+        "origin": "operator_browser",
+        "outcome": "rejected",
+        "detail": "PLC acknowledged GVL_DemoRead.Status.StartAck=4 with StartAccepted=FALSE: request refused by the controller. See observed preconditions.",
+        "expectedSequence": 4,
+        "accepted": false,
+        "atAck": {
+          "observedAtIso": "2026-11-02T03:06:59.794Z",
+          "mode": 3,
+          "modeText": "Faulted",
+          "faultCode": 23,
+          "motorRunCmd": false,
+          "driveRunningFb": false,
+          "autoRequest": true
+        },
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is Stopped",
+            "met": false,
+            "observed": "Mode=Faulted"
+          },
+          {
+            "id": "auto",
+            "label": "Auto request is on",
+            "met": true,
+            "observed": "AutoRequest=true"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": false,
+            "observed": "blocked: PE_D1Approach"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": false,
+            "observed": "CompletionPending=true"
+          }
+        ],
+        "acknowledgedAtIso": "2026-11-02T03:06:59.809Z",
+        "confirmation": {
+          "GVL_DemoWrite.StartSequence": {
+            "value": 3,
+            "status": "Good (0x00000000) [fixture: write-group]",
+            "good": true,
+            "sourceTimestamp": "2026-11-02T03:06:59.717Z",
+            "serverTimestamp": "2026-11-02T03:06:59.717Z",
+            "receivedAtIso": "2026-11-02T03:06:59.717Z"
+          },
+          "GVL_DemoRead.Status.StartAck": {
+            "value": 4,
+            "status": "Good (0x00000000) [fixture: recorded]",
+            "good": true,
+            "sourceTimestamp": "2026-11-02T03:06:59.809Z",
+            "serverTimestamp": "2026-11-02T03:06:59.809Z",
+            "receivedAtIso": "2026-11-02T03:06:59.809Z"
+          },
+          "GVL_DemoRead.Status.StartAccepted": {
+            "value": false,
+            "status": "Good (0x00000000) [fixture: recorded]",
+            "good": true,
+            "sourceTimestamp": "2026-11-02T03:06:59.809Z",
+            "serverTimestamp": "2026-11-02T03:06:59.809Z",
+            "receivedAtIso": "2026-11-02T03:06:59.809Z"
+          }
+        }
+      },
+      "previousHash": "ebd5e870d34eee75befe1ff9fcedaac772a5f6f801772b2a7225176b483c8f3a",
+      "hash": "0993dce948efdc97687806623ebb8cc4399f2ac0cea7af8d7092f0a5b8972334"
+    },
+    {
+      "sequence": 18,
+      "atIso": "2026-11-02T03:06:59.874Z",
+      "type": "ui.rendered",
+      "data": {
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "requestId": "hmi-start-mvyoh2i8-1w70ch7fs76wx",
+        "outcomeShown": "rejected",
+        "text": "Start · Rejected (fixture ack)",
+        "clientAtIso": "2026-11-02T03:06:59.873Z"
+      },
+      "previousHash": "0993dce948efdc97687806623ebb8cc4399f2ac0cea7af8d7092f0a5b8972334",
+      "hash": "8b3b3039e2ec6263c9104662032c05985448eb1873d8fccdda8f09a816d337a0"
+    },
+    {
+      "sequence": 19,
+      "atIso": "2026-11-02T03:07:00.034Z",
+      "type": "ui.input",
+      "data": {
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "target": "cmd.start",
+        "isTrusted": false,
+        "x": 0,
+        "y": 0,
+        "clientAtIso": "2026-11-02T03:07:00.033Z",
+        "route": "operation"
+      },
+      "previousHash": "8b3b3039e2ec6263c9104662032c05985448eb1873d8fccdda8f09a816d337a0",
+      "hash": "91ddf3a74a10f37571e72df3c4cc82f64c6662cfc2bea159b094e957669968b2"
+    },
+    {
+      "sequence": 20,
+      "atIso": "2026-11-02T03:07:00.035Z",
+      "type": "command.requested",
+      "data": {
+        "requestId": "hmi-start-mvyoh2rl-btsxe21h1i8pt",
+        "action": "start",
+        "origin": "operator_browser",
+        "outcome": "pending",
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "target": "cmd.start",
+        "uiActionRef": "hmi-journal:19:91ddf3a74a10",
+        "preconditions": [
+          {
+            "id": "mode",
+            "label": "Mode is Stopped",
+            "met": false,
+            "observed": "Mode=Faulted"
+          },
+          {
+            "id": "auto",
+            "label": "Auto request is on",
+            "met": true,
+            "observed": "AutoRequest=true"
+          },
+          {
+            "id": "overload",
+            "label": "Drive overload clear",
+            "met": true,
+            "observed": "Drive_Overload=false"
+          },
+          {
+            "id": "d1_home",
+            "label": "D1 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "d2_home",
+            "label": "D2 home, not extended",
+            "met": true,
+            "observed": "home=true ext=false"
+          },
+          {
+            "id": "runout",
+            "label": "Runout ready",
+            "met": true,
+            "observed": "Runout_Ready=true"
+          },
+          {
+            "id": "beams",
+            "label": "All photo-eyes clear",
+            "met": false,
+            "observed": "blocked: PE_D1Approach"
+          },
+          {
+            "id": "completion",
+            "label": "Completion acknowledged by WCS",
+            "met": false,
+            "observed": "CompletionPending=true"
+          }
+        ],
+        "snapshotSequence": 157
+      },
+      "previousHash": "91ddf3a74a10f37571e72df3c4cc82f64c6662cfc2bea159b094e957669968b2",
+      "hash": "9b67bd12cc397274f085f8f67fdc7f0713de5f8b6b3cf4abcf4b7c47247775eb"
+    },
+    {
+      "sequence": 21,
+      "atIso": "2026-11-02T03:07:00.035Z",
+      "type": "command.resulting_state",
+      "data": {
+        "requestId": "hmi-start-mvyoh2i8-1w70ch7fs76wx",
+        "resulting": {
+          "observedAtIso": "2026-11-02T03:06:59.794Z",
+          "mode": 3,
+          "modeText": "Faulted",
+          "faultCode": 23,
+          "motorRunCmd": false,
+          "driveRunningFb": false,
+          "autoRequest": true,
+          "settled": false,
+          "supersededBy": "hmi-start-mvyoh2rl-btsxe21h1i8pt"
+        }
+      },
+      "previousHash": "9b67bd12cc397274f085f8f67fdc7f0713de5f8b6b3cf4abcf4b7c47247775eb",
+      "hash": "7d24b05172f39954e35e44c9d74131e9011c01445dde4719fc05e7e9f00d06d2"
+    },
+    {
+      "sequence": 22,
+      "atIso": "2026-11-02T03:07:00.036Z",
+      "type": "plc.change",
+      "data": {
+        "sequence": 158,
+        "receivedAtIso": "2026-11-02T03:07:00.035Z",
+        "changes": {
+          "GVL_DemoRead.Status.StartAck": [
+            4,
+            "UncertainLastUsableValue (0x40900000)"
+          ]
+        }
+      },
+      "previousHash": "7d24b05172f39954e35e44c9d74131e9011c01445dde4719fc05e7e9f00d06d2",
+      "hash": "cf2603279ceb5ad2d9fdf544a563ce489ad7452a98882fb5f9fc369a69b5c27a"
+    },
+    {
+      "sequence": 23,
+      "atIso": "2026-11-02T03:07:00.069Z",
+      "type": "transport.opc.write",
+      "data": {
+        "items": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 5,
+            "status": "Good (0x00000000)"
+          }
+        ]
+      },
+      "previousHash": "cf2603279ceb5ad2d9fdf544a563ce489ad7452a98882fb5f9fc369a69b5c27a",
+      "hash": "0d5783f878ad5b5409b1164de88a9da6db03348dc350f1ef740e796160e0ba2f"
+    },
+    {
+      "sequence": 24,
+      "atIso": "2026-11-02T03:07:00.070Z",
+      "type": "command.delivered",
+      "data": {
+        "requestId": "hmi-start-mvyoh2rl-btsxe21h1i8pt",
+        "action": "start",
+        "origin": "operator_browser",
+        "outcome": "delivered",
+        "writes": [
+          {
+            "path": "GVL_DemoWrite.StartSequence",
+            "value": 5,
+            "status": "Good (0x00000000)"
+          }
+        ],
+        "previousSequence": 4,
+        "previousAck": {
+          "value": 4,
+          "status": "UncertainLastUsableValue (0x40900000)",
+          "good": false,
+          "sourceTimestamp": "2026-11-02T03:07:00.054Z",
+          "serverTimestamp": "2026-11-02T03:07:00.054Z",
+          "receivedAtIso": "2026-11-02T03:07:00.054Z"
+        }
+      },
+      "previousHash": "0d5783f878ad5b5409b1164de88a9da6db03348dc350f1ef740e796160e0ba2f",
+      "hash": "0236ad2207517cfcc802eb88b93c75353d581efdc2e55ba45c4c357bb8531620"
+    },
+    {
+      "sequence": 25,
+      "atIso": "2026-11-02T03:07:00.163Z",
+      "type": "plc.change",
+      "data": {
+        "sequence": 159,
+        "receivedAtIso": "2026-11-02T03:07:00.163Z",
+        "changes": {
+          "GVL_DemoWrite.StartSequence": 5,
+          "GVL_DemoRead.Status.StartAck": [
+            5,
+            "UncertainLastUsableValue (0x40900000)"
+          ]
+        }
+      },
+      "previousHash": "0236ad2207517cfcc802eb88b93c75353d581efdc2e55ba45c4c357bb8531620",
+      "hash": "f5936306c7af171974bd0d403cc9895f73b207a05a1a4e7e2c364612501e95e5"
+    },
+    {
+      "sequence": 26,
+      "atIso": "2026-11-02T03:07:00.841Z",
+      "type": "command.unconfirmed",
+      "data": {
+        "requestId": "hmi-start-mvyoh2rl-btsxe21h1i8pt",
+        "action": "start",
+        "origin": "operator_browser",
+        "outcome": "unconfirmed",
+        "detail": "No usable GVL_DemoRead.Status.StartAck within 600 ms (last read: GVL_DemoRead.Status.StartAck quality UncertainLastUsableValue (0x40900000)). The write was delivered and may still apply; inspect before retrying.",
+        "expectedSequence": 5,
+        "confirmation": {
+          "GVL_DemoWrite.StartSequence": {
+            "value": 4,
+            "status": "Good (0x00000000) [fixture: write-group]",
+            "good": true,
+            "sourceTimestamp": "2026-11-02T03:07:00.054Z",
+            "serverTimestamp": "2026-11-02T03:07:00.054Z",
+            "receivedAtIso": "2026-11-02T03:07:00.054Z"
+          },
+          "GVL_DemoRead.Status.StartAck": {
+            "value": 5,
+            "status": "UncertainLastUsableValue (0x40900000)",
+            "good": false,
+            "sourceTimestamp": "2026-11-02T03:07:00.669Z",
+            "serverTimestamp": "2026-11-02T03:07:00.669Z",
+            "receivedAtIso": "2026-11-02T03:07:00.669Z"
+          }
+        }
+      },
+      "previousHash": "f5936306c7af171974bd0d403cc9895f73b207a05a1a4e7e2c364612501e95e5",
+      "hash": "ad53a1bb13035ffbcba893ef364517a898b6bd9630aea7ccf40b338ff2c3f624"
+    },
+    {
+      "sequence": 27,
+      "atIso": "2026-11-02T03:07:00.904Z",
+      "type": "ui.rendered",
+      "data": {
+        "clientSessionId": "hmi-client-1-9da8041c",
+        "requestId": "hmi-start-mvyoh2rl-btsxe21h1i8pt",
+        "outcomeShown": "unconfirmed",
+        "text": "Start · Unconfirmed",
+        "clientAtIso": "2026-11-02T03:07:00.904Z"
+      },
+      "previousHash": "ad53a1bb13035ffbcba893ef364517a898b6bd9630aea7ccf40b338ff2c3f624",
+      "hash": "4ab5af6954819cb748e07553f9a52321144720f8ba3de5785a5fd0013e600b42"
+    }
+  ]
+}

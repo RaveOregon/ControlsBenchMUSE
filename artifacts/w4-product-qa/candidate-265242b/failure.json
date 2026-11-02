@@ -1,0 +1,19 @@
+{
+  "error": "Error: category choices visible",
+  "checks": [
+    {
+      "name": "hosted UI",
+      "pass": true
+    },
+    {
+      "name": "captured fixture frame",
+      "pass": true
+    },
+    {
+      "name": "category choices visible",
+      "pass": false
+    }
+  ],
+  "body": "ControlsBench Musecampaign workspace\nLIVE\nhost · fake connector\nReplay\nLive\nPause\nStop\nReset Simulation\nExit Simulation\nSources\nSetup\nCampaign\nResults\nConveyor bench / world v0.5.0\nReady — review the plan scope, then Start Campaign\nElapsed —\nCampaign — · live wall clock\nLast meaningful activity —\nMUSE\nidle\nCOORDINATOR\nready\nCONNECTOR\nnot attached\nWORLD\nnot loaded\nPLC\nnot connected\nLIVE · ENGINEERING SETUP\nConveyor bench setup\n\nImported specification, raw signal contract and visible world assumptions.\n\nIMPORTED ENGINEERING CONTEXT\nSPEC V0.5\nTwo diverts. One continuous physical world.\n\nOne conveyor lane → divert A → divert B → straight runout. Cartons follow actual actuator position. The world supplies raw device inputs; the PLC owns commands and decisions.\n\nCurrent live proof: measurement DUT, PE_Entry → Motor_RunCmd. Final routing controller and HMI requirements remain untested.\n\nImported specification · docs/conveyor-machine-spec.md\nWORLD ASSUMPTIONS & GEOMETRY\nWORLD V0.5.0\n\nGenerated physical truth is the model's diagnostic projection. Its geometry and assumptions do not establish PLC correctness.\n\nReview versioned assumptions\nIMPORTED RAW I/O MAP\nMANIFEST V0.5.0\n\n25 signals at the raw device boundary. Mapping is read from the preserved world manifest.\n\nInspect mapped signals\nOPERATOR HMI SOURCE\nOBSERVING\nBrowser HMI URL (opened by the portal host)\nReconnect source\nStop observing\n\nObserving http://127.0.0.1:5611/?capture=portal\n\nThe tile shows only frames captured from this page. A configured URL is not an observation, and observation is not an HMI requirement verdict.\n\nCAMPAIGN CATEGORIES\nWONDER-DIRECTED\n\nQA controlled waiting provider · fake connector\n\nSelect categories for Wonder-authored experiments. The historical per-check qualification list is separate. This authorizes only the configured 10 Hz bench; no 20/50 Hz qualification, transport requalification, PLC recovery or code changes.\n\n I/O evidence\n Startup and modes\n Functional experiments\n Runtime observations at qualified 10 Hz\n Declared world faults\n Normal operation\n Declared edge cases\n Evidence-dependent follow-up\nStart Campaign\n\nStart authorizes only these categories. The authoritative plan appears as the provider creates experiments.\n\nConnection & authority",
+  "commands": []
+}

@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "name": "held source was a fixture HMI frame",
+      "pass": true
+    },
+    {
+      "name": "capture failure marks frame stale",
+      "pass": true
+    },
+    {
+      "name": "same captured frame held",
+      "pass": true
+    },
+    {
+      "name": "held frame hash authentic",
+      "pass": true
+    }
+  ],
+  "first": {
+    "reference": "hmi-frame:hmi-c702cbb8-2794-4ce4-90ce-140240daa517:1",
+    "sessionId": "hmi-c702cbb8-2794-4ce4-90ce-140240daa517",
+    "frameSequence": 1,
+    "capturedAtIso": "2026-11-02T02:51:46.645Z",
+    "requestedAtIso": "2026-11-02T02:51:46.057Z",
+    "contentType": "image/jpeg",
+    "byteLength": 162433,
+    "sha256": "a8b03985180a17a1eac394d34bdf7ddb3105a53b7bd31aa5dfba4ab4387eb0ba",
+    "mediaUrl": "/api/hmi/frames/hmi-c702cbb8-2794-4ce4-90ce-140240daa517/1",
+    "pageUrl": "http://127.0.0.1:5612/?capture=portal"
+  },
+  "view": {
+    "state": "stale",
+    "sourceId": "webvisu:127.0.0.1:5612",
+    "sourceKind": "webvisu",
+    "url": "http://127.0.0.1:5612/?capture=portal",
+    "recording": false,
+    "frameCount": 1,
+    "captureIntervalMs": 2000,
+    "staleAfterMs": 6000,
+    "detail": "Capture failed: QA injected capture interruption. Last frame held.",
+    "changedAtIso": "2026-11-02T02:51:48.658Z",
+    "sessionId": "hmi-c702cbb8-2794-4ce4-90ce-140240daa517",
+    "browser": "Chrome/155.0.8059.86 · target 6F33305BE00B9B8F3A9B48A5AC41FAD9 · headless",
+    "startedAtIso": "2026-11-02T02:51:46.056Z",
+    "lastFrame": {
+      "reference": "hmi-frame:hmi-c702cbb8-2794-4ce4-90ce-140240daa517:1",
+      "sessionId": "hmi-c702cbb8-2794-4ce4-90ce-140240daa517",
+      "frameSequence": 1,
+      "capturedAtIso": "2026-11-02T02:51:46.645Z",
+      "requestedAtIso": "2026-11-02T02:51:46.057Z",
+      "contentType": "image/jpeg",
+      "byteLength": 162433,
+      "sha256": "a8b03985180a17a1eac394d34bdf7ddb3105a53b7bd31aa5dfba4ab4387eb0ba",
+      "mediaUrl": "/api/hmi/frames/hmi-c702cbb8-2794-4ce4-90ce-140240daa517/1",
+      "pageUrl": "http://127.0.0.1:5612/?capture=portal"
+    }
+  },
+  "plcContacted": false
+}

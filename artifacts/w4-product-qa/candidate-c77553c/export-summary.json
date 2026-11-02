@@ -1,0 +1,6 @@
+{
+  "campaignId": "portal-20261102025629863-1",
+  "status": "stopped",
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage."
+}

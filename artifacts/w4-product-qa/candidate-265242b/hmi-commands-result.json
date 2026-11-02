@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "name": "fixture and control visible",
+      "pass": true
+    },
+    {
+      "name": "request start",
+      "pass": true
+    },
+    {
+      "name": "rejection shown as fixture ack",
+      "pass": true
+    },
+    {
+      "name": "second request",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed shown",
+      "pass": true
+    },
+    {
+      "name": "rejected and unconfirmed journal records",
+      "pass": true
+    }
+  ],
+  "plcContacted": false
+}
