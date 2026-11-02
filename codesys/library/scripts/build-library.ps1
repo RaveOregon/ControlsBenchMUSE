@@ -1,25 +1,34 @@
 param(
     [string]$CodesysExe = 'C:\Program Files\CODESYS 3.5.22.30\CODESYS\Common\CODESYS.exe',
-    [string]$Profile = 'CODESYS V3.5 SP22 Patch 3'
+    [string]$Profile = 'CODESYS V3.5 SP22 Patch 3',
+    [int]$TimeoutSeconds = 900
 )
+# Offline library build in a dedicated hidden --noUI CODESYS process. Records the
+# Git commit and any uncommitted library paths so a result can be tied to source.
+# No PLC login, download or online operation is performed.
 $ErrorActionPreference = 'Stop'
 $cbLibraryRoot = Split-Path $PSScriptRoot -Parent
-$cbScript = Join-Path $PSScriptRoot 'build-library.py'
-$cbLaunchStamp = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH-mm-ss-fffZ')
-$cbLaunchDir = Join-Path $cbLibraryRoot "artifacts\launch-$cbLaunchStamp"
-New-Item -ItemType Directory -Path $cbLaunchDir | Out-Null
-$cbStarted = [DateTime]::UtcNow
-# Start-Process uses Windows command-line quoting, not a PowerShell script string.
-$cbArguments = @("--profile=`"$Profile`"", "--runscript=`"$cbScript`"", '--noUI', '--skipunlicensedplugins')
-$cbProcess = Start-Process -FilePath $CodesysExe -WorkingDirectory (Split-Path $CodesysExe -Parent) -ArgumentList $cbArguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $cbLaunchDir 'stdout.log') -RedirectStandardError (Join-Path $cbLaunchDir 'stderr.log')
-Write-Host "Offline CODESYS library build PID $($cbProcess.Id); no PLC connection."
-if (-not $cbProcess.WaitForExit(240000)) {
-    Stop-Process -Id $cbProcess.Id
-    throw "Offline build exceeded four minutes; stopped only its own process. Logs: $cbLaunchDir"
+$cbRepo = (git -C $cbLibraryRoot rev-parse --show-toplevel).Trim()
+$cbCommit = (git -C $cbRepo rev-parse HEAD).Trim()
+$cbBranch = (git -C $cbRepo rev-parse --abbrev-ref HEAD).Trim()
+$cbDirty = @(git -C $cbRepo status --porcelain --untracked-files=all -- codesys/library docs/plc-adapter-standard.md | Where-Object { $_ })
+$cbPlugin = Join-Path (Split-Path (Split-Path $CodesysExe -Parent) -Parent) 'PlugIns\f3f46134-4002-4515-a365-46c6903804cf\1.0.0.0\FileBasedStorage.plugin.dll'
+$cbFbsVersion = if (Test-Path -LiteralPath $cbPlugin) { (Get-Item -LiteralPath $cbPlugin).VersionInfo.FileVersion } else { $null }
+$cbStamp = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH-mm-ss-fffZ')
+$cbRequestDir = Join-Path $cbLibraryRoot 'artifacts\requests'
+New-Item -ItemType Directory -Force -Path $cbRequestDir | Out-Null
+$cbRequestPath = Join-Path $cbRequestDir "$cbStamp.json"
+$cbRequest = [ordered]@{
+    requestedUtc = [DateTime]::UtcNow.ToString('o')
+    gitCommit = $cbCommit
+    gitBranch = $cbBranch
+    dirtyPaths = @($cbDirty | ForEach-Object { $_.Substring(3) })
+    codesysExecutable = $CodesysExe
+    profile = $Profile
+    fbsPlugin = $cbFbsVersion
 }
-$cbLatestFile = Join-Path $cbLibraryRoot 'artifacts\latest.json'
-if (-not (Test-Path -LiteralPath $cbLatestFile)) { throw "CODESYS exited before writing a result. Logs: $cbLaunchDir" }
-if ((Get-Item -LiteralPath $cbLatestFile).LastWriteTimeUtc -lt $cbStarted) { throw "Build result is from an older invocation. Logs: $cbLaunchDir" }
-$cbLatest = Get-Content -LiteralPath $cbLatestFile -Raw | ConvertFrom-Json
-if ($cbLatest.status -ne 'pass') { throw "Library build failed. Result: $($cbLatest.directory)\result.json" }
-Write-Host "Built library and independent consumers: $($cbLatest.directory)"
+[IO.File]::WriteAllText($cbRequestPath, ($cbRequest | ConvertTo-Json -Depth 4), [Text.UTF8Encoding]::new($false))
+if ($cbDirty.Count) { Write-Host "Development build from a dirty tree ($($cbDirty.Count) paths); it cannot be promoted." }
+$env:CB_BUILD_REQUEST = $cbRequestPath
+& (Join-Path $PSScriptRoot 'invoke-headless.ps1') -Script (Join-Path $PSScriptRoot 'build-library.py') -ResultPointer 'artifacts\latest.json' -TimeoutSeconds $TimeoutSeconds -CodesysExe $CodesysExe -Profile $Profile
+exit $LASTEXITCODE

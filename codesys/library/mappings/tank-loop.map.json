@@ -1,0 +1,42 @@
+{
+  "format": "controlsbench.machine-map/0.1",
+  "mapId": "tank-loop",
+  "mapVersion": "1.0.0",
+  "title": "Example heated tank with one temperature loop (non-conveyor mapping check)",
+  "profile": "controlsbench.codesys.raw-banks/0.2",
+  "prefix": "TANK",
+  "sources": [
+    {"path": "codesys/library/mappings/tank-loop.map.json", "use": "synthetic example written for this library; no physical machine, specification or controller exists"}
+  ],
+  "domain": {
+    "defaultDomainId": 2,
+    "timeoutUs": 750000,
+    "task": {"name": "unspecified", "nominalPeriodUs": 0, "note": "example only; a real integration records its task"}
+  },
+  "notes": [
+    "Exercises native INT, a 12-bit value carried in UINT, a rollover counter, a REAL channel whose device can report NaN, analog outputs and read-only PID observation taps.",
+    "The taps observe internal controller signals. They are not part of the stimulus surface and the library offers no way to write them."
+  ],
+  "engineeringVersion": "1.0.0",
+  "inputs": [
+    {"id": "LT101_Raw", "nativeType": "INT", "engineering": {"unit": "%", "normal": 13824, "scale": {"rawMin": 0, "rawMax": 27648, "engMin": 0, "engMax": 100}, "meaning": "tank level transmitter, raw analog counts"}},
+    {"id": "TT102_Raw", "nativeType": "INT", "engineering": {"unit": "degC", "normal": 250, "scale": {"factor": 0.1}, "range": [-2000, 8500], "meaning": "RTD temperature in tenths of a degree"}},
+    {"id": "PT103_Raw", "nativeType": "UINT", "bits": 12, "engineering": {"unit": "kPa", "normal": 2048, "scale": {"rawMin": 0, "rawMax": 4095, "engMin": 0, "engMax": 400}, "meaning": "12-bit pressure ADC"}},
+    {"id": "LSH104", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": true, "polarity": "active_low", "meaning": "high-level switch, normally closed: FALSE means high level or broken wire"}},
+    {"id": "P105_RunFB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "pump running feedback"}},
+    {"id": "FQ106_Count", "nativeType": "UDINT", "engineering": {"unit": "count", "normal": 0, "rollover": {"modulus": 4294967296}, "scale": {"litresPerCount": 0.5}, "meaning": "flow totaliser pulse count"}},
+    {"id": "AT107_Value", "nativeType": "REAL", "nonFinite": "allow", "engineering": {"unit": "pH", "normal": 7.0, "range": [0, 14], "meaning": "smart analyser value; reports NaN on sensor fault"}}
+  ],
+  "outputs": [
+    {"id": "P105_RunCmd", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "pump run command"}},
+    {"id": "XV108_OpenCmd", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "inlet valve open command"}},
+    {"id": "TY102_Out", "nativeType": "INT", "engineering": {"unit": "%", "scale": {"rawMin": 0, "rawMax": 27648, "engMin": 0, "engMax": 100}, "meaning": "heater power output, raw analog counts"}},
+    {"id": "FCV109_Out", "nativeType": "REAL", "nonFinite": "reject", "engineering": {"unit": "%", "range": [0, 100], "meaning": "outlet valve position command"}}
+  ],
+  "taps": [
+    {"id": "TIC102_SP", "nativeType": "REAL", "role": "pid.setpoint", "loop": "TIC102", "source": "application internal signal", "engineering": {"unit": "degC"}},
+    {"id": "TIC102_PV", "nativeType": "REAL", "role": "pid.processVariable", "loop": "TIC102", "source": "application internal signal, scaled from TT102_Raw by the PLC", "engineering": {"unit": "degC"}},
+    {"id": "TIC102_CV", "nativeType": "REAL", "role": "pid.output", "loop": "TIC102", "source": "application internal signal before output scaling", "engineering": {"unit": "%"}},
+    {"id": "TIC102_Mode", "nativeType": "INT", "role": "pid.mode", "loop": "TIC102", "source": "application internal signal", "engineering": {"enum": {"0": "manual", "1": "auto", "2": "cascade"}}}
+  ]
+}

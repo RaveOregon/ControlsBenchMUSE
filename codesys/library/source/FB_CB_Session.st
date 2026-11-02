@@ -1,22 +1,24 @@
 FUNCTION_BLOCK FB_CB_Session
 VAR_INPUT
-    Hardware : ST_CB_Image;
-    Config : ST_CB_Config;
-    NowUs : ULINT; // monotonic clock supplied by platform adapter
-    BootId : ULINT; // nonzero boot identity supplied by platform adapter
+    Hardware : ST_CB_Image; // raw values packed by the machine mapping, unchanged
+    Config : ST_CB_Config; // pinned at initialization; any later change latches ReconfigureRequired
+    NowUs : ULINT; // monotonic microseconds from a platform service
+    BootId : ULINT; // nonzero platform identity that changes on every application or runtime restart
+    Reinitialize : BOOL; // rising edge from local application authority, never from the workstation
 END_VAR
 VAR_IN_OUT
-    Request : ST_CB_Request; // explicit storage owned by this domain
+    Request : ST_CB_Request; // storage owned by this domain; exactly one workstation writer
 END_VAR
 VAR_OUTPUT
-    Image : ST_CB_Image;
+    Image : ST_CB_Image; // complete image the application consumes this cycle
     Status : ST_CB_Status;
 END_VAR
 VAR
     initialized : BOOL;
     previousSim : BOOL;
-    previousReset : BOOL;
+    previousSessionReset : BOOL;
     previousSimulationReset : BOOL;
+    previousReinitialize : BOOL;
     haveHeartbeat : BOOL;
     previousHeartbeat : ULINT;
     lastHeartbeatUs : ULINT;
@@ -24,143 +26,261 @@ VAR
     lastRequestSequence : ULINT;
     active : ST_CB_Image;
     zero : ST_CB_Image;
+    pinned : ST_CB_Config;
     slot : ST_CB_Slot;
-    pinnedConfig : ST_CB_Config;
-    validConfig : BOOL;
-    resetEdge : BOOL;
+    reqSim : BOOL;
+    reqSessionReset : BOOL;
+    reqSimulationReset : BOOL;
+    reqHeartbeat : ULINT;
+    reqSlot : USINT;
+    reqEpoch : ULINT;
+    reqSequence : ULINT;
+    reinitializeEdge : BOOL;
+    entryEdge : BOOL;
+    sessionResetEdge : BOOL;
     simulationResetEdge : BOOL;
-    commitChanged : BOOL;
+    commitEdge : BOOL;
+    configChanged : BOOL;
+    blocked : BOOL;
+    blockedResult : UINT;
+    staleAtEntry : BOOL;
     accept : BOOL;
-    staleAtScanEntry : BOOL;
+    consumed : BOOL;
+    result : UINT;
+    rejectBank : USINT;
+    rejectIndex : UINT;
+    i : UINT;
     di : FB_CB_DI;
     ai : FB_CB_AI;
 END_VAR
-IF NOT initialized THEN
-    Status.BootIdentity := BootId;
-    Status.ActiveSlot := 255;
-    pinnedConfig := Config;
-    initialized := TRUE;
-    lastTimeUs := NowUs;
-END_IF;
+// Read each request word once so every decision in this cycle uses the same values.
+reqSim := Request.SimRequest;
+reqSessionReset := Request.SessionResetRequest;
+reqSimulationReset := Request.SimulationResetRequest;
+reqHeartbeat := Request.Heartbeat;
+reqSlot := Request.RequestedSlot;
+reqEpoch := Request.RequestedEpoch;
+reqSequence := Request.RequestedSequence;
+consumed := FALSE;
+result := GVL_CB.RESULT_NONE;
+reinitializeEdge := Reinitialize AND NOT previousReinitialize;
+previousReinitialize := Reinitialize;
 Status.Cycle := Status.Cycle + 1;
 Status.TimeUs := NowUs;
-Status.DomainId := pinnedConfig.DomainId;
-Status.SchemaId := pinnedConfig.SchemaId;
-Status.LastResult := 0;
-validConfig := (Config.DomainId <> 0) AND (Config.SchemaId <> 0)
-    AND (Config.TimeoutUs > 0) AND (Config.DigitalCount <= 64)
-    AND (Config.SignedCount <= 32) AND (Config.UnsignedCount <= 32)
-    AND (Config.RealCount <= 16) AND (BootId <> 0);
-Status.ConfigValid := validConfig;
-Status.ClockValid := NowUs >= lastTimeUs;
-// Changes require a new FB instance/domain initialization, not hidden remapping.
-IF (Config.DomainId <> pinnedConfig.DomainId) OR (Config.SchemaId <> pinnedConfig.SchemaId)
-    OR (Config.TimeoutUs <> pinnedConfig.TimeoutUs) OR (Config.DigitalCount <> pinnedConfig.DigitalCount)
-    OR (Config.SignedCount <> pinnedConfig.SignedCount) OR (Config.UnsignedCount <> pinnedConfig.UnsignedCount)
-    OR (Config.RealCount <> pinnedConfig.RealCount) OR (BootId <> Status.BootIdentity)
-    OR NOT Status.ClockValid THEN
-    Status.ReconfigureRequired := TRUE;
-END_IF;
-resetEdge := Request.SessionResetRequest AND NOT previousReset;
-previousReset := Request.SessionResetRequest;
-simulationResetEdge := Request.SimulationResetRequest AND NOT previousSimulationReset;
-previousSimulationReset := Request.SimulationResetRequest;
-commitChanged := Request.RequestedSequence <> lastRequestSequence;
 
-IF Request.SimRequest AND NOT previousSim THEN
+IF NOT initialized OR reinitializeEdge THEN
+    // A fresh domain pins configuration and boot identity, holds raw zero and
+    // consumes whatever is staged; a heartbeat must change before the link is fresh.
+    pinned := Config;
+    Status.BootIdentity := BootId;
+    Status.ReconfigureRequired := FALSE;
     active := zero;
+    Status.ActiveSlot := GVL_CB.NO_SLOT;
     Status.AppliedEpoch := 0;
     Status.AppliedSequence := 0;
     Status.AppliedCycle := Status.Cycle;
     Status.AppliedTimeUs := NowUs;
-    Status.ActiveSlot := 255;
-    lastRequestSequence := Request.RequestedSequence;
-    commitChanged := FALSE; // old staged data cannot apply on entry
+    lastTimeUs := NowUs;
+    lastRequestSequence := reqSequence;
+    previousHeartbeat := reqHeartbeat;
     haveHeartbeat := FALSE;
+    IF initialized THEN
+        previousSim := reqSim; // a simulated domain stays simulated, now at raw zero
+        Status.ReinitializeCount := Status.ReinitializeCount + 1;
+        consumed := TRUE;
+        result := GVL_CB.RESULT_REINITIALIZED;
+    END_IF;
+    initialized := TRUE;
 END_IF;
-previousSim := Request.SimRequest;
+Status.DomainId := pinned.DomainId;
+Status.SchemaId := pinned.SchemaId;
 
-staleAtScanEntry := NOT haveHeartbeat;
-IF haveHeartbeat AND Status.ClockValid THEN
-    staleAtScanEntry := (NowUs - lastHeartbeatUs) > Config.TimeoutUs;
+// Configuration validity: identities, capacities and declared native widths.
+Status.ConfigValid := (Config.DomainId <> 0) AND (Config.SchemaId <> 0) AND (Config.TimeoutUs > 0)
+    AND (Config.DigitalCount <= GVL_CB.DIGITAL_CAPACITY) AND (Config.SignedCount <= GVL_CB.SIGNED_CAPACITY)
+    AND (Config.UnsignedCount <= GVL_CB.UNSIGNED_CAPACITY) AND (Config.RealCount <= GVL_CB.REAL_CAPACITY)
+    AND (BootId <> 0);
+configChanged := (Config.DomainId <> pinned.DomainId) OR (Config.SchemaId <> pinned.SchemaId)
+    OR (Config.TimeoutUs <> pinned.TimeoutUs) OR (Config.DigitalCount <> pinned.DigitalCount)
+    OR (Config.SignedCount <> pinned.SignedCount) OR (Config.UnsignedCount <> pinned.UnsignedCount)
+    OR (Config.RealCount <> pinned.RealCount);
+FOR i := 0 TO 31 DO
+    IF (i < Config.SignedCount) AND NOT ((Config.SignedBits[i] = 8) OR (Config.SignedBits[i] = 16)
+        OR (Config.SignedBits[i] = 32)) THEN
+        Status.ConfigValid := FALSE;
+    END_IF;
+    IF (i < Config.UnsignedCount) AND ((Config.UnsignedBits[i] = 0) OR (Config.UnsignedBits[i] > 32)) THEN
+        Status.ConfigValid := FALSE;
+    END_IF;
+    IF (Config.SignedBits[i] <> pinned.SignedBits[i]) OR (Config.UnsignedBits[i] <> pinned.UnsignedBits[i]) THEN
+        configChanged := TRUE;
+    END_IF;
+END_FOR;
+FOR i := 0 TO 15 DO
+    IF Config.RealNonFiniteAllowed[i] <> pinned.RealNonFiniteAllowed[i] THEN
+        configChanged := TRUE;
+    END_IF;
+END_FOR;
+Status.ClockValid := NowUs >= lastTimeUs;
+IF configChanged OR (BootId <> Status.BootIdentity) OR NOT Status.ClockValid THEN
+    Status.ReconfigureRequired := TRUE; // no hidden remapping; Reinitialize explicitly
 END_IF;
-IF Request.Heartbeat <> previousHeartbeat THEN
-    previousHeartbeat := Request.Heartbeat;
+blocked := NOT Status.ConfigValid OR Status.ReconfigureRequired;
+IF Status.ReconfigureRequired THEN
+    blockedResult := GVL_CB.RESULT_RECONFIGURE_REQUIRED;
+ELSE
+    blockedResult := GVL_CB.RESULT_CONFIG_INVALID;
+END_IF;
+
+// Link freshness uses elapsed microseconds, independent of the task period.
+// Staleness at cycle entry is evaluated before this cycle's heartbeat is applied.
+staleAtEntry := NOT haveHeartbeat OR (NowUs < lastHeartbeatUs)
+    OR ((NowUs - lastHeartbeatUs) > pinned.TimeoutUs);
+IF reqHeartbeat <> previousHeartbeat THEN
+    previousHeartbeat := reqHeartbeat;
     lastHeartbeatUs := NowUs;
     haveHeartbeat := TRUE;
+    Status.LastHeartbeat := reqHeartbeat;
+    Status.LastHeartbeatTimeUs := NowUs;
 END_IF;
-Status.ConnectorStale := NOT haveHeartbeat;
-IF haveHeartbeat AND Status.ClockValid THEN
-    Status.ConnectorStale := (NowUs - lastHeartbeatUs) > Config.TimeoutUs;
-END_IF;
-IF NOT validConfig THEN Status.LastResult := 1; END_IF;
-IF NOT Status.ClockValid THEN Status.LastResult := 2; END_IF;
-IF Status.ReconfigureRequired THEN Status.LastResult := 9; END_IF;
+Status.ConnectorStale := NOT haveHeartbeat OR (NowUs < lastHeartbeatUs)
+    OR ((NowUs - lastHeartbeatUs) > pinned.TimeoutUs);
 
-IF Request.SimRequest AND (resetEdge OR simulationResetEdge) AND validConfig AND NOT Status.ReconfigureRequired THEN
-    // Session reset retains the image; explicit simulation reset zeros it.
-    IF simulationResetEdge THEN
-        active := zero;
-        Status.SimulationResetCount := Status.SimulationResetCount + 1;
-    END_IF;
+entryEdge := reqSim AND NOT previousSim;
+previousSim := reqSim;
+sessionResetEdge := reqSessionReset AND NOT previousSessionReset;
+previousSessionReset := reqSessionReset;
+simulationResetEdge := reqSimulationReset AND NOT previousSimulationReset;
+previousSimulationReset := reqSimulationReset;
+commitEdge := reqSequence <> lastRequestSequence;
+
+IF entryEdge THEN
+    // Entry gives the workstation complete input authority at raw zero.
+    // Staged data never applies on entry; complete commits establish normal conditions.
+    active := zero;
+    Status.ActiveSlot := GVL_CB.NO_SLOT;
     Status.AppliedEpoch := 0;
     Status.AppliedSequence := 0;
     Status.AppliedCycle := Status.Cycle;
     Status.AppliedTimeUs := NowUs;
-    Status.ActiveSlot := 255;
-    IF resetEdge THEN Status.SessionResetCount := Status.SessionResetCount + 1; END_IF;
-    lastRequestSequence := Request.RequestedSequence;
-    commitChanged := FALSE;
+    Status.SimulationEntryCount := Status.SimulationEntryCount + 1;
+    consumed := TRUE;
+    result := GVL_CB.RESULT_SIMULATION_ENTRY;
+    lastRequestSequence := reqSequence;
+    commitEdge := FALSE;
 END_IF;
 
-IF Request.SimRequest AND commitChanged AND validConfig AND NOT Status.ReconfigureRequired THEN
-    accept := FALSE;
-    IF (Request.RequestedSlot > 1) OR (Request.RequestedSlot = Status.ActiveSlot) THEN
-        Status.LastResult := 3;
-        Status.InvalidCount := Status.InvalidCount + 1;
+IF simulationResetEdge OR sessionResetEdge THEN
+    // Neither reset requests a machine Reset or leaves simulation.
+    IF blocked THEN
+        Status.BlockedRequestCount := Status.BlockedRequestCount + 1;
+        result := blockedResult;
     ELSE
-        slot := Request.Slots[Request.RequestedSlot];
-        IF NOT slot.Valid OR (slot.Epoch = 0) OR (slot.Sequence = 0) THEN
-            Status.LastResult := 4;
-            Status.InvalidCount := Status.InvalidCount + 1;
-        ELSIF (slot.DomainId <> Config.DomainId) OR (slot.SchemaId <> Config.SchemaId)
-            OR (slot.Epoch <> Request.RequestedEpoch) OR (slot.Sequence <> Request.RequestedSequence) THEN
-            Status.LastResult := 5;
-            Status.InvalidCount := Status.InvalidCount + 1;
-        ELSIF Status.AppliedEpoch = 0 THEN
-            accept := TRUE;
-        ELSIF slot.Epoch = Status.AppliedEpoch THEN
-            IF slot.Sequence = Status.AppliedSequence THEN
-                Status.LastResult := 6;
-                Status.DuplicateCount := Status.DuplicateCount + 1;
-            ELSIF slot.Sequence < Status.AppliedSequence THEN
-                Status.LastResult := 7;
-                Status.StaleCount := Status.StaleCount + 1;
-            ELSE
-                IF slot.Sequence - Status.AppliedSequence > 1 THEN Status.SkippedCount := Status.SkippedCount + 1; END_IF;
-                accept := TRUE;
-            END_IF;
-        ELSIF staleAtScanEntry OR resetEdge THEN
-            accept := TRUE;
-        ELSE
-            Status.LastResult := 8;
-            Status.EpochRejectedCount := Status.EpochRejectedCount + 1;
+        IF simulationResetEdge THEN
+            active := zero; // explicit simulation reset: raw zero, still simulated
+            Status.SimulationResetCount := Status.SimulationResetCount + 1;
+            result := GVL_CB.RESULT_SIMULATION_RESET;
         END_IF;
-        IF accept THEN
-            active := slot.Data;
-            Status.ActiveSlot := Request.RequestedSlot;
-            Status.AppliedEpoch := slot.Epoch;
-            Status.AppliedSequence := slot.Sequence;
-            Status.AppliedCycle := Status.Cycle;
-            Status.AppliedTimeUs := NowUs;
-            Status.CommitCount := Status.CommitCount + 1;
+        IF sessionResetEdge THEN
+            Status.SessionResetCount := Status.SessionResetCount + 1; // image retained
+            IF NOT simulationResetEdge THEN
+                result := GVL_CB.RESULT_SESSION_RESET;
+            END_IF;
+        END_IF;
+        Status.ActiveSlot := GVL_CB.NO_SLOT;
+        Status.AppliedEpoch := 0;
+        Status.AppliedSequence := 0;
+        Status.AppliedCycle := Status.Cycle;
+        Status.AppliedTimeUs := NowUs;
+    END_IF;
+    consumed := TRUE;
+    lastRequestSequence := reqSequence; // the staged request is consumed without applying
+    commitEdge := FALSE;
+END_IF;
+
+IF commitEdge THEN
+    // RequestedSequence, written last, is the single commit edge. Each edge is consumed once.
+    consumed := TRUE;
+    accept := FALSE;
+    rejectBank := GVL_CB.BANK_NONE;
+    rejectIndex := 0;
+    IF blocked THEN
+        Status.BlockedRequestCount := Status.BlockedRequestCount + 1;
+        result := blockedResult;
+    ELSIF NOT reqSim THEN
+        Status.NotSimulatedCount := Status.NotSimulatedCount + 1;
+        result := GVL_CB.RESULT_NOT_SIMULATED;
+    ELSIF (reqEpoch = 0) AND (reqSequence = 0) THEN
+        Status.IdleClearCount := Status.IdleClearCount + 1;
+        result := GVL_CB.RESULT_IDLE_CLEARED;
+    ELSIF (reqSlot > 1) OR (reqSlot = Status.ActiveSlot) THEN
+        Status.InvalidSlotCount := Status.InvalidSlotCount + 1;
+        result := GVL_CB.RESULT_INVALID_SLOT;
+    ELSE
+        slot := Request.Slots[reqSlot];
+        IF NOT slot.Valid OR (slot.Epoch = 0) OR (slot.Sequence = 0) THEN
+            Status.IncompleteSlotCount := Status.IncompleteSlotCount + 1;
+            result := GVL_CB.RESULT_INCOMPLETE_SLOT;
+        ELSIF (slot.DomainId <> pinned.DomainId) OR (slot.SchemaId <> pinned.SchemaId)
+            OR (slot.Epoch <> reqEpoch) OR (slot.Sequence <> reqSequence) THEN
+            Status.MetadataMismatchCount := Status.MetadataMismatchCount + 1;
+            result := GVL_CB.RESULT_METADATA_MISMATCH;
+        ELSE
+            result := F_CB_CheckImage(Image := slot.Data, Config := pinned, Bank => rejectBank, Index => rejectIndex);
+            IF result <> GVL_CB.RESULT_NONE THEN
+                Status.RepresentationRejectedCount := Status.RepresentationRejectedCount + 1;
+            ELSIF Status.AppliedEpoch = 0 THEN
+                accept := TRUE;
+            ELSIF slot.Epoch = Status.AppliedEpoch THEN
+                IF slot.Sequence = Status.AppliedSequence THEN
+                    Status.DuplicateCount := Status.DuplicateCount + 1;
+                    result := GVL_CB.RESULT_DUPLICATE;
+                ELSIF slot.Sequence < Status.AppliedSequence THEN
+                    Status.StaleCount := Status.StaleCount + 1;
+                    result := GVL_CB.RESULT_STALE;
+                ELSE
+                    IF slot.Sequence - Status.AppliedSequence > 1 THEN
+                        Status.SkippedCount := Status.SkippedCount + 1;
+                    END_IF;
+                    accept := TRUE;
+                END_IF;
+            ELSIF staleAtEntry THEN
+                accept := TRUE; // a new epoch only after elapsed staleness or an explicit reset
+            ELSE
+                Status.EpochRejectedCount := Status.EpochRejectedCount + 1;
+                result := GVL_CB.RESULT_EPOCH_REJECTED;
+            END_IF;
         END_IF;
     END_IF;
+    IF accept THEN
+        active := slot.Data; // every bank changes together; no torn image
+        Status.ActiveSlot := reqSlot;
+        Status.AppliedEpoch := slot.Epoch;
+        Status.AppliedSequence := slot.Sequence;
+        Status.AppliedCycle := Status.Cycle;
+        Status.AppliedTimeUs := NowUs;
+        Status.CommitCount := Status.CommitCount + 1;
+        result := GVL_CB.RESULT_ACCEPTED;
+    END_IF;
+    Status.RejectBank := rejectBank;
+    Status.RejectIndex := rejectIndex;
+    lastRequestSequence := reqSequence;
 END_IF;
-IF commitChanged THEN lastRequestSequence := Request.RequestedSequence; END_IF;
-Status.SimApplied := Request.SimRequest; // bad config never silently selects hardware
-di(Hardware := Hardware.Digital, Simulated := active.Digital, SimApplied := Status.SimApplied);
-ai(Hardware := Hardware.Numeric, Simulated := active.Numeric, SimApplied := Status.SimApplied);
+
+IF consumed THEN
+    Status.ConsumedEpoch := reqEpoch;
+    Status.ConsumedSequence := reqSequence;
+    Status.ConsumedSlot := reqSlot;
+    Status.ConsumedResult := result;
+    Status.ConsumedCycle := Status.Cycle;
+    Status.ConsumedTimeUs := NowUs;
+END_IF;
+
+// Exit Simulation (SimRequest FALSE) is always honoured. Bad configuration while
+// simulated holds the image; it never silently selects hardware.
+Status.SimApplied := reqSim;
+di(Hardware := Hardware.Digital, Simulated := active.Digital, SimApplied := reqSim);
+ai(Hardware := Hardware.Numeric, Simulated := active.Numeric, SimApplied := reqSim);
 Image.Digital := di.Selected;
 Image.Numeric := ai.Selected;
 lastTimeUs := NowUs;

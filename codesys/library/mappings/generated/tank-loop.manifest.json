@@ -1,0 +1,380 @@
+{
+  "format": "controlsbench.machine-map-manifest/0.1",
+  "generatedBy": "codesys/library/scripts/cb-map.mjs 0.1.0",
+  "mapId": "tank-loop",
+  "mapVersion": "1.0.0",
+  "mapFile": "codesys/library/mappings/tank-loop.map.json",
+  "mapSha256": "733577534cf14f2ff5b6182d31945e724fcba3e294350934e9af6abc4b49f0df",
+  "profile": "controlsbench.codesys.raw-banks/0.2",
+  "schemaId": "16#908F6F3C",
+  "schemaIdDecimal": 2425319228,
+  "tapSchemaId": "16#A7F251A8",
+  "tapSchemaIdDecimal": 2817675688,
+  "engineeringVersion": "1.0.0",
+  "engineeringSha256": "fa2187c45d97f9c835899745bd5e48c3acd9bd17d4a87f573797b87a02d7c3c3",
+  "identityRules": {
+    "schemaId": "first 32 bits of SHA-256 over the canonical profile and ordered input/output wire shapes (id, native type, bits, non-finite policy); 0 maps to 1",
+    "tapSchemaId": "first 32 bits of SHA-256 over the canonical profile and ordered tap shapes including role and loop; 0 when no taps",
+    "engineeringSha256": "SHA-256 over engineeringVersion and per-channel engineering metadata; changes here never change wire identities"
+  },
+  "domain": {
+    "defaultDomainId": 2,
+    "timeoutUs": 750000,
+    "task": {
+      "name": "unspecified",
+      "nominalPeriodUs": 0,
+      "note": "example only; a real integration records its task"
+    }
+  },
+  "sources": [
+    {
+      "path": "codesys/library/mappings/tank-loop.map.json",
+      "use": "synthetic example written for this library; no physical machine, specification or controller exists"
+    }
+  ],
+  "counts": {
+    "inputs": {
+      "Digital": 2,
+      "Signed": 2,
+      "Unsigned": 2,
+      "RealValue": 1
+    },
+    "outputs": {
+      "Digital": 2,
+      "Signed": 1,
+      "Unsigned": 0,
+      "RealValue": 1
+    },
+    "taps": {
+      "Digital": 0,
+      "Signed": 1,
+      "Unsigned": 0,
+      "RealValue": 3
+    }
+  },
+  "capacities": {
+    "Digital": 64,
+    "Signed": 32,
+    "Unsigned": 32,
+    "RealValue": 16
+  },
+  "plcObjects": [
+    "GVL_TANK_Map",
+    "ST_TANK_Inputs",
+    "ST_TANK_Outputs",
+    "ST_TANK_Taps",
+    "MAP_TANK_Config",
+    "MAP_TANK_PackInputs",
+    "MAP_TANK_UnpackInputs",
+    "MAP_TANK_PackOutputs",
+    "MAP_TANK_UnpackOutputs",
+    "MAP_TANK_PackTaps"
+  ],
+  "channels": [
+    {
+      "id": "LT101_Raw",
+      "direction": "input",
+      "bank": "Signed",
+      "index": 0,
+      "nativeType": "INT",
+      "bits": 16,
+      "encoding": "twos_complement_16",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "%",
+        "normal": 13824,
+        "scale": {
+          "rawMin": 0,
+          "rawMax": 27648,
+          "engMin": 0,
+          "engMax": 100
+        },
+        "meaning": "tank level transmitter, raw analog counts"
+      }
+    },
+    {
+      "id": "TT102_Raw",
+      "direction": "input",
+      "bank": "Signed",
+      "index": 1,
+      "nativeType": "INT",
+      "bits": 16,
+      "encoding": "twos_complement_16",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "degC",
+        "normal": 250,
+        "scale": {
+          "factor": 0.1
+        },
+        "range": [
+          -2000,
+          8500
+        ],
+        "meaning": "RTD temperature in tenths of a degree"
+      }
+    },
+    {
+      "id": "PT103_Raw",
+      "direction": "input",
+      "bank": "Unsigned",
+      "index": 0,
+      "nativeType": "UINT",
+      "bits": 12,
+      "encoding": "unsigned_12",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "kPa",
+        "normal": 2048,
+        "scale": {
+          "rawMin": 0,
+          "rawMax": 4095,
+          "engMin": 0,
+          "engMax": 400
+        },
+        "meaning": "12-bit pressure ADC"
+      }
+    },
+    {
+      "id": "LSH104",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 0,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": true,
+        "polarity": "active_low",
+        "meaning": "high-level switch, normally closed: FALSE means high level or broken wire"
+      }
+    },
+    {
+      "id": "P105_RunFB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 1,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "pump running feedback"
+      }
+    },
+    {
+      "id": "FQ106_Count",
+      "direction": "input",
+      "bank": "Unsigned",
+      "index": 1,
+      "nativeType": "UDINT",
+      "bits": 32,
+      "encoding": "unsigned_32",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "count",
+        "normal": 0,
+        "rollover": {
+          "modulus": 4294967296
+        },
+        "scale": {
+          "litresPerCount": 0.5
+        },
+        "meaning": "flow totaliser pulse count"
+      }
+    },
+    {
+      "id": "AT107_Value",
+      "direction": "input",
+      "bank": "RealValue",
+      "index": 0,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "allow",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "pH",
+        "normal": 7,
+        "range": [
+          0,
+          14
+        ],
+        "meaning": "smart analyser value; reports NaN on sensor fault"
+      }
+    },
+    {
+      "id": "P105_RunCmd",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 0,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "pump run command"
+      }
+    },
+    {
+      "id": "XV108_OpenCmd",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 1,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "inlet valve open command"
+      }
+    },
+    {
+      "id": "TY102_Out",
+      "direction": "output",
+      "bank": "Signed",
+      "index": 0,
+      "nativeType": "INT",
+      "bits": 16,
+      "encoding": "twos_complement_16",
+      "rawZero": 0,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "%",
+        "scale": {
+          "rawMin": 0,
+          "rawMax": 27648,
+          "engMin": 0,
+          "engMax": 100
+        },
+        "meaning": "heater power output, raw analog counts"
+      }
+    },
+    {
+      "id": "FCV109_Out",
+      "direction": "output",
+      "bank": "RealValue",
+      "index": 0,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "%",
+        "range": [
+          0,
+          100
+        ],
+        "meaning": "outlet valve position command"
+      }
+    },
+    {
+      "id": "TIC102_SP",
+      "direction": "tap",
+      "bank": "RealValue",
+      "index": 0,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "never",
+      "observable": true,
+      "role": "pid.setpoint",
+      "loop": "TIC102",
+      "source": "application internal signal",
+      "engineering": {
+        "unit": "degC"
+      }
+    },
+    {
+      "id": "TIC102_PV",
+      "direction": "tap",
+      "bank": "RealValue",
+      "index": 1,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "never",
+      "observable": true,
+      "role": "pid.processVariable",
+      "loop": "TIC102",
+      "source": "application internal signal, scaled from TT102_Raw by the PLC",
+      "engineering": {
+        "unit": "degC"
+      }
+    },
+    {
+      "id": "TIC102_CV",
+      "direction": "tap",
+      "bank": "RealValue",
+      "index": 2,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "never",
+      "observable": true,
+      "role": "pid.output",
+      "loop": "TIC102",
+      "source": "application internal signal before output scaling",
+      "engineering": {
+        "unit": "%"
+      }
+    },
+    {
+      "id": "TIC102_Mode",
+      "direction": "tap",
+      "bank": "Signed",
+      "index": 0,
+      "nativeType": "INT",
+      "bits": 16,
+      "encoding": "twos_complement_16",
+      "rawZero": 0,
+      "workstationWrite": "never",
+      "observable": true,
+      "role": "pid.mode",
+      "loop": "TIC102",
+      "source": "application internal signal",
+      "engineering": {
+        "enum": {
+          "0": "manual",
+          "1": "auto",
+          "2": "cascade"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Channels are allocated contiguously per bank in declaration order; append new channels to keep existing indices.",
+    "Unsupported native types are rejected, not narrowed: LINT, ULINT, LWORD, LREAL, TIME, LTIME, DATE, TOD, DT, STRING, WSTRING. Flatten structures into explicit channels.",
+    "Units, scaling, ranges, polarity and rollover are engineering metadata for workstation/analysis use. The PLC mapping copies raw values and applies none of them.",
+    "Taps are observation-only. No request field or library block writes them.",
+    "Transport bindings (OPC UA node paths/access rights) are deployment data and are not part of this manifest."
+  ]
+}

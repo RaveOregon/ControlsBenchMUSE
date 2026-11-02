@@ -1,0 +1,6 @@
+TYPE U_CB_Real32 :
+UNION
+    AsReal : REAL; // IEEE 754 binary32 value
+    AsBits : DWORD; // the same 32 bits, for encoding checks without numeric conversion
+END_UNION
+END_TYPE

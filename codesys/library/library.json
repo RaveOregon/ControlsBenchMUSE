@@ -1,0 +1,64 @@
+{
+  "format": "controlsbench.library-package/1",
+  "package": {
+    "title": "ControlsBench Core",
+    "company": "ControlsBench",
+    "version": "0.2.0.0",
+    "namespace": "CB",
+    "placeholder": "ControlsBenchCore",
+    "label": "prototype-0.2.0.0",
+    "status": "prototype",
+    "description": "Prototype raw I/O interceptor and observation library; offline development build, not deployed"
+  },
+  "versions": {
+    "package": "0.2.0.0",
+    "api": "0.2",
+    "adapterProtocol": 2,
+    "observationFrameFormat": 1,
+    "profile": "controlsbench.codesys.raw-banks/0.2",
+    "machineMapFormat": "controlsbench.machine-map/0.1",
+    "recordingFormat": "controlsbench.recording/0.1-draft (reserved; not implemented)"
+  },
+  "core": [
+    "GVL_CB",
+    "U_CB_Real32",
+    "ST_CB_Numeric",
+    "ST_CB_NumericMask",
+    "ST_CB_Image",
+    "ST_CB_ImageMask",
+    "ST_CB_Config",
+    "ST_CB_Slot",
+    "ST_CB_Request",
+    "ST_CB_Status",
+    "ST_CB_ObservationFrame",
+    "F_CB_CheckImage",
+    "FB_CB_DI",
+    "FB_CB_AI",
+    "FB_CB_DO",
+    "FB_CB_AO",
+    "FB_CB_Session",
+    "FB_CB_OutputCapture",
+    "FB_CB_Observation"
+  ],
+  "consumerLibrary": {
+    "title": "ControlsBench Consumer Example",
+    "version": "0.2.0.0",
+    "namespace": "CBX",
+    "placeholder": "ControlsBenchConsumer",
+    "description": "Offline consumer of ControlsBench Core: conformance harness and two generated machine maps",
+    "mappings": ["conveyor-m8", "tank-loop"],
+    "objects": ["examples/FB_CB_ConsumerChecks.st"]
+  },
+  "consumerApplication": {
+    "template": "codesys/conveyordemo.project",
+    "title": "ControlsBench Consumer Application Example (offline only, not for deployment)",
+    "program": "examples/application/PLC_PRG.st",
+    "mappings": ["conveyor-m8", "tank-loop"],
+    "objects": ["examples/FB_CB_ConsumerChecks.st"]
+  },
+  "toolchain": {
+    "codesys": "3.5.22.30",
+    "profile": "CODESYS V3.5 SP22 Patch 3",
+    "fileBasedStorage": "1.0.0.0"
+  }
+}

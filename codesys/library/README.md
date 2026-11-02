@@ -1,79 +1,130 @@
-# ControlsBench Core — offline reusable CODESYS library
+# ControlsBench Core — reusable CODESYS raw I/O library
 
-Version: prototype 0.1.0.0, namespace `CB`, title `ControlsBench Core`, company `ControlsBench`.
+Prototype **0.2.0.0**, namespace `CB`, title `ControlsBench Core`, company `ControlsBench`. API 0.2, adapter protocol 2, observation frame format 1. See `CHANGELOG.md`, `VERSIONING.md` and `CAPABILITIES.md`.
 
-This is a separately built library with caller-owned request storage and instance-owned state. It contains no conveyor signal names, application GVL dependencies, PLC transport client, physics, campaign or model credential. It is being built in parallel with the live demo; the deployed `conveyordemo.project` remains unchanged.
+The library sits at a machine's raw I/O boundary. It passes hardware through by default, gives the workstation complete input authority only when simulation is requested, observes authentic output commands before any physical suppression, and publishes a passive observation frame that later recording and analysis tools can read during normal operation. It contains no conveyor names, plant model, campaign code, transport client or credentials. Machines connect through generated maps.
 
-## Build
+**Status: compiled only.** The core, a consumer library and a consumer application compile with zero errors and zero warnings, against both the binary-built and the File-Based-Storage-built core. Nothing has run on a PLC. The library is not deployed, the demo does not use it, and it is not wire-compatible with the frozen M8 adapter map.
 
-From this worktree on the configured engineering workstation:
+## Layout
 
-```powershell
-powershell -ExecutionPolicy Bypass -File codesys/library/scripts/build-library.ps1
-```
-
-The script starts a separate hidden CODESYS `--noUI` process using the installed profile. It never logs in to a controller. It builds timestamped artifacts, installs the prototype into a dedicated workspace repository named `ControlsBench Offline Development`, and compiles two separate consumers referencing the installed library through Library Manager. Existing system/customer libraries are not overwritten. Development rebuilds may replace this unreleased 0.1.0.0 prototype in that dedicated repository; a release must use immutable versioning.
-
-`artifacts/latest.json` identifies the newest local build result; transient runs/caches are ignored by Git. `builds/prototype-0.1.0.0/` preserves the reviewed successful snapshot. Successful outputs include:
-
-- `ControlsBenchCore.library` and `ControlsBenchCore.compiled-library`;
-- `ControlsBenchConsumer.library` and its compiled form, with only a dependency reference and consumer checks;
-- `ControlsBenchConsumer.project`, a separate application using the known M8 target/task template, whose `PLC_PRG` calls the library consumer harness. Inherited M8 machine POUs remain uncalled template content, not library implementation;
-- `result.json` with compiler messages, source/artifact hashes, untouched-demo hashes and build status.
-
-Verify the preserved snapshot without CODESYS or a PLC:
-
-```powershell
-node codesys/library/scripts/audit-build.mjs
-```
-
-The audit checks all twelve source hashes, the consumer source, five built files, the profile identity and the recorded offline scope. The builder also reopens the saved core source library and compares every declaration/implementation before compiling its consumers. CODESYS emitted an unrelated Application Composer license warning during startup; the core and both consumer compiler summaries report zero errors and zero warnings. This is not a runtime/Control Win license failure.
-
-All runtime conformance checks in the consumer are **compiled only** until explicitly executed on a separate test target. Compilation and library consumption do not certify live transport, task impact, deployed behavior or other vendors.
-
-## Public blocks
-
-| Block | Use |
+| Path | Contents |
 |---|---|
-| `FB_CB_Session` | Per-domain coherent staging/commit, zero simulation entry, source selection, heartbeat/stale status, epoch/revision/capture and diagnostics |
-| `FB_CB_DI` | Typed discrete source selection, used within Session or explicitly with a coordinated accepted image |
-| `FB_CB_AI` | Typed raw numeric source selection; no scaling or physical range filtering |
-| `FB_CB_DO` | Observe all original BOOL commands; apply explicit physical suppression mask downstream |
-| `FB_CB_AO` | Observe all original numeric commands; apply explicit physical masks/substitution values downstream |
-| `FB_CB_OutputCapture` | Publish original output image with the consumed input revision and end-of-application capture phase |
+| `source/` | Core DUT, GVL, function and FB sources, one object per file (Git text, LF) |
+| `library.json` | Package identity, interface versions and the ordered object lists the builder uses |
+| `mappings/*.map.json` | Machine maps: `conveyor-m8` (the M8 raw signal set) and `tank-loop` (non-conveyor example with PID taps) |
+| `mappings/generated/` | Generated manifests: channel allocation, wire fingerprints, engineering metadata hash |
+| `examples/` | Conformance harness, consumer application program, generated map wrappers |
+| `schemas/` | Machine map schema; recording format draft (reserved, not implemented) |
+| `scripts/` | Builder, headless launcher, map generator, promotion, audit, File-Based Storage probe |
+| `builds/` | Immutable promoted builds and `index.json`; `prototype-0.1.0.0` is preserved |
+| `adapter-profile.json` | Machine-readable profile: banks, semantics, result codes, capabilities |
 
-`ST_CB_Image` has a fixed 64-BOOL bank plus raw numeric banks: 32 DINT, 32 UDINT and 16 REAL. Configuration declares used counts within those capacities. The complete fixed-capacity image is selected/published atomically; mapping must not expose unused elements as configured signals. This prototype does not directly represent LINT/ULINT channels, LREAL channels, strings, dynamic arrays or arbitrary device structs. ULINT session counters are metadata, not an advertised ULINT field-I/O bank. Wider/native types need an explicit later profile; do not narrow silently.
+## Build and verify
 
-## Call and commit contract
+Offline only, on the configured workstation:
 
-1. Acquire hardware raw values into a machine-specific mapping of `ST_CB_Image`.
-2. Call a distinct `FB_CB_Session` for each authority domain, with `Config`, a monotonic microsecond `NowUs`, a nonzero platform-provided `BootId`, hardware image and domain-specific `ST_CB_Request` storage through `VAR_IN_OUT`.
-3. Application logic consumes `Session.Image`. All banks share its applied revision. It is an integration error to call point selectors with staging data outside this accepted domain image.
-4. Tap application DO/AO commands with the typed blocks. Suppression changes the physical sink; the observed command stays authentic.
-5. Call output capture after application computation, in the same task and domain cycle, with original commands and `Session.Status`.
+```powershell
+node codesys/library/scripts/cb-map.mjs check          # generated wrappers match the maps
+powershell -NoProfile -ExecutionPolicy Bypass -File codesys/library/scripts/build-library.ps1
+node codesys/library/scripts/promote-build.mjs         # clean-tree builds only; refuses to overwrite
+node codesys/library/scripts/audit-build.mjs           # Git + Node; no CODESYS or PLC needed
+```
 
-For workstation reads, output capture increments `PublicationRevision` to odd before updating fields and to even afterwards. Read the revision, then fields, then the revision again using fresh ordered server reads. Accept only equal nonzero even revisions; otherwise retry. Uncoordinated subscription values or cached reads do not establish a coherent snapshot. This mechanism still requires a qualified transport read/caching policy; it is not a claim of OPC UA network atomicity.
+`build-library.ps1` records the Git commit and dirty paths, then starts its own hidden `--noUI` CODESYS process. It never attaches to an open IDE and never logs in to a controller. The build:
 
-Cold default is hardware. Simulation entry is immediate raw zero; complete subsequent commits establish normal conditions. Config/schema/boot changes or backward time latch `ReconfigureRequired`; reconstruct/reinitialize the domain explicitly. Bad configuration while simulated holds its image and reports the defect rather than silently selecting hardware.
+1. creates `ControlsBenchCore.library` from `source/`, compiles it, saves the compiled library, reopens the saved library and compares every declaration and implementation with Git;
+2. converts a **copy** to native File-Based Storage (`ControlsBenchCore.fbslib`), reopens it with `fbs.open`, compares again, compiles it, saves a second compiled library, and proves the cache-free Git subset reopens and compiles on its own;
+3. installs the binary-built library into a dedicated development repository (`repository/`, ignored), builds the consumer library and the consumer application, reopens both and compares their sources;
+4. installs the FBS-built library over it and rebuilds both consumers;
+5. checks the consumer template (`codesys/conveyordemo.project`) is byte-identical before and after.
 
-Each inactive slot contains `Valid`, domain/schema ID, epoch, sequence and complete image. Finish invalidation before payload writes, finish payload/metadata before setting Valid, then write requested slot/epoch and **RequestedSequence last**. The sequence must differ from the previous request, including on an epoch transition; changing only epoch or payload is not a commit edge. The session consumes that edge, checks metadata and accepts only a complete inactive slot. Echo the consumed epoch/sequence/cycle/time before slot reuse. Invalid requests are consumed once; repair requires a new request sequence. Use one writer per domain.
+Any compiler error or warning fails the build. `result.json` records every step, message, source hash, artifact hash and the FBS file hashes. The consumer application is a copy of the frozen M8 project template, used only for its Control Win device and task configuration; its project title marks it offline-only and the inherited M8 POUs are not called.
 
-Stale/duplicate/invalid updates retain the prior image; skipped sequences are counted. A new epoch requires no prior epoch, an explicitly reset session, or the elapsed stale condition. Staleness is computed from microseconds, independent of task period. A heartbeat can clear link stale without publishing staged data. A rising `SessionResetRequest` clears accepted metadata and retains the image. A rising `SimulationResetRequest` clears metadata and zeros the image while staying simulated. Both consume the currently staged request without applying it; a fresh commit is required. Neither requests a machine Reset. Old epochs are not retained in an unbounded history. Simulation remains selected on link loss; Exit Simulation is the explicit `SimRequest := FALSE` transition.
+## Public API
 
-`BootId` and elapsed time are platform services supplied by the consumer. Use a value that changes on a real application/runtime restart; the synthetic test harness constant is not a production boot-identity generator. Local `Cycle` counts calls to that domain FB, not universal PLC scans. Call exactly once per intended task cycle.
+| Object | Purpose |
+|---|---|
+| `FB_CB_Session` | One per authority domain. Coherent two-slot commits, source selection, raw-zero entry, staleness, resets, acknowledgement, diagnostics |
+| `FB_CB_DI`, `FB_CB_AI` | Whole-bank source selection used inside the session |
+| `FB_CB_DO`, `FB_CB_AO` | Output taps: authentic commands observed; explicit per-channel suppression with substitute values changes only the physical sink |
+| `FB_CB_OutputCapture` | Authentic commands with the consumed input revision, after the application, with a publication seqlock |
+| `FB_CB_Observation` | Passive per-cycle frame for monitoring and later recording; no write path |
+| `F_CB_CheckImage` | Representation check the session applies to every candidate image; usable by consumers before staging |
+| `ST_CB_Image`, `ST_CB_Numeric` | Raw banks: 64 BOOL, 32 DINT, 32 UDINT, 16 REAL |
+| `ST_CB_Config` | Domain and schema IDs, timeout, channel counts, native width per integer channel, non-finite policy per REAL channel |
+| `ST_CB_Request`, `ST_CB_Slot` | Workstation-writable request storage owned by one domain |
+| `ST_CB_Status` | Read-only status, acknowledgement and counters |
+| `ST_CB_ImageMask`, `ST_CB_NumericMask` | Per-channel masks for suppression |
+| `ST_CB_ObservationFrame` | Frame layout, format 1 |
+| `GVL_CB` | Versions, capacities, result codes, bank and phase codes |
+| `U_CB_Real32` | REAL/DWORD view for bit-exact encoding checks |
 
-## Example and verification scope
+Unsupported native types (64-bit integers, LREAL, time and date types, strings, structures) are rejected by map validation, never narrowed. See `adapter-profile.json`.
 
-`examples/FB_CB_ConsumerChecks.st` declares two session instances, two independent request structures and different domain/schema IDs. It tests passthrough, zero entry, mixed-bank commit, signed/unsigned boundaries, negative raw REAL, incomplete-slot hold, elapsed timeout, heartbeat-only recovery, skipped sequence, output suppression/capture, passthrough exit and independent B-domain simulation.
+## Per-cycle call order
 
-The program sets `Done`, `Passed` and the first `FailedCase` (14 cases) when later executed. It also covers separate simulation/session reset semantics and a latched schema change retaining the original domain label. It uses synthetic monotonic timestamps and no hardware mapping. It is a conformance example, not an added task in the active controller. Live M2/M5/M10 regressions and real-time cycle cost remain separate release gates. New library namespaces, bank layouts and symbol paths are deliberately **not wire-compatible** with the frozen M8 adapter map; a later deployment needs new mapping, identity and regression evidence.
+Call everything for one domain once per cycle, in one task:
 
-## Broader ecosystem and versioning
+1. Pack raw acquisition into a hardware image (`MAP_<P>_PackInputs`).
+2. Call the domain's `FB_CB_Session` with its `Config` (`MAP_<P>_Config`), monotonic `NowUs`, nonzero `BootId` and its own `ST_CB_Request`.
+3. The application consumes `Session.Image` (`MAP_<P>_UnpackInputs`). All banks share one applied revision.
+4. Pack the application's commands (`MAP_<P>_PackOutputs`) and pass them through `FB_CB_DO`/`FB_CB_AO`. Drive the physical sink from `Physical` (`MAP_<P>_UnpackOutputs`).
+5. Call `FB_CB_OutputCapture` and, if used, `FB_CB_Observation` with the session status, the session's `Hardware` input, its `Image`, the commands, the physical image, the applied masks and the packed taps.
 
-The user intends these hooks to support later passive signal streaming/recording, PID tuning and signal processing in normal hardware passthrough as well as simulation. These are accepted roadmap requirements, not features certified by the current compiler proof. `adapter-profile.json` identifies the planned capabilities. The common standard defines source provenance, task/time/quality/gap metadata, optional internal PID observation taps, bounded sampling and compatibility/version tracking. The current prototype has no qualified acquisition/export pipeline or analysis service; its raw selectors and output capture are the starting boundary.
+`examples/application/PLC_PRG.st` shows two independent domains wired this way. `BootId` and `NowUs` are platform services the consumer supplies; the example uses `SysTimeCore.SysTimeGetUs` and the first-cycle time as boot identity. `Status.Cycle` counts calls of that domain, not PLC scans. `Reinitialize` is local application authority and must not be exposed to the workstation.
 
-Version the blocks, common specification, profile, map and future recording format together through explicit compatibility records and source/build hashes. Add extension points or visible capability limitations now; qualify each later implementation against its own evidence. Passive recording does not automatically enable simulation or authorize parameter changes. See `docs/library-build-lane-prompt.md` for the expanded build-lane instructions.
+## Commit protocol (adapter protocol 2)
 
-## File sharing and migration
+Writer (one per domain):
 
-Text sources in `source/` and `examples/` plus the builder are the editable source for this prototype; generated binary libraries are distributable artifacts. This is useful for Git today, but is not a native File-Based Storage project. See `FILE-BASED-STORAGE.md` for the installed-capability result and conversion plan.
+1. Pick the inactive slot (`RequestedSlot <> Status.ActiveSlot`). Clear its `Valid`, write the complete image and `DomainId`, `SchemaId`, `Epoch`, `Sequence`, then set `Valid`.
+2. Write `RequestedSlot` and `RequestedEpoch`, then **`RequestedSequence` last**. The sequence must differ from the previous request, also across an epoch change. Changing only the epoch, slot or payload is not a commit.
+3. Wait until `Status.ConsumedSequence` echoes the request before reusing that slot. `ConsumedResult` gives the outcome; `AppliedEpoch/Sequence` change only on `ACCEPTED`.
+4. `RequestedEpoch = 0, RequestedSequence = 0` is the idle request (`IDLE_CLEARED`), used after a reset.
+
+Session rules: incomplete, mismatched, duplicate, stale, wrongly-represented and wrong-slot requests keep the prior image and increment their own counter; skipped sequences are accepted and counted. A new epoch is accepted only with no prior epoch, after an explicit reset, or when the link was already stale at the start of the cycle. Each request edge is consumed once; repair needs a new sequence.
+
+Reader of output capture or frames: read `PublicationRevision`, then the fields, then the revision again, with fresh ordered reads. Accept only equal, nonzero, even revisions. This needs a qualified transport read policy; it is not a claim of OPC UA atomicity.
+
+## Representation
+
+`ST_CB_Config` declares each configured integer channel's native width (signed 8/16/32, unsigned 1–32) and each REAL channel's non-finite policy. A candidate image is rejected, with `RejectBank` and `RejectIndex`, if a value is outside its width, a finite-only REAL is NaN or infinite (checked on the bit pattern), or an unconfigured channel is not zero. Raw values are copied bit for bit; the PLC application keeps all scaling, filtering, debounce and engineering conversion. A configured channel without a valid width makes the configuration invalid.
+
+## Authority and resets
+
+| Event | Image | Metadata | Simulation |
+|---|---|---|---|
+| Cold start | hardware | cleared | off |
+| Simulation entry (`SimRequest` rises) | raw zero | cleared; staged request consumed | on |
+| Complete accepted commit | new revision | applied epoch/sequence | on |
+| Link loss (no heartbeat change for more than `TimeoutUs`) | held | kept; `ConnectorStale` | stays on |
+| Heartbeat only | unchanged | unchanged | unchanged |
+| Session reset (`SessionResetRequest` rises) | kept | cleared; staged request consumed | unchanged |
+| Simulation Reset (`SimulationResetRequest` rises) | raw zero | cleared; staged request consumed | stays on |
+| Exit Simulation (`SimRequest` falls) | hardware | kept | off, always honoured |
+| Configuration, boot or backward-clock change | held | `ReconfigureRequired` latched; requests refused | unchanged |
+| Local `Reinitialize` rises | raw zero if simulated | cleared; config and boot re-pinned | unchanged |
+
+The library never issues a machine Reset.
+
+## Passive observation
+
+`FB_CB_Observation` publishes one fixed-size frame per cycle: `RawInputs` (hardware values presented to the session, in either mode), `SelectedInputs` (what the application consumed), `Commands` (authentic), `Physical` (after suppression), `Suppressed` masks, `Taps` (map-declared internal signals such as PID setpoint, process variable, output and mode), identity (`BootIdentity`, `DomainId`, `SchemaId`, `TapSchemaId`), `SourceCycle`, `SourceTimeUs`, `CapturePhase`, quality flags, and gap counters (`FrameSequence`, `MissedCycles`, `RepeatedCycles`). It needs no simulation authority, writes nothing back and never waits on a transport.
+
+This is an extension point, not an acquisition system. No reader, recording format, sampling qualification or analysis tool exists yet; `CAPABILITIES.md` lists their gates. The demo's 10 Hz OPC UA qualification does not cover frame acquisition, PID or signal-processing use.
+
+## Onboarding a machine
+
+1. Write `mappings/<id>.map.json` from the machine's specification and raw I/O list: one channel per raw signal with its native type, optional unsigned bit width, REAL non-finite policy and separately versioned engineering metadata; taps for internal signals to observe.
+2. Run `node scripts/cb-map.mjs generate`. Unsupported types, duplicates and capacity overflow fail visibly. The generator writes `examples/mappings/<id>/` and `mappings/generated/<id>.manifest.json`.
+3. Add the generated objects to the consumer project, wire the per-cycle call order, and bind the request (writable) and status/frame (read-only) through the transport.
+4. The workstation checks `Status.ProtocolVersion`, `Status.SchemaId` and `Frame.TapSchemaId` against the manifest before it writes or interprets data.
+
+Channels are allocated contiguously per bank in declaration order; append new channels to keep existing indices.
+
+## Verification scope
+
+`examples/FB_CB_ConsumerChecks.st` has 46 cases across five session instances: passthrough and exact raw boundaries, raw-zero entry, every rejection class, representation limits, NaN bit preservation, timeouts at two call periods, heartbeat-only recovery, epoch rules, idle requests, all resets, exit, reinitialization, boot/clock/config latches, invalid configuration, output taps and suppression, capture, observation provenance and gap counters, independent domains, and both generated maps. It sets `Done`, `Passed`, `FailedCase` and `CasesRun` **when executed**. This lane compiled it; it has not been executed (gate G-RT-1).
+
+Executed in this lane: the map generator and its freshness check, the headless builds with source readback, the File-Based Storage conversion and reopen, and the Git-based audit of all promoted builds.

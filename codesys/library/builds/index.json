@@ -1,0 +1,19 @@
+{
+  "format": "controlsbench.library-builds/1",
+  "policy": "Entries are append-only. A promoted builds/<label>/ directory is immutable once committed; never rewrite it or its result to describe newer sources. Rebuilding a version requires a new version number.",
+  "builds": [
+    {
+      "label": "prototype-0.1.0.0",
+      "libraryVersion": "0.1.0.0",
+      "resultSchema": "legacy-1",
+      "sourceCommit": "3d8618945427cb3e9dd3c1a910ce43ce457b0577",
+      "resultCommit": "b64a7ebbb9c867216cb16b87825aeeec435ae822",
+      "versions": {"package": "0.1.0.0", "api": "prototype_0.1", "adapterProtocol": 1, "machineMapFormat": "none", "recordingFormat": "not_yet_defined"},
+      "toolchain": {"codesys": "3.5.22.30", "profile": "CODESYS V3.5 SP22 Patch 3", "fileBasedStorage": "not available to that build"},
+      "consumers": ["consumer library", "consumer application"],
+      "evidenceClass": "offline_compilation_and_source_provenance",
+      "runtimeValidated": false,
+      "note": "This build predates commit recording. Its sources were added in 3d86189 and unchanged until the 0.2.0.0 work; b64a7eb only normalised result.json line endings. The audit checks the recorded source hashes against 3d86189."
+    }
+  ]
+}

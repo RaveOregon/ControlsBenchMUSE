@@ -1,19 +1,30 @@
 # Reusable library handoff — 2026-11-01
 
-User authorized building reusable libraries now while leaving the proven running demo in place. Work is isolated on `codex/plc-library`, based on `m10-base`. Claude retains ownership of live HMI process isolation and held-PLC recovery; this work does not contact that runtime or the active editing IDE.
+Lane `codex/plc-library`, worktree `.worktrees/plc-library`, based on `m10-base`. Offline only: no PLC login, download, online change, recovery or live write; no credential handling. The running demo, the frozen controller project, the live connector/map, the HMI and the Wonder lanes are unchanged and do not use this library. No library swap is needed for W4.
 
-Delivered `ControlsBench Core` prototype 0.1.0.0, namespace `CB`: public raw-image/config/request/status types, DI/AI selectors, DO/AO authentic-command taps with downstream suppression, coherent per-domain session, and post-application output capture. No conveyor globals or controller logic live in the core. Two consumers use Library Manager references, not copied core code. Saved core text is reopened and checked against source.
+## State
 
-User clarification: these same hooks are the foundation for later passive streaming/recording, PID tuning, filtering/signal processing and other engineering tools during normal hardware passthrough. Version-control the blocks and common specification; track API/protocol/map/recording compatibility and explicitly flag deferred capabilities. `docs/plc-adapter-standard.md`, profile metadata 0.1.1 and `docs/library-build-lane-prompt.md` now capture this accepted direction. No acquisition pipeline or analysis service is claimed implemented; no FB source or compiled binary was changed for this clarification.
+`ControlsBench Core` **0.2.0.0** (prototype) replaces the 0.1.0.0 prototype as the current version; `builds/prototype-0.1.0.0/` is preserved and re-audited. Start with `README.md`, then `CAPABILITIES.md`, `VERSIONING.md`, `CHANGELOG.md` and `FILE-BASED-STORAGE.md`.
 
-The preserved `builds/prototype-0.1.0.0/result.json` records five compiler checkpoints, original demo hashes before/after, source/artifact hashes and no PLC/deployment. Its consumer harness has fourteen cases and two separately configured session instances. It is compiled **only**; neither instance isolation nor other runtime behavior is claimed tested. Start with `README.md` and `node codesys/library/scripts/audit-build.mjs`.
+- Core sources in `source/` (19 objects), consumer harness (46 cases), two generated machine maps (M8 conveyor signal set, non-conveyor tank loop with PID observation taps) and a two-domain consumer application program.
+- The promoted build `builds/prototype-0.2.0.0/` holds the binary and native File-Based Storage forms of the core, compiled libraries from both, and the consumer library and application built against each. `result.json` binds them to a clean source commit.
+- `node codesys/library/scripts/audit-build.mjs` re-verifies every build against Git, the current tree against the latest build, the profile against the PLC constants, the maps against their generated code, and the capability matrix against its evidence.
+- Native File-Based Storage 1.0.0.0 is available; the library pilot passed on a copy (`FILE-BASED-STORAGE.md`).
 
-Remaining gates:
+Everything PLC-side is **compiled only**. The harness has not been executed. Acquisition, recording and analysis are extension points and gates, not features.
 
-1. Review the prototype API/profile against `docs/plc-adapter-standard.md`. It is not a drop-in replacement for M8 symbols/wire layout.
-2. Extend and execute conformance on a separate target: duplicate/stale/epoch/boot/clock transitions, raw boundaries, mixed-bank coherence, output capture/suppression, reset semantics, multiple task periods and independent domains.
-3. Generate machine-specific mapping and a new connector manifest from spec/raw I/O; supply platform boot/time services. The fixed banks do not silently narrow 64-bit channels or arbitrary device structs.
-4. Schedule a deliberate new-identity consumer deployment and repeat M2/M5/M10 plus task-cost checks before replacing the live interceptor.
-5. Native File-Based Storage is desired but the probed CODESYS profile lacks its API/add-on. Follow `FILE-BASED-STORAGE.md`; coordinate add-on installation/restart with the active IDE owner, pilot on this new library, then convert a separate demo copy. Exported ST is not native FBS.
+## Next gates (none started)
 
-No runtime password was requested, read or persisted. Only the unreleased ControlsBench package is installed into an explicitly scoped development library repository. The current IDE project may have unsaved changes; do not close or convert it as part of this lane. No new product licensing/publication decision was made.
+1. **G-RT-1**: execute the harness on a separate CODESYS test target under explicit authorization. Not the live demo controller.
+2. **G-RT-2**: measure task cost against a disconnected baseline.
+3. **G-ACQ-1**: a guarded frame reader over the real transport reporting achieved rate, decimation and gaps.
+4. **G-DEP-1**: a new-identity consumer generated from the conveyor map, with a new connector manifest, replaces the integrated interceptor on a scheduled deployment, then M2/M5/M10-class regressions and task cost. Until then the frozen project and its hash guards stay as they are.
+5. **G-FBS-2**: edit the next version natively in a copy of the promoted `.fbslib`.
+6. G-ACQ-2, G-ACQ-3, G-REC-1, G-TOOL-1, G-VEN-1 and G-REL-1 as listed in `CAPABILITIES.md`.
+
+## Notes for the integrator
+
+- The development repository `repository/` (ignored) holds installed 0.1.0.0 and 0.2.0.0 for local consumer builds only. Only the unreleased ControlsBench package is installed there; no system or customer library is touched.
+- CODESYS reports "Application Composer: No valid license is available" at startup. It is a tool warning unrelated to the compile results; the compiler summaries report zero errors and zero warnings.
+- The user's active CODESYS IDE was never attached to, closed or restarted. Each build runs in its own hidden process.
+- No licence or publication decision was made.
