@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "directory": "artifacts/hmi/h2/2026-11-01T14-07-10-579Z",
+  "auditedAt": "2026-11-02T12:17:10.188Z",
+  "pass": true,
+  "checks": [
+    {
+      "id": "run-status-and-provenance",
+      "pass": true,
+      "detail": "pass; frozen M8 project 6c2a1eb6c9c8…; 0 model calls"
+    },
+    {
+      "id": "journal-hash-chain",
+      "pass": true,
+      "detail": {
+        "records": 292,
+        "ok": true
+      }
+    },
+    {
+      "id": "hmi-writes-only-operator-requests",
+      "pass": true,
+      "detail": "11 HMI writes, all within StartSequence/StopSequence/ResetSequence/AutoRequest, all Good"
+    },
+    {
+      "id": "coordinator-never-writes-operator-requests",
+      "pass": true,
+      "detail": "5023 coordinator writes: bench image/handshake and WCS offer/acknowledgement only"
+    },
+    {
+      "id": "command-sequence-and-plc-outcomes",
+      "pass": true,
+      "detail": "auto_on:applied, start:applied, stop:applied, start:applied, auto_off:applied, start:rejected, reset:rejected, reset:applied, auto_on:applied, start:applied, stop:applied"
+    },
+    {
+      "id": "acknowledgement-semantics",
+      "pass": true,
+      "detail": "Start/Reset applied iff accepted flag TRUE after sequence echo; Stop by echo; Auto by labelled readback; every rejection lists unmet observed preconditions"
+    },
+    {
+      "id": "reset-does-not-start",
+      "pass": true,
+      "detail": "Reset hmi-reset-mvxwmnb6-1ja39111imed8q: Stopped, motor off until the next request (auto_on)"
+    },
+    {
+      "id": "five-records-per-click",
+      "pass": true,
+      "detail": "14 clicks each with requested action, CDP delivery, trusted page input on the intended target, linked command (for controls), rendered outcome and a later frame whose SHA-256 matches Lane B's log"
+    },
+    {
+      "id": "cited-frames-preserved",
+      "pass": true,
+      "detail": "20 cited frames (14 from agent action screens) present; bytes match the action records and Lane B's SHA-256"
+    },
+    {
+      "id": "alarm-transitions",
+      "pass": true,
+      "detail": "F10 raised 2026-11-01T14:07:28.643Z (onset after 2026-11-01T14:07:28.130Z), cleared 2026-11-01T14:07:31.197Z; both observed transitions"
+    },
+    {
+      "id": "no-command-while-link-not-fresh",
+      "pass": true,
+      "detail": "link reconnecting → connected; agent Start was inconclusive (Target cmd.start is disabled on screen); no command or write in between"
+    },
+    {
+      "id": "connector-stale-is-not-an-alarm",
+      "pass": true,
+      "detail": "ConnectorStale TRUE observed by the HMI; no alarm instance created"
+    },
+    {
+      "id": "item-route-completion",
+      "pass": true,
+      "detail": "Item 301/A completed Exit A / Sorted (completion #2); acknowledged by the WCS peer, not the HMI"
+    }
+  ]
+}

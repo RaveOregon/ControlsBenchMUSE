@@ -1,0 +1,19 @@
+✔ commissioning refuses before any PLC write: held lock, unclean baseline, live-mode test hooks (5935.5139ms)
+✔ offline commissioning passes end to end through the real runtime and isolated child (28722.2488ms)
+✔ held mid-transit: exact record, transit-pending refusal, changed preconditions refused, authorized reconciliation (14667.4549ms)
+✔ uncertain write: a hung WCS offer quarantines, the lock is retained, inspection restores it, observation resolves the write (7747.0608ms)
+✔ child exit: the dead run's lock is adopted only with its nonce and no live host, then restored after inspection (3921.9286ms)
+✔ undeclared PLC fault stops held and is refused as outside the recorded paths (3685.4524ms)
+✔ a run held at the stopped baseline needs no reconciliation and is not written (29368.4945ms)
+✔ classification: recorded overload and start-feedback paths, late commit settlement, and refusals (4.9771ms)
+✔ read-only inspection gate refuses every write until an explicit authorization (3.3098ms)
+✔ recovery distinguishes a recorded child exit from a reused PID, disconnect or foreign nonce (0.5166ms)
+✔ live commissioning qualification rejects missing, slow, empty and late-expiry evidence (1.5926ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 94455.1859

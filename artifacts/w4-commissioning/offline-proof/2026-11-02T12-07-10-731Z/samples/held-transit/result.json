@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "contract": "controlsbench.w4-commissioning.v1",
+  "status": "held",
+  "scope": "offline-fake-transport",
+  "evidenceClass": "fake_connector",
+  "directory": "C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-transit-G43RoR\\runs\\2026-11-02T12-07-49-109Z",
+  "startedAtIso": "2026-11-02T12:07:49.109Z",
+  "modelCalls": 0,
+  "paidCalls": 0,
+  "claimBoundary": "Zero-model W4 commissioning: declared deterministic commissioning steps and a scripted zero-cost lease provider through the isolated adapter. Not a Wonder decision, investigation, controller coverage or spend authorization.",
+  "loadNote": "offline: no portal/HMI load",
+  "phases": [
+    {
+      "name": "preconditions",
+      "atIso": "2026-11-02T12:07:49.901Z",
+      "status": "pass"
+    },
+    {
+      "name": "baseline",
+      "atIso": "2026-11-02T12:07:49.930Z",
+      "status": "pass",
+      "summary": {
+        "bootIdentity": "boot-1",
+        "appliedEpoch": "0",
+        "appliedSequence": "0",
+        "plcCycle": "0",
+        "plcTimeUs": "0",
+        "simulationApplied": true,
+        "connectorStale": false,
+        "mode": "Stopped",
+        "faultCode": 0,
+        "itemActive": false,
+        "activeItemId": 0,
+        "completionPending": false,
+        "completionSequence": 0,
+        "motorRunCmd": false,
+        "counters": {
+          "CountExitA": 0,
+          "CountExitB": 0,
+          "CountRunout": 0,
+          "CountMisroute": 0,
+          "CountFaulted": 0
+        },
+        "stoppedBaselineMismatches": []
+      }
+    },
+    {
+      "name": "session",
+      "atIso": "2026-11-02T12:07:50.919Z",
+      "status": "pass",
+      "child": {
+        "wire": "controlsbench.wonder-process.wire.v1",
+        "pid": 55740,
+        "nonce": "6a8405016bc24312",
+        "node": "v24.15.0",
+        "timeOriginEpochMs": 1793621270475.659
+      },
+      "bootIdentity": "boot-1",
+      "baselineBootMatches": true
+    }
+  ],
+  "measurements": {
+    "cadence": {
+      "commits": 11,
+      "held": 0,
+      "gapP50Ms": 110,
+      "gapP95Ms": 127,
+      "gapMaxMs": 127,
+      "gapsOver300Ms": 0,
+      "delayed": 1,
+      "faults": []
+    }
+  },
+  "identities": {
+    "harness": {
+      "commit": "322c35d862423ff33f6811a4ddab7e296c722c13",
+      "dirty": []
+    },
+    "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+    "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+    "specSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ownershipPath": "C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-transit-G43RoR\\offline.lock",
+    "node": "v24.15.0",
+    "module": {
+      "root": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness",
+      "commit": "322c35d862423ff33f6811a4ddab7e296c722c13",
+      "entry": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\src\\live\\wonder-process\\index.ts",
+      "verified": "offline-unpinned"
+    },
+    "session": {
+      "contract": "controlsbench.wonder-process.v1",
+      "handoff": {
+        "commit": "offline-unpinned",
+        "isolationVerified": true,
+        "recoveryVerified": true,
+        "evidenceRef": "offline fixture only: real isolated child with an injected fake M8 transport; not a live handoff, timing or recovery qualification"
+      },
+      "provenance": {
+        "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+        "ioMap": "sha256:5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+        "plcBuild": "offline-fixture-transport;project-bytes-sha256:6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+        "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5;worldVersion:0.5.0;loaded-by-child:55740",
+        "model": "assigned-by-host-provider",
+        "connector": "fixture-m8-transport/m8-conveyor-1.0.2;controlsbench.wonder-process.v1;child:6a8405016bc24312"
+      },
+      "child": {
+        "wire": "controlsbench.wonder-process.wire.v1",
+        "pid": 55740,
+        "nonce": "6a8405016bc24312",
+        "node": "v24.15.0",
+        "timeOriginEpochMs": 1793621270475.659
+      },
+      "loadedWorldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+      "loadedProjectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628"
+    }
+  },
+  "error": "Error: Offline abort hook at normal:carton-in-transit\n    at checkpoint (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-live-readiness/scripts/run-w4-commissioning.js:245:87)\n    at normalOperation (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-live-readiness/scripts/run-w4-commissioning.js:303:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-live-readiness/scripts/run-w4-commissioning.js:171:3",
+  "child": {
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "closed": {
+      "atIso": "2026-11-02T12:07:52.155Z",
+      "atMonotonicMs": 1680.0702,
+      "kind": "closed",
+      "reason": "Campaign session disposed",
+      "drained": true,
+      "closed": true,
+      "uncertainWrites": [],
+      "ownership": "released",
+      "ownershipPath": "C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-transit-G43RoR\\offline.lock",
+      "boundaryRevision": 7,
+      "lastSeq": 128
+    },
+    "lockPresentAfterDispose": false
+  },
+  "wroteToPlc": true,
+  "report": {
+    "schemaVersion": "controlsbench.campaign.v1",
+    "campaignId": "w4-commissioning-2026-11-02T12-07-49-109Z",
+    "status": "stopped",
+    "provenance": {
+      "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+      "ioMap": "sha256:5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+      "plcBuild": "offline-fixture-transport;project-bytes-sha256:6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+      "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5;worldVersion:0.5.0;loaded-by-child:55740",
+      "model": "w4-commissioning-scripted-leases-v1;zero-model",
+      "connector": "fixture-m8-transport/m8-conveyor-1.0.2;controlsbench.wonder-process.v1;child:6a8405016bc24312"
+    },
+    "evidenceClass": "fake_connector",
+    "claimBoundary": "Zero-model W4 commissioning: declared deterministic commissioning steps and a scripted zero-cost lease provider through the isolated adapter. Not a Wonder decision, investigation, controller coverage or spend authorization.",
+    "plan": {
+      "objective": "Commission the isolated runtime path against M8",
+      "experiments": [
+        {
+          "id": "w4-normal",
+          "objective": "One assigned carton sorted to exit A with WCS offer, PLC completion and acknowledgement",
+          "category": "normal",
+          "requirements": []
+        },
+        {
+          "id": "w4-leases",
+          "objective": "Hold, continue and condition-deadline reasoning leases enforced by the isolated child, including expiry under a parent stall",
+          "category": "runtime",
+          "requirements": []
+        },
+        {
+          "id": "w4-fault",
+          "objective": "Declared drive overload, PLC fault 10, clear and operator Reset to a stopped baseline",
+          "category": "faults",
+          "requirements": []
+        }
+      ]
+    },
+    "experiments": [
+      {
+        "id": "w4-normal",
+        "objective": "One assigned carton sorted to exit A with WCS offer, PLC completion and acknowledgement",
+        "category": "normal",
+        "requirements": [],
+        "status": "running"
+      },
+      {
+        "id": "w4-leases",
+        "objective": "Hold, continue and condition-deadline reasoning leases enforced by the isolated child, including expiry under a parent stall",
+        "category": "runtime",
+        "requirements": [],
+        "status": "proposed"
+      },
+      {
+        "id": "w4-fault",
+        "objective": "Declared drive overload, PLC fault 10, clear and operator Reset to a stopped baseline",
+        "category": "faults",
+        "requirements": [],
+        "status": "proposed"
+      }
+    ],
+    "findings": [],
+    "budget": {
+      "campaignUsd": 0,
+      "sessionUsd": 0,
+      "checks": {},
+      "repairs": {},
+      "requests": {}
+    },
+    "finalization": {
+      "summary": "W4 commissioning stopped: Error: Offline abort hook at normal:carton-in-transit",
+      "throughSequence": 172
+    },
+    "injectedTruth": [],
+    "worldEvidenceRefs": [
+      "w4-commissioning-2026-11-02T12-07-49-109Z:12",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:13",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:14",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:15",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:16",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:17",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:18",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:19",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:20",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:21",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:22",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:23",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:24",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:25",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:26",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:27",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:28",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:29",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:30",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:31",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:32",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:33",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:34",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:55",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:63",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:71",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:79",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:80",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:81",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:82",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:83",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:84",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:97",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:98",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:99",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:100",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:110",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:111",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:112",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:113",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:114",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:115",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:116",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:117",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:126",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:127",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:128",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:136",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:137",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:138",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:146",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:147",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:148",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:156",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:157",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:158",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:167",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:168",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:169",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:170",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:175"
+    ],
+    "sourceEvidenceRefs": [
+      "w4-commissioning-2026-11-02T12-07-49-109Z:5",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:6",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:7",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:8",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:50",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:51",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:58",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:59",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:66",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:67",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:74",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:75",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:92",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:93",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:104",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:105",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:106",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:121",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:122",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:131",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:132",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:141",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:142",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:151",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:152",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:162",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:163",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:174"
+    ],
+    "modelResponseRefs": [],
+    "plcEvidence": [
+      "w4-commissioning-2026-11-02T12-07-49-109Z:11",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:54",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:62",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:70",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:78",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:96",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:109",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:125",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:135",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:145",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:155",
+      "w4-commissioning-2026-11-02T12-07-49-109Z:166"
+    ],
+    "unresolved": [],
+    "untested": [
+      "w4-normal",
+      "w4-leases",
+      "w4-fault"
+    ],
+    "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+  },
+  "heldState": {
+    "file": "held-state.json",
+    "sha256": "571b00d973a26888de4b574fc840715a35c5c40159d6d422d53944e1dd995553",
+    "ownership": {
+      "path": "C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-transit-G43RoR\\offline.lock",
+      "acquired": {
+        "owner": "wonder-process-v1",
+        "campaignId": "w4-commissioning-2026-11-02T12-07-49-109Z",
+        "childPid": 55740,
+        "parentPid": 55788,
+        "nonce": "6a8405016bc24312",
+        "acquiredAtIso": "2026-11-02T12:07:50.671Z"
+      },
+      "closeResult": "released",
+      "lockPresent": false,
+      "lockMatchesRun": false,
+      "lockSha256": null
+    },
+    "recovery": "node scripts/recover-w4-held.js \"C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-transit-G43RoR\\runs\\2026-11-02T12-07-49-109Z\"  (read-only inspection; reconcile only with --reconcile --authorize <held-state sha256>)"
+  },
+  "evidenceHashes": {
+    "campaign.jsonl": "da5871c58b86e62eee0f8a670268d22b83eab00df84605f9cdebf2c44eec14e0",
+    "baseline.json": "f4112a7217b848fafadc6cdb9ebb2820e471679d453038cb3b602087a1549b96",
+    "final-inspection.json": "b16429842d1bbbf1abfddbaea9e6f41728f5910277211835fbfa992ab0e528f1",
+    "held-state.json": "571b00d973a26888de4b574fc840715a35c5c40159d6d422d53944e1dd995553",
+    "report.json": "7547a9a84749ca7f7a17a5db8a5f82bf909bd11278d425eb25e7cd4c7ae4d722",
+    "inspection-transport.jsonl": "d52fdbd8b0007402cfdb1474a90f996b30cbf98613445b9c8b11c1effd93db01",
+    "wonder-process/child-stream.jsonl": "90608d6e78dd79f66657c1700f32076dee7a48de52ce259566ccd46b6b268cd5",
+    "wonder-process/child-transport.jsonl": "5f56c54958b19b0a4ae43241f0b848e59a1362279440a633de88546bd9de12f3",
+    "wonder-process/child-lifecycle.jsonl": "502b05b9820aa7082e6ceb8adde44599a1625328f02031b6b968b376c98ccd60",
+    "wonder-process/parent-boundary.jsonl": "14a4e71b7a55fc142882384c6031b216401e72370fcedbe46604c89cbc2203e7"
+  },
+  "finishedAtIso": "2026-11-02T12:07:52.461Z"
+}

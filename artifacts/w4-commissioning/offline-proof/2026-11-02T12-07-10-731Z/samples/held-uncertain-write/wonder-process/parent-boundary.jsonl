@@ -1,0 +1,24 @@
+{"atIso":"2026-11-02T12:08:05.301Z","atMonotonicMs":2069.2663,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":16492,"nonce":"0e24ddcd526df3dd","node":"v24.15.0","timeOriginEpochMs":1793621285117.01},"priority":-7}
+{"atIso":"2026-11-02T12:08:05.302Z","atMonotonicMs":2070.7713,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T12:08:05.326Z","atMonotonicMs":2095.1234,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":24}
+{"atIso":"2026-11-02T12:08:05.342Z","atMonotonicMs":2110.4165,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T12:08:05.545Z","atMonotonicMs":2313.2056,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":203}
+{"atIso":"2026-11-02T12:08:05.547Z","atMonotonicMs":2315.8572,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T12:08:05.548Z","atMonotonicMs":2317.0937,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T12:08:05.578Z","atMonotonicMs":2346.8943,"kind":"request","id":4,"op":"controller","actionId":"w4-1-operator_action","name":"operator_action","action":"reset","campaignRevision":7,"boundaryRevision":2}
+{"atIso":"2026-11-02T12:08:05.586Z","atMonotonicMs":2355.0131,"kind":"reply","id":4,"op":"controller","ok":true,"boundaryRevision":3,"throughSeq":29,"elapsedMs":8}
+{"atIso":"2026-11-02T12:08:05.591Z","atMonotonicMs":2359.5799,"kind":"request","id":5,"op":"controller","actionId":"w4-2-operator_action","name":"operator_action","action":"start","campaignRevision":8,"boundaryRevision":3}
+{"atIso":"2026-11-02T12:08:05.600Z","atMonotonicMs":2368.2134,"kind":"reply","id":5,"op":"controller","ok":true,"boundaryRevision":4,"throughSeq":30,"elapsedMs":9}
+{"atIso":"2026-11-02T12:08:06.022Z","atMonotonicMs":2790.8487,"kind":"request","id":6,"op":"controller","actionId":"w4-3-assign_route","name":"assign_route","action":"offer","campaignRevision":9,"boundaryRevision":4}
+{"atIso":"2026-11-02T12:08:07.543Z","atMonotonicMs":4311.7579,"kind":"request","id":7,"op":"cancel","actionId":"w4-3-assign_route"}
+{"atIso":"2026-11-02T12:08:07.544Z","atMonotonicMs":4312.4234,"kind":"request","id":8,"op":"hold","stopClock":false}
+{"atIso":"2026-11-02T12:08:07.546Z","atMonotonicMs":4314.7752,"kind":"request","id":9,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T12:08:07.547Z","atMonotonicMs":4315.3932,"kind":"reply","id":6,"op":"controller","ok":false,"outcome":"timed_out","message":"Operation deadline exceeded","boundaryRevision":5,"throughSeq":61,"elapsedMs":1525}
+{"atIso":"2026-11-02T12:08:07.547Z","atMonotonicMs":4315.882,"kind":"reply","id":7,"op":"cancel","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":4}
+{"atIso":"2026-11-02T12:08:07.548Z","atMonotonicMs":4316.3125,"kind":"cancel.result","actionId":"w4-3-assign_route","state":"controller_failed"}
+{"atIso":"2026-11-02T12:08:07.569Z","atMonotonicMs":4337.4378,"kind":"reply","id":8,"op":"hold","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":25}
+{"atIso":"2026-11-02T12:08:07.569Z","atMonotonicMs":4338.0373,"kind":"reply","id":9,"op":"hold","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":23}
+{"atIso":"2026-11-02T12:08:07.572Z","atMonotonicMs":4340.529,"kind":"request","id":10,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-02T12:08:09.074Z","atMonotonicMs":5842.9094,"kind":"reply","id":10,"op":"close","ok":true,"boundaryRevision":5,"throughSeq":61,"elapsedMs":1502}
+{"atIso":"2026-11-02T12:08:09.085Z","atMonotonicMs":5853.2397,"kind":"child.exit","code":0,"signal":null,"lastSeq":61}
+{"atIso":"2026-11-02T12:08:09.085Z","atMonotonicMs":5853.8247,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":false,"closed":false,"uncertainWrites":[{"paths":["GVL_DemoWrite.OfferSequence"],"startedAtIso":"2026-11-02T12:08:06.027Z","ageMs":3046}],"ownership":"retained_uncertain","ownershipPath":"C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-uncertain-iJ7p4g\\offline.lock","boundaryRevision":5,"lastSeq":61},"exit":{"code":0,"signal":null},"killed":false}

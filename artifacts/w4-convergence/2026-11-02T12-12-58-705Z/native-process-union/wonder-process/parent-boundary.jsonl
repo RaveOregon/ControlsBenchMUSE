@@ -1,0 +1,37 @@
+{"atIso":"2026-11-02T12:15:06.767Z","atMonotonicMs":475.3503,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":13192,"nonce":"3c7583c180f26138","node":"v24.15.0","timeOriginEpochMs":1793621706651.528},"priority":-7}
+{"atIso":"2026-11-02T12:15:06.769Z","atMonotonicMs":476.2617,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-02T12:15:06.784Z","atMonotonicMs":491.056,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":15}
+{"atIso":"2026-11-02T12:15:06.799Z","atMonotonicMs":505.9631,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-02T12:15:06.964Z","atMonotonicMs":671.1865,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":165}
+{"atIso":"2026-11-02T12:15:06.970Z","atMonotonicMs":677.2905,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-02T12:15:06.971Z","atMonotonicMs":677.9772,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"w4-offline-integration:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-02T12:15:06.971Z","atMonotonicMs":678.3764,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T12:15:06.972Z","atMonotonicMs":678.8108,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T12:15:07.023Z","atMonotonicMs":730.0441,"kind":"request","id":5,"op":"leaseFinish","leaseId":"w4-offline-integration:lease:1"}
+{"atIso":"2026-11-02T12:15:07.024Z","atMonotonicMs":730.8634,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-02T12:15:07.037Z","atMonotonicMs":743.8076,"kind":"request","id":6,"op":"controller","actionId":"stop","name":"operator_action","action":"stop","campaignRevision":5,"boundaryRevision":4}
+{"atIso":"2026-11-02T12:15:07.042Z","atMonotonicMs":748.933,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":29,"elapsedMs":5}
+{"atIso":"2026-11-02T12:15:07.045Z","atMonotonicMs":752.4028,"kind":"request","id":7,"op":"apply","actionId":"carton","name":"introduce_carton","campaignRevision":6,"boundaryRevision":5,"controlId":"carton.introduce"}
+{"atIso":"2026-11-02T12:15:07.107Z","atMonotonicMs":813.9441,"kind":"reply","id":7,"op":"apply","ok":true,"boundaryRevision":6,"throughSeq":41,"elapsedMs":62}
+{"atIso":"2026-11-02T12:15:07.110Z","atMonotonicMs":817.4428,"kind":"request","id":8,"op":"controller","actionId":"offer","name":"assign_route","action":"offer","campaignRevision":7,"boundaryRevision":6}
+{"atIso":"2026-11-02T12:15:07.115Z","atMonotonicMs":822.1689,"kind":"reply","id":8,"op":"controller","ok":true,"boundaryRevision":7,"throughSeq":42,"elapsedMs":5}
+{"atIso":"2026-11-02T12:15:07.119Z","atMonotonicMs":825.5454,"kind":"request","id":9,"op":"apply","actionId":"readiness","name":"set_downstream_readiness","campaignRevision":8,"boundaryRevision":7,"controlId":"downstream.setReady"}
+{"atIso":"2026-11-02T12:15:07.210Z","atMonotonicMs":916.8561,"kind":"reply","id":9,"op":"apply","ok":true,"boundaryRevision":8,"throughSeq":54,"elapsedMs":91}
+{"atIso":"2026-11-02T12:15:07.524Z","atMonotonicMs":1231.0319,"kind":"request","id":10,"op":"leaseBegin","campaignRevision":10,"leaseId":"w4-offline-integration:lease:2","policy":{"mode":"continue","timeoutMs":8000}}
+{"atIso":"2026-11-02T12:15:07.536Z","atMonotonicMs":1243.0511,"kind":"reply","id":10,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":75,"elapsedMs":12}
+{"atIso":"2026-11-02T12:15:07.573Z","atMonotonicMs":1279.8046,"kind":"request","id":11,"op":"leaseFinish","leaseId":"w4-offline-integration:lease:2"}
+{"atIso":"2026-11-02T12:15:07.576Z","atMonotonicMs":1282.5717,"kind":"reply","id":11,"op":"leaseFinish","ok":true,"boundaryRevision":8,"throughSeq":76,"elapsedMs":3}
+{"atIso":"2026-11-02T12:15:07.596Z","atMonotonicMs":1302.5813,"kind":"request","id":12,"op":"leaseBegin","campaignRevision":14,"leaseId":"w4-offline-integration:lease:3","policy":{"mode":"continue","timeoutMs":8000}}
+{"atIso":"2026-11-02T12:15:07.597Z","atMonotonicMs":1303.5737,"kind":"reply","id":12,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":76,"elapsedMs":1}
+{"atIso":"2026-11-02T12:15:07.630Z","atMonotonicMs":1337.0713,"kind":"request","id":13,"op":"leaseFinish","leaseId":"w4-offline-integration:lease:3"}
+{"atIso":"2026-11-02T12:15:07.643Z","atMonotonicMs":1350.1862,"kind":"reply","id":13,"op":"leaseFinish","ok":true,"boundaryRevision":8,"throughSeq":82,"elapsedMs":13}
+{"atIso":"2026-11-02T12:15:07.961Z","atMonotonicMs":1667.5844,"kind":"request","id":14,"op":"leaseBegin","campaignRevision":16,"leaseId":"w4-offline-integration:lease:4","policy":{"mode":"continue","timeoutMs":8000}}
+{"atIso":"2026-11-02T12:15:07.965Z","atMonotonicMs":1672.3097,"kind":"reply","id":14,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":103,"elapsedMs":5}
+{"atIso":"2026-11-02T12:15:07.996Z","atMonotonicMs":1703.0859,"kind":"request","id":15,"op":"leaseFinish","leaseId":"w4-offline-integration:lease:4"}
+{"atIso":"2026-11-02T12:15:07.998Z","atMonotonicMs":1704.9114,"kind":"reply","id":15,"op":"leaseFinish","ok":true,"boundaryRevision":8,"throughSeq":104,"elapsedMs":2}
+{"atIso":"2026-11-02T12:15:08.013Z","atMonotonicMs":1720.3693,"kind":"request","id":16,"op":"hold","stopClock":true}
+{"atIso":"2026-11-02T12:15:08.064Z","atMonotonicMs":1770.7103,"kind":"reply","id":16,"op":"hold","ok":true,"boundaryRevision":9,"throughSeq":110,"elapsedMs":50}
+{"atIso":"2026-11-02T12:15:08.366Z","atMonotonicMs":2073.4362,"kind":"request","id":17,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-02T12:15:08.374Z","atMonotonicMs":2081.4376,"kind":"reply","id":17,"op":"close","ok":true,"boundaryRevision":9,"throughSeq":112,"elapsedMs":8}
+{"atIso":"2026-11-02T12:15:08.385Z","atMonotonicMs":2092.1584,"kind":"child.exit","code":0,"signal":null,"lastSeq":112}
+{"atIso":"2026-11-02T12:15:08.386Z","atMonotonicMs":2092.7178,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\AppData\\Local\\Temp\\w4-integrated-bl8VhH\\offline.lock","boundaryRevision":9,"lastSeq":112},"exit":{"code":0,"signal":null},"killed":false}

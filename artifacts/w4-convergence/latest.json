@@ -1,7 +1,7 @@
 {
-  "directory": "artifacts/w4-convergence/2026-11-02T02-54-23-676Z",
+  "directory": "artifacts/w4-convergence/2026-11-02T12-12-58-705Z",
   "status": "pass",
-  "sourceCommit": "c77553cc8a455266916153da502ce820ad2ce69f",
+  "sourceCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
   "actualModelCalls": 0,
   "actualSpendUsd": 0,
   "plcContacted": false

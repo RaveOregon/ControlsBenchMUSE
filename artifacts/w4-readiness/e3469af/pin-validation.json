@@ -1,0 +1,34 @@
+{
+  "status": "pass",
+  "sourceCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin",
+  "sourceFiles": 253,
+  "frozenFiles": 386,
+  "representationCopies": [
+    "package.json"
+  ],
+  "build": {
+    "assets\\equipment-5WKwhDu3.js": "3d57ac75714723fc299bb22ec954e1a97256c59188e0918fb952842fab46f9dc",
+    "assets\\equipment-c-c422IL.js": "3d57ac75714723fc299bb22ec954e1a97256c59188e0918fb952842fab46f9dc",
+    "assets\\equipment-Cyvxcuas.js": "3d57ac75714723fc299bb22ec954e1a97256c59188e0918fb952842fab46f9dc",
+    "assets\\equipment-q3hWxSMV.js": "3d57ac75714723fc299bb22ec954e1a97256c59188e0918fb952842fab46f9dc",
+    "assets\\fixtures-browser-uzwFbo_W.js": "7845c10003bff0402e2949f4e0601f38cc686fa89fd82ce782620a83fd2f78c4",
+    "assets\\m10Replay-DoZfvcaw.js": "e8eae965d42df5f0a6c44d5ea1c22635ca3a916fdf55abedb0934080008a890c",
+    "assets\\portal-BvD3Xvmh.js": "ff51fd86f0c7796d24262c3c3dd0760ec23e24be7c683799002379a1eb0941a5",
+    "assets\\styles-BaULUaMl.css": "6b677121517ae7cb2fc923260a67b849425176d52df6ced8bdb5308054c716e0",
+    "assets\\styles-F7XjQDXF.js": "fadf5591a69383594700ddc2ca3a378197fb50fe931cabf24ebfdde697f0267c",
+    "assets\\view-B3n6C9n3.js": "14b42503841c0983c479881efaf326e219cb93b32176c8f285404aa089d98005",
+    "assets\\view-bindings-DfqTGr0u.js": "cbf2f317457eadf4056dfaabf33e2ceb64a87591282201b0f606edd0d053be62",
+    "assets\\view-bindings-DPthVtDD.js": "16eb554b951fd1b149ffe48d7bb628201eafe99977be8379b1be3f8050fe2959",
+    "assets\\view-bindings-tEMaP4S5.js": "6d8d0aca7f1ea6a4b592082bd16cef6bbfc138ae31d5e46982e2b34d0c152f59",
+    "assets\\view-BmHqEj0D.js": "a43d1aae049f532988147fdc956e47666f3ebb0813841009366963b7afc22ce7",
+    "assets\\view-FTOWuflj.js": "8e631d4df7ef4f3b162dfc0adc8efd7d772908c8a2622fbffd64701503626f27",
+    "assets\\view.manifest-DLBljWBC.js": "9d557970cd33a0e35fd30aaa00c0ac18199d08703465a5c3bbbb4b21ef36cefb",
+    "assets\\view.manifest-DWsQPzpQ.js": "b81b2cc984b29f370f50f87ff42659f0c771997f6f1184c772a431a9eba87921",
+    "assets\\view.manifest-pXM73exn.js": "56dfea4be6817c5e2f9d962429e4c2ef994a57a88ae8dedf0b36d1be89d88666",
+    "index.html": "20db520830375773b21ad21dffa34c74764c4c11f72f23ff62b02b89f2af65aa",
+    "m10-replay.html": "ab43f3ab3b8b9a8be41643520a89758d229182ffa8b5bef5b178d158ea405f38"
+  },
+  "livePlcExecuted": false,
+  "modelCalls": 0
+}

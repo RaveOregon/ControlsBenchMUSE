@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-commissioning-pin",
+  "manifest": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\e3469af\\manifest.json",
+  "manifestSha256": "f866b8d7c9d4d7590b7752cd52e47f5ab422f89d8e96b0041d460e6ea20e0343",
+  "proof": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-convergence\\2026-11-02T12-12-58-705Z\\result.json",
+  "proofSha256": "1f3ba1a7270aa1a8fdcd8b76dd20f6fa2512910e1ba1ce86cfa2f6c54cc3cccb"
+}

@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "refused",
+  "mode": "inspect",
+  "scope": "offline-fake-transport",
+  "reference": "C:\\Users\\steve\\AppData\\Local\\Packages\\sandbox.{d009ef86-7518-44d0-90cd-180a27f51243}\\AC\\Temp\\w4-transit-G43RoR\\runs\\2026-11-02T12-07-49-109Z",
+  "startedAtIso": "2026-11-02T12:07:53.269Z",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "checks": [],
+  "heldStateSha256": "571b00d973a26888de4b574fc840715a35c5c40159d6d422d53944e1dd995553",
+  "resultSha256": "f94f198497f110207c2b739898654b3174c3dbe7793e7b3b2b0f6142e236a920",
+  "campaignId": "w4-commissioning-2026-11-02T12-07-49-109Z",
+  "childIdentity": {
+    "pid": 55740,
+    "nonce": "6a8405016bc24312",
+    "exitProvenByBoundJournal": true
+  },
+  "ownership": {
+    "acquired": true
+  },
+  "inspection": {
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "264237407810020",
+    "appliedSequence": "12",
+    "plcCycle": "12",
+    "plcTimeUs": "1200000",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Auto",
+    "faultCode": 0,
+    "itemActive": true,
+    "activeItemId": 401,
+    "completionPending": false,
+    "completionSequence": 0,
+    "motorRunCmd": true,
+    "counters": {
+      "CountExitA": 0,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=1",
+      "controller.ItemActive=true",
+      "Motor_RunCmd=true"
+    ]
+  },
+  "classification": {
+    "path": "transit-pending",
+    "supported": false,
+    "refusals": [
+      "tracked carton reached the declared 30 s transit timeout (fault 33)"
+    ],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "264237407810020",
+            "sequence": "12"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "264237407810020",
+              "sequence": "12"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "tracked carton reached the declared 30 s transit timeout (fault 33)",
+        "ok": false,
+        "detail": {
+          "activeItemId": 401,
+          "note": "Held Auto with a tracked carton: re-inspect after at least 30 s of held Auto; no write now"
+        }
+      }
+    ],
+    "plan": [],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {}
+  },
+  "error": "Error: Held state is not reconcilable by this procedure (unmet: tracked carton reached the declared 30 s transit timeout (fault 33))\n    at fail (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-live-readiness/scripts/recover-w4-held.js:41:33)\n    at file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-live-readiness/scripts/recover-w4-held.js:105:34",
+  "refusedWrites": 0,
+  "ownershipAfter": "released",
+  "finishedAtIso": "2026-11-02T12:07:53.336Z",
+  "transportSha256": "90893f4a7870ccc5440be9476163739ee59421257ea15972a36c8dee31b0d93a"
+}

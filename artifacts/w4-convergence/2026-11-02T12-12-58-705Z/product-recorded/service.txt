@@ -1,0 +1,8 @@
+CV-1 operator HMI http://127.0.0.1:50707/  [FIXTURE · M10 final held state]
+ControlsBench portal http://127.0.0.1:50708  (campaign factory: Recorded M10 · offline multi-turn provider fixture [preserved_live_plc])
+  portal HMI session: controlled headless browser on http://127.0.0.1:50707/?capture=portal
+  evidence: C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-live-readiness\artifacts\w4-convergence\2026-11-02T12-12-58-705Z\product-recorded\service\runs\2026-11-02T12-17-26-514Z-fixture
+  agent seam: POST http://127.0.0.1:50707/api/agent-actions/execute {"targetId":"cmd.stop","requester":"script"}
+(node:55204) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Stopping portal HMI session and HMI service (no PLC command is issued on shutdown)…

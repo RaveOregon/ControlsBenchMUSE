@@ -1,0 +1,212 @@
+{
+  "heldStateSha256": "571b00d973a26888de4b574fc840715a35c5c40159d6d422d53944e1dd995553",
+  "observation": {
+    "observedAtIso": "2026-11-02T12:07:53.328Z",
+    "observedAtMonotonicMs": 573.6715,
+    "bootIdentity": "boot-1",
+    "appliedEpoch": "264237407810020",
+    "appliedSequence": "12",
+    "plcCycle": "12",
+    "plcTimeUs": "1200000",
+    "outputCaptureCycle": "12",
+    "outputCaptureTimeUs": "1200000",
+    "connectorStale": false,
+    "simulationApplied": true,
+    "values": {
+      "Motor_RunCmd": true,
+      "D1_ExtendCmd": true,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": false,
+      "StackLight_Green": true,
+      "controller.Mode": 1,
+      "controller.ModeText": "Auto",
+      "controller.FaultCode": 0,
+      "controller.FaultText": "",
+      "controller.ExceptionCode": 0,
+      "controller.ExceptionText": "",
+      "controller.ReleaseReady": false,
+      "controller.ItemActive": true,
+      "controller.ActiveItemId": 401,
+      "controller.RequestedRoute": 1,
+      "controller.EffectiveRoute": 0,
+      "controller.ActualExit": 0,
+      "controller.Disposition": 0,
+      "controller.OfferAckSequence": 1,
+      "controller.OfferAckItemId": 401,
+      "controller.OfferAccepted": true,
+      "controller.OfferReason": 0,
+      "controller.OfferPending": false,
+      "controller.CompletionSequence": 0,
+      "controller.CompletionPending": false,
+      "controller.CompletionItemId": 0,
+      "controller.CompletionRoute": 0,
+      "controller.CompletionExit": 0,
+      "controller.CompletionDisposition": 0,
+      "controller.CountExitA": 0,
+      "controller.CountExitB": 0,
+      "controller.CountRunout": 0,
+      "controller.CountMisroute": 0,
+      "controller.CountFaulted": 0,
+      "controller.StartAck": 1,
+      "controller.StopAck": 0,
+      "controller.ResetAck": 1,
+      "controller.StartAccepted": true,
+      "controller.ResetAccepted": true,
+      "controller.EncoderDelta": 101
+    },
+    "outputQuality": {
+      "Motor_RunCmd": "good",
+      "D1_ExtendCmd": "good",
+      "D2_ExtendCmd": "good",
+      "StackLight_Red": "good",
+      "StackLight_Green": "good",
+      "controller.Mode": "good",
+      "controller.ModeText": "good",
+      "controller.FaultCode": "good",
+      "controller.FaultText": "good",
+      "controller.ExceptionCode": "good",
+      "controller.ExceptionText": "good",
+      "controller.ReleaseReady": "good",
+      "controller.ItemActive": "good",
+      "controller.ActiveItemId": "good",
+      "controller.RequestedRoute": "good",
+      "controller.EffectiveRoute": "good",
+      "controller.ActualExit": "good",
+      "controller.Disposition": "good",
+      "controller.OfferAckSequence": "good",
+      "controller.OfferAckItemId": "good",
+      "controller.OfferAccepted": "good",
+      "controller.OfferReason": "good",
+      "controller.OfferPending": "good",
+      "controller.CompletionSequence": "good",
+      "controller.CompletionPending": "good",
+      "controller.CompletionItemId": "good",
+      "controller.CompletionRoute": "good",
+      "controller.CompletionExit": "good",
+      "controller.CompletionDisposition": "good",
+      "controller.CountExitA": "good",
+      "controller.CountExitB": "good",
+      "controller.CountRunout": "good",
+      "controller.CountMisroute": "good",
+      "controller.CountFaulted": "good",
+      "controller.StartAck": "good",
+      "controller.StopAck": "good",
+      "controller.ResetAck": "good",
+      "controller.StartAccepted": "good",
+      "controller.ResetAccepted": "good",
+      "controller.EncoderDelta": "good"
+    }
+  },
+  "activeImage": {
+    "PE_Entry": true,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": true,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0.5,
+    "Drive_Current": 4.699999809265137,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 408
+  },
+  "classification": {
+    "path": "transit-pending",
+    "supported": false,
+    "refusals": [
+      "tracked carton reached the declared 30 s transit timeout (fault 33)"
+    ],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "boot-1",
+          "current": "boot-1"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "264237407810020",
+            "sequence": "12"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "264237407810020",
+              "sequence": "12"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "tracked carton reached the declared 30 s transit timeout (fault 33)",
+        "ok": false,
+        "detail": {
+          "activeItemId": 401,
+          "note": "Held Auto with a tracked carton: re-inspect after at least 30 s of held Auto; no write now"
+        }
+      }
+    ],
+    "plan": [],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {}
+  }
+}
