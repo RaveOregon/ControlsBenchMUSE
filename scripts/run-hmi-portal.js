@@ -74,10 +74,16 @@ console.log(`  agent seam: POST ${service.url}api/agent-actions/execute {"target
 if (!existsSync(staticDir)) console.log("  note: ui/dist is not built; run `npm run build` in ui/ to serve the portal page");
 
 let closing = false;
-for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, async () => {
+const close = async () => {
   if (closing) process.exit(1);
   closing = true; console.log("Stopping portal HMI session and HMI service (no PLC command is issued on shutdown)…");
   await host.close(); await service.stop();
   portal.closeAllConnections?.(); hmiServer.closeAllConnections?.();
   portal.close(); hmiServer.close(() => process.exit(0));
+};
+for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, close);
+// Parent-owned offline composition witnesses can drain their own child on Windows,
+// where terminating PowerShell/Node does not reliably deliver a POSIX signal.
+if (process.send) process.on("message", message => {
+  if (message?.type === "controlsbench.product.stop") void close();
 });

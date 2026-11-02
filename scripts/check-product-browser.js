@@ -6,7 +6,8 @@ import { launch } from "./lib/chrome.js";
 
 const url = process.argv[2] ?? "http://127.0.0.1:5190";
 assert.equal(new URL(url).hostname, "127.0.0.1");
-const out = `artifacts/product-integration/${new Date().toISOString().replace(/[:.]/g, "-")}`;
+const outIndex = process.argv.indexOf("--out");
+const out = outIndex >= 0 ? process.argv[outIndex + 1] : `artifacts/product-integration/${new Date().toISOString().replace(/[:.]/g, "-")}`;
 mkdirSync(out, { recursive: true });
 const checks = [];
 const check = (name, value) => { assert.ok(value, name); checks.push(name); };

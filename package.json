@@ -58,7 +58,8 @@
     "hmi:live": "powershell -ExecutionPolicy Bypass -File scripts/run-hmi-live.ps1",
     "hmi:live:portal": "powershell -ExecutionPolicy Bypass -File scripts/run-hmi-live.ps1 -Portal",
     "hmi:fixtures": "node scripts/extract-hmi-fixtures.js",
-    "hmi:audit": "node scripts/audit-hmi-h2.js"
+    "hmi:audit": "node scripts/audit-hmi-h2.js",
+    "verify:w4:offline": "node scripts/verify-w4-convergence.js"
   },
   "engines": {
     "node": ">=22"
