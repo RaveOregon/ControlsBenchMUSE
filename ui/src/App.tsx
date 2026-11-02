@@ -179,7 +179,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
             <details className="inspector-disclosure"><summary>Campaign scope & checks</summary>{plan}</details>
             <details className="inspector-disclosure"><summary>Protocol diagnostics, budget & raw I/O</summary><ConnectionPanel state={state} nowMs={nowMs} /><BudgetPanel state={state} nowMs={nowMs} /><RawIoPanel state={state} nowMs={nowMs} onSelect={setSelection} onSuppress={(id, suppressed) => source.setSuppression(id, suppressed)} /></details>
           </>}
-          {destination === 'Results' && <>{hostedSource && <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />}<ResultsPanel state={state} bundle={bundle} onSelect={setSelection} /></>}
+          {destination === 'Results' && <>{hostedSource && <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />}<ResultsPanel state={state} bundle={bundle} onSelect={setSelection} reportUrl={truthActions?.reportUrl} /></>}
         </main>
       </div>
       <Inspector nowMs={nowMs} state={state} selection={selection} provenance={provenance} onSelect={setSelection} lookupEnvelope={hostedSource ? id => hostedSource.getEnvelope(id) : undefined} />
