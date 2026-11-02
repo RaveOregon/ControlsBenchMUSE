@@ -1,0 +1,74 @@
+{
+  "contract": "controlsbench.w4-paid-approval.v1",
+  "preparedAtIso": "2026-11-02T13:36:11.205Z",
+  "authorization": "pending user review; no calls authorized by this file alone",
+  "ownerCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "model": "muse-wonder-1.0",
+  "reasoning": "high",
+  "mode": "Standard",
+  "maximumModelRequests": 4,
+  "maximumNewConservativeUsd": 4,
+  "sessionBaseline": {
+    "sha256": "ad3762cdadb05b325289d53e680d39f97a594622ca54b6fe79716aebae2532ee",
+    "conservativeUsd": 4
+  },
+  "aggregateConservativeCeilingUsd": 8,
+  "pricingReviewedOn": "2026-11-02",
+  "pricingSource": "https://dev.meta.ai/docs/pricing-rate-limits",
+  "inputUsdPerMillion": 4,
+  "outputUsdPerMillion": 20,
+  "perRequestAdmissionUsd": 1,
+  "maximumOutputTokens": 4000,
+  "requestTimeoutMs": 300000,
+  "categories": [
+    "normal",
+    "faults",
+    "adaptive"
+  ],
+  "objective": {
+    "source": "engineer-selected W4 proof objective",
+    "goal": "Use the accepted specification to plan and perform a normal-operation experiment and a declared fault experiment on the live PLC. From returned PLC evidence, choose and execute a genuinely new follow-up investigation; cite its motivating observations. Produce grounded findings and finish with the controller Stopped, fault-free, no tracked item or pending completion.",
+    "discretion": "Choose your own hypotheses, fault, stimuli, observations and follow-up. No scripted sequence or predetermined verdict is supplied. Four model decisions are available; group compatible semantic actions thoughtfully. If the budget or evidence is insufficient, report the missing proof honestly.",
+    "operation": "WCS assign_route is separate from carton requestedRoute metadata. Observe the actual completion sequence before acknowledging it. Stop and Reset are distinct sequenced operator commands. Default hold freezes world advancement while PLC scans and timers continue; do not assume a held active carton stops its PLC transit timer. Engine streaming continues independently of reasoning.",
+    "boundaries": "Preserved generated world 0.5.0; actual PLC build 8001/interface 1. No world/PLC edits, HMI operation, higher-rate qualification or automatic recovery. HMI pixels are separate engineer evidence."
+  },
+  "repositoryRoot": "C:/Users/steve/Documents/ControlsBenchMuse",
+  "campaignArtifactRoot": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-36-10-440Z\\live-host",
+  "launchSourceHashes": {
+    "scripts/w4-paid/support.mjs": "f23e27ebdd535aa549e78a5a2e16626e9a86ae884f10a9a4f33b588387cd895e",
+    "scripts/w4-paid/factory.mjs": "56fa82c33393fea41d5204b09e429b0a4cbe27806a66bf9915bebe722838de14",
+    "scripts/w4-paid/export-held.mjs": "e943de87b42494d406cde89e7930fc49ba3fa4dd362a347b177047e9034b2439",
+    "scripts/w4-paid/launch.ps1": "5ff0eee8f78c288d9e421ad57ea98944877ed8e1f6d4c126b753108cc7c31bae"
+  },
+  "dataTransfer": {
+    "destination": "https://api.meta.ai/v1",
+    "sends": [
+      "accepted conveyor specification",
+      "logical signal and semantic tool definitions",
+      "engineer objective",
+      "fresh live PLC raw-input/output observations and diagnostic values",
+      "action results, faults, experiment state and evidence identifiers",
+      "grounded findings and subsequent investigation results"
+    ],
+    "excludes": [
+      "PLC source/binaries",
+      "model/PLC credentials",
+      "opaque connection addresses/node IDs",
+      "generated world source",
+      "HMI pixels/video"
+    ],
+    "dynamics": "Live observations, times, revisions, IDs, decisions and paired tool outcomes are generated at run time; these dynamic fields are approved by class, not identical to the recorded example."
+  },
+  "limits": "One campaign only. The unchanged durable account baseline blocks a second campaign after any reservation. Four runtime turns prevent a fifth reservation; failed/preflight/uncertain attempts retain conservative charges. No retries or final coverage claims.",
+  "recovery": "The bounded wrapper disposes the exact child and writes report.json, held-state.json and result.json beside the original ledger/journals. Recovery uses the pinned inspect-only procedure with --artifacts set to the campaign parent. Unknown/changed states refuse writes.",
+  "proofBoundary": "Engine live-qualified by zero-model commissioning. Paid wrapper/recovery export are offline-qualified separately. Real Wonder normal/fault/adaptive proof and live recovery remain unrun.",
+  "staticPayloadSha256": "8fa0f1bbf6e55bd72d6e548e777c0d104d89d948da318b3110a673c328942870",
+  "exampleRequestSha256": "00aed2251dda249b29086bf55ca22bd393b4195a05ae0d886ce27a3f1816bf91",
+  "preview": {
+    "realApiRequests": 0,
+    "realPlcConnections": 0,
+    "realModelResponses": 0,
+    "tokenCountMeasured": false,
+    "meaning": "Actual provider HTTP shape with a local fetch stub and clearly recorded sample observations; not an exact future live request or a model result."
+  }
+}

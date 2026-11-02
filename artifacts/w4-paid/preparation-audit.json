@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "launchLayerCommit": "a63f4b7",
+  "engineCommit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+  "packetSha256": "2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9",
+  "launchSourceFiles": 5,
+  "payloadHashesMatched": true,
+  "priorConservativeUsd": 4,
+  "maximumNewConservativeUsd": 4,
+  "maximumAggregateConservativeUsd": 8,
+  "networkDisabledTestsPassed": 5,
+  "realApiRequests": 0,
+  "newPlcConnections": 0,
+  "newCharges": 0,
+  "authorization": "pending user approval"
+}

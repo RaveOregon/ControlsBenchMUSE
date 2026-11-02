@@ -1,0 +1,13 @@
+✔ paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete (124.7565ms)
+✔ approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting (16.3168ms)
+✔ four simulated paid reservations stop before any fifth charge; no network or PLC (97.0849ms)
+✔ actual native live commissioning cannot masquerade as a paid campaign export (13083.0809ms)
+✔ real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite (4295.9471ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18312.8988
