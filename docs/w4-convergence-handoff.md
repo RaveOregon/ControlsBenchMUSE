@@ -22,6 +22,8 @@ Controller tools (`operator_action`, `assign_route`, `acknowledge_completion`) u
 
 C's presentation issues are corrected: fixture HMI values no longer claim to be PLC samples, Setup names the actual factory, finalized connector state identifies the last observation rather than asserting current freshness, and narrow review badges/controls wrap. Its later Results/export finding is fixed in `c77553c`: Results shares the authoritative evidence-class badge, hosted export downloads the actual campaign report (with its evidence class/findings/provider/budget), and unrelated legacy check counts are omitted for hosted results. Replay keeps its separate local export. C reported 21 passing controlled browser checks against that correction; its final published workflow signoff remains separate from B's regression reruns.
 
+C's exact-source recheck is now merged through `28657a2`; see [w4-product-qa-candidate.md](w4-product-qa-candidate.md) and `artifacts/w4-product-qa/exact-c77553c/`. In a detached `c77553c` checkout with no tracked production changes, it independently passed the full-path launcher/browser **15**, controlled scope/Stop/new-campaign/export/disconnect **21**, rejected/unconfirmed HMI **6**, stale frame **4**, and recorded-review browser **13** checks. Services stopped and QA ports closed. B confirms that the integration's production files and all original 241 verified source hashes still match `c77553c`; later additions are handoff documents, evidence and test-only QA harnesses. This establishes the final integration/source relationship requested by C; it does not extend the fixture/recorded scope to live W4.
+
 ## Repeatable offline gate
 
 Install root/UI dependencies, then from this worktree run:

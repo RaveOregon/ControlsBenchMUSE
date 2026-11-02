@@ -23,10 +23,25 @@
     13
   ],
   "W3": "partial; no real-model novel adaptive follow-up",
-  "W4": "live not run; native zero-model commissioning, final QA and new paid/export approval remain separate",
+  "W4": "live not run; native zero-model commissioning and new paid/export approval remain separate",
   "actualModelCalls": 0,
   "actualSpendUsd": 0,
   "sharedConservativeAccountChanged": false,
   "previousApprovalRemainingUsd": 0,
-  "plcContacted": false
+  "plcContacted": false,
+  "independentQA": {
+    "sourceCommit": "c77553cc8a455266916153da502ce820ad2ce69f",
+    "evidenceCommit": "28657a2",
+    "directory": "artifacts/w4-product-qa/exact-c77553c",
+    "checks": {
+      "launcher": 15,
+      "workflow": 21,
+      "commandPresentation": 6,
+      "staleCapture": 4,
+      "recordedBrowser": 13
+    },
+    "productionSourceMatchesVerifiedPin": true,
+    "plcContacted": false,
+    "paidCalls": 0
+  }
 }
