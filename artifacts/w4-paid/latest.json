@@ -1,10 +1,11 @@
 {
-  "status": "extended-proof-ready-for-bench-check",
-  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z",
-  "packetSha256": "6f2046f630653f6d5e78e4e0fefbc0d7725d0a12af5a6db576b53ad7a204f61e",
-  "previousConservativeUsd": 12,
+  "status": "transport-proof-ready-for-bench-check",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-03-06-136Z",
+  "packetSha256": "c3ba4ee5593449eb1e6e771899130bf26eeef47ad3903e567771a3586bb819fa",
+  "previousConservativeUsd": 27,
   "maximumNewConservativeUsd": 60,
-  "aggregateConservativeCeilingUsd": 72,
+  "aggregateConservativeCeilingUsd": 87,
   "authorizedCreditPoolUsd": 150,
-  "maxTransientRetries": 2
+  "maxTransientRetries": 5,
+  "retryDecisionTransport": true
 }

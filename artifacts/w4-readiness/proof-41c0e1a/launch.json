@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "41c0e1a17c4236510e97e9101c568841dcb87472",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-transport-runtime-pin",
+  "manifest": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-41c0e1a\\manifest.json",
+  "manifestSha256": "d8410efc6408cfbdd4e65b247fc81a748004a3d8fa72a1fa328f375d9c1d4964",
+  "proof": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-41c0e1a\\promotion-proof.json",
+  "proofSha256": "ac7cb9be7870879aad2d9d6ac610f4f39b87895d5dcb97f3f457b0717921d2c9"
+}
