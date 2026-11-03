@@ -48,3 +48,27 @@ test('unchanged provider serializes 8000 output tokens at high reasoning and sti
   const admission=journal.find(x=>x.phase==='admission');assert.equal(admission.maxOutputTokens,8000);assert(admission.maximumUsd<1);
   const previous=journal.length;await assert.rejects(()=>provider.decide(context,new AbortController().signal),/blocked/);assert.equal(journal.length,previous);
 });
+
+test('delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven',async()=>{
+  const packet={...structuredClone(expanded),maximumModelRequests:5,maximumNewConservativeUsd:5,aggregateConservativeCeilingUsd:12,
+    approvalRevision:{contract:'controlsbench.w4-expanded-approval.v2',previousAggregateCeilingUsd:8}};
+  assert.equal(trialEnvelope(packet),5);
+  assert.throws(()=>trialEnvelope({...packet,maximumModelRequests:6,maximumNewConservativeUsd:6}),/Invalid request allowance/);
+  assert.throws(()=>trialEnvelope({...packet,aggregateConservativeCeilingUsd:13}),/Expanded aggregate/);
+  const {CampaignLedger}=await fromPin('src/campaign/ledger.ts');
+  const {CampaignRuntime}=await fromPin('src/campaign/runtime.ts');
+  const {CampaignBudget}=await fromPin('src/campaign/budget.ts');
+  const {DurableSessionAccount}=await fromPin('src/campaign/session-account.ts');
+  const dir=mkdtempSync(join(tmpdir(),'wiggle-w4-')),file=join(dir,'account.jsonl');
+  const original=Array.from({length:7},(_,i)=>JSON.stringify({costUsd:1,totalUsd:i+1})).join('\n')+'\n';writeFileSync(file,original);
+  const ledger=new CampaignLedger('wiggle-fixture'),account=new DurableSessionAccount(file,'wiggle-fixture');let calls=0;
+  try {
+    const runtime=new CampaignRuntime({ledger,provider:{id:'wiggle-fake',paid:true,estimatedRequestUsd:1,async decide(){const n=++calls;return {decision:{summary:`Read fixture ${n}`,calls:[{id:`read-${n}`,name:'inspect_evidence_window',arguments:{ids:[],afterSequence:0,throughSequence:ledger.state.sequence,limit:n}}]},costUsd:1};}},
+      budget:new CampaignBudget(ledger,undefined,5,account),paidAuthorized:true,evidenceClass:'fake_connector',claimBoundary:'Offline only',categories:['normal'],spec:'fixture',signals:[],provenance:{spec:'fixture',ioMap:'fixture',plcBuild:'fixture',worldModule:'fixture',model:'fixture',connector:'none'}});
+    configureBoundedRuntime(runtime,packet);await runtime.start(false);await runtime.runAgent();await runtime.stop('fixture ended');
+    assert.equal(calls,5);assert.equal(account.spentUsd,12);assert.equal(runtime.budget.guard.leases.size,5);
+    assert(ledger.events.some(e=>e.type==='action.applied'&&e.data.actionId==='read-5'),'Fifth paid response must execute before stopping');
+    assert.equal(runtime.budget.guard.limits.campaignHardUsd,6);
+    assert.throws(()=>configureBoundedRuntime(runtime,packet),/before any reservation/);
+  } finally {account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
+});

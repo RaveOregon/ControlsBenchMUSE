@@ -12,6 +12,8 @@ const charges=accountBytes.toString('utf8').trim().split('\n').filter(Boolean).m
 const baseline=charges.at(-1)?.totalUsd??0;
 const retry=process.argv.includes('--remaining-approved');
 const expanded=process.argv.includes('--expanded-allowance');
+const wiggle=process.argv.includes('--wiggle-approved');
+assert(!wiggle||expanded,'Wiggle applies only to expanded mode');
 assert(!(retry&&expanded),'Choose one review mode');
 const originalDirectory=join(root,'artifacts/w4-paid/2026-11-02T13-42-05-152Z');
 const originalSha='2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9';
@@ -20,8 +22,8 @@ const originalAuthorization=json(join(originalDirectory,'authorization.json'));
 assert.equal(originalAuthorization.packetSha256,originalSha);
 assert.equal(originalAuthorization.aggregateConservativeCeilingUsd,8);
 assert.equal(originalAuthorization.status,'approved-by-user');
-const turns=expanded?4:retry?8-baseline:4;
-const ceiling=expanded?11:8, outputTokens=expanded?8000:4000;
+const turns=wiggle?5:expanded?4:retry?8-baseline:4;
+const ceiling=wiggle?12:expanded?11:8, outputTokens=expanded?8000:4000;
 assert(expanded?baseline===7:retry?baseline===5:baseline===4,'Preparation requires the exact reviewed account; no retries/reset');
 const objective=trialObjective(turns);
 const files=['scripts/w4-paid/support.mjs','scripts/w4-paid/factory.mjs','scripts/w4-paid/export-held.mjs','scripts/w4-paid/launch.ps1',expanded?'scripts/w4-paid/start-expanded-trial.ps1':'scripts/w4-paid/start-approved-retry.ps1','artifacts/w4-readiness/e3469af/launch.json'];
@@ -30,7 +32,7 @@ const packet={contract:'controlsbench.w4-paid-approval.v1',preparedAtIso:new Dat
   sessionBaseline:{sha256:hash(accountBytes),conservativeUsd:baseline},aggregateConservativeCeilingUsd:ceiling,
   pricingReviewedOn:'2026-11-02',pricingSource:'https://dev.meta.ai/docs/pricing-rate-limits',inputUsdPerMillion:4,outputUsdPerMillion:20,
   perRequestAdmissionUsd:1,maximumOutputTokens:outputTokens,requestTimeoutMs:300000,categories:['normal','faults','adaptive'],objective,
-  ...(expanded?{approvalRevision:{contract:'controlsbench.w4-expanded-approval.v1',previousAggregateCeilingUsd:8,requestedAtUserInstruction:'lets try again with more allowance',status:'pending explicit four-dollar / eleven-dollar aggregate approval',reason:'Prior request ended incomplete at 4000 output tokens; high reasoning retained, output allowance doubled; no proven engine changes'}}:{}),
+  ...(expanded?{approvalRevision:{contract:wiggle?'controlsbench.w4-expanded-approval.v2':'controlsbench.w4-expanded-approval.v1',previousAggregateCeilingUsd:8,requestedAtUserInstruction:wiggle?'just go bigger than you proposed by a bit so we have some wiggle':'lets try again with more allowance',status:wiggle?'user delegated modest increase: five requests / five additional dollars / twelve aggregate':'pending explicit four-dollar / eleven-dollar aggregate approval',reason:'Prior request ended incomplete at 4000 output tokens; high reasoning retained, output allowance doubled; no proven engine changes'}}:{}),
   repositoryRoot:paths.root,campaignArtifactRoot:join(directory,'live-host'),
   launchSourceHashes:Object.fromEntries(files.map(path=>[path,hashFile(join(root,path))])),
   dataTransfer:{destination:'https://api.meta.ai/v1',sends:['accepted conveyor specification','logical signal and semantic tool definitions','engineer objective','fresh live PLC raw-input/output observations and diagnostic values','action results, faults, experiment state and evidence identifiers','grounded findings and subsequent investigation results'],
@@ -59,7 +61,7 @@ try {
   context.boundary={evidenceClass:'preserved_live_plc',recorded:true,categories:packet.categories,claimBoundary:'REVIEW PREVIEW ONLY: sample observations from the completed zero-model commissioning run. Future live W4 starts fresh and sends new live observations/IDs.'};
   context.evidenceWindow={throughSequence:recorded.at(-1).sequence,selectedIds:context.evidence.map(e=>e.id),retrieval:context.evidenceWindow.retrieval,
     quality:evidenceQuality({getEvent:id=>recorded.find(e=>e.id===id)},context.evidence,true,Date.now())};
-  context.budget={campaignUsd:0,sessionUsd:baseline,perRequestUsd:1,campaignHardUsd:5};
+  context.budget={campaignUsd:0,sessionUsd:baseline,perRequestUsd:1,campaignHardUsd:hosted.runtime.budget.guard.limits.campaignHardUsd};
   assertLogicalContext(context);
   let request;
   const provider=new WonderResponsesProvider({apiKey:'offline-preview-not-a-key',explicitlyAuthorized:true,maxCalls:turns,maxOutputTokens:outputTokens,
@@ -74,7 +76,7 @@ try {
   packet.preview={realApiRequests:0,realPlcConnections:0,realModelResponses:0,tokenCountMeasured:false,meaning:'Actual provider HTTP shape with a local fetch stub and clearly recorded sample observations; not an exact future live request or a model result.'};
   writeFileSync(join(directory,'packet.json'),JSON.stringify(packet,null,2)+'\n');
   const packetSha256=hashFile(join(directory,'packet.json'));
-  if(retry)writeFileSync(join(directory,'authorization.json'),JSON.stringify({status:'approved-retry-within-original-allowance',recordedAtIso:new Date().toISOString(),answer:'Go for it',packetSha256,originalApproval:packet.originalApproval,maximumModelRequests:turns,maximumNewConservativeUsd:turns,aggregateConservativeCeilingUsd:8,dataScope:packet.dataTransfer},null,2)+'\n');
-  writeFileSync(join(root,'artifacts/w4-paid/latest.json'),JSON.stringify({directory,packetSha256,status:expanded?'awaiting-expanded-approval':retry?'approved-retry-ready-to-launch':'awaiting-new-approval',realApiRequests:0,realPlcConnections:0,previousConservativeUsd:baseline,maximumNewConservativeUsd:turns,maximumOutputTokens:outputTokens,aggregateConservativeCeilingUsd:ceiling},null,2)+'\n');
+  if(retry||wiggle)writeFileSync(join(directory,'authorization.json'),JSON.stringify({status:wiggle?'user-delegated-modest-expanded-allowance':'approved-retry-within-original-allowance',recordedAtIso:new Date().toISOString(),answer:wiggle?'just go bigger than you proposed by a bit so we have some wiggle':'Go for it',packetSha256,originalApproval:packet.originalApproval,maximumModelRequests:turns,maximumNewConservativeUsd:turns,aggregateConservativeCeilingUsd:ceiling,dataScope:packet.dataTransfer},null,2)+'\n');
+  writeFileSync(join(root,'artifacts/w4-paid/latest.json'),JSON.stringify({directory,packetSha256,status:wiggle?'approved-expanded-ready-to-launch':expanded?'awaiting-expanded-approval':retry?'approved-retry-ready-to-launch':'awaiting-new-approval',realApiRequests:0,realPlcConnections:0,previousConservativeUsd:baseline,maximumNewConservativeUsd:turns,maximumOutputTokens:outputTokens,aggregateConservativeCeilingUsd:ceiling},null,2)+'\n');
   console.log(JSON.stringify({directory,packetSha256,maximumNewConservativeUsd:turns,previousConservativeUsd:baseline,realApiRequests:0,realPlcConnections:0}));
 } finally {await hosted?.dispose();await session?.dispose();ledger.close();}

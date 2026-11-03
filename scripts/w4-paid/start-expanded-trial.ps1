@@ -7,7 +7,10 @@ Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management') -Err
 Import-Module (Join-Path $PSHOME 'Modules/CimCmdlets') -ErrorAction Stop
 $w4Data=Get-Content -LiteralPath $Packet -Raw | ConvertFrom-Json
 if ((Get-FileHash -LiteralPath $Packet -Algorithm SHA256).Hash.ToLowerInvariant() -ne $AuthorizePacket) { throw 'Expanded packet changed.' }
-if ($w4Data.approvalRevision.contract -ne 'controlsbench.w4-expanded-approval.v1' -or $w4Data.maximumModelRequests -ne 4 -or $w4Data.maximumNewConservativeUsd -ne 4 -or $w4Data.maximumOutputTokens -ne 8000 -or $w4Data.sessionBaseline.conservativeUsd -ne 7 -or $w4Data.aggregateConservativeCeilingUsd -ne 11) { throw 'Expected the exact expanded review: four requests, 8000 output tokens, $7 + $4 = $11.' }
+$w4ExpectedTurns=4; $w4ExpectedCeiling=11
+if ($w4Data.approvalRevision.contract -eq 'controlsbench.w4-expanded-approval.v2') { $w4ExpectedTurns=5; $w4ExpectedCeiling=12 }
+elseif ($w4Data.approvalRevision.contract -ne 'controlsbench.w4-expanded-approval.v1') { throw 'Unknown expanded review.' }
+if ($w4Data.maximumModelRequests -ne $w4ExpectedTurns -or $w4Data.maximumNewConservativeUsd -ne $w4ExpectedTurns -or $w4Data.maximumOutputTokens -ne 8000 -or $w4Data.sessionBaseline.conservativeUsd -ne 7 -or $w4Data.aggregateConservativeCeilingUsd -ne $w4ExpectedCeiling) { throw 'Expanded allowance differs from reviewed packet.' }
 if (Test-Path -LiteralPath (Join-Path $w4Data.repositoryRoot 'artifacts/m10/live.lock')) { throw 'A writer holds the runtime.' }
 $w4Host=Invoke-RestMethod 'http://127.0.0.1:5190/api/host' -TimeoutSec 5
 $w4Report=Invoke-RestMethod 'http://127.0.0.1:5190/api/campaign/report' -TimeoutSec 5

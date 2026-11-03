@@ -26,16 +26,17 @@ export const objective = {
 
 export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
-  assert(Number.isInteger(turns) && turns >= 1 && turns <= 4, 'Invalid request allowance');
+  const wiggle=packet.approvalRevision?.contract==='controlsbench.w4-expanded-approval.v2';
+  assert(Number.isInteger(turns) && turns >= 1 && turns <= (wiggle?5:4), 'Invalid request allowance');
   assert.equal(packet.maximumNewConservativeUsd, turns, 'Each attempt needs a conservative dollar');
-  const ceiling = packet.approvalRevision ? 11 : 8;
+  const ceiling = wiggle ? 12 : packet.approvalRevision ? 11 : 8;
   if (packet.approvalRevision) {
-    assert.equal(packet.approvalRevision.contract,'controlsbench.w4-expanded-approval.v1');
+    assert.equal(packet.approvalRevision.contract,wiggle?'controlsbench.w4-expanded-approval.v2':'controlsbench.w4-expanded-approval.v1');
     assert.equal(packet.approvalRevision.previousAggregateCeilingUsd,8);
     assert.equal(packet.sessionBaseline?.conservativeUsd,7,'Expanded review is tied to the existing seven-dollar account');
-    assert.equal(turns,4); assert.equal(packet.maximumOutputTokens,8000);
+    assert.equal(turns,wiggle?5:4); assert.equal(packet.maximumOutputTokens,8000);
   }
-  assert.equal(packet.aggregateConservativeCeilingUsd, ceiling, packet.approvalRevision ? 'Expanded aggregate review is $11' : 'Original aggregate approval is $8');
+  assert.equal(packet.aggregateConservativeCeilingUsd, ceiling, packet.approvalRevision ? `Expanded aggregate review is $${ceiling}` : 'Original aggregate approval is $8');
   assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd) && packet.sessionBaseline.conservativeUsd >= 4);
   assert(packet.sessionBaseline.conservativeUsd + turns <= ceiling, 'Remaining original approval would be exceeded');
   assert(Number.isInteger(packet.maximumOutputTokens ?? 4000) && (packet.maximumOutputTokens ?? 4000)>=16 && (packet.maximumOutputTokens ?? 4000)<=8000,'Invalid provider output allowance');
@@ -117,6 +118,16 @@ export function writeHeldRecord(directory, {allowOffline = false} = {}) {
  * call cannot consume another conservative dollar after four legitimate requests. */
 export function configureBoundedRuntime(runtime, packet) {
   const turns = packet ? trialEnvelope(packet) : 4;
+  if(turns===5) {
+    assert.equal(runtime.budget.guard.campaignSpentUsd,0,'Configure before any reservation');
+    assert.equal(runtime.budget.guard.leases.size,0,'Configure before any reservation');
+    // The generic guard hard-stops during settlement at its threshold, before
+    // executing that decision. Keep one unit of internal headroom, as the original
+    // four-turn/$5 composition does. Five-turn and provider caps bound charges to $5.
+    runtime.budget.guard.limits.campaignHardUsd=6;
+    runtime.ledger.append('world.evidence',{source:{kind:'paid_w4_budget_configuration',maximumPaidReservations:5,maximumConservativeUsd:5,
+      genericSettlementStopUsd:6,reason:'Allow the fifth approved response to execute; no sixth runtime/provider request permitted'}},'truth');
+  }
   runtime.options.maxTurns = turns;
   runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: trialObjective(turns),
     approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000,
