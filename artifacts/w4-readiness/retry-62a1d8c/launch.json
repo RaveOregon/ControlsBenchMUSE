@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "62a1d8ca209c0d9dcdce9336c4370e174de71ebf",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-retry-runtime-pin",
+  "manifest": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\retry-62a1d8c\\manifest.json",
+  "manifestSha256": "dd37699c4385bb8da51f1ca09f5453e1c58da1ef33c2e02c251e1a9dbf9cd7f6",
+  "proof": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\retry-62a1d8c\\promotion-proof.json",
+  "proofSha256": "b2379fcad5e8e1e69298b50a31cda157c5f61960e120fdb9c124a7aed6f1ac36"
+}

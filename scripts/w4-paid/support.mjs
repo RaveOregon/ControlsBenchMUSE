@@ -6,7 +6,9 @@ import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 
 export const root = fileURLToPath(new URL('../../', import.meta.url));
-export const configuration = JSON.parse(readFileSync(join(root, 'artifacts/w4-readiness/e3469af/launch.json'), 'utf8'));
+export const configurationPath = resolve(process.env.CONTROLSBENCH_W4_LAUNCH_CONFIG ?? join(root, 'artifacts/w4-readiness/e3469af/launch.json'));
+assert(configurationPath.toLowerCase().startsWith(resolve(root,'artifacts/w4-readiness').toLowerCase()+'\\'),'Launch configuration must be a reviewed workspace artifact');
+export const configuration = JSON.parse(readFileSync(configurationPath, 'utf8'));
 export const pinned = configuration.pinnedCheckout;
 export const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 export const hashFile = path => hash(readFileSync(path));
@@ -26,15 +28,16 @@ export const objective = {
 
 export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
+  const resume=packet.approvalRevision?.contract==='controlsbench.w4-resume-approval.v1';
   const wiggle=packet.approvalRevision?.contract==='controlsbench.w4-expanded-approval.v2';
   assert(Number.isInteger(turns) && turns >= 1 && turns <= (wiggle?5:4), 'Invalid request allowance');
   assert.equal(packet.maximumNewConservativeUsd, turns, 'Each attempt needs a conservative dollar');
-  const ceiling = wiggle ? 12 : packet.approvalRevision ? 11 : 8;
+  const ceiling = (wiggle||resume) ? 12 : packet.approvalRevision ? 11 : 8;
   if (packet.approvalRevision) {
-    assert.equal(packet.approvalRevision.contract,wiggle?'controlsbench.w4-expanded-approval.v2':'controlsbench.w4-expanded-approval.v1');
-    assert.equal(packet.approvalRevision.previousAggregateCeilingUsd,8);
-    assert.equal(packet.sessionBaseline?.conservativeUsd,7,'Expanded review is tied to the existing seven-dollar account');
-    assert.equal(turns,wiggle?5:4); assert.equal(packet.maximumOutputTokens,8000);
+    assert.equal(packet.approvalRevision.contract,resume?'controlsbench.w4-resume-approval.v1':wiggle?'controlsbench.w4-expanded-approval.v2':'controlsbench.w4-expanded-approval.v1');
+    assert.equal(packet.approvalRevision.previousAggregateCeilingUsd,resume?12:8);
+    assert.equal(packet.sessionBaseline?.conservativeUsd,resume?10:7,'Review is tied to its recorded account baseline');
+    assert.equal(turns,resume?2:wiggle?5:4); assert.equal(packet.maximumOutputTokens,8000);
   }
   assert.equal(packet.aggregateConservativeCeilingUsd, ceiling, packet.approvalRevision ? `Expanded aggregate review is $${ceiling}` : 'Original aggregate approval is $8');
   assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd) && packet.sessionBaseline.conservativeUsd >= 4);
@@ -137,7 +140,8 @@ export function configureBoundedRuntime(runtime, packet) {
       genericSettlementStopUsd:6,reason:'Allow the fifth approved response to execute; no sixth runtime/provider request permitted'}},'truth');
   }
   runtime.options.maxTurns = turns;
-  runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: trialObjective(turns),
+  runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: packet?.objective ?? trialObjective(turns),
+    ...(packet?.recordedPriorProof?{recordedPriorProof:packet.recordedPriorProof}:{}),
     approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000, maxTransientRetries:retries,
       aggregateConservativeCeilingUsd: packet?.aggregateConservativeCeilingUsd ?? 8, source: packet?.approvalRevision ? 'explicit expanded packet approval required; existing account preserved' : 'remaining original approval; no accounting reset'}};
 }

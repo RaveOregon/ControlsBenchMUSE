@@ -1,0 +1,109 @@
+{
+  "status": "pass",
+  "check": "isolation",
+  "contract": "controlsbench.wonder-process.v1",
+  "sourceCommit": "9e98da72ed667368078922a8a5233b08886a8476",
+  "clean": true,
+  "scope": "offline-fake-transport",
+  "transport": "test/fixtures/wonder-process-transport.ts (protocol fixture, not an M8 behavior oracle)",
+  "realChildProcess": true,
+  "livePlcExecuted": false,
+  "plcContacted": false,
+  "credentialsUsed": false,
+  "paidCalls": 0,
+  "networkCalls": 0,
+  "liveTimingQualified": false,
+  "liveRecoveryQualified": false,
+  "tests": [
+    {
+      "name": "construction is read-only and reports the world bytes the child actually loaded",
+      "passed": true
+    },
+    {
+      "name": "parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz",
+      "passed": true
+    },
+    {
+      "name": "hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue",
+      "passed": true
+    },
+    {
+      "name": "condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence",
+      "passed": true
+    },
+    {
+      "name": "parent silence: the child holds the world on its own and the engineer resume continues it",
+      "passed": true
+    },
+    {
+      "name": "source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion",
+      "passed": true
+    },
+    {
+      "name": "provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage",
+      "passed": true
+    }
+  ],
+  "establishes": [
+    "World time, the 10 Hz cadence, interventions and reasoning leases run in a separate child process on its own monotonic clock",
+    "A 1.5 s parent event-loop stall does not delay child commits (max gap measured) or extend a lease; expiry holds the world during the stall",
+    "Hold/continue/condition-deadline leases return terminal evidence-backed receipts; held commits show PLC scan counters continuing",
+    "Ordered, gap-checked, de-duplicated source stream into the single host ledger; gaps/reorders/conflicts quarantine without ingestion",
+    "Construction is read-only; the child reports the world bytes it actually loaded"
+  ],
+  "doesNotEstablish": [
+    "Live M8 cadence/latency under portal, HMI capture and model load",
+    "Windows scheduling margin on the bench machine with a real OPC UA session"
+  ],
+  "measurements": [
+    {
+      "test": "factory-campaign",
+      "coordinatorSources": 15,
+      "plcOutputs": 6,
+      "ledgerEvents": 123,
+      "leaseStates": [
+        "released",
+        "released"
+      ],
+      "childExit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "test": "parent-stall",
+      "parentStallMs": 1500,
+      "leaseMode": "continue",
+      "leaseTimeoutMs": 400,
+      "childExpiredAfterMs": 409,
+      "commitsDuringStall": 14,
+      "maxCommitGapDuringStallMs": 110,
+      "heldSamplesAfterExpiry": 11,
+      "plcCycleDuringHold": [
+        "6",
+        "16"
+      ],
+      "lateDecisionEffects": 0
+    },
+    {
+      "test": "hold-lease",
+      "reasoningMs": 707,
+      "heldSamples": 6,
+      "worldTimeDuringHoldMs": 0,
+      "plcCycleDuringHold": [
+        "2",
+        "7"
+      ],
+      "receiptValid": true,
+      "campaignRevisionUnchanged": true
+    },
+    {
+      "test": "condition-lease",
+      "unmet": "released",
+      "met": "condition_met",
+      "metAfterMs": 86,
+      "evidence": "plc.output"
+    }
+  ],
+  "note": "Offline scope only. Citing this file in a live W4 manifest is a runtime-owner decision; it is not live timing or recovery qualification."
+}

@@ -5,14 +5,21 @@ $w4PacketPath = (Resolve-Path -LiteralPath $Packet).Path
 if ((Get-FileHash -LiteralPath $w4PacketPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $AuthorizePacket.ToLowerInvariant()) { throw 'Authorization must match the reviewed packet SHA-256.' }
 $w4Packet = Get-Content -LiteralPath $w4PacketPath -Raw | ConvertFrom-Json
 $w4Root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
-$w4Config = Get-Content -LiteralPath (Join-Path $w4Root 'artifacts/w4-readiness/e3469af/launch.json') -Raw | ConvertFrom-Json
+$w4ConfigPath=Join-Path $w4Root 'artifacts/w4-readiness/e3469af/launch.json'
+if ($w4Packet.launchConfiguration) {
+    $w4ConfigPath=Join-Path $w4Root $w4Packet.launchConfiguration.path
+    if ((Get-FileHash -LiteralPath $w4ConfigPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Packet.launchConfiguration.sha256) { throw 'Reviewed launch configuration changed.' }
+}
+$w4Config = Get-Content -LiteralPath $w4ConfigPath -Raw | ConvertFrom-Json
 $w4Ceiling = 8
 if ($w4Packet.approvalRevision) {
     $w4Turns = 4
     $w4Ceiling = 11
-    if ($w4Packet.approvalRevision.contract -eq 'controlsbench.w4-expanded-approval.v2') { $w4Turns=5; $w4Ceiling=12 }
+    $w4Baseline=7; $w4PreviousCeiling=8
+    if ($w4Packet.approvalRevision.contract -eq 'controlsbench.w4-resume-approval.v1') { $w4Turns=2; $w4Ceiling=12; $w4Baseline=10; $w4PreviousCeiling=12 }
+    elseif ($w4Packet.approvalRevision.contract -eq 'controlsbench.w4-expanded-approval.v2') { $w4Turns=5; $w4Ceiling=12 }
     elseif ($w4Packet.approvalRevision.contract -ne 'controlsbench.w4-expanded-approval.v1') { throw 'Unknown expanded review.' }
-    if ($w4Packet.approvalRevision.previousAggregateCeilingUsd -ne 8 -or $w4Packet.sessionBaseline.conservativeUsd -ne 7 -or $w4Packet.maximumModelRequests -ne $w4Turns -or $w4Packet.maximumOutputTokens -ne 8000) { throw 'Unexpected expanded review.' }
+    if ($w4Packet.approvalRevision.previousAggregateCeilingUsd -ne $w4PreviousCeiling -or $w4Packet.sessionBaseline.conservativeUsd -ne $w4Baseline -or $w4Packet.maximumModelRequests -ne $w4Turns -or $w4Packet.maximumOutputTokens -ne 8000) { throw 'Unexpected expanded review.' }
 }
 if ($w4Packet.ownerCommit -ne $w4Config.sourceCommit -or $w4Packet.maximumModelRequests -lt 1 -or $w4Packet.maximumModelRequests -gt $(if($w4Ceiling -eq 12){5}else{4}) -or $w4Packet.maximumModelRequests -ne $w4Packet.maximumNewConservativeUsd -or $w4Packet.aggregateConservativeCeilingUsd -ne $w4Ceiling -or ($w4Packet.sessionBaseline.conservativeUsd + $w4Packet.maximumNewConservativeUsd) -gt $w4Ceiling -or $w4Packet.maximumOutputTokens -gt 8000) { throw 'Unexpected campaign envelope.' }
 foreach ($w4Source in $w4Packet.launchSourceHashes.PSObject.Properties) {
@@ -36,6 +43,7 @@ foreach ($w4Port in @(5190,5191)) {
 }
 $w4Environment = @{
     CONTROLSBENCH_W4_PACKET = $w4PacketPath
+    CONTROLSBENCH_W4_LAUNCH_CONFIG = $w4ConfigPath
     CONTROLSBENCH_W4_APPROVAL_SHA256 = $AuthorizePacket.ToLowerInvariant()
     CONTROLSBENCH_WONDER_PROCESS_MODULE = (Join-Path $w4Config.pinnedCheckout 'src/live/wonder-process/index.ts')
     CONTROLSBENCH_WONDER_PROCESS_COMMIT = $w4Config.sourceCommit
