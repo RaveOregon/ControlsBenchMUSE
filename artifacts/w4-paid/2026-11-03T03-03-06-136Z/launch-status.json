@@ -1,7 +1,9 @@
 ﻿{
     "hostPid":  48816,
     "sourceCommit":  "41c0e1a17c4236510e97e9101c568841dcb87472",
-    "phase":  "host-starting",
+    "phase":  "refused-or-failed",
     "modelCalls":  0,
-    "packetSha256":  "c3ba4ee5593449eb1e6e771899130bf26eeef47ad3903e567771a3586bb819fa"
+    "packetSha256":  "c3ba4ee5593449eb1e6e771899130bf26eeef47ad3903e567771a3586bb819fa",
+    "updatedAtIso":  "2026-11-03T03:05:32.4921505+00:00",
+    "error":  "Zero-model bench check failed; no paid Start permitted. Preserve held-state evidence."
 }

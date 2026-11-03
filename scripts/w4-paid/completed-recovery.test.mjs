@@ -3,10 +3,18 @@ import {mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import test from 'node:test';
-import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan} from './recover-completed-hold.mjs';
+import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan} from './recover-completed-hold.mjs';
 import {fromPin,json,root} from './support.mjs';
 const sample=json(join(root,'artifacts/w4-paid/2026-11-02T21-16-08-803Z/live-host/runs/2026-11-02T23-43-04-875Z-live_plc/portal-host/portal-20261102234344698-1/held-state.json'));
 const fixture=()=>({observation:{...sample.plc,values:structuredClone(sample.lastObservation.values)},activeImage:structuredClone(sample.appliedImage)});
+
+test('completed unassigned runout cleanup requires exact saved completion, matching image, identity, counters and no uncertainty',()=>{
+  const record=json(join(root,'artifacts/w4-paid/2026-11-03T03-03-06-136Z/bench-check/2026-11-03T03-04-29-347Z/held-state.json'));
+  const state=()=>({observation:{...record.plc,values:structuredClone(record.lastObservation.values)},activeImage:structuredClone(record.appliedImage)});
+  assert.deepEqual(pendingRunoutPlan(record,state()).map(x=>x.op),['stop','fresh_world','completion_ack','await_stopped']);
+  for(const mutate of [s=>s.observation.bootIdentity+='x',s=>s.observation.values['controller.CompletionSequence']++,s=>s.observation.values['controller.FaultCode']=33,s=>s.observation.values['controller.CountRunout']++,s=>s.activeImage.PE_Runout=false]){const changed=state();mutate(changed);assert.throws(()=>pendingRunoutPlan(record,changed));}
+  const changed=structuredClone(record);changed.inFlightCommands=[{action:'reset'}];assert.throws(()=>pendingRunoutPlan(changed,state()));
+});
 
 test('cleared D1 contradiction cleanup refuses any changed identity, image, fault, counter, uncleared injection or uncertainty',()=>{
   const record=json(join(root,'artifacts/w4-paid/2026-11-03T02-41-21-436Z/live-host/runs/2026-11-03T02-43-28-163Z-live_plc/portal-host/portal-20261103024529383-1/held-state.json'));

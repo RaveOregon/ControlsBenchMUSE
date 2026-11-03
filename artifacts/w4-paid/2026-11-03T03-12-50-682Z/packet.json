@@ -1,0 +1,155 @@
+{
+  "contract": "controlsbench.w4-paid-approval.v1",
+  "preparedAtIso": "2026-11-03T03:12:50.687Z",
+  "ownerCommit": "41c0e1a17c4236510e97e9101c568841dcb87472",
+  "approvalRevision": {
+    "contract": "controlsbench.w4-full-proof-approval.v2",
+    "previousAggregateCeilingUsd": 15,
+    "authorizedCreditPoolUsd": 150,
+    "status": "User authorized available credits to prove the product",
+    "instruction": "we have only spent $7 during all of our development of a 150 set of credits so lets go full send to prove our shit. we don't need to worry abotu spend limits"
+  },
+  "maximumModelRequests": 20,
+  "maximumNewConservativeUsd": 60,
+  "aggregateConservativeCeilingUsd": 87,
+  "sessionHardUsd": 150,
+  "maximumOutputTokens": 16000,
+  "maxTransientRetries": 5,
+  "maxRejectedDecisions": 3,
+  "retryDecisionTransport": true,
+  "sessionBaseline": {
+    "conservativeUsd": 27,
+    "sha256": "bae98eab84d03c8f3359afbcf4b620ece3e4ddf2dd81993c0277590d2a67ec5e"
+  },
+  "model": "muse-wonder-1.0",
+  "reasoning": "high",
+  "mode": "Standard",
+  "perRequestAdmissionUsd": 3,
+  "requestTimeoutMs": 300000,
+  "categories": [
+    "faults",
+    "adaptive"
+  ],
+  "objective": {
+    "source": "Engineer-selected continuation after proved normal sort",
+    "goal": "Complete the missing declared-fault experiment on the live PLC, then choose and execute a genuinely new follow-up from the returned current fault evidence. Normal A sorting is already established by the labelled recorded prior proof; do not spend the remaining attempts repeating it. Finish Stopped, fault-free, with no active item or pending completion when possible; otherwise state exactly what remains.",
+    "discretion": "Choose your own fault, hypotheses, stimuli and follow-up. Up to twenty model decisions are available; finish once you have sufficient evidence. Run a declared fault experiment, inspect its actual PLC response, choose a genuinely new investigation from that evidence, physically execute it, and report grounded findings. A new follow-up must cite actual current evidence and must not be selected in advance. Up to three effect-free validation corrections and five bounded pure-model service/connection retries fit inside the ordinary turns. The engineer authorized the available $150 credit pool for proof work. Do not repeat actions merely to use the allowance.",
+    "operation": "WCS assign_route is separate from carton requestedRoute metadata. Observe the actual completion sequence before acknowledging it. Stop and Reset are distinct sequenced operator commands. Default hold freezes world advancement while PLC scans and timers continue; do not assume a held active carton stops its PLC transit timer. Engine streaming continues independently of reasoning.",
+    "boundaries": "Preserved generated world 0.5.0; actual PLC build 8001/interface 1. No world/PLC edits, HMI operation, higher-rate qualification or automatic recovery. HMI pixels are separate engineer evidence."
+  },
+  "recordedPriorProof": {
+    "kind": "recorded_prior_trial",
+    "evidenceClass": "preserved_live_plc",
+    "liveNow": false,
+    "campaignId": "portal-20261103000832522-1",
+    "auditSha256": "463d3c5eced6cf7f5e258f647707d8e25f2cde1de6ed7e85fcf3547bcf0bf588",
+    "finding": {
+      "id": "FIND-NORMAL-A",
+      "title": "Item 201 assigned A completed at exit 1 with CountExitA incremented",
+      "experimentId": "EXP-NORMAL-A",
+      "claims": [
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.CompletionPending",
+          "equals": true
+        },
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.CompletionSequence",
+          "equals": 2
+        },
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.CompletionItemId",
+          "equals": 201
+        },
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.CompletionExit",
+          "equals": 1
+        },
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.CountExitA",
+          "equals": 2
+        },
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.CountMisroute",
+          "equals": 0
+        },
+        {
+          "evidenceId": "portal-20261103000832522-1:1087",
+          "signal": "controller.ItemActive",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "PLC reported a pending completion for item 201 at CompletionExit=1 and CountExitA=2 (prior baseline 1 in initial evidence), consistent with a normal A sort; exit-code mapping 1=A is assumed from that prior A completion baseline.",
+      "assumptions": [
+        "CompletionExit/RequestedRoute enumeration 1 corresponds to A, inferred from initial completed item 101 state"
+      ],
+      "uncertainty": "D1_ExtendCmd transit evidence not yet inspected in this window; completion signals alone are claimed here, not actuator timing.",
+      "review": "unreviewed"
+    },
+    "boundary": "Historical normal-sort observation only. Prior evidence IDs are not current-campaign IDs. No prior fault or adaptive physical test passed."
+  },
+  "repositoryRoot": "C:/Users/steve/Documents/ControlsBenchMuse",
+  "campaignArtifactRoot": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\live-host",
+  "launchConfiguration": {
+    "path": "artifacts/w4-readiness/proof-41c0e1a/launch.json",
+    "sha256": "fa8fb56667ec68fe707269882010cc10c7e58611e42394ef9a4bf11a9705fcbd"
+  },
+  "launchSourceHashes": {
+    "scripts/w4-paid/support.mjs": "929745e04d7c7de799f4f94f65459eb3147a9e43323aadaf2cc299e6c20f9889",
+    "scripts/w4-paid/factory.mjs": "d2cb9e8425104094a51e0b55a05dc81148a7fa53e9b01fc4ed238b3941999f84",
+    "scripts/w4-paid/export-held.mjs": "e943de87b42494d406cde89e7930fc49ba3fa4dd362a347b177047e9034b2439",
+    "scripts/w4-paid/launch-resume.ps1": "9cd52fbf03c4bb1616df05166861bf5b3042a67edb50ca7b5ccf3290345297a8",
+    "scripts/w4-paid/recover-completed-hold.mjs": "39ddba8663c0d470ab380c2a0228e0f863e469bdaccf8ed1157ea1d58018a7b9",
+    "artifacts/w4-readiness/proof-41c0e1a/launch.json": "fa8fb56667ec68fe707269882010cc10c7e58611e42394ef9a4bf11a9705fcbd"
+  },
+  "originalApproval": {
+    "packetSha256": "0eb36e875646552b90185e4e6e9922fd801f02af2eada5e7adbca48a6f6aa93f",
+    "authorizationSha256": "ca10efdd481097a376d297a21b3ede793fc7fc23e8e67e9286a00209a0a839e0",
+    "historicalAggregateCeilingUsd": 12,
+    "supersededByUserCreditAuthorization": true,
+    "alreadySpentConservativeUsd": 27
+  },
+  "dataTransfer": {
+    "destination": "https://api.meta.ai/v1",
+    "sends": [
+      "accepted conveyor specification",
+      "logical signal and semantic tool definitions",
+      "engineer objective",
+      "fresh live PLC raw-input/output observations and diagnostic values",
+      "action results, faults, experiment state and evidence identifiers",
+      "grounded findings and subsequent investigation results"
+    ],
+    "excludes": [
+      "PLC source/binaries",
+      "model/PLC credentials",
+      "opaque connection addresses/node IDs",
+      "generated world source",
+      "HMI pixels/video"
+    ],
+    "dynamics": "Live observations, times, revisions, IDs, decisions and paired tool outcomes are generated at run time; these dynamic fields are approved by class, not identical to the recorded example."
+  },
+  "previousHost": {
+    "pid": 48816,
+    "pinDirectoryName": "w4-transport-runtime-pin",
+    "packetDirectoryName": "2026-11-03T03-03-06-136Z",
+    "expectedCampaignId": null
+  },
+  "priorRecovery": {
+    "path": "pending-runout",
+    "reference": "artifacts/w4-paid/2026-11-03T03-03-06-136Z/bench-check/2026-11-03T03-04-29-347Z",
+    "heldStateSha256": "750e620eecb5f0d557a1dc77f289e21e89f5f113f81124a98368c5d26bca50b9"
+  },
+  "hostObserver": {
+    "captureIntervalMs": 2000,
+    "reason": "Reduce screenshot observer load; PLC I/O target stays 100 ms and 300 ms observation bound stays unchanged"
+  },
+  "limits": "Up to twenty decisions with separately recorded conservative $3 reservations: at most $60 new/$87 aggregate. Actual billing differs; prior $27 conservative history remains exact, including the possibly billed connection failure. User authorized $150 available credits. Unreturned pure model generation may be requested again from the last valid head, with another charge and fresh hold lease; no uncertain physical effect is retried. Validation correction applies only before any ledger/effect changes.",
+  "recovery": "Dispose exact child, preserve original report/held-state. Native recovery is read-only until exact saved-state match and explicit recorded reconciliation.",
+  "proofBoundary": "Current source-bound decision-repair and allowance qualification is linked by the launch configuration. Physical engine unchanged. Fresh zero-model bench commissioning must pass before paid Start."
+}

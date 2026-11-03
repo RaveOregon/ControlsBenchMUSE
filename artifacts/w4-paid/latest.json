@@ -1,7 +1,7 @@
 {
   "status": "transport-proof-ready-for-bench-check",
-  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-03-06-136Z",
-  "packetSha256": "c3ba4ee5593449eb1e6e771899130bf26eeef47ad3903e567771a3586bb819fa",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z",
+  "packetSha256": "ef1c6c65a99547eb72f9c73bd502ccdfdacdab408d3e4b7c02fe7f7a6708c329",
   "previousConservativeUsd": 27,
   "maximumNewConservativeUsd": 60,
   "aggregateConservativeCeilingUsd": 87,

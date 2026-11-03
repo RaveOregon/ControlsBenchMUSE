@@ -1,0 +1,65 @@
+﻿{
+    "link":  {
+                 "state":  "connected",
+                 "detail":  "Polling",
+                 "endpoint":  "opc.tcp://127.0.0.1:4840",
+                 "securityMode":  "SignAndEncrypt",
+                 "securityPolicy":  "Basic256Sha256",
+                 "userConfigured":  true,
+                 "pollIntervalMs":  250,
+                 "staleAfterMs":  1500,
+                 "totalPolls":  1553,
+                 "failedPolls":  0,
+                 "consecutiveFailures":  0,
+                 "reconnects":  0,
+                 "plcScanning":  true,
+                 "sessionOpenedAtIso":  "2026-11-03T03:04:31.611Z",
+                 "lastPollOkAtIso":  "2026-11-03T03:13:21.247Z",
+                 "lastPollLatencyMs":  86,
+                 "p95PollLatencyMs":  29,
+                 "bootIdentity":  "1710853217416"
+             },
+    "baseline":  {
+                     "fault":  {
+                                   "value":  0,
+                                   "status":  "Good (0x00000000)",
+                                   "good":  true,
+                                   "sourceTimestamp":  "2026-11-03T03:13:21.188Z",
+                                   "serverTimestamp":  "2026-11-03T03:13:21.188Z",
+                                   "receivedAtIso":  "2026-11-03T03:13:21.203Z"
+                               },
+                     "pending":  {
+                                     "value":  true,
+                                     "status":  "Good (0x00000000)",
+                                     "good":  true,
+                                     "sourceTimestamp":  "2026-11-03T03:13:21.188Z",
+                                     "serverTimestamp":  "2026-11-03T03:13:21.188Z",
+                                     "receivedAtIso":  "2026-11-03T03:13:21.203Z"
+                                 },
+                     "motor":  {
+                                   "value":  true,
+                                   "status":  "Good (0x00000000)",
+                                   "good":  true,
+                                   "sourceTimestamp":  "2026-11-03T03:13:21.188Z",
+                                   "serverTimestamp":  "2026-11-03T03:13:21.188Z",
+                                   "receivedAtIso":  "2026-11-03T03:13:21.203Z"
+                               },
+                     "item":  {
+                                  "value":  false,
+                                  "status":  "Good (0x00000000)",
+                                  "good":  true,
+                                  "sourceTimestamp":  "2026-11-03T03:13:21.188Z",
+                                  "serverTimestamp":  "2026-11-03T03:13:21.188Z",
+                                  "receivedAtIso":  "2026-11-03T03:13:21.203Z"
+                              },
+                     "mode":  {
+                                  "value":  "Auto",
+                                  "status":  "Good (0x00000000)",
+                                  "good":  true,
+                                  "sourceTimestamp":  "2026-11-03T03:13:21.188Z",
+                                  "serverTimestamp":  "2026-11-03T03:13:21.188Z",
+                                  "receivedAtIso":  "2026-11-03T03:13:21.203Z"
+                              }
+                 },
+    "observedAtIso":  "2026-11-03T03:13:21.2920860+00:00"
+}

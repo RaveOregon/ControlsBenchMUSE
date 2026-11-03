@@ -1,0 +1,15 @@
+{"atIso":"2026-11-03T03:15:39.390Z","atMonotonicMs":17870.1146,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":63300,"nonce":"8b0d8e5a437156c8","node":"v24.15.0","timeOriginEpochMs":1793675739167.75},"priority":-7}
+{"atIso":"2026-11-03T03:15:39.392Z","atMonotonicMs":17871.7317,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-03T03:15:39.419Z","atMonotonicMs":17898.5439,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":27}
+{"atIso":"2026-11-03T03:15:39.443Z","atMonotonicMs":17923.1473,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-03T03:15:48.657Z","atMonotonicMs":27137.0752,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":9214}
+{"atIso":"2026-11-03T03:15:48.664Z","atMonotonicMs":27144.2157,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-03T03:15:48.667Z","atMonotonicMs":27146.6441,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":3}
+{"atIso":"2026-11-03T03:15:48.714Z","atMonotonicMs":27193.5533,"kind":"request","id":4,"op":"controller","actionId":"w4-1-operator_action","name":"operator_action","action":"reset","campaignRevision":7,"boundaryRevision":2}
+{"atIso":"2026-11-03T03:15:48.759Z","atMonotonicMs":27238.4906,"kind":"reply","id":4,"op":"controller","ok":true,"boundaryRevision":3,"throughSeq":29,"elapsedMs":45}
+{"atIso":"2026-11-03T03:15:48.770Z","atMonotonicMs":27249.8344,"kind":"request","id":5,"op":"controller","actionId":"w4-2-operator_action","name":"operator_action","action":"start","campaignRevision":8,"boundaryRevision":3}
+{"atIso":"2026-11-03T03:15:48.891Z","atMonotonicMs":27370.8305,"kind":"reply","id":5,"op":"controller","ok":true,"boundaryRevision":4,"throughSeq":31,"elapsedMs":121}
+{"atIso":"2026-11-03T03:15:49.509Z","atMonotonicMs":27988.4711,"kind":"request","id":6,"op":"controller","actionId":"w4-3-assign_route","name":"assign_route","action":"offer","campaignRevision":9,"boundaryRevision":4}
+{"atIso":"2026-11-03T03:15:49.622Z","atMonotonicMs":28101.5488,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":71,"elapsedMs":113}
+{"atIso":"2026-11-03T03:15:49.639Z","atMonotonicMs":28118.8445,"kind":"request","id":7,"op":"apply","actionId":"w4-4-introduce_carton","name":"introduce_carton","campaignRevision":10,"boundaryRevision":5,"controlId":"carton.introduce"}
+{"atIso":"2026-11-03T03:15:50.039Z","atMonotonicMs":28518.925,"kind":"reply","id":7,"op":"apply","ok":true,"boundaryRevision":6,"throughSeq":92,"elapsedMs":400}

@@ -1,0 +1,5 @@
+{
+  "status": "held",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-03-06-136Z\\bench-check\\2026-11-03T03-04-29-347Z",
+  "error": "Error: Isolated session inconclusive: World step gap 301 ms exceeds the declared 300 ms observation bound; world not advanced"
+}
