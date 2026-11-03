@@ -1,0 +1,13 @@
+{
+  "status": "refused",
+  "mode": "inspect",
+  "scope": "live_plc",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\live-host\\runs\\2026-11-03T03-15-09-629Z-live_plc\\portal-host\\portal-20261103031655278-1",
+  "heldStateSha256": "5a5cbfd981e296c2c616094575afc56186f3ce4492149082a91413d62a694b2d",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "error": " serviceResult = BadUserAccessDenied (0x801f0000)",
+  "ownershipAfter": "released",
+  "transportSha256": "add0692c9aee36f162a87317d012c9ca0d2e1b8f8bcadd36a0541bb8f96cbdc1",
+  "finishedAtIso": "2026-11-03T03:35:20.970Z"
+}

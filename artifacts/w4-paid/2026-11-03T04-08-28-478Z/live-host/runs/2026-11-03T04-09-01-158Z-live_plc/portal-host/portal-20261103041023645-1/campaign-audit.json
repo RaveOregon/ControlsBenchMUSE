@@ -1,0 +1,141 @@
+{
+  "status": "partial",
+  "verifiedAtIso": "2026-11-03T13:12:56.184Z",
+  "campaignId": "portal-20261103041023645-1",
+  "ledgerEvents": 2187,
+  "originalEvidenceHashesVerified": 7,
+  "reportReconstructedExactly": true,
+  "responseHashesVerified": 3,
+  "responseToolLineageVerified": true,
+  "exactPairedTerminalResults": 5,
+  "requests": 3,
+  "generationRequests": 3,
+  "completedResponses": 3,
+  "failures": [],
+  "serviceRetriesScheduled": 0,
+  "effectFreeDecisionCorrections": 0,
+  "faultActions": [
+    {
+      "eventId": "portal-20261103041023645-1:1406",
+      "actionId": "act-inject-d1contra-01",
+      "name": "inject_fault",
+      "arguments": {
+        "controlId": "fault.setContradictoryLimits",
+        "parameters": {
+          "divert": 1,
+          "active": true
+        }
+      },
+      "basedOnRevision": 8,
+      "experimentId": "EXP-FAULT-D1-CONTRA-01",
+      "applied": true
+    }
+  ],
+  "observedFaultCodes": [
+    21
+  ],
+  "followups": [],
+  "groundedFindings": 0,
+  "exactPlcClaimsVerified": 0,
+  "experiments": [
+    {
+      "id": "EXP-FAULT-D1-CONTRA-01",
+      "objective": "While Stopped with no carton introduced, inject contradictory D1 limits (home and extended simultaneously, fault.setContradictoryLimits divert=1) and observe PLC plc.output fault/mode/exception/indication responses; then clear the fault and use distinct Reset/Stop operator commands to observe recovery without auto-restart.",
+      "category": "faults",
+      "requirements": [
+        "R-15"
+      ],
+      "status": "running"
+    }
+  ],
+  "assumptions": [],
+  "usage": [
+    {
+      "turn": 1,
+      "responseId": "resp_6ae95ec92b8f474ae91d4fb2",
+      "input_tokens": 15523,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 1530,
+      "output_tokens_details": {
+        "reasoning_tokens": 1100
+      },
+      "total_tokens": 17053
+    },
+    {
+      "turn": 2,
+      "responseId": "resp_6ae95ecfb0072f1b9dc44e20",
+      "input_tokens": 43224,
+      "input_tokens_details": {
+        "cached_tokens": 15476
+      },
+      "output_tokens": 478,
+      "output_tokens_details": {
+        "reasoning_tokens": 243
+      },
+      "total_tokens": 43702
+    },
+    {
+      "turn": 3,
+      "responseId": "resp_6ae95edb65684191e0fe4a8d",
+      "input_tokens": 61501,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 345,
+      "output_tokens_details": {
+        "reasoning_tokens": 116
+      },
+      "total_tokens": 61846
+    }
+  ],
+  "estimatedKnownUncachedTokenCostUsd": 0.528052,
+  "billingBoundary": "Known reported token usage only at documented uncached rates; actual invoices/caching differ. Failed and unreturned generations are not assumed free.",
+  "conservativeNewUsd": 15,
+  "conservativeAggregateUsd": 60,
+  "authorizedCreditPoolUsd": 150,
+  "finalHeldObservation": {
+    "Motor_RunCmd": false,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": true,
+    "StackLight_Green": false,
+    "controller.Mode": 3,
+    "controller.ModeText": "Faulted",
+    "controller.FaultCode": 21,
+    "controller.FaultText": "D1 contradictory limits",
+    "controller.ExceptionCode": 0,
+    "controller.ExceptionText": "",
+    "controller.ReleaseReady": false,
+    "controller.ItemActive": false,
+    "controller.ActiveItemId": 0,
+    "controller.RequestedRoute": 0,
+    "controller.EffectiveRoute": 0,
+    "controller.ActualExit": 3,
+    "controller.Disposition": 2,
+    "controller.OfferAckSequence": 2,
+    "controller.OfferAckItemId": 401,
+    "controller.OfferAccepted": true,
+    "controller.OfferReason": 0,
+    "controller.OfferPending": false,
+    "controller.CompletionSequence": 4,
+    "controller.CompletionPending": false,
+    "controller.CompletionItemId": 0,
+    "controller.CompletionRoute": 0,
+    "controller.CompletionExit": 3,
+    "controller.CompletionDisposition": 2,
+    "controller.CountExitA": 2,
+    "controller.CountExitB": 0,
+    "controller.CountRunout": 2,
+    "controller.CountMisroute": 0,
+    "controller.CountFaulted": 0,
+    "controller.StartAck": 2,
+    "controller.StopAck": 0,
+    "controller.ResetAck": 5,
+    "controller.StartAccepted": true,
+    "controller.ResetAccepted": false,
+    "controller.EncoderDelta": 0
+  },
+  "claimBoundary": "Audit proves preserved evidence and exact claims. Review follow-up novelty, actual interventions and inferences before calling W4 passed. No agent HMI-operation or certified coverage claim."
+}

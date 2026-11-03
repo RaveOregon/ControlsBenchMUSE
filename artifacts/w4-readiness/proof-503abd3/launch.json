@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "503abd3b895cb2fc03853a9ec2d75166544e2a59",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-rejection-runtime-pin",
+  "manifest": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-503abd3\\manifest.json",
+  "manifestSha256": "652826ab3eda889cb379f8940db3dc33d04b65cea6319d0e10d3f4f43a2e67ca",
+  "proof": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-503abd3\\promotion-proof.json",
+  "proofSha256": "7bd01b3c3c6ff7ad2e03ebb456170ce3058831aeca35b890e27900641a549d7d"
+}

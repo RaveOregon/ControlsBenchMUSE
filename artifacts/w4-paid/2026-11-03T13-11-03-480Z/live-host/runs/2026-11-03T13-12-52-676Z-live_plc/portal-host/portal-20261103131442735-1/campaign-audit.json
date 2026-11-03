@@ -1,0 +1,350 @@
+{
+  "status": "completed_candidate_for_engineering_review",
+  "verifiedAtIso": "2026-11-03T13:19:54.892Z",
+  "campaignId": "portal-20261103131442735-1",
+  "ledgerEvents": 13464,
+  "originalEvidenceHashesVerified": 7,
+  "reportReconstructedExactly": true,
+  "responseHashesVerified": 9,
+  "responseToolLineageVerified": true,
+  "exactPairedTerminalResults": 31,
+  "requests": 9,
+  "generationRequests": 9,
+  "completedResponses": 9,
+  "failures": [],
+  "serviceRetriesScheduled": 0,
+  "effectFreeDecisionCorrections": 0,
+  "faultActions": [
+    {
+      "eventId": "portal-20261103131442735-1:1683",
+      "actionId": "call-inject-drivefb-01",
+      "name": "inject_fault",
+      "arguments": {
+        "controlId": "fault.setDriveFeedbackFailure",
+        "parameters": {
+          "active": true
+        }
+      },
+      "basedOnRevision": 9,
+      "experimentId": "EXP-FAULT-DRIVEFB-01",
+      "applied": true
+    },
+    {
+      "eventId": "portal-20261103131442735-1:7112",
+      "actionId": "call-inject-contra-d1",
+      "name": "inject_fault",
+      "arguments": {
+        "controlId": "fault.setContradictoryLimits",
+        "parameters": {
+          "divert": 1,
+          "active": true
+        }
+      },
+      "basedOnRevision": 24,
+      "experimentId": "campaign",
+      "applied": false
+    },
+    {
+      "eventId": "portal-20261103131442735-1:9905",
+      "actionId": "call-inject-contra-d1b",
+      "name": "inject_fault",
+      "arguments": {
+        "controlId": "fault.setContradictoryLimits",
+        "parameters": {
+          "divert": 1,
+          "active": true
+        }
+      },
+      "basedOnRevision": 29,
+      "experimentId": "EXP-ADAPT-D1CONTRA-02",
+      "applied": true
+    }
+  ],
+  "observedFaultCodes": [
+    12,
+    21
+  ],
+  "followups": [
+    {
+      "eventId": "portal-20261103131442735-1:5856",
+      "experiment": {
+        "id": "EXP-ADAPT-D1CONTRA-02",
+        "objective": "From drive-feedback fault evidence (:2016 Faulted/Code12, motor off), test whether D1 contradictory home+extended feedback in Auto produces a distinct PLC fault/indication with no false divert completion.",
+        "category": "adaptive",
+        "requirements": [
+          "R-15",
+          "R-18"
+        ]
+      },
+      "evidenceRefs": [
+        "portal-20261103131442735-1:2016",
+        "portal-20261103131442735-1:3510"
+      ],
+      "rationale": "PLC demonstrably faulted on a feedback inconsistency for the drive (FaultCode 12 at :2016) and recovered cleanly to Stopped at :3510; whether divert limit contradiction is similarly diagnosed is untested and not selected before that evidence.",
+      "citedTypes": [
+        {
+          "id": "portal-20261103131442735-1:2016",
+          "type": "plc.output"
+        },
+        {
+          "id": "portal-20261103131442735-1:3510",
+          "type": "plc.output"
+        }
+      ],
+      "physicalActions": [
+        {
+          "id": "call-start-02b",
+          "name": "operator_action",
+          "arguments": {
+            "action": "start"
+          },
+          "terminal": "action.applied"
+        },
+        {
+          "id": "call-inject-contra-d1b",
+          "name": "inject_fault",
+          "arguments": {
+            "controlId": "fault.setContradictoryLimits",
+            "parameters": {
+              "divert": 1,
+              "active": true
+            }
+          },
+          "terminal": "action.applied"
+        },
+        {
+          "id": "call-clear-contra-d1",
+          "name": "clear_fault",
+          "arguments": {
+            "controlId": "fault.setContradictoryLimits",
+            "parameters": {
+              "divert": 1,
+              "active": false
+            }
+          },
+          "terminal": "action.applied"
+        },
+        {
+          "id": "call-reset-02",
+          "name": "operator_action",
+          "arguments": {
+            "action": "reset"
+          },
+          "terminal": "action.applied"
+        }
+      ],
+      "completion": {
+        "id": "EXP-ADAPT-D1CONTRA-02",
+        "evidenceRefs": [
+          "portal-20261103131442735-1:10359",
+          "portal-20261103131442735-1:11530"
+        ],
+        "conclusion": "observed"
+      }
+    }
+  ],
+  "groundedFindings": 2,
+  "exactPlcClaimsVerified": 31,
+  "experiments": [
+    {
+      "id": "EXP-FAULT-DRIVEFB-01",
+      "objective": "Inject fault.setDriveFeedbackFailure while attempting a carton run; observe whether PLC detects drive-start fault, removes motor command/feeds, and makes no false completion.",
+      "category": "faults",
+      "requirements": [
+        "R-11"
+      ],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "portal-20261103131442735-1:2016",
+        "portal-20261103131442735-1:3510"
+      ]
+    },
+    {
+      "id": "EXP-ADAPT-D1CONTRA-02",
+      "objective": "From drive-feedback fault evidence (:2016 Faulted/Code12, motor off), test whether D1 contradictory home+extended feedback in Auto produces a distinct PLC fault/indication with no false divert completion.",
+      "category": "adaptive",
+      "requirements": [
+        "R-15",
+        "R-18"
+      ],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "portal-20261103131442735-1:10359",
+        "portal-20261103131442735-1:11530"
+      ]
+    }
+  ],
+  "assumptions": [
+    "FaultCode 12 text is taken as PLC-reported string, not inferred from injected truth",
+    "FaultCode 21 text is taken as PLC-reported string, not inferred from injected truth"
+  ],
+  "usage": [
+    {
+      "turn": 1,
+      "responseId": "resp_6ae9de5ba697e079f0404a6f",
+      "input_tokens": 15518,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 990,
+      "output_tokens_details": {
+        "reasoning_tokens": 572
+      },
+      "total_tokens": 16508
+    },
+    {
+      "turn": 2,
+      "responseId": "resp_6ae9de6874605a197c114368",
+      "input_tokens": 36395,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 592,
+      "output_tokens_details": {
+        "reasoning_tokens": 222
+      },
+      "total_tokens": 36987
+    },
+    {
+      "turn": 3,
+      "responseId": "resp_6ae9de824b2b06e401b94cf4",
+      "input_tokens": 55193,
+      "input_tokens_details": {
+        "cached_tokens": 36340
+      },
+      "output_tokens": 1169,
+      "output_tokens_details": {
+        "reasoning_tokens": 777
+      },
+      "total_tokens": 56362
+    },
+    {
+      "turn": 4,
+      "responseId": "resp_6ae9de9d91f617e3827f4bab",
+      "input_tokens": 73895,
+      "input_tokens_details": {
+        "cached_tokens": 15476
+      },
+      "output_tokens": 1818,
+      "output_tokens_details": {
+        "reasoning_tokens": 860
+      },
+      "total_tokens": 75713
+    },
+    {
+      "turn": 5,
+      "responseId": "resp_6ae9deb074a529c93cea438f",
+      "input_tokens": 92404,
+      "input_tokens_details": {
+        "cached_tokens": 55156
+      },
+      "output_tokens": 1352,
+      "output_tokens_details": {
+        "reasoning_tokens": 665
+      },
+      "total_tokens": 93756
+    },
+    {
+      "turn": 6,
+      "responseId": "resp_6ae9dee4a6f24b50a46d4d86",
+      "input_tokens": 111235,
+      "input_tokens_details": {
+        "cached_tokens": 92404
+      },
+      "output_tokens": 810,
+      "output_tokens_details": {
+        "reasoning_tokens": 358
+      },
+      "total_tokens": 112045
+    },
+    {
+      "turn": 7,
+      "responseId": "resp_6ae9def6a0afae742ea14754",
+      "input_tokens": 130199,
+      "input_tokens_details": {
+        "cached_tokens": 73844
+      },
+      "output_tokens": 419,
+      "output_tokens_details": {
+        "reasoning_tokens": 92
+      },
+      "total_tokens": 130618
+    },
+    {
+      "turn": 8,
+      "responseId": "resp_6ae9df09bda9aaa7254647ac",
+      "input_tokens": 149079,
+      "input_tokens_details": {
+        "cached_tokens": 130164
+      },
+      "output_tokens": 1160,
+      "output_tokens_details": {
+        "reasoning_tokens": 214
+      },
+      "total_tokens": 150239
+    },
+    {
+      "turn": 9,
+      "responseId": "resp_6ae9df1bc86de57e74a74452",
+      "input_tokens": 167827,
+      "input_tokens_details": {
+        "cached_tokens": 111220
+      },
+      "output_tokens": 540,
+      "output_tokens_details": {
+        "reasoning_tokens": 95
+      },
+      "total_tokens": 168367
+    }
+  ],
+  "estimatedKnownUncachedTokenCostUsd": 3.50398,
+  "billingBoundary": "Known reported token usage only at documented uncached rates; actual invoices/caching differ. Failed and unreturned generations are not assumed free.",
+  "conservativeNewUsd": 45,
+  "conservativeAggregateUsd": 105,
+  "authorizedCreditPoolUsd": 150,
+  "finalHeldObservation": {
+    "Motor_RunCmd": false,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": false,
+    "StackLight_Green": false,
+    "controller.Mode": 0,
+    "controller.ModeText": "Stopped",
+    "controller.FaultCode": 0,
+    "controller.FaultText": "",
+    "controller.ExceptionCode": 0,
+    "controller.ExceptionText": "",
+    "controller.ReleaseReady": false,
+    "controller.ItemActive": false,
+    "controller.ActiveItemId": 0,
+    "controller.RequestedRoute": 0,
+    "controller.EffectiveRoute": 0,
+    "controller.ActualExit": 3,
+    "controller.Disposition": 2,
+    "controller.OfferAckSequence": 2,
+    "controller.OfferAckItemId": 501,
+    "controller.OfferAccepted": true,
+    "controller.OfferReason": 0,
+    "controller.OfferPending": false,
+    "controller.CompletionSequence": 2,
+    "controller.CompletionPending": false,
+    "controller.CompletionItemId": 0,
+    "controller.CompletionRoute": 0,
+    "controller.CompletionExit": 3,
+    "controller.CompletionDisposition": 2,
+    "controller.CountExitA": 1,
+    "controller.CountExitB": 0,
+    "controller.CountRunout": 1,
+    "controller.CountMisroute": 0,
+    "controller.CountFaulted": 0,
+    "controller.StartAck": 3,
+    "controller.StopAck": 0,
+    "controller.ResetAck": 4,
+    "controller.StartAccepted": true,
+    "controller.ResetAccepted": true,
+    "controller.EncoderDelta": 0
+  },
+  "claimBoundary": "Audit proves preserved evidence and exact claims. Review follow-up novelty, actual interventions and inferences before calling W4 passed. No agent HMI-operation or certified coverage claim."
+}

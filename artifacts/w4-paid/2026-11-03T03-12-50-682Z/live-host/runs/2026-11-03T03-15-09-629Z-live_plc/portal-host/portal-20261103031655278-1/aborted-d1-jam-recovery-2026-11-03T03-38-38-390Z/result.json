@@ -1,0 +1,82 @@
+{
+  "status": "pass",
+  "mode": "reconcile",
+  "scope": "live_plc",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\live-host\\runs\\2026-11-03T03-15-09-629Z-live_plc\\portal-host\\portal-20261103031655278-1",
+  "heldStateSha256": "5a5cbfd981e296c2c616094575afc56186f3ce4492149082a91413d62a694b2d",
+  "modelCalls": 0,
+  "writesAuthorized": true,
+  "inspection": {
+    "bootIdentity": "1710853217416",
+    "appliedEpoch": "159382090457188",
+    "appliedSequence": "443",
+    "plcCycle": "330609",
+    "plcTimeUs": "1717583819514",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Faulted",
+    "faultCode": 23,
+    "itemActive": false,
+    "activeItemId": 501,
+    "completionPending": true,
+    "completionSequence": 9,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 4,
+      "CountExitB": 0,
+      "CountRunout": 4,
+      "CountMisroute": 0,
+      "CountFaulted": 1
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=3",
+      "controller.FaultCode=23",
+      "controller.CompletionPending=true"
+    ]
+  },
+  "plan": [
+    {
+      "op": "stop"
+    },
+    {
+      "op": "fresh_world"
+    },
+    {
+      "op": "completion_ack",
+      "sequence": 9
+    },
+    {
+      "op": "reset"
+    },
+    {
+      "op": "await_stopped"
+    }
+  ],
+  "final": {
+    "bootIdentity": "1710853217416",
+    "appliedEpoch": "87788590680494",
+    "appliedSequence": "6",
+    "plcCycle": "330667",
+    "plcTimeUs": "1717585002623",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Stopped",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 501,
+    "completionPending": false,
+    "completionSequence": 9,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 4,
+      "CountExitB": 0,
+      "CountRunout": 4,
+      "CountMisroute": 0,
+      "CountFaulted": 1
+    },
+    "stoppedBaselineMismatches": []
+  },
+  "ownershipAfter": "released",
+  "transportSha256": "158dc54430198d5be92a41f56213abc361c8aa84740b122cb0dadefca3ad9318",
+  "finishedAtIso": "2026-11-03T03:38:53.546Z"
+}

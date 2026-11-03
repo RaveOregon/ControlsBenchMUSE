@@ -1,0 +1,5 @@
+{
+  "status": "held",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T04-01-23-111Z\\bench-check\\2026-11-03T04-02-49-763Z",
+  "error": "Commissioning evidence did not qualify: Parent stall must last at least 1500 ms"
+}

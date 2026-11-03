@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "scope": "live-m8-fault-and-evidence-dependent-physical-followup",
+  "campaignId": "portal-20261103131442735-1",
+  "reviewedAtIso": "2026-11-03T13:21:33.819Z",
+  "auditSha256": "47ad324e4a363b18f04699d478f95015200e14610d9164fbe325005662c39ffb",
+  "finalObserverSha256": "67b44f8ccf69960a2ce4c1149f017d715a4b7168ca86e87f000d905bdd2720af",
+  "originalChildAndTransportClaimsVerified": 31,
+  "modelRequests": 9,
+  "modelServiceRetries": 0,
+  "priorNormalOperation": "Historical normal-sort proof is labelled separately in the packet; it was not repeated in this campaign.",
+  "engineeringReview": {
+    "novelty": "The initial plan contained only drive-feedback failure. After observing fault12 and clean recovery, Muse proposed a distinct D1-limit contradiction test, explicitly generalizing the observed feedback-inconsistency response. Its cited current observations predate the proposal. This is a modest evidence-dependent extension, not discovery of an unknown fault.",
+    "execution": "Start, contradictory-limit injection, clear and Reset all executed in the newly active follow-up; native receipts and original child observations support both distinct fault21 and recovery. No human intervention occurred during the campaign.",
+    "limitations": [
+      "The first proposed same-turn follow-up actions were refused before activation; observation waits timed out. Muse corrected this in the next turn. Those attempts remain in the evidence.",
+      "No carton was introduced for the D1 follow-up; misrouting and divert timing were not tested.",
+      "The first fault was running-feedback loss (12), not the startup-feedback deadline. Detection deadlines are not established.",
+      "The world retains one stationary virtual carton while the PLC has no tracked item. No world cleanup is represented as physical travel.",
+      "The new confirmed-PLC-rejection handling passed offline tests but was not exercised by a PLC rejection in this successful run.",
+      "Muse HMI operation remains a later checkpoint; these were semantic engine/controller tools."
+    ]
+  },
+  "estimatedUncachedTokenCostUsd": 3.50398,
+  "billingBoundary": "Known reported token usage only at documented uncached rates; actual invoices/caching differ. Failed and unreturned generations are not assumed free.",
+  "claimBoundary": "Scoped fault/adaptive checkpoint passed; not a repeat of normal sorting, HMI-agent proof, exhaustive controller validation or general machine coverage."
+}

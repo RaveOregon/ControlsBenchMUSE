@@ -1,0 +1,138 @@
+TAP version 13
+# Subtest: CDP source captures the configured page's rendered pixels and reports engineer input without key values
+ok 1 - CDP source captures the configured page's rendered pixels and reports engineer input without key values
+  ---
+  duration_ms: 2306.0188
+  type: 'test'
+  ...
+# Subtest: HMI hub over the CDP source: capture loss holds the last frame and goes stale
+ok 2 - HMI hub over the CDP source: capture loss holds the last frame and goes stale
+  ---
+  duration_ms: 2059.2422
+  type: 'test'
+  ...
+# Subtest: fresh means a recent good read; unchanged values are not stale
+ok 3 - fresh means a recent good read; unchanged values are not stale
+  ---
+  duration_ms: 335.6114
+  type: 'test'
+  ...
+# Subtest: a slower poll rate raises the stale threshold with it, so healthy slow polling is never shown stale
+ok 4 - a slower poll rate raises the stale threshold with it, so healthy slow polling is never shown stale
+  ---
+  duration_ms: 976.1653
+  type: 'test'
+  ...
+# Subtest: read failures turn the link stale with values held, then reconnect with a fresh session
+ok 5 - read failures turn the link stale with values held, then reconnect with a fresh session
+  ---
+  duration_ms: 341.9219
+  type: 'test'
+  ...
+# Subtest: reads are batched under the server's node limit; an oversized request is a configuration stop, not a reconnect loop
+ok 6 - reads are batched under the server's node limit; an oversized request is a configuration stop, not a reconnect loop
+  ---
+  duration_ms: 200.7878
+  type: 'test'
+  ...
+# Subtest: a rejected credential stops reconnection instead of hammering the PLC
+ok 7 - a rejected credential stops reconnection instead of hammering the PLC
+  ---
+  duration_ms: 171.2107
+  type: 'test'
+  ...
+# Subtest: a frozen PlcCycle is reported as not scanning; a boot change is reported once
+ok 8 - a frozen PlcCycle is reported as not scanning; a boot change is reported once
+  ---
+  duration_ms: 608.3838
+  type: 'test'
+  ...
+# (node:41304) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: HTTP: identity and state are served; cross-origin and non-fixture controls are refused; client TS is stripped
+ok 9 - HTTP: identity and state are served; cross-origin and non-fixture controls are refused; client TS is stripped
+  ---
+  duration_ms: 516.4976
+  type: 'test'
+  ...
+# Subtest: HTTP: fixture controls are refused in live mode
+ok 10 - HTTP: fixture controls are refused in live mode
+  ---
+  duration_ms: 13.1297
+  type: 'test'
+  ...
+# Subtest: live: Start → M9 campaign runs on the fake connector; the portal follows the authoritative projection and evidence
+ok 11 - live: Start → M9 campaign runs on the fake connector; the portal follows the authoritative projection and evidence
+  ---
+  duration_ms: 932.3714
+  type: 'test'
+  ...
+# Subtest: live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI frames, inputs and Muse capture are timestamped evidence
+ok 12 - live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI frames, inputs and Muse capture are timestamped evidence
+  ---
+  duration_ms: 770.8005
+  type: 'test'
+  ...
+# Subtest: live: a reconnecting client resumes after Last-Event-ID; replays of already-accepted events are deduplicated
+ok 13 - live: a reconnecting client resumes after Last-Event-ID; replays of already-accepted events are deduplicated
+  ---
+  duration_ms: 533.5928
+  type: 'test'
+  ...
+# Subtest: seam: an external factory module loads without host or portal changes, and must use the host ledger
+ok 14 - seam: an external factory module loads without host or portal changes, and must use the host ledger
+  ---
+  duration_ms: 68.2946
+  type: 'test'
+  ...
+# Subtest: Wonder scope uses the host's explicit categories and rejects legacy check/rate authorization
+ok 15 - Wonder scope uses the host's explicit categories and rejects legacy check/rate authorization
+  ---
+  duration_ms: 2.4171
+  type: 'test'
+  ...
+# Subtest: Owner entry verification covers a tracked entry outside src/scripts and rejects changed or untracked code
+ok 16 - Owner entry verification covers a tracked entry outside src/scripts and rejects changed or untracked code
+  ---
+  duration_ms: 1653.1721
+  type: 'test'
+  ...
+# Subtest: Production live HostedSession starts recorded review while physical evidence stays historical and current review activity stays live
+ok 17 - Production live HostedSession starts recorded review while physical evidence stays historical and current review activity stays live
+  ---
+  duration_ms: 9587.0538
+  type: 'test'
+  ...
+# Subtest: owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import
+ok 18 - owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import
+  ---
+  duration_ms: 2559.5397
+  type: 'test'
+  ...
+# Subtest: W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts
+ok 19 - W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts
+  ---
+  duration_ms: 11.7225
+  type: 'test'
+  ...
+# Subtest: W3/W4: checkpoint cannot spend without its flag and live factory refuses a missing owner handoff
+ok 20 - W3/W4: checkpoint cannot spend without its flag and live factory refuses a missing owner handoff
+  ---
+  duration_ms: 1165.7797
+  type: 'test'
+  ...
+# Subtest: W4: injected process contract uses host ledger/HMI and provider loop with originating revisions
+ok 21 - W4: injected process contract uses host ledger/HMI and provider loop with originating revisions
+  ---
+  duration_ms: 97.9172
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 26302.2421

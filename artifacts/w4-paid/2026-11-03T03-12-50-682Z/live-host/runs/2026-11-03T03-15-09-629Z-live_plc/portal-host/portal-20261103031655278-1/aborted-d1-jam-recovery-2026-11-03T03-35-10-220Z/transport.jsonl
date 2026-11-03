@@ -1,0 +1,2 @@
+{"kind":"connection.attempt","atIso":"2026-11-03T03:35:20.516Z","endpoint":"opc.tcp://127.0.0.1:4840","securityMode":"SignAndEncrypt","securityPolicy":"Basic256Sha256","usernameConfigured":true}
+{"kind":"connection.failed","atIso":"2026-11-03T03:35:20.962Z","message":" serviceResult = BadUserAccessDenied (0x801f0000)"}

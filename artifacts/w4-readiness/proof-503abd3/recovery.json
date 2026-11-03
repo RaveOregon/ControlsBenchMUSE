@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "scope": "offline-command-rejection-delta",
+  "sourceCommit": "dcb7867f1ef270166bbf365b1ad6a13f33ec1dac",
+  "sources": {
+    "src/live/wonder-process/engine.ts": "ab2d7c792f4a684bedd1c61f4f68f6fb993220743de4e79fe1bad61b5267b803",
+    "src/live/wonder-process/protocol.ts": "526f28ee89fe005c9634cf1e9e2fe471980cf607fe1c57e19c8a194c320ee465",
+    "src/live/wonder-process/driver.ts": "d435bda6966cde16fe554aaa93837f1f5869254c0abe531655a12c6353f3d150",
+    "src/live/m8-opcua.ts": "7000b413abe86f18d671df97a3be84872530630ec2ab9ce6e933c9d189518225",
+    "src/campaign/driver.ts": "2ccc91afb74763164ba0d9386327faadeebc59e175c833bff0c28b482ea37736",
+    "src/campaign/m8-bindings.ts": "e95ad439292e44005f368d8d22967a9db5289b02631bdac898c47b3a003335b1",
+    "src/campaign/contracts.ts": "7eb35c375813c2ccf70edad1bfac727a0f757c6cbc3a8dea6335f37c53c21166",
+    "src/campaign/runtime.ts": "9e1512db4ad7dae63e60d4da243ca440aad4074919328df36bd4e3b5faaab9b0",
+    "scripts/lib/w4-commissioning.ts": "ebe9d985a9046d796b5ae8b33584320ff49a36e846820beef58716c0c17a8eba",
+    "test/fixtures/m8-protocol-transport.ts": "02bb89761f50a7436d1c2518bf2e60b667a3b882b93829d8bc75c6e19e3f1fdb",
+    "test/fixtures/wonder-process-transport.ts": "d5f2051d87b2115ff8630ac5586c9547048e2f5c6fe92140ddf085fea2c6b8d9",
+    "test/m8-connector.test.ts": "2f2f81d53735ae8a69d29209ed0f01a5f4f1cddd33f3c53cc5015b16b86a527d",
+    "test/wonder-process.test.ts": "38cd4af344e8131b082e4d21f2bc4d9892d4de97fc965575ca52c9cbec61d545",
+    "scripts/check-w4-command-rejection.js": "4cdfb34d517c9e3eb4dbf3fd14d2970848c74bd11249ecb3b7a71eb423f22ba3"
+  },
+  "qualifiedPhysicalDelta": [
+    "src/live/wonder-process/engine.ts",
+    "src/live/wonder-process/protocol.ts",
+    "src/live/wonder-process/driver.ts",
+    "src/live/m8-opcua.ts",
+    "src/campaign/driver.ts",
+    "src/campaign/m8-bindings.ts"
+  ],
+  "baseQualification": {
+    "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-cadence\\2026-11-03T03-47-18-212Z\\result.json",
+    "sha256": "c89d89d5d0183511fb51709183e91bd0eb34010486d737b19742d807bbfd5b9d",
+    "implementationCommit": "dcb7867f1ef270166bbf365b1ad6a13f33ec1dac",
+    "passed": true
+  },
+  "fullSuiteCoverage": {
+    "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-command-rejection\\2026-11-03T13-04-25-355Z\\result.json",
+    "sha256": "40044e3a73e2180e8de07b9cd17fda52184f2d41f17e0489e2631c5732c8d22a",
+    "tests": 229,
+    "passed": 219,
+    "environmentFailures": 10,
+    "rerunFiles": [
+      "test/cdp-webvisu.test.ts",
+      "test/hmi-freshness.test.ts",
+      "test/portal-host.test.ts",
+      "test/product-integration.test.ts",
+      "test/wonder-factory.test.ts"
+    ],
+    "claimBoundary": "Only network-disabled loopback tests and sandbox-denied temporary git init failed; all unchanged source hashes verified. Rerun those five files with loopback and temporary git access, retaining original results."
+  },
+  "startedAtIso": "2026-11-03T13:09:43.940Z",
+  "realModelCalls": 0,
+  "livePlcExecuted": false,
+  "results": [
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "environment-blocked-tests-rerun",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "historical-paid-wrapper-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 20,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePin": {
+    "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+    "verifiedUnchangedHashes": 639
+  },
+  "accountSha256": "8acaa1ec16762b57edcd06c5c44c55db05eb2363e5ff492098a4d77f3316a549",
+  "finishedAtIso": "2026-11-03T13:10:25.524Z"
+}

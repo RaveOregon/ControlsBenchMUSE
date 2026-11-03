@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "scope": "offline-cadence-delta",
+  "sourceCommit": "758eca5e56119bc3ef7bd9109c26354c03a55c6e",
+  "sources": {
+    "src/live/wonder-process/engine.ts": "9b33ce95d3511dc3a579f0aa6253fd7f83d41199796337049f40346013ed34bb",
+    "test/wonder-process.test.ts": "1799b5dc9b513716bf76dae1039f28bdf895a46ca4206cf227cc5f962cc11e48",
+    "scripts/check-w4-cadence.js": "80454a4835a8360db1fe67d1c99bf2e588851f19f10268ce27e83cb951e3ed70"
+  },
+  "qualifiedPhysicalDelta": [
+    "src/live/wonder-process/engine.ts"
+  ],
+  "baseQualification": {
+    "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-context-admission\\2026-11-03T03-26-25-068Z\\result.json",
+    "sha256": "974d4cc5ff7419b0f19a534140d469971f4121cfebef404eaae130031c8cc29b",
+    "implementationCommit": "c37a7fbab1a73b36123f9ba6a0c4f1a044678413",
+    "fullSuiteTests": 215,
+    "parentAffectedTests": 92,
+    "passed": true,
+    "claimBoundary": "Prior complete model/provider qualification; this delta removes idle scheduler time only"
+  },
+  "startedAtIso": "2026-11-03T03:47:18.328Z",
+  "realModelCalls": 0,
+  "livePlcExecuted": false,
+  "results": [
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "affected-campaign-provider-process-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 93,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "historical-paid-wrapper-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 18,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePin": {
+    "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+    "verifiedUnchangedHashes": 639
+  },
+  "accountSha256": "e40ac5274cbacf823eca1aff97dc20c2b2dd09f4eb925151f95575082ea683bf",
+  "finishedAtIso": "2026-11-03T03:49:43.968Z"
+}

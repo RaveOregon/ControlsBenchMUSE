@@ -1,0 +1,66 @@
+﻿{
+    "link":  {
+                 "state":  "reconnecting",
+                 "detail":  "Cannot open PLC session: Fail to connect to server at opc.tcp://127.0.0.1:4840 to collect server\u0027s certificate (in findEndpoint) \n (err =premature disconnection 4). Retrying with backoff.",
+                 "endpoint":  "opc.tcp://127.0.0.1:4840",
+                 "securityMode":  "SignAndEncrypt",
+                 "securityPolicy":  "Basic256Sha256",
+                 "userConfigured":  true,
+                 "pollIntervalMs":  250,
+                 "staleAfterMs":  1500,
+                 "totalPolls":  2545,
+                 "failedPolls":  3,
+                 "consecutiveFailures":  3,
+                 "reconnects":  0,
+                 "plcScanning":  true,
+                 "sessionOpenedAtIso":  "2026-11-03T03:39:10.674Z",
+                 "lastError":  "Fail to connect to server at opc.tcp://127.0.0.1:4840 to collect server\u0027s certificate (in findEndpoint) \n (err =premature disconnection 4)",
+                 "lastPollOkAtIso":  "2026-11-03T03:52:07.845Z",
+                 "lastPollLatencyMs":  7,
+                 "p95PollLatencyMs":  11,
+                 "bootIdentity":  "1710853217416"
+             },
+    "baseline":  {
+                     "fault":  {
+                                   "value":  null,
+                                   "status":  "BadNodeIdUnknown (0x80340000)",
+                                   "good":  false,
+                                   "sourceTimestamp":  "",
+                                   "serverTimestamp":  "2026-11-03T03:52:07.842Z",
+                                   "receivedAtIso":  "2026-11-03T03:52:07.845Z"
+                               },
+                     "pending":  {
+                                     "value":  null,
+                                     "status":  "BadNodeIdUnknown (0x80340000)",
+                                     "good":  false,
+                                     "sourceTimestamp":  "",
+                                     "serverTimestamp":  "2026-11-03T03:52:07.842Z",
+                                     "receivedAtIso":  "2026-11-03T03:52:07.845Z"
+                                 },
+                     "motor":  {
+                                   "value":  null,
+                                   "status":  "BadNodeIdUnknown (0x80340000)",
+                                   "good":  false,
+                                   "sourceTimestamp":  "",
+                                   "serverTimestamp":  "2026-11-03T03:52:07.842Z",
+                                   "receivedAtIso":  "2026-11-03T03:52:07.845Z"
+                               },
+                     "item":  {
+                                  "value":  null,
+                                  "status":  "BadNodeIdUnknown (0x80340000)",
+                                  "good":  false,
+                                  "sourceTimestamp":  "",
+                                  "serverTimestamp":  "2026-11-03T03:52:07.842Z",
+                                  "receivedAtIso":  "2026-11-03T03:52:07.845Z"
+                              },
+                     "mode":  {
+                                  "value":  null,
+                                  "status":  "BadNodeIdUnknown (0x80340000)",
+                                  "good":  false,
+                                  "sourceTimestamp":  "",
+                                  "serverTimestamp":  "2026-11-03T03:52:07.842Z",
+                                  "receivedAtIso":  "2026-11-03T03:52:07.845Z"
+                              }
+                 },
+    "observedAtIso":  "2026-11-03T03:55:55.2842899+00:00"
+}

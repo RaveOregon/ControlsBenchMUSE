@@ -1,0 +1,18 @@
+﻿
+
+PSMessageDetails      : 
+Exception             : System.Management.Automation.RuntimeException: Live observer must be connected before recovery 
+                        inspection.
+TargetObject          : Live observer must be connected before recovery inspection.
+CategoryInfo          : OperationStopped: (Live observer m...ery inspection.:String) [], RuntimeException
+FullyQualifiedErrorId : Live observer must be connected before recovery inspection.
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-live-readiness\scrip
+                        ts\w4-paid\launch-resume.ps1: line 54
+                        at <ScriptBlock>, <No file>: line 2
+PipelineIterationInfo : {}
+
+
+
+

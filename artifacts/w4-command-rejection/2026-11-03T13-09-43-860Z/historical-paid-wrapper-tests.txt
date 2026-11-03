@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: active contradiction recovery resolves the legacy Reset only from its preserved exact write and rejected ack
+ok 1 - active contradiction recovery resolves the legacy Reset only from its preserved exact write and rejected ack
+  ---
+  duration_ms: 153.9103
+  type: 'test'
+  ...
+# Subtest: startup hold permits only the actual fault-11 response to the recorded zero running-feedback image
+ok 2 - startup hold permits only the actual fault-11 response to the recorded zero running-feedback image
+  ---
+  duration_ms: 3.9682
+  type: 'test'
+  ...
+# Subtest: D1 jam abort cleanup verifies the exact stopped carton, aborted completion and unchanged identity/image/counters
+ok 3 - D1 jam abort cleanup verifies the exact stopped carton, aborted completion and unchanged identity/image/counters
+  ---
+  duration_ms: 4.4568
+  type: 'test'
+  ...
+# Subtest: completed unassigned runout cleanup requires exact saved completion, matching image, identity, counters and no uncertainty
+ok 4 - completed unassigned runout cleanup requires exact saved completion, matching image, identity, counters and no uncertainty
+  ---
+  duration_ms: 4.5758
+  type: 'test'
+  ...
+# Subtest: cleared D1 contradiction cleanup refuses any changed identity, image, fault, counter, uncleared injection or uncertainty
+ok 5 - cleared D1 contradiction cleanup refuses any changed identity, image, fault, counter, uncleared injection or uncertainty
+  ---
+  duration_ms: 4.4267
+  type: 'test'
+  ...
+# Subtest: feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters
+ok 6 - feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters
+  ---
+  duration_ms: 5.315
+  type: 'test'
+  ...
+# Subtest: completed-sort classification requires exact original identity, image, counters and completion with no uncertainty
+ok 7 - completed-sort classification requires exact original identity, image, counters and completion with no uncertainty
+  ---
+  duration_ms: 4.4213
+  type: 'test'
+  ...
+# Subtest: completed-sort recovery executes through the real connector and write gate against explicitly fake transport
+ok 8 - completed-sort recovery executes through the real connector and write gate against explicitly fake transport
+  ---
+  duration_ms: 834.9705
+  type: 'test'
+  ...
+# Subtest: feedback-loss cleanup uses Stop, fresh image and Reset through the real connector with fake transport
+ok 9 - feedback-loss cleanup uses Stop, fresh image and Reset through the real connector with fake transport
+  ---
+  duration_ms: 732.9392
+  type: 'test'
+  ...
+# Subtest: expanded envelope requires the exact new revision and cannot silently raise old approval
+ok 10 - expanded envelope requires the exact new revision and cannot silently raise old approval
+  ---
+  duration_ms: 5.0237
+  type: 'test'
+  ...
+# Subtest: expanded runtime preserves seven prior charges and stops after four new reservations without a fifth
+ok 11 - expanded runtime preserves seven prior charges and stops after four new reservations without a fifth
+  ---
+  duration_ms: 107.9725
+  type: 'test'
+  ...
+# Subtest: unchanged provider serializes 8000 output tokens at high reasoning and still performs dollar admission before generation
+ok 12 - unchanged provider serializes 8000 output tokens at high reasoning and still performs dollar admission before generation
+  ---
+  duration_ms: 24.3612
+  type: 'test'
+  ...
+# Subtest: delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven
+ok 13 - delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven
+  ---
+  duration_ms: 42.5695
+  type: 'test'
+  ...
+# Subtest: paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete
+ok 14 - paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete
+  ---
+  duration_ms: 82.5165
+  type: 'test'
+  ...
+# Subtest: approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting
+ok 15 - approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting
+  ---
+  duration_ms: 14.1904
+  type: 'test'
+  ...
+# Subtest: four simulated paid reservations stop before any fifth charge; no network or PLC
+ok 16 - four simulated paid reservations stop before any fifth charge; no network or PLC
+  ---
+  duration_ms: 69.7857
+  type: 'test'
+  ...
+# Subtest: remaining approval refuses a reset and permits exactly three new reservations after the saved five
+ok 17 - remaining approval refuses a reset and permits exactly three new reservations after the saved five
+  ---
+  duration_ms: 37.5454
+  type: 'test'
+  ...
+# Subtest: trial cannot silently enable retry on the old live-qualified runtime pin
+ok 18 - trial cannot silently enable retry on the old live-qualified runtime pin
+  ---
+  duration_ms: 1.8972
+  type: 'test'
+  ...
+# Subtest: actual native live commissioning cannot masquerade as a paid campaign export
+ok 19 - actual native live commissioning cannot masquerade as a paid campaign export
+  ---
+  duration_ms: 7655.48
+  type: 'test'
+  ...
+# Subtest: real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite
+ok 20 - real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite
+  ---
+  duration_ms: 2600.9163
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13434.8457

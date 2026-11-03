@@ -1,0 +1,68 @@
+﻿{
+    "link":  {
+                 "state":  "connected",
+                 "detail":  "Polling",
+                 "endpoint":  "opc.tcp://127.0.0.1:4840",
+                 "securityMode":  "SignAndEncrypt",
+                 "securityPolicy":  "Basic256Sha256",
+                 "userConfigured":  true,
+                 "pollIntervalMs":  250,
+                 "staleAfterMs":  1500,
+                 "totalPolls":  26758,
+                 "failedPolls":  4,
+                 "consecutiveFailures":  0,
+                 "reconnects":  1,
+                 "plcScanning":  true,
+                 "sessionOpenedAtIso":  "2026-11-03T13:05:44.601Z",
+                 "lastError":  "PLC operation exceeded 5000 ms",
+                 "lastPollOkAtIso":  "2026-11-03T13:11:49.275Z",
+                 "lastPollLatencyMs":  8,
+                 "p95PollLatencyMs":  9,
+                 "bootIdentity":  "1751589051509",
+                 "previousBootIdentity":  "1718761487032",
+                 "bootChangedAtIso":  "2026-11-03T13:05:44.606Z"
+             },
+    "baseline":  {
+                     "fault":  {
+                                   "value":  0,
+                                   "status":  "Good (0x00000000)",
+                                   "good":  true,
+                                   "sourceTimestamp":  "2026-11-03T13:11:49.271Z",
+                                   "serverTimestamp":  "2026-11-03T13:11:49.271Z",
+                                   "receivedAtIso":  "2026-11-03T13:11:49.274Z"
+                               },
+                     "pending":  {
+                                     "value":  false,
+                                     "status":  "Good (0x00000000)",
+                                     "good":  true,
+                                     "sourceTimestamp":  "2026-11-03T13:11:49.271Z",
+                                     "serverTimestamp":  "2026-11-03T13:11:49.271Z",
+                                     "receivedAtIso":  "2026-11-03T13:11:49.274Z"
+                                 },
+                     "motor":  {
+                                   "value":  false,
+                                   "status":  "Good (0x00000000)",
+                                   "good":  true,
+                                   "sourceTimestamp":  "2026-11-03T13:11:49.271Z",
+                                   "serverTimestamp":  "2026-11-03T13:11:49.271Z",
+                                   "receivedAtIso":  "2026-11-03T13:11:49.274Z"
+                               },
+                     "item":  {
+                                  "value":  false,
+                                  "status":  "Good (0x00000000)",
+                                  "good":  true,
+                                  "sourceTimestamp":  "2026-11-03T13:11:49.271Z",
+                                  "serverTimestamp":  "2026-11-03T13:11:49.271Z",
+                                  "receivedAtIso":  "2026-11-03T13:11:49.274Z"
+                              },
+                     "mode":  {
+                                  "value":  "Stopped",
+                                  "status":  "Good (0x00000000)",
+                                  "good":  true,
+                                  "sourceTimestamp":  "2026-11-03T13:11:49.271Z",
+                                  "serverTimestamp":  "2026-11-03T13:11:49.271Z",
+                                  "receivedAtIso":  "2026-11-03T13:11:49.274Z"
+                              }
+                 },
+    "observedAtIso":  "2026-11-03T13:11:49.4172717+00:00"
+}

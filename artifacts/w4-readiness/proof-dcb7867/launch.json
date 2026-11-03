@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "dcb7867f1ef270166bbf365b1ad6a13f33ec1dac",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-cadence-runtime-pin",
+  "manifest": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-dcb7867\\manifest.json",
+  "manifestSha256": "de6632a552a5e8945cd2510e27fe279e3cdafbe2c86e26e7af08e6ebb22da99b",
+  "proof": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-dcb7867\\promotion-proof.json",
+  "proofSha256": "a6c93085b3bc4a1899e74b6e9af1cbfb7f811b9a86b3f1e0562297edaca2072c"
+}

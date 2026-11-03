@@ -1,0 +1,9 @@
+﻿{
+    "hostPid":  21872,
+    "sourceCommit":  "dcb7867f1ef270166bbf365b1ad6a13f33ec1dac",
+    "phase":  "bench-pass-ready-for-paid-start",
+    "modelCalls":  0,
+    "packetSha256":  "e31750ec132173b06389b513954957131ed5095506dd259060ca6b97ae2554be",
+    "benchDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T04-08-28-478Z\\bench-check\\2026-11-03T04-09-10-566Z",
+    "updatedAtIso":  "2026-11-03T04:10:00.5637255+00:00"
+}

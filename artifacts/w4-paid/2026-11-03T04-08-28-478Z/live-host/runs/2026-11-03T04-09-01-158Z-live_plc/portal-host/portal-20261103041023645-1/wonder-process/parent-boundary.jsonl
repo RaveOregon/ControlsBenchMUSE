@@ -1,0 +1,34 @@
+{"atIso":"2026-11-03T04:10:28.505Z","atMonotonicMs":87743.099,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":45100,"nonce":"2446c33625cb74e2","node":"v24.15.0","timeOriginEpochMs":1793679028294.196},"priority":-7}
+{"atIso":"2026-11-03T04:10:28.507Z","atMonotonicMs":87745.0322,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-03T04:10:28.533Z","atMonotonicMs":87770.8007,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":26}
+{"atIso":"2026-11-03T04:10:28.557Z","atMonotonicMs":87795.0183,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-03T04:10:33.717Z","atMonotonicMs":92954.781,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":5160}
+{"atIso":"2026-11-03T04:10:33.721Z","atMonotonicMs":92958.4927,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-03T04:10:33.730Z","atMonotonicMs":92968.2934,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"portal-20261103041023645-1:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T04:10:33.731Z","atMonotonicMs":92969.225,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":11}
+{"atIso":"2026-11-03T04:10:33.732Z","atMonotonicMs":92970.1544,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":2}
+{"atIso":"2026-11-03T04:10:49.985Z","atMonotonicMs":109223.1066,"kind":"request","id":5,"op":"leaseFinish","leaseId":"portal-20261103041023645-1:lease:1"}
+{"atIso":"2026-11-03T04:10:49.987Z","atMonotonicMs":109224.7259,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":628,"elapsedMs":2}
+{"atIso":"2026-11-03T04:10:50.030Z","atMonotonicMs":109267.9777,"kind":"request","id":6,"op":"leaseBegin","campaignRevision":8,"leaseId":"portal-20261103041023645-1:lease:2","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T04:10:50.036Z","atMonotonicMs":109274.4791,"kind":"reply","id":6,"op":"leaseBegin","ok":true,"boundaryRevision":5,"throughSeq":629,"elapsedMs":7}
+{"atIso":"2026-11-03T04:10:57.765Z","atMonotonicMs":117002.7994,"kind":"request","id":7,"op":"leaseFinish","leaseId":"portal-20261103041023645-1:lease:2"}
+{"atIso":"2026-11-03T04:10:57.767Z","atMonotonicMs":117005.3093,"kind":"reply","id":7,"op":"leaseFinish","ok":true,"boundaryRevision":6,"throughSeq":918,"elapsedMs":2}
+{"atIso":"2026-11-03T04:10:57.787Z","atMonotonicMs":117025.0448,"kind":"request","id":8,"op":"apply","actionId":"act-inject-d1contra-01","name":"inject_fault","campaignRevision":8,"boundaryRevision":6,"controlId":"fault.setContradictoryLimits"}
+{"atIso":"2026-11-03T04:10:57.995Z","atMonotonicMs":117233.3835,"kind":"reply","id":8,"op":"apply","ok":true,"boundaryRevision":7,"throughSeq":935,"elapsedMs":208}
+{"atIso":"2026-11-03T04:11:02.021Z","atMonotonicMs":121264.1022,"kind":"request","id":9,"op":"leaseBegin","campaignRevision":10,"leaseId":"portal-20261103041023645-1:lease:3","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T04:11:02.023Z","atMonotonicMs":121266.7849,"kind":"reply","id":9,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":1158,"elapsedMs":3}
+{"atIso":"2026-11-03T04:11:09.659Z","atMonotonicMs":128902.1478,"kind":"request","id":10,"op":"leaseFinish","leaseId":"portal-20261103041023645-1:lease:3"}
+{"atIso":"2026-11-03T04:11:09.675Z","atMonotonicMs":128918.6888,"kind":"reply","id":10,"op":"leaseFinish","ok":true,"boundaryRevision":9,"throughSeq":1444,"elapsedMs":17}
+{"atIso":"2026-11-03T04:11:09.689Z","atMonotonicMs":128932.1763,"kind":"request","id":11,"op":"controller","actionId":"act-reset-while-faulted-01","name":"operator_action","action":"reset","campaignRevision":10,"boundaryRevision":9}
+{"atIso":"2026-11-03T04:11:09.792Z","atMonotonicMs":129035.5286,"kind":"request","id":12,"op":"cancel","actionId":"act-reset-while-faulted-01"}
+{"atIso":"2026-11-03T04:11:09.793Z","atMonotonicMs":129036.8471,"kind":"request","id":13,"op":"hold","stopClock":false}
+{"atIso":"2026-11-03T04:11:09.799Z","atMonotonicMs":129042.048,"kind":"request","id":14,"op":"hold","stopClock":true}
+{"atIso":"2026-11-03T04:11:09.801Z","atMonotonicMs":129044.0027,"kind":"reply","id":11,"op":"controller","ok":false,"outcome":"inconclusive","message":"Controller reset failed: reset acknowledged but rejected by PLC; connector quarantined, no retry","boundaryRevision":10,"throughSeq":1452,"elapsedMs":112}
+{"atIso":"2026-11-03T04:11:09.802Z","atMonotonicMs":129045.2854,"kind":"reply","id":12,"op":"cancel","ok":true,"boundaryRevision":10,"throughSeq":1452,"elapsedMs":10}
+{"atIso":"2026-11-03T04:11:09.803Z","atMonotonicMs":129046.1109,"kind":"cancel.result","actionId":"act-reset-while-faulted-01","state":"controller_failed"}
+{"atIso":"2026-11-03T04:11:09.804Z","atMonotonicMs":129047.2579,"kind":"reply","id":13,"op":"hold","ok":true,"boundaryRevision":10,"throughSeq":1452,"elapsedMs":10}
+{"atIso":"2026-11-03T04:11:09.806Z","atMonotonicMs":129049.319,"kind":"reply","id":14,"op":"hold","ok":true,"boundaryRevision":10,"throughSeq":1452,"elapsedMs":7}
+{"atIso":"2026-11-03T04:11:09.812Z","atMonotonicMs":129055.6587,"kind":"request","id":15,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-03T04:11:09.831Z","atMonotonicMs":129074.626,"kind":"reply","id":15,"op":"close","ok":true,"boundaryRevision":10,"throughSeq":1454,"elapsedMs":19}
+{"atIso":"2026-11-03T04:11:09.877Z","atMonotonicMs":129120.8821,"kind":"child.exit","code":0,"signal":null,"lastSeq":1454}
+{"atIso":"2026-11-03T04:11:09.879Z","atMonotonicMs":129122.1532,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock","boundaryRevision":10,"lastSeq":1454},"exit":{"code":0,"signal":null},"killed":false}

@@ -1,0 +1,277 @@
+{
+  "schema": "controlsbench.w4-held-state.v1",
+  "runDirectory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T13-11-03-480Z\\live-host\\runs\\2026-11-03T13-12-52-676Z-live_plc\\portal-host\\portal-20261103131442735-1",
+  "campaignId": "portal-20261103131442735-1",
+  "stoppedAtIso": "2026-11-03T13:18:51.421Z",
+  "reason": "Bounded Wonder campaign ended; retained input image needs current-state inspection before another run",
+  "identities": {
+    "module": {
+      "commit": "503abd3b895cb2fc03853a9ec2d75166544e2a59"
+    },
+    "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628"
+  },
+  "plc": {
+    "bootIdentity": "1751589051509",
+    "appliedEpoch": "207373652456055",
+    "appliedSequence": "1914",
+    "plcCycle": "37848",
+    "plcTimeUs": "1752358130177",
+    "simulationApplied": true,
+    "connectorStale": false
+  },
+  "appliedImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 1283
+  },
+  "appliedImageSha256": "0ec1f938d1a876ff3430426a5af0fef73ae433645bbffefa4fc20e11595a1330",
+  "lastAcknowledgedCommit": {
+    "epoch": "207373652456055",
+    "sequence": "1914",
+    "slot": 1,
+    "acknowledgedAtIso": "2026-11-03T13:18:25.831Z",
+    "image": {
+      "PE_Entry": false,
+      "PE_D1Approach": false,
+      "PE_D2Approach": false,
+      "PE_ExitA": false,
+      "PE_ExitB": false,
+      "PE_Runout": false,
+      "D1_HomeFB": true,
+      "D1_ExtendedFB": false,
+      "D2_HomeFB": true,
+      "D2_ExtendedFB": false,
+      "Drive_RunningFB": false,
+      "Drive_Overload": false,
+      "ExitA_Ready": true,
+      "ExitB_Ready": true,
+      "Runout_Ready": true,
+      "Belt_SpeedActual": 0,
+      "Drive_Current": 0,
+      "D1_Position": 0,
+      "D2_Position": 0,
+      "Encoder_Count": 1283
+    }
+  },
+  "inFlightCommit": null,
+  "inFlightCommands": [],
+  "outstandingWrites": {
+    "atClose": [],
+    "atQuarantine": [],
+    "settledAfterQuarantine": [],
+    "childClosed": true
+  },
+  "lastObservation": {
+    "observedAtIso": "2026-11-03T13:18:25.830Z",
+    "plcCycle": "37848",
+    "values": {
+      "Motor_RunCmd": false,
+      "D1_ExtendCmd": false,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": false,
+      "StackLight_Green": false,
+      "controller.Mode": 0,
+      "controller.ModeText": "Stopped",
+      "controller.FaultCode": 0,
+      "controller.FaultText": "",
+      "controller.ExceptionCode": 0,
+      "controller.ExceptionText": "",
+      "controller.ReleaseReady": false,
+      "controller.ItemActive": false,
+      "controller.ActiveItemId": 0,
+      "controller.RequestedRoute": 0,
+      "controller.EffectiveRoute": 0,
+      "controller.ActualExit": 3,
+      "controller.Disposition": 2,
+      "controller.OfferAckSequence": 2,
+      "controller.OfferAckItemId": 501,
+      "controller.OfferAccepted": true,
+      "controller.OfferReason": 0,
+      "controller.OfferPending": false,
+      "controller.CompletionSequence": 2,
+      "controller.CompletionPending": false,
+      "controller.CompletionItemId": 0,
+      "controller.CompletionRoute": 0,
+      "controller.CompletionExit": 3,
+      "controller.CompletionDisposition": 2,
+      "controller.CountExitA": 1,
+      "controller.CountExitB": 0,
+      "controller.CountRunout": 1,
+      "controller.CountMisroute": 0,
+      "controller.CountFaulted": 0,
+      "controller.StartAck": 3,
+      "controller.StopAck": 0,
+      "controller.ResetAck": 4,
+      "controller.StartAccepted": true,
+      "controller.ResetAccepted": true,
+      "controller.EncoderDelta": 0
+    },
+    "activeImage": {
+      "PE_Entry": false,
+      "PE_D1Approach": false,
+      "PE_D2Approach": false,
+      "PE_ExitA": false,
+      "PE_ExitB": false,
+      "PE_Runout": false,
+      "D1_HomeFB": true,
+      "D1_ExtendedFB": false,
+      "D2_HomeFB": true,
+      "D2_ExtendedFB": false,
+      "Drive_RunningFB": false,
+      "Drive_Overload": false,
+      "ExitA_Ready": true,
+      "ExitB_Ready": true,
+      "Runout_Ready": true,
+      "Belt_SpeedActual": 0,
+      "Drive_Current": 0,
+      "D1_Position": 0,
+      "D2_Position": 0,
+      "Encoder_Count": 1283
+    }
+  },
+  "controller": {
+    "Motor_RunCmd": false,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": false,
+    "StackLight_Green": false,
+    "controller.Mode": 0,
+    "controller.ModeText": "Stopped",
+    "controller.FaultCode": 0,
+    "controller.FaultText": "",
+    "controller.ExceptionCode": 0,
+    "controller.ExceptionText": "",
+    "controller.ReleaseReady": false,
+    "controller.ItemActive": false,
+    "controller.ActiveItemId": 0,
+    "controller.RequestedRoute": 0,
+    "controller.EffectiveRoute": 0,
+    "controller.ActualExit": 3,
+    "controller.Disposition": 2,
+    "controller.OfferAckSequence": 2,
+    "controller.OfferAckItemId": 501,
+    "controller.OfferAccepted": true,
+    "controller.OfferReason": 0,
+    "controller.OfferPending": false,
+    "controller.CompletionSequence": 2,
+    "controller.CompletionPending": false,
+    "controller.CompletionItemId": 0,
+    "controller.CompletionRoute": 0,
+    "controller.CompletionExit": 3,
+    "controller.CompletionDisposition": 2,
+    "controller.CountExitA": 1,
+    "controller.CountExitB": 0,
+    "controller.CountRunout": 1,
+    "controller.CountMisroute": 0,
+    "controller.CountFaulted": 0,
+    "controller.StartAck": 3,
+    "controller.StopAck": 0,
+    "controller.ResetAck": 4,
+    "controller.StartAccepted": true,
+    "controller.ResetAccepted": true,
+    "controller.EncoderDelta": 0
+  },
+  "world": {
+    "cartons": [
+      {
+        "id": "carton-1",
+        "itemId": "501",
+        "requestedRoute": "A",
+        "positionM": 0.16398946259364533,
+        "velocityMps": 0,
+        "lengthM": 0.3,
+        "path": "main",
+        "passedD1": false,
+        "passedD2": false,
+        "jammed": false
+      }
+    ],
+    "injectedFaults": [
+      {
+        "actionId": "call-inject-drivefb-01",
+        "controlId": "fault.setDriveFeedbackFailure",
+        "parameters": {
+          "active": true
+        }
+      },
+      {
+        "actionId": "call-inject-contra-d1b",
+        "controlId": "fault.setContradictoryLimits",
+        "parameters": {
+          "divert": 1,
+          "active": true
+        }
+      }
+    ],
+    "clearedFaults": [
+      {
+        "actionId": "call-clear-drivefb-01",
+        "controlId": "fault.setDriveFeedbackFailure"
+      },
+      {
+        "actionId": "call-clear-contra-d1",
+        "controlId": "fault.setContradictoryLimits"
+      }
+    ]
+  },
+  "ownership": {
+    "path": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+    "acquired": {
+      "owner": "wonder-process-v1",
+      "campaignId": "portal-20261103131442735-1",
+      "childPid": 52888,
+      "parentPid": 58600,
+      "nonce": "9eea397f4ffafcb9",
+      "acquiredAtIso": "2026-11-03T13:14:47.262Z"
+    },
+    "closeResult": "released",
+    "lockPresent": false,
+    "lockMatchesRun": false,
+    "lockSha256": null
+  },
+  "child": {
+    "pid": 52888,
+    "nonce": "9eea397f4ffafcb9",
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "parentLost": false
+  },
+  "ledger": {
+    "lastAcknowledged": {
+      "epoch": "207373652456055",
+      "sequence": "1914",
+      "bootIdentity": "1751589051509"
+    },
+    "agreesWithChild": true
+  },
+  "postStopInspection": null,
+  "evidence": {
+    "campaign.jsonl": "bea3a3a68987bcd3003a424f121123aea5637a4fa1b27968930c0439738bd25f",
+    "wonder-process/child-stream.jsonl": "7d86bc517e73c8601841fdf5945d52079d3ca4cf6f4c44038d6dca4ebaef12da",
+    "wonder-process/child-transport.jsonl": "4c930e87c28af5bee70b6dc7de77e603b35af2b3131ace7e63b5eb96efcad29a",
+    "wonder-process/child-lifecycle.jsonl": "30f3dc0fd43843a25847079f117a0d86f39cd6203c75b7be30a0027a43ac3d6d",
+    "wonder-process/parent-boundary.jsonl": "ccf4c2a95ffd09d2623716a81ba974b9c98244bf99ba63aa3f9b67cad1dcd4a6",
+    "owner-entry.json": "f5efb516535868e6017f5dc3c4ca3833ed708435878421d82e2473eb353d1382",
+    "w4-approval.json": "a7f1e9d16a075c2b58e457f72d2b2aa3ed4e24fe97eeab38c2feb756c9379114"
+  }
+}
