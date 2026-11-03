@@ -1,0 +1,1248 @@
+TAP version 13
+# Subtest: budget guard reserves, settles, and rejects campaign overspend
+ok 1 - budget guard reserves, settles, and rejects campaign overspend
+  ---
+  duration_ms: 2.3037
+  type: 'test'
+  ...
+# Subtest: budget guard distinguishes timeout, repair warning/stop, heartbeat, and held wait
+ok 2 - budget guard distinguishes timeout, repair warning/stop, heartbeat, and held wait
+  ---
+  duration_ms: 1.6126
+  type: 'test'
+  ...
+# Subtest: M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action
+ok 3 - M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action
+  ---
+  duration_ms: 227.241
+  type: 'test'
+  ...
+# Subtest: M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it
+ok 4 - M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it
+  ---
+  duration_ms: 79.2052
+  type: 'test'
+  ...
+# Subtest: agent is asynchronous: pending model decision never clocks raw I/O
+ok 5 - agent is asynchronous: pending model decision never clocks raw I/O
+  ---
+  duration_ms: 41.9715
+  type: 'test'
+  ...
+# Subtest: automatic 10 Hz schedule remains independent of model latency
+ok 6 - automatic 10 Hz schedule remains independent of model latency
+  ---
+  duration_ms: 34.3944
+  type: 'test'
+  ...
+# Subtest: elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap
+ok 7 - elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap
+  ---
+  duration_ms: 18.6614
+  type: 'test'
+  ...
+# Subtest: M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate
+ok 8 - M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate
+  ---
+  duration_ms: 39.8002
+  type: 'test'
+  ...
+# Subtest: stale connector rejects new application, cancels waits, holds last confirmed image
+ok 9 - stale connector rejects new application, cancels waits, holds last confirmed image
+  ---
+  duration_ms: 28.2473
+  type: 'test'
+  ...
+# Subtest: hung connector is bounded, quarantined and never retried
+ok 10 - hung connector is bounded, quarantined and never retried
+  ---
+  duration_ms: 22.6932
+  type: 'test'
+  ...
+# Subtest: model timeout settles reservation once, stops reasoning, and preserves world
+ok 11 - model timeout settles reservation once, stops reasoning, and preserves world
+  ---
+  duration_ms: 20.0477
+  type: 'test'
+  ...
+# Subtest: hard budget at $5 prevents a sixth call, warns at $3, holds state
+ok 12 - hard budget at $5 prevents a sixth call, warns at $3, holds state
+  ---
+  duration_ms: 29.6674
+  type: 'test'
+  ...
+# Subtest: budget admission checks per request, check, repair, session; charged overrun is visible
+ok 13 - budget admission checks per request, check, repair, session; charged overrun is visible
+  ---
+  duration_ms: 1.5502
+  type: 'test'
+  ...
+# Subtest: Stop during a hung request settles costs and finalizes without hanging or applying late output
+ok 14 - Stop during a hung request settles costs and finalizes without hanging or applying late output
+  ---
+  duration_ms: 22.1492
+  type: 'test'
+  ...
+# Subtest: Stop drains bounded initialization before finalizing and never starts the campaign afterward
+ok 15 - Stop drains bounded initialization before finalizing and never starts the campaign afterward
+  ---
+  duration_ms: 21.2981
+  type: 'test'
+  ...
+# Subtest: every bounded tool validates its envelope; unsupported capabilities are explicit
+ok 16 - every bounded tool validates its envelope; unsupported capabilities are explicit
+  ---
+  duration_ms: 31.6977
+  type: 'test'
+  ...
+# Subtest: requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing
+ok 17 - requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing
+  ---
+  duration_ms: 7.8733
+  type: 'test'
+  ...
+# Subtest: every event schema rejects missing fields and unknown event data
+ok 18 - every event schema rejects missing fields and unknown event data
+  ---
+  duration_ms: 9.2926
+  type: 'test'
+  ...
+# Subtest: append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated
+ok 19 - append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated
+  ---
+  duration_ms: 533.221
+  type: 'test'
+  ...
+# Subtest: blind context excludes injector truth, source controls, raw-effect causes, and prior author history
+ok 20 - blind context excludes injector truth, source controls, raw-effect causes, and prior author history
+  ---
+  duration_ms: 24.9172
+  type: 'test'
+  ...
+# Subtest: finding evidence is exact PLC observation, never simulator truth or invented IDs
+ok 21 - finding evidence is exact PLC observation, never simulator truth or invented IDs
+  ---
+  duration_ms: 16.4883
+  type: 'test'
+  ...
+# Subtest: M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements
+ok 22 - M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements
+  ---
+  duration_ms: 1470.9721
+  type: 'test'
+  ...
+# Subtest: flattened event adapter rejects a nested receipt and forged derived output
+ok 23 - flattened event adapter rejects a nested receipt and forged derived output
+  ---
+  duration_ms: 17.9273
+  type: 'test'
+  ...
+# Subtest: valid tools: inspect, known fault/clear, branch, HMI references, wait, reset
+ok 24 - valid tools: inspect, known fault/clear, branch, HMI references, wait, reset
+  ---
+  duration_ms: 46.2792
+  type: 'test'
+  ...
+# Subtest: operator Stop interrupts a pending world action and finalizes exactly one outcome
+ok 25 - operator Stop interrupts a pending world action and finalizes exactly one outcome
+  ---
+  duration_ms: 23.4398
+  type: 'test'
+  ...
+# Subtest: stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently
+ok 26 - stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently
+  ---
+  duration_ms: 68.1151
+  type: 'test'
+  ...
+# Subtest: Wonder is opt-in, single-call and bounded; stub transport only
+ok 27 - Wonder is opt-in, single-call and bounded; stub transport only
+  ---
+  duration_ms: 54.9675
+  type: 'test'
+  ...
+# Subtest: CDP source captures the configured page's rendered pixels and reports engineer input without key values
+ok 28 - CDP source captures the configured page's rendered pixels and reports engineer input without key values
+  ---
+  duration_ms: 1867.116
+  type: 'test'
+  ...
+# Subtest: HMI hub over the CDP source: capture loss holds the last frame and goes stale
+ok 29 - HMI hub over the CDP source: capture loss holds the last frame and goes stale
+  ---
+  duration_ms: 1441.4981
+  type: 'test'
+  ...
+# Subtest: a fault already latched when observation starts has unknown onset, never an invented one
+ok 30 - a fault already latched when observation starts has unknown onset, never an invented one
+  ---
+  duration_ms: 7.6249
+  type: 'test'
+  ...
+# Subtest: observed raise and clear transitions carry their HMI receipt times and onset/clear windows
+ok 31 - observed raise and clear transitions carry their HMI receipt times and onset/clear windows
+  ---
+  duration_ms: 1.8207
+  type: 'test'
+  ...
+# Subtest: ConnectorStale and bad-quality samples never create machine alarms
+ok 32 - ConnectorStale and bad-quality samples never create machine alarms
+  ---
+  duration_ms: 0.4678
+  type: 'test'
+  ...
+# Subtest: exceptions are recorded separately from the latched fault
+ok 33 - exceptions are recorded separately from the latched fault
+  ---
+  duration_ms: 0.6901
+  type: 'test'
+  ...
+# Subtest: the review marker is HMI-local: it records time and client but changes no alarm state
+ok 34 - the review marker is HMI-local: it records time and client but changes no alarm state
+  ---
+  duration_ms: 1.3039
+  type: 'test'
+  ...
+# Subtest: history persists; an HMI restart continues the same instance with an observation gap
+ok 35 - history persists; an HMI restart continues the same instance with an observation gap
+  ---
+  duration_ms: 15.3873
+  type: 'test'
+  ...
+# Subtest: a PLC restart leaves the previous boot's alarm unresolved instead of inventing a clear
+ok 36 - a PLC restart leaves the previous boot's alarm unresolved instead of inventing a clear
+  ---
+  duration_ms: 1.0253
+  type: 'test'
+  ...
+# Subtest: history filters by state, type, code and text
+ok 37 - history filters by state, type, code and text
+  ---
+  duration_ms: 0.7635
+  type: 'test'
+  ...
+# Subtest: the preserved passing run audits 13/13 from a copy
+ok 38 - the preserved passing run audits 13/13 from a copy
+  ---
+  duration_ms: 272.3833
+  type: 'test'
+  ...
+# Subtest: one cited frame missing fails the audit
+ok 39 - one cited frame missing fails the audit
+  ---
+  duration_ms: 197.9667
+  type: 'test'
+  ...
+# Subtest: an empty evidence-frames directory fails the audit (review reproduction)
+ok 40 - an empty evidence-frames directory fails the audit (review reproduction)
+  ---
+  duration_ms: 195.5114
+  type: 'test'
+  ...
+# Subtest: an empty cited frame file fails the audit
+ok 41 - an empty cited frame file fails the audit
+  ---
+  duration_ms: 301.5884
+  type: 'test'
+  ...
+# Subtest: changed frame bytes fail the audit
+ok 42 - changed frame bytes fail the audit
+  ---
+  duration_ms: 272.0171
+  type: 'test'
+  ...
+# Subtest: Start is applied only from the PLC sequence echo plus StartAccepted, and writes only StartSequence
+ok 43 - Start is applied only from the PLC sequence echo plus StartAccepted, and writes only StartSequence
+  ---
+  duration_ms: 557.0697
+  type: 'test'
+  ...
+# Subtest: Reset acknowledged with ResetAccepted=FALSE is a PLC rejection with observed preconditions
+ok 44 - Reset acknowledged with ResetAccepted=FALSE is a PLC rejection with observed preconditions
+  ---
+  duration_ms: 324.7056
+  type: 'test'
+  ...
+# Subtest: Stop is applied from the StopAck echo alone (M8 has no StopAccepted)
+ok 45 - Stop is applied from the StopAck echo alone (M8 has no StopAccepted)
+  ---
+  duration_ms: 185.5773
+  type: 'test'
+  ...
+# Subtest: No acknowledgement within the deadline is timed_out, never applied, and says it may still apply
+ok 46 - No acknowledgement within the deadline is timed_out, never applied, and says it may still apply
+  ---
+  duration_ms: 509.6145
+  type: 'test'
+  ...
+# Subtest: A later acknowledgement from another writer is reported as ambiguous, not applied
+ok 47 - A later acknowledgement from another writer is reported as ambiguous, not applied
+  ---
+  duration_ms: 185.2908
+  type: 'test'
+  ...
+# Subtest: Auto has no PLC acknowledgement field: it is applied by labelled readback of AutoRequest
+ok 48 - Auto has no PLC acknowledgement field: it is applied by labelled readback of AutoRequest
+  ---
+  duration_ms: 46.5252
+  type: 'test'
+  ...
+# Subtest: Commands are refused without any write when another lane owns the runtime, or the HMI is read-only
+ok 49 - Commands are refused without any write when another lane owns the runtime, or the HMI is read-only
+  ---
+  duration_ms: 61.3401
+  type: 'test'
+  ...
+# Subtest: Commands are refused without writes when PLC data is stale, the identity is wrong, or a command is in flight
+ok 50 - Commands are refused without writes when PLC data is stale, the identity is wrong, or a command is in flight
+  ---
+  duration_ms: 700.1198
+  type: 'test'
+  ...
+# Subtest: A duplicate request ID returns the recorded outcome and never writes again
+ok 51 - A duplicate request ID returns the recorded outcome and never writes again
+  ---
+  duration_ms: 186.0233
+  type: 'test'
+  ...
+# Subtest: The HMI link refuses any write outside the four operator request paths
+ok 52 - The HMI link refuses any write outside the four operator request paths
+  ---
+  duration_ms: 31.1521
+  type: 'test'
+  ...
+# Subtest: a new command closes the previous command's follow-up window, so later effects are never attributed to it
+ok 53 - a new command closes the previous command's follow-up window, so later effects are never attributed to it
+  ---
+  duration_ms: 512.4958
+  type: 'test'
+  ...
+# Subtest: start: an acknowledgement with Uncertain quality is unconfirmed, never applied or rejected
+ok 54 - start: an acknowledgement with Uncertain quality is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 428.7163
+  type: 'test'
+  ...
+# Subtest: start: an acknowledgement with Bad quality is unconfirmed, never applied or rejected
+ok 55 - start: an acknowledgement with Bad quality is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 419.4816
+  type: 'test'
+  ...
+# Subtest: start: an acknowledgement with a missing sample is unconfirmed, never applied or rejected
+ok 56 - start: an acknowledgement with a missing sample is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 419.8733
+  type: 'test'
+  ...
+# Subtest: start: an acknowledgement with no source timestamp is unconfirmed, never applied or rejected
+ok 57 - start: an acknowledgement with no source timestamp is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 418.862
+  type: 'test'
+  ...
+# Subtest: start: an acknowledgement with no server timestamp is unconfirmed, never applied or rejected
+ok 58 - start: an acknowledgement with no server timestamp is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 420.6942
+  type: 'test'
+  ...
+# Subtest: stop: an acknowledgement with Uncertain quality is unconfirmed, never applied or rejected
+ok 59 - stop: an acknowledgement with Uncertain quality is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 419.4688
+  type: 'test'
+  ...
+# Subtest: stop: an acknowledgement with Bad quality is unconfirmed, never applied or rejected
+ok 60 - stop: an acknowledgement with Bad quality is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 374.459
+  type: 'test'
+  ...
+# Subtest: stop: an acknowledgement with a missing sample is unconfirmed, never applied or rejected
+ok 61 - stop: an acknowledgement with a missing sample is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 417.8067
+  type: 'test'
+  ...
+# Subtest: stop: an acknowledgement with no source timestamp is unconfirmed, never applied or rejected
+ok 62 - stop: an acknowledgement with no source timestamp is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 434.8111
+  type: 'test'
+  ...
+# Subtest: stop: an acknowledgement with no server timestamp is unconfirmed, never applied or rejected
+ok 63 - stop: an acknowledgement with no server timestamp is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 464.4043
+  type: 'test'
+  ...
+# Subtest: reset: an acknowledgement with Uncertain quality is unconfirmed, never applied or rejected
+ok 64 - reset: an acknowledgement with Uncertain quality is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 417.561
+  type: 'test'
+  ...
+# Subtest: reset: an acknowledgement with Bad quality is unconfirmed, never applied or rejected
+ok 65 - reset: an acknowledgement with Bad quality is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 404.6481
+  type: 'test'
+  ...
+# Subtest: reset: an acknowledgement with a missing sample is unconfirmed, never applied or rejected
+ok 66 - reset: an acknowledgement with a missing sample is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 420.6331
+  type: 'test'
+  ...
+# Subtest: reset: an acknowledgement with no source timestamp is unconfirmed, never applied or rejected
+ok 67 - reset: an acknowledgement with no source timestamp is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 404.0787
+  type: 'test'
+  ...
+# Subtest: reset: an acknowledgement with no server timestamp is unconfirmed, never applied or rejected
+ok 68 - reset: an acknowledgement with no server timestamp is unconfirmed, never applied or rejected
+  ---
+  duration_ms: 419.9968
+  type: 'test'
+  ...
+# Subtest: start: a Good echo with Uncertain quality on StartAccepted is unconfirmed
+ok 69 - start: a Good echo with Uncertain quality on StartAccepted is unconfirmed
+  ---
+  duration_ms: 186.3771
+  type: 'test'
+  ...
+# Subtest: start: a Good echo with Bad quality on StartAccepted is unconfirmed
+ok 70 - start: a Good echo with Bad quality on StartAccepted is unconfirmed
+  ---
+  duration_ms: 234.3454
+  type: 'test'
+  ...
+# Subtest: start: a Good echo with a missing sample on StartAccepted is unconfirmed
+ok 71 - start: a Good echo with a missing sample on StartAccepted is unconfirmed
+  ---
+  duration_ms: 233.2329
+  type: 'test'
+  ...
+# Subtest: start: a Good echo with no source timestamp on StartAccepted is unconfirmed
+ok 72 - start: a Good echo with no source timestamp on StartAccepted is unconfirmed
+  ---
+  duration_ms: 233.5771
+  type: 'test'
+  ...
+# Subtest: start: a Good echo with no server timestamp on StartAccepted is unconfirmed
+ok 73 - start: a Good echo with no server timestamp on StartAccepted is unconfirmed
+  ---
+  duration_ms: 234.2266
+  type: 'test'
+  ...
+# Subtest: start: a Good echo with a non-boolean value on StartAccepted is unconfirmed
+ok 74 - start: a Good echo with a non-boolean value on StartAccepted is unconfirmed
+  ---
+  duration_ms: 233.0888
+  type: 'test'
+  ...
+# Subtest: reset: a Good echo with Uncertain quality on ResetAccepted is unconfirmed
+ok 75 - reset: a Good echo with Uncertain quality on ResetAccepted is unconfirmed
+  ---
+  duration_ms: 235.7513
+  type: 'test'
+  ...
+# Subtest: reset: a Good echo with Bad quality on ResetAccepted is unconfirmed
+ok 76 - reset: a Good echo with Bad quality on ResetAccepted is unconfirmed
+  ---
+  duration_ms: 232.6939
+  type: 'test'
+  ...
+# Subtest: reset: a Good echo with a missing sample on ResetAccepted is unconfirmed
+ok 77 - reset: a Good echo with a missing sample on ResetAccepted is unconfirmed
+  ---
+  duration_ms: 219.3382
+  type: 'test'
+  ...
+# Subtest: reset: a Good echo with no source timestamp on ResetAccepted is unconfirmed
+ok 78 - reset: a Good echo with no source timestamp on ResetAccepted is unconfirmed
+  ---
+  duration_ms: 233.9804
+  type: 'test'
+  ...
+# Subtest: reset: a Good echo with no server timestamp on ResetAccepted is unconfirmed
+ok 79 - reset: a Good echo with no server timestamp on ResetAccepted is unconfirmed
+  ---
+  duration_ms: 231.8752
+  type: 'test'
+  ...
+# Subtest: reset: a Good echo with a non-boolean value on ResetAccepted is unconfirmed
+ok 80 - reset: a Good echo with a non-boolean value on ResetAccepted is unconfirmed
+  ---
+  duration_ms: 187.9993
+  type: 'test'
+  ...
+# Subtest: Review reproduction: StartAck and StartAccepted both Uncertain with valid-looking values is not applied
+ok 81 - Review reproduction: StartAck and StartAccepted both Uncertain with valid-looking values is not applied
+  ---
+  duration_ms: 418.6391
+  type: 'test'
+  ...
+# Subtest: A non-Good request sequence read is refused before any write
+ok 82 - A non-Good request sequence read is refused before any write
+  ---
+  duration_ms: 232.3356
+  type: 'test'
+  ...
+# Subtest: Auto: a readback with Uncertain quality is unconfirmed, not applied
+ok 83 - Auto: a readback with Uncertain quality is unconfirmed, not applied
+  ---
+  duration_ms: 45.9928
+  type: 'test'
+  ...
+# Subtest: Auto: a readback with Bad quality is unconfirmed, not applied
+ok 84 - Auto: a readback with Bad quality is unconfirmed, not applied
+  ---
+  duration_ms: 47.4056
+  type: 'test'
+  ...
+# Subtest: Auto: a readback with a missing sample is unconfirmed, not applied
+ok 85 - Auto: a readback with a missing sample is unconfirmed, not applied
+  ---
+  duration_ms: 33.5996
+  type: 'test'
+  ...
+# Subtest: Auto: a readback with no source timestamp is unconfirmed, not applied
+ok 86 - Auto: a readback with no source timestamp is unconfirmed, not applied
+  ---
+  duration_ms: 45.7024
+  type: 'test'
+  ...
+# Subtest: Auto: a readback with no server timestamp is unconfirmed, not applied
+ok 87 - Auto: a readback with no server timestamp is unconfirmed, not applied
+  ---
+  duration_ms: 46.8228
+  type: 'test'
+  ...
+# Subtest: Auto: a readback with a non-boolean value is unconfirmed, not applied
+ok 88 - Auto: a readback with a non-boolean value is unconfirmed, not applied
+  ---
+  duration_ms: 45.9855
+  type: 'test'
+  ...
+# Subtest: Good-quality confirmation still applies, and its samples are kept as evidence
+ok 89 - Good-quality confirmation still applies, and its samples are kept as evidence
+  ---
+  duration_ms: 233.5718
+  type: 'test'
+  ...
+# Subtest: Review reproduction: a timed-out Start write cannot be overtaken by a later Stop
+ok 90 - Review reproduction: a timed-out Start write cannot be overtaken by a later Stop
+  ---
+  duration_ms: 467.8614
+  type: 'test'
+  ...
+# Subtest: A write that never settles closes the session at the drain deadline, and a new session does not clear the quarantine
+ok 91 - A write that never settles closes the session at the drain deadline, and a new session does not clear the quarantine
+  ---
+  duration_ms: 479.7532
+  type: 'test'
+  ...
+# Subtest: H2 coordinator runs in its own process: start, world tool, carton query and stop over IPC (fake connector)
+ok 92 - H2 coordinator runs in its own process: start, world tool, carton query and stop over IPC (fake connector)
+  ---
+  duration_ms: 537.1771
+  type: 'test'
+  ...
+# Subtest: fresh means a recent good read; unchanged values are not stale
+ok 93 - fresh means a recent good read; unchanged values are not stale
+  ---
+  duration_ms: 325.4607
+  type: 'test'
+  ...
+# Subtest: a slower poll rate raises the stale threshold with it, so healthy slow polling is never shown stale
+ok 94 - a slower poll rate raises the stale threshold with it, so healthy slow polling is never shown stale
+  ---
+  duration_ms: 961.054
+  type: 'test'
+  ...
+# Subtest: read failures turn the link stale with values held, then reconnect with a fresh session
+ok 95 - read failures turn the link stale with values held, then reconnect with a fresh session
+  ---
+  duration_ms: 318.3585
+  type: 'test'
+  ...
+# Subtest: reads are batched under the server's node limit; an oversized request is a configuration stop, not a reconnect loop
+ok 96 - reads are batched under the server's node limit; an oversized request is a configuration stop, not a reconnect loop
+  ---
+  duration_ms: 210.2806
+  type: 'test'
+  ...
+# Subtest: a rejected credential stops reconnection instead of hammering the PLC
+ok 97 - a rejected credential stops reconnection instead of hammering the PLC
+  ---
+  duration_ms: 167.4206
+  type: 'test'
+  ...
+# Subtest: a frozen PlcCycle is reported as not scanning; a boot change is reported once
+ok 98 - a frozen PlcCycle is reported as not scanning; a boot change is reported once
+  ---
+  duration_ms: 577.3602
+  type: 'test'
+  ...
+# (node:54240) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: HTTP: identity and state are served; cross-origin and non-fixture controls are refused; client TS is stripped
+ok 99 - HTTP: identity and state are served; cross-origin and non-fixture controls are refused; client TS is stripped
+  ---
+  duration_ms: 598.5573
+  type: 'test'
+  ...
+# Subtest: HTTP: fixture controls are refused in live mode
+ok 100 - HTTP: fixture controls are refused in live mode
+  ---
+  duration_ms: 11.9504
+  type: 'test'
+  ...
+# Subtest: M7 coordinator closes the generated world around the measurement PLC fixture
+ok 101 - M7 coordinator closes the generated world around the measurement PLC fixture
+  ---
+  duration_ms: 32.5804
+  type: 'test'
+  ...
+# Subtest: M8 factory preflight is read-only, scope is explicit and ownership is exclusive
+ok 102 - M8 factory preflight is read-only, scope is explicit and ownership is exclusive
+  ---
+  duration_ms: 270.0523
+  type: 'test'
+  ...
+# Subtest: real M8 connector/driver uses the host ledger and HMI; the portal receives one coherent campaign
+ok 103 - real M8 connector/driver uses the host ledger and HMI; the portal receives one coherent campaign
+  ---
+  duration_ms: 765.249
+  type: 'test'
+  ...
+# Subtest: the actual six-case executor pauses in place, resumes once and drains promptly on Stop
+ok 104 - the actual six-case executor pauses in place, resumes once and drains promptly on Stop
+  ---
+  duration_ms: 1008.3582
+  type: 'test'
+  ...
+# Subtest: all preserved M10 controller evidence replays through the portal without becoming a new live claim
+ok 105 - all preserved M10 controller evidence replays through the portal without becoming a new live claim
+  ---
+  duration_ms: 5764.0073
+  type: 'test'
+  ...
+# Subtest: M8 map extends observation declarations without mutating preserved world behavior
+ok 106 - M8 map extends observation declarations without mutating preserved world behavior
+  ---
+  duration_ms: 3.1777
+  type: 'test'
+  ...
+# Subtest: M8 connector uses five separate ordered writes, exact active image and at most 10 Hz
+ok 107 - M8 connector uses five separate ordered writes, exact active image and at most 10 Hz
+  ---
+  duration_ms: 230.9413
+  type: 'test'
+  ...
+# Subtest: M8 rejects wrong build, bad quality, boot changes and torn images without retrying
+ok 108 - M8 rejects wrong build, bad quality, boot changes and torn images without retrying
+  ---
+  duration_ms: 9.4168
+  type: 'test'
+  ...
+# Subtest: M8 WCS payload precedes sequence, operator ack is retained as campaign evidence
+ok 109 - M8 WCS payload precedes sequence, operator ack is retained as campaign evidence
+  ---
+  duration_ms: 7.5124
+  type: 'test'
+  ...
+# Subtest: authentication failure stays read/write-free; dirty baseline is rejected before simulation writes
+ok 110 - authentication failure stays read/write-free; dirty baseline is rejected before simulation writes
+  ---
+  duration_ms: 3.9873
+  type: 'test'
+  ...
+# Subtest: lightweight link inspection retains full receipt evidence without rereading the 72-field image/status batch
+ok 111 - lightweight link inspection retains full receipt evidence without rereading the 72-field image/status batch
+  ---
+  duration_ms: 5.4994
+  type: 'test'
+  ...
+# Subtest: contract is derived deterministically from spec, world package and M8 signal map, and matches the frozen artifacts
+ok 112 - contract is derived deterministically from spec, world package and M8 signal map, and matches the frozen artifacts
+  ---
+  duration_ms: 9.5088
+  type: 'test'
+  ...
+# Subtest: contract derivation rejects disagreeing sources instead of guessing
+ok 113 - contract derivation rejects disagreeing sources instead of guessing
+  ---
+  duration_ms: 2.9162
+  type: 'test'
+  ...
+# Subtest: contract-only package validates for fallback and the host shows unknown values, then supplied values
+ok 114 - contract-only package validates for fallback and the host shows unknown values, then supplied values
+  ---
+  duration_ms: 7.101
+  type: 'test'
+  ...
+# Subtest: fixture view passes every validator check
+ok 115 - fixture view passes every validator check
+  ---
+  duration_ms: 0.2825
+  type: 'test'
+  ...
+# Subtest: validator rejects scripting, external references, independent animation and reserved overrides
+ok 116 - validator rejects scripting, external references, independent animation and reserved overrides
+  ---
+  duration_ms: 52.8403
+  type: 'test'
+  ...
+# Subtest: validator enforces binding coverage, anchors, motion, selection and geometry coherence
+ok 117 - validator enforces binding coverage, anchors, motion, selection and geometry coherence
+  ---
+  duration_ms: 34.4637
+  type: 'test'
+  ...
+# Subtest: validator checks integrity, contract identity, world compatibility and credentials
+ok 118 - validator checks integrity, contract identity, world compatibility and credentials
+  ---
+  duration_ms: 8.2087
+  type: 'test'
+  ...
+# Subtest: frames follow supplied snapshots: sensors, commands vs feedback, divert position and belt travel
+ok 119 - frames follow supplied snapshots: sensors, commands vs feedback, divert position and belt travel
+  ---
+  duration_ms: 1.2152
+  type: 'test'
+  ...
+# Subtest: replay of the preserved Gate B routed-A run moves the carton onto exit A only from recorded state
+ok 120 - replay of the preserved Gate B routed-A run moves the carton onto exit A only from recorded state
+  ---
+  duration_ms: 17.6347
+  type: 'test'
+  ...
+# Subtest: stale, held, passthrough, missing and unsupplied values are visibly marked, never fabricated
+ok 121 - stale, held, passthrough, missing and unsupplied values are visibly marked, never fabricated
+  ---
+  duration_ms: 6.801
+  type: 'test'
+  ...
+# Subtest: snapshot validation keeps the interface narrow
+ok 122 - snapshot validation keeps the interface narrow
+  ---
+  duration_ms: 1.0859
+  type: 'test'
+  ...
+# Subtest: host protocol: ready handshake, frames, acknowledgement, selection evidence and token isolation
+ok 123 - host protocol: ready handshake, frames, acknowledgement, selection evidence and token isolation
+  ---
+  duration_ms: 5.6322
+  type: 'test'
+  ...
+# Subtest: host falls back without throwing when the view is slow, broken or incomplete
+ok 124 - host falls back without throwing when the view is slow, broken or incomplete
+  ---
+  duration_ms: 7.5434
+  type: 'test'
+  ...
+# Subtest: isolated srcdoc: sandbox without same-origin, CSP with no network, only the nonce'd host script
+ok 125 - isolated srcdoc: sandbox without same-origin, CSP with no network, only the nonce'd host script
+  ---
+  duration_ms: 2.8065
+  type: 'test'
+  ...
+# Subtest: generation request format is fully preserved, keyless and bounded to one call
+ok 126 - generation request format is fully preserved, keyless and bounded to one call
+  ---
+  duration_ms: 10.9113
+  type: 'test'
+  ...
+# Subtest: preserved Muse Wonder package still validates against the frozen contract and its recorded hashes
+ok 127 - preserved Muse Wonder package still validates against the frozen contract and its recorded hashes
+  ---
+  duration_ms: 111.7324
+  type: 'test'
+  ...
+# Subtest: easing is offered only between consecutive, current frames and never for degraded values
+ok 128 - easing is offered only between consecutive, current frames and never for degraded values
+  ---
+  duration_ms: 0.9659
+  type: 'test'
+  ...
+# Subtest: presentation audit measures overlap, indicator cover, clipping, smeared text and motion
+ok 129 - presentation audit measures overlap, indicator cover, clipping, smeared text and motion
+  ---
+  duration_ms: 21.4953
+  type: 'test'
+  ...
+# Subtest: live: Start → M9 campaign runs on the fake connector; the portal follows the authoritative projection and evidence
+ok 130 - live: Start → M9 campaign runs on the fake connector; the portal follows the authoritative projection and evidence
+  ---
+  duration_ms: 925.8008
+  type: 'test'
+  ...
+# Subtest: live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI frames, inputs and Muse capture are timestamped evidence
+ok 131 - live: Pause/Resume/Stop acknowledge only after the ledger transition; HMI frames, inputs and Muse capture are timestamped evidence
+  ---
+  duration_ms: 769.1922
+  type: 'test'
+  ...
+# Subtest: live: a reconnecting client resumes after Last-Event-ID; replays of already-accepted events are deduplicated
+ok 132 - live: a reconnecting client resumes after Last-Event-ID; replays of already-accepted events are deduplicated
+  ---
+  duration_ms: 534.4034
+  type: 'test'
+  ...
+# Subtest: seam: an external factory module loads without host or portal changes, and must use the host ledger
+ok 133 - seam: an external factory module loads without host or portal changes, and must use the host ledger
+  ---
+  duration_ms: 67.214
+  type: 'test'
+  ...
+# Subtest: Wonder scope uses the host's explicit categories and rejects legacy check/rate authorization
+ok 134 - Wonder scope uses the host's explicit categories and rejects legacy check/rate authorization
+  ---
+  duration_ms: 2.3101
+  type: 'test'
+  ...
+# Subtest: Owner entry verification covers a tracked entry outside src/scripts and rejects changed or untracked code
+ok 135 - Owner entry verification covers a tracked entry outside src/scripts and rejects changed or untracked code
+  ---
+  duration_ms: 1712.3558
+  type: 'test'
+  ...
+# Subtest: Production live HostedSession starts recorded review while physical evidence stays historical and current review activity stays live
+ok 136 - Production live HostedSession starts recorded review while physical evidence stays historical and current review activity stays live
+  ---
+  duration_ms: 12856.0082
+  type: 'test'
+  ...
+# Subtest: manifest validation rejects duplicate semantic roles
+ok 137 - manifest validation rejects duplicate semantic roles
+  ---
+  duration_ms: 2.1697
+  type: 'test'
+  ...
+# Subtest: context begins with a zero PLC input image and records attributable effects
+ok 138 - context begins with a zero PLC input image and records attributable effects
+  ---
+  duration_ms: 0.7523
+  type: 'test'
+  ...
+# Subtest: context enforces direction, increasing frame sequences, and declared controls
+ok 139 - context enforces direction, increasing frame sequences, and declared controls
+  ---
+  duration_ms: 0.8272
+  type: 'test'
+  ...
+# Subtest: seeded random and scheduled controls are repeatable
+ok 140 - seeded random and scheduled controls are repeatable
+  ---
+  duration_ms: 1.5601
+  type: 'test'
+  ...
+# Subtest: commissioning refuses before any PLC write: held lock, unclean baseline, live-mode test hooks
+ok 141 - commissioning refuses before any PLC write: held lock, unclean baseline, live-mode test hooks
+  ---
+  duration_ms: 4821.7542
+  type: 'test'
+  ...
+# Subtest: offline commissioning passes end to end through the real runtime and isolated child
+ok 142 - offline commissioning passes end to end through the real runtime and isolated child
+  ---
+  duration_ms: 27767.5674
+  type: 'test'
+  ...
+# Subtest: held mid-transit: exact record, transit-pending refusal, changed preconditions refused, authorized reconciliation
+ok 143 - held mid-transit: exact record, transit-pending refusal, changed preconditions refused, authorized reconciliation
+  ---
+  duration_ms: 11238.3751
+  type: 'test'
+  ...
+# Subtest: uncertain write: a hung WCS offer quarantines, the lock is retained, inspection restores it, observation resolves the write
+ok 144 - uncertain write: a hung WCS offer quarantines, the lock is retained, inspection restores it, observation resolves the write
+  ---
+  duration_ms: 7933.0164
+  type: 'test'
+  ...
+# Subtest: child exit: the dead run's lock is adopted only with its nonce and no live host, then restored after inspection
+ok 145 - child exit: the dead run's lock is adopted only with its nonce and no live host, then restored after inspection
+  ---
+  duration_ms: 5043.7256
+  type: 'test'
+  ...
+# Subtest: undeclared PLC fault stops held and is refused as outside the recorded paths
+ok 146 - undeclared PLC fault stops held and is refused as outside the recorded paths
+  ---
+  duration_ms: 5372.8006
+  type: 'test'
+  ...
+# Subtest: a run held at the stopped baseline needs no reconciliation and is not written
+ok 147 - a run held at the stopped baseline needs no reconciliation and is not written
+  ---
+  duration_ms: 31643.9675
+  type: 'test'
+  ...
+# Subtest: classification: recorded overload and start-feedback paths, late commit settlement, and refusals
+ok 148 - classification: recorded overload and start-feedback paths, late commit settlement, and refusals
+  ---
+  duration_ms: 4.017
+  type: 'test'
+  ...
+# Subtest: read-only inspection gate refuses every write until an explicit authorization
+ok 149 - read-only inspection gate refuses every write until an explicit authorization
+  ---
+  duration_ms: 3.467
+  type: 'test'
+  ...
+# Subtest: recovery distinguishes a recorded child exit from a reused PID, disconnect or foreign nonce
+ok 150 - recovery distinguishes a recorded child exit from a reused PID, disconnect or foreign nonce
+  ---
+  duration_ms: 0.5447
+  type: 'test'
+  ...
+# Subtest: live commissioning qualification rejects missing, slow, empty and late-expiry evidence
+ok 151 - live commissioning qualification rejects missing, slow, empty and late-expiry evidence
+  ---
+  duration_ms: 1.2338
+  type: 'test'
+  ...
+# Subtest: W4 integration: native provider framing, real child, host ledger/HMI, tools, leases and observation-dependent fixture investigation
+ok 152 - W4 integration: native provider framing, real child, host ledger/HMI, tools, leases and observation-dependent fixture investigation
+  ---
+  duration_ms: 2594.2948
+  type: 'test'
+  ...
+# Subtest: W1: native multi-turn Responses decisions cause tools, exact observations, novel follow-up and shared report
+ok 153 - W1: native multi-turn Responses decisions cause tools, exact observations, novel follow-up and shared report
+  ---
+  duration_ms: 661.2332
+  type: 'test'
+  ...
+# Subtest: W1: evidence-dependent choice changes when the actual observation changes
+ok 154 - W1: evidence-dependent choice changes when the actual observation changes
+  ---
+  duration_ms: 90.2611
+  type: 'test'
+  ...
+# Subtest: W1: malformed, incomplete, text, unsupported and repeated model responses preserve raw data before rejecting
+ok 155 - W1: malformed, incomplete, text, unsupported and repeated model responses preserve raw data before rejecting
+  ---
+  duration_ms: 175.6356
+  type: 'test'
+  ...
+# Subtest: W1: request admission counts stored history and forbids generation over $1
+ok 156 - W1: request admission counts stored history and forbids generation over $1
+  ---
+  duration_ms: 20.1927
+  type: 'test'
+  ...
+# Subtest: W1: stale decisions and duplicate actions cause no repeated effect
+ok 157 - W1: stale decisions and duplicate actions cause no repeated effect
+  ---
+  duration_ms: 26.4417
+  type: 'test'
+  ...
+# Subtest: W1: timeout/cancelled/failed calls retain a full conservative charge and ignore late effects
+ok 158 - W1: timeout/cancelled/failed calls retain a full conservative charge and ignore late effects
+  ---
+  duration_ms: 123.6303
+  type: 'test'
+  ...
+# Subtest: W1: warning/hard-stop refuses a sixth call and retains valid evidence
+ok 159 - W1: warning/hard-stop refuses a sixth call and retains valid evidence
+  ---
+  duration_ms: 89.8165
+  type: 'test'
+  ...
+# Subtest: W1: oversized provider errors still settle the charge and hold without another turn
+ok 160 - W1: oversized provider errors still settle the charge and hold without another turn
+  ---
+  duration_ms: 61.2905
+  type: 'test'
+  ...
+# Subtest: W1: durable session charges span campaigns, lock concurrency, and retain crash reservations
+ok 161 - W1: durable session charges span campaigns, lock concurrency, and retain crash reservations
+  ---
+  duration_ms: 36.5304
+  type: 'test'
+  ...
+# Subtest: W1: unsupported claims, hidden truth and opaque endpoints cannot enter model authority
+ok 162 - W1: unsupported claims, hidden truth and opaque endpoints cannot enter model authority
+  ---
+  duration_ms: 16.9773
+  type: 'test'
+  ...
+# Subtest: W1: explicit hold/continue/condition-deadline lease contracts, revision checks and expiry
+ok 163 - W1: explicit hold/continue/condition-deadline lease contracts, revision checks and expiry
+  ---
+  duration_ms: 135.895
+  type: 'test'
+  ...
+# Subtest: W2: import all recorded M10 acknowledgements, exact lineage, compact context, report and no physical effects
+ok 164 - W2: import all recorded M10 acknowledgements, exact lineage, compact context, report and no physical effects
+  ---
+  duration_ms: 26314.5047
+  type: 'test'
+  ...
+# Subtest: owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import
+ok 165 - owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import
+  ---
+  duration_ms: 2002.8588
+  type: 'test'
+  ...
+# Subtest: W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts
+ok 166 - W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts
+  ---
+  duration_ms: 10.387
+  type: 'test'
+  ...
+# Subtest: W3/W4: checkpoint cannot spend without its flag and live factory refuses a missing owner handoff
+ok 167 - W3/W4: checkpoint cannot spend without its flag and live factory refuses a missing owner handoff
+  ---
+  duration_ms: 866.5894
+  type: 'test'
+  ...
+# Subtest: W4: injected process contract uses host ledger/HMI and provider loop with originating revisions
+ok 168 - W4: injected process contract uses host ledger/HMI and provider loop with originating revisions
+  ---
+  duration_ms: 123.0186
+  type: 'test'
+  ...
+# Subtest: recorded real-Wonder replies replay offline through native lineage, semantic tools and exact-claim report
+ok 169 - recorded real-Wonder replies replay offline through native lineage, semantic tools and exact-claim report
+  ---
+  duration_ms: 11295.4171
+  type: 'test'
+  ...
+# Subtest: W2: portal consumes recorded activity, costs, actions and findings from the one authoritative ledger
+ok 170 - W2: portal consumes recorded activity, costs, actions and findings from the one authoritative ledger
+  ---
+  duration_ms: 16505.2143
+  type: 'test'
+  ...
+# Subtest: construction is read-only and reports the world bytes the child actually loaded
+ok 171 - construction is read-only and reports the world bytes the child actually loaded
+  ---
+  duration_ms: 1227.0253
+  type: 'test'
+  ...
+# Subtest: provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage
+ok 172 - provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage
+  ---
+  duration_ms: 1817.9389
+  type: 'test'
+  ...
+# Subtest: parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz
+ok 173 - parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz
+  ---
+  duration_ms: 2598.1346
+  type: 'test'
+  ...
+# Subtest: hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue
+ok 174 - hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue
+  ---
+  duration_ms: 1595.9916
+  type: 'test'
+  ...
+# Subtest: condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence
+ok 175 - condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence
+  ---
+  duration_ms: 1633.811
+  type: 'test'
+  ...
+# Subtest: stale campaign/boundary revisions and duplicate action IDs are refused without replay
+ok 176 - stale campaign/boundary revisions and duplicate action IDs are refused without replay
+  ---
+  duration_ms: 1590.7069
+  type: 'test'
+  ...
+# Subtest: cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone
+ok 177 - cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone
+  ---
+  duration_ms: 1125.0713
+  type: 'test'
+  ...
+# Subtest: source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion
+ok 178 - source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion
+  ---
+  duration_ms: 4547.2134
+  type: 'test'
+  ...
+# Subtest: child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation
+ok 179 - child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation
+  ---
+  duration_ms: 1082.3225
+  type: 'test'
+  ...
+# Subtest: parent loss (steady): the child freezes world time, drains, closes and releases ownership
+ok 180 - parent loss (steady): the child freezes world time, drains, closes and releases ownership
+  ---
+  duration_ms: 1305.2459
+  type: 'test'
+  ...
+# Subtest: parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write
+ok 181 - parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write
+  ---
+  duration_ms: 3029.274
+  type: 'test'
+  ...
+# Subtest: delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release
+ok 182 - delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release
+  ---
+  duration_ms: 3718.4857
+  type: 'test'
+  ...
+# Subtest: stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough
+ok 183 - stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough
+  ---
+  duration_ms: 2896.7379
+  type: 'test'
+  ...
+# Subtest: parent silence: the child holds the world on its own and the engineer resume continues it
+ok 184 - parent silence: the child holds the world on its own and the engineer resume continues it
+  ---
+  duration_ms: 2316.6933
+  type: 'test'
+  ...
+# Subtest: production live browser bootstrap separates recorded observations/source times from current review liveness
+ok 185 - production live browser bootstrap separates recorded observations/source times from current review liveness
+  ---
+  duration_ms: 37.2255
+  type: 'test'
+  ...
+# Subtest: 503 retry retains the last valid response head and exact tool results, charges three distinct attempts and executes no duplicate
+ok 186 - 503 retry retains the last valid response head and exact tool results, charges three distinct attempts and executes no duplicate
+  ---
+  duration_ms: 49.1434
+  type: 'test'
+  ...
+# Subtest: first-request 503 resends semantic tools and two-attempt allowance preserves ten historical charges
+ok 187 - first-request 503 resends semantic tools and two-attempt allowance preserves ten historical charges
+  ---
+  duration_ms: 20.8951
+  type: 'test'
+  ...
+# Subtest: does not retry retry off by default
+ok 188 - does not retry retry off by default
+  ---
+  duration_ms: 2.778
+  type: 'test'
+  ...
+# Subtest: does not retry rate limit
+ok 189 - does not retry rate limit
+  ---
+  duration_ms: 2.1998
+  type: 'test'
+  ...
+# Subtest: does not retry other HTTP error
+ok 190 - does not retry other HTTP error
+  ---
+  duration_ms: 1.6827
+  type: 'test'
+  ...
+# Subtest: does not retry partial response identity
+ok 191 - does not retry partial response identity
+  ---
+  duration_ms: 1.5002
+  type: 'test'
+  ...
+# Subtest: does not retry returned output
+ok 192 - does not retry returned output
+  ---
+  duration_ms: 1.6099
+  type: 'test'
+  ...
+# Subtest: does not retry incomplete generation
+ok 193 - does not retry incomplete generation
+  ---
+  duration_ms: 1.4286
+  type: 'test'
+  ...
+# Subtest: does not retry malformed error
+ok 194 - does not retry malformed error
+  ---
+  duration_ms: 1.4218
+  type: 'test'
+  ...
+# Subtest: does not retry long Retry-After
+ok 195 - does not retry long Retry-After
+  ---
+  duration_ms: 1.8886
+  type: 'test'
+  ...
+# Subtest: does not retry invalid Retry-After
+ok 196 - does not retry invalid Retry-After
+  ---
+  duration_ms: 1.4743
+  type: 'test'
+  ...
+# Subtest: one permitted transient retry stops on repeated 503, and runtime opt-out never schedules it
+ok 197 - one permitted transient retry stops on repeated 503, and runtime opt-out never schedules it
+  ---
+  duration_ms: 10.0066
+  type: 'test'
+  ...
+# Subtest: preflight/unknown transport outcome and late cancellation never become retry candidates
+ok 198 - preflight/unknown transport outcome and late cancellation never become retry candidates
+  ---
+  duration_ms: 3.7298
+  type: 'test'
+  ...
+# Subtest: Stop during backoff aborts the wait and no second generation or action follows
+ok 199 - Stop during backoff aborts the wait and no second generation or action follows
+  ---
+  duration_ms: 4.8302
+  type: 'test'
+  ...
+# Subtest: revision change during backoff prevents generation, and final-turn/budget exhaustion never starts a retry
+ok 200 - revision change during backoff prevents generation, and final-turn/budget exhaustion never starts a retry
+  ---
+  duration_ms: 12.1095
+  type: 'test'
+  ...
+# Subtest: real isolated child establishes a fresh hold lease and keeps the image committed through 503 retry backoff
+ok 201 - real isolated child establishes a fresh hold lease and keeps the image committed through 503 retry backoff
+  ---
+  duration_ms: 1874.3429
+  type: 'test'
+  ...
+# Subtest: real child lease invalidation after a 503 refuses retry and retains the failed charge
+ok 202 - real child lease invalidation after a 503 refuses retry and retains the failed charge
+  ---
+  duration_ms: 397.3154
+  type: 'test'
+  ...
+# Subtest: actual browser HostedSession.start sends explicit Wonder scope: default
+ok 203 - actual browser HostedSession.start sends explicit Wonder scope: default
+  ---
+  duration_ms: 122.6001
+  type: 'test'
+  ...
+# Subtest: actual browser HostedSession.start sends explicit Wonder scope: narrowed
+ok 204 - actual browser HostedSession.start sends explicit Wonder scope: narrowed
+  ---
+  duration_ms: 81.1006
+  type: 'test'
+  ...
+# Subtest: actual browser HostedSession.start sends explicit Wonder scope: historical-deselection
+ok 205 - actual browser HostedSession.start sends explicit Wonder scope: historical-deselection
+  ---
+  duration_ms: 68.0192
+  type: 'test'
+  ...
+# Subtest: direct legacy check IDs and rate qualification cannot authorize the Wonder factory
+ok 206 - direct legacy check IDs and rate qualification cannot authorize the Wonder factory
+  ---
+  duration_ms: 0.8923
+  type: 'test'
+  ...
+1..206
+# tests 206
+# suites 0
+# pass 206
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 246892.5984

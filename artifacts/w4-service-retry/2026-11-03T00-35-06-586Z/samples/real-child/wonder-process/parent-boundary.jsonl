@@ -1,0 +1,23 @@
+{"atIso":"2026-11-03T00:39:16.151Z","atMonotonicMs":557.5015,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":51960,"nonce":"9d66fa988aa1f7e6","node":"v24.15.0","timeOriginEpochMs":1793666355992.126},"priority":-7}
+{"atIso":"2026-11-03T00:39:16.152Z","atMonotonicMs":558.4717,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-03T00:39:16.170Z","atMonotonicMs":576.0203,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":18}
+{"atIso":"2026-11-03T00:39:16.181Z","atMonotonicMs":587.2902,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-03T00:39:16.358Z","atMonotonicMs":764.3054,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":177}
+{"atIso":"2026-11-03T00:39:16.365Z","atMonotonicMs":770.7876,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-03T00:39:16.366Z","atMonotonicMs":771.5972,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"retry-real-child:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T00:39:16.366Z","atMonotonicMs":772.3003,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":2}
+{"atIso":"2026-11-03T00:39:16.367Z","atMonotonicMs":772.8733,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-03T00:39:16.382Z","atMonotonicMs":788.0918,"kind":"request","id":5,"op":"leaseFinish","leaseId":"retry-real-child:lease:1"}
+{"atIso":"2026-11-03T00:39:16.383Z","atMonotonicMs":789.3514,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-03T00:39:16.396Z","atMonotonicMs":802.0405,"kind":"request","id":6,"op":"leaseBegin","campaignRevision":2,"leaseId":"retry-real-child:lease:2","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T00:39:16.397Z","atMonotonicMs":802.9541,"kind":"reply","id":6,"op":"leaseBegin","ok":true,"boundaryRevision":5,"throughSeq":28,"elapsedMs":1}
+{"atIso":"2026-11-03T00:39:17.433Z","atMonotonicMs":1838.5357,"kind":"request","id":7,"op":"leaseFinish","leaseId":"retry-real-child:lease:2"}
+{"atIso":"2026-11-03T00:39:17.433Z","atMonotonicMs":1839.4358,"kind":"reply","id":7,"op":"leaseFinish","ok":true,"boundaryRevision":6,"throughSeq":65,"elapsedMs":1}
+{"atIso":"2026-11-03T00:39:17.444Z","atMonotonicMs":1850.1107,"kind":"request","id":8,"op":"hold","stopClock":false}
+{"atIso":"2026-11-03T00:39:17.459Z","atMonotonicMs":1864.6782,"kind":"reply","id":8,"op":"hold","ok":true,"boundaryRevision":7,"throughSeq":68,"elapsedMs":15}
+{"atIso":"2026-11-03T00:39:17.461Z","atMonotonicMs":1866.7429,"kind":"request","id":9,"op":"hold","stopClock":true}
+{"atIso":"2026-11-03T00:39:17.461Z","atMonotonicMs":1867.3878,"kind":"reply","id":9,"op":"hold","ok":true,"boundaryRevision":7,"throughSeq":68,"elapsedMs":1}
+{"atIso":"2026-11-03T00:39:17.463Z","atMonotonicMs":1869.3264,"kind":"request","id":10,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-03T00:39:17.468Z","atMonotonicMs":1873.8196,"kind":"reply","id":10,"op":"close","ok":true,"boundaryRevision":7,"throughSeq":70,"elapsedMs":4}
+{"atIso":"2026-11-03T00:39:17.480Z","atMonotonicMs":1886.2783,"kind":"child.exit","code":0,"signal":null,"lastSeq":70}
+{"atIso":"2026-11-03T00:39:17.481Z","atMonotonicMs":1886.9025,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\AppData\\Local\\Temp\\retry-child-OYeylu\\fake.lock","boundaryRevision":7,"lastSeq":70},"exit":{"code":0,"signal":null},"killed":false}

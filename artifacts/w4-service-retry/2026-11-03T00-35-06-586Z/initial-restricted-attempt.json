@@ -1,0 +1,13 @@
+{
+  "status": "fail",
+  "qualification": false,
+  "tests": 206,
+  "passed": 196,
+  "failed": 10,
+  "scope": "Preliminary full suite run with all networking disabled and sandbox Git restrictions",
+  "observedFailureReasons": [
+    "Networking disabled for recorded Wonder replay blocked loopback browser fixtures",
+    "Permission denied writing temporary Git repository config"
+  ],
+  "boundary": "Diagnostic summary from tool output only; not a source-bound passing proof and not claimed as ten implementation failures"
+}

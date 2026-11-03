@@ -474,6 +474,10 @@ Muse may request a direct methodical signal change, but it still passes through 
 
 ## Open Decisions
 
+### Hosted model service errors — 2026-11-02
+
+The coordinator may perform an explicitly configured, bounded retry for a structured Meta HTTP 503 server error that returned no response identity or decision. Each attempt consumes an ordinary request and conservative reservation within the already authorized allowance. It preserves the last valid response/tool-result lineage and obtains a fresh hold lease for backoff and reasoning; PLC scans and timers continue. Cancellation, changed revisions, invalid leases, ambiguous transport effects and incomplete model output stop progression. Existing packets remain opt-out. See `docs/w4-service-retry.md` for implementation, proof and the new-build promotion boundary.
+
 Resolve these after the measured first connector slice unless an item blocks that slice:
 
 1. **Broader raw signal coverage:** arrays/structures, additional integer widths, vendor device assemblies, and production encoding/quality semantics beyond the first BOOL/REAL/UDINT contract.

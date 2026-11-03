@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: 503 retry retains the last valid response head and exact tool results, charges three distinct attempts and executes no duplicate
+ok 1 - 503 retry retains the last valid response head and exact tool results, charges three distinct attempts and executes no duplicate
+  ---
+  duration_ms: 29.396
+  type: 'test'
+  ...
+# Subtest: first-request 503 resends semantic tools and two-attempt allowance preserves ten historical charges
+ok 2 - first-request 503 resends semantic tools and two-attempt allowance preserves ten historical charges
+  ---
+  duration_ms: 22.8158
+  type: 'test'
+  ...
+# Subtest: does not retry retry off by default
+ok 3 - does not retry retry off by default
+  ---
+  duration_ms: 2.4114
+  type: 'test'
+  ...
+# Subtest: does not retry rate limit
+ok 4 - does not retry rate limit
+  ---
+  duration_ms: 1.5885
+  type: 'test'
+  ...
+# Subtest: does not retry other HTTP error
+ok 5 - does not retry other HTTP error
+  ---
+  duration_ms: 1.5874
+  type: 'test'
+  ...
+# Subtest: does not retry partial response identity
+ok 6 - does not retry partial response identity
+  ---
+  duration_ms: 2.0136
+  type: 'test'
+  ...
+# Subtest: does not retry returned output
+ok 7 - does not retry returned output
+  ---
+  duration_ms: 1.4239
+  type: 'test'
+  ...
+# Subtest: does not retry incomplete generation
+ok 8 - does not retry incomplete generation
+  ---
+  duration_ms: 1.3982
+  type: 'test'
+  ...
+# Subtest: does not retry malformed error
+ok 9 - does not retry malformed error
+  ---
+  duration_ms: 1.412
+  type: 'test'
+  ...
+# Subtest: does not retry long Retry-After
+ok 10 - does not retry long Retry-After
+  ---
+  duration_ms: 1.4497
+  type: 'test'
+  ...
+# Subtest: does not retry invalid Retry-After
+ok 11 - does not retry invalid Retry-After
+  ---
+  duration_ms: 1.3819
+  type: 'test'
+  ...
+# Subtest: one permitted transient retry stops on repeated 503, and runtime opt-out never schedules it
+ok 12 - one permitted transient retry stops on repeated 503, and runtime opt-out never schedules it
+  ---
+  duration_ms: 10.4146
+  type: 'test'
+  ...
+# Subtest: preflight/unknown transport outcome and late cancellation never become retry candidates
+ok 13 - preflight/unknown transport outcome and late cancellation never become retry candidates
+  ---
+  duration_ms: 3.6711
+  type: 'test'
+  ...
+# Subtest: Stop during backoff aborts the wait and no second generation or action follows
+ok 14 - Stop during backoff aborts the wait and no second generation or action follows
+  ---
+  duration_ms: 4.2153
+  type: 'test'
+  ...
+# Subtest: revision change during backoff prevents generation, and final-turn/budget exhaustion never starts a retry
+ok 15 - revision change during backoff prevents generation, and final-turn/budget exhaustion never starts a retry
+  ---
+  duration_ms: 11.2896
+  type: 'test'
+  ...
+# Subtest: real isolated child establishes a fresh hold lease and keeps the image committed through 503 retry backoff
+ok 16 - real isolated child establishes a fresh hold lease and keeps the image committed through 503 retry backoff
+  ---
+  duration_ms: 1822.1738
+  type: 'test'
+  ...
+# Subtest: real child lease invalidation after a 503 refuses retry and retains the failed charge
+ok 17 - real child lease invalidation after a 503 refuses retry and retains the failed charge
+  ---
+  duration_ms: 429.057
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2619.4372

@@ -1,0 +1,65 @@
+{
+  "status": "pass",
+  "scope": "offline-fake-transport",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-service-retry\\2026-11-03T00-35-06-586Z",
+  "sourceCommit": "ea2bebfd2faef226ad3f3256de9cd3c271d68e69",
+  "sources": {
+    "src/campaign/provider.ts": "83c4eb1cc202297f4f9de614c7304554244c32f13075e9de3ad243d74d24eb0b",
+    "src/campaign/runtime.ts": "a50c949dbc81cb206aca7305c1b26d2ea6e347237338576f4cca0e1a5410da10",
+    "src/campaign/wonder-responses.ts": "0c504c7308caedf8a2a80055e8ed033e602d0fb76d25c8c0161b8007035948c4",
+    "src/host/wonder-campaign-factory.ts": "2102f37a6dc7fe426f6144e54bb853f4ecdd116af573c11e020001577d1f7c20",
+    "test/wonder-retry.test.ts": "36b4b9c4b55c3cbcd37b26ab84212139cb89f7213a23bceaddd01e761cd18964",
+    "package.json": "6e3f8d3557f69bee440f59e92fbb3045016ff2a4b54454419a5cf4702e2674a3",
+    "scripts/check-w4-service-retry.js": "f9e6907ab89ed9f801e1477f568409d0e82b4b68ca46e2291344fa17df955e27",
+    "scripts/w4-paid/support.mjs": "e00126f924f47aa8f1e6f76ece140a8eb796f3e13113b42e221726b77b465a8e",
+    "scripts/w4-paid/factory.mjs": "c8d539874de65e223ac81996dda5cf5ad0e104a0be6bed5d4f5e2a532d821c08",
+    "scripts/w4-paid/paid.test.mjs": "b2e5d8b03cbb5d7d4051482846321a4cbb9aec47aa2ac098ac911f30a97bb837"
+  },
+  "startedAtIso": "2026-11-03T00:35:06.704Z",
+  "realModelCalls": 0,
+  "livePlcExecuted": false,
+  "results": [
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "runtime-tests",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 206,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "retry-network-disabled",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 17,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "paid-wrapper-network-disabled",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 13,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePin": {
+    "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+    "verifiedUnchangedHashes": 639
+  },
+  "accountSha256": "9c07d8bb39805ecb47706147d964e826c7a900aa9fb0388466d8d7238ddb21b8",
+  "finishedAtIso": "2026-11-03T00:39:32.816Z"
+}
