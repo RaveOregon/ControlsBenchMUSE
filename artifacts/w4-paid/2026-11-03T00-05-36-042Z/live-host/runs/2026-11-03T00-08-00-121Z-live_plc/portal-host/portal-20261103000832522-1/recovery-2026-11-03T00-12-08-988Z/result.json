@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "schema": "controlsbench.w4-recovery.v1",
+  "status": "pass",
+  "mode": "reconcile",
+  "scope": "live-m8",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T00-05-36-042Z\\live-host\\runs\\2026-11-03T00-08-00-121Z-live_plc\\portal-host\\portal-20261103000832522-1",
+  "startedAtIso": "2026-11-03T00:12:08.991Z",
+  "modelCalls": 0,
+  "writesAuthorized": true,
+  "checks": [],
+  "heldStateSha256": "c09f69139c3e7b873f109429b5272c4df0c8daf4c2ab246f92a581d4b9e0d606",
+  "resultSha256": "f9fe6afc85355b68283f5bb44ce093f3b47729f2bbaf861d2e8157d1fc3637aa",
+  "campaignId": "portal-20261103000832522-1",
+  "childIdentity": {
+    "pid": 45532,
+    "nonce": "6bf82d6c5b2e1a59",
+    "exitProvenByBoundJournal": true
+  },
+  "preflight": {
+    "projectUnchanged": true,
+    "runtimeOwned": false,
+    "legacySessionActive": false,
+    "nativeModuleAvailable": true,
+    "credentialsPresent": true,
+    "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+    "modulePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\codesys_handoff\\browser_hmi_handoff\\opcua_relay\\node_modules\\node-opcua",
+    "plcContacted": false,
+    "paidCalls": 0,
+    "ready": true
+  },
+  "ownership": {
+    "acquired": true
+  },
+  "inspection": {
+    "bootIdentity": "1703372672414",
+    "appliedEpoch": "167106714283103",
+    "appliedSequence": "449",
+    "plcCycle": "89318",
+    "plcTimeUs": "1705189639748",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Auto",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 201,
+    "completionPending": false,
+    "completionSequence": 2,
+    "motorRunCmd": true,
+    "counters": {
+      "CountExitA": 2,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=1",
+      "Motor_RunCmd=true"
+    ]
+  },
+  "classification": {
+    "path": "held-running",
+    "supported": true,
+    "refusals": [],
+    "checks": [
+      {
+        "check": "record has a last acknowledged commit and observation",
+        "ok": true
+      },
+      {
+        "check": "PLC boot identity unchanged since the run",
+        "ok": true,
+        "detail": {
+          "recorded": "1703372672414",
+          "current": "1703372672414"
+        }
+      },
+      {
+        "check": "simulation still applied",
+        "ok": true
+      },
+      {
+        "check": "applied epoch/sequence is the run's own last or in-flight commit",
+        "ok": true,
+        "detail": {
+          "current": {
+            "epoch": "167106714283103",
+            "sequence": "449"
+          },
+          "recorded": [
+            {
+              "kind": "last_acknowledged",
+              "epoch": "167106714283103",
+              "sequence": "449"
+            }
+          ]
+        }
+      },
+      {
+        "check": "active raw image equals that commit's image exactly",
+        "ok": true
+      },
+      {
+        "check": "CountExitA unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 2,
+          "current": 2
+        }
+      },
+      {
+        "check": "CountExitB unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountRunout unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "CountMisroute unchanged",
+        "ok": true,
+        "detail": {
+          "recorded": 0,
+          "current": 0
+        }
+      },
+      {
+        "check": "held image is the running at-rest image (no carton, no overload)",
+        "ok": true,
+        "detail": []
+      }
+    ],
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "matchedCommit": "last_acknowledged",
+    "landedCommands": [],
+    "differences": {},
+    "evidenceBasis": "H2 recovery-2026-11-01T15-12-24-875Z (held-running) passed live with this sequence"
+  },
+  "finalObservation": {
+    "bootIdentity": "1703372672414",
+    "appliedEpoch": "275816522245711",
+    "appliedSequence": "6",
+    "plcCycle": "89364",
+    "plcTimeUs": "1705190575749",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Stopped",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 201,
+    "completionPending": false,
+    "completionSequence": 2,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 2,
+      "CountExitB": 0,
+      "CountRunout": 0,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": []
+  },
+  "finalImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 0
+  },
+  "refusedWrites": 0,
+  "ownershipAfter": "released",
+  "finishedAtIso": "2026-11-03T00:12:19.139Z",
+  "transportSha256": "bd0ccd0f7400b01880943857195f6612debc7e063d9bfa201f48990c1ee5c312"
+}

@@ -1,0 +1,102 @@
+{
+  "status": "partial",
+  "verifiedAtIso": "2026-11-03T00:13:55.443Z",
+  "campaignId": "portal-20261103000832522-1",
+  "ledgerEvents": 3148,
+  "originalEvidenceHashesVerified": 7,
+  "reportReconstructedExactly": true,
+  "responseHashesVerified": 6,
+  "responseToolLineageVerified": true,
+  "exactTerminalResultsVerified": 8,
+  "groundedFindings": 1,
+  "exactPlcClaimsVerified": 7,
+  "normalExperiment": {
+    "id": "EXP-NORMAL-A",
+    "objective": "Normal A sort: start, WCS assign A to item 201, introduce carton 201, observe D1 command, exit A completion and count, acknowledge completion.",
+    "category": "normal",
+    "requirements": [
+      "R-02"
+    ],
+    "status": "completed",
+    "conclusion": "observed",
+    "evidenceRefs": [
+      "portal-20261103000832522-1:1087",
+      "portal-20261103000832522-1:967"
+    ]
+  },
+  "assumptions": [
+    "CompletionExit/RequestedRoute enumeration 1 corresponds to A, inferred from initial completed item 101 state"
+  ],
+  "modelGenerationAttempts": 3,
+  "successfulDecisions": 2,
+  "maximumOutputTokens": 8000,
+  "usage": [
+    {
+      "responseId": "resp_6ae926130d86f90d6b5046f4",
+      "inputTokens": 14815,
+      "outputTokens": 999,
+      "reasoningTokens": 505
+    },
+    {
+      "responseId": "resp_6ae9262ce55ec56e1be74bac",
+      "inputTokens": 33592,
+      "outputTokens": 1550,
+      "reasoningTokens": 623
+    }
+  ],
+  "estimatedKnownUncachedTokenCostUsd": 0.244608,
+  "billingBoundary": "Estimate for the two reported usages only, no cache discount; 503 billing unknown, not assumed free",
+  "conservativeNewUsd": 3,
+  "conservativeAggregateUsd": 10,
+  "approvedAggregateCeilingUsd": 12,
+  "remainingApprovedUsd": 2,
+  "failure": {
+    "httpStatus": 503,
+    "type": "server_error",
+    "message": "persistence service error",
+    "partialDecisionExecuted": false
+  },
+  "recovery": {
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T00-05-36-042Z\\live-host\\runs\\2026-11-03T00-08-00-121Z-live_plc\\portal-host\\portal-20261103000832522-1\\recovery-2026-11-03T00-12-08-988Z",
+    "resultSha256": "ea6b52ff600389e8f9c28ab8a5f8707324b50404365b0ac9aa6be31af50b7635",
+    "transportSha256": "bd0ccd0f7400b01880943857195f6612debc7e063d9bfa201f48990c1ee5c312",
+    "plan": [
+      {
+        "op": "stop"
+      },
+      {
+        "op": "fresh_world"
+      },
+      {
+        "op": "await_stopped"
+      }
+    ],
+    "final": {
+      "bootIdentity": "1703372672414",
+      "appliedEpoch": "275816522245711",
+      "appliedSequence": "6",
+      "plcCycle": "89364",
+      "plcTimeUs": "1705190575749",
+      "simulationApplied": true,
+      "connectorStale": false,
+      "mode": "Stopped",
+      "faultCode": 0,
+      "itemActive": false,
+      "activeItemId": 201,
+      "completionPending": false,
+      "completionSequence": 2,
+      "motorRunCmd": false,
+      "counters": {
+        "CountExitA": 2,
+        "CountExitB": 0,
+        "CountRunout": 0,
+        "CountMisroute": 0,
+        "CountFaulted": 0
+      },
+      "stoppedBaselineMismatches": []
+    },
+    "ownershipAfter": "released"
+  },
+  "claimBoundary": "Real normal sort, acknowledgement, evidence review and one grounded finding; no fault injection, adaptive physical follow-up, agent HMI operation or full W4 pass",
+  "next": "Handle retryable Meta service errors with exact lineage, lease validity and each attempt accounted before another paid trial. Preserve current $10 and remaining $2; do not reset or reuse the old packet."
+}

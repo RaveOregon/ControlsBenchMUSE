@@ -1,0 +1,35 @@
+{"atIso":"2026-11-03T00:08:34.608Z","atMonotonicMs":34973.5027,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":45532,"nonce":"6bf82d6c5b2e1a59","node":"v24.15.0","timeOriginEpochMs":1793664514359.204},"priority":-7}
+{"atIso":"2026-11-03T00:08:34.610Z","atMonotonicMs":34975.1407,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-03T00:08:34.634Z","atMonotonicMs":34998.5865,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":24}
+{"atIso":"2026-11-03T00:08:34.672Z","atMonotonicMs":35037.0358,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-03T00:08:42.244Z","atMonotonicMs":42609.4581,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":7572}
+{"atIso":"2026-11-03T00:08:42.251Z","atMonotonicMs":42616.0078,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-03T00:08:42.273Z","atMonotonicMs":42637.6508,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"portal-20261103000832522-1:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T00:08:42.274Z","atMonotonicMs":42639.4498,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":23}
+{"atIso":"2026-11-03T00:08:42.276Z","atMonotonicMs":42640.6001,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":3}
+{"atIso":"2026-11-03T00:08:52.417Z","atMonotonicMs":52781.5915,"kind":"request","id":5,"op":"leaseFinish","leaseId":"portal-20261103000832522-1:lease:1"}
+{"atIso":"2026-11-03T00:08:52.529Z","atMonotonicMs":52893.6246,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":373,"elapsedMs":112}
+{"atIso":"2026-11-03T00:08:52.574Z","atMonotonicMs":52939.1227,"kind":"request","id":6,"op":"controller","actionId":"act-start-1","name":"operator_action","action":"start","campaignRevision":6,"boundaryRevision":4}
+{"atIso":"2026-11-03T00:08:52.657Z","atMonotonicMs":53022.0546,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":384,"elapsedMs":83}
+{"atIso":"2026-11-03T00:08:52.670Z","atMonotonicMs":53035.4478,"kind":"request","id":7,"op":"controller","actionId":"assign-201-A","name":"assign_route","action":"offer","campaignRevision":7,"boundaryRevision":5}
+{"atIso":"2026-11-03T00:08:52.750Z","atMonotonicMs":53115.3135,"kind":"reply","id":7,"op":"controller","ok":true,"boundaryRevision":6,"throughSeq":386,"elapsedMs":80}
+{"atIso":"2026-11-03T00:08:52.763Z","atMonotonicMs":53128.0078,"kind":"request","id":8,"op":"apply","actionId":"intro-201","name":"introduce_carton","campaignRevision":8,"boundaryRevision":6,"controlId":"carton.introduce"}
+{"atIso":"2026-11-03T00:08:53.009Z","atMonotonicMs":53373.7271,"kind":"reply","id":8,"op":"apply","ok":true,"boundaryRevision":7,"throughSeq":404,"elapsedMs":246}
+{"atIso":"2026-11-03T00:08:59.284Z","atMonotonicMs":59649.3931,"kind":"request","id":9,"op":"leaseBegin","campaignRevision":11,"leaseId":"portal-20261103000832522-1:lease:2","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T00:08:59.335Z","atMonotonicMs":59699.8501,"kind":"reply","id":9,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":828,"elapsedMs":51}
+{"atIso":"2026-11-03T00:09:17.872Z","atMonotonicMs":78236.9135,"kind":"request","id":10,"op":"leaseFinish","leaseId":"portal-20261103000832522-1:lease:2"}
+{"atIso":"2026-11-03T00:09:17.879Z","atMonotonicMs":78243.1971,"kind":"reply","id":10,"op":"leaseFinish","ok":true,"boundaryRevision":9,"throughSeq":1431,"elapsedMs":6}
+{"atIso":"2026-11-03T00:09:17.917Z","atMonotonicMs":78281.4592,"kind":"request","id":11,"op":"controller","actionId":"ack-comp-2","name":"acknowledge_completion","action":"completion_ack","campaignRevision":14,"boundaryRevision":9}
+{"atIso":"2026-11-03T00:09:17.995Z","atMonotonicMs":78359.7716,"kind":"reply","id":11,"op":"controller","ok":true,"boundaryRevision":10,"throughSeq":1436,"elapsedMs":78}
+{"atIso":"2026-11-03T00:09:18.049Z","atMonotonicMs":78413.3234,"kind":"request","id":12,"op":"leaseBegin","campaignRevision":17,"leaseId":"portal-20261103000832522-1:lease:3","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T00:09:18.109Z","atMonotonicMs":78473.6121,"kind":"reply","id":12,"op":"leaseBegin","ok":true,"boundaryRevision":11,"throughSeq":1443,"elapsedMs":60}
+{"atIso":"2026-11-03T00:09:39.938Z","atMonotonicMs":100302.3182,"kind":"request","id":13,"op":"leaseFinish","leaseId":"portal-20261103000832522-1:lease:3"}
+{"atIso":"2026-11-03T00:09:39.941Z","atMonotonicMs":100305.4419,"kind":"reply","id":13,"op":"leaseFinish","ok":true,"boundaryRevision":12,"throughSeq":2159,"elapsedMs":3}
+{"atIso":"2026-11-03T00:09:39.965Z","atMonotonicMs":100329.8042,"kind":"request","id":14,"op":"hold","stopClock":false}
+{"atIso":"2026-11-03T00:09:39.992Z","atMonotonicMs":100356.1327,"kind":"reply","id":14,"op":"hold","ok":true,"boundaryRevision":13,"throughSeq":2162,"elapsedMs":26}
+{"atIso":"2026-11-03T00:09:39.997Z","atMonotonicMs":100361.5151,"kind":"request","id":15,"op":"hold","stopClock":true}
+{"atIso":"2026-11-03T00:09:40.108Z","atMonotonicMs":100472.347,"kind":"reply","id":15,"op":"hold","ok":true,"boundaryRevision":13,"throughSeq":2167,"elapsedMs":111}
+{"atIso":"2026-11-03T00:09:40.117Z","atMonotonicMs":100481.4775,"kind":"request","id":16,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-03T00:09:40.152Z","atMonotonicMs":100516.5503,"kind":"reply","id":16,"op":"close","ok":true,"boundaryRevision":13,"throughSeq":2169,"elapsedMs":35}
+{"atIso":"2026-11-03T00:09:40.204Z","atMonotonicMs":100567.9772,"kind":"child.exit","code":0,"signal":null,"lastSeq":2169}
+{"atIso":"2026-11-03T00:09:40.205Z","atMonotonicMs":100569.4877,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock","boundaryRevision":13,"lastSeq":2169},"exit":{"code":0,"signal":null},"killed":false}

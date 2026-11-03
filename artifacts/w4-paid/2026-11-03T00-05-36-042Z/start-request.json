@@ -1,0 +1,15 @@
+{
+  "atIso": "2026-11-03T00:08:32.509Z",
+  "command": {
+    "contractVersion": 1,
+    "requestId": "approved-five-request-trial-1793664512509",
+    "type": "start",
+    "payload": {
+      "scope": {
+        "normal": true,
+        "faults": true,
+        "adaptive": true
+      }
+    }
+  }
+}

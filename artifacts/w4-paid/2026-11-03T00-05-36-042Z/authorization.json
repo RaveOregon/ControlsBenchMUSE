@@ -1,0 +1,36 @@
+{
+  "status": "user-delegated-modest-expanded-allowance",
+  "recordedAtIso": "2026-11-03T00:05:40.312Z",
+  "answer": "just go bigger than you proposed by a bit so we have some wiggle",
+  "packetSha256": "0eb36e875646552b90185e4e6e9922fd801f02af2eada5e7adbca48a6f6aa93f",
+  "originalApproval": {
+    "packet": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\packet.json",
+    "packetSha256": "2b7363876810fe6df81ce0a7fcd06d97bbc5edae67b3f8815ba2d9af17be7bf9",
+    "authorization": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-02T13-42-05-152Z\\authorization.json",
+    "retryInstruction": "original approval",
+    "alreadySpentNewConservativeUsd": 3,
+    "maximumTotalNewConservativeUsd": 4
+  },
+  "maximumModelRequests": 5,
+  "maximumNewConservativeUsd": 5,
+  "aggregateConservativeCeilingUsd": 12,
+  "dataScope": {
+    "destination": "https://api.meta.ai/v1",
+    "sends": [
+      "accepted conveyor specification",
+      "logical signal and semantic tool definitions",
+      "engineer objective",
+      "fresh live PLC raw-input/output observations and diagnostic values",
+      "action results, faults, experiment state and evidence identifiers",
+      "grounded findings and subsequent investigation results"
+    ],
+    "excludes": [
+      "PLC source/binaries",
+      "model/PLC credentials",
+      "opaque connection addresses/node IDs",
+      "generated world source",
+      "HMI pixels/video"
+    ],
+    "dynamics": "Live observations, times, revisions, IDs, decisions and paired tool outcomes are generated at run time; these dynamic fields are approved by class, not identical to the recorded example."
+  }
+}

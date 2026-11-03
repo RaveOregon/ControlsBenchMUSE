@@ -1,0 +1,21 @@
+{
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T00-05-36-042Z",
+  "packetSha256": "0eb36e875646552b90185e4e6e9922fd801f02af2eada5e7adbca48a6f6aa93f",
+  "status": "partial-meta503-recovered",
+  "realApiRequests": 3,
+  "realPlcConnections": 1,
+  "previousConservativeUsd": 7,
+  "maximumNewConservativeUsd": 5,
+  "maximumOutputTokens": 8000,
+  "aggregateConservativeCeilingUsd": 12,
+  "conservativeNewUsd": 3,
+  "aggregateConservativeUsd": 10,
+  "remainingApprovedUsd": 2,
+  "campaignId": "portal-20261103000832522-1",
+  "successfulDecisions": 2,
+  "groundedFindings": 1,
+  "verifiedPlcClaims": 7,
+  "recovery": "pass: native held-running",
+  "audit": "artifacts/w4-paid/2026-11-03T00-05-36-042Z/live-host/runs/2026-11-03T00-08-00-121Z-live_plc/portal-host/portal-20261103000832522-1/expanded-trial-audit.json",
+  "packetReusable": false
+}
