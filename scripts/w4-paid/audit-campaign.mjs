@@ -14,6 +14,11 @@ const exchanges=s.readJsonl(join(directory,'wonder-exchanges.jsonl'));
 for(const e of exchanges.filter(e=>e.phase==='response'))assert.equal(digest(e.responseText),e.responseHash);
 const requests=exchanges.filter(e=>e.phase==='request'&&e.endpoint==='responses');let head,callId,pairedResults=0;
 const responses=[],failures=[];
+for(const turn of [...new Set(exchanges.map(x=>x.turn))]) {
+  if(requests.some(x=>x.turn===turn))continue;
+  const failed=exchanges.findLast(x=>x.turn===turn&&['failed','retryable_decision_transport_error','retryable_service_error'].includes(x.phase));
+  if(failed)failures.push({turn,type:'preflight_failed_no_generation_sent',phase:failed.phase,billing:'No generation request recorded; conservative reservation retained'});
+}
 for(const request of requests) {
   const body=JSON.parse(request.requestText);assert.equal(body.previous_response_id,head);
   assert.equal(body.max_output_tokens,approval.maximumOutputTokens);assert.equal(body.reasoning.effort,'high');
@@ -55,11 +60,12 @@ const faultCodes=[...new Set(events.filter(e=>e.type==='plc.output').map(e=>e.da
 const faultActions=events.filter(e=>e.type==='action.requested'&&e.data.name==='inject_fault').map(e=>({eventId:e.id,...e.data,
   applied:events.some(x=>x.type==='action.applied'&&x.data.actionId===e.data.actionId)}));
 let recovery;
-for(const name of ['cleared-contradiction','feedback-loss','completed']) {
-  const path=join(directory,name+'-recovery-status.json');if(!existsSync(path))continue;
+for(const name of ['aborted-d1-jam','pending-runout','cleared-contradiction','feedback-loss','completed']) {
+  let path=join(directory,name+'-recovery-status.json');if(!existsSync(path))path=join(directory,name+'-recovery-latest.json');if(!existsSync(path))continue;
   const status=s.json(path);if(status.status==='pass') {
-    const r=s.json(join(status.recoveryDirectory,'result.json'));assert.equal(r.status,'pass');assert.equal(s.hashFile(join(status.recoveryDirectory,'transport.jsonl')),r.transportSha256);
-    assert.deepEqual(r.final.stoppedBaselineMismatches,[]);recovery={resultSha256:s.hashFile(join(status.recoveryDirectory,'result.json')),directory:status.recoveryDirectory,final:r.final};
+    const recovered=status.recoveryDirectory??status.directory;
+    const r=s.json(join(recovered,'result.json'));assert.equal(r.status,'pass');assert.equal(s.hashFile(join(recovered,'transport.jsonl')),r.transportSha256);
+    assert.deepEqual(r.final.stoppedBaselineMismatches,[]);recovery={resultSha256:s.hashFile(join(recovered,'result.json')),directory:recovered,final:r.final};
   }
 }
 const audit={status:report.status==='completed'?'completed_candidate_for_engineering_review':'partial',verifiedAtIso:new Date().toISOString(),campaignId:held.campaignId,

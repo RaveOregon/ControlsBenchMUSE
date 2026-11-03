@@ -57,3 +57,24 @@ test('twenty actual runtime decisions preserve twelve dollars and stop at sevent
     assert.throws(()=>s.verifyAccountBaseline(approval,file),/changed since/);
   }finally{account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
 });
+
+test('direct generation profile preserves forty-five historical dollars and executes twenty five-dollar decisions below the authorized pool',async()=>{
+  const direct={...packet,approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v3',authorizedCreditPoolUsd:150},sessionBaseline:{conservativeUsd:45},
+    perRequestAdmissionUsd:5,maximumNewConservativeUsd:100,aggregateConservativeCeilingUsd:145,admissionMode:'context_ceiling',retryDecisionTransport:true,maxTransientRetries:5};
+  assert.equal(s.trialEnvelope(direct),20);assert.throws(()=>s.trialEnvelope({...direct,perRequestAdmissionUsd:3}));
+  const {CampaignLedger}=await s.fromPin('src/campaign/ledger.ts'),{CampaignRuntime}=await s.fromPin('src/campaign/runtime.ts');
+  const {CampaignBudget,acceptedBudgetLimits}=await s.fromPin('src/campaign/budget.ts'),{ModelBudgetGuard}=await s.fromPin('src/proof/budget-guard.ts');
+  const {DurableSessionAccount}=await s.fromPin('src/campaign/session-account.ts');
+  const dir=mkdtempSync(join(tmpdir(),'direct-generation-')),file=join(dir,'session.jsonl');
+  const history=Array.from({length:12},(_,i)=>JSON.stringify({costUsd:1,totalUsd:i+1})).concat(Array.from({length:11},(_,i)=>JSON.stringify({costUsd:3,totalUsd:15+i*3}))).join('\n')+'\n';writeFileSync(file,history);
+  const approval={...direct,sessionBaseline:{conservativeUsd:45,sha256:s.hash(history)}};assert.equal(s.verifyAccountBaseline(approval,file),45);
+  const ledger=new CampaignLedger('direct-generation'),account=new DurableSessionAccount(file,'direct-generation',150);let calls=0;
+  try {
+    const provider={id:'offline-direct',paid:true,estimatedRequestUsd:5,maxTransientRetries:5,retryDecisionTransport:true,async decide(){const n=++calls;return{decision:{summary:'Inspect '+n,calls:[{id:'read-'+n,name:'inspect_recent_evidence',arguments:{limit:n}}]},costUsd:5};}};
+    const budget=new CampaignBudget(ledger,new ModelBudgetGuard({...acceptedBudgetLimits,perRequestUsd:5,campaignHardUsd:105,sessionHardUsd:150}),100,account);
+    const runtime=new CampaignRuntime({ledger,provider,budget,maxRejectedDecisions:3,paidAuthorized:true,evidenceClass:'fake_connector',claimBoundary:'Offline accounting only',spec:'fixture',signals:[],categories:['faults'],provenance:{spec:'fixture',ioMap:'fixture',plcBuild:'fixture',worldModule:'fixture',model:'fixture',connector:'none'}});
+    s.configureBoundedRuntime(runtime,approval);await runtime.start(false);await runtime.runAgent();await runtime.stop();
+    assert.equal(calls,20);assert.equal(account.spentUsd,145);assert(readFileSync(file,'utf8').startsWith(history));
+    assert(ledger.events.some(e=>e.type==='action.applied'&&e.data.actionId==='read-20'));assert.equal(budget.guard.leases.size,20);
+  }finally{account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
+});

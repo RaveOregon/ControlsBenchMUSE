@@ -80,3 +80,35 @@ test('invalid lease after unreturned generation stops without another paid reque
   const runtime=runtimeFor(provider,{driver});await runtime.start(false);await runtime.runAgent();assert.equal(calls,1);assert.equal(runtime.status,'paused');
   await runtime.stop();runtime.ledger.close();
 });
+
+test('full-context admission makes only generation requests and reserves more than the maximum context/output token cost',async()=>{
+  const requests:string[]=[],journal:any[]=[];
+  const provider=new WonderResponsesProvider({apiKey:'fixture',explicitlyAuthorized:true,maxCalls:20,maxOutputTokens:16000,requestAdmissionUsd:5,admissionMode:'context_ceiling',journal:{append:x=>journal.push(x)},fetch:async(url)=>{requests.push(String(url));assert(!String(url).endsWith('input_tokens'));return Response.json(complete(1));}});
+  const result=await provider.decide(runtimeFor(provider).agentContext(),new AbortController().signal);assert(!result.error);
+  assert.equal(requests.length,1);const admission=journal.find(x=>x.phase==='admission');
+  assert.equal(admission.inputTokens,1048576);assert.equal(admission.tokenBasis,'context_ceiling');assert.equal(admission.maximumUsd,4.514304);assert(admission.maximumUsd<provider.estimatedRequestUsd);
+  assert.throws(()=>new WonderResponsesProvider({apiKey:'fixture',explicitlyAuthorized:true,requestAdmissionUsd:3,admissionMode:'context_ceiling',journal:{append(){}}}),/five-dollar/);
+});
+
+for(const phase of ['input_tokens','responses'])test(`structured HTTP 500 during ${phase} retries only with extended policy`,async()=>{
+  let count=0;
+  const provider=new WonderResponsesProvider({apiKey:'fixture',explicitlyAuthorized:true,maxCalls:2,maxTransientRetries:1,retryDecisionTransport:true,journal:{append(){}},fetch:async(url)=>{
+    const endpoint=String(url).endsWith('input_tokens')?'input_tokens':'responses';if(endpoint==='input_tokens')count++;
+    if(count===1&&endpoint===phase)return Response.json({error:{type:'server_error',message:'internal server error'}},{status:500});
+    return Response.json(endpoint==='input_tokens'?{input_tokens:100}:complete(count));
+  }});
+  const clock=new ManualClock(),runtime=runtimeFor(provider,{clock,maxTurns:2,maxTransientRetries:1});await drive(runtime,clock);
+  assert.equal(count,2);assert.equal(runtime.ledger.events.filter(e=>e.type==='action.applied').length,1);await runtime.stop();runtime.ledger.close();
+});
+
+test('successful decisions reset consecutive service retry counters while every request stays counted',async()=>{
+  let count=0;
+  const provider=new WonderResponsesProvider({apiKey:'fixture',explicitlyAuthorized:true,maxCalls:4,maxTransientRetries:1,retryDecisionTransport:true,journal:{append(){}},fetch:async(url)=>{
+    if(String(url).endsWith('input_tokens'))return Response.json({input_tokens:100});const n=++count;
+    return n%2?Response.json({error:{type:'server_error',message:'internal server error'}},{status:500}):Response.json(complete(n));
+  }});
+  const clock=new ManualClock(),runtime=runtimeFor(provider,{clock,maxTurns:4,maxTransientRetries:1});await drive(runtime,clock);
+  assert.equal(count,4);assert.equal(runtime.budget.guard.campaignSpentUsd,4);
+  assert.equal(runtime.ledger.events.filter(e=>e.type==='agent.activity'&&e.data.phase==='provider_retry_scheduled').length,2);
+  assert.equal(runtime.ledger.events.filter(e=>e.type==='action.applied').length,2);await runtime.stop();runtime.ledger.close();
+});

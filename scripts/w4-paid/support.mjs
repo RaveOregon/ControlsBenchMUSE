@@ -28,6 +28,13 @@ export const objective = {
 
 export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
+  if(packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v3') {
+    assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);assert.equal(packet.sessionBaseline.conservativeUsd,45);
+    assert.equal(turns,20);assert.equal(packet.perRequestAdmissionUsd,5);assert.equal(packet.admissionMode,'context_ceiling');
+    assert.equal(packet.maximumNewConservativeUsd,100);assert.equal(packet.aggregateConservativeCeilingUsd,145);assert.equal(packet.sessionHardUsd,150);
+    assert.equal(packet.maximumOutputTokens,16000);assert.equal(packet.maxTransientRetries,5);assert.equal(packet.retryDecisionTransport,true);assert.equal(packet.maxRejectedDecisions,3);
+    return turns;
+  }
   if(packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v2') {
     assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);
     assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd)&&packet.sessionBaseline.conservativeUsd>=12);
@@ -84,7 +91,7 @@ export function verifyAccountBaseline(packet, path = commonWonderPaths().session
   }
   assert.equal(total, packet.sessionBaseline.conservativeUsd);
   if (packet.aggregateConservativeCeilingUsd !== undefined) trialEnvelope(packet);
-  assert(total + packet.maximumNewConservativeUsd <= (packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v2'?packet.sessionHardUsd:15), 'Durable session cap would be exceeded');
+  assert(total + packet.maximumNewConservativeUsd <= (['controlsbench.w4-full-proof-approval.v2','controlsbench.w4-full-proof-approval.v3'].includes(packet.approvalRevision?.contract)?packet.sessionHardUsd:15), 'Durable session cap would be exceeded');
   return total;
 }
 
@@ -144,7 +151,7 @@ export function configureBoundedRuntime(runtime, packet) {
   const turns = packet ? trialEnvelope(packet) : 4;
   const retries=packet?.maxTransientRetries??0;
   if(packet?.retryDecisionTransport) {
-    assert.equal(runtime.decisionTransportRetryPolicy,'pure-model-transport-v1','Selected runtime lacks pure-decision transport retry qualification');
+    assert.equal(runtime.decisionTransportRetryPolicy,'pure-model-transport-v2','Selected runtime lacks qualified consecutive service/transport retry');
     assert.equal(runtime.options.provider.retryDecisionTransport,true);
   }
   if(retries) {

@@ -13,7 +13,7 @@ export function createCampaignFactory() {
   assert.equal(hash(bytes), process.env.CONTROLSBENCH_W4_APPROVAL_SHA256, 'Authorization packet differs from reviewed bytes');
   assert.equal(packet.ownerCommit, configuration.sourceCommit);
   const turns = trialEnvelope(packet);
-  const longProof=packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v2';
+  const longProof=['controlsbench.w4-full-proof-approval.v2','controlsbench.w4-full-proof-approval.v3'].includes(packet.approvalRevision?.contract);
   const resume=longProof||['controlsbench.w4-resume-approval.v1','controlsbench.w4-full-proof-approval.v1'].includes(packet.approvalRevision?.contract);
   for (const [path, expected] of Object.entries(packet.launchSourceHashes)) assert.equal(hashFile(join(root, path)), expected, `Launch source changed: ${path}`);
   let delegate;
@@ -35,10 +35,10 @@ export function createCampaignFactory() {
       context.ledger.append('world.evidence', {source: {kind: 'paid_w4_approval', packetSha256: hash(bytes), maximumModelRequests: turns, maximumNewConservativeUsd: packet.maximumNewConservativeUsd,
         maximumOutputTokens: packet.maximumOutputTokens ?? 4000, aggregateConservativeCeilingUsd: packet.aggregateConservativeCeilingUsd}}, 'truth');
       if(bench)context.ledger.append('world.evidence',{source:{kind:'native_bench_qualification',resultSha256:bench.resultSha256,sourceCommit:configuration.sourceCommit,modelCalls:0}},'truth');
-      delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({maxTransientRetries:packet.maxTransientRetries??0,retryDecisionTransport:packet.retryDecisionTransport===true,
+      delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({maxTransientRetries:packet.maxTransientRetries??0,retryDecisionTransport:packet.retryDecisionTransport===true,admissionMode:packet.admissionMode??'counted',
         ...(longProof?{proofAllowance:{maximumRequests:turns,sessionHardUsd:packet.sessionHardUsd,maximumRejectedDecisions:packet.maxRejectedDecisions,requestAdmissionUsd:packet.perRequestAdmissionUsd}}:{}),provider: () => {
         const provider=new WonderResponsesProvider({apiKey:process.env.MODEL_API_KEY,explicitlyAuthorized:true,maxCalls:turns,maxOutputTokens:packet.maximumOutputTokens??4000,
-          maxTransientRetries:packet.maxTransientRetries??0,retryDecisionTransport:packet.retryDecisionTransport===true,requestAdmissionUsd:packet.perRequestAdmissionUsd??1,journal:fileExchangeJournal(join(context.artifactDirectory,'wonder-exchanges.jsonl'))});
+          maxTransientRetries:packet.maxTransientRetries??0,retryDecisionTransport:packet.retryDecisionTransport===true,admissionMode:packet.admissionMode??'counted',requestAdmissionUsd:packet.perRequestAdmissionUsd??1,journal:fileExchangeJournal(join(context.artifactDirectory,'wonder-exchanges.jsonl'))});
         if(packet.maxTransientRetries)assert.equal(provider.maxTransientRetries,packet.maxTransientRetries,'Selected provider pin lacks transient retry support');
         return provider;
       }});

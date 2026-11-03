@@ -27,6 +27,7 @@ export interface WonderFactoryOptions {
   /** Opt-in; each retry uses an ordinary counted request and a fresh hold lease. */
   maxTransientRetries?: number;
   retryDecisionTransport?: boolean;
+  admissionMode?: "counted" | "context_ceiling";
   /** Explicit engineer-approved proof allowance; defaults remain unchanged. */
   proofAllowance?: { maximumRequests: number; sessionHardUsd: number; maximumRejectedDecisions: number; requestAdmissionUsd?: number };
   /** Offline injection only: always labeled fake_connector and cannot authorize a paid provider. */
@@ -88,7 +89,7 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
         if (!injected && (!session!.provenance.plcBuild.includes(baseline.projectSha256) || !session!.provenance.worldModule.includes(worldHash)))
           throw new Error("Owner adapter provenance does not match preserved build/world");
         const provider = options.provider?.() ?? (injected ? undefined : new WonderResponsesProvider({ apiKey: process.env.MODEL_API_KEY!, explicitlyAuthorized: true,
-          journal: fileExchangeJournal(join(context.artifactDirectory!, "wonder-exchanges.jsonl")), maxTransientRetries: options.maxTransientRetries, maxCalls: allowance?.maximumRequests, requestAdmissionUsd: requestUsd, retryDecisionTransport: options.retryDecisionTransport }));
+          journal: fileExchangeJournal(join(context.artifactDirectory!, "wonder-exchanges.jsonl")), maxTransientRetries: options.maxTransientRetries, maxCalls: allowance?.maximumRequests, requestAdmissionUsd: requestUsd, retryDecisionTransport: options.retryDecisionTransport, admissionMode: options.admissionMode }));
         if (!provider || (injected && provider.paid)) throw new Error("Offline process injection requires a zero-cost fixture provider");
         if (provider.estimatedRequestUsd !== requestUsd && allowance) throw new Error("Provider admission differs from explicit proof allowance");
         const budget = new CampaignBudget(context.ledger, undefined, allowance ? allowance.maximumRequests * requestUsd : 5, account);

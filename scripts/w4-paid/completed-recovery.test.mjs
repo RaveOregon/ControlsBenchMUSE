@@ -3,10 +3,18 @@ import {mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import test from 'node:test';
-import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan} from './recover-completed-hold.mjs';
+import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan,abortedJamPlan} from './recover-completed-hold.mjs';
 import {fromPin,json,root} from './support.mjs';
 const sample=json(join(root,'artifacts/w4-paid/2026-11-02T21-16-08-803Z/live-host/runs/2026-11-02T23-43-04-875Z-live_plc/portal-host/portal-20261102234344698-1/held-state.json'));
 const fixture=()=>({observation:{...sample.plc,values:structuredClone(sample.lastObservation.values)},activeImage:structuredClone(sample.appliedImage)});
+
+test('D1 jam abort cleanup verifies the exact stopped carton, aborted completion and unchanged identity/image/counters',()=>{
+  const record=json(join(root,'artifacts/w4-paid/2026-11-03T03-12-50-682Z/live-host/runs/2026-11-03T03-15-09-629Z-live_plc/portal-host/portal-20261103031655278-1/held-state.json'));
+  const state=()=>({observation:{...record.plc,values:structuredClone(record.lastObservation.values)},activeImage:structuredClone(record.appliedImage)});
+  assert.deepEqual(abortedJamPlan(record,state()).map(x=>x.op),['stop','fresh_world','completion_ack','reset','await_stopped']);
+  for(const mutate of [s=>s.observation.bootIdentity+='x',s=>s.observation.values['controller.CompletionSequence']++,s=>s.observation.values['controller.CompletionItemId']++,s=>s.observation.values['controller.FaultCode']=33,s=>s.observation.values['controller.CountFaulted']++,s=>s.activeImage.D1_ExtendedFB=true]){const changed=state();mutate(changed);assert.throws(()=>abortedJamPlan(record,changed));}
+  const changed=structuredClone(record);changed.outstandingWrites.atClose=[{paths:['unknown']}];assert.throws(()=>abortedJamPlan(changed,state()));
+});
 
 test('completed unassigned runout cleanup requires exact saved completion, matching image, identity, counters and no uncertainty',()=>{
   const record=json(join(root,'artifacts/w4-paid/2026-11-03T03-03-06-136Z/bench-check/2026-11-03T03-04-29-347Z/held-state.json'));

@@ -32,11 +32,14 @@ export class WonderResponsesProvider implements CampaignProvider {
   #transientFailures = 0;
   readonly maxTransientRetries: number;
   readonly retryDecisionTransport: boolean;
+  readonly admissionMode: "counted" | "context_ceiling";
   readonly maxCalls: number; readonly maxOutputTokens: number;
-  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number; retryDecisionTransport?: boolean }) {
+  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number; retryDecisionTransport?: boolean; admissionMode?: "counted" | "context_ceiling" }) {
     if (!options.explicitlyAuthorized || !options.apiKey) throw new Error("Wonder requires Start Campaign authorization and a local key");
     this.#key = options.apiKey; this.#fetch = options.fetch ?? fetch; this.#journal = options.journal;
     this.estimatedRequestUsd = options.requestAdmissionUsd ?? 1;
+    this.admissionMode = options.admissionMode ?? "counted";
+    if (!["counted", "context_ceiling"].includes(this.admissionMode) || this.admissionMode === "context_ceiling" && this.estimatedRequestUsd !== 5) throw new Error("Full-context admission requires an explicit five-dollar reservation");
     if (!Number.isInteger(this.estimatedRequestUsd) || this.estimatedRequestUsd < 1 || this.estimatedRequestUsd > 5) throw new Error("Invalid explicit request admission allowance");
     this.maxCalls = options.maxCalls ?? 4; this.maxOutputTokens = options.maxOutputTokens ?? 4000;
     this.maxTransientRetries = options.maxTransientRetries ?? 0;
@@ -53,6 +56,18 @@ export class WonderResponsesProvider implements CampaignProvider {
       const entry = { turn, requestId: audit?.requestId ?? `direct-${turn}`, atIso: new Date().toISOString(), ...record };
       this.#journal.append(entry); // Independent durable sink also preserves responses arriving after cancellation.
       if (!signal.aborted) audit?.preserve(entry);
+    };
+    const serviceRetry = (response: any, phase: "input_tokens" | "responses"): ProviderReply | undefined => {
+      const payload=response.payload,delay=serviceRetryDelay(response.headers["retry-after"]);
+      const eligible=response.httpStatus===503 || this.retryDecisionTransport && [500,502,504].includes(response.httpStatus);
+      if(eligible && payload?.error?.type==='server_error' && typeof payload.error.message==='string'
+        && payload.id===undefined && payload.status===undefined && payload.output===undefined && !signal.aborted
+        && delay!==undefined && this.#transientFailures<this.maxTransientRetries && this.#calls<this.maxCalls) {
+        this.#transientFailures++;
+        const retryAfterMs=response.headers['retry-after']===undefined?Math.min(8000,1000*2**(this.#transientFailures-1)):delay;
+        preserve({phase:'retryable_service_error',httpStatus:response.httpStatus,transportPhase:phase,retryAfterMs,retryNumber:this.#transientFailures,previousResponseId:this.#previous??null,pendingCallId:this.#pendingCall??null});
+        return {decision:null,error:`Meta HTTP ${response.httpStatus} server_error; no decision returned`,retryableServiceError:{httpStatus:response.httpStatus,retryAfterMs,phase}};
+      }
     };
     try {
       assertLogicalContext({ signals: context.signals, capabilities: context.capabilities, evidence: context.evidence, results: context.results });
@@ -75,13 +90,20 @@ export class WonderResponsesProvider implements CampaignProvider {
       if (Buffer.byteLength(JSON.stringify(body)) > 160_000) throw new Error("Compact context exceeds request byte limit; retrieve a smaller window");
       const countBody = { model: body.model, input: body.input, instructions: body.instructions, tools: body.tools,
         tool_choice: body.tool_choice, parallel_tool_calls: false, ...(this.#previous ? { previous_response_id: this.#previous } : {}) };
-      const count = await this.#exchange("input_tokens", countBody, signal, preserve);
-      const tokens = (count.payload as any)?.input_tokens;
-      if (!count.ok || !Number.isSafeInteger(tokens) || tokens < 0) throw new Error("Token-count preflight failed; no generation sent");
+      let tokens: number;
+      if(this.admissionMode==='context_ceiling')tokens=1_048_576;
+      else {
+        const count = await this.#exchange("input_tokens", countBody, signal, preserve);
+        tokens=(count.payload as any)?.input_tokens;
+        if (!count.ok || !Number.isSafeInteger(tokens) || tokens < 0) {
+          const retry=serviceRetry(count,'input_tokens');if(retry)return retry;
+          throw new Error("Token-count preflight failed; no generation sent");
+        }
+      }
       // Count includes stored history and hidden scaffolding. Charge all input at uncached Standard rate.
       // No hosted tools/extra model iterations; max_output_tokens includes reasoning.
       const maximumUsd = (tokens * wonderPricing.inputUsdPerMillion + this.maxOutputTokens * wonderPricing.outputUsdPerMillion) / 1_000_000;
-      preserve({ phase: "admission", inputTokens: tokens, maxOutputTokens: this.maxOutputTokens, maximumUsd, pricing: wonderPricing });
+      preserve({ phase: "admission", inputTokens: tokens, tokenBasis:this.admissionMode, maxOutputTokens: this.maxOutputTokens, maximumUsd, pricing: wonderPricing });
       if (maximumUsd > this.estimatedRequestUsd) throw new Error(`Request maximum exceeds $${this.estimatedRequestUsd} admission; no generation sent`);
       transportPhase = "responses";
       const response = await this.#exchange("responses", body, signal, preserve);
@@ -91,16 +113,7 @@ export class WonderResponsesProvider implements CampaignProvider {
         ...(payload?.usage && typeof payload.usage === "object" && !Array.isArray(payload.usage) ? { usage: payload.usage } : {}) };
       // Never retry a returned decision, unknown network outcome, malformed error,
       // or partial response identity. Preserve the previous valid conversation head.
-      const delay = serviceRetryDelay(response.headers["retry-after"]);
-      if (response.httpStatus === 503 && payload?.error?.type === "server_error" && typeof payload.error.message === "string"
-        && payload.id === undefined && payload.status === undefined && payload.output === undefined
-        && delay !== undefined && this.#transientFailures < this.maxTransientRetries && this.#calls < this.maxCalls) {
-        this.#transientFailures++;
-        preserve({ phase: "retryable_service_error", httpStatus: 503, retryAfterMs: delay, retryNumber: this.#transientFailures,
-          previousResponseId: this.#previous ?? null, pendingCallId: this.#pendingCall ?? null });
-        return { decision: null, ...metadata, error: "Meta HTTP 503 server_error; no response identity or decision returned",
-          retryableServiceError: { httpStatus: 503, retryAfterMs: delay } };
-      }
+      const retry=serviceRetry(response,'responses');if(retry)return retry;
       if (!response.ok || payload?.status !== "completed" || typeof payload.id !== "string" || this.#seenResponses.has(payload.id)) {
         this.#blocked = true;
         return { decision: null, ...metadata, error: "HTTP, incomplete, missing or repeated response identity; no retry" };
@@ -114,6 +127,7 @@ export class WonderResponsesProvider implements CampaignProvider {
       try { decision = JSON.parse(calls[0].arguments); } catch { this.#blocked = true; return { decision: null, ...metadata, error: "Malformed decision JSON; raw body preserved" }; }
       this.#previous = payload.id; this.#pendingCall = calls[0].call_id;
       this.#seenResponses.add(payload.id); this.#seenCalls.add(calls[0].call_id);
+      this.#transientFailures=0;
       return { decision, ...metadata }; // Runtime validates arguments, scope, revisions and evidence.
     } catch (error) {
       const causeCode = String((error as any)?.cause?.code ?? "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 80);
@@ -125,7 +139,7 @@ export class WonderResponsesProvider implements CampaignProvider {
         preserve({ phase: "retryable_decision_transport_error", transportPhase, previousResponseId: this.#previous ?? null,
           pendingCallId: this.#pendingCall ?? null, retryNumber: this.#transientFailures, billing: "possibly_charged", decisionReturned: false });
         return { decision: null, error: "Model connection failed before any decision was returned; possible billing retained",
-          retryableDecisionTransportError: { phase: transportPhase, decisionReturned: false, billing: "possibly_charged", retryAfterMs: 1000 } };
+          retryableDecisionTransportError: { phase: transportPhase, decisionReturned: false, billing: "possibly_charged", retryAfterMs: Math.min(8000,1000*2**(this.#transientFailures-1)) } };
       }
       this.#blocked = true;
       preserve({ phase: "failed", reason: signal.aborted ? "cancelled or timed out; possibly charged" : "transport/preflight/provider failure; no retry" });

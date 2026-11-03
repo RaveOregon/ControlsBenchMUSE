@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "scope": "offline-transport-retry-delta",
+  "sourceCommit": "3faa04454eb0adcb5e02f65c11d80648bc644675",
+  "sources": {
+    "src/campaign/provider.ts": "2f0f7500bc37cc35300dea9acea43c1cdc3b8aee9c7f544e5cc5d1aa82e6a866",
+    "src/campaign/runtime.ts": "a0e666f20483afcade8e3e8a5e890c959b29acaf9369dc02c7fae3fcb66a4b81",
+    "src/campaign/wonder-responses.ts": "0dabcf63564af959b7f8c8372185048f50a8f31aaf4f321ad2bba508d75f2f21",
+    "src/host/wonder-campaign-factory.ts": "c4f9be9d2803bda7ffc6d164338569f7f7360afa894dbac39ca7a250db45678d",
+    "test/wonder-transport-retry.test.ts": "3e08d1ee388a10b865ce4b96aba7eac1c6dd0697d4fc2e56c81c83a5d8ad3203",
+    "package.json": "27235dec1499a73e3e64913bda6876ca536eedf662d350ff6002bc8908a208a0",
+    "scripts/check-w4-context-admission.js": "0f1c3b6384a6bd3a3907ac9d42b2cfc968b83a5523af9614cc774a8221fd5816"
+  },
+  "baseQualification": {
+    "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-transport-retry\\2026-11-03T02-56-42-016Z\\result.json",
+    "sha256": "bf5187aae3939a6753e9570c11979cddcd9d35af7953f5bfdea4c71b61787eba",
+    "fullSuiteTests": 215,
+    "parentAffectedTests": 88,
+    "passed": true,
+    "claimBoundary": "Prior full build and transport delta; current context-admission delta separately qualified below"
+  },
+  "startedAtIso": "2026-11-03T03:26:25.228Z",
+  "realModelCalls": 0,
+  "livePlcExecuted": false,
+  "results": [
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "affected-campaign-provider-process-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 92,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "historical-paid-wrapper-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 18,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePin": {
+    "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+    "verifiedUnchangedHashes": 639
+  },
+  "accountSha256": "e40ac5274cbacf823eca1aff97dc20c2b2dd09f4eb925151f95575082ea683bf",
+  "finishedAtIso": "2026-11-03T03:28:45.186Z"
+}

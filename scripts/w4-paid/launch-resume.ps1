@@ -8,8 +8,11 @@ $w4PacketPath=(Resolve-Path -LiteralPath $Packet).Path
 if ((Get-FileHash -LiteralPath $w4PacketPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $AuthorizePacket) { throw 'Approved resume packet changed.' }
 $w4Packet=Get-Content -LiteralPath $w4PacketPath -Raw | ConvertFrom-Json
 $w4FullProof=$w4Packet.approvalRevision.contract -eq 'controlsbench.w4-full-proof-approval.v1'
-$w4LongProof=$w4Packet.approvalRevision.contract -eq 'controlsbench.w4-full-proof-approval.v2'
-if ($w4LongProof) {
+$w4ContextProof=$w4Packet.approvalRevision.contract -eq 'controlsbench.w4-full-proof-approval.v3'
+$w4LongProof=$w4ContextProof -or $w4Packet.approvalRevision.contract -eq 'controlsbench.w4-full-proof-approval.v2'
+if ($w4ContextProof) {
+    if ($w4Packet.approvalRevision.authorizedCreditPoolUsd -ne 150 -or $w4Packet.maximumModelRequests -ne 20 -or $w4Packet.maximumNewConservativeUsd -ne 100 -or $w4Packet.sessionBaseline.conservativeUsd -ne 45 -or $w4Packet.aggregateConservativeCeilingUsd -ne 145 -or $w4Packet.sessionHardUsd -ne 150 -or $w4Packet.perRequestAdmissionUsd -ne 5 -or $w4Packet.admissionMode -ne 'context_ceiling' -or $w4Packet.maxTransientRetries -ne 5 -or $w4Packet.maxRejectedDecisions -ne 3) { throw 'Direct full-context admission differs from authorized proof profile.' }
+} elseif ($w4LongProof) {
     if ($w4Packet.approvalRevision.authorizedCreditPoolUsd -ne 150 -or $w4Packet.maximumModelRequests -ne 20 -or $w4Packet.maximumNewConservativeUsd -ne 60 -or $w4Packet.sessionBaseline.conservativeUsd -lt 12 -or $w4Packet.aggregateConservativeCeilingUsd -ne ($w4Packet.sessionBaseline.conservativeUsd+60) -or $w4Packet.sessionHardUsd -ne 150 -or $w4Packet.aggregateConservativeCeilingUsd -gt 150 -or $w4Packet.perRequestAdmissionUsd -ne 3 -or $w4Packet.maxTransientRetries -ne $(if($w4Packet.retryDecisionTransport){5}else{2}) -or $w4Packet.maxRejectedDecisions -ne 3) { throw 'Expanded proof packet differs from the authorized configuration.' }
 } elseif ($w4FullProof) {
     if ($w4Packet.approvalRevision.authorizedCreditPoolUsd -ne 150 -or $w4Packet.maximumModelRequests -ne 5 -or $w4Packet.maximumNewConservativeUsd -ne 5 -or $w4Packet.sessionBaseline.conservativeUsd -ne 10 -or $w4Packet.aggregateConservativeCeilingUsd -ne 15 -or $w4Packet.maxTransientRetries -ne 1) { throw 'Full-proof packet differs from the authorized continuation.' }
@@ -47,7 +50,7 @@ $w4Values=$w4Hmi.snapshot.values
 if ($w4Packet.priorRecovery) {
     $w4RecoveryReference=(Resolve-Path -LiteralPath (Join-Path $w4Root $w4Packet.priorRecovery.reference)).Path
     if (-not $w4RecoveryReference.StartsWith((Join-Path $w4Root 'artifacts/w4-paid/'),[StringComparison]::OrdinalIgnoreCase)) { throw 'Recovery record outside paid proof artifacts.' }
-    if ($w4Packet.priorRecovery.path -ne 'pending-runout' -or (Get-FileHash -LiteralPath (Join-Path $w4RecoveryReference 'held-state.json') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Packet.priorRecovery.heldStateSha256) { throw 'Exact pending-runout recovery record required.' }
+    if ($w4Packet.priorRecovery.path -notin @('pending-runout','aborted-d1-jam') -or (Get-FileHash -LiteralPath (Join-Path $w4RecoveryReference 'held-state.json') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Packet.priorRecovery.heldStateSha256) { throw 'Exact supported recovery record required.' }
     if ($w4Hmi.link.state -ne 'connected') { throw 'Live observer must be connected before recovery inspection.' }
 } elseif ($w4Hmi.link.state -ne 'connected' -or $w4Values.'GVL_DemoRead.Status.ModeText'.value -ne 'Stopped' -or $w4Values.'GVL_DemoRead.Status.FaultCode'.value -ne 0 -or $w4Values.'GVL_DemoRead.Status.ItemActive'.value -ne $false -or $w4Values.'GVL_DemoRead.Status.CompletionPending'.value -ne $false -or $w4Values.'GVL_DemoRead.Status.Motor_RunCmd'.value -ne $false) { throw 'Fresh stopped PLC baseline required.' }
 foreach($w4BaselinePath in @('ModeText','FaultCode','ItemActive','CompletionPending','Motor_RunCmd')) { if ($w4Values.('GVL_DemoRead.Status.'+$w4BaselinePath).good -ne $true) { throw ('PLC baseline quality is not Good: '+$w4BaselinePath) } }
@@ -80,12 +83,13 @@ try {
         $w4Status.phase='recorded-prior-bench-cleanup';$w4Status | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $w4StatusFile -Encoding UTF8
         Push-Location -LiteralPath $w4Root
         try {
-            & node scripts/w4-paid/recover-completed-hold.mjs $w4RecoveryReference --pending-runout
+            $w4RecoveryFlag='--'+$w4Packet.priorRecovery.path
+            & node scripts/w4-paid/recover-completed-hold.mjs $w4RecoveryReference $w4RecoveryFlag
             if ($LASTEXITCODE -ne 0) { throw 'Exact read-only pending-runout inspection refused; no cleanup write.' }
-            & node scripts/w4-paid/recover-completed-hold.mjs $w4RecoveryReference --pending-runout --reconcile --authorize $w4Packet.priorRecovery.heldStateSha256
+            & node scripts/w4-paid/recover-completed-hold.mjs $w4RecoveryReference $w4RecoveryFlag --reconcile --authorize $w4Packet.priorRecovery.heldStateSha256
             if ($LASTEXITCODE -ne 0) { throw 'Recorded bench cleanup failed; preserve state and lock.' }
         } finally { Pop-Location }
-        $w4Recovered=Get-Content -LiteralPath (Join-Path $w4RecoveryReference 'pending-runout-recovery-latest.json') -Raw | ConvertFrom-Json
+        $w4Recovered=Get-Content -LiteralPath (Join-Path $w4RecoveryReference ($w4Packet.priorRecovery.path+'-recovery-latest.json')) -Raw | ConvertFrom-Json
         if ($w4Recovered.status -ne 'pass') { throw 'Recorded cleanup must pass before switching host.' }
         $w4Status.priorRecoveryDirectory=$w4Recovered.directory
         Start-Sleep -Milliseconds 1500

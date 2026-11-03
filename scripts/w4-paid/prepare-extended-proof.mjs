@@ -18,7 +18,7 @@ const priorDirectory=join(original,'live-host/runs/2026-11-03T00-08-00-121Z-live
 const audit=json(join(priorDirectory,'expanded-trial-audit.json')),prior=json(join(priorDirectory,'report.json'));
 assert.equal(audit.exactPlcClaimsVerified,7);assert.equal(audit.recovery.final.stoppedBaselineMismatches.length,0);
 const accountBytes=readFileSync(commonWonderPaths().session),charges=accountBytes.toString('utf8').trim().split('\n').map(JSON.parse);
-const baseline=charges.at(-1).totalUsd;assert.equal(baseline,27);
+const baseline=charges.at(-1).totalUsd;assert.equal(baseline,45);
 const directory=join(root,'artifacts/w4-paid',new Date().toISOString().replace(/[:.]/g,'-'));mkdirSync(directory,{recursive:true});
 const objective={source:'Engineer-selected continuation after proved normal sort',
   goal:'Complete the missing declared-fault experiment on the live PLC, then choose and execute a genuinely new follow-up from the returned current fault evidence. Normal A sorting is already established by the labelled recorded prior proof; do not spend the remaining attempts repeating it. Finish Stopped, fault-free, with no active item or pending completion when possible; otherwise state exactly what remains.',
@@ -27,9 +27,9 @@ const objective={source:'Engineer-selected continuation after proved normal sort
 const configRelative=relative(root,configurationPath).replaceAll('\\','/');
 const launchFiles=['scripts/w4-paid/support.mjs','scripts/w4-paid/factory.mjs','scripts/w4-paid/export-held.mjs','scripts/w4-paid/launch-resume.ps1','scripts/w4-paid/recover-completed-hold.mjs',configRelative];
 const packet={contract:'controlsbench.w4-paid-approval.v1',preparedAtIso:new Date().toISOString(),ownerCommit:configuration.sourceCommit,
-  approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v2',previousAggregateCeilingUsd:15,authorizedCreditPoolUsd:150,status:'User authorized available credits to prove the product',instruction:"we have only spent $7 during all of our development of a 150 set of credits so lets go full send to prove our shit. we don't need to worry abotu spend limits"},
-  maximumModelRequests:20,maximumNewConservativeUsd:60,aggregateConservativeCeilingUsd:baseline+60,sessionHardUsd:150,maximumOutputTokens:16000,maxTransientRetries:5,maxRejectedDecisions:3,retryDecisionTransport:true,
-  sessionBaseline:{conservativeUsd:baseline,sha256:hash(accountBytes)},model:'muse-wonder-1.0',reasoning:'high',mode:'Standard',perRequestAdmissionUsd:3,requestTimeoutMs:300000,
+  approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v3',previousAggregateCeilingUsd:15,authorizedCreditPoolUsd:150,status:'User authorized available credits to prove the product',instruction:"we have only spent $7 during all of our development of a 150 set of credits so lets go full send to prove our shit. we don't need to worry abotu spend limits"},
+  maximumModelRequests:20,maximumNewConservativeUsd:100,aggregateConservativeCeilingUsd:145,sessionHardUsd:150,maximumOutputTokens:16000,maxTransientRetries:5,maxRejectedDecisions:3,retryDecisionTransport:true,admissionMode:'context_ceiling',
+  sessionBaseline:{conservativeUsd:baseline,sha256:hash(accountBytes)},model:'muse-wonder-1.0',reasoning:'high',mode:'Standard',perRequestAdmissionUsd:5,requestTimeoutMs:300000,
   categories:['faults','adaptive'],objective,
   recordedPriorProof:{kind:'recorded_prior_trial',evidenceClass:'preserved_live_plc',liveNow:false,campaignId:prior.campaignId,auditSha256:hashFile(join(priorDirectory,'expanded-trial-audit.json')),
     finding:prior.findings[0],boundary:'Historical normal-sort observation only. Prior evidence IDs are not current-campaign IDs. No prior fault or adaptive physical test passed.'},
@@ -37,10 +37,10 @@ const packet={contract:'controlsbench.w4-paid-approval.v1',preparedAtIso:new Dat
   launchConfiguration:{path:configRelative,sha256:hashFile(configurationPath)},launchSourceHashes:Object.fromEntries(launchFiles.map(f=>[f,hashFile(join(root,f))])),
   originalApproval:{packetSha256:hashFile(join(original,'packet.json')),authorizationSha256:hashFile(join(original,'authorization.json')),historicalAggregateCeilingUsd:12,supersededByUserCreditAuthorization:true,alreadySpentConservativeUsd:baseline},
   dataTransfer:json(join(original,'packet.json')).dataTransfer,
-  previousHost:{pid:48816,pinDirectoryName:'w4-transport-runtime-pin',packetDirectoryName:'2026-11-03T03-03-06-136Z',expectedCampaignId:null},
-  priorRecovery:{path:'pending-runout',reference:'artifacts/w4-paid/2026-11-03T03-03-06-136Z/bench-check/2026-11-03T03-04-29-347Z',heldStateSha256:'750e620eecb5f0d557a1dc77f289e21e89f5f113f81124a98368c5d26bca50b9'},
+  previousHost:{pid:41592,pinDirectoryName:'w4-transport-runtime-pin',packetDirectoryName:'2026-11-03T03-12-50-682Z',expectedCampaignId:'portal-20261103031655278-1'},
+  priorRecovery:{path:'aborted-d1-jam',reference:'artifacts/w4-paid/2026-11-03T03-12-50-682Z/live-host/runs/2026-11-03T03-15-09-629Z-live_plc/portal-host/portal-20261103031655278-1',heldStateSha256:hashFile(join(root,'artifacts/w4-paid/2026-11-03T03-12-50-682Z/live-host/runs/2026-11-03T03-15-09-629Z-live_plc/portal-host/portal-20261103031655278-1/held-state.json'))},
   hostObserver:{captureIntervalMs:2000,reason:'Reduce screenshot observer load; PLC I/O target stays 100 ms and 300 ms observation bound stays unchanged'},
-  limits:'Up to twenty decisions with separately recorded conservative $3 reservations: at most $60 new/$87 aggregate. Actual billing differs; prior $27 conservative history remains exact, including the possibly billed connection failure. User authorized $150 available credits. Unreturned pure model generation may be requested again from the last valid head, with another charge and fresh hold lease; no uncertain physical effect is retried. Validation correction applies only before any ledger/effect changes.',
+  limits:'Up to twenty direct generation requests, each with a full-context $5 reservation: at most $100 new/$145 aggregate conservative accounting under the $150 credit authorization. Prior $45 history remains exact. No token-count endpoint dependency: 1,048,576 input tokens + 16,000 output tokens at documented rates cost at most $4.514304. Actual usage is reported separately. Up to five consecutive service/transport retries, reset only after a valid response; all attempts remain counted. No uncertain physical effect is retried.',
   recovery:'Dispose exact child, preserve original report/held-state. Native recovery is read-only until exact saved-state match and explicit recorded reconciliation.',
   proofBoundary:'Current source-bound decision-repair and allowance qualification is linked by the launch configuration. Physical engine unchanged. Fresh zero-model bench commissioning must pass before paid Start.'};
 trialEnvelope(packet);verifyAccountBaseline(packet);
@@ -53,7 +53,7 @@ const session=await openOfflineWonderSession({ledger,hmi:{async perform(){throw 
   {transportModule:join(pinned,'test/fixtures/w4-bench-transport.ts'),ownershipPath:join(directory,'unused-preview.lock')});
 let request;
 try {
-  const provider=new WonderResponsesProvider({apiKey:'offline-preview-not-a-key',explicitlyAuthorized:true,maxCalls:20,maxOutputTokens:16000,maxTransientRetries:5,retryDecisionTransport:true,requestAdmissionUsd:3,
+  const provider=new WonderResponsesProvider({apiKey:'offline-preview-not-a-key',explicitlyAuthorized:true,maxCalls:20,maxOutputTokens:16000,maxTransientRetries:5,retryDecisionTransport:true,requestAdmissionUsd:5,admissionMode:'context_ceiling',
     journal:fileExchangeJournal(join(directory,'preview-http.jsonl')),fetch:async(url,init)=>{
       if(String(url).endsWith('input_tokens'))return Response.json({input_tokens:0});
       request=JSON.parse(init.body);throw Error('OFFLINE_PREVIEW_CAPTURE_ONLY');
@@ -63,13 +63,13 @@ try {
     evidenceClass:'fake_connector',claimBoundary:'Preview with no initialization, no PLC/model contact',categories:packet.categories,provenance:session.provenance,
     spec:readFileSync(join(pinned,'docs/conveyor-machine-spec.md'),'utf8'),signals:[...worldManifest.signals,...session.process.loaded.observedOutputIds.filter(id=>!worldManifest.signals.some(s=>s.id===id)).map(id=>({id,direction:'plc_to_world'}))],
     capabilities:{semantic:session.driver.binding.describe,observations:session.process.loaded.observedOutputIds,decisionLeases:['hold','continue','condition_deadline']}});
-  Object.assign(runtime.budget.guard.limits,{perRequestUsd:3,campaignHardUsd:63,sessionHardUsd:150});configureBoundedRuntime(runtime,packet);
+  Object.assign(runtime.budget.guard.limits,{perRequestUsd:5,campaignHardUsd:105,sessionHardUsd:150});configureBoundedRuntime(runtime,packet);
   await assert.rejects(()=>provider.decide(runtime.agentContext(),new AbortController().signal),/OFFLINE_PREVIEW_CAPTURE_ONLY/);
   assert.equal(request.max_output_tokens,16000);assert.equal(JSON.parse(request.input.at(-1).content[0].text).providerBudget.maxDecisions,20);
   writeFileSync(join(directory,'example-request.json'),JSON.stringify(request,null,2)+'\n');
 }finally{await session.dispose();ledger.close();}
 writeFileSync(join(directory,'packet.json'),JSON.stringify(packet,null,2)+'\n',{flag:'wx'});
 const packetSha256=hashFile(join(directory,'packet.json'));
-writeFileSync(join(directory,'authorization.json'),JSON.stringify({status:'approved-full-proof-work',instruction:packet.approvalRevision.instruction,packetSha256,authorizedCreditPoolUsd:150,maximumNewConservativeUsd:60,aggregateConservativeCeilingUsd:baseline+60,previousConservativeUsd:baseline,recordedAtIso:new Date().toISOString()},null,2)+'\n');
-writeFileSync(join(root,'artifacts/w4-paid/latest.json'),JSON.stringify({status:'transport-proof-ready-for-bench-check',directory,packetSha256,previousConservativeUsd:baseline,maximumNewConservativeUsd:60,aggregateConservativeCeilingUsd:baseline+60,authorizedCreditPoolUsd:150,maxTransientRetries:5,retryDecisionTransport:true},null,2)+'\n');
-console.log(JSON.stringify({directory,packetSha256,maximumNewConservativeUsd:60,authorizedCreditPoolUsd:150,realApiRequests:0,realPlcConnections:0}));
+writeFileSync(join(directory,'authorization.json'),JSON.stringify({status:'approved-full-proof-work',instruction:packet.approvalRevision.instruction,packetSha256,authorizedCreditPoolUsd:150,maximumNewConservativeUsd:100,aggregateConservativeCeilingUsd:145,previousConservativeUsd:baseline,recordedAtIso:new Date().toISOString()},null,2)+'\n');
+writeFileSync(join(root,'artifacts/w4-paid/latest.json'),JSON.stringify({status:'direct-generation-ready-for-bench-check',directory,packetSha256,previousConservativeUsd:baseline,maximumNewConservativeUsd:100,aggregateConservativeCeilingUsd:145,authorizedCreditPoolUsd:150,maxTransientRetries:5,retryDecisionTransport:true,admissionMode:'context_ceiling'},null,2)+'\n');
+console.log(JSON.stringify({directory,packetSha256,maximumNewConservativeUsd:100,authorizedCreditPoolUsd:150,realApiRequests:0,realPlcConnections:0}));
