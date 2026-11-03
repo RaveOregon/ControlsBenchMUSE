@@ -128,7 +128,8 @@
   "controller.action": {
     "actionId": "example",
     "action": "example",
-    "observation": {}
+    "observation": {},
+    "outcome": "applied"
   },
   "coordinator.event": {
     "origin": "live-coordinator",
@@ -184,13 +185,29 @@
     "actionId": "example",
     "action": "example",
     "reference": "example",
-    "atIso": "example"
+    "atIso": "example",
+    "receipt": {}
   },
   "hmi.evidence": {
     "actionId": "example",
     "kind": "frame",
     "reference": "example",
-    "atIso": "example"
+    "atIso": "example",
+    "receipt": {}
+  },
+  "hmi.assessment": {
+    "id": "example",
+    "requirementId": "UI-01",
+    "frameEvidenceRefs": [
+      "example"
+    ],
+    "actionEvidenceRefs": [],
+    "plcEvidenceRefs": [
+      "example"
+    ],
+    "observation": "example",
+    "verdict": "pass",
+    "uncertainty": "example"
   },
   "observation": {
     "summary": "example",

@@ -17,7 +17,8 @@ export interface ControlBinding {
   translate(call: ToolCall): WorldControl;
 }
 export interface HmiAdapter {
-  perform(call: ToolCall, signal: AbortSignal): Promise<{ reference: string; atIso: string }>;
+  perform(call: ToolCall, signal: AbortSignal): Promise<{ reference: string; atIso: string; receipt?: Record<string, unknown>; outcome?: "applied" | "rejected" | "inconclusive" }>;
+  vision?(signal: AbortSignal, reference?: string): Promise<{ reference: string; atIso: string; sha256: string; sessionId: string; contentType: string; bytes: Uint8Array }>;
 }
 export interface SimulationExit {
   // Must explicitly select and observe hardware passthrough; connector.close is NOT this contract.

@@ -55,6 +55,8 @@ export interface HmiHubOptions {
   artifactDir?: string;
   nowIso?: () => string;
   onChange?: (view: HmiSessionView, change: { frame?: HmiFrameRef; action?: HmiActionRef }) => void;
+  /** Explicit opt-in to the same controlled session's trusted action bridge. */
+  agentAction?: HmiAdapter["perform"];
 }
 
 export function validateHmiUrl(value: unknown): string {
@@ -72,6 +74,7 @@ export class HmiHub {
   readonly #artifactDir?: string;
   readonly #nowIso: () => string;
   readonly #onChange?: HmiHubOptions["onChange"];
+  readonly #agentAction?: HmiHubOptions["agentAction"];
   /** Set by the host to fan session changes out to portal clients. */
   onChangeListener?: HmiHubOptions["onChange"];
   #source?: HmiCaptureSource;
@@ -92,6 +95,7 @@ export class HmiHub {
     this.#artifactDir = options.artifactDir;
     this.#nowIso = options.nowIso ?? (() => new Date().toISOString());
     this.#onChange = options.onChange;
+    this.#agentAction = options.agentAction;
     this.#view = { state: "not_configured", recording: false, frameCount: 0, detail: "No HMI source configured. HMI not observed/tested.", changedAtIso: this.#nowIso() };
   }
 
@@ -236,17 +240,28 @@ export class HmiHub {
 
   /**
    * M9 runtime HMI capability. `capture_hmi_evidence` frames cite the exact captured bytes.
-   * HMI operation (S2) is not implemented, so `request_hmi_action` is honestly inconclusive.
+   * HMI operation requires an explicitly installed controlled-session action bridge.
    */
   runtimeAdapter(): HmiAdapter {
     return {
       perform: async (call: ToolCall, signal: AbortSignal) => {
-        if (call.name === "request_hmi_action") throw new ToolFailure("inconclusive", "Muse HMI operation is not implemented; no click was delivered");
+        if (signal.aborted) throw new ToolFailure("inconclusive", "HMI request cancelled before delivery");
+        if (call.name === "request_hmi_action") {
+          if (!this.#agentAction) throw new ToolFailure("inconclusive", "Muse HMI operation is not implemented; no click was delivered");
+          return this.#agentAction(call, signal);
+        }
         if (call.arguments.kind !== "frame") throw new ToolFailure("inconclusive", "HMI clip capture is not implemented; request a frame");
         if (!this.observing) throw new ToolFailure("inconclusive", "HMI not observed: no fresh controlled browser HMI session");
         const frame = await this.captureNow();
         if (signal.aborted) throw new ToolFailure("inconclusive", "Capture completed after cancellation");
-        return { reference: frame.reference, atIso: frame.capturedAtIso };
+        return { reference: frame.reference, atIso: frame.capturedAtIso, receipt: { sha256: frame.sha256, sessionId: frame.sessionId } };
+      },
+      vision: async (signal, reference) => {
+        if (signal.aborted || !this.observing) throw new ToolFailure("inconclusive", "No current controlled HMI frame available");
+        const ref = reference ? this.#frames.get(reference)?.ref : await this.captureNow();
+        const stored = ref && this.frame(ref.sessionId, ref.frameSequence);
+        if (signal.aborted || !stored) throw new ToolFailure("inconclusive", "Frame unavailable or capture cancelled");
+        return { reference: stored.ref.reference, atIso: stored.ref.capturedAtIso, sha256: stored.ref.sha256, sessionId: stored.ref.sessionId, contentType: stored.ref.contentType, bytes: new Uint8Array(stored.bytes) };
       }
     };
   }

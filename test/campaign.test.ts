@@ -196,6 +196,7 @@ test("every bounded tool validates its envelope; unsupported capabilities are ex
     clear_fault: { controlId: "fault.clearAll", parameters: {} }, wait_for_condition: { signal: "Motor_RunCmd", equals: true, timeoutMs: 100 },
     observe_for_duration: { durationMs: 100 }, branch_or_reset_world: { mode: "branch", label: "branch" },
     request_hmi_action: { action: "Start" }, capture_hmi_evidence: { kind: "frame", durationMs: 100 },
+    record_hmi_assessment: { id: "screen-1", requirementId: "UI-01", frameEvidenceRefs: ["placeholder"], actionEvidenceRefs: [], plcEvidenceRefs: ["placeholder"], observation: "Untested fixture", verdict: "inconclusive", uncertainty: "No current frame" },
     create_followup_experiment: { experiment: { ...initialExperiment, id: "other", objective: "Another hypothesis" }, evidenceRefs: ["placeholder"], rationale: "Evidence" },
     record_finding: { id: "f", title: "t", experimentId: "baseline", claims: [{ evidenceId: "placeholder", signal: "Motor_RunCmd", equals: false }], injectedTruthRefs: [], inference: "Unverified", assumptions: [], uncertainty: "Unknown" },
     finish_campaign: { summary: "done" }

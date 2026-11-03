@@ -9,6 +9,9 @@ import type { CdpWebVisuSource } from "../host/cdp-webvisu.ts";
 import type { HmiActionRef, HmiFrameRef, HmiSessionView } from "../host/protocol.ts";
 import type { AgentActionView, CommandView } from "./protocol.ts";
 import type { HmiService } from "./service.ts";
+import { ToolFailure } from "../campaign/driver.ts";
+import type { HmiAdapter } from "../campaign/driver.ts";
+import { HMI_TARGETS } from "./protocol.ts";
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 const TERMINAL = new Set(["applied", "rejected", "timed_out", "unconfirmed", "failed", "refused"]);
@@ -46,11 +49,26 @@ export class PortalSessionBridge {
     return this.service.state().clients.filter(c => c.label === this.captureLabel).sort((a, b) => b.connectedAtIso.localeCompare(a.connectedAtIso))[0]?.clientSessionId;
   }
 
-  async executeAgentAction(body: Record<string, unknown>): Promise<{ action: AgentActionView; command?: CommandView }> {
+  /** Semantic selection still delivers an actual trusted click to this portal session. */
+  runtimeAction: HmiAdapter["perform"] = async (call, signal) => {
+    if (signal.aborted) throw new ToolFailure("inconclusive", "Cancelled before HMI click");
+    const targetId = String(call.arguments.action);
+    if (!Object.values(HMI_TARGETS).includes(targetId as any)) throw new ToolFailure("rejected", "Unknown published HMI target; nothing delivered");
+    const { action, command } = await this.executeAgentAction({ targetId, requester: `muse:${call.id}` }, signal);
+    const receipt = { action, ...(command ? { command: { requestId: command.requestId, action: command.action, outcome: command.outcome,
+      ackKind: command.ackKind, expectedSequence: command.expectedSequence, accepted: command.accepted, acknowledgedAtIso: command.acknowledgedAtIso,
+      detail: command.detail, atAck: command.atAck, resulting: command.resulting, evidenceRefs: command.evidenceRefs } } : {}) };
+    const outcome = action.status === "inconclusive" || !action.pageInput?.isTrusted ? "inconclusive"
+      : command ? command.outcome === "applied" ? "applied" : command.outcome === "rejected" || command.outcome === "refused" ? "rejected" : "inconclusive" : "applied";
+    return { reference: action.reference, atIso: action.screen?.capturedAtIso ?? action.requestedAtIso, receipt: JSON.parse(JSON.stringify(receipt)), outcome };
+  };
+
+  async executeAgentAction(body: Record<string, unknown>, signal?: AbortSignal): Promise<{ action: AgentActionView; command?: CommandView }> {
     const clientSessionId = this.portalClient();
     if (!clientSessionId || !this.#source || !this.hub.observing) throw Object.assign(new Error("No observed portal HMI session to operate"), { status: 409 });
     // Re-read the layout immediately before delivery; a rectangle published earlier may no longer be where the control is.
     await this.service.refreshTargets(clientSessionId);
+    if (signal?.aborted) throw new ToolFailure("inconclusive", "Cancelled before browser dispatch");
     const requested = this.service.requestAgentAction({ ...body, clientSessionId });
     if (requested.status === "inconclusive" || !requested.targetRect) return { action: requested };
     const r = requested.targetRect;

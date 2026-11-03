@@ -209,6 +209,7 @@ export function report(events: readonly CampaignEvent[]) {
   return { schemaVersion: CAMPAIGN_VERSION, campaignId: s.campaignId, status: s.status, provenance: s.provenance,
     evidenceClass: s.evidenceClass, claimBoundary: s.claimBoundary, plan: s.plan, experiments: Object.values(s.experiments),
     findings: Object.values(s.findings), budget: s.budget, finalization: s.report,
+    ...(events.some(e => e.type === "hmi.assessment") ? { hmiAssessments: events.filter(e => e.type === "hmi.assessment").map(e => ({ id: e.id, data: e.data, review: "unreviewed" })) } : {}),
     injectedTruth: events.filter(e => e.type === "fault.truth").map(e => ({ id: e.id, data: e.data })),
     worldEvidenceRefs: events.filter(e => e.type === "world.evidence").map(e => e.id),
     sourceEvidenceRefs: events.filter(e => e.type === "coordinator.event").map(e => e.id),

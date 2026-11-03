@@ -1,4 +1,5 @@
 import { closeSync, fsyncSync, openSync, writeSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { decisionSchema, toolSchemas } from "./contracts.ts";
 import type { AgentContext, CampaignProvider, ProviderAudit, ProviderReply } from "./provider.ts";
 import { digest } from "./ledger.ts";
@@ -9,6 +10,9 @@ export const wonderPricing = Object.freeze({ checkedOn: "2026-11-01", source: "h
 const instructions = `You are ControlsBench's campaign engineer, Muse Wonder 1.0. Form your own plan from the accepted spec and logical capabilities. Submit one bounded campaign_decision each turn. Its calls are semantic tools executed by CampaignRuntime; their actual terminal outcomes return on the next turn. Choose follow-up investigations from actual evidence rather than repeating a prewritten sequence. Use unique action/experiment/finding IDs. A new follow-up must cite exact observed evidence and fit authorized categories. Complete the current experiment before running the next. Record grounded findings and finish only after all experiments have evidence. A finding's claims must exactly match cited plc.output signal/value pairs. Inference, machine expectations, intervention truth, requested raw stimulus, acknowledged input image, PLC outputs, HMI pixels and verdict are distinct. No inferred requirement coverage or HMI pass. Recorded evidence is historical, never a new action. Read-only tools cannot test future behavior. Inspect exact older windows by ID/sequence when needed; do not invent IDs. Keep assumptions and uncertainty explicit. Never edit PLC code, endpoints, credentials, world source or physics. No scan-by-scan I/O. HMI/branch/rewrite are unsupported unless explicitly declared. Blind diagnosis must use only supplied filtered observations. Default reasoning policy holds; only select bounded continue/condition_deadline when the adapter declares leases. PLC time always advances. No retries after uncertain effects.`;
 
 export interface ExchangeJournal { append(record: Record<string, unknown>): void }
+export interface WonderVisualInput {
+  evidenceId: string; reference: string; atIso: string; sha256: string; sessionId: string; contentType: string; bytes: Uint8Array; recorded?: boolean;
+}
 export function fileExchangeJournal(path: string): ExchangeJournal {
   // Fail on path reuse. Every append is flushed, including requests before network and raw bodies before parsing.
   const initial = openSync(path, "wx"); closeSync(initial);
@@ -34,7 +38,8 @@ export class WonderResponsesProvider implements CampaignProvider {
   readonly retryDecisionTransport: boolean;
   readonly admissionMode: "counted" | "context_ceiling";
   readonly maxCalls: number; readonly maxOutputTokens: number;
-  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number; retryDecisionTransport?: boolean; admissionMode?: "counted" | "context_ceiling" }) {
+  readonly visualInputs?: (context: AgentContext, signal: AbortSignal) => Promise<WonderVisualInput[]>;
+  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number; retryDecisionTransport?: boolean; admissionMode?: "counted" | "context_ceiling"; visualInputs?: WonderResponsesProvider["visualInputs"] }) {
     if (!options.explicitlyAuthorized || !options.apiKey) throw new Error("Wonder requires Start Campaign authorization and a local key");
     this.#key = options.apiKey; this.#fetch = options.fetch ?? fetch; this.#journal = options.journal;
     this.estimatedRequestUsd = options.requestAdmissionUsd ?? 1;
@@ -44,6 +49,7 @@ export class WonderResponsesProvider implements CampaignProvider {
     this.maxCalls = options.maxCalls ?? 4; this.maxOutputTokens = options.maxOutputTokens ?? 4000;
     this.maxTransientRetries = options.maxTransientRetries ?? 0;
     this.retryDecisionTransport = options.retryDecisionTransport === true;
+    this.visualInputs = options.visualInputs;
     if (!Number.isInteger(this.maxTransientRetries) || this.maxTransientRetries < 0 || this.maxTransientRetries > 5) throw new Error("Invalid bounded transient retry limit");
     if (!Number.isInteger(this.maxCalls) || this.maxCalls < 1 || this.maxCalls > 40 || !Number.isInteger(this.maxOutputTokens) || this.maxOutputTokens < 16 || this.maxOutputTokens > 16000)
       throw new Error("Invalid bounded Wonder request limits");
@@ -78,7 +84,23 @@ export class WonderResponsesProvider implements CampaignProvider {
         output: JSON.stringify({ originatingDecision: this.#pendingCall, revision: context.state.revision,
           status: context.state.status, results: context.results }) });
       // Results travel once as paired tool output, not repeated inside the user state item.
-      input.push({ role: "user", content: [{ type: "input_text", text: JSON.stringify(this.#pendingCall ? { ...requestContext, results: [] } : requestContext) }] });
+      const content: unknown[] = [{ type: "input_text", text: JSON.stringify(this.#pendingCall ? { ...requestContext, results: [] } : requestContext) }];
+      if (Buffer.byteLength(JSON.stringify(content)) > 150_000) throw new Error("Compact context exceeds text byte limit");
+      if (this.visualInputs) {
+        const images = await this.visualInputs(context, signal);
+        if (!images.length || images.length > 4) throw new Error("Vision requires one to four HMI frames");
+        for (const frame of images) {
+          if (!["image/png", "image/jpeg"].includes(frame.contentType) || frame.bytes.byteLength > 1_048_576 || frame.bytes.byteLength < 8
+            || createHash("sha256").update(frame.bytes).digest("hex") !== frame.sha256 || !frame.reference.startsWith("hmi-frame:")
+            || !frame.evidenceId || !frame.sessionId || !Number.isFinite(Date.parse(frame.atIso)) || !frame.recorded && Date.now() - Date.parse(frame.atIso) > 10_000 || Date.parse(frame.atIso) - Date.now() > 1000)
+            throw new Error("Invalid, stale, oversized or hash-mismatched HMI visual input");
+          const { bytes, ...metadata } = frame;
+          preserve({ phase: "vision.input", ...metadata, byteLength: bytes.byteLength });
+          content.push({ type: "input_text", text: JSON.stringify({ hmiFrame: metadata, instruction: `${frame.recorded ? "Recorded action-result frame; not current state." : "Fresh current HMI frame."} Inspect these actual pixels. Cite evidenceId for a screen assessment; PLC evidence is separate. No screen interpretation is prefilled.` }) },
+            { type: "input_image", image_url: `data:${frame.contentType};base64,${Buffer.from(bytes).toString("base64")}` });
+        }
+      }
+      input.push({ role: "user", content });
       const body = { model: this.id, store: true, reasoning: { effort: "high", summary: "auto" },
         max_output_tokens: this.maxOutputTokens, parallel_tool_calls: false,
         ...(this.#previous ? { previous_response_id: this.#previous } : {}), instructions: instructions + " Contract details: Existing experiment definitions are immutable: omit plan when continuing them; use create_followup_experiment for a new evidence-dependent experiment. completeExperiment is validated before calls execute and its evidenceRefs must contain public observations, never fault.truth records. Put injected fault truth IDs only in finding.injectedTruthRefs. If capabilities.previousDecisionRefusal is present, the preceding decision applied nothing: use its feedback to submit a new corrected decision, preserving already executed earlier actions.",
@@ -87,7 +109,7 @@ export class WonderResponsesProvider implements CampaignProvider {
         // Auto does not relax our one-new-decision-call validation below.
         tool_choice: "auto",
         input: !this.#previous ? [{ role: "developer", content: [{ type: "input_text", text: JSON.stringify({ semanticTools: toolSchemas }) }] }, ...input] : input };
-      if (Buffer.byteLength(JSON.stringify(body)) > 160_000) throw new Error("Compact context exceeds request byte limit; retrieve a smaller window");
+      if (Buffer.byteLength(JSON.stringify(body)) > (this.visualInputs ? 6_000_000 : 160_000)) throw new Error("Compact context exceeds request byte limit; retrieve a smaller window");
       const countBody = { model: body.model, input: body.input, instructions: body.instructions, tools: body.tools,
         tool_choice: body.tool_choice, parallel_tool_calls: false, ...(this.#previous ? { previous_response_id: this.#previous } : {}) };
       let tokens: number;

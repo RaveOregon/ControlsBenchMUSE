@@ -1767,6 +1767,12 @@
             "observation": {
               "type": "object",
               "additionalProperties": true
+            },
+            "outcome": {
+              "enum": [
+                "applied",
+                "rejected"
+              ]
             }
           },
           "required": [
@@ -2652,6 +2658,10 @@
               "type": "string",
               "minLength": 1,
               "maxLength": 8000
+            },
+            "receipt": {
+              "type": "object",
+              "additionalProperties": true
             }
           },
           "required": [
@@ -2742,6 +2752,10 @@
               "type": "string",
               "minLength": 1,
               "maxLength": 8000
+            },
+            "receipt": {
+              "type": "object",
+              "additionalProperties": true
             }
           },
           "required": [
@@ -2749,6 +2763,139 @@
             "kind",
             "reference",
             "atIso"
+          ],
+          "additionalProperties": false
+        },
+        "previousHash": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "campaignId",
+        "id",
+        "sequence",
+        "atIso",
+        "type",
+        "visibility",
+        "data",
+        "previousHash",
+        "hash"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "controlsbench.campaign.v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atIso": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "type": {
+          "const": "hmi.assessment"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "truth"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "requirementId": {
+              "enum": [
+                "UI-01",
+                "UI-02",
+                "UI-03",
+                "UI-04"
+              ]
+            },
+            "frameEvidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 10
+            },
+            "actionEvidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 0,
+              "maxItems": 10
+            },
+            "plcEvidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "minItems": 1,
+              "maxItems": 10
+            },
+            "observation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "inconclusive"
+              ]
+            },
+            "uncertainty": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "id",
+            "requirementId",
+            "frameEvidenceRefs",
+            "actionEvidenceRefs",
+            "plcEvidenceRefs",
+            "observation",
+            "verdict",
+            "uncertainty"
           ],
           "additionalProperties": false
         },

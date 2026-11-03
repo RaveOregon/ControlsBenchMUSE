@@ -20,6 +20,7 @@ export interface CampaignOptions {
   diagnosisMode?: "known" | "blind"; hmi?: HmiAdapter;
   paidAuthorized?: boolean; maxTurns?: number; toolTimeoutMs?: number;
   requireDecisionLeases?: boolean;
+  hmiProofRequirements?: string[];
   /** Off by default. Retries consume ordinary paid turns/reservations. */
   maxTransientRetries?: number;
   /** Only effect-free decision validation failures; every repair is a paid turn. */
@@ -353,10 +354,22 @@ export class CampaignRuntime {
         if (!this.options.hmi) throw new ToolFailure("inconclusive", "HMI capability unavailable; not visually tested");
         const captured = await this.options.hmi.perform(call, signal);
         if (signal.aborted) throw new ToolFailure("inconclusive", "Late HMI response; reconcile before retrying");
+        const { outcome, ...evidence } = captured;
         const e = call.name === "request_hmi_action"
-          ? this.ledger.append("hmi.action", { actionId: call.id, action: p.action, ...captured })
-          : this.ledger.append("hmi.evidence", { actionId: call.id, kind: p.kind, ...captured });
-        return { message: "HMI adapter evidence captured; PLC effect requires separate observation", evidenceRefs: [e.id] };
+          ? this.ledger.append("hmi.action", { actionId: call.id, action: p.action, ...evidence })
+          : this.ledger.append("hmi.evidence", { actionId: call.id, kind: p.kind, ...evidence });
+        if (outcome && outcome !== "applied") throw new ToolFailure(outcome, "HMI receipt recorded; inspect delivered input, PLC acknowledgement and screen separately", { evidenceRefs: [e.id], value: evidence.receipt });
+        return { message: "HMI adapter evidence captured; PLC effect requires separate observation", evidenceRefs: [e.id], value: evidence.receipt };
+      }
+      case "record_hmi_assessment": {
+        const check = (refs: unknown, type: string) => { for (const id of refs as string[]) {
+          const e = this.ledger.getEvent(id);
+          if (!e || e.visibility !== "public" || e.type !== type) throw new ToolFailure("rejected", `Assessment requires existing public ${type} references`);
+        } };
+        check(p.frameEvidenceRefs, "hmi.evidence"); check(p.actionEvidenceRefs, "hmi.action"); check(p.plcEvidenceRefs, "plc.output");
+        if (this.ledger.events.some(e => e.type === "hmi.assessment" && e.data.id === p.id)) throw new ToolFailure("rejected", "Duplicate HMI assessment ID");
+        const e = this.ledger.append("hmi.assessment", p);
+        return { message: "HMI assessment recorded; screen interpretation is model-authored and requires review", evidenceRefs: [e.id] };
       }
       case "create_followup_experiment": {
         const e = p.experiment as unknown as Experiment; this.#validateExperiment(e);
@@ -377,6 +390,8 @@ export class CampaignRuntime {
         return { message: "Finding recorded with exact PLC claims; inference remains unverified", evidenceRefs: [e.id] };
       }
       case "finish_campaign": {
+        for (const id of this.options.hmiProofRequirements ?? []) if (!this.ledger.events.some(e => e.type === "hmi.assessment" && e.data.requirementId === id))
+          throw new ToolFailure("rejected", `HMI proof needs an evidence-grounded assessment for ${id}; inconclusive is valid when untested`);
         const experiments = Object.values(this.ledger.state.experiments);
         if (!experiments.length || experiments.some(e => e.status !== "completed")) throw new ToolFailure("rejected", "Completion oracle requires all proposed experiments completed with evidence");
         if (!Object.keys(this.ledger.state.findings).length) throw new ToolFailure("rejected", "Completion oracle requires a grounded finding");

@@ -1,0 +1,258 @@
+TAP version 13
+# Subtest: M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action
+ok 1 - M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action
+  ---
+  duration_ms: 106.1084
+  type: 'test'
+  ...
+# Subtest: M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it
+ok 2 - M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it
+  ---
+  duration_ms: 35.9147
+  type: 'test'
+  ...
+# Subtest: agent is asynchronous: pending model decision never clocks raw I/O
+ok 3 - agent is asynchronous: pending model decision never clocks raw I/O
+  ---
+  duration_ms: 22.5105
+  type: 'test'
+  ...
+# Subtest: automatic 10 Hz schedule remains independent of model latency
+ok 4 - automatic 10 Hz schedule remains independent of model latency
+  ---
+  duration_ms: 21.9347
+  type: 'test'
+  ...
+# Subtest: elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap
+ok 5 - elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap
+  ---
+  duration_ms: 12.8476
+  type: 'test'
+  ...
+# Subtest: M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate
+ok 6 - M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate
+  ---
+  duration_ms: 18.8554
+  type: 'test'
+  ...
+# Subtest: stale connector rejects new application, cancels waits, holds last confirmed image
+ok 7 - stale connector rejects new application, cancels waits, holds last confirmed image
+  ---
+  duration_ms: 14.66
+  type: 'test'
+  ...
+# Subtest: hung connector is bounded, quarantined and never retried
+ok 8 - hung connector is bounded, quarantined and never retried
+  ---
+  duration_ms: 13.5788
+  type: 'test'
+  ...
+# Subtest: model timeout settles reservation once, stops reasoning, and preserves world
+ok 9 - model timeout settles reservation once, stops reasoning, and preserves world
+  ---
+  duration_ms: 15.7853
+  type: 'test'
+  ...
+# Subtest: hard budget at $5 prevents a sixth call, warns at $3, holds state
+ok 10 - hard budget at $5 prevents a sixth call, warns at $3, holds state
+  ---
+  duration_ms: 20.4982
+  type: 'test'
+  ...
+# Subtest: budget admission checks per request, check, repair, session; charged overrun is visible
+ok 11 - budget admission checks per request, check, repair, session; charged overrun is visible
+  ---
+  duration_ms: 1.9949
+  type: 'test'
+  ...
+# Subtest: Stop during a hung request settles costs and finalizes without hanging or applying late output
+ok 12 - Stop during a hung request settles costs and finalizes without hanging or applying late output
+  ---
+  duration_ms: 11.4294
+  type: 'test'
+  ...
+# Subtest: Stop drains bounded initialization before finalizing and never starts the campaign afterward
+ok 13 - Stop drains bounded initialization before finalizing and never starts the campaign afterward
+  ---
+  duration_ms: 10.988
+  type: 'test'
+  ...
+# Subtest: every bounded tool validates its envelope; unsupported capabilities are explicit
+ok 14 - every bounded tool validates its envelope; unsupported capabilities are explicit
+  ---
+  duration_ms: 19.5293
+  type: 'test'
+  ...
+# Subtest: requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing
+ok 15 - requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing
+  ---
+  duration_ms: 5.4946
+  type: 'test'
+  ...
+# Subtest: every event schema rejects missing fields and unknown event data
+ok 16 - every event schema rejects missing fields and unknown event data
+  ---
+  duration_ms: 8.2687
+  type: 'test'
+  ...
+# Subtest: append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated
+ok 17 - append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated
+  ---
+  duration_ms: 411.2378
+  type: 'test'
+  ...
+# Subtest: blind context excludes injector truth, source controls, raw-effect causes, and prior author history
+ok 18 - blind context excludes injector truth, source controls, raw-effect causes, and prior author history
+  ---
+  duration_ms: 16.7027
+  type: 'test'
+  ...
+# Subtest: finding evidence is exact PLC observation, never simulator truth or invented IDs
+ok 19 - finding evidence is exact PLC observation, never simulator truth or invented IDs
+  ---
+  duration_ms: 12.1938
+  type: 'test'
+  ...
+# Subtest: M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements
+ok 20 - M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements
+  ---
+  duration_ms: 700.0694
+  type: 'test'
+  ...
+# Subtest: flattened event adapter rejects a nested receipt and forged derived output
+ok 21 - flattened event adapter rejects a nested receipt and forged derived output
+  ---
+  duration_ms: 15.1353
+  type: 'test'
+  ...
+# Subtest: valid tools: inspect, known fault/clear, branch, HMI references, wait, reset
+ok 22 - valid tools: inspect, known fault/clear, branch, HMI references, wait, reset
+  ---
+  duration_ms: 26.3869
+  type: 'test'
+  ...
+# Subtest: operator Stop interrupts a pending world action and finalizes exactly one outcome
+ok 23 - operator Stop interrupts a pending world action and finalizes exactly one outcome
+  ---
+  duration_ms: 13.2957
+  type: 'test'
+  ...
+# Subtest: stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently
+ok 24 - stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently
+  ---
+  duration_ms: 48.4547
+  type: 'test'
+  ...
+# Subtest: Wonder is opt-in, single-call and bounded; stub transport only
+ok 25 - Wonder is opt-in, single-call and bounded; stub transport only
+  ---
+  duration_ms: 32.3927
+  type: 'test'
+  ...
+# Subtest: Wonder serializes actual image bytes with exact evidence metadata; bad or stale images make no request
+ok 26 - Wonder serializes actual image bytes with exact evidence metadata; bad or stale images make no request
+  ---
+  duration_ms: 12.2607
+  type: 'test'
+  ...
+# Subtest: runtime preserves rejected HMI receipts and refuses invented/wrong-type screen assessments
+ok 27 - runtime preserves rejected HMI receipts and refuses invented/wrong-type screen assessments
+  ---
+  duration_ms: 35.8135
+  type: 'test'
+  ...
+# Subtest: S2 export preserves new HMI assessments with a real isolated child and explicitly fake transport
+ok 28 - S2 export preserves new HMI assessments with a real isolated child and explicitly fake transport
+  ---
+  duration_ms: 549.0803
+  type: 'test'
+  ...
+# (node:10844) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: real controlled browser fixture: semantic HMI actions retain trusted input, command ack and the same frame bytes
+ok 29 - real controlled browser fixture: semantic HMI actions retain trusted input, command ack and the same frame bytes
+  ---
+  duration_ms: 5090.0475
+  type: 'test'
+  ...
+# Subtest: W1: native multi-turn Responses decisions cause tools, exact observations, novel follow-up and shared report
+ok 30 - W1: native multi-turn Responses decisions cause tools, exact observations, novel follow-up and shared report
+  ---
+  duration_ms: 322.0575
+  type: 'test'
+  ...
+# Subtest: W1: evidence-dependent choice changes when the actual observation changes
+ok 31 - W1: evidence-dependent choice changes when the actual observation changes
+  ---
+  duration_ms: 62.0424
+  type: 'test'
+  ...
+# Subtest: W1: malformed, incomplete, text, unsupported and repeated model responses preserve raw data before rejecting
+ok 32 - W1: malformed, incomplete, text, unsupported and repeated model responses preserve raw data before rejecting
+  ---
+  duration_ms: 103.6586
+  type: 'test'
+  ...
+# Subtest: W1: request admission counts stored history and forbids generation over $1
+ok 33 - W1: request admission counts stored history and forbids generation over $1
+  ---
+  duration_ms: 16.9457
+  type: 'test'
+  ...
+# Subtest: W1: stale decisions and duplicate actions cause no repeated effect
+ok 34 - W1: stale decisions and duplicate actions cause no repeated effect
+  ---
+  duration_ms: 21.7484
+  type: 'test'
+  ...
+# Subtest: W1: timeout/cancelled/failed calls retain a full conservative charge and ignore late effects
+ok 35 - W1: timeout/cancelled/failed calls retain a full conservative charge and ignore late effects
+  ---
+  duration_ms: 82.799
+  type: 'test'
+  ...
+# Subtest: W1: warning/hard-stop refuses a sixth call and retains valid evidence
+ok 36 - W1: warning/hard-stop refuses a sixth call and retains valid evidence
+  ---
+  duration_ms: 91.6299
+  type: 'test'
+  ...
+# Subtest: W1: oversized provider errors still settle the charge and hold without another turn
+ok 37 - W1: oversized provider errors still settle the charge and hold without another turn
+  ---
+  duration_ms: 47.0141
+  type: 'test'
+  ...
+# Subtest: W1: durable session charges span campaigns, lock concurrency, and retain crash reservations
+ok 38 - W1: durable session charges span campaigns, lock concurrency, and retain crash reservations
+  ---
+  duration_ms: 40.2893
+  type: 'test'
+  ...
+# Subtest: W1: unsupported claims, hidden truth and opaque endpoints cannot enter model authority
+ok 39 - W1: unsupported claims, hidden truth and opaque endpoints cannot enter model authority
+  ---
+  duration_ms: 21.1257
+  type: 'test'
+  ...
+# Subtest: W1: explicit hold/continue/condition-deadline lease contracts, revision checks and expiry
+ok 40 - W1: explicit hold/continue/condition-deadline lease contracts, revision checks and expiry
+  ---
+  duration_ms: 115.1241
+  type: 'test'
+  ...
+# Subtest: W2: import all recorded M10 acknowledgements, exact lineage, compact context, report and no physical effects
+ok 41 - W2: import all recorded M10 acknowledgements, exact lineage, compact context, report and no physical effects
+  ---
+  duration_ms: 19679.112
+  type: 'test'
+  ...
+1..41
+# tests 41
+# suites 0
+# pass 41
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 28817.8089

@@ -8,7 +8,7 @@ export function visible(event: Pick<CampaignEvent, "type" | "visibility">, blind
 export function compactEvidence(ledger: CampaignLedger, blind: boolean): CampaignEvent[] {
   const limits: Record<string, number> = { "plc.output": 6, "world.raw_image": 2, "plc.acknowledged": 2,
     "observation": 4, "discrepancy": 4, "hmi.evidence": 2, "action.rejected": 2,
-    "action.timed_out": 2, "action.stale": 2, "action.inconclusive": 2, "followup.added": 2 };
+    "action.timed_out": 2, "action.stale": 2, "action.inconclusive": 2, "followup.added": 2, "hmi.action": 4, "hmi.assessment": 4 };
   const evidence = ledger.recentEvents(100, e => visible(e, blind));
   const counts: Record<string, number> = {};
   return evidence.reverse().filter(e => (counts[e.type] = (counts[e.type] ?? 0) + 1) <= (limits[e.type] ?? 0)).reverse();

@@ -26,7 +26,7 @@ const { values } = parseArgs({ options: {
   fixture: { type: "string" }, live: { type: "boolean", default: false }, "no-emulate": { type: "boolean", default: false },
   "hmi-port": { type: "string", default: "5181" }, "portal-port": { type: "string", default: "5179" },
   "poll-ms": { type: "string", default: "250" }, "shared-poll-ms": { type: "string", default: "1000" }, commands: { type: "string", default: "auto" },
-  artifacts: { type: "string", default: "artifacts/hmi" }, "hmi-headless": { type: "boolean", default: false },
+  artifacts: { type: "string", default: "artifacts/hmi" }, "hmi-headless": { type: "boolean", default: false }, "agent-hmi": { type: "boolean", default: false },
   "capture-ms": { type: "string", default: "1000" }, "campaign-module": { type: "string" }, campaign: { type: "string", default: "fixture" }
 } });
 if (!!values.fixture === values.live) throw new Error("Choose exactly one of --fixture <state> or --live");
@@ -49,7 +49,8 @@ if (values.live) {
 const service = new HmiService({ source, artifactRoot: values.artifacts, pollIntervalMs: Number(values["poll-ms"]), sharedPollIntervalMs: Number(values["shared-poll-ms"]), commandPolicy: values.commands });
 const artifactDir = service.runDir;
 let bridge;
-const hub = new HmiHub({ captureIntervalMs: Number(values["capture-ms"]), artifactDir: artifactDir ? `${artifactDir}/portal-hmi` : undefined, onChange: (view, change) => bridge?.onHubChange(view, change) });
+const hub = new HmiHub({ captureIntervalMs: Number(values["capture-ms"]), artifactDir: artifactDir ? `${artifactDir}/portal-hmi` : undefined, onChange: (view, change) => bridge?.onHubChange(view, change),
+  ...(values["agent-hmi"] ? { agentAction: (call, signal) => bridge.runtimeAction(call, signal) } : {}) });
 bridge = new PortalSessionBridge(service, hub);
 const hmiServer = createHmiServer(service, { extraPost: { "/api/agent-actions/execute": body => bridge.executeAgentAction(body) } });
 service.url = await listen(hmiServer, Number(values["hmi-port"]));

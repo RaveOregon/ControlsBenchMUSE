@@ -170,6 +170,7 @@
                 "branch_or_reset_world",
                 "request_hmi_action",
                 "capture_hmi_evidence",
+                "record_hmi_assessment",
                 "create_followup_experiment",
                 "record_finding",
                 "finish_campaign"
@@ -488,6 +489,82 @@
       "required": [
         "kind",
         "durationMs"
+      ],
+      "additionalProperties": false
+    },
+    "record_hmi_assessment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "requirementId": {
+          "enum": [
+            "UI-01",
+            "UI-02",
+            "UI-03",
+            "UI-04"
+          ]
+        },
+        "frameEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 1,
+          "maxItems": 10
+        },
+        "actionEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 0,
+          "maxItems": 10
+        },
+        "plcEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "minItems": 1,
+          "maxItems": 10
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "inconclusive"
+          ]
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "id",
+        "requirementId",
+        "frameEvidenceRefs",
+        "actionEvidenceRefs",
+        "plcEvidenceRefs",
+        "observation",
+        "verdict",
+        "uncertainty"
       ],
       "additionalProperties": false
     },
