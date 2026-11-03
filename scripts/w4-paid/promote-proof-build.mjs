@@ -44,7 +44,8 @@ for(const file of walk(join(old.pinnedCheckout,'ui/dist'))) {
 const physical=['src/live','src/proof','src/campaign/driver.ts','src/campaign/m8-bindings.ts','src/campaign/ledger.ts','scripts/wonder-process-child.js','codesys/conveyordemo.project',
   'artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0'];
 const physicalChanges=git('diff','--name-only',old.sourceCommit,commit,'--',...physical).split('\n').filter(Boolean);
-for(const f of physicalChanges)assert(retry.scope==='offline-cadence-delta'&&f==='src/live/wonder-process/engine.ts'&&retry.qualifiedPhysicalDelta?.includes(f)&&Object.hasOwn(retry.sources,f),'Unqualified physical runtime change: '+f);
+const rejectionPaths=new Set(['src/live/wonder-process/engine.ts','src/live/wonder-process/protocol.ts','src/live/wonder-process/driver.ts','src/live/m8-opcua.ts','src/campaign/driver.ts','src/campaign/m8-bindings.ts']);
+for(const f of physicalChanges)assert(((retry.scope==='offline-cadence-delta'&&f==='src/live/wonder-process/engine.ts')||(retry.scope==='offline-command-rejection-delta'&&rejectionPaths.has(f)))&&retry.qualifiedPhysicalDelta?.includes(f)&&Object.hasOwn(retry.sources,f),'Unqualified physical runtime change: '+f);
 // Refresh LF/CRLF index stat information only; fail if normalized content differs
 // from the committed pin. Exact source hashes above preserve the tested bytes.
 execFileSync('git',['-c','core.longpaths=true','-C',pin,'add','--','src','scripts','test','package.json'],{windowsHide:true});
@@ -58,7 +59,7 @@ for(const[name,ref]of Object.entries(oldManifest.checks)) {
 const proof={status:'pass',scope:'offline-decision-repair-coordinator-with-unchanged-live-engine',sourceCommit:commit,sourceHashes,frozenHashes,
   retryProof:{file:retryPath,sha256:hash(retryPath),testedCommit:retry.sourceCommit,tests:retry.results},
   existingNativeEngine:{commit:old.sourceCommit,comparedPaths:physical,qualifiedDelta:physicalChanges},
-  liveTimingQualified:false,liveRetryQualified:false,claimBoundary:physicalChanges.length?'Only qualified scheduler timing changed; world physics/PLC/raw-signal semantics unchanged; new native timing qualification required.':'Decision repair and explicit allowance offline-qualified; physical engine unchanged; fresh native bench check required before paid Start.'};
+  liveTimingQualified:false,liveRetryQualified:false,claimBoundary:physicalChanges.length?'Qualified command-rejection propagation and prior scheduler fix; world physics/PLC/raw-signal semantics unchanged; new native qualification required.':'Decision repair and explicit allowance offline-qualified; physical engine unchanged; fresh native bench check required before paid Start.'};
 writeFileSync(join(directory,'promotion-proof.json'),JSON.stringify(proof,null,2)+'\n',{flag:'wx'});
 const manifest={...oldManifest,ownerCommit:commit,checks,integrationProof:{file:'promotion-proof.json',sha256:hash(join(directory,'promotion-proof.json'))},
   parentRetryProof:proof.retryProof,claimBoundary:proof.claimBoundary};

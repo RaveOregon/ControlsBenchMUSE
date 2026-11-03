@@ -28,6 +28,15 @@ export const objective = {
 
 export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
+  if(packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v4') {
+    assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);
+    assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd)&&packet.sessionBaseline.conservativeUsd>=45);
+    assert(Number.isInteger(turns)&&turns>=1&&turns<=20);assert.equal(packet.perRequestAdmissionUsd,5);assert.equal(packet.admissionMode,'context_ceiling');
+    assert.equal(packet.maximumNewConservativeUsd,turns*5);assert.equal(packet.aggregateConservativeCeilingUsd,packet.sessionBaseline.conservativeUsd+turns*5);
+    assert(packet.aggregateConservativeCeilingUsd<=150);assert.equal(packet.sessionHardUsd,150);
+    assert.equal(packet.maximumOutputTokens,16000);assert.equal(packet.maxTransientRetries,5);assert.equal(packet.retryDecisionTransport,true);assert.equal(packet.maxRejectedDecisions,3);
+    return turns;
+  }
   if(packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v3') {
     assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);assert.equal(packet.sessionBaseline.conservativeUsd,45);
     assert.equal(turns,20);assert.equal(packet.perRequestAdmissionUsd,5);assert.equal(packet.admissionMode,'context_ceiling');
@@ -91,7 +100,7 @@ export function verifyAccountBaseline(packet, path = commonWonderPaths().session
   }
   assert.equal(total, packet.sessionBaseline.conservativeUsd);
   if (packet.aggregateConservativeCeilingUsd !== undefined) trialEnvelope(packet);
-  assert(total + packet.maximumNewConservativeUsd <= (['controlsbench.w4-full-proof-approval.v2','controlsbench.w4-full-proof-approval.v3'].includes(packet.approvalRevision?.contract)?packet.sessionHardUsd:15), 'Durable session cap would be exceeded');
+  assert(total + packet.maximumNewConservativeUsd <= (['controlsbench.w4-full-proof-approval.v2','controlsbench.w4-full-proof-approval.v3','controlsbench.w4-full-proof-approval.v4'].includes(packet.approvalRevision?.contract)?packet.sessionHardUsd:15), 'Durable session cap would be exceeded');
   return total;
 }
 

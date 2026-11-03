@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+
 import {mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
@@ -8,6 +9,14 @@ const s=await import('./support.mjs');
 const packet={approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v2',authorizedCreditPoolUsd:150},sessionBaseline:{conservativeUsd:12},
   maximumModelRequests:20,maximumNewConservativeUsd:60,perRequestAdmissionUsd:3,sessionHardUsd:150,aggregateConservativeCeilingUsd:72,
   maximumOutputTokens:16000,maxTransientRetries:2,maxRejectedDecisions:3,objective:{goal:'Fault then a new evidence-dependent physical follow-up'}};
+
+test('v4 retains the current sixty-dollar conservative history and fits seventeen new reservations inside the credit pool',()=>{
+  const approval={...packet,approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v4',authorizedCreditPoolUsd:150},sessionBaseline:{conservativeUsd:60},maximumModelRequests:17,
+    perRequestAdmissionUsd:5,maximumNewConservativeUsd:85,aggregateConservativeCeilingUsd:145,admissionMode:'context_ceiling',retryDecisionTransport:true,maxTransientRetries:5};
+  assert.equal(s.trialEnvelope(approval),17);
+  assert.throws(()=>s.trialEnvelope({...approval,maximumModelRequests:20,maximumNewConservativeUsd:100,aggregateConservativeCeilingUsd:160}));
+  assert.throws(()=>s.trialEnvelope({...approval,sessionBaseline:{conservativeUsd:45}}));
+});
 
 test('expanded proof envelope matches explicit credit authorization and rejects silent changes',()=>{
   assert.equal(s.trialEnvelope(packet),20);

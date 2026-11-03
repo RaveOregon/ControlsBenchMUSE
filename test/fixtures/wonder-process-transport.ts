@@ -31,6 +31,8 @@ export class ChildFixtureTransport extends ProtocolTransport {
   }
   control(command: Record<string, unknown>): unknown {
     switch (command.action) {
+      case "rejectCommand": this.rejectedCommands.add(String(command.name)); return { rejectedCommand: command.name };
+      case "acceptCommand": this.rejectedCommands.delete(String(command.name)); return { acceptedCommand: command.name };
       case "stats": return { opens: this.opens, closes: this.closes, completedWrites: this.writes.length, started: this.started.length, settled: this.settled.length,
         lastStarted: this.started.at(-1) ?? null, hangActive: !!this.#hang?.started && !!this.#hang.release,
         plcCycle: this.values[signalByLeaf("PlcCycle").iecPath], simRequest: this.values["GVL_BenchWrite.SimRequest"], simApplied: this.values["GVL_BenchRead.SimApplied"] };

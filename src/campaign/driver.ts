@@ -9,7 +9,8 @@ import type { Clock } from "./clock.ts";
 
 export class ToolFailure extends Error {
   readonly outcome: Exclude<Outcome, "requested" | "applied">;
-  constructor(outcome: ToolFailure["outcome"], message: string) { super(message); this.outcome = outcome; }
+  readonly evidence?: { evidenceRefs: string[]; value?: unknown };
+  constructor(outcome: ToolFailure["outcome"], message: string, evidence?: { evidenceRefs: string[]; value?: unknown }) { super(message); this.outcome = outcome; this.evidence = evidence; }
 }
 export interface ControlBinding {
   describe: unknown;

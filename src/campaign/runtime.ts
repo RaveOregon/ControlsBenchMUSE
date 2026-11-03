@@ -287,7 +287,8 @@ export class CampaignRuntime {
       finish = call.name === "finish_campaign";
     } catch (error) {
       result = { actionId: call.id, status: this.options.driver?.failure?.outcome ?? (error instanceof ToolFailure ? error.outcome : error instanceof DeadlineError ? "timed_out" : this.#abort.signal.aborted ? "inconclusive" : "rejected"),
-        message: this.#message(error), evidenceRefs: [] };
+        message: this.#message(error), evidenceRefs: error instanceof ToolFailure ? error.evidence?.evidenceRefs ?? [] : [],
+        ...(error instanceof ToolFailure && error.evidence?.value !== undefined ? { value: error.evidence.value } : {}) };
     } finally { if (!alreadyBusy) this.#toolBusy = false; }
     this.ledger.append(`action.${result.status}` as "action.applied", { ...result });
     if (result.status === "applied" && call.name === "branch_or_reset_world" && call.arguments.mode === "reset") {

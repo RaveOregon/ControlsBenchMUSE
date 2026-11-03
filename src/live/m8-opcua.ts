@@ -12,6 +12,14 @@ export interface M8Transport {
 }
 export type TransportEvent = (kind: string, data: Record<string, unknown>) => void;
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+/** A coherent acknowledgement with Accepted=false: the write outcome is known. */
+export class ConfirmedCommandRejection extends Error {
+  readonly action: string; readonly actionId: string; readonly expected: number; readonly observation: ConnectorObservation;
+  constructor(action: string, actionId: string, expected: number, observation: ConnectorObservation) {
+    super(`${action} acknowledged but rejected by PLC`);
+    this.action = action; this.actionId = actionId; this.expected = expected; this.observation = observation;
+  }
+}
 export class M8OpcUaConnector implements BenchConnector {
   readonly id = "m8-opcua-v1";
   readonly transport: M8Transport;
@@ -26,7 +34,7 @@ export class M8OpcUaConnector implements BenchConnector {
   }
   #serial<T>(operation: () => Promise<T>): Promise<T> {
     const result = this.#tail.then(async () => { if (this.#poisoned) throw new Error("M8 connector quarantined; no retry"); return operation(); });
-    this.#tail = result.catch(() => { this.#poisoned = true; }); return result;
+    this.#tail = result.catch(error => { if (!(error instanceof ConfirmedCommandRejection)) this.#poisoned = true; }); return result;
   }
   async #read(names: string[]) {
     const paths = names.map(n => n.startsWith("GVL_") ? n : n.startsWith("controller.") ? byLogical.get(n)!.iecPath : signalByLeaf(n).iecPath);
@@ -162,7 +170,13 @@ export class M8OpcUaConnector implements BenchConnector {
       while (performance.now() < deadline) {
         const o = await this.#snapshot();
         if (o.values[ack] === (action === "completion_ack" ? false : expected)) {
-          if (action === "start" && !o.values["controller.StartAccepted"] || action === "reset" && !o.values["controller.ResetAccepted"] || action === "offer" && (!o.values["controller.OfferAccepted"] || o.values["controller.OfferAckItemId"] !== parameters.itemId)) throw new Error(`${action} acknowledged but rejected by PLC`);
+          if (action === "offer" && o.values["controller.OfferAckItemId"] !== parameters.itemId) throw new Error("Offer acknowledgement item differs; outcome requires reconciliation");
+          const accepted = action === "start" ? "controller.StartAccepted" : action === "reset" ? "controller.ResetAccepted" : action === "offer" ? "controller.OfferAccepted" : undefined;
+          if (accepted && typeof o.values[accepted] !== "boolean") throw new Error("Command acceptance is not a Boolean; outcome requires reconciliation");
+          if (action === "start" && o.values["controller.StartAccepted"] === false || action === "reset" && o.values["controller.ResetAccepted"] === false || action === "offer" && o.values["controller.OfferAccepted"] === false) {
+            this.event("command.rejected", { actionId, action, expected, observation: o });
+            throw new ConfirmedCommandRejection(action, actionId, expected, o);
+          }
           this.event("command.applied", { actionId, action, expected, observation: o }); return o;
         }
         await sleep(10);

@@ -310,6 +310,33 @@ test("stale campaign/boundary revisions and duplicate action IDs are refused wit
   } finally { await h.cleanup(); }
 });
 
+test("confirmed negative controller test reaches the next agent turn with acknowledgement evidence and a usable child", async () => {
+  const h = await harness("negative-controller");
+  try {
+    const { runtime } = runtimeFor(h, (context, turn) => {
+      if (turn === 1) return { summary: "Test a rejected Reset", plan: plan(), calls: [{ id: "negative-reset", name: "operator_action", arguments: { action: "reset" } }] };
+      if (turn === 3) return { summary: "Finish with observed evidence", completeExperiment: { id: "baseline", evidenceRefs: [latestOutput(context).id], conclusion: "observed" }, calls: [finding(context),
+        { id: "finish", name: "finish_campaign", arguments: { summary: "Confirmed rejection was evidence; later Stop acknowledged" } }] };
+      const rejected = context.results.find(r => r.actionId === "negative-reset")!;
+      assert.equal(rejected.status, "rejected"); assert.equal(rejected.evidenceRefs.length, 1);
+      const evidence = h.ledger.getEvent(rejected.evidenceRefs[0])!;
+      assert.equal(evidence.type, "controller.action"); assert.equal(evidence.data.outcome, "rejected");
+      assert.equal((rejected.value as any)["controller.ResetAccepted"], false);
+      assert.equal((rejected.value as any)["controller.ResetAck"], 1);
+      return { summary: "Continue after the confirmed rejection", calls: [{ id: "stop-after-rejection", name: "operator_action", arguments: { action: "stop" } }] };
+    });
+    await runtime.start(); await h.fixture({ action: "rejectCommand", name: "reset" }); await runtime.runAgent(); await runtime.stop();
+    assert.equal(runtime.status, "completed", JSON.stringify(h.ledger.events.filter(e => e.type === "campaign.state" || e.type.startsWith("action."))));
+    assert.equal(h.s.driver.quarantined, false); assert.equal(h.s.driver.failure, undefined);
+    assert(h.ledger.events.some(e => e.type === "action.rejected" && e.data.actionId === "negative-reset"));
+    assert(!h.ledger.events.some(e => e.type === "action.applied" && e.data.actionId === "negative-reset"));
+    assert(h.ledger.events.some(e => e.type === "action.applied" && e.data.actionId === "stop-after-rejection"));
+    assert.equal(h.childStream().filter(r => r.record.kind === "controller" && r.record.actionId === "negative-reset").length, 1);
+    assert.equal(h.childStream().some(r => r.record.kind === "fault"), false);
+    assert.equal(runtime.status, "completed");
+  } finally { await h.cleanup(); }
+});
+
 test("cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone", async () => {
   const h = await harness("cancel");
   try {

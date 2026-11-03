@@ -1,7 +1,7 @@
 import type { ToolCall } from "./contracts.ts";
 import { ToolFailure } from "./driver.ts";
 import { CampaignLedger } from "./ledger.ts";
-import { M8OpcUaConnector } from "../live/m8-opcua.ts";
+import { M8OpcUaConnector, ConfirmedCommandRejection } from "../live/m8-opcua.ts";
 import { preservedConveyorBindings } from "./conveyor-bindings.ts";
 
 export const m8WorldBindings = { ...preservedConveyorBindings,
@@ -16,7 +16,13 @@ export function m8ControllerActions(connector: M8OpcUaConnector, ledger: Campaig
       parameters = { itemId: Number(call.arguments.itemId), route: call.arguments.route === "A" ? 1 : call.arguments.route === "B" ? 2 : 0 }; action = "offer";
     } else if (call.name === "acknowledge_completion") { parameters = { sequence: call.arguments.sequence }; action = "completion_ack"; }
     else action = call.arguments.action as "start" | "stop" | "reset";
-    const observation = await connector.action(action, parameters, call.id);
+    let observation;
+    try { observation = await connector.action(action, parameters, call.id); }
+    catch (error) {
+      if (!(error instanceof ConfirmedCommandRejection)) throw error;
+      const e = ledger.append("controller.action", { actionId: call.id, action, outcome: "rejected", observation: error.observation });
+      throw new ToolFailure("rejected", error.message, { evidenceRefs: [e.id], value: error.observation.values });
+    }
     if (signal.aborted) throw new ToolFailure("inconclusive", "Controller may have applied request; inspect acknowledgement before retrying");
     const e = ledger.append("controller.action", { actionId: call.id, action, observation });
     return { message: "PLC acknowledged sequenced operator/WCS request; world reacts to observed PLC commands on its next tick", evidenceRefs: [e.id], value: observation.values };

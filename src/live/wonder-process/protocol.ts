@@ -69,7 +69,7 @@ export type StreamRecord =
   | { kind: "hold"; cause: HoldCause; reason: string; boundaryRevision: number }
   | { kind: "fault"; outcome: FailureOutcome; message: string; uncertainWrites: UncertainWrite[]; boundaryRevision: number }
   | { kind: "write"; state: "settled_after_quarantine"; paths: string[]; outcome: "completed" | "failed"; message?: string; heldMs: number }
-  | { kind: "controller"; actionId: string; action: string; outcome: "applied" | "failed"; message?: string; observation?: Record<string, unknown>; afterCancellation: boolean };
+  | { kind: "controller"; actionId: string; action: string; outcome: "applied" | "rejected" | "failed"; message?: string; observation?: Record<string, unknown>; afterCancellation: boolean };
 
 export interface UncertainWrite { paths: string[]; startedAtIso: string; ageMs: number }
 

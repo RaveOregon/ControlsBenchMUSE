@@ -59,7 +59,7 @@ export class IsolatedProcessDriver {
   #directSequence = 0;
   #boot?: string; #epoch?: string; #workstationSequence?: bigint;
   #actionIds = new Set<string>();
-  #controllerEvents = new Map<string, { id: string; values: unknown }>();
+  #controllerEvents = new Map<string, { id: string; values: unknown; outcome: "applied" | "rejected" }>();
   #leaseCount = 0;
   #leaseSignals = new Map<string, () => void>();
   #disposal?: Promise<unknown>;
@@ -199,9 +199,9 @@ export class IsolatedProcessDriver {
           reason: `Timed-out write to ${record.paths.join(", ")} settled (${record.outcome}${record.message ? `: ${record.message}` : ""}) after ${record.heldMs} ms. Session stays quarantined; reconcile the physical state before any reuse`.slice(0, 8000) });
         return;
       case "controller":
-        if (record.outcome === "applied") {
-          const e = this.ledger.append("controller.action", { actionId: record.actionId, action: record.action, observation: record.observation! });
-          this.#controllerEvents.set(record.actionId, { id: e.id, values: (record.observation as { values?: unknown }).values });
+        if (record.outcome === "applied" || record.outcome === "rejected") {
+          const e = this.ledger.append("controller.action", { actionId: record.actionId, action: record.action, outcome: record.outcome, observation: record.observation! });
+          this.#controllerEvents.set(record.actionId, { id: e.id, values: (record.observation as { values?: unknown }).values, outcome: record.outcome });
         }
         return;
     }
@@ -252,6 +252,7 @@ export class IsolatedProcessDriver {
       await Promise.race([request, cancelled]);
       const event = this.#controllerEvents.get(call.id);
       if (!event) throw new ToolFailure("inconclusive", "Controller reply without its streamed acknowledgement; inspect the boundary journal");
+      if (event.outcome === "rejected") throw new ToolFailure("rejected", "PLC acknowledged and rejected the sequenced request; no physical retry was made", { evidenceRefs: [event.id], value: event.values });
       return { message: "PLC acknowledged sequenced operator/WCS request; world reacts to observed PLC commands on its next tick", evidenceRefs: [event.id], value: event.values };
     } catch (error) {
       if (error instanceof ChannelFailure && error.outcome === "timed_out") this.#quarantine(toFailure(error));

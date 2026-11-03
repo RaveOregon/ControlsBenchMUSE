@@ -153,7 +153,7 @@ export function deriveHeldState(input: { directory: string; campaignId: string; 
   const requested = transport.filter(e => e.kind === "commit.requested");
   const pending = requested.at(-1);
   const inFlight = pending && !acks.some(a => a.workstationEpoch === pending.epoch && a.workstationSequence === pending.sequence) ? pending : undefined;
-  const applied = new Set(transport.filter(e => e.kind === "command.applied").map(e => e.actionId));
+  const applied = new Set(transport.filter(e => e.kind === "command.applied" || e.kind === "command.rejected").map(e => e.actionId));
   const observation = transport.filter(e => e.kind === "observation").at(-1);
   const acquired = lifecycle.find(e => e.kind === "ownership.acquired")?.lock ?? null;
   const closed = lifecycle.filter(e => e.kind === "closed").at(-1);

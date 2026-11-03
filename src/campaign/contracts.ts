@@ -116,7 +116,7 @@ export const eventSchemas = {
   "action.stale": actionOutcome,
   "action.inconclusive": actionOutcome,
   "connector.state": obj({ state: choice(["fresh", "stale", "quarantined", "passthrough"]), reason: str, ageMs: num }),
-  "controller.action": obj({ actionId: str, action: str, observation: record }),
+  "controller.action": obj({ actionId: str, action: str, observation: record, outcome: choice(["applied", "rejected"]) }, ["outcome"]),
   "coordinator.event": obj({ origin: choice(["live-coordinator", "campaign-driver", "preserved-m7", "preserved-m10"]), source: coordinatorSchema }),
   "world.stimulus": obj({ actionId: str, control: record }),
   "world.raw_image": obj({ sourceId: str, image, epoch: str, sequence: str }),

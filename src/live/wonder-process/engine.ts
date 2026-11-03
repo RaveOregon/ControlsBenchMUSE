@@ -4,6 +4,7 @@
 // coordinator/world record is streamed, in order, to the host's single authoritative ledger.
 // All deadlines use this process's monotonic clock, so a stalled parent cannot extend them.
 import { LiveWorldCoordinator } from "../coordinator.ts";
+import { ConfirmedCommandRejection } from "../m8-opcua.ts";
 import type { CommitReceipt, ConnectorObservation, RawSignalImage } from "../connector.ts";
 import type { WorldSnapshot } from "../../proof/contracts.ts";
 import type { DecisionLease } from "../../campaign/contracts.ts";
@@ -235,6 +236,13 @@ export class ProcessEngine {
         observation: structuredClone(observation) as unknown as Record<string, unknown>, afterCancellation: entry.cancelled });
       return { recordSeq, boundaryRevision: this.boundaryRevision };
     } catch (error) {
+      if (error instanceof ConfirmedCommandRejection) {
+        this.#actions.set(request.actionId, "controller_rejected");
+        this.boundaryRevision++;
+        const recordSeq = this.hooks.emit({ kind: "controller", actionId: request.actionId, action: request.action, outcome: "rejected", message: error.message,
+          observation: structuredClone(error.observation) as unknown as Record<string, unknown>, afterCancellation: entry.cancelled });
+        return { recordSeq, boundaryRevision: this.boundaryRevision };
+      }
       this.#actions.set(request.actionId, "controller_failed");
       const message = error instanceof Error ? error.message : String(error);
       this.hooks.emit({ kind: "controller", actionId: request.actionId, action: request.action, outcome: "failed", message, afterCancellation: entry.cancelled });

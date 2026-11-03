@@ -9,6 +9,7 @@ export class ProtocolTransport implements M8Transport {
   writes: { path: string; value: RawValue }[][] = [];
   torn = false; badQuality = false; boot = "boot-1"; build = 8001;
   readSizes: number[] = [];
+  rejectedCommands = new Set<string>();
   constructor() {
     for (const s of requiredSignals) this.values[s.iecPath] = s.iecType === "ULINT" ? "0" : s.iecType.startsWith("STRING") ? "" : s.iecType === "BOOL" ? false : 0;
     Object.assign(this.values, { "GVL_DemoRead.BuildId": 8001, "GVL_DemoRead.InterfaceVersion": 1, "GVL_BenchRead.SimApplied": true });
@@ -42,11 +43,11 @@ export class ProtocolTransport implements M8Transport {
     const c = "GVL_DemoRead.Status.";
     for (const name of ["Start", "Stop", "Reset"]) if (items.some(i => i.path === `GVL_DemoWrite.${name}Sequence`)) {
       this.values[`${c}${name}Ack`] = this.values[`GVL_DemoWrite.${name}Sequence`];
-      if (name !== "Stop") this.values[`${c}${name}Accepted`] = true;
+      if (name !== "Stop") this.values[`${c}${name}Accepted`] = !this.rejectedCommands.has(name.toLowerCase());
     }
     if (items.some(i => i.path === "GVL_DemoWrite.OfferSequence")) {
       this.values[`${c}OfferAckSequence`] = this.values["GVL_DemoWrite.OfferSequence"];
-      this.values[`${c}OfferAckItemId`] = this.values["GVL_DemoWrite.OfferItemId"]; this.values[`${c}OfferAccepted`] = true;
+      this.values[`${c}OfferAckItemId`] = this.values["GVL_DemoWrite.OfferItemId"]; this.values[`${c}OfferAccepted`] = !this.rejectedCommands.has("offer");
     }
   }
 }

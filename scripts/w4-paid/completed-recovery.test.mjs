@@ -3,10 +3,19 @@ import {mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import test from 'node:test';
-import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan,abortedJamPlan,startupFeedbackPlan} from './recover-completed-hold.mjs';
+import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan,abortedJamPlan,startupFeedbackPlan,activeContradictionPlan} from './recover-completed-hold.mjs';
 import {fromPin,json,root} from './support.mjs';
 const sample=json(join(root,'artifacts/w4-paid/2026-11-02T21-16-08-803Z/live-host/runs/2026-11-02T23-43-04-875Z-live_plc/portal-host/portal-20261102234344698-1/held-state.json'));
 const fixture=()=>({observation:{...sample.plc,values:structuredClone(sample.lastObservation.values)},activeImage:structuredClone(sample.appliedImage)});
+
+test('active contradiction recovery resolves the legacy Reset only from its preserved exact write and rejected ack',async()=>{
+  const reference=join(root,'artifacts/w4-paid/2026-11-03T04-08-28-478Z/live-host/runs/2026-11-03T04-09-01-158Z-live_plc/portal-host/portal-20261103041023645-1');
+  const record=json(join(reference,'held-state.json')),{readJsonl}=await import('./support.mjs'),transport=readJsonl(join(reference,'wonder-process/child-transport.jsonl'));
+  const state=()=>({observation:{...record.plc,values:structuredClone(record.lastObservation.values)},activeImage:structuredClone(record.appliedImage)});
+  assert.deepEqual(activeContradictionPlan(record,state(),transport).map(x=>x.op),['stop','fresh_world','reset','await_stopped']);
+  assert.throws(()=>activeContradictionPlan(record,state(),[]));
+  for(const mutate of [s=>s.observation.bootIdentity+='x',s=>s.observation.values['controller.ResetAck']++,s=>s.observation.values['controller.ResetAccepted']=true,s=>s.observation.values['controller.CountFaulted']++,s=>s.activeImage.D1_ExtendedFB=false]){const changed=state();mutate(changed);assert.throws(()=>activeContradictionPlan(record,changed,transport));}
+});
 
 test('startup hold permits only the actual fault-11 response to the recorded zero running-feedback image',()=>{
   const record=json(join(root,'artifacts/w4-paid/2026-11-03T03-33-44-030Z/bench-check/2026-11-03T03-39-09-233Z/held-state.json'));

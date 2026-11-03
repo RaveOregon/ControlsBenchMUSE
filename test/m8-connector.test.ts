@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { M8OpcUaConnector } from "../src/live/m8-opcua.ts";
+import { M8OpcUaConnector, ConfirmedCommandRejection } from "../src/live/m8-opcua.ts";
 import { ProtocolTransport } from "./fixtures/m8-protocol-transport.ts";
 import { validateM8Image, withM8Observations } from "../src/live/m8-map.ts";
 import world from "../artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0/world.ts";
@@ -9,6 +9,28 @@ import { m8ControllerActions } from "../src/campaign/m8-bindings.ts";
 import { validateManifest } from "../src/proof/manifest.ts";
 
 const image = () => Object.fromEntries(world.manifest.signals.filter(s => s.direction === "world_to_plc").map(s => [s.id, s.dataType === "BOOL" ? false : 0]));
+test("confirmed Start/Reset/offer rejections retain exact acknowledgements and leave the connector usable", async () => {
+  for (const action of ["start", "reset", "offer"] as const) {
+    const t = new ProtocolTransport(), events: any[] = [], c = new M8OpcUaConnector(t, (kind, data) => events.push({ kind, ...data }));
+    t.rejectedCommands.add(action); await c.open();
+    const parameters = action === "offer" ? { itemId: 101, route: 1 } : {};
+    await assert.rejects(c.action(action, parameters, "negative"), error => {
+      assert(error instanceof ConfirmedCommandRejection); assert.equal(error.actionId, "negative"); assert.equal(error.expected, 1);
+      assert.equal(error.observation.values[`controller.${action === "offer" ? "OfferAckSequence" : action === "start" ? "StartAck" : "ResetAck"}`], 1);
+      return true;
+    });
+    assert.equal(events.filter(e => e.kind === "command.rejected").length, 1); assert.equal(events.filter(e => e.kind === "command.applied").length, 0);
+    await c.observe(); await c.commit(image());
+    t.rejectedCommands.clear(); await c.action(action, parameters, "later-distinct-request");
+    assert.equal(events.filter(e => e.kind === "command.applied").length, 1); await c.close();
+  }
+});
+test("an unconfirmed operator write failure quarantines rather than being relabelled as rejection", async () => {
+  const t = new ProtocolTransport(), c = new M8OpcUaConnector(t); await c.open();
+  const original = t.write.bind(t); t.write = async items => { await original(items); throw new Error("connection lost after write"); };
+  await assert.rejects(c.action("reset", {}, "uncertain"), /connection lost/);
+  const count = t.writes.length; await assert.rejects(c.observe(), /quarantined/); assert.equal(t.writes.length, count); await c.close();
+});
 test("M8 map extends observation declarations without mutating preserved world behavior", () => {
   const wrapped = withM8Observations(world); validateManifest(wrapped.manifest);
   assert.equal(wrapped.tick, world.tick); assert.equal(wrapped.onControl, world.onControl);
