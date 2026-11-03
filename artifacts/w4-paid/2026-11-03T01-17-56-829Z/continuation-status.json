@@ -1,0 +1,13 @@
+{
+  "atIso": "2026-11-03T01:24:11.952Z",
+  "status": "waiting-for-local-password-or-window-state",
+  "visibleLauncherPid": 36060,
+  "question": "Confirm whether the visible launch window shows password prompt, an error, or password already entered",
+  "newPin": "62a1d8ca209c0d9dcdce9336c4370e174de71ebf",
+  "pinDirectory": "C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-retry-runtime-pin",
+  "remainingApprovedUsd": 2,
+  "aggregateCeilingUsd": 12,
+  "newPaidAttempts": 0,
+  "nativeBenchStarted": false,
+  "diagnostic": "Noninteractive prechecks reached the masked prompt; original observer was still serving prior campaign at last check."
+}
