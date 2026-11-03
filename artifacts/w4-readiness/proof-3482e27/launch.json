@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "3482e27f381f4ec29f782fa44dce10d38835646f",
+  "pinnedCheckout": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-proof-runtime-pin",
+  "manifest": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-3482e27\\manifest.json",
+  "manifestSha256": "8836413834d42aae795d444a401b1da152aea52c71e8105d65f21c7e0edc9155",
+  "proof": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-3482e27\\promotion-proof.json",
+  "proofSha256": "501f50446b3d640ba393e030fb0ffc5978515e63fe79909283b112c1385163b9"
+}

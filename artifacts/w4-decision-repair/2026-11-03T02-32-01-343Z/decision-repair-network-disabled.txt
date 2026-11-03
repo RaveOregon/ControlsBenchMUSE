@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: effect-free invalid response gets paid fresh-turn feedback with exact response lineage and no replayed effects
+ok 1 - effect-free invalid response gets paid fresh-turn feedback with exact response lineage and no replayed effects
+  ---
+  duration_ms: 70.3885
+  type: 'test'
+  ...
+# Subtest: immutable-plan rejection occurs before ledger/effect changes and model can correct it on a later turn
+ok 2 - immutable-plan rejection occurs before ledger/effect changes and model can correct it on a later turn
+  ---
+  duration_ms: 32.9932
+  type: 'test'
+  ...
+# Subtest: a failure after any decision ledger changes never triggers correction/replay
+ok 3 - a failure after any decision ledger changes never triggers correction/replay
+  ---
+  duration_ms: 17.1713
+  type: 'test'
+  ...
+# Subtest: validation repair is off by default and bounded when enabled; no hidden automatic actions
+ok 4 - validation repair is off by default and bounded when enabled; no hidden automatic actions
+  ---
+  duration_ms: 20.505
+  type: 'test'
+  ...
+# Subtest: expanded durable allowance preserves every historical charge, crosses fifteen and refuses its exact configured ceiling
+ok 5 - expanded durable allowance preserves every historical charge, crosses fifteen and refuses its exact configured ceiling
+  ---
+  duration_ms: 143.2174
+  type: 'test'
+  ...
+# Subtest: larger output/call configuration still refuses generation above one-dollar token admission
+ok 6 - larger output/call configuration still refuses generation above one-dollar token admission
+  ---
+  duration_ms: 4.4813
+  type: 'test'
+  ...
+# Subtest: explicit three-dollar reservations execute beyond old fifteen limit and remain durable across reopen
+ok 7 - explicit three-dollar reservations execute beyond old fifteen limit and remain durable across reopen
+  ---
+  duration_ms: 74.9319
+  type: 'test'
+  ...
+# Subtest: larger provider request admission serializes the configured output capacity and counts identical instructions
+ok 8 - larger provider request admission serializes the configured output capacity and counts identical instructions
+  ---
+  duration_ms: 6.0029
+  type: 'test'
+  ...
+# Subtest: explicit factory allowance is validated before transport and defaults remain unchanged
+ok 9 - explicit factory allowance is validated before transport and defaults remain unchanged
+  ---
+  duration_ms: 0.878
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1270.0032

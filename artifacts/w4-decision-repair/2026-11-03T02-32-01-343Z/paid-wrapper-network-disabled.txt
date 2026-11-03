@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters
+ok 1 - feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters
+  ---
+  duration_ms: 25.5626
+  type: 'test'
+  ...
+# Subtest: completed-sort classification requires exact original identity, image, counters and completion with no uncertainty
+ok 2 - completed-sort classification requires exact original identity, image, counters and completion with no uncertainty
+  ---
+  duration_ms: 11.4751
+  type: 'test'
+  ...
+# Subtest: completed-sort recovery executes through the real connector and write gate against explicitly fake transport
+ok 3 - completed-sort recovery executes through the real connector and write gate against explicitly fake transport
+  ---
+  duration_ms: 944.4598
+  type: 'test'
+  ...
+# Subtest: feedback-loss cleanup uses Stop, fresh image and Reset through the real connector with fake transport
+ok 4 - feedback-loss cleanup uses Stop, fresh image and Reset through the real connector with fake transport
+  ---
+  duration_ms: 752.8788
+  type: 'test'
+  ...
+# Subtest: expanded envelope requires the exact new revision and cannot silently raise old approval
+ok 5 - expanded envelope requires the exact new revision and cannot silently raise old approval
+  ---
+  duration_ms: 11.7811
+  type: 'test'
+  ...
+# Subtest: expanded runtime preserves seven prior charges and stops after four new reservations without a fifth
+ok 6 - expanded runtime preserves seven prior charges and stops after four new reservations without a fifth
+  ---
+  duration_ms: 224.7654
+  type: 'test'
+  ...
+# Subtest: unchanged provider serializes 8000 output tokens at high reasoning and still performs dollar admission before generation
+ok 7 - unchanged provider serializes 8000 output tokens at high reasoning and still performs dollar admission before generation
+  ---
+  duration_ms: 58.8807
+  type: 'test'
+  ...
+# Subtest: delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven
+ok 8 - delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven
+  ---
+  duration_ms: 102.8344
+  type: 'test'
+  ...
+# Subtest: paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete
+ok 9 - paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete
+  ---
+  duration_ms: 87.2252
+  type: 'test'
+  ...
+# Subtest: approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting
+ok 10 - approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting
+  ---
+  duration_ms: 20.6508
+  type: 'test'
+  ...
+# Subtest: four simulated paid reservations stop before any fifth charge; no network or PLC
+ok 11 - four simulated paid reservations stop before any fifth charge; no network or PLC
+  ---
+  duration_ms: 97.5025
+  type: 'test'
+  ...
+# Subtest: remaining approval refuses a reset and permits exactly three new reservations after the saved five
+ok 12 - remaining approval refuses a reset and permits exactly three new reservations after the saved five
+  ---
+  duration_ms: 52.5352
+  type: 'test'
+  ...
+# Subtest: trial cannot silently enable retry on the old live-qualified runtime pin
+ok 13 - trial cannot silently enable retry on the old live-qualified runtime pin
+  ---
+  duration_ms: 1.6243
+  type: 'test'
+  ...
+# Subtest: actual native live commissioning cannot masquerade as a paid campaign export
+ok 14 - actual native live commissioning cannot masquerade as a paid campaign export
+  ---
+  duration_ms: 16680.3226
+  type: 'test'
+  ...
+# Subtest: real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite
+ok 15 - real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite
+  ---
+  duration_ms: 5406.9694
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 26631.4564

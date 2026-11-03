@@ -1,0 +1,64 @@
+{
+  "status": "pass",
+  "scope": "offline-fake-transport",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-decision-repair\\2026-11-03T02-32-01-343Z",
+  "sourceCommit": "63baf0d3fce428ed585c89ef5e7080a1b5968276",
+  "sources": {
+    "src/campaign/runtime.ts": "ed7937bdda2eb57723ee0d3348bafe84cba855c6de85bb0945b90e1284613657",
+    "src/campaign/budget.ts": "55f6500f0dac28158039d9bc37b30ced3dc6d84b4ea4ee8c654a66d5f030dd0a",
+    "src/campaign/session-account.ts": "4bd179fc65fc39dd377d6fb9e4c0c21c8f4039f71afd2f7cc99b340a6769020c",
+    "src/campaign/wonder-responses.ts": "34758fb83b8ddec74be4b621690203a4f4bd1e7c5396b29ec460942b57f7e252",
+    "src/host/wonder-campaign-factory.ts": "cc7a47eb49bd38b1a12efd4c221872f9d0d11623723092fdfbe5caf08ef7f653",
+    "test/wonder-decision-repair.test.ts": "7e44292edaabf4803d0bccaeb7fdf4acc19c50b2bd35d46c46f173594aaf6b75",
+    "test/wonder-process.test.ts": "8d3c27ccfd180ad6cae9071124c7cce167af16e19f39970aace4c0be7bd55ebf",
+    "package.json": "afa87355569778fa0111fdf3a5c8c04fae4dae96fcb747232e4fb8689d6ea98d",
+    "scripts/check-w4-decision-repair.js": "f7c51de72b9a6aebf55f905215be3cabb4661804162f43218968b3c4c1b597a3"
+  },
+  "startedAtIso": "2026-11-03T02:32:01.656Z",
+  "realModelCalls": 0,
+  "livePlcExecuted": false,
+  "results": [
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "runtime-tests",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 215,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "decision-repair-network-disabled",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "paid-wrapper-network-disabled",
+      "passed": true,
+      "exitCode": 0,
+      "signal": null,
+      "tests": 15,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePin": {
+    "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+    "verifiedUnchangedHashes": 639
+  },
+  "accountSha256": "0e648c0c20eab0397c0ed45adcc3f55cc216df230b8d63a79e69be8bbc75294b",
+  "finishedAtIso": "2026-11-03T02:39:36.792Z"
+}

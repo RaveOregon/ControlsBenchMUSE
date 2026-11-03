@@ -1,0 +1,88 @@
+{
+  "status": "pass",
+  "check": "campaignPort",
+  "contract": "controlsbench.wonder-process.v1",
+  "sourceCommit": "9e98da72ed667368078922a8a5233b08886a8476",
+  "clean": true,
+  "scope": "offline-fake-transport",
+  "transport": "test/fixtures/wonder-process-transport.ts (protocol fixture, not an M8 behavior oracle)",
+  "realChildProcess": true,
+  "livePlcExecuted": false,
+  "plcContacted": false,
+  "credentialsUsed": false,
+  "paidCalls": 0,
+  "networkCalls": 0,
+  "liveTimingQualified": false,
+  "liveRecoveryQualified": false,
+  "tests": [
+    {
+      "name": "provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage",
+      "passed": true
+    },
+    {
+      "name": "stale campaign/boundary revisions and duplicate action IDs are refused without replay",
+      "passed": true
+    },
+    {
+      "name": "hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue",
+      "passed": true
+    },
+    {
+      "name": "condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence",
+      "passed": true
+    },
+    {
+      "name": "cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone",
+      "passed": true
+    },
+    {
+      "name": "construction is read-only and reports the world bytes the child actually loaded",
+      "passed": true
+    }
+  ],
+  "establishes": [
+    "createWonderSession contract (IsolatedWonderSession) accepted by the existing Wonder factory with the exact host ledger and HMI object",
+    "Original action IDs, originating campaign revision and child boundary revision travel to the child; stale/duplicate requests are refused without replay",
+    "Every child source record reaches the host ledger once, in order, and derived plc.output/raw image/acknowledgement match it exactly"
+  ],
+  "doesNotEstablish": [
+    "A live Wonder-directed campaign, its spend or its adaptive follow-up",
+    "The reviewed W4 manifest (assembled by the runtime owner from this pin)"
+  ],
+  "measurements": [
+    {
+      "test": "factory-campaign",
+      "coordinatorSources": 15,
+      "plcOutputs": 6,
+      "ledgerEvents": 123,
+      "leaseStates": [
+        "released",
+        "released"
+      ],
+      "childExit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "test": "hold-lease",
+      "reasoningMs": 707,
+      "heldSamples": 6,
+      "worldTimeDuringHoldMs": 0,
+      "plcCycleDuringHold": [
+        "2",
+        "7"
+      ],
+      "receiptValid": true,
+      "campaignRevisionUnchanged": true
+    },
+    {
+      "test": "condition-lease",
+      "unmet": "released",
+      "met": "condition_met",
+      "metAfterMs": 86,
+      "evidence": "plc.output"
+    }
+  ],
+  "note": "Offline scope only. Citing this file in a live W4 manifest is a runtime-owner decision; it is not live timing or recovery qualification."
+}
