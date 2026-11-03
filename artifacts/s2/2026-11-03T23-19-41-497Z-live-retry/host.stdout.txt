@@ -1,0 +1,7 @@
+CV-1 operator HMI http://127.0.0.1:5191/  [Live PLC · opc.tcp://127.0.0.1:4840]
+ControlsBench portal http://127.0.0.1:5190  (campaign factory: Muse Wonder · live HMI vision and operation [live_plc])
+  portal HMI session: controlled headless browser on http://127.0.0.1:5191/?capture=portal
+  evidence: C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\s2-hmi\artifacts\s2\2026-11-03T23-19-41-497Z-live-retry\host\runs\2026-11-03T23-21-03-238Z-live_plc
+  agent seam: POST http://127.0.0.1:5191/api/agent-actions/execute {"targetId":"cmd.stop","requester":"script"}
+23:21:12.497Z :client_base_impl              :122   Warning more than one endpoint matching ! opc.tcp://127.0.0.1:4840 opc.tcp://LAPTOP-F6AGVV7O:4840
+23:21:47.087Z :client_base_impl              :122   Warning more than one endpoint matching ! opc.tcp://127.0.0.1:4840 opc.tcp://LAPTOP-F6AGVV7O:4840

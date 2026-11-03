@@ -1,0 +1,4 @@
+{
+  "httpStatus": 202,
+  "body": "{\"received\":true,\"duplicate\":false}"
+}

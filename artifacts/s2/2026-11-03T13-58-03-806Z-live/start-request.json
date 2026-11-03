@@ -1,0 +1,10 @@
+{
+  "contractVersion": 1,
+  "requestId": "s2-authorized-fresh-boot-1793747667225",
+  "type": "start",
+  "payload": {
+    "scope": {
+      "hmi": true
+    }
+  }
+}

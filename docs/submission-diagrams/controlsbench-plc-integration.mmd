@@ -1,0 +1,43 @@
+flowchart LR
+  classDef workstation fill:#F2F7FD,stroke:#3275C6,color:#132238;
+  classDef plc fill:#F5FBFA,stroke:#138B83,color:#132238;
+  classDef evidence fill:#FFFAF1,stroke:#B7791F,color:#132238;
+  classDef prototype fill:#FFFCF6,stroke:#B7791F,stroke-dasharray:8 5,color:#132238;
+  classDef future fill:#F8F9FB,stroke:#8B98A9,stroke-dasharray:3 6,color:#132238;
+
+  subgraph WS[Engineer workstation]
+    World["Generated world engine<br/>Physics · devices · sensors"]:::workstation
+    Raw["Complete workstation raw DI / AI<br/>BOOLs · native values · encoder counts"]:::workstation
+    World --> Raw
+  end
+
+  subgraph PLC["PLC-side integration · CODESYS Control Win target"]
+    Hardware["Hardware DI / AI<br/>Acquired raw image"]:::plc
+    Select["Demo interceptor FB<br/>Normal: hardware by default<br/>Simulation: complete workstation image"]:::plc
+    Logic["Existing PLC application<br/>Scaling · filtering · conditioning<br/>Sequence · control"]:::plc
+    Tap["Authentic output command tap<br/>DO: live demo<br/>AO: Core compiled prototype"]:::plc
+    Gate["Core compiled prototype: optional physical-sink gate<br/>Pass through by default"]:::prototype
+    Outputs[Hardware DO / AO]:::plc
+    Session["Session and diagnostics<br/>Boot identity · epoch/sequence<br/>Applied-image ack · freshness<br/>Link loss: hold last image + bench diagnostic"]:::evidence
+    Hardware -->|Default raw image| Select
+    Select -->|Selected raw values| Logic
+    Logic --> Tap
+    Tap --> Gate --> Outputs
+    Session -.-> Select
+  end
+  Raw -->|Simulation mode| Select
+  Tap -->|Authentic commands drive device response| World
+
+  subgraph ECOSYSTEM["Reusable ecosystem · common semantics, platform-specific implementations"]
+    Spec[Functional spec + I/O]:::workstation --> Contract["Versioned logical-signal contract + mapping<br/>Types · direction · configuration · provenance"]:::workstation
+    Contract --> Adapter[Vendor adapter / library]:::prototype --> Runtime[ControlsBench connector / runtime]:::workstation
+    Current["LIVE DEMO<br/>Integrated CODESYS interceptor FB<br/>OPC UA · qualified 10 Hz transport"]:::plc
+    Library["COMPILED PROTOTYPE<br/>ControlsBench Core 0.2.0.0<br/>DI / AI / DO / AO + session / observation<br/>Not runtime-validated or deployed in demo"]:::prototype
+    Future["FUTURE DIRECTIONS<br/>Other vendors · faster transports<br/>Acquisition / recording for PID and signal processing"]:::future
+    Adapter -.-> Current
+    Adapter -.-> Library
+    Adapter -.-> Future
+  end
+
+  Prerequisite["Intentional integration requires an editable/rebuildable PLC project"]:::evidence
+  Prerequisite -.-> Select

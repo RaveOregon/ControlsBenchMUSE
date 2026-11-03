@@ -1,0 +1,10 @@
+✔ offline commissioning passes end to end through the real runtime and isolated child (31882.4782ms)
+✔ a run held at the stopped baseline needs no reconciliation and is not written (33585.4094ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 65977.673

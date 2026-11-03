@@ -1,0 +1,150 @@
+{
+  "status": "pass_with_limitations",
+  "scope": "Muse browser HMI operation and UI-01/UI-02/UI-03 screen checks against live M8",
+  "reviewedAtIso": "2026-11-03T23:30:48.076Z",
+  "campaignId": "portal-20261103232137992-1",
+  "auditSha256": "3d1e92420fa8aff8c578a7ec6b9144f87c080cc6cd47d77566878331dee7981e",
+  "finalObserverSha256": "aac36c48ae13e71bac136785dd9deca91b705429298560498bf2dbf7ca597505",
+  "originalChildAndTransportClaimsVerified": 10,
+  "nativeClaims": [
+    {
+      "evidenceId": "portal-20261103232137992-1:2745",
+      "signal": "controller.ModeText",
+      "equals": "Faulted",
+      "plcCycle": "35355",
+      "nativeObservedAtIso": "2026-11-03T23:22:33.126Z",
+      "nativeReadAtIso": "2026-11-03T23:22:33.121Z",
+      "path": "GVL_DemoRead.Status.ModeText"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:2745",
+      "signal": "controller.FaultText",
+      "equals": "Drive overload",
+      "plcCycle": "35355",
+      "nativeObservedAtIso": "2026-11-03T23:22:33.126Z",
+      "nativeReadAtIso": "2026-11-03T23:22:33.121Z",
+      "path": "GVL_DemoRead.Status.FaultText"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:2745",
+      "signal": "controller.FaultCode",
+      "equals": 10,
+      "plcCycle": "35355",
+      "nativeObservedAtIso": "2026-11-03T23:22:33.126Z",
+      "nativeReadAtIso": "2026-11-03T23:22:33.121Z",
+      "path": "GVL_DemoRead.Status.FaultCode"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:2745",
+      "signal": "Motor_RunCmd",
+      "equals": false,
+      "plcCycle": "35355",
+      "nativeObservedAtIso": "2026-11-03T23:22:33.126Z",
+      "nativeReadAtIso": "2026-11-03T23:22:33.121Z",
+      "path": "GVL_BenchRead.Motor_RunCmd"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:2745",
+      "signal": "StackLight_Red",
+      "equals": true,
+      "plcCycle": "35355",
+      "nativeObservedAtIso": "2026-11-03T23:22:33.126Z",
+      "nativeReadAtIso": "2026-11-03T23:22:33.121Z",
+      "path": "GVL_BenchRead.StackLight_Red"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:4015",
+      "signal": "controller.ModeText",
+      "equals": "Stopped",
+      "plcCycle": "36341",
+      "nativeObservedAtIso": "2026-11-03T23:22:53.222Z",
+      "nativeReadAtIso": "2026-11-03T23:22:53.206Z",
+      "path": "GVL_DemoRead.Status.ModeText"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:4015",
+      "signal": "controller.FaultCode",
+      "equals": 0,
+      "plcCycle": "36341",
+      "nativeObservedAtIso": "2026-11-03T23:22:53.222Z",
+      "nativeReadAtIso": "2026-11-03T23:22:53.206Z",
+      "path": "GVL_DemoRead.Status.FaultCode"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:4015",
+      "signal": "Motor_RunCmd",
+      "equals": false,
+      "plcCycle": "36341",
+      "nativeObservedAtIso": "2026-11-03T23:22:53.222Z",
+      "nativeReadAtIso": "2026-11-03T23:22:53.206Z",
+      "path": "GVL_BenchRead.Motor_RunCmd"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:4015",
+      "signal": "controller.ItemActive",
+      "equals": false,
+      "plcCycle": "36341",
+      "nativeObservedAtIso": "2026-11-03T23:22:53.222Z",
+      "nativeReadAtIso": "2026-11-03T23:22:53.206Z",
+      "path": "GVL_DemoRead.Status.ItemActive"
+    },
+    {
+      "evidenceId": "portal-20261103232137992-1:4015",
+      "signal": "controller.CompletionPending",
+      "equals": false,
+      "plcCycle": "36341",
+      "nativeObservedAtIso": "2026-11-03T23:22:53.222Z",
+      "nativeReadAtIso": "2026-11-03T23:22:53.206Z",
+      "path": "GVL_DemoRead.Status.CompletionPending"
+    }
+  ],
+  "reviewedFrames": [
+    {
+      "file": "vision-frames/2-2-action.jpg",
+      "sha256": "f214117b3860688481fb65635b72c81c86fc2c6963e90625ad5cd6c162e15844"
+    },
+    {
+      "file": "vision-frames/2-3-action.jpg",
+      "sha256": "5802d5e287706612b2b7d701222409c76cf148b7e4f1fa426552d1636923f748"
+    },
+    {
+      "file": "vision-frames/3-current.jpg",
+      "sha256": "216f9f7ddb242a03f80bf5789c97c81f5b962672735147aef4958ac7d876004d"
+    },
+    {
+      "file": "vision-frames/4-2-action.jpg",
+      "sha256": "9839fdc5485c577507a4137d34114d779c99a1d4443f5119b25f237fe3160cee"
+    }
+  ],
+  "screenReview": {
+    "UI-01": "Supported: visible stable controls, applied Start/Stop/Reset and explicit Auto readback limitation.",
+    "UI-02": "Supported for the captured transitions: RUN command/STOPPED feedback after Start, OFF command/RUNNING feedback during coast after Stop.",
+    "UI-03": "Supported by received frame :2798 (3-current.jpg): Faulted, F10 Drive overload, red fault banner and motor off. Extra :2783 was captured but its pixels were not sent to Muse; that citation is excluded from this engineering conclusion.",
+    "UI-04": "Inconclusive: no stale/unknown/WCS-disconnect stimulus. No coverage pass claimed."
+  },
+  "citationDefects": [
+    {
+      "assessmentId": "portal-20261103232137992-1:5928",
+      "frameId": "portal-20261103232137992-1:2783"
+    }
+  ],
+  "allModelCitationsValid": false,
+  "firstAttempt": "The preceding one-request attempt stopped on a real PLC heartbeat lapse before any HMI action. It remains partial. Retry reduced observer load only; physical engine, world, PLC and timing bounds were unchanged.",
+  "finalPlc": "Fresh same-boot read confirms Stopped, fault0, motor off, no item/offer/completion; retained simulation image at rest. ConnectorStale after child exit is expected bench diagnostic.",
+  "ownership": {
+    "childClosed": true,
+    "drained": true,
+    "lockReleased": true,
+    "inFlightCommands": [],
+    "inFlightCommit": null,
+    "outstandingWrites": {
+      "atClose": [],
+      "atQuarantine": [],
+      "settledAfterQuarantine": [],
+      "childClosed": true
+    }
+  },
+  "modelRequests": 5,
+  "estimatedUncachedTokenCostUsd": 1.5737999999999999,
+  "claimBoundary": "Scoped HMI operation proof passed with a report citation defect. Not all HMI requirements passed; not arbitrary-HMI navigation, native CODESYS WebVisu, exhaustive alarms or physical hardware validation."
+}

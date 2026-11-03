@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ControlsBench Muse — submission diagrams</title>
+  <style>
+    :root { color-scheme: light; font-family: "Segoe UI", Arial, sans-serif; color: #132238; background: #f3f6fa; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 40px 5vw 64px; }
+    main { max-width: 1600px; margin: auto; }
+    h1 { font-size: clamp(28px, 3vw, 42px); margin: 0 0 12px; letter-spacing: -.035em; }
+    p { max-width: 900px; line-height: 1.6; color: #4e6075; }
+    .intro { margin-bottom: 32px; }
+    article { background: white; border: 1px solid #dbe3ed; border-radius: 14px; overflow: hidden; margin: 24px 0; }
+    article header { padding: 22px 26px 8px; }
+    h2 { margin: 0; font-size: 23px; }
+    article p { margin: 8px 0; }
+    figure { margin: 0; }
+    img { display: block; width: 100%; height: auto; background: white; }
+    footer { padding: 16px 26px 22px; display: flex; flex-wrap: wrap; gap: 20px; border-top: 1px solid #edf1f6; }
+    a { color: #255ea7; text-underline-offset: 3px; }
+    .status { padding: 16px 20px; border-left: 4px solid #7754d9; background: #eeebf9; border-radius: 4px; max-width: 1100px; }
+    .status strong { color: #132238; }
+    @media print { body { padding: 0; background: white; } .intro { display: none; } article { break-inside: avoid; break-after: page; border: 0; margin: 0; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="intro">
+      <h1>ControlsBench Muse</h1>
+      <p>Submission diagrams: the product architecture, the demonstrated investigation loop, and the PLC integration path. Open an SVG for its full-resolution, editable version.</p>
+      <p class="status"><strong>Capability labels:</strong> the live PLC fault/adaptive/report loop is demonstrated. Muse HMI operation passed a scoped live checkpoint; stale/disconnect coverage remains inconclusive. The reusable Core library is compiled but has not replaced the demo interceptor. Other vendor adapters and PID/signal-analysis extensions are future work.</p>
+    </div>
+    <article>
+      <header><h2>1. From specification to evidence</h2><p>The main submission visual: Muse, the engineer workstation, and actual PLC application logic.</p></header>
+      <figure><a href="controlsbench-architecture.svg"><img src="controlsbench-architecture.svg" alt="ControlsBench Muse architecture showing the specification, Muse API, local campaign and world execution, OPC UA connector, PLC interceptor and application, separate machine and HMI views, and the evidence report."></a></figure>
+      <footer><a href="controlsbench-architecture.svg">Editable SVG</a><a href="controlsbench-architecture.png">PNG</a><a href="controlsbench-architecture.mmd">Mermaid source</a><a href="controlsbench-architecture.md">Caption and notes</a></footer>
+    </article>
+    <article>
+      <header><h2>2. Live execution and adaptive investigation</h2><p>The continuous I/O loop runs independently of Muse’s higher-level decisions.</p></header>
+      <figure><a href="controlsbench-live-loop.svg"><img src="controlsbench-live-loop.svg" alt="Five-lane sequence diagram separating model reasoning, campaign evidence, isolated world execution, OPC UA image exchange and the PLC scan, followed by the demonstrated fault 12 and evidence-dependent fault 21 investigation."></a></figure>
+      <footer><a href="controlsbench-live-loop.svg">Editable SVG</a><a href="controlsbench-live-loop.png">PNG</a><a href="controlsbench-live-loop.mmd">Mermaid source</a><a href="controlsbench-live-loop.md">Caption and notes</a></footer>
+    </article>
+    <article>
+      <header><h2>3. Raw I/O integration and reusable adapters</h2><p>Authentic PLC logic stays in the loop; shared contracts support platform-specific integration.</p></header>
+      <figure><a href="controlsbench-plc-integration.svg"><img src="controlsbench-plc-integration.svg" alt="Raw DI and AI input selection before PLC scaling and logic, authentic DO and AO output taps with optional hardware sink suppression, and an inset distinguishing the live CODESYS demo, compiled reusable library and future adapters."></a></figure>
+      <footer><a href="controlsbench-plc-integration.svg">Editable SVG</a><a href="controlsbench-plc-integration.png">PNG</a><a href="controlsbench-plc-integration.mmd">Mermaid source</a><a href="controlsbench-plc-integration.md">Caption and notes</a></footer>
+    </article>
+  </main>
+</body>
+</html>

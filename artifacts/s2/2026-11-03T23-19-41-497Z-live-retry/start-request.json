@@ -1,0 +1,10 @@
+{
+  "contractVersion": 1,
+  "requestId": "s2-authorized-1793748097982",
+  "type": "start",
+  "payload": {
+    "scope": {
+      "hmi": true
+    }
+  }
+}

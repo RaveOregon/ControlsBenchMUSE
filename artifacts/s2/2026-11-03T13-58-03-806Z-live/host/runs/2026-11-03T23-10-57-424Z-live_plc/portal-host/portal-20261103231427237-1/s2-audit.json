@@ -1,0 +1,37 @@
+{
+  "status": "partial",
+  "campaignId": "portal-20261103231427237-1",
+  "verifiedAtIso": "2026-11-03T23:18:49.536Z",
+  "originalEvidenceHashes": 8,
+  "verifiedImages": 1,
+  "verifiedHmiActions": [],
+  "missingActions": [
+    "start",
+    "stop",
+    "reset"
+  ],
+  "missingAssessments": [
+    "UI-01",
+    "UI-02",
+    "UI-03",
+    "UI-04"
+  ],
+  "exactPlcClaims": 0,
+  "assessments": [],
+  "pairedResults": 0,
+  "modelRequests": 1,
+  "failures": [],
+  "finalRecordedPlcClean": true,
+  "inFlightCommands": [],
+  "inFlightCommit": null,
+  "outstandingWrites": {
+    "atClose": [],
+    "atQuarantine": [],
+    "settledAfterQuarantine": [],
+    "childClosed": true
+  },
+  "estimatedUncachedTokenCostUsd": 0.09302,
+  "conservativeNewUsd": 5,
+  "conservativeAggregateUsd": 110,
+  "claimBoundary": "Exact frames were sent to Muse; trusted browser inputs, rendered outcomes and PLC acknowledgements are preserved. Pixel interpretations require separate review; inconclusive UI coverage remains inconclusive."
+}

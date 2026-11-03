@@ -1,0 +1,141 @@
+{
+  "status": "reference_review_required",
+  "campaignId": "portal-20261103232137992-1",
+  "verifiedAtIso": "2026-11-03T23:29:38.249Z",
+  "originalEvidenceHashes": 24,
+  "verifiedImages": 17,
+  "verifiedHmiActions": [
+    {
+      "eventId": "portal-20261103232137992-1:938",
+      "action": "start",
+      "requestId": "hmi-start-mw1bbj0p-1k018y718sk4hg",
+      "frameRef": "hmi-frame:hmi-e926e4dd-50e5-4844-936d-6b8d8b7d48f4:20"
+    },
+    {
+      "eventId": "portal-20261103232137992-1:1120",
+      "action": "stop",
+      "requestId": "hmi-stop-mw1bbkj6-1pernr44kgei9",
+      "frameRef": "hmi-frame:hmi-e926e4dd-50e5-4844-936d-6b8d8b7d48f4:23"
+    },
+    {
+      "eventId": "portal-20261103232137992-1:2508",
+      "action": "start",
+      "requestId": "hmi-start-mw1bc2k4-wldz6crzcsew",
+      "frameRef": "hmi-frame:hmi-e926e4dd-50e5-4844-936d-6b8d8b7d48f4:33"
+    },
+    {
+      "eventId": "portal-20261103232137992-1:3722",
+      "action": "reset",
+      "requestId": "hmi-reset-mw1bch9g-12z11y9wgjcnx",
+      "frameRef": "hmi-frame:hmi-e926e4dd-50e5-4844-936d-6b8d8b7d48f4:43"
+    }
+  ],
+  "missingActions": [],
+  "missingAssessments": [],
+  "exactPlcClaims": 10,
+  "assessments": [
+    {
+      "eventId": "portal-20261103232137992-1:5922",
+      "id": "ASSESS-UI01-01",
+      "requirementId": "UI-01",
+      "frameEvidenceRefs": [
+        "portal-20261103232137992-1:1257",
+        "portal-20261103232137992-1:1258",
+        "portal-20261103232137992-1:4077",
+        "portal-20261103232137992-1:4078"
+      ],
+      "actionEvidenceRefs": [
+        "portal-20261103232137992-1:798",
+        "portal-20261103232137992-1:938",
+        "portal-20261103232137992-1:1120",
+        "portal-20261103232137992-1:3722",
+        "portal-20261103232137992-1:3914"
+      ],
+      "plcEvidenceRefs": [
+        "portal-20261103232137992-1:1197",
+        "portal-20261103232137992-1:3980"
+      ],
+      "observation": "Pixels show stable START, STOP, RESET and AUTO ON/OFF labels. Start frame shows AUTO and 'Applied by PLC'; Stop frame shows STOPPING and 'Applied by PLC'; Reset frame shows STOPPED with Reset 'Applied by PLC' and ResetAck 1 in control header; Auto frames show distinct ON/OFF selected states and 'Readback confirmed'. Independent PLC outputs show StartAck/StopAck then ResetAck=1.",
+      "verdict": "pass",
+      "uncertainty": "Auto has readback only, no PLC Auto acknowledgement field as stated on HMI; that limitation was visible and not treated as a mode acknowledgement."
+    },
+    {
+      "eventId": "portal-20261103232137992-1:5925",
+      "id": "ASSESS-UI02-01",
+      "requirementId": "UI-02",
+      "frameEvidenceRefs": [
+        "portal-20261103232137992-1:1257",
+        "portal-20261103232137992-1:1258",
+        "portal-20261103232137992-1:2798"
+      ],
+      "actionEvidenceRefs": [
+        "portal-20261103232137992-1:938",
+        "portal-20261103232137992-1:1120"
+      ],
+      "plcEvidenceRefs": [
+        "portal-20261103232137992-1:2745",
+        "portal-20261103232137992-1:1197"
+      ],
+      "observation": "Operation view has separate COMMAND and FEEDBACK (OBSERVED) columns. Start-result pixels show M1 RUN commanded while feedback is STOPPED with text 'Commanded; no running feedback yet'. Stop-result pixels show M1 OFF while feedback is RUNNING with text 'Not commanded; feedback still running (coast/stop)'. Diverts show RETRACT command separately from HOME/EXTENDED feedback. This distinguishes command from feedback rather than painting running solely from command.",
+      "verdict": "pass",
+      "uncertainty": "Assessment is for the displayed command-versus-feedback distinction in the captured Start/Stop transitions; no carton/divert motion sequence was in scope."
+    },
+    {
+      "eventId": "portal-20261103232137992-1:5928",
+      "id": "ASSESS-UI03-01",
+      "requirementId": "UI-03",
+      "frameEvidenceRefs": [
+        "portal-20261103232137992-1:2798",
+        "portal-20261103232137992-1:2783"
+      ],
+      "actionEvidenceRefs": [
+        "portal-20261103232137992-1:2508"
+      ],
+      "plcEvidenceRefs": [
+        "portal-20261103232137992-1:2745"
+      ],
+      "observation": "On the main Operation view without navigation, pixels show top banner 'PLC MODE Faulted', 'ALARMS 1 active - F10 Drive overload', red banner 'FAULT 10 Drive overload - Drive overload input is on. Faulted, motor off', Alarms tab badge 1, and CONTROLS heading FAULTED. Independent PLC output at 2745 is ModeText Faulted, FaultCode 10, FaultText Drive overload.",
+      "verdict": "pass",
+      "uncertainty": "Only the injected drive-overload fault text was tested; other fault texts were not exercised."
+    },
+    {
+      "eventId": "portal-20261103232137992-1:5931",
+      "id": "ASSESS-UI04-01",
+      "requirementId": "UI-04",
+      "frameEvidenceRefs": [
+        "portal-20261103232137992-1:4075",
+        "portal-20261103232137992-1:2798"
+      ],
+      "actionEvidenceRefs": [],
+      "plcEvidenceRefs": [
+        "portal-20261103232137992-1:4015"
+      ],
+      "observation": "Healthy/fault frames show 'PLC DATA Fresh' with an age and a RELEASE-WCS panel, but no stale-data condition, unknown-quality condition, or WCS disconnect was induced or observed. Therefore stale/unknown and WCS-disconnect display behavior was not tested.",
+      "verdict": "inconclusive",
+      "uncertainty": "No stale/disconnect stimulus was performed in this UI checkpoint; a healthy Fresh indication cannot prove stale or disconnect handling."
+    }
+  ],
+  "unseenAssessmentFrames": [
+    {
+      "assessmentId": "portal-20261103232137992-1:5928",
+      "frameId": "portal-20261103232137992-1:2783"
+    }
+  ],
+  "allAssessmentFrameCitationsViewed": false,
+  "pairedResults": 28,
+  "modelRequests": 5,
+  "failures": [],
+  "finalRecordedPlcClean": true,
+  "inFlightCommands": [],
+  "inFlightCommit": null,
+  "outstandingWrites": {
+    "atClose": [],
+    "atQuarantine": [],
+    "settledAfterQuarantine": [],
+    "childClosed": true
+  },
+  "estimatedUncachedTokenCostUsd": 1.5737999999999999,
+  "conservativeNewUsd": 25,
+  "conservativeAggregateUsd": 135,
+  "claimBoundary": "Exact frames were sent to Muse; trusted browser inputs, rendered outcomes and PLC acknowledgements are preserved. Pixel interpretations require separate review; inconclusive UI coverage remains inconclusive."
+}

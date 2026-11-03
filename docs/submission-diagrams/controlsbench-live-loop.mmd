@@ -1,0 +1,59 @@
+sequenceDiagram
+    autonumber
+    participant M as Muse Wonder / Meta API
+    participant R as Campaign runtime + evidence
+    participant W as Isolated generated-world engine
+    participant C as OPC UA connector
+    participant P as Actual CODESYS PLC application
+
+    Note over M,R: Engineer provides functional specification + I/O information
+    M->>R: Author reactive world package + manifest
+    R->>W: Validate and start world execution
+
+    rect rgb(238,245,253)
+    Note over W,P: Continuous workstation execution; demo transport qualified at 10 Hz
+    loop While the run is active, according to the current execution policy
+        W->>C: Complete raw input image
+        C->>P: Coherent commit / raw input interception
+        P-->>C: Applied epoch + sequence acknowledgement and authentic outputs/status
+        C-->>W: Observed PLC outputs / commit result
+        W->>W: Evolve physics and derive sensors for next image
+        W-->>R: Original input, acknowledgement, output and world evidence
+    end
+    end
+    Note over M,P: Muse reasons asynchronously. Hold freezes world evolution, not the PLC scan or timers.<br/>Continue and condition/deadline leases are bounded. The PLC's scan is not the transport rate.
+
+    M->>R: Choose drive-feedback failure experiment
+    R->>W: Apply selected world intervention
+    Note over W,P: Same raw-image / acknowledgement loop carries every field effect
+    P-->>C: Fault 12; motor command off
+    C-->>W: Authentic controller observation
+    W-->>R: Preserve original observation
+    R-->>M: Return fault evidence
+    M->>R: Choose clear condition + Reset
+    R->>W: Clear the world fault
+    R->>C: Sequenced supervisory Reset
+    C->>P: Reset request
+    P-->>C: Reset accepted; Stopped; no auto-restart
+    C-->>W: Observed stopped state
+    W-->>R: Preserve recovery evidence
+    R-->>M: Return recovery evidence
+
+    Note over M,R: Only now: new follow-up chosen from the returned current evidence
+    M->>R: Propose D1 contradictory-limit investigation, citing observed evidence
+    R->>W: Execute newly authorized experiment / world intervention
+    P-->>C: Distinct fault 21; motor and D1 commands off
+    C-->>W: Authentic controller observation
+    W-->>R: Preserve follow-up evidence
+    R-->>M: Return observed fault 21
+    M->>R: Choose clear + Reset; evaluate actual recovery
+    R->>W: Clear contradiction
+    R->>C: Sequenced Reset
+    C->>P: Reset request
+    P-->>C: Stopped; fault 0; no active item or pending completion
+    C-->>W: Observed final state
+    W-->>R: Preserve final PLC evidence
+    R-->>M: Return final observations
+    M->>R: Record two findings and complete report
+    Note over R: Independent audit verified 31 exact PLC claims against original source and transport evidence
+    Note over M,P: Earlier normal A sorting is separate historical live evidence.<br/>Muse HMI operation passed a separate live operator checkpoint with limits; it is not part of this sequence.

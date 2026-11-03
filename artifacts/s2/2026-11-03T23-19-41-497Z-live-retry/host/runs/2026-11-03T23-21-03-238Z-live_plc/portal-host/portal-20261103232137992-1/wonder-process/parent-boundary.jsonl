@@ -1,0 +1,37 @@
+{"atIso":"2026-11-03T23:21:41.409Z","atMonotonicMs":38837.2674,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":53648,"nonce":"b7dfb3a1d66f2722","node":"v24.15.0","timeOriginEpochMs":1793748101127.201},"priority":-7}
+{"atIso":"2026-11-03T23:21:41.413Z","atMonotonicMs":38841.245,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-03T23:21:41.450Z","atMonotonicMs":38877.677,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":37}
+{"atIso":"2026-11-03T23:21:41.498Z","atMonotonicMs":38925.8318,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-03T23:21:50.052Z","atMonotonicMs":47479.7131,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":8554}
+{"atIso":"2026-11-03T23:21:50.061Z","atMonotonicMs":47489.2478,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-03T23:21:50.087Z","atMonotonicMs":47515.0086,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"portal-20261103232137992-1:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T23:21:50.090Z","atMonotonicMs":47518.2711,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":29}
+{"atIso":"2026-11-03T23:21:50.092Z","atMonotonicMs":47520.3743,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":6}
+{"atIso":"2026-11-03T23:22:02.889Z","atMonotonicMs":60317.5151,"kind":"request","id":5,"op":"leaseFinish","leaseId":"portal-20261103232137992-1:lease:1"}
+{"atIso":"2026-11-03T23:22:02.928Z","atMonotonicMs":60355.8128,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":501,"elapsedMs":38}
+{"atIso":"2026-11-03T23:22:08.629Z","atMonotonicMs":66057.6477,"kind":"request","id":6,"op":"leaseBegin","campaignRevision":15,"leaseId":"portal-20261103232137992-1:lease:2","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T23:22:08.636Z","atMonotonicMs":66064.7723,"kind":"reply","id":6,"op":"leaseBegin","ok":true,"boundaryRevision":5,"throughSeq":847,"elapsedMs":7}
+{"atIso":"2026-11-03T23:22:29.753Z","atMonotonicMs":87181.8567,"kind":"request","id":7,"op":"leaseFinish","leaseId":"portal-20261103232137992-1:lease:2"}
+{"atIso":"2026-11-03T23:22:29.902Z","atMonotonicMs":87330.7582,"kind":"reply","id":7,"op":"leaseFinish","ok":true,"boundaryRevision":6,"throughSeq":1635,"elapsedMs":149}
+{"atIso":"2026-11-03T23:22:31.719Z","atMonotonicMs":89147.513,"kind":"request","id":8,"op":"apply","actionId":"inj-overload-01","name":"inject_fault","campaignRevision":20,"boundaryRevision":6,"controlId":"fault.setOverload"}
+{"atIso":"2026-11-03T23:22:31.908Z","atMonotonicMs":89336.3179,"kind":"reply","id":8,"op":"apply","ok":true,"boundaryRevision":7,"throughSeq":1780,"elapsedMs":189}
+{"atIso":"2026-11-03T23:22:33.668Z","atMonotonicMs":91096.2565,"kind":"request","id":9,"op":"leaseBegin","campaignRevision":24,"leaseId":"portal-20261103232137992-1:lease:3","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T23:22:33.706Z","atMonotonicMs":91133.9076,"kind":"reply","id":9,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":1886,"elapsedMs":38}
+{"atIso":"2026-11-03T23:22:48.808Z","atMonotonicMs":106236.1854,"kind":"request","id":10,"op":"leaseFinish","leaseId":"portal-20261103232137992-1:lease:3"}
+{"atIso":"2026-11-03T23:22:48.810Z","atMonotonicMs":106238.8004,"kind":"reply","id":10,"op":"leaseFinish","ok":true,"boundaryRevision":9,"throughSeq":2453,"elapsedMs":3}
+{"atIso":"2026-11-03T23:22:48.839Z","atMonotonicMs":106267.1905,"kind":"request","id":11,"op":"apply","actionId":"clr-overload-01","name":"clear_fault","campaignRevision":24,"boundaryRevision":9,"controlId":"fault.setOverload"}
+{"atIso":"2026-11-03T23:22:49.026Z","atMonotonicMs":106454.8383,"kind":"reply","id":11,"op":"apply","ok":true,"boundaryRevision":10,"throughSeq":2470,"elapsedMs":188}
+{"atIso":"2026-11-03T23:22:53.327Z","atMonotonicMs":110755.8049,"kind":"request","id":12,"op":"leaseBegin","campaignRevision":32,"leaseId":"portal-20261103232137992-1:lease:4","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T23:22:54.078Z","atMonotonicMs":111506.7167,"kind":"reply","id":12,"op":"leaseBegin","ok":true,"boundaryRevision":11,"throughSeq":2712,"elapsedMs":751}
+{"atIso":"2026-11-03T23:23:27.234Z","atMonotonicMs":144661.7326,"kind":"request","id":13,"op":"leaseFinish","leaseId":"portal-20261103232137992-1:lease:4"}
+{"atIso":"2026-11-03T23:23:27.239Z","atMonotonicMs":144666.4969,"kind":"reply","id":13,"op":"leaseFinish","ok":true,"boundaryRevision":12,"throughSeq":3966,"elapsedMs":5}
+{"atIso":"2026-11-03T23:23:28.030Z","atMonotonicMs":145457.5783,"kind":"request","id":14,"op":"leaseBegin","campaignRevision":39,"leaseId":"portal-20261103232137992-1:lease:5","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T23:23:28.607Z","atMonotonicMs":146034.2358,"kind":"reply","id":14,"op":"leaseBegin","ok":true,"boundaryRevision":13,"throughSeq":4012,"elapsedMs":577}
+{"atIso":"2026-11-03T23:23:42.591Z","atMonotonicMs":160018.7079,"kind":"request","id":15,"op":"leaseFinish","leaseId":"portal-20261103232137992-1:lease:5"}
+{"atIso":"2026-11-03T23:23:42.686Z","atMonotonicMs":160113.8194,"kind":"reply","id":15,"op":"leaseFinish","ok":true,"boundaryRevision":14,"throughSeq":4551,"elapsedMs":95}
+{"atIso":"2026-11-03T23:23:43.448Z","atMonotonicMs":160875.46,"kind":"request","id":16,"op":"hold","stopClock":true}
+{"atIso":"2026-11-03T23:23:43.777Z","atMonotonicMs":161204.87,"kind":"reply","id":16,"op":"hold","ok":true,"boundaryRevision":15,"throughSeq":4599,"elapsedMs":329}
+{"atIso":"2026-11-03T23:23:43.783Z","atMonotonicMs":161210.8551,"kind":"request","id":17,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-03T23:23:43.824Z","atMonotonicMs":161251.5177,"kind":"reply","id":17,"op":"close","ok":true,"boundaryRevision":15,"throughSeq":4601,"elapsedMs":41}
+{"atIso":"2026-11-03T23:23:43.893Z","atMonotonicMs":161320.4296,"kind":"child.exit","code":0,"signal":null,"lastSeq":4601}
+{"atIso":"2026-11-03T23:23:43.894Z","atMonotonicMs":161321.7119,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock","boundaryRevision":15,"lastSeq":4601},"exit":{"code":0,"signal":null},"killed":false}

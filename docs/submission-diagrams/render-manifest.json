@@ -1,0 +1,31 @@
+{
+  "renderedAtIso": "2026-11-03T23:33:12.406Z",
+  "width": 1920,
+  "height": 1080,
+  "files": [
+    {
+      "file": "controlsbench-architecture.svg",
+      "sha256": "9d6a3f6aa5f2e583d472d606d328663a97c6df9732489c3d8aae5d68f61f5865"
+    },
+    {
+      "file": "controlsbench-architecture.png",
+      "sha256": "18a49f9b55617da6a46bf962cc4c1c9752bc693aea691f42bec3e7c65663e407"
+    },
+    {
+      "file": "controlsbench-live-loop.svg",
+      "sha256": "c71edd1d0ed94dfab3de3de3eff7e99e7489df39e27914360e66fde760cb08e8"
+    },
+    {
+      "file": "controlsbench-live-loop.png",
+      "sha256": "adf304284c6f9a59fc8067a5fd1c76ac4eee631a626db61194963b15f8d5f7bf"
+    },
+    {
+      "file": "controlsbench-plc-integration.svg",
+      "sha256": "1838ffd6fc15b688e7b6b0fb00b4ce69f1ab387dd5f422edbf7af156efea9818"
+    },
+    {
+      "file": "controlsbench-plc-integration.png",
+      "sha256": "cdb53214e948b4db64848b838bdcc3414f49e5bc462366770bb665baf18a2646"
+    }
+  ]
+}

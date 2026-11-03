@@ -1,0 +1,50 @@
+{
+  "status": "pass_after_targeted_recheck",
+  "atIso": "2026-11-03T23:39:03.248Z",
+  "typecheck": {
+    "command": "npx tsc --noEmit",
+    "exitCode": 0
+  },
+  "uiBuild": {
+    "command": "npm run build --prefix ui",
+    "exitCode": 0
+  },
+  "fullSuite": {
+    "command": "npm test",
+    "tests": 233,
+    "pass": 231,
+    "fail": 2,
+    "skipped": 0,
+    "log": "final-suite.log",
+    "sha256": "cde4d7b2fcb2f77ae10d80c826df772ad3a026b08d8e93ea59b3a2f55b1fb873",
+    "failures": [
+      "offline commissioning passes end to end through the real runtime and isolated child",
+      "a run held at the stopped baseline needs no reconciliation and is not written"
+    ],
+    "diagnostic": "First failure: world-step gap859ms exceeds unchanged300ms bound. Second: held state did not match stopped reconciliation path. No test or runtime changes made."
+  },
+  "targetedRecheck": {
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0,
+    "log": "commissioning-recheck.log",
+    "sha256": "a119a14cb80959fe5d913bb3adb939d330f334e68074a75b3297c3345307093b",
+    "timingBoundsUnchanged": true
+  },
+  "s2Tests": {
+    "tests": 4,
+    "pass": 4
+  },
+  "audit": "Retry s2-audit.json requires reference review; engineering-review.json scopes pass with limitations and preserves one unseen-frame citation defect.",
+  "sourceImplementation": "8e1f0e001f972e94419ff45a75752af17d0efe75",
+  "physicalEngine": "503abd3b895cb2fc03853a9ec2d75166544e2a59",
+  "accountSnapshot": {
+    "file": "accounting-after-s2.jsonl",
+    "sha256": "c6d9804df8de83730af36fa9d0cb201f36b1091656f2c02b6b4b238d73d7ab96",
+    "conservativeTotalUsd": 135,
+    "billing": "Reservations, not invoices"
+  },
+  "plcContactedByRegression": false,
+  "modelCallsByRegression": 0
+}

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">One raw-I/O contract, platform-specific PLC integration</title>
+  <desc id="desc">The ControlsBench workstation supplies a complete simulated raw input image to a CODESYS demo interceptor. Hardware inputs pass through by default. The existing PLC application retains scaling, filtering and control logic. Authentic output commands feed the generated world and normally continue to hardware outputs. DO capture is live in the demo; AO support and the optional physical-sink gate belong to the compiled-only Core prototype. A lower inset distinguishes the live integrated demo, the compiled-only reusable library prototype and future vendor, transport and analysis extensions.</desc>
+  <defs>
+    <style>
+      text{font-family:"Segoe UI",Arial,sans-serif;fill:#132238} .title{font-size:46px;font-weight:700;letter-spacing:-1px} .sub{font-size:24px;fill:#52647A} .boundary{font-size:30px;font-weight:700} .heading{font-size:25px;font-weight:650} .body{font-size:22px} .small{font-size:20px;fill:#52647A} .label{font-size:22px;font-weight:600} .tag{font-size:16px;font-weight:700;letter-spacing:1.1px} .white{fill:white} .blue{fill:#3275C6} .teal{fill:#138B83} .amber{fill:#B7791F} .muted{fill:#52647A}
+      .wire{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round} .bluewire{stroke:#3275C6;marker-end:url(#blueArrow)} .tealwire{stroke:#138B83;marker-end:url(#tealArrow)} .graywire{stroke:#64748B;marker-end:url(#grayArrow)}
+    </style>
+    <marker id="blueArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 11 5.5 0 11Z" fill="#3275C6"/></marker>
+    <marker id="tealArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 11 5.5 0 11Z" fill="#138B83"/></marker>
+    <marker id="grayArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 11 5.5 0 11Z" fill="#64748B"/></marker>
+  </defs>
+  <rect width="1920" height="1080" fill="#FFFFFF"/>
+  <text x="48" y="70" class="title">One raw-I/O contract, platform-specific PLC integration</text>
+  <text x="48" y="112" class="sub">Thin PLC integration preserves the controller behavior under test.</text>
+
+  <g id="workstation-boundary">
+    <rect x="48" y="150" width="382" height="550" rx="22" fill="#F2F7FD" stroke="#B8D0ED" stroke-width="2"/>
+    <rect x="48" y="150" width="382" height="8" rx="4" fill="#3275C6"/>
+    <text x="78" y="202" class="boundary blue">Workstation</text>
+    <text x="78" y="237" class="body">ControlsBench execution</text>
+    <rect x="78" y="315" width="322" height="155" rx="16" fill="#FFFFFF" stroke="#3275C6" stroke-width="2.5"/>
+    <text x="103" y="356" class="heading">Generated world</text>
+    <text x="103" y="395" class="body">Physics · devices · sensors</text>
+    <text x="103" y="430" class="body">Produces raw signals</text>
+    <text x="78" y="556" class="tag blue">SIMULATION BOUNDARY</text>
+    <text x="78" y="593" class="body">BOOLs · native raw values</text>
+    <text x="78" y="625" class="body">Device fields · encoder counts</text>
+    <text x="78" y="669" class="small">World physics stays off-PLC.</text>
+  </g>
+
+  <g id="plc-boundary">
+    <rect x="474" y="150" width="1398" height="550" rx="22" fill="#F5FBFA" stroke="#A8D4CF" stroke-width="2"/>
+    <rect x="474" y="150" width="1398" height="8" rx="4" fill="#138B83"/>
+    <text x="506" y="202" class="boundary teal">PLC project</text>
+    <rect x="1450" y="172" width="389" height="40" rx="20" fill="#DDF1EE"/>
+    <text x="1644" y="198" class="tag teal" text-anchor="middle">TARGET · CODESYS CONTROL WIN</text>
+
+    <rect x="520" y="232" width="280" height="80" rx="14" fill="#FFFFFF" stroke="#A8D4CF" stroke-width="2"/>
+    <text x="660" y="265" class="heading" text-anchor="middle">Hardware DI / AI</text>
+    <text x="660" y="294" class="small" text-anchor="middle">Acquired raw image</text>
+
+    <rect x="860" y="330" width="286" height="140" rx="16" fill="#FFFFFF" stroke="#138B83" stroke-width="2.5"/>
+    <text x="1003" y="365" class="heading" text-anchor="middle">Demo interceptor FB</text>
+    <text x="1003" y="401" class="body" text-anchor="middle">Normal: hardware</text>
+    <text x="1003" y="438" class="body" text-anchor="middle">Sim: complete raw image</text>
+
+    <rect x="1204" y="330" width="298" height="140" rx="16" fill="#138B83"/>
+    <text x="1353" y="367" class="heading white" text-anchor="middle">Existing PLC logic</text>
+    <text x="1353" y="405" class="body white" text-anchor="middle">Scaling · filtering</text>
+    <text x="1353" y="439" class="body white" text-anchor="middle">Sequence · control</text>
+
+    <rect x="1560" y="330" width="276" height="140" rx="16" fill="#FFFFFF" stroke="#138B83" stroke-width="2.5"/>
+    <text x="1698" y="365" class="heading" text-anchor="middle">Output command tap</text>
+    <text x="1698" y="404" class="body" text-anchor="middle">DO: live demo</text>
+    <text x="1698" y="438" class="body" text-anchor="middle">AO: Core prototype</text>
+
+    <rect x="520" y="550" width="755" height="115" rx="14" fill="#FFFAF1" stroke="#E7CA94" stroke-width="2"/>
+    <text x="544" y="583" class="heading amber">Session + applied-image diagnostics</text>
+    <text x="544" y="617" class="small">Boot identity · epoch / sequence · image acknowledgement · freshness</text>
+    <text x="544" y="648" class="small">Link loss: hold last simulated image + bench connection diagnostic</text>
+
+    <rect x="1542" y="523" width="312" height="90" rx="14" fill="#FFFCF6" stroke="#B7791F" stroke-width="2" stroke-dasharray="8 5"/>
+    <text x="1698" y="547" class="tag amber" text-anchor="middle">CORE PROTOTYPE · OPTIONAL</text>
+    <text x="1698" y="576" class="body" text-anchor="middle">Physical-sink gate</text>
+    <text x="1698" y="602" class="small" text-anchor="middle">Pass through by default</text>
+    <rect x="1560" y="641" width="276" height="48" rx="12" fill="#E4EFED"/>
+    <text x="1698" y="673" class="body" text-anchor="middle">Hardware DO / AO</text>
+  </g>
+
+  <g id="data-paths">
+    <path d="M800 272H1003V330" class="wire tealwire"/>
+    <text x="915" y="253" class="label teal">Default path</text>
+    <path d="M400 385H860" class="wire bluewire"/>
+    <rect x="483" y="345" width="324" height="30" fill="#F5FBFA"/>
+    <text x="645" y="369" class="label blue" text-anchor="middle">Complete workstation DI / AI</text>
+    <path d="M1146 400H1204" class="wire tealwire"/>
+    <path d="M1502 400H1560" class="wire tealwire"/>
+    <path d="M1576 470V501H415V435H400" class="wire tealwire"/>
+    <rect x="718" y="482" width="586" height="35" fill="#F5FBFA"/>
+    <text x="1011" y="507" class="label teal" text-anchor="middle">Authentic commands → world feedback</text>
+    <path d="M1698 470V523" class="wire graywire"/>
+    <path d="M1698 613V641" class="wire graywire"/>
+    <text x="1410" y="640" class="small" text-anchor="middle"><tspan x="1410" dy="0">Overrides affect</tspan><tspan x="1410" dy="27">the physical sink only.</tspan></text>
+  </g>
+
+  <g id="ecosystem">
+    <text x="48" y="752" class="boundary">Common semantics. Platform-specific implementations.</text>
+    <text x="48" y="786" class="small">Versioned contracts, signal maps and library builds retain configuration and provenance.</text>
+    <g fill="#F5F7FA" stroke="#D4DDE7" stroke-width="1.5">
+      <rect x="48" y="808" width="405" height="62" rx="12"/>
+      <rect x="518" y="808" width="405" height="62" rx="12"/>
+      <rect x="988" y="808" width="405" height="62" rx="12"/>
+      <rect x="1458" y="808" width="414" height="62" rx="12"/>
+    </g>
+    <text x="250" y="847" class="body" text-anchor="middle">Functional spec + I/O</text>
+    <text x="720" y="847" class="body" text-anchor="middle">Versioned contract + mapping</text>
+    <text x="1190" y="847" class="body" text-anchor="middle">Vendor adapter / library</text>
+    <text x="1665" y="847" class="body" text-anchor="middle">ControlsBench connector + runtime</text>
+    <path d="M453 839H518" class="wire graywire"/>
+    <path d="M923 839H988" class="wire graywire"/>
+    <path d="M1393 839H1458" class="wire graywire"/>
+
+    <rect x="48" y="899" width="574" height="110" rx="14" fill="#F0F8F6" stroke="#138B83" stroke-width="2"/>
+    <text x="69" y="927" class="tag teal">LIVE DEMO</text>
+    <text x="69" y="960" class="body">Integrated CODESYS interceptor FB</text>
+    <text x="69" y="989" class="small">OPC UA · qualified 10 Hz demo transport</text>
+
+    <rect x="673" y="899" width="574" height="110" rx="14" fill="#FFFCF6" stroke="#B7791F" stroke-width="2" stroke-dasharray="8 5"/>
+    <text x="694" y="927" class="tag amber">COMPILED PROTOTYPE</text>
+    <text x="694" y="960" class="body">Core 0.2.0.0 · DI / AI / DO / AO blocks</text>
+    <text x="694" y="989" class="small">Not runtime-validated or deployed in the demo</text>
+
+    <rect x="1298" y="899" width="574" height="110" rx="14" fill="#F8F9FB" stroke="#8B98A9" stroke-width="2" stroke-dasharray="3 6"/>
+    <text x="1319" y="927" class="tag muted">FUTURE DIRECTIONS</text>
+    <text x="1319" y="960" class="body">Other vendors · faster transports</text>
+    <text x="1319" y="989" class="small">Acquisition / recording → PID + signal processing</text>
+  </g>
+  <text x="48" y="1051" class="small">Integration prerequisite: editable/rebuildable PLC project.</text>
+  <text x="1872" y="1051" class="small" text-anchor="end">ControlsBench Muse · engineering architecture</text>
+</svg>

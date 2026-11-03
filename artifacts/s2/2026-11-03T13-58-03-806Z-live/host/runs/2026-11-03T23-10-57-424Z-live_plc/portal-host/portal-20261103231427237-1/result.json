@@ -1,0 +1,12 @@
+{
+  "status": "held",
+  "contract": "controlsbench.s2-post-run.v1",
+  "campaignStatus": "stopped",
+  "campaignId": "portal-20261103231427237-1",
+  "scope": "live-m8-hmi",
+  "heldState": {
+    "file": "held-state.json",
+    "sha256": "5ea17a68e85367b1847c84d566cc539c15a15a71d6693b11494022c66692e8fb"
+  },
+  "claimBoundary": "Retained-image record, not a failure verdict or recovery; final fresh PLC inspection and image/action/ack audit decide S2 proof"
+}
