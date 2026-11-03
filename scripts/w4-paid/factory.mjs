@@ -13,7 +13,7 @@ export function createCampaignFactory() {
   assert.equal(hash(bytes), process.env.CONTROLSBENCH_W4_APPROVAL_SHA256, 'Authorization packet differs from reviewed bytes');
   assert.equal(packet.ownerCommit, configuration.sourceCommit);
   const turns = trialEnvelope(packet);
-  const resume=packet.approvalRevision?.contract==='controlsbench.w4-resume-approval.v1';
+  const resume=['controlsbench.w4-resume-approval.v1','controlsbench.w4-full-proof-approval.v1'].includes(packet.approvalRevision?.contract);
   for (const [path, expected] of Object.entries(packet.launchSourceHashes)) assert.equal(hashFile(join(root, path)), expected, `Launch source changed: ${path}`);
   let delegate;
   return {

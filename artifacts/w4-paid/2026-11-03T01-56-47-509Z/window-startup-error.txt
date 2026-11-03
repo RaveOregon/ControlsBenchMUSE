@@ -1,0 +1,17 @@
+﻿
+
+PSMessageDetails      : 
+Exception             : System.Management.Automation.RuntimeException: Fresh stopped PLC baseline required.
+TargetObject          : Fresh stopped PLC baseline required.
+CategoryInfo          : OperationStopped: (Fresh stopped PLC baseline required.:String) [], RuntimeException
+FullyQualifiedErrorId : Fresh stopped PLC baseline required.
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-live-readiness\scrip
+                        ts\w4-paid\launch-resume.ps1: line 30
+                        at <ScriptBlock>, <No file>: line 2
+PipelineIterationInfo : {}
+
+
+
+

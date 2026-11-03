@@ -7,7 +7,10 @@ $w4Root=(Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
 $w4PacketPath=(Resolve-Path -LiteralPath $Packet).Path
 if ((Get-FileHash -LiteralPath $w4PacketPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $AuthorizePacket) { throw 'Approved resume packet changed.' }
 $w4Packet=Get-Content -LiteralPath $w4PacketPath -Raw | ConvertFrom-Json
-if ($w4Packet.approvalRevision.contract -ne 'controlsbench.w4-resume-approval.v1' -or $w4Packet.maximumModelRequests -ne 2 -or $w4Packet.maximumNewConservativeUsd -ne 2 -or $w4Packet.sessionBaseline.conservativeUsd -ne 10 -or $w4Packet.aggregateConservativeCeilingUsd -ne 12 -or $w4Packet.maxTransientRetries -ne 1) { throw 'Expected exactly two remaining attempts with one bounded retry.' }
+$w4FullProof=$w4Packet.approvalRevision.contract -eq 'controlsbench.w4-full-proof-approval.v1'
+if ($w4FullProof) {
+    if ($w4Packet.approvalRevision.authorizedCreditPoolUsd -ne 150 -or $w4Packet.maximumModelRequests -ne 5 -or $w4Packet.maximumNewConservativeUsd -ne 5 -or $w4Packet.sessionBaseline.conservativeUsd -ne 10 -or $w4Packet.aggregateConservativeCeilingUsd -ne 15 -or $w4Packet.maxTransientRetries -ne 1) { throw 'Full-proof packet differs from the authorized continuation.' }
+} elseif ($w4Packet.approvalRevision.contract -ne 'controlsbench.w4-resume-approval.v1' -or $w4Packet.maximumModelRequests -ne 2 -or $w4Packet.maximumNewConservativeUsd -ne 2 -or $w4Packet.sessionBaseline.conservativeUsd -ne 10 -or $w4Packet.aggregateConservativeCeilingUsd -ne 12 -or $w4Packet.maxTransientRetries -ne 1) { throw 'Expected exactly two remaining attempts with one bounded retry.' }
 foreach($w4Source in $w4Packet.launchSourceHashes.PSObject.Properties) { if ((Get-FileHash -LiteralPath (Join-Path $w4Root $w4Source.Name) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Source.Value) { throw ('Launch source changed: '+$w4Source.Name) } }
 $w4Directory=Split-Path -Parent $w4PacketPath
 $w4ConfigPath=Join-Path $w4Root $w4Packet.launchConfiguration.path
@@ -22,14 +25,30 @@ $w4Account=Join-Path $w4Packet.repositoryRoot 'artifacts/wonder/session.jsonl'
 if ((Get-FileHash -LiteralPath $w4Account -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Packet.sessionBaseline.sha256) { throw 'Paid account changed; no launch or paid call.' }
 if (Test-Path -LiteralPath (Join-Path $w4Packet.repositoryRoot 'artifacts/m10/live.lock')) { throw 'Another runtime writer is active.' }
 $w4Host=Invoke-RestMethod 'http://127.0.0.1:5190/api/host' -TimeoutSec 5
-$w4Report=Invoke-RestMethod 'http://127.0.0.1:5190/api/campaign/report' -TimeoutSec 5
-$w4Hmi=Invoke-RestMethod 'http://127.0.0.1:5191/api/state' -TimeoutSec 5
-if ($w4Host.campaignId -ne 'portal-20261103000832522-1' -or $w4Report.status -ne 'stopped') { throw 'Expected the exact terminal old campaign.' }
+$w4Report=$null
+if (-not $w4FullProof) { $w4Report=Invoke-RestMethod 'http://127.0.0.1:5190/api/campaign/report' -TimeoutSec 30 }
+if ($w4FullProof) {
+    if ($w4Host.campaignId -or $w4Report) { throw 'Expected the fresh retry host with no campaign.' }
+} elseif ($w4Host.campaignId -ne 'portal-20261103000832522-1' -or $w4Report.status -ne 'stopped') { throw 'Expected the exact terminal old campaign.' }
+# Serializing the historical report can briefly block the old shared host's
+# polling loop. Wait for a new good read; never accept its held stale snapshot.
+$w4BaselineDeadline=[DateTime]::UtcNow.AddSeconds(15)
+do {
+    Start-Sleep -Milliseconds 500
+    $w4Hmi=Invoke-RestMethod 'http://127.0.0.1:5191/api/state' -TimeoutSec 5
+} while ($w4Hmi.link.state -ne 'connected' -and [DateTime]::UtcNow -lt $w4BaselineDeadline)
 $w4Values=$w4Hmi.snapshot.values
+@{observedAtIso=[DateTimeOffset]::UtcNow.ToString('o');link=$w4Hmi.link;baseline=@{mode=$w4Values.'GVL_DemoRead.Status.ModeText';fault=$w4Values.'GVL_DemoRead.Status.FaultCode';item=$w4Values.'GVL_DemoRead.Status.ItemActive';pending=$w4Values.'GVL_DemoRead.Status.CompletionPending';motor=$w4Values.'GVL_DemoRead.Status.Motor_RunCmd'}} | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $w4Directory 'pre-prompt-baseline.json') -Encoding UTF8
 if ($w4Hmi.link.state -ne 'connected' -or $w4Values.'GVL_DemoRead.Status.ModeText'.value -ne 'Stopped' -or $w4Values.'GVL_DemoRead.Status.FaultCode'.value -ne 0 -or $w4Values.'GVL_DemoRead.Status.ItemActive'.value -ne $false -or $w4Values.'GVL_DemoRead.Status.CompletionPending'.value -ne $false -or $w4Values.'GVL_DemoRead.Status.Motor_RunCmd'.value -ne $false) { throw 'Fresh stopped PLC baseline required.' }
-$w4OldRecord=Get-Content -LiteralPath (Join-Path $w4Root 'artifacts/w4-paid/2026-11-03T00-05-36-042Z/live-host/runs/2026-11-03T00-08-00-121Z-live_plc/portal-host/portal-20261103000832522-1/held-state.json') -Raw | ConvertFrom-Json
-$w4OldProcess=Get-CimInstance Win32_Process -Filter ('ProcessId = '+$w4OldRecord.ownership.acquired.parentPid)
-if (-not $w4OldProcess -or $w4OldProcess.Name -ne 'node.exe' -or $w4OldProcess.CommandLine -notlike '*w4-commissioning-pin*run-hmi-portal.js*' -or $w4OldProcess.CommandLine -notlike '*2026-11-03T00-05-36-042Z*') { throw 'Old host process identity changed.' }
+foreach($w4BaselinePath in @('ModeText','FaultCode','ItemActive','CompletionPending','Motor_RunCmd')) { if ($w4Values.('GVL_DemoRead.Status.'+$w4BaselinePath).good -ne $true) { throw ('PLC baseline quality is not Good: '+$w4BaselinePath) } }
+if ($w4FullProof) {
+    $w4OldProcess=Get-CimInstance Win32_Process -Filter ('ProcessId = '+$w4Packet.previousHost.pid)
+    if (-not $w4OldProcess -or $w4OldProcess.Name -ne 'node.exe' -or $w4OldProcess.CommandLine -notlike '*w4-retry-runtime-pin*run-hmi-portal.js*' -or $w4OldProcess.CommandLine -notlike ('*'+$w4Packet.previousHost.packetDirectoryName+'*')) { throw 'Fresh retry host process identity changed.' }
+} else {
+    $w4OldRecord=Get-Content -LiteralPath (Join-Path $w4Root 'artifacts/w4-paid/2026-11-03T00-05-36-042Z/live-host/runs/2026-11-03T00-08-00-121Z-live_plc/portal-host/portal-20261103000832522-1/held-state.json') -Raw | ConvertFrom-Json
+    $w4OldProcess=Get-CimInstance Win32_Process -Filter ('ProcessId = '+$w4OldRecord.ownership.acquired.parentPid)
+    if (-not $w4OldProcess -or $w4OldProcess.Name -ne 'node.exe' -or $w4OldProcess.CommandLine -notlike '*w4-commissioning-pin*run-hmi-portal.js*' -or $w4OldProcess.CommandLine -notlike '*2026-11-03T00-05-36-042Z*') { throw 'Old host process identity changed.' }
+}
 @{observedAtIso=[DateTimeOffset]::UtcNow.ToString('o');host=$w4Host;hmi=$w4Hmi} | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath (Join-Path $w4Directory 'pre-switch-observer.json') -Encoding UTF8
 $w4Status=@{phase='awaiting-password';modelCalls=0;packetSha256=$AuthorizePacket;sourceCommit=$w4Config.sourceCommit}
 $w4StatusFile=Join-Path $w4Directory 'launch-status.json'
@@ -69,7 +88,7 @@ try {
     $w4Result=Get-Content -LiteralPath (Join-Path $w4Bench.FullName 'result.json') -Raw | ConvertFrom-Json
     if ($w4Result.status -ne 'pass' -or -not $w4Result.qualification.passed) { throw 'Native qualification did not pass.' }
     $w4Status.phase='bench-pass-ready-for-paid-start';$w4Status.benchDirectory=$w4Bench.FullName
-    Write-Host 'Bench check passed. App is ready at http://127.0.0.1:5190/ . Chat will start the remaining-$2 trial; do not click Start yourself.'
+    Write-Host 'Bench check passed. App is ready at http://127.0.0.1:5190/ . Chat will start the authorized trial; do not click Start yourself.'
 } catch { $w4Status.phase='refused-or-failed';$w4Status.error=$_.Exception.Message;Write-Host $w4Status.error -ForegroundColor Red }
 finally {
     foreach($w4Name in $w4Previous.Keys) { [Environment]::SetEnvironmentVariable($w4Name,$w4Previous[$w4Name]) }

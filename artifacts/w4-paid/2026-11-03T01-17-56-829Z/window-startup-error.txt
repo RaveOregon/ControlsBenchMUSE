@@ -1,0 +1,19 @@
+﻿
+
+PSMessageDetails      : 
+Exception             : System.Net.WebException: The operation has timed out.
+                           at Microsoft.PowerShell.Commands.WebRequestPSCmdlet.GetResponse(WebRequest request)
+                           at Microsoft.PowerShell.Commands.WebRequestPSCmdlet.ProcessRecord()
+TargetObject          : System.Net.HttpWebRequest
+CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-RestMethod], WebException
+FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeRestMethodCommand
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\Users\steve\Documents\ControlsBenchMuse\.worktrees\w4-live-readiness\scrip
+                        ts\w4-paid\launch-resume.ps1: line 25
+                        at <ScriptBlock>, <No file>: line 2
+PipelineIterationInfo : {}
+
+
+
+

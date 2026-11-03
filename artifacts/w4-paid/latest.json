@@ -1,9 +1,10 @@
 {
-  "status": "resume-ready-for-bench-check",
-  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T01-17-56-829Z",
-  "packetSha256": "3637df82fa60f4da1914e822bfc9aebefd44546afd3a71e5134261ccfe207669",
+  "status": "full-proof-ready-for-bench-check",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-03-15-190Z",
+  "packetSha256": "a6a9a6c06ab486d55b38fc48f2ad6327d4e5fefb055fb75b68ea6adb229f9109",
   "previousConservativeUsd": 10,
-  "maximumNewConservativeUsd": 2,
-  "aggregateConservativeCeilingUsd": 12,
+  "maximumNewConservativeUsd": 5,
+  "aggregateConservativeCeilingUsd": 15,
+  "authorizedCreditPoolUsd": 150,
   "maxTransientRetries": 1
 }

@@ -1,0 +1,103 @@
+{
+  "status": "partial",
+  "verifiedAtIso": "2026-11-03T02:12:55.418Z",
+  "campaignId": "portal-20261103020555687-1",
+  "ledgerEvents": 3885,
+  "originalEvidenceHashesVerified": 7,
+  "responseHashesVerified": 4,
+  "reportReconstructedExactly": true,
+  "responseToolLineageVerified": true,
+  "exactTerminalResultsVerified": 7,
+  "realFaultInjected": "fault.setDriveFeedbackFailure",
+  "observedFault": {
+    "code": 12,
+    "text": "Motor running feedback lost",
+    "motorCommand": false
+  },
+  "rejectedDecision": {
+    "reason": "Invalid agent decision: Evidence is absent or hidden from this diagnosis context; no automatic retry",
+    "wrongVisibilityRefs": [
+      "portal-20261103020555687-1:932"
+    ],
+    "physicalEffectsApplied": false,
+    "proposedFindingExactPlcClaimsVerified": 11,
+    "findingAccepted": false,
+    "followupChosen": {
+      "experiment": {
+        "id": "EXP-FOLLOW-STALE-OFFER",
+        "objective": "After fault clear/reset, Start with no new assign_route/introduce and observe whether the OfferPending=true offer for item 501 (evidence 2127, ItemActive=false, ActiveItemId=0) leaks into ItemActive/ActiveItemId or is safely discarded.",
+        "category": "adaptive",
+        "requirements": [
+          "R-11"
+        ]
+      },
+      "evidenceRefs": [
+        "portal-20261103020555687-1:2127"
+      ],
+      "rationale": "Evidence 2127 in Faulted state shows controller.OfferPending=true and controller.OfferAckItemId context for 501 while ItemActive=false; this was not selected in advance and raises a new question whether a stale pending offer survives fault/reset into a subsequent Start."
+    },
+    "followupExecuted": false
+  },
+  "modelGenerationAttempts": 2,
+  "usage": [
+    {
+      "responseId": "resp_6ae941a33356dcd70793473d",
+      "input_tokens": 15395,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 1740,
+      "output_tokens_details": {
+        "reasoning_tokens": 1089
+      },
+      "total_tokens": 17135
+    },
+    {
+      "responseId": "resp_6ae941cf561091f6454e48f0",
+      "input_tokens": 34833,
+      "input_tokens_details": {
+        "cached_tokens": 15348
+      },
+      "output_tokens": 2831,
+      "output_tokens_details": {
+        "reasoning_tokens": 1294
+      },
+      "total_tokens": 37664
+    }
+  ],
+  "estimatedUncachedTokenCostUsd": 0.292332,
+  "billingBoundary": "Token estimate at documented Standard rates, no cache discount; not actual invoiced balance",
+  "conservativeNewUsd": 2,
+  "conservativeAggregateUsd": 12,
+  "authorization": "Engineer authorized available $150 credit pool; historical ten conservative charges preserved",
+  "recovery": {
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-03-15-190Z\\live-host\\runs\\2026-11-03T02-03-47-941Z-live_plc\\portal-host\\portal-20261103020555687-1\\feedback-loss-recovery-2026-11-03T02-11-16-116Z",
+    "resultSha256": "db0f3263c043be6d5eba8126b4b5c89463dabff524d37279c6b2ec14f11b273e",
+    "transportSha256": "867aa2b4931f774db4086b4a697fc0a3f541bcd397eb5ad01be680917a83da0f",
+    "final": {
+      "bootIdentity": "1710853217416",
+      "appliedEpoch": "232103471268656",
+      "appliedSequence": "6",
+      "plcCycle": "73083",
+      "plcTimeUs": "1712339750921",
+      "simulationApplied": true,
+      "connectorStale": false,
+      "mode": "Stopped",
+      "faultCode": 0,
+      "itemActive": false,
+      "activeItemId": 0,
+      "completionPending": false,
+      "completionSequence": 2,
+      "motorRunCmd": false,
+      "counters": {
+        "CountExitA": 1,
+        "CountExitB": 0,
+        "CountRunout": 1,
+        "CountMisroute": 0,
+        "CountFaulted": 0
+      },
+      "stoppedBaselineMismatches": []
+    }
+  },
+  "claimBoundary": "Declared physical fault and real PLC response proved; model selected but did not execute its follow-up. No full W4 pass or agent HMI-operation claim."
+}

@@ -47,3 +47,27 @@ test('paid Start refuses missing, mismatched, fixture or altered bench qualifica
     writeFileSync(join(dir,'launch-status.json'),JSON.stringify({...state,phase:'zero-model-bench-check'}));assert.throws(()=>verifyResumeBench(packet,packetPath),/Fresh bench/);
   }finally{rmSync(dir,{recursive:true,force:true});}
 });
+
+test('full-proof authorization preserves ten charges and executes all five decisions including the fifteenth charge',async()=>{
+  const full={...packet,maximumModelRequests:5,maximumNewConservativeUsd:5,aggregateConservativeCeilingUsd:15,
+    approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v1',authorizedCreditPoolUsd:150}};
+  assert.equal(s.trialEnvelope(full),5);
+  assert.throws(()=>s.trialEnvelope({...full,maximumModelRequests:6}));
+  assert.throws(()=>s.trialEnvelope({...full,approvalRevision:{...full.approvalRevision,authorizedCreditPoolUsd:12}}));
+  const {CampaignLedger}=await s.fromPin('src/campaign/ledger.ts');
+  const {CampaignRuntime}=await s.fromPin('src/campaign/runtime.ts');
+  const {CampaignBudget}=await s.fromPin('src/campaign/budget.ts');
+  const {DurableSessionAccount}=await s.fromPin('src/campaign/session-account.ts');
+  const dir=mkdtempSync(join(tmpdir(),'full-proof-account-')),file=join(dir,'account.jsonl');
+  const original=Array.from({length:10},(_,i)=>JSON.stringify({costUsd:1,totalUsd:i+1})).join('\n')+'\n';writeFileSync(file,original);
+  const ledger=new CampaignLedger('full-proof-fixture'),account=new DurableSessionAccount(file,'full-proof-fixture');let calls=0;
+  try {
+    const runtime=new CampaignRuntime({ledger,provider:{id:'fixture-only',paid:true,estimatedRequestUsd:1,maxTransientRetries:1,async decide(){const n=++calls;return {decision:{summary:`Inspect fixture ${n}`,calls:[{id:`read-${n}`,name:'inspect_evidence_window',arguments:{ids:[],afterSequence:0,throughSequence:ledger.state.sequence,limit:n}}]},costUsd:1};}},
+      budget:new CampaignBudget(ledger,undefined,5,account),paidAuthorized:true,evidenceClass:'fake_connector',claimBoundary:'Offline accounting only',categories:['normal'],spec:'fixture',signals:[],provenance:{spec:'fixture',ioMap:'fixture',plcBuild:'fixture',worldModule:'fixture',model:'fixture',connector:'none'}});
+    s.configureBoundedRuntime(runtime,full);await runtime.start(false);await runtime.runAgent();await runtime.stop('fixture ended');
+    assert.equal(calls,5);assert.equal(account.spentUsd,15);
+    assert(readFileSync(file,'utf8').startsWith(original),'Prior charges remain byte-identical');
+    assert(ledger.events.some(e=>e.type==='action.applied'&&e.data.actionId==='read-5'));
+    assert.equal(runtime.budget.guard.leases.size,5);
+  } finally {account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
+});

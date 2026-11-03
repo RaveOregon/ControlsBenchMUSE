@@ -1,0 +1,53 @@
+{
+  "status": "inspected",
+  "mode": "inspect",
+  "scope": "live_plc",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-03-15-190Z\\live-host\\runs\\2026-11-03T02-03-47-941Z-live_plc\\portal-host\\portal-20261103020555687-1",
+  "heldStateSha256": "9b8063de2ebc0833f455f2e54e6450c0faae07745245d99027d45096de993b7f",
+  "modelCalls": 0,
+  "writesAuthorized": false,
+  "inspection": {
+    "bootIdentity": "1710853217416",
+    "appliedEpoch": "132723005770392",
+    "appliedSequence": "445",
+    "plcCycle": "72027",
+    "plcTimeUs": "1712318258823",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Faulted",
+    "faultCode": 12,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 2,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 1,
+      "CountExitB": 0,
+      "CountRunout": 1,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=3",
+      "controller.FaultCode=12"
+    ]
+  },
+  "plan": [
+    {
+      "op": "stop"
+    },
+    {
+      "op": "fresh_world"
+    },
+    {
+      "op": "reset"
+    },
+    {
+      "op": "await_stopped"
+    }
+  ],
+  "ownershipAfter": "released",
+  "transportSha256": "9d9987b55c4522d156fa9a3fcf4f0f522c792bd72583d71553708f799b5551a2",
+  "finishedAtIso": "2026-11-03T02:11:06.842Z"
+}

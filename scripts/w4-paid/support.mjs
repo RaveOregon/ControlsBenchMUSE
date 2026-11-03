@@ -28,6 +28,15 @@ export const objective = {
 
 export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
+  const fullProof=packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v1';
+  if(fullProof) {
+    assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);
+    assert.equal(packet.sessionBaseline?.conservativeUsd,10);
+    assert.equal(turns,5);assert.equal(packet.maximumNewConservativeUsd,5);
+    assert.equal(packet.aggregateConservativeCeilingUsd,15);
+    assert.equal(packet.maximumOutputTokens,8000);assert.equal(packet.maxTransientRetries,1);
+    return turns;
+  }
   const resume=packet.approvalRevision?.contract==='controlsbench.w4-resume-approval.v1';
   const wiggle=packet.approvalRevision?.contract==='controlsbench.w4-expanded-approval.v2';
   assert(Number.isInteger(turns) && turns >= 1 && turns <= (wiggle?5:4), 'Invalid request allowance');
@@ -136,6 +145,9 @@ export function configureBoundedRuntime(runtime, packet) {
     // executing that decision. Keep one unit of internal headroom, as the original
     // four-turn/$5 composition does. Five-turn and provider caps bound charges to $5.
     runtime.budget.guard.limits.campaignHardUsd=6;
+    // A five-attempt continuation starts with ten durable charges. Let the
+    // fifteenth reservation's response execute; the provider still refuses six.
+    if(packet?.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v1')runtime.budget.guard.limits.sessionHardUsd=16;
     runtime.ledger.append('world.evidence',{source:{kind:'paid_w4_budget_configuration',maximumPaidReservations:5,maximumConservativeUsd:5,
       genericSettlementStopUsd:6,reason:'Allow the fifth approved response to execute; no sixth runtime/provider request permitted'}},'truth');
   }

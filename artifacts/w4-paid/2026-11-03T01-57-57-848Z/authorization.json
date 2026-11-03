@@ -1,0 +1,9 @@
+{
+  "status": "approved-continuation-within-existing-cap",
+  "instruction": "Ok then do that",
+  "packetSha256": "d763ed53b050f6cefd4a66e0b2256eb8eca5f1f593ad10720f44637a449d0710",
+  "maximumNewConservativeUsd": 2,
+  "aggregateConservativeCeilingUsd": 12,
+  "previousConservativeUsd": 10,
+  "recordedAtIso": "2026-11-03T01:57:59.655Z"
+}

@@ -1,0 +1,31 @@
+{"atIso":"2026-11-03T02:06:02.778Z","atMonotonicMs":135220.2887,"kind":"child.ready","identity":{"wire":"controlsbench.wonder-process.wire.v1","pid":27472,"nonce":"b51b2087d7de975a","node":"v24.15.0","timeOriginEpochMs":1793671562496.542},"priority":-7}
+{"atIso":"2026-11-03T02:06:02.782Z","atMonotonicMs":135223.5199,"kind":"request","id":1,"op":"load"}
+{"atIso":"2026-11-03T02:06:02.822Z","atMonotonicMs":135263.2912,"kind":"reply","id":1,"op":"load","ok":true,"boundaryRevision":0,"throughSeq":0,"elapsedMs":40}
+{"atIso":"2026-11-03T02:06:02.916Z","atMonotonicMs":135357.7806,"kind":"request","id":2,"op":"initialize"}
+{"atIso":"2026-11-03T02:06:12.284Z","atMonotonicMs":144725.3323,"kind":"reply","id":2,"op":"initialize","ok":true,"boundaryRevision":1,"throughSeq":28,"elapsedMs":9368}
+{"atIso":"2026-11-03T02:06:12.291Z","atMonotonicMs":144732.195,"kind":"request","id":3,"op":"start","automatic":true}
+{"atIso":"2026-11-03T02:06:12.313Z","atMonotonicMs":144754.3464,"kind":"request","id":4,"op":"leaseBegin","campaignRevision":2,"leaseId":"portal-20261103020555687-1:lease:1","policy":{"mode":"hold","timeoutMs":300000}}
+{"atIso":"2026-11-03T02:06:12.314Z","atMonotonicMs":144755.6119,"kind":"reply","id":3,"op":"start","ok":true,"boundaryRevision":2,"throughSeq":28,"elapsedMs":23}
+{"atIso":"2026-11-03T02:06:12.315Z","atMonotonicMs":144756.7524,"kind":"reply","id":4,"op":"leaseBegin","ok":true,"boundaryRevision":3,"throughSeq":28,"elapsedMs":2}
+{"atIso":"2026-11-03T02:06:28.331Z","atMonotonicMs":160772.6462,"kind":"request","id":5,"op":"leaseFinish","leaseId":"portal-20261103020555687-1:lease:1"}
+{"atIso":"2026-11-03T02:06:28.334Z","atMonotonicMs":160775.7751,"kind":"reply","id":5,"op":"leaseFinish","ok":true,"boundaryRevision":4,"throughSeq":555,"elapsedMs":3}
+{"atIso":"2026-11-03T02:06:28.379Z","atMonotonicMs":160820.9898,"kind":"request","id":6,"op":"controller","actionId":"c-start-501","name":"operator_action","action":"start","campaignRevision":5,"boundaryRevision":4}
+{"atIso":"2026-11-03T02:06:28.441Z","atMonotonicMs":160882.4305,"kind":"reply","id":6,"op":"controller","ok":true,"boundaryRevision":5,"throughSeq":559,"elapsedMs":61}
+{"atIso":"2026-11-03T02:06:28.972Z","atMonotonicMs":161413.7223,"kind":"request","id":7,"op":"controller","actionId":"c-assign-501","name":"assign_route","action":"offer","campaignRevision":7,"boundaryRevision":5}
+{"atIso":"2026-11-03T02:06:29.088Z","atMonotonicMs":161529.2812,"kind":"reply","id":7,"op":"controller","ok":true,"boundaryRevision":6,"throughSeq":600,"elapsedMs":116}
+{"atIso":"2026-11-03T02:06:29.099Z","atMonotonicMs":161540.5801,"kind":"request","id":8,"op":"apply","actionId":"c-intro-501","name":"introduce_carton","campaignRevision":8,"boundaryRevision":6,"controlId":"carton.introduce"}
+{"atIso":"2026-11-03T02:06:29.255Z","atMonotonicMs":161696.784,"kind":"reply","id":8,"op":"apply","ok":true,"boundaryRevision":7,"throughSeq":615,"elapsedMs":156}
+{"atIso":"2026-11-03T02:06:29.386Z","atMonotonicMs":161827.8265,"kind":"request","id":9,"op":"apply","actionId":"c-inject-drivefb-501","name":"inject_fault","campaignRevision":10,"boundaryRevision":7,"controlId":"fault.setDriveFeedbackFailure"}
+{"atIso":"2026-11-03T02:06:29.573Z","atMonotonicMs":162014.5292,"kind":"reply","id":9,"op":"apply","ok":true,"boundaryRevision":8,"throughSeq":640,"elapsedMs":186}
+{"atIso":"2026-11-03T02:06:49.649Z","atMonotonicMs":182090.2202,"kind":"request","id":10,"op":"leaseBegin","campaignRevision":12,"leaseId":"portal-20261103020555687-1:lease:2","policy":{"mode":"continue","timeoutMs":120000}}
+{"atIso":"2026-11-03T02:06:49.710Z","atMonotonicMs":182151.7583,"kind":"reply","id":10,"op":"leaseBegin","ok":true,"boundaryRevision":8,"throughSeq":1604,"elapsedMs":62}
+{"atIso":"2026-11-03T02:07:14.061Z","atMonotonicMs":206502.2217,"kind":"request","id":11,"op":"leaseFinish","leaseId":"portal-20261103020555687-1:lease:2"}
+{"atIso":"2026-11-03T02:07:14.066Z","atMonotonicMs":206508.0372,"kind":"reply","id":11,"op":"leaseFinish","ok":true,"boundaryRevision":8,"throughSeq":2919,"elapsedMs":6}
+{"atIso":"2026-11-03T02:07:14.086Z","atMonotonicMs":206527.3995,"kind":"request","id":12,"op":"hold","stopClock":false}
+{"atIso":"2026-11-03T02:07:14.138Z","atMonotonicMs":206580.1557,"kind":"reply","id":12,"op":"hold","ok":true,"boundaryRevision":9,"throughSeq":2925,"elapsedMs":53}
+{"atIso":"2026-11-03T02:07:14.144Z","atMonotonicMs":206585.3268,"kind":"request","id":13,"op":"hold","stopClock":true}
+{"atIso":"2026-11-03T02:07:14.231Z","atMonotonicMs":206673.0449,"kind":"reply","id":13,"op":"hold","ok":true,"boundaryRevision":9,"throughSeq":2929,"elapsedMs":88}
+{"atIso":"2026-11-03T02:07:14.237Z","atMonotonicMs":206678.3702,"kind":"request","id":14,"op":"close","reason":"Campaign session disposed"}
+{"atIso":"2026-11-03T02:07:14.267Z","atMonotonicMs":206708.4919,"kind":"reply","id":14,"op":"close","ok":true,"boundaryRevision":9,"throughSeq":2931,"elapsedMs":30}
+{"atIso":"2026-11-03T02:07:14.315Z","atMonotonicMs":206756.6936,"kind":"child.exit","code":0,"signal":null,"lastSeq":2931}
+{"atIso":"2026-11-03T02:07:14.317Z","atMonotonicMs":206758.8267,"kind":"closed","reason":"Campaign session disposed","summary":{"reason":"Campaign session disposed","drained":true,"closed":true,"uncertainWrites":[],"ownership":"released","ownershipPath":"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock","boundaryRevision":9,"lastSeq":2931},"exit":{"code":0,"signal":null},"killed":false}

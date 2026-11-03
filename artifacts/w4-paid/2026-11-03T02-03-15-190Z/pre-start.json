@@ -1,0 +1,1113 @@
+{
+  "atIso": "2026-11-03T02:05:55.672Z",
+  "packetSha256": "a6a9a6c06ab486d55b38fc48f2ad6327d4e5fefb055fb75b68ea6adb229f9109",
+  "bench": {
+    "resultSha256": "66dfbd41926a68d06acfb0090fb609059a4093fc66e5ab6ec17f985058e1ed5c"
+  },
+  "host": {
+    "protocolVersion": 1,
+    "hostId": "host-42ae532b-9303-4e1c-857c-3f6b90b7e5ba",
+    "factory": {
+      "id": "wonder-w4-qualified-m8",
+      "label": "Muse Wonder 1.0 · bounded live W4",
+      "evidenceClass": "live_plc",
+      "claimBoundary": "Live Wonder-directed experiment; W4 verdict requires normal/fault/new evidence-dependent follow-up audit. HMI observation is separate.",
+      "connectorId": "isolated-m8-process-v1",
+      "supportsExitSimulation": true,
+      "scope": {
+        "mode": "categories",
+        "choices": [
+          {
+            "id": "faults",
+            "title": "Declared faults"
+          },
+          {
+            "id": "adaptive",
+            "title": "Evidence-dependent follow-up"
+          }
+        ],
+        "description": "One bounded 5-request trial within the explicit expanded review: normal, declared fault and an observation-dependent follow-up. No HMI operation or PLC/world edits."
+      }
+    },
+    "limits": {
+      "perRequestUsd": 1,
+      "repairEpisodeUsd": 2,
+      "campaignWarningUsd": 3,
+      "campaignHardUsd": 5,
+      "sessionHardUsd": 15,
+      "requestTimeoutMs": 300000,
+      "failedRepairWarning": 3,
+      "failedRepairHard": 5,
+      "worldHeartbeatStaleMs": 2000
+    },
+    "commandTimeoutMs": 90000,
+    "outputIds": [
+      "Motor_RunCmd",
+      "D1_ExtendCmd",
+      "D2_ExtendCmd",
+      "StackLight_Red",
+      "StackLight_Green"
+    ],
+    "serverNowIso": "2026-11-03T02:05:55.653Z",
+    "campaignId": null,
+    "hmi": {
+      "state": "observing",
+      "sourceId": "webvisu:127.0.0.1:5191",
+      "sourceKind": "webvisu",
+      "url": "http://127.0.0.1:5191/?capture=portal",
+      "recording": true,
+      "frameCount": 96,
+      "captureIntervalMs": 1000,
+      "staleAfterMs": 3000,
+      "detail": "Observing http://127.0.0.1:5191/?capture=portal",
+      "changedAtIso": "2026-11-03T02:04:11.399Z",
+      "sessionId": "hmi-108d06c6-baa8-4de1-a070-9fa87554d884",
+      "browser": "Chrome/156.0.8078.76 · target 4393307BF1EA5AF406EEE2503499CC33 · headless",
+      "startedAtIso": "2026-11-03T02:03:54.781Z",
+      "lastFrame": {
+        "reference": "hmi-frame:hmi-108d06c6-baa8-4de1-a070-9fa87554d884:96",
+        "sessionId": "hmi-108d06c6-baa8-4de1-a070-9fa87554d884",
+        "frameSequence": 96,
+        "capturedAtIso": "2026-11-03T02:05:55.175Z",
+        "requestedAtIso": "2026-11-03T02:05:55.111Z",
+        "contentType": "image/jpeg",
+        "byteLength": 130699,
+        "sha256": "5d1823d7efca388501f2646f3d8ea6282c540f1c04f1a2cdf6d14db373617351",
+        "mediaUrl": "/api/hmi/frames/hmi-108d06c6-baa8-4de1-a070-9fa87554d884/96",
+        "pageUrl": "http://127.0.0.1:5191/?capture=portal"
+      }
+    }
+  },
+  "hmi": {
+    "identity": {
+      "protocolVersion": 1,
+      "serviceSessionId": "hmi-svc-2026-11-03T02-03-47-938Z-a250b619",
+      "startedAtIso": "2026-11-03T02:03:47.941Z",
+      "source": {
+        "kind": "live_plc",
+        "label": "Live PLC · opc.tcp://127.0.0.1:4840"
+      },
+      "machine": {
+        "id": "CV-1",
+        "name": "Sort conveyor",
+        "description": "Single lane · divert D1 to exit A · divert D2 to exit B · straight runout"
+      },
+      "mapVersion": "m8-conveyor-1.0.2",
+      "expectedBuildId": 8001,
+      "expectedInterfaceVersion": 1,
+      "url": "http://127.0.0.1:5191/",
+      "journal": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-03-15-190Z\\live-host\\runs\\2026-11-03T02-03-47-941Z-live_plc\\journal.jsonl"
+    },
+    "serverNowIso": "2026-11-03T02:05:55.670Z",
+    "link": {
+      "state": "connected",
+      "detail": "Polling",
+      "endpoint": "opc.tcp://127.0.0.1:4840",
+      "securityMode": "SignAndEncrypt",
+      "securityPolicy": "Basic256Sha256",
+      "userConfigured": true,
+      "pollIntervalMs": 250,
+      "staleAfterMs": 1500,
+      "totalPolls": 265,
+      "failedPolls": 0,
+      "consecutiveFailures": 0,
+      "reconnects": 0,
+      "plcScanning": true,
+      "sessionOpenedAtIso": "2026-11-03T02:03:56.827Z",
+      "lastPollOkAtIso": "2026-11-03T02:05:55.572Z",
+      "lastPollLatencyMs": 8,
+      "p95PollLatencyMs": 22,
+      "bootIdentity": "1710853217416"
+    },
+    "snapshot": {
+      "sequence": 265,
+      "requestedAtIso": "2026-11-03T02:05:55.564Z",
+      "receivedAtIso": "2026-11-03T02:05:55.572Z",
+      "latencyMs": 8,
+      "sameScanBracket": true,
+      "values": {
+        "GVL_BenchRead.Active_PE_Entry": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_PE_D1Approach": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_PE_D2Approach": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_PE_ExitA": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_PE_ExitB": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_PE_Runout": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_D1_HomeFB": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_D1_ExtendedFB": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_D2_HomeFB": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_D2_ExtendedFB": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_Drive_RunningFB": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_Drive_Overload": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_ExitA_Ready": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_ExitB_Ready": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_Runout_Ready": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_Belt_SpeedActual": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_Drive_Current": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_D1_Position": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_D2_Position": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Active_Encoder_Count": {
+          "value": 9052,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchWrite.SimRequest": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchWrite.RequestedSlot": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchWrite.RequestedEpoch": {
+          "value": "7946598582790",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchWrite.RequestedSequence": {
+          "value": "180",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchWrite.WorkstationHeartbeat": {
+          "value": "181",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.SimApplied": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.ConnectorStale": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.ActiveSlot": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.AppliedEpoch": {
+          "value": "7946598582790",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.AppliedSequence": {
+          "value": "180",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.PlcHeartbeat": {
+          "value": "56737",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.PlcBootIdentity": {
+          "value": "1710853217416",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.PlcCycle": {
+          "value": "56737",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.PlcTimeUs": {
+          "value": "1712007013500",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.AppliedCommitCount": {
+          "value": "180",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.DuplicateCommitCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.StaleCommitCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.SkippedSequenceCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.InvalidSlotCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.InvalidPayloadCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.SlotMetadataMismatchCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.EpochRejectedCount": {
+          "value": "0",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.SessionResetCount": {
+          "value": "1",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.Motor_RunCmd": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.D1_ExtendCmd": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.D2_ExtendCmd": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.StackLight_Red": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.StackLight_Green": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.OutputCaptureCycle": {
+          "value": "56737",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_BenchRead.OutputCaptureTimeUs": {
+          "value": "1712007013500",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.StartSequence": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.StopSequence": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.ResetSequence": {
+          "value": 2,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.AutoRequest": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.OfferSequence": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.OfferItemId": {
+          "value": 401,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.OfferRoute": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoWrite.CompletionAck": {
+          "value": 2,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoRead.BuildId": {
+          "value": 8001,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoRead.InterfaceVersion": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.566Z",
+          "serverTimestamp": "2026-11-03T02:05:55.566Z",
+          "receivedAtIso": "2026-11-03T02:05:55.568Z"
+        },
+        "GVL_DemoRead.Status.Mode": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ModeText": {
+          "value": "Stopped",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.FaultCode": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.FaultText": {
+          "value": "",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ExceptionCode": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ExceptionText": {
+          "value": "",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.Motor_RunCmd": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.D1_ExtendCmd": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.D2_ExtendCmd": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.StackLight_Red": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.StackLight_Green": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ReleaseReady": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.569Z",
+          "serverTimestamp": "2026-11-03T02:05:55.569Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ItemActive": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ActiveItemId": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.RequestedRoute": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.EffectiveRoute": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ActualExit": {
+          "value": 3,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.Disposition": {
+          "value": 2,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.OfferAckSequence": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.OfferAckItemId": {
+          "value": 401,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.OfferAccepted": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.OfferReason": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.OfferPending": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CompletionSequence": {
+          "value": 2,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CompletionPending": {
+          "value": false,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CompletionItemId": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CompletionRoute": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CompletionExit": {
+          "value": 3,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CompletionDisposition": {
+          "value": 2,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CountExitA": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CountExitB": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CountRunout": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CountMisroute": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.CountFaulted": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.StartAck": {
+          "value": 1,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.570Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.StopAck": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.570Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ResetAck": {
+          "value": 2,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.StartAccepted": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ResetAccepted": {
+          "value": true,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.EncoderDelta": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.BeltSpeedMps": {
+          "value": 0,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.TravelMetres": {
+          "value": 9.052000000000001,
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        },
+        "GVL_DemoRead.Status.ScanTimeUs": {
+          "value": "1712007013500",
+          "status": "Good (0x00000000)",
+          "good": true,
+          "sourceTimestamp": "2026-11-03T02:05:55.571Z",
+          "serverTimestamp": "2026-11-03T02:05:55.571Z",
+          "receivedAtIso": "2026-11-03T02:05:55.572Z"
+        }
+      }
+    },
+    "ownership": {
+      "commandsEnabled": false,
+      "policy": "disabled",
+      "reasons": [
+        "HMI started with commands disabled (read-only)"
+      ],
+      "owners": []
+    },
+    "commands": [],
+    "preconditions": {
+      "start": [
+        {
+          "id": "mode",
+          "label": "Mode is Stopped",
+          "met": true,
+          "observed": "Mode=Stopped"
+        },
+        {
+          "id": "auto",
+          "label": "Auto request is on",
+          "met": true,
+          "observed": "AutoRequest=true"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ],
+      "reset": [
+        {
+          "id": "mode",
+          "label": "Mode is not Auto or Stopping",
+          "met": true,
+          "observed": "Mode=Stopped"
+        },
+        {
+          "id": "overload",
+          "label": "Drive overload clear",
+          "met": true,
+          "observed": "Drive_Overload=false"
+        },
+        {
+          "id": "d1_home",
+          "label": "D1 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "d2_home",
+          "label": "D2 home, not extended",
+          "met": true,
+          "observed": "home=true ext=false"
+        },
+        {
+          "id": "runout",
+          "label": "Runout ready",
+          "met": true,
+          "observed": "Runout_Ready=true"
+        },
+        {
+          "id": "drive",
+          "label": "Drive running feedback off",
+          "met": true,
+          "observed": "Drive_RunningFB=false"
+        },
+        {
+          "id": "beams",
+          "label": "All photo-eyes clear",
+          "met": true,
+          "observed": "clear"
+        },
+        {
+          "id": "completion",
+          "label": "Completion acknowledged by WCS",
+          "met": true,
+          "observed": "CompletionPending=false"
+        }
+      ]
+    },
+    "alarms": {
+      "active": [],
+      "recent": [
+        {
+          "id": "alarm:1710853217416:1",
+          "kind": "fault",
+          "code": 10,
+          "plcText": "Drive overload",
+          "cause": "Drive overload input is on.",
+          "response": "Faulted, motor off.",
+          "state": "cleared",
+          "firstObservedAtIso": "2026-11-03T02:04:50.615Z",
+          "firstObservedBasis": "transition_observed",
+          "onsetAfterIso": "2026-11-03T02:04:49.599Z",
+          "plcSourceTimestamp": "2026-11-03T02:04:50.612Z",
+          "bootIdentity": "1710853217416",
+          "serviceSessionId": "hmi-svc-2026-11-03T02-03-47-938Z-a250b619",
+          "related": {
+            "operation": [
+              "motor"
+            ],
+            "engineering": [
+              "Drive_Overload",
+              "Drive_RunningFB"
+            ]
+          },
+          "clearedObservedAtIso": "2026-11-03T02:04:51.613Z",
+          "clearedAfterIso": "2026-11-03T02:04:50.615Z",
+          "clearBasis": "transition_observed"
+        }
+      ],
+      "total": 1,
+      "persistence": "Persisted append-only at C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-03-15-190Z\\live-host\\live\\alarm-history.jsonl. HMI service wall clock at receipt of the OPC UA read that first showed the state. Onset lies after the previous good read (onsetAfterIso). OPC source timestamps are server sampling times, not PLC fault-onset times."
+    },
+    "clients": [
+      {
+        "clientSessionId": "hmi-client-1-8fdd3217",
+        "label": "portal",
+        "connectedAtIso": "2026-11-03T02:03:54.700Z",
+        "lastSeenAtIso": "2026-11-03T02:05:55.627Z",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        }
+      }
+    ]
+  }
+}

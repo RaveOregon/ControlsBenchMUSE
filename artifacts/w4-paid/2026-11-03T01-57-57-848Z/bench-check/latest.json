@@ -1,0 +1,5 @@
+{
+  "status": "refused",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T01-57-57-848Z\\bench-check\\2026-11-03T01-59-11-794Z",
+  "error": "Error: Harness checkout has uncommitted src/scripts/test changes; commit before a live run: M test/wonder-retry.test.ts"
+}
