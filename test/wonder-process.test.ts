@@ -198,8 +198,10 @@ test("parent event-loop stall: the child expires a continue lease on its own clo
     assert.equal(new Set(held.map(r => r.record.worldTimeMs)).size, 1, "world time frozen after expiry");
     const heldCommits = commits(h.childStream()).filter(r => r.record.event.data.cause === `lease.hold:${receipt.id}`);
     assert(Number(heldCommits.at(-1).record.event.data.plcCycle) > Number(heldCommits[0].record.event.data.plcCycle), "PLC scan counter continued during the hold");
-    assert.equal(h.ledger.events.filter(e => e.type === "coordinator.event").length, h.childStream().filter(r => r.record.kind === "source").length, "stalled-period evidence ingested in order");
     await runtime.stop();
+    // The child is still re-committing held inputs while paused. Compare the
+    // complete journals only after Stop has drained that in-flight IPC stream.
+    assert.equal(h.ledger.events.filter(e => e.type === "coordinator.event").length, h.childStream().filter(r => r.record.kind === "source").length, "stalled-period evidence ingested in order");
     measure("parent-stall", { parentStallMs: stall.end - stall.start, leaseMode: "continue", leaseTimeoutMs: 400, childExpiredAfterMs: receipt.boundary.elapsedMs,
       commitsDuringStall: during.length, maxCommitGapDuringStallMs: Math.max(...gaps), heldSamplesAfterExpiry: held.length,
       plcCycleDuringHold: [heldCommits[0].record.event.data.plcCycle, heldCommits.at(-1).record.event.data.plcCycle], lateDecisionEffects: 0 });

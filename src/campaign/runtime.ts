@@ -22,6 +22,8 @@ export interface CampaignOptions {
   requireDecisionLeases?: boolean;
   /** Off by default. Retries consume ordinary paid turns/reservations. */
   maxTransientRetries?: number;
+  /** Only effect-free decision validation failures; every repair is a paid turn. */
+  maxRejectedDecisions?: number;
   capabilities?: unknown;
   controller?: { execute(call: ToolCall, signal: AbortSignal, basedOnRevision?: number): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> };
 }
@@ -49,7 +51,11 @@ export class CampaignRuntime {
   #hiddenSetup = false;
   #reasoningLease: DecisionLease = { mode: "hold", timeoutMs: 300_000 };
   #transientRetries = 0;
+  #rejectedDecisions = 0;
+  #decisionRefusal?: { requestId: string; message: string; applied: false; instruction: string };
   constructor(options: CampaignOptions) {
+    if (!Number.isInteger(options.maxRejectedDecisions ?? 0) || (options.maxRejectedDecisions ?? 0) < 0 || (options.maxRejectedDecisions ?? 0) > 3)
+      throw new Error("Invalid rejected decision repair allowance");
     if (!Number.isInteger(options.maxTransientRetries ?? 0) || (options.maxTransientRetries ?? 0) < 0 || (options.maxTransientRetries ?? 0) > 2)
       throw new Error("Invalid bounded transient retry limit");
     if (!options.categories.length) throw new Error("Select campaign scope before Start Campaign");
@@ -158,6 +164,7 @@ export class CampaignRuntime {
         }
         await this.pause(`Model ${phase}: ${this.#message(failure)}; no automatic retry`); return;
       }
+      const beforeDecision = this.ledger.state.sequence;
       try {
         const decision = validateDecision(reply!.decision);
         const fingerprint = digest({ plan: decision.plan ?? null, complete: decision.completeExperiment ?? null,
@@ -165,7 +172,27 @@ export class CampaignRuntime {
         repeats = fingerprint === lastFingerprint ? repeats + 1 : 0; lastFingerprint = fingerprint;
         if (repeats >= 2) { await this.pause("Repeated agent decision; state preserved"); return; }
         await this.applyDecision(decision, basedOnRevision);
-      } catch (error) { await this.pause(`Invalid agent decision: ${this.#message(error)}; no automatic retry`); return; }
+        this.#decisionRefusal = undefined;
+      } catch (error) {
+        // A successful response is not replayed. Ask for a NEW corrected decision
+        // only when validation appended nothing and therefore executed no calls.
+        // Partial plans/effects, stale revisions, connector faults and cancellation
+        // still stop. The paired response lineage and ordinary accounting remain.
+        if (this.status === "running" && leaseFinishValid && !this.#abort.signal.aborted
+          && !this.options.driver?.quarantined && !this.options.driver?.failure
+          && this.ledger.state.sequence === beforeDecision && this.ledger.state.revision === basedOnRevision
+          && this.#rejectedDecisions < (this.options.maxRejectedDecisions ?? 0)
+          && this.#turns < (this.options.maxTurns ?? 40)) {
+          this.#rejectedDecisions++;
+          this.#results = [];
+          this.#decisionRefusal = { requestId: lease.id, message: this.#message(error).slice(0, 2000), applied: false,
+            instruction: "The entire preceding decision was rejected before any plan or action was applied. Submit a new corrected decision. Existing experiments are immutable; completion evidenceRefs require public observations, injected truth belongs only in finding.injectedTruthRefs. No prior actions need replaying." };
+          this.#reasoningLease = { mode: "hold", timeoutMs: this.budget.guard.limits.requestTimeoutMs };
+          this.ledger.append("agent.activity", { phase: "decision_rejected", summary: this.#decisionRefusal.message, requestId: lease.id });
+          continue;
+        }
+        await this.pause(`Invalid agent decision: ${this.#message(error)}; no automatic retry`); return;
+      }
     }
   }
   #retryDelay(ms: number, signal: AbortSignal): Promise<void> {
@@ -183,7 +210,7 @@ export class CampaignRuntime {
     const capabilities = this.options.capabilities ?? this.options.driver?.binding.describe ?? { readOnly: true };
     assertLogicalContext(this.options.signals); assertLogicalContext(capabilities);
     return { schemaVersion: CAMPAIGN_VERSION, spec: this.options.spec, signals: structuredClone(this.options.signals),
-      capabilities: structuredClone(capabilities),
+      capabilities: { ...structuredClone(capabilities as Record<string, unknown>), ...(this.#decisionRefusal ? { previousDecisionRefusal: structuredClone(this.#decisionRefusal) } : {}) },
       state: { status: s.status, revision: s.revision, ...(s.plan ? { plan: s.plan } : {}), experiments: s.experiments,
         ...(s.activeExperiment ? { activeExperiment: s.activeExperiment } : {}) },
       evidence, results: contextResults(this.#results, this.ledger, blind), diagnosisMode: this.diagnosisMode,
@@ -203,7 +230,6 @@ export class CampaignRuntime {
     if (decision.reasoningLease && !this.options.driver?.decisionLeases) throw new ToolFailure("rejected", "Decision leases unavailable on this adapter");
     if (decision.reasoningLease?.condition && !this.#observedOutputs().includes(decision.reasoningLease.condition.signal)) throw new ToolFailure("rejected", "Lease condition must name a declared PLC observation");
     if (decision.completeExperiment) this.#requireVisibleRefs(decision.completeExperiment.evidenceRefs);
-    this.ledger.append("agent.activity", { phase: "decision", summary: decision.summary });
     if (decision.plan) {
       for (const e of decision.plan.experiments) this.#validateExperiment(e);
       if (new Set(decision.plan.experiments.map(e => e.id)).size !== decision.plan.experiments.length) throw new Error("Duplicate experiment ID in plan");
@@ -214,9 +240,10 @@ export class CampaignRuntime {
         else if (digest({ id: existing.id, objective: existing.objective, category: existing.category, requirements: existing.requirements }) !== digest(e)) throw new Error("Cannot rewrite an existing experiment; add a follow-up");
       }
       if (all.length > 40) throw new Error("Campaign experiment bound reached");
+      this.ledger.append("agent.activity", { phase: "decision", summary: decision.summary });
       this.ledger.append(this.ledger.state.plan ? "plan.updated" : "plan.created", { objective: decision.plan.objective, experiments: all });
       for (const e of decision.plan.experiments) if (!this.ledger.state.experiments[e.id]) this.ledger.append("experiment.proposed", { ...e });
-    }
+    } else this.ledger.append("agent.activity", { phase: "decision", summary: decision.summary });
     if (decision.completeExperiment) this.ledger.append("experiment.completed", decision.completeExperiment);
     if (!this.ledger.state.activeExperiment) {
       const next = Object.values(this.ledger.state.experiments).find(e => e.status === "proposed");

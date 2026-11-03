@@ -26,6 +26,8 @@ export interface WonderFactoryOptions {
   pricingReviewedOn?: string;
   /** Opt-in; each retry uses an ordinary counted request and a fresh hold lease. */
   maxTransientRetries?: number;
+  /** Explicit engineer-approved proof allowance; defaults remain unchanged. */
+  proofAllowance?: { maximumRequests: number; sessionHardUsd: number; maximumRejectedDecisions: number; requestAdmissionUsd?: number };
   /** Offline injection only: always labeled fake_connector and cannot authorize a paid provider. */
   openSession?: (context: CampaignFactoryContext) => Promise<IsolatedWonderSession>;
   provider?: () => CampaignProvider;
@@ -33,13 +35,22 @@ export interface WonderFactoryOptions {
 
 /** Prepared W4 gate. No native transport fallback; only a pinned, completed owner handoff. */
 export function createCampaignFactory(options: WonderFactoryOptions = {}): CampaignFactory {
+  const allowance = options.proofAllowance;
+  const requestUsd = allowance?.requestAdmissionUsd ?? 1;
+  if (allowance && (!Number.isInteger(allowance.maximumRequests) || allowance.maximumRequests < 1 || allowance.maximumRequests > 40
+    || !Number.isInteger(requestUsd) || requestUsd < 1 || requestUsd > 5
+    || !Number.isInteger(allowance.sessionHardUsd) || allowance.sessionHardUsd < (allowance.maximumRequests + 1) * requestUsd || allowance.sessionHardUsd > 150
+    || !Number.isInteger(allowance.maximumRejectedDecisions) || allowance.maximumRejectedDecisions < 0 || allowance.maximumRejectedDecisions > 3))
+    throw new Error("Invalid explicit proof allowance");
+  const limits = { ...acceptedBudgetLimits, ...(allowance ? { campaignHardUsd: (allowance.maximumRequests + 1) * requestUsd,
+    campaignWarningUsd: allowance.maximumRequests * requestUsd, perRequestUsd: requestUsd, sessionHardUsd: allowance.sessionHardUsd } : {}) };
   const injected = !!options.openSession;
   const evidenceClass = injected ? "fake_connector" as const : "live_plc" as const;
   const claimBoundary = injected ? "Offline isolated-process contract fixture; no real PLC or paid model."
     : "Wonder-directed M8 campaign through the runtime owner's verified isolated adapter. Scope-limited experiment evidence; no certified controller coverage. HMI frames remain separate.";
   return { id: injected ? "wonder-process-fixture" : "wonder-isolated-m8", label: injected ? "Wonder process contract · offline fixture" : "Muse Wonder 1.0 · isolated M8 campaign",
     evidenceClass, claimBoundary, connectorId: "isolated-m8-process-v1", outputIds: ["Motor_RunCmd", "D1_ExtendCmd", "D2_ExtendCmd", "StackLight_Red", "StackLight_Green"],
-    limits: { ...acceptedBudgetLimits }, supportsExitSimulation: true, scope: wonderScope,
+    limits, supportsExitSimulation: true, scope: wonderScope,
     async create(context) {
       const scope = selectWonderScope(context.scope, wonderScope);
       const processModule = options.processModule ?? process.env.CONTROLSBENCH_WONDER_PROCESS_MODULE;
@@ -55,7 +66,7 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
       const paths = commonWonderPaths();
       let account: DurableSessionAccount | undefined, session: IsolatedWonderSession | undefined;
       try {
-        if (!injected) { mkdirSync(dirname(paths.session), { recursive: true }); account = new DurableSessionAccount(paths.session, context.ledger.campaignId); }
+        if (!injected) { mkdirSync(dirname(paths.session), { recursive: true }); account = new DurableSessionAccount(paths.session, context.ledger.campaignId, limits.sessionHardUsd); }
         // Recheck immediately before import; import only the attested resolved entry.
         if (!injected && verifyOwnerEntry(processModule!, pin!).entrySha256 !== ownerEntry!.entrySha256) throw new Error("Owner entry changed before import");
         if (ownerEntry) context.ledger.append("world.evidence", { source: { kind: "owner_adapter_entry", ownerCommit: pin,
@@ -76,13 +87,16 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
         if (!injected && (!session!.provenance.plcBuild.includes(baseline.projectSha256) || !session!.provenance.worldModule.includes(worldHash)))
           throw new Error("Owner adapter provenance does not match preserved build/world");
         const provider = options.provider?.() ?? (injected ? undefined : new WonderResponsesProvider({ apiKey: process.env.MODEL_API_KEY!, explicitlyAuthorized: true,
-          journal: fileExchangeJournal(join(context.artifactDirectory!, "wonder-exchanges.jsonl")), maxTransientRetries: options.maxTransientRetries }));
+          journal: fileExchangeJournal(join(context.artifactDirectory!, "wonder-exchanges.jsonl")), maxTransientRetries: options.maxTransientRetries, maxCalls: allowance?.maximumRequests, requestAdmissionUsd: requestUsd }));
         if (!provider || (injected && provider.paid)) throw new Error("Offline process injection requires a zero-cost fixture provider");
-        const budget = new CampaignBudget(context.ledger, undefined, 5, account);
+        if (provider.estimatedRequestUsd !== requestUsd && allowance) throw new Error("Provider admission differs from explicit proof allowance");
+        const budget = new CampaignBudget(context.ledger, undefined, allowance ? allowance.maximumRequests * requestUsd : 5, account);
+        Object.assign(budget.guard.limits, limits);
         const manifest = JSON.parse(readFileSync(new URL("world.manifest.json", world), "utf8"));
         const signals = [...manifest.signals, ...session!.driver.observedOutputIds!.filter(id => !manifest.signals.some((s: any) => s.id === id)).map(id => ({ id, direction: "plc_to_world", description: "Declared observed M8 controller diagnostic; see accepted spec" }))];
         const runtime = new CampaignRuntime({ ledger: context.ledger, provider, budget, driver: session!.driver, controller: session!.controller, hmi: context.hmi,
-          paidAuthorized: !injected, requireDecisionLeases: true, maxTransientRetries: options.maxTransientRetries, evidenceClass, claimBoundary, categories: scope,
+          paidAuthorized: !injected, requireDecisionLeases: true, maxTransientRetries: options.maxTransientRetries,
+          maxRejectedDecisions: allowance?.maximumRejectedDecisions, maxTurns: allowance?.maximumRequests, evidenceClass, claimBoundary, categories: scope,
           provenance: { ...session!.provenance, model: provider.id, ioMap: digest(signals) }, spec: readFileSync(new URL("docs/conveyor-machine-spec.md", root), "utf8"), signals,
           capabilities: { world: "preserved Muse conveyor 0.5.0", semantic: session!.driver.binding.describe,
             ...(options.maxTransientRetries ? { transientServiceRetry: { maximumRetries: options.maxTransientRetries,

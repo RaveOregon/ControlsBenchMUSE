@@ -28,6 +28,16 @@ export const objective = {
 
 export function trialEnvelope(packet) {
   const turns = packet.maximumModelRequests;
+  if(packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v2') {
+    assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);
+    assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd)&&packet.sessionBaseline.conservativeUsd>=12);
+    assert.equal(turns,20);assert.equal(packet.perRequestAdmissionUsd,3);
+    assert.equal(packet.maximumNewConservativeUsd,60);assert.equal(packet.sessionHardUsd,150);
+    assert.equal(packet.aggregateConservativeCeilingUsd,packet.sessionBaseline.conservativeUsd+60);
+    assert(packet.aggregateConservativeCeilingUsd<=150);
+    assert.equal(packet.maximumOutputTokens,16000);assert.equal(packet.maxTransientRetries,2);assert.equal(packet.maxRejectedDecisions,3);
+    return turns;
+  }
   const fullProof=packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v1';
   if(fullProof) {
     assert.equal(packet.approvalRevision.authorizedCreditPoolUsd,150);
@@ -70,11 +80,11 @@ export function verifyAccountBaseline(packet, path = commonWonderPaths().session
   assert(!text || text.endsWith('\n'), 'Incomplete account');
   for (const line of text.trim() ? text.trim().split('\n') : []) {
     const record = JSON.parse(line);
-    assert.equal(record.costUsd, 1); assert.equal(record.totalUsd, ++total);
+    assert(Number.isInteger(record.costUsd)&&record.costUsd>=1&&record.costUsd<=5);total+=record.costUsd;assert.equal(record.totalUsd,total);
   }
   assert.equal(total, packet.sessionBaseline.conservativeUsd);
   if (packet.aggregateConservativeCeilingUsd !== undefined) trialEnvelope(packet);
-  assert(total + packet.maximumNewConservativeUsd <= 15, 'Durable session cap would be exceeded');
+  assert(total + packet.maximumNewConservativeUsd <= (packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v2'?packet.sessionHardUsd:15), 'Durable session cap would be exceeded');
   return total;
 }
 
@@ -154,7 +164,7 @@ export function configureBoundedRuntime(runtime, packet) {
   runtime.options.maxTurns = turns;
   runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: packet?.objective ?? trialObjective(turns),
     ...(packet?.recordedPriorProof?{recordedPriorProof:packet.recordedPriorProof}:{}),
-    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000, maxTransientRetries:retries,
+    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: packet?.maximumNewConservativeUsd??turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000, maxTransientRetries:retries,
       aggregateConservativeCeilingUsd: packet?.aggregateConservativeCeilingUsd ?? 8, source: packet?.approvalRevision ? 'explicit expanded packet approval required; existing account preserved' : 'remaining original approval; no accounting reset'}};
 }
 

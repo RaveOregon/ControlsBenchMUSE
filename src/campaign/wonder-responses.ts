@@ -25,20 +25,22 @@ export function fileExchangeJournal(path: string): ExchangeJournal {
 export class WonderResponsesProvider implements CampaignProvider {
   readonly id = "muse-wonder-1.0";
   readonly paid = true;
-  readonly estimatedRequestUsd = 1;
+  readonly estimatedRequestUsd: number;
   #key: string; #fetch: typeof fetch; #journal: ExchangeJournal; #calls = 0;
   #previous?: string; #pendingCall?: string; #seenResponses = new Set<string>(); #seenCalls = new Set<string>();
   #busy = false; #blocked = false;
   #transientFailures = 0;
   readonly maxTransientRetries: number;
   readonly maxCalls: number; readonly maxOutputTokens: number;
-  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number }) {
+  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number }) {
     if (!options.explicitlyAuthorized || !options.apiKey) throw new Error("Wonder requires Start Campaign authorization and a local key");
     this.#key = options.apiKey; this.#fetch = options.fetch ?? fetch; this.#journal = options.journal;
+    this.estimatedRequestUsd = options.requestAdmissionUsd ?? 1;
+    if (!Number.isInteger(this.estimatedRequestUsd) || this.estimatedRequestUsd < 1 || this.estimatedRequestUsd > 5) throw new Error("Invalid explicit request admission allowance");
     this.maxCalls = options.maxCalls ?? 4; this.maxOutputTokens = options.maxOutputTokens ?? 4000;
     this.maxTransientRetries = options.maxTransientRetries ?? 0;
     if (!Number.isInteger(this.maxTransientRetries) || this.maxTransientRetries < 0 || this.maxTransientRetries > 2) throw new Error("Invalid bounded transient retry limit");
-    if (!Number.isInteger(this.maxCalls) || this.maxCalls < 1 || this.maxCalls > 5 || !Number.isInteger(this.maxOutputTokens) || this.maxOutputTokens < 16 || this.maxOutputTokens > 8000)
+    if (!Number.isInteger(this.maxCalls) || this.maxCalls < 1 || this.maxCalls > 40 || !Number.isInteger(this.maxOutputTokens) || this.maxOutputTokens < 16 || this.maxOutputTokens > 16000)
       throw new Error("Invalid bounded Wonder request limits");
   }
   async decide(context: AgentContext, signal: AbortSignal, audit?: ProviderAudit): Promise<ProviderReply> {
@@ -61,7 +63,7 @@ export class WonderResponsesProvider implements CampaignProvider {
       input.push({ role: "user", content: [{ type: "input_text", text: JSON.stringify(this.#pendingCall ? { ...requestContext, results: [] } : requestContext) }] });
       const body = { model: this.id, store: true, reasoning: { effort: "high", summary: "auto" },
         max_output_tokens: this.maxOutputTokens, parallel_tool_calls: false,
-        ...(this.#previous ? { previous_response_id: this.#previous } : {}), instructions,
+        ...(this.#previous ? { previous_response_id: this.#previous } : {}), instructions: instructions + " Contract details: Existing experiment definitions are immutable: omit plan when continuing them; use create_followup_experiment for a new evidence-dependent experiment. completeExperiment is validated before calls execute and its evidenceRefs must contain public observations, never fault.truth records. Put injected fault truth IDs only in finding.injectedTruthRefs. If capabilities.previousDecisionRefusal is present, the preceding decision applied nothing: use its feedback to submit a new corrected decision, preserving already executed earlier actions.",
         tools: [{ type: "function", name: "campaign_decision", description: "Submit a plan, completion and ordered semantic calls to the bounded campaign runtime. Results arrive next turn.", parameters: decisionSchema, strict: false }],
         // Meta's live endpoint rejects named/required choices (preserved W3 HTTP 400).
         // Auto does not relax our one-new-decision-call validation below.
@@ -77,7 +79,7 @@ export class WonderResponsesProvider implements CampaignProvider {
       // No hosted tools/extra model iterations; max_output_tokens includes reasoning.
       const maximumUsd = (tokens * wonderPricing.inputUsdPerMillion + this.maxOutputTokens * wonderPricing.outputUsdPerMillion) / 1_000_000;
       preserve({ phase: "admission", inputTokens: tokens, maxOutputTokens: this.maxOutputTokens, maximumUsd, pricing: wonderPricing });
-      if (maximumUsd > 1) throw new Error("Request maximum exceeds $1 admission; no generation sent");
+      if (maximumUsd > this.estimatedRequestUsd) throw new Error(`Request maximum exceeds $${this.estimatedRequestUsd} admission; no generation sent`);
       const response = await this.#exchange("responses", body, signal, preserve);
       if (signal.aborted) throw new Error("Late response retained, no decision applied");
       const payload = response.payload as any;

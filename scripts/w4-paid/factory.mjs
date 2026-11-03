@@ -13,7 +13,8 @@ export function createCampaignFactory() {
   assert.equal(hash(bytes), process.env.CONTROLSBENCH_W4_APPROVAL_SHA256, 'Authorization packet differs from reviewed bytes');
   assert.equal(packet.ownerCommit, configuration.sourceCommit);
   const turns = trialEnvelope(packet);
-  const resume=['controlsbench.w4-resume-approval.v1','controlsbench.w4-full-proof-approval.v1'].includes(packet.approvalRevision?.contract);
+  const longProof=packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v2';
+  const resume=longProof||['controlsbench.w4-resume-approval.v1','controlsbench.w4-full-proof-approval.v1'].includes(packet.approvalRevision?.contract);
   for (const [path, expected] of Object.entries(packet.launchSourceHashes)) assert.equal(hashFile(join(root, path)), expected, `Launch source changed: ${path}`);
   let delegate;
   return {
@@ -22,7 +23,7 @@ export function createCampaignFactory() {
     connectorId: 'isolated-m8-process-v1', supportsExitSimulation: true,
     outputIds: ['Motor_RunCmd', 'D1_ExtendCmd', 'D2_ExtendCmd', 'StackLight_Red', 'StackLight_Green'],
     // Match the standard factory's host contract; the envelope supplements its existing limits.
-    limits: {...acceptedBudgetLimits},
+    limits: {...acceptedBudgetLimits,...(longProof?{perRequestUsd:packet.perRequestAdmissionUsd,campaignHardUsd:(turns+1)*packet.perRequestAdmissionUsd,sessionHardUsd:packet.sessionHardUsd}:{})},
     scope: {mode: 'categories', choices: [...(resume?[]:[{id:'normal',title:'Normal operation'}]),{id: 'faults', title: 'Declared faults'}, {id: 'adaptive', title: 'Evidence-dependent follow-up'}],
       description: `One bounded ${turns}-request trial within ${packet.approvalRevision?'the explicit expanded review':'the remaining original approval'}: normal, declared fault and an observation-dependent follow-up. No HMI operation or PLC/world edits.`},
     async create(context) {
@@ -31,12 +32,13 @@ export function createCampaignFactory() {
       const bench=resume?verifyResumeBench(packet,resolve(packetPath)):null;
       verifyAccountBaseline(packet); // Checked before the original factory takes its durable lock.
       writeFileSync(join(context.artifactDirectory, 'w4-approval.json'), bytes, {flag: 'wx'});
-      context.ledger.append('world.evidence', {source: {kind: 'paid_w4_approval', packetSha256: hash(bytes), maximumModelRequests: turns, maximumNewConservativeUsd: turns,
+      context.ledger.append('world.evidence', {source: {kind: 'paid_w4_approval', packetSha256: hash(bytes), maximumModelRequests: turns, maximumNewConservativeUsd: packet.maximumNewConservativeUsd,
         maximumOutputTokens: packet.maximumOutputTokens ?? 4000, aggregateConservativeCeilingUsd: packet.aggregateConservativeCeilingUsd}}, 'truth');
       if(bench)context.ledger.append('world.evidence',{source:{kind:'native_bench_qualification',resultSha256:bench.resultSha256,sourceCommit:configuration.sourceCommit,modelCalls:0}},'truth');
-      delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({maxTransientRetries:packet.maxTransientRetries??0,provider: () => {
+      delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({maxTransientRetries:packet.maxTransientRetries??0,
+        ...(longProof?{proofAllowance:{maximumRequests:turns,sessionHardUsd:packet.sessionHardUsd,maximumRejectedDecisions:packet.maxRejectedDecisions,requestAdmissionUsd:packet.perRequestAdmissionUsd}}:{}),provider: () => {
         const provider=new WonderResponsesProvider({apiKey:process.env.MODEL_API_KEY,explicitlyAuthorized:true,maxCalls:turns,maxOutputTokens:packet.maximumOutputTokens??4000,
-          maxTransientRetries:packet.maxTransientRetries??0,journal:fileExchangeJournal(join(context.artifactDirectory,'wonder-exchanges.jsonl'))});
+          maxTransientRetries:packet.maxTransientRetries??0,requestAdmissionUsd:packet.perRequestAdmissionUsd??1,journal:fileExchangeJournal(join(context.artifactDirectory,'wonder-exchanges.jsonl'))});
         if(packet.maxTransientRetries)assert.equal(provider.maxTransientRetries,packet.maxTransientRetries,'Selected provider pin lacks transient retry support');
         return provider;
       }});

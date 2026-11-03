@@ -23,8 +23,8 @@ export class CampaignBudget {
     const pending = [...this.#reservations.values()].filter(r => r.checkId === checkId).reduce((sum, r) => sum + r.amount, 0);
     if ((this.#checks.get(checkId) ?? 0) + pending + estimate > this.checkHardUsd) throw new BudgetLimitError("check_limit", "Check budget would be exceeded");
     const lease = this.guard.reserve({ purpose: checkId, nowMs, estimatedCostUsd: estimate || 0.000001, repairEpisode });
-    if (this.session && estimate !== 1) throw new BudgetLimitError("durable_reservation", "Paid session requires $1 conservative request reservations");
-    this.session?.charge(lease.id);
+    if (this.session && (!Number.isInteger(estimate) || estimate < 1 || estimate > 5)) throw new BudgetLimitError("durable_reservation", "Paid session requires an integer conservative request reservation from $1 to $5");
+    this.session?.charge(lease.id, estimate);
     this.#reservations.set(lease.id, { checkId, amount: estimate });
     this.#record(lease, checkId, "reserved", estimate, estimate === 0 ? "fake_zero" : "conservative_reservation"); return lease;
   }
@@ -39,7 +39,7 @@ export class CampaignBudget {
     this.#checks.set(checkId, (this.#checks.get(checkId) ?? 0) + amount);
     if (lease.repairEpisode) this.#repairs.set(lease.repairEpisode, (this.#repairs.get(lease.repairEpisode) ?? 0) + amount);
     this.#record(lease, checkId, "settled", amount, basis);
-    if (this.guard.campaignLevel() === "warning") this.ledger.append("budget.warning", { code: "campaign_warning", message: "Campaign has reached $3" });
+    if (this.guard.campaignLevel() === "warning") this.ledger.append("budget.warning", { code: "campaign_warning", message: `Campaign has reached $${this.guard.limits.campaignWarningUsd}` });
     if (amount > lease.estimatedCostUsd || this.guard.campaignLevel() === "hard_stop" || this.guard.sessionSpentUsd >= this.guard.limits.sessionHardUsd)
       throw new BudgetLimitError("budget_exhausted", "Cost boundary reached; preserve state and stop model calls");
   }
