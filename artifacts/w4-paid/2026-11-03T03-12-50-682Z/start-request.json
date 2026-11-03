@@ -1,0 +1,11 @@
+{
+  "contractVersion": 1,
+  "requestId": "approved-fault-followup-1793675815262",
+  "type": "start",
+  "payload": {
+    "scope": {
+      "faults": true,
+      "adaptive": true
+    }
+  }
+}

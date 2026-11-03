@@ -2,7 +2,9 @@
     "priorRecoveryDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-03-06-136Z\\bench-check\\2026-11-03T03-04-29-347Z\\pending-runout-recovery-2026-11-03T03-14-52-196Z",
     "hostPid":  41592,
     "sourceCommit":  "41c0e1a17c4236510e97e9101c568841dcb87472",
-    "phase":  "zero-model-bench-check",
+    "phase":  "bench-pass-ready-for-paid-start",
     "modelCalls":  0,
-    "packetSha256":  "ef1c6c65a99547eb72f9c73bd502ccdfdacdab408d3e4b7c02fe7f7a6708c329"
+    "packetSha256":  "ef1c6c65a99547eb72f9c73bd502ccdfdacdab408d3e4b7c02fe7f7a6708c329",
+    "benchDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\bench-check\\2026-11-03T03-15-22-570Z",
+    "updatedAtIso":  "2026-11-03T03:16:30.8797834+00:00"
 }
