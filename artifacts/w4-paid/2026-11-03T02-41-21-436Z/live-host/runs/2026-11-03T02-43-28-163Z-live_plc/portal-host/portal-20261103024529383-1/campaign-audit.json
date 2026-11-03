@@ -1,0 +1,185 @@
+{
+  "status": "partial",
+  "verifiedAtIso": "2026-11-03T03:00:09.389Z",
+  "campaignId": "portal-20261103024529383-1",
+  "ledgerEvents": 4332,
+  "originalEvidenceHashesVerified": 7,
+  "reportReconstructedExactly": true,
+  "responseHashesVerified": 9,
+  "responseToolLineageVerified": true,
+  "exactPairedTerminalResults": 10,
+  "requests": 5,
+  "generationRequests": 5,
+  "completedResponses": 3,
+  "failures": [
+    {
+      "turn": 2,
+      "httpStatus": 503,
+      "error": {
+        "code": null,
+        "message": "persistence service error",
+        "param": null,
+        "type": "server_error"
+      }
+    },
+    {
+      "turn": 5,
+      "type": "generation_response_not_returned",
+      "billing": "unknown, retained conservatively"
+    }
+  ],
+  "serviceRetriesScheduled": 1,
+  "effectFreeDecisionCorrections": 0,
+  "faultActions": [
+    {
+      "eventId": "portal-20261103024529383-1:2949",
+      "actionId": "call-inject-d1-contra-01",
+      "name": "inject_fault",
+      "arguments": {
+        "controlId": "fault.setContradictoryLimits",
+        "parameters": {
+          "divert": 1,
+          "active": true
+        }
+      },
+      "basedOnRevision": 8,
+      "experimentId": "EXP-FAULT-D1-CONTRA-01",
+      "applied": true
+    }
+  ],
+  "observedFaultCodes": [
+    21
+  ],
+  "followups": [],
+  "groundedFindings": 0,
+  "exactPlcClaimsVerified": 0,
+  "experiments": [
+    {
+      "id": "EXP-FAULT-D1-CONTRA-01",
+      "objective": "Inject D1 contradictory home+extended limits while Stopped with no carton, observe PLC mode/fault/output response via plc.output signals, then clear fault and assess reset/stopped state.",
+      "category": "faults",
+      "requirements": [
+        "R-15"
+      ],
+      "status": "running"
+    }
+  ],
+  "assumptions": [],
+  "usage": [
+    {
+      "turn": 1,
+      "responseId": "resp_6ae94ae7ef5a08d202714ccb",
+      "input_tokens": 15530,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 992,
+      "output_tokens_details": {
+        "reasoning_tokens": 579
+      },
+      "total_tokens": 16522
+    },
+    {
+      "turn": 3,
+      "responseId": "resp_6ae94b0f388af2bcf0aa44c2",
+      "input_tokens": 42939,
+      "input_tokens_details": {
+        "cached_tokens": 15476
+      },
+      "output_tokens": 376,
+      "output_tokens_details": {
+        "reasoning_tokens": 129
+      },
+      "total_tokens": 43315
+    },
+    {
+      "turn": 4,
+      "responseId": "resp_6ae94b2ad193059449364290",
+      "input_tokens": 61197,
+      "input_tokens_details": {
+        "cached_tokens": 42868
+      },
+      "output_tokens": 387,
+      "output_tokens_details": {
+        "reasoning_tokens": 169
+      },
+      "total_tokens": 61584
+    }
+  ],
+  "estimatedKnownUncachedTokenCostUsd": 0.513764,
+  "billingBoundary": "Known reported token usage only at documented uncached rates; actual invoices/caching differ. Failed and unreturned generations are not assumed free.",
+  "conservativeNewUsd": 15,
+  "conservativeAggregateUsd": 27,
+  "authorizedCreditPoolUsd": 150,
+  "recovery": {
+    "resultSha256": "e1e40e930417a41745b7632ccfc5f04038ab6bdae63e648a780b5e2ef217772d",
+    "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z\\live-host\\runs\\2026-11-03T02-43-28-163Z-live_plc\\portal-host\\portal-20261103024529383-1\\cleared-contradiction-recovery-2026-11-03T02-52-53-351Z",
+    "final": {
+      "bootIdentity": "1710853217416",
+      "appliedEpoch": "254515890182529",
+      "appliedSequence": "6",
+      "plcCycle": "195963",
+      "plcTimeUs": "1714841982580",
+      "simulationApplied": true,
+      "connectorStale": false,
+      "mode": "Stopped",
+      "faultCode": 0,
+      "itemActive": false,
+      "activeItemId": 0,
+      "completionPending": false,
+      "completionSequence": 4,
+      "motorRunCmd": false,
+      "counters": {
+        "CountExitA": 2,
+        "CountExitB": 0,
+        "CountRunout": 2,
+        "CountMisroute": 0,
+        "CountFaulted": 0
+      },
+      "stoppedBaselineMismatches": []
+    }
+  },
+  "finalHeldObservation": {
+    "Motor_RunCmd": false,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": true,
+    "StackLight_Green": false,
+    "controller.Mode": 3,
+    "controller.ModeText": "Faulted",
+    "controller.FaultCode": 21,
+    "controller.FaultText": "D1 contradictory limits",
+    "controller.ExceptionCode": 0,
+    "controller.ExceptionText": "",
+    "controller.ReleaseReady": false,
+    "controller.ItemActive": false,
+    "controller.ActiveItemId": 0,
+    "controller.RequestedRoute": 0,
+    "controller.EffectiveRoute": 0,
+    "controller.ActualExit": 3,
+    "controller.Disposition": 2,
+    "controller.OfferAckSequence": 3,
+    "controller.OfferAckItemId": 401,
+    "controller.OfferAccepted": true,
+    "controller.OfferReason": 0,
+    "controller.OfferPending": false,
+    "controller.CompletionSequence": 4,
+    "controller.CompletionPending": false,
+    "controller.CompletionItemId": 0,
+    "controller.CompletionRoute": 0,
+    "controller.CompletionExit": 3,
+    "controller.CompletionDisposition": 2,
+    "controller.CountExitA": 2,
+    "controller.CountExitB": 0,
+    "controller.CountRunout": 2,
+    "controller.CountMisroute": 0,
+    "controller.CountFaulted": 0,
+    "controller.StartAck": 3,
+    "controller.StopAck": 1,
+    "controller.ResetAck": 5,
+    "controller.StartAccepted": true,
+    "controller.ResetAccepted": true,
+    "controller.EncoderDelta": 0
+  },
+  "claimBoundary": "Audit proves preserved evidence and exact claims. Review follow-up novelty, actual interventions and inferences before calling W4 passed. No agent HMI-operation or certified coverage claim."
+}

@@ -1,6 +1,9 @@
 ﻿{
-    "phase":  "awaiting-password",
+    "hostPid":  42612,
+    "sourceCommit":  "3482e27f381f4ec29f782fa44dce10d38835646f",
+    "phase":  "bench-pass-ready-for-paid-start",
     "modelCalls":  0,
     "packetSha256":  "6f2046f630653f6d5e78e4e0fefbc0d7725d0a12af5a6db576b53ad7a204f61e",
-    "sourceCommit":  "3482e27f381f4ec29f782fa44dce10d38835646f"
+    "benchDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z\\bench-check\\2026-11-03T02-43-44-972Z",
+    "updatedAtIso":  "2026-11-03T02:45:02.2774259+00:00"
 }

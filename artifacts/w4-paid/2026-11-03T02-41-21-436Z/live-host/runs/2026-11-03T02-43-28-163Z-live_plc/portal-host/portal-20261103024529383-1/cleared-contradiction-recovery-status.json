@@ -1,0 +1,8 @@
+﻿{
+    "finishedAtIso":  "2026-11-03T02:53:10.8622371+00:00",
+    "heldStateSha256":  "d5aec6c47aacc23ed087b8607d8cdfc3731ee3ec59cc8fb7fa1f50101de9ee3c",
+    "recoveryDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z\\live-host\\runs\\2026-11-03T02-43-28-163Z-live_plc\\portal-host\\portal-20261103024529383-1\\cleared-contradiction-recovery-2026-11-03T02-52-53-351Z",
+    "modelCalls":  0,
+    "inspectionDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z\\live-host\\runs\\2026-11-03T02-43-28-163Z-live_plc\\portal-host\\portal-20261103024529383-1\\cleared-contradiction-recovery-2026-11-03T02-52-15-397Z",
+    "status":  "pass"
+}

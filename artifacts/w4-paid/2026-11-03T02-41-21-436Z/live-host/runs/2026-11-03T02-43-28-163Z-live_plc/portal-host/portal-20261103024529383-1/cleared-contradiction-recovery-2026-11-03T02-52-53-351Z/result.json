@@ -1,0 +1,77 @@
+{
+  "status": "pass",
+  "mode": "reconcile",
+  "scope": "live_plc",
+  "reference": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z\\live-host\\runs\\2026-11-03T02-43-28-163Z-live_plc\\portal-host\\portal-20261103024529383-1",
+  "heldStateSha256": "d5aec6c47aacc23ed087b8607d8cdfc3731ee3ec59cc8fb7fa1f50101de9ee3c",
+  "modelCalls": 0,
+  "writesAuthorized": true,
+  "inspection": {
+    "bootIdentity": "1710853217416",
+    "appliedEpoch": "74322098987228",
+    "appliedSequence": "639",
+    "plcCycle": "195910",
+    "plcTimeUs": "1714840904537",
+    "simulationApplied": true,
+    "connectorStale": true,
+    "mode": "Faulted",
+    "faultCode": 21,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 4,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 2,
+      "CountExitB": 0,
+      "CountRunout": 2,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": [
+      "controller.Mode=3",
+      "controller.FaultCode=21"
+    ]
+  },
+  "plan": [
+    {
+      "op": "stop"
+    },
+    {
+      "op": "fresh_world"
+    },
+    {
+      "op": "reset"
+    },
+    {
+      "op": "await_stopped"
+    }
+  ],
+  "final": {
+    "bootIdentity": "1710853217416",
+    "appliedEpoch": "254515890182529",
+    "appliedSequence": "6",
+    "plcCycle": "195963",
+    "plcTimeUs": "1714841982580",
+    "simulationApplied": true,
+    "connectorStale": false,
+    "mode": "Stopped",
+    "faultCode": 0,
+    "itemActive": false,
+    "activeItemId": 0,
+    "completionPending": false,
+    "completionSequence": 4,
+    "motorRunCmd": false,
+    "counters": {
+      "CountExitA": 2,
+      "CountExitB": 0,
+      "CountRunout": 2,
+      "CountMisroute": 0,
+      "CountFaulted": 0
+    },
+    "stoppedBaselineMismatches": []
+  },
+  "ownershipAfter": "released",
+  "transportSha256": "0e03673e95a4c8f8023b96addb5770bafc44355fa93ce081bdfbfb7d07be87f9",
+  "finishedAtIso": "2026-11-03T02:53:10.564Z"
+}

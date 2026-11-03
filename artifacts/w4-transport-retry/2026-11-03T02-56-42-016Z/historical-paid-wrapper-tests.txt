@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: cleared D1 contradiction cleanup refuses any changed identity, image, fault, counter, uncleared injection or uncertainty
+ok 1 - cleared D1 contradiction cleanup refuses any changed identity, image, fault, counter, uncleared injection or uncertainty
+  ---
+  duration_ms: 32.8067
+  type: 'test'
+  ...
+# Subtest: feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters
+ok 2 - feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters
+  ---
+  duration_ms: 19.1317
+  type: 'test'
+  ...
+# Subtest: completed-sort classification requires exact original identity, image, counters and completion with no uncertainty
+ok 3 - completed-sort classification requires exact original identity, image, counters and completion with no uncertainty
+  ---
+  duration_ms: 14.5125
+  type: 'test'
+  ...
+# Subtest: completed-sort recovery executes through the real connector and write gate against explicitly fake transport
+ok 4 - completed-sort recovery executes through the real connector and write gate against explicitly fake transport
+  ---
+  duration_ms: 1014.2591
+  type: 'test'
+  ...
+# Subtest: feedback-loss cleanup uses Stop, fresh image and Reset through the real connector with fake transport
+ok 5 - feedback-loss cleanup uses Stop, fresh image and Reset through the real connector with fake transport
+  ---
+  duration_ms: 753.7296
+  type: 'test'
+  ...
+# Subtest: expanded envelope requires the exact new revision and cannot silently raise old approval
+ok 6 - expanded envelope requires the exact new revision and cannot silently raise old approval
+  ---
+  duration_ms: 5.6146
+  type: 'test'
+  ...
+# Subtest: expanded runtime preserves seven prior charges and stops after four new reservations without a fifth
+ok 7 - expanded runtime preserves seven prior charges and stops after four new reservations without a fifth
+  ---
+  duration_ms: 161.3927
+  type: 'test'
+  ...
+# Subtest: unchanged provider serializes 8000 output tokens at high reasoning and still performs dollar admission before generation
+ok 8 - unchanged provider serializes 8000 output tokens at high reasoning and still performs dollar admission before generation
+  ---
+  duration_ms: 61.35
+  type: 'test'
+  ...
+# Subtest: delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven
+ok 9 - delegated modest wiggle allows the fifth decision to execute without sixth charge or rewriting prior seven
+  ---
+  duration_ms: 94.8901
+  type: 'test'
+  ...
+# Subtest: paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete
+ok 10 - paid factory refuses absent authorization, changed source and partial scope before any live session; host metadata stays complete
+  ---
+  duration_ms: 109.8764
+  type: 'test'
+  ...
+# Subtest: approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting
+ok 11 - approval account baseline is aggregate, immutable and refuses reuse or incomplete accounting
+  ---
+  duration_ms: 32.7982
+  type: 'test'
+  ...
+# Subtest: four simulated paid reservations stop before any fifth charge; no network or PLC
+ok 12 - four simulated paid reservations stop before any fifth charge; no network or PLC
+  ---
+  duration_ms: 123.2718
+  type: 'test'
+  ...
+# Subtest: remaining approval refuses a reset and permits exactly three new reservations after the saved five
+ok 13 - remaining approval refuses a reset and permits exactly three new reservations after the saved five
+  ---
+  duration_ms: 55.4909
+  type: 'test'
+  ...
+# Subtest: trial cannot silently enable retry on the old live-qualified runtime pin
+ok 14 - trial cannot silently enable retry on the old live-qualified runtime pin
+  ---
+  duration_ms: 2.5132
+  type: 'test'
+  ...
+# Subtest: actual native live commissioning cannot masquerade as a paid campaign export
+ok 15 - actual native live commissioning cannot masquerade as a paid campaign export
+  ---
+  duration_ms: 18926.3388
+  type: 'test'
+  ...
+# Subtest: real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite
+ok 16 - real child/provider-loop wrapper writes exact recoverable state on turn-limit exit; refuses relabel, missing exit and overwrite
+  ---
+  duration_ms: 6054.4746
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30032.9153

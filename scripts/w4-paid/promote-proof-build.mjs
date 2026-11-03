@@ -14,7 +14,15 @@ const old=json(join(root,'artifacts/w4-readiness/e3469af/launch.json'));
 assert.equal(hash(old.proof),old.proofSha256);
 const previous=json(old.proof),retryPath=resolve(process.argv[3]),retry=json(retryPath);
 assert.equal(retry.status,'pass');
-const commit=git('rev-parse',process.argv[2]),pin=resolve(root,'../w4-proof-runtime-pin');
+const commit=git('rev-parse',process.argv[2]),pinName=process.argv[4]??'w4-proof-runtime-pin';
+assert(/^w4-[a-z-]+-runtime-pin$/.test(pinName));
+const pin=resolve(root,'..',pinName);
+if(retry.baseQualification) {
+  assert.equal(hash(retry.baseQualification.file),retry.baseQualification.sha256);
+  const base=json(retry.baseQualification.file),baseConfig=json(join(root,'artifacts/w4-readiness/proof-3482e27/launch.json'));
+  for(const[f,h]of Object.entries(base.sources))if(!Object.hasOwn(retry.sources,f))assert.equal(hash(join(root,f)),h,'Untested change outside qualified delta: '+f);
+  for(const f of git('diff','--name-only',baseConfig.sourceCommit,commit,'--','src').split('\n').filter(Boolean))assert(Object.hasOwn(retry.sources,f),'Source change missing delta qualification: '+f);
+}
 assert(!existsSync(pin),'Create a new pin; never overwrite a prior deployment');
 git('worktree','add','--detach',pin,commit);
 assert.equal(execFileSync('git',['-C',pin,'rev-parse','HEAD'],{encoding:'utf8',windowsHide:true}).trim(),commit);

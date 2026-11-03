@@ -31,21 +31,24 @@ export class WonderResponsesProvider implements CampaignProvider {
   #busy = false; #blocked = false;
   #transientFailures = 0;
   readonly maxTransientRetries: number;
+  readonly retryDecisionTransport: boolean;
   readonly maxCalls: number; readonly maxOutputTokens: number;
-  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number }) {
+  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number; requestAdmissionUsd?: number; retryDecisionTransport?: boolean }) {
     if (!options.explicitlyAuthorized || !options.apiKey) throw new Error("Wonder requires Start Campaign authorization and a local key");
     this.#key = options.apiKey; this.#fetch = options.fetch ?? fetch; this.#journal = options.journal;
     this.estimatedRequestUsd = options.requestAdmissionUsd ?? 1;
     if (!Number.isInteger(this.estimatedRequestUsd) || this.estimatedRequestUsd < 1 || this.estimatedRequestUsd > 5) throw new Error("Invalid explicit request admission allowance");
     this.maxCalls = options.maxCalls ?? 4; this.maxOutputTokens = options.maxOutputTokens ?? 4000;
     this.maxTransientRetries = options.maxTransientRetries ?? 0;
-    if (!Number.isInteger(this.maxTransientRetries) || this.maxTransientRetries < 0 || this.maxTransientRetries > 2) throw new Error("Invalid bounded transient retry limit");
+    this.retryDecisionTransport = options.retryDecisionTransport === true;
+    if (!Number.isInteger(this.maxTransientRetries) || this.maxTransientRetries < 0 || this.maxTransientRetries > 5) throw new Error("Invalid bounded transient retry limit");
     if (!Number.isInteger(this.maxCalls) || this.maxCalls < 1 || this.maxCalls > 40 || !Number.isInteger(this.maxOutputTokens) || this.maxOutputTokens < 16 || this.maxOutputTokens > 16000)
       throw new Error("Invalid bounded Wonder request limits");
   }
   async decide(context: AgentContext, signal: AbortSignal, audit?: ProviderAudit): Promise<ProviderReply> {
     if (this.#busy || this.#blocked || this.#calls >= this.maxCalls || signal.aborted) throw new Error("Wonder provider blocked/exhausted/cancelled; no automatic retry");
     this.#busy = true; const turn = ++this.#calls;
+    let transportPhase: "input_tokens" | "responses" = "input_tokens";
     const preserve = (record: Record<string, unknown>) => {
       const entry = { turn, requestId: audit?.requestId ?? `direct-${turn}`, atIso: new Date().toISOString(), ...record };
       this.#journal.append(entry); // Independent durable sink also preserves responses arriving after cancellation.
@@ -80,6 +83,7 @@ export class WonderResponsesProvider implements CampaignProvider {
       const maximumUsd = (tokens * wonderPricing.inputUsdPerMillion + this.maxOutputTokens * wonderPricing.outputUsdPerMillion) / 1_000_000;
       preserve({ phase: "admission", inputTokens: tokens, maxOutputTokens: this.maxOutputTokens, maximumUsd, pricing: wonderPricing });
       if (maximumUsd > this.estimatedRequestUsd) throw new Error(`Request maximum exceeds $${this.estimatedRequestUsd} admission; no generation sent`);
+      transportPhase = "responses";
       const response = await this.#exchange("responses", body, signal, preserve);
       if (signal.aborted) throw new Error("Late response retained, no decision applied");
       const payload = response.payload as any;
@@ -112,6 +116,17 @@ export class WonderResponsesProvider implements CampaignProvider {
       this.#seenResponses.add(payload.id); this.#seenCalls.add(calls[0].call_id);
       return { decision, ...metadata }; // Runtime validates arguments, scope, revisions and evidence.
     } catch (error) {
+      const causeCode = String((error as any)?.cause?.code ?? "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 80);
+      const networkFailure = error instanceof TypeError && /fetch failed|terminated/i.test(error.message);
+      preserve({ phase: "transport_diagnostic", transportPhase, causeCode: causeCode || null, decisionReturned: false,
+        billing: transportPhase === "responses" ? "possibly_charged" : "no_generation_sent" });
+      if (this.retryDecisionTransport && networkFailure && !signal.aborted && this.#transientFailures < this.maxTransientRetries && this.#calls < this.maxCalls) {
+        this.#transientFailures++;
+        preserve({ phase: "retryable_decision_transport_error", transportPhase, previousResponseId: this.#previous ?? null,
+          pendingCallId: this.#pendingCall ?? null, retryNumber: this.#transientFailures, billing: "possibly_charged", decisionReturned: false });
+        return { decision: null, error: "Model connection failed before any decision was returned; possible billing retained",
+          retryableDecisionTransportError: { phase: transportPhase, decisionReturned: false, billing: "possibly_charged", retryAfterMs: 1000 } };
+      }
       this.#blocked = true;
       preserve({ phase: "failed", reason: signal.aborted ? "cancelled or timed out; possibly charged" : "transport/preflight/provider failure; no retry" });
       throw error;

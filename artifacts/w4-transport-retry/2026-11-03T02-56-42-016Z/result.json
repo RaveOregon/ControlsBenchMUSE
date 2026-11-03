@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "scope": "offline-transport-retry-delta",
+  "sourceCommit": "4a28a0d8afcb160f81b4f1901cec1081d9129c03",
+  "sources": {
+    "src/campaign/provider.ts": "10dadeb1fda5ade5c2fea59a1afaf01a10be071910dce14c2edede1b9bec8686",
+    "src/campaign/runtime.ts": "810d558eaa13874c30442160a7b01b4bddff4645987e7f4fe31c43ca49fb4c2f",
+    "src/campaign/wonder-responses.ts": "2aa4c0ed5e1136de3f825ba210ba934c3c4c5e2e9376e1eeb98732b60a57c8de",
+    "src/host/wonder-campaign-factory.ts": "6c95ec8cf6c25844a4acb0bf6bdaffad12dd266390ec09f0b0d646c27687c173",
+    "test/wonder-transport-retry.test.ts": "6b689a8dcbe6f2479e9865b43ad0b16c322e6cdc5880979d8553e31fe4da4d4b",
+    "package.json": "27235dec1499a73e3e64913bda6876ca536eedf662d350ff6002bc8908a208a0",
+    "scripts/check-w4-transport-retry.js": "349d19db730c7ec800ac5b634562bc868390ea8692f26ca3e61b8cde024ba135"
+  },
+  "baseQualification": {
+    "file": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-decision-repair\\2026-11-03T02-32-01-343Z\\result.json",
+    "sha256": "180acc35970b8b643ae3eeb6b6f2af302702dd3e9a855e86bd6479912085a65e",
+    "fullSuiteTests": 215,
+    "passed": true,
+    "claimBoundary": "Prior full build; current delta separately qualified below"
+  },
+  "startedAtIso": "2026-11-03T02:56:42.421Z",
+  "realModelCalls": 0,
+  "livePlcExecuted": false,
+  "results": [
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "affected-campaign-provider-process-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 88,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "historical-paid-wrapper-tests",
+      "passed": true,
+      "exitCode": 0,
+      "tests": 16,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePin": {
+    "commit": "e3469af897949721a3fe02340e34d8dd70e0071c",
+    "verifiedUnchangedHashes": 639
+  },
+  "accountSha256": "bae98eab84d03c8f3359afbcf4b620ece3e4ddf2dd81993c0277590d2a67ec5e",
+  "finishedAtIso": "2026-11-03T02:59:25.972Z"
+}

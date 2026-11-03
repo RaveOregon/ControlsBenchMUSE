@@ -1,0 +1,253 @@
+{
+  "schema": "controlsbench.w4-held-state.v1",
+  "runDirectory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T02-41-21-436Z\\live-host\\runs\\2026-11-03T02-43-28-163Z-live_plc\\portal-host\\portal-20261103024529383-1",
+  "campaignId": "portal-20261103024529383-1",
+  "stoppedAtIso": "2026-11-03T02:47:36.422Z",
+  "reason": "Bounded Wonder campaign ended; retained input image needs current-state inspection before another run",
+  "identities": {
+    "module": {
+      "commit": "3482e27f381f4ec29f782fa44dce10d38835646f"
+    },
+    "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628"
+  },
+  "plc": {
+    "bootIdentity": "1710853217416",
+    "appliedEpoch": "74322098987228",
+    "appliedSequence": "639",
+    "plcCycle": "178549",
+    "plcTimeUs": "1714487388530",
+    "simulationApplied": true,
+    "connectorStale": false
+  },
+  "appliedImage": {
+    "PE_Entry": false,
+    "PE_D1Approach": false,
+    "PE_D2Approach": false,
+    "PE_ExitA": false,
+    "PE_ExitB": false,
+    "PE_Runout": false,
+    "D1_HomeFB": true,
+    "D1_ExtendedFB": false,
+    "D2_HomeFB": true,
+    "D2_ExtendedFB": false,
+    "Drive_RunningFB": false,
+    "Drive_Overload": false,
+    "ExitA_Ready": true,
+    "ExitB_Ready": true,
+    "Runout_Ready": true,
+    "Belt_SpeedActual": 0,
+    "Drive_Current": 0,
+    "D1_Position": 0,
+    "D2_Position": 0,
+    "Encoder_Count": 0
+  },
+  "appliedImageSha256": "a653ba691d77fbd2ed09897bbb53b55e616928f8a28d40afafe96a305aef9393",
+  "lastAcknowledgedCommit": {
+    "epoch": "74322098987228",
+    "sequence": "639",
+    "slot": 0,
+    "acknowledgedAtIso": "2026-11-03T02:47:15.945Z",
+    "image": {
+      "PE_Entry": false,
+      "PE_D1Approach": false,
+      "PE_D2Approach": false,
+      "PE_ExitA": false,
+      "PE_ExitB": false,
+      "PE_Runout": false,
+      "D1_HomeFB": true,
+      "D1_ExtendedFB": false,
+      "D2_HomeFB": true,
+      "D2_ExtendedFB": false,
+      "Drive_RunningFB": false,
+      "Drive_Overload": false,
+      "ExitA_Ready": true,
+      "ExitB_Ready": true,
+      "Runout_Ready": true,
+      "Belt_SpeedActual": 0,
+      "Drive_Current": 0,
+      "D1_Position": 0,
+      "D2_Position": 0,
+      "Encoder_Count": 0
+    }
+  },
+  "inFlightCommit": null,
+  "inFlightCommands": [],
+  "outstandingWrites": {
+    "atClose": [],
+    "atQuarantine": [],
+    "settledAfterQuarantine": [],
+    "childClosed": true
+  },
+  "lastObservation": {
+    "observedAtIso": "2026-11-03T02:47:15.944Z",
+    "plcCycle": "178549",
+    "values": {
+      "Motor_RunCmd": false,
+      "D1_ExtendCmd": false,
+      "D2_ExtendCmd": false,
+      "StackLight_Red": true,
+      "StackLight_Green": false,
+      "controller.Mode": 3,
+      "controller.ModeText": "Faulted",
+      "controller.FaultCode": 21,
+      "controller.FaultText": "D1 contradictory limits",
+      "controller.ExceptionCode": 0,
+      "controller.ExceptionText": "",
+      "controller.ReleaseReady": false,
+      "controller.ItemActive": false,
+      "controller.ActiveItemId": 0,
+      "controller.RequestedRoute": 0,
+      "controller.EffectiveRoute": 0,
+      "controller.ActualExit": 3,
+      "controller.Disposition": 2,
+      "controller.OfferAckSequence": 3,
+      "controller.OfferAckItemId": 401,
+      "controller.OfferAccepted": true,
+      "controller.OfferReason": 0,
+      "controller.OfferPending": false,
+      "controller.CompletionSequence": 4,
+      "controller.CompletionPending": false,
+      "controller.CompletionItemId": 0,
+      "controller.CompletionRoute": 0,
+      "controller.CompletionExit": 3,
+      "controller.CompletionDisposition": 2,
+      "controller.CountExitA": 2,
+      "controller.CountExitB": 0,
+      "controller.CountRunout": 2,
+      "controller.CountMisroute": 0,
+      "controller.CountFaulted": 0,
+      "controller.StartAck": 3,
+      "controller.StopAck": 1,
+      "controller.ResetAck": 5,
+      "controller.StartAccepted": true,
+      "controller.ResetAccepted": true,
+      "controller.EncoderDelta": 0
+    },
+    "activeImage": {
+      "PE_Entry": false,
+      "PE_D1Approach": false,
+      "PE_D2Approach": false,
+      "PE_ExitA": false,
+      "PE_ExitB": false,
+      "PE_Runout": false,
+      "D1_HomeFB": true,
+      "D1_ExtendedFB": false,
+      "D2_HomeFB": true,
+      "D2_ExtendedFB": false,
+      "Drive_RunningFB": false,
+      "Drive_Overload": false,
+      "ExitA_Ready": true,
+      "ExitB_Ready": true,
+      "Runout_Ready": true,
+      "Belt_SpeedActual": 0,
+      "Drive_Current": 0,
+      "D1_Position": 0,
+      "D2_Position": 0,
+      "Encoder_Count": 0
+    }
+  },
+  "controller": {
+    "Motor_RunCmd": false,
+    "D1_ExtendCmd": false,
+    "D2_ExtendCmd": false,
+    "StackLight_Red": true,
+    "StackLight_Green": false,
+    "controller.Mode": 3,
+    "controller.ModeText": "Faulted",
+    "controller.FaultCode": 21,
+    "controller.FaultText": "D1 contradictory limits",
+    "controller.ExceptionCode": 0,
+    "controller.ExceptionText": "",
+    "controller.ReleaseReady": false,
+    "controller.ItemActive": false,
+    "controller.ActiveItemId": 0,
+    "controller.RequestedRoute": 0,
+    "controller.EffectiveRoute": 0,
+    "controller.ActualExit": 3,
+    "controller.Disposition": 2,
+    "controller.OfferAckSequence": 3,
+    "controller.OfferAckItemId": 401,
+    "controller.OfferAccepted": true,
+    "controller.OfferReason": 0,
+    "controller.OfferPending": false,
+    "controller.CompletionSequence": 4,
+    "controller.CompletionPending": false,
+    "controller.CompletionItemId": 0,
+    "controller.CompletionRoute": 0,
+    "controller.CompletionExit": 3,
+    "controller.CompletionDisposition": 2,
+    "controller.CountExitA": 2,
+    "controller.CountExitB": 0,
+    "controller.CountRunout": 2,
+    "controller.CountMisroute": 0,
+    "controller.CountFaulted": 0,
+    "controller.StartAck": 3,
+    "controller.StopAck": 1,
+    "controller.ResetAck": 5,
+    "controller.StartAccepted": true,
+    "controller.ResetAccepted": true,
+    "controller.EncoderDelta": 0
+  },
+  "world": {
+    "cartons": [],
+    "injectedFaults": [
+      {
+        "actionId": "call-inject-d1-contra-01",
+        "controlId": "fault.setContradictoryLimits",
+        "parameters": {
+          "divert": 1,
+          "active": true
+        }
+      }
+    ],
+    "clearedFaults": [
+      {
+        "actionId": "call-clear-d1-contra-01",
+        "controlId": "fault.setContradictoryLimits"
+      }
+    ]
+  },
+  "ownership": {
+    "path": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+    "acquired": {
+      "owner": "wonder-process-v1",
+      "campaignId": "portal-20261103024529383-1",
+      "childPid": 19804,
+      "parentPid": 42612,
+      "nonce": "9f73fba6a4509d1d",
+      "acquiredAtIso": "2026-11-03T02:45:36.718Z"
+    },
+    "closeResult": "released",
+    "lockPresent": false,
+    "lockMatchesRun": false,
+    "lockSha256": null
+  },
+  "child": {
+    "pid": 19804,
+    "nonce": "9f73fba6a4509d1d",
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "parentLost": false
+  },
+  "ledger": {
+    "lastAcknowledged": {
+      "epoch": "74322098987228",
+      "sequence": "639",
+      "bootIdentity": "1710853217416"
+    },
+    "agreesWithChild": true
+  },
+  "postStopInspection": null,
+  "evidence": {
+    "campaign.jsonl": "0ef518a3ea7950679483fc93f253f303c61dc6e66e87055f090233acacb075f1",
+    "wonder-process/child-stream.jsonl": "2f1939696d8adefe9faf346ef7bc4f108b21dd5e42b1c37a44a7a53e4f3bbeff",
+    "wonder-process/child-transport.jsonl": "3ce5964f3238216cc71ee177ff4413beaaba6514eacfc98be01f223da8f8b07a",
+    "wonder-process/child-lifecycle.jsonl": "6ad97f13815d2409d6a38d9e076e46906a4862919319d25e12b6570304bccdb2",
+    "wonder-process/parent-boundary.jsonl": "e762613d4a813cbc4df79e5711804a5c81fb9033ed3498bee720e71a8c6254db",
+    "owner-entry.json": "8d9a032a4fe02c026069f3f34e51608f8e5d3ad2b24632af918df3f61183805d",
+    "w4-approval.json": "6f2046f630653f6d5e78e4e0fefbc0d7725d0a12af5a6db576b53ad7a204f61e"
+  }
+}

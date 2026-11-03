@@ -11,6 +11,7 @@ const packet={approvalRevision:{contract:'controlsbench.w4-full-proof-approval.v
 
 test('expanded proof envelope matches explicit credit authorization and rejects silent changes',()=>{
   assert.equal(s.trialEnvelope(packet),20);
+  assert.equal(s.trialEnvelope({...packet,maxTransientRetries:5,retryDecisionTransport:true}),20);
   for(const change of [{perRequestAdmissionUsd:4},{maximumModelRequests:21},{maxRejectedDecisions:4},{maximumOutputTokens:32000},{aggregateConservativeCeilingUsd:100}])assert.throws(()=>s.trialEnvelope({...packet,...change}));
 });
 
@@ -22,17 +23,17 @@ test('actual promoted provider serializes twenty turns, 16K/high and three-dolla
   const factory=createCampaignFactory({proofAllowance:{maximumRequests:20,sessionHardUsd:150,maximumRejectedDecisions:3,requestAdmissionUsd:3}});
   assert.equal(factory.limits.perRequestUsd,3);assert.equal(factory.limits.campaignHardUsd,63);
   let generation;
-  const provider=new WonderResponsesProvider({apiKey:'offline-fixture',explicitlyAuthorized:true,maxCalls:20,maxOutputTokens:16000,maxTransientRetries:2,requestAdmissionUsd:3,journal:{append(){}},fetch:async(url,init)=>{
+  const provider=new WonderResponsesProvider({apiKey:'offline-fixture',explicitlyAuthorized:true,maxCalls:20,maxOutputTokens:16000,maxTransientRetries:5,retryDecisionTransport:true,requestAdmissionUsd:3,journal:{append(){}},fetch:async(url,init)=>{
     if(String(url).endsWith('input_tokens'))return Response.json({input_tokens:300000});
     generation=JSON.parse(init.body);throw Error('CAPTURE_ONLY_NO_NETWORK');
   }});
   const ledger=new CampaignLedger('extended-preview');
   const runtime=new CampaignRuntime({ledger,provider,paidAuthorized:true,maxRejectedDecisions:3,evidenceClass:'fake_connector',claimBoundary:'Offline',spec:'fixture',signals:[],categories:['faults'],provenance:{spec:'fixture',ioMap:'fixture',plcBuild:'fixture',worldModule:'fixture',model:'fixture',connector:'none'}});
-  s.configureBoundedRuntime(runtime,packet);
+  s.configureBoundedRuntime(runtime,{...packet,maxTransientRetries:5,retryDecisionTransport:true});
   await assert.rejects(()=>provider.decide(runtime.agentContext(),new AbortController().signal),/CAPTURE_ONLY/);
   assert.equal(generation.max_output_tokens,16000);assert.equal(generation.reasoning.effort,'high');
   assert.equal(JSON.parse(generation.input.at(-1).content[0].text).providerBudget.maxDecisions,20);
-  assert.equal(runtime.options.maxTransientRetries,2);assert.equal(runtime.options.maxRejectedDecisions,3);ledger.close();
+  assert.equal(runtime.options.maxTransientRetries,5);assert.equal(runtime.options.provider.retryDecisionTransport,true);assert.equal(runtime.options.maxRejectedDecisions,3);ledger.close();
 });
 
 test('twenty actual runtime decisions preserve twelve dollars and stop at seventy-two with no twenty-first charge',async()=>{

@@ -34,6 +34,7 @@ const usedProviders = new WeakSet<CampaignProvider>();
 
 export class CampaignRuntime {
   readonly transientRetryPolicy = "meta-503-v1";
+  readonly decisionTransportRetryPolicy = "pure-model-transport-v1";
   readonly options: CampaignOptions;
   readonly ledger: CampaignLedger;
   readonly budget: CampaignBudget;
@@ -56,7 +57,7 @@ export class CampaignRuntime {
   constructor(options: CampaignOptions) {
     if (!Number.isInteger(options.maxRejectedDecisions ?? 0) || (options.maxRejectedDecisions ?? 0) < 0 || (options.maxRejectedDecisions ?? 0) > 3)
       throw new Error("Invalid rejected decision repair allowance");
-    if (!Number.isInteger(options.maxTransientRetries ?? 0) || (options.maxTransientRetries ?? 0) < 0 || (options.maxTransientRetries ?? 0) > 2)
+    if (!Number.isInteger(options.maxTransientRetries ?? 0) || (options.maxTransientRetries ?? 0) < 0 || (options.maxTransientRetries ?? 0) > 5)
       throw new Error("Invalid bounded transient retry limit");
     if (!options.categories.length) throw new Error("Select campaign scope before Start Campaign");
     if (options.provider.paid && !options.paidAuthorized) throw new Error("Paid provider requires campaign authorization");
@@ -152,14 +153,17 @@ export class CampaignRuntime {
       } catch (error) { await this.#budgetStop(error); return; }
       if (this.status !== "running") return;
       if (failure) {
-        const retry = reply?.retryableServiceError;
-        if (reply && retry?.httpStatus === 503 && reply.decision === null && !reply.responseId && leaseFinishValid && !this.#abort.signal.aborted
+        const transportRetry = reply?.retryableDecisionTransportError;
+        const eligibleTransport = transportRetry?.decisionReturned === false && transportRetry.billing === "possibly_charged"
+          && ["input_tokens", "responses"].includes(transportRetry.phase) && this.options.provider.retryDecisionTransport === true;
+        const retry = reply?.retryableServiceError ?? (eligibleTransport ? transportRetry : undefined);
+        if (reply && retry && (reply.retryableServiceError?.httpStatus === 503 || eligibleTransport) && reply.decision === null && !reply.responseId && leaseFinishValid && !this.#abort.signal.aborted
           && Number.isInteger(retry.retryAfterMs) && retry.retryAfterMs >= 250 && retry.retryAfterMs <= 10_000
           && retry.retryAfterMs < this.#reasoningLease.timeoutMs
           && this.#transientRetries < (this.options.maxTransientRetries ?? 0) && this.#turns < (this.options.maxTurns ?? 40)
           && !this.options.driver?.quarantined && !this.options.driver?.failure) {
           this.#transientRetries++; retryDelayMs = retry.retryAfterMs;
-          this.ledger.append("agent.activity", { phase: "provider_retry_scheduled", summary: `Meta 503 attempt charged; bounded retry ${this.#transientRetries}/${this.options.maxTransientRetries} will reserve separately with fresh evidence and a hold lease`, requestId: lease.id });
+          this.ledger.append("agent.activity", { phase: "provider_retry_scheduled", summary: `Meta ${eligibleTransport ? "unreturned pure-decision transport" : "503"} attempt charged; bounded retry ${this.#transientRetries}/${this.options.maxTransientRetries} will reserve separately with fresh evidence and a hold lease`, requestId: lease.id });
           continue;
         }
         await this.pause(`Model ${phase}: ${this.#message(failure)}; no automatic retry`); return;

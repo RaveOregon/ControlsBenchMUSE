@@ -47,6 +47,24 @@ export function feedbackLossPlan(record,current) {
   return [{op:'stop'},{op:'fresh_world'},{op:'reset'},{op:'await_stopped'}];
 }
 
+export function clearedContradictionPlan(record,current) {
+  const stock=classifyHeldState(record,current);
+  assert.deepEqual(stock.refusals.filter(x=>x!=='held state matches a recorded W4 reconciliation path'),[]);
+  assert.deepEqual(stock.differences,{});assert.equal(stock.matchedCommit,'last_acknowledged');
+  assert.equal(record.inFlightCommit,null);assert.deepEqual(record.inFlightCommands,[]);
+  assert.deepEqual(record.outstandingWrites.atClose,[]);assert.equal(record.outstandingWrites.childClosed,true);
+  assert.deepEqual(record.world.cartons,[]);assert.equal(record.world.injectedFaults.length,1);
+  const fault=record.world.injectedFaults[0];assert.equal(fault.controlId,'fault.setContradictoryLimits');
+  assert.deepEqual(fault.parameters,{divert:1,active:true});
+  assert.equal(record.world.clearedFaults.length,1);assert.equal(record.world.clearedFaults[0].controlId,fault.controlId);
+  const v=current.observation.values,c=k=>v['controller.'+k];
+  assert.equal(c('Mode'),3);assert.equal(c('FaultCode'),21);assert.equal(c('ExceptionCode'),0);
+  assert.equal(c('ItemActive'),false);assert.equal(c('CompletionPending'),false);assert.equal(c('OfferPending'),false);
+  assert.equal(v.Motor_RunCmd,false);assert.equal(v.D1_ExtendCmd,false);assert.equal(v.D2_ExtendCmd,false);
+  for(const[k,value]of Object.entries({...AT_REST,Drive_Overload:false,Belt_SpeedActual:0,Drive_Current:0}))assert.equal(current.activeImage[k],value);
+  return [{op:'stop'},{op:'fresh_world'},{op:'reset'},{op:'await_stopped'}];
+}
+
 export async function executeCompletedHold(connection,plan,journal) {
   const {connector}=connection;
   let image;
@@ -75,9 +93,9 @@ export async function executeCompletedHold(connection,plan,journal) {
 }
 
 async function main() {
-  const {positionals,values}=parseArgs({allowPositionals:true,options:{reconcile:{type:'boolean'},authorize:{type:'string'},'feedback-loss':{type:'boolean'}}});
-  const planner=values['feedback-loss']?feedbackLossPlan:completedHoldPlan;
-  const recoveryKind=values['feedback-loss']?'feedback-loss':'completed';
+  const {positionals,values}=parseArgs({allowPositionals:true,options:{reconcile:{type:'boolean'},authorize:{type:'string'},'feedback-loss':{type:'boolean'},'cleared-contradiction':{type:'boolean'}}});
+  const planner=values['cleared-contradiction']?clearedContradictionPlan:values['feedback-loss']?feedbackLossPlan:completedHoldPlan;
+  const recoveryKind=values['cleared-contradiction']?'cleared-contradiction':values['feedback-loss']?'feedback-loss':'completed';
   assert.equal(positionals.length,1);
   const reference=resolve(positionals[0]),prior=json(join(reference,'result.json')),record=json(join(reference,'held-state.json'));
   const heldSha=hashFile(join(reference,'held-state.json'));

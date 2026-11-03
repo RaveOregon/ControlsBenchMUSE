@@ -3,10 +3,18 @@ import {mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import test from 'node:test';
-import {completedHoldPlan,executeCompletedHold,feedbackLossPlan} from './recover-completed-hold.mjs';
+import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan} from './recover-completed-hold.mjs';
 import {fromPin,json,root} from './support.mjs';
 const sample=json(join(root,'artifacts/w4-paid/2026-11-02T21-16-08-803Z/live-host/runs/2026-11-02T23-43-04-875Z-live_plc/portal-host/portal-20261102234344698-1/held-state.json'));
 const fixture=()=>({observation:{...sample.plc,values:structuredClone(sample.lastObservation.values)},activeImage:structuredClone(sample.appliedImage)});
+
+test('cleared D1 contradiction cleanup refuses any changed identity, image, fault, counter, uncleared injection or uncertainty',()=>{
+  const record=json(join(root,'artifacts/w4-paid/2026-11-03T02-41-21-436Z/live-host/runs/2026-11-03T02-43-28-163Z-live_plc/portal-host/portal-20261103024529383-1/held-state.json'));
+  const state=()=>({observation:{...record.plc,values:structuredClone(record.lastObservation.values)},activeImage:structuredClone(record.appliedImage)});
+  assert.deepEqual(clearedContradictionPlan(record,state()).map(x=>x.op),['stop','fresh_world','reset','await_stopped']);
+  for(const mutate of [s=>s.observation.bootIdentity+='x',s=>s.activeImage.D1_ExtendedFB=true,s=>s.observation.values['controller.FaultCode']=12,s=>s.observation.values['controller.CountExitA']++,s=>s.observation.values['controller.ItemActive']=true]){const changed=state();mutate(changed);assert.throws(()=>clearedContradictionPlan(record,changed));}
+  for(const mutate of [r=>r.world.clearedFaults=[],r=>r.world.cartons.push({id:'unknown'}),r=>r.outstandingWrites.atClose.push({paths:['unknown']})]){const changed=structuredClone(record);mutate(changed);assert.throws(()=>clearedContradictionPlan(changed,state()));}
+});
 
 test('feedback-loss cleanup requires exact settled fault-12 run, stopped carton and unchanged identity/image/counters',()=>{
   const record=json(join(root,'artifacts/w4-paid/2026-11-03T02-03-15-190Z/live-host/runs/2026-11-03T02-03-47-941Z-live_plc/portal-host/portal-20261103020555687-1/held-state.json'));

@@ -21,11 +21,15 @@ export interface ProviderReply {
   /** Only an explicitly eligible HTTP error with no response identity/decision.
    * The runtime owns retry accounting, fresh leases and cancellation. */
   retryableServiceError?: { httpStatus: 503; retryAfterMs: number };
+  /** Pure model transport only: no parsed decision has reached the executor.
+   * Generation may have been billed; a new charged attempt uses the last known head. */
+  retryableDecisionTransportError?: { phase: "input_tokens" | "responses"; decisionReturned: false; billing: "possibly_charged"; retryAfterMs: number };
 }
 export interface CampaignProvider {
   readonly id: string;
   readonly estimatedRequestUsd: number;
   readonly paid: boolean;
+  readonly retryDecisionTransport?: boolean;
   decide(context: AgentContext, signal: AbortSignal, audit?: ProviderAudit): Promise<ProviderReply>;
 }
 

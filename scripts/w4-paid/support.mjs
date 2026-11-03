@@ -35,7 +35,7 @@ export function trialEnvelope(packet) {
     assert.equal(packet.maximumNewConservativeUsd,60);assert.equal(packet.sessionHardUsd,150);
     assert.equal(packet.aggregateConservativeCeilingUsd,packet.sessionBaseline.conservativeUsd+60);
     assert(packet.aggregateConservativeCeilingUsd<=150);
-    assert.equal(packet.maximumOutputTokens,16000);assert.equal(packet.maxTransientRetries,2);assert.equal(packet.maxRejectedDecisions,3);
+    assert.equal(packet.maximumOutputTokens,16000);assert.equal(packet.maxTransientRetries,packet.retryDecisionTransport===true?5:2);assert.equal(packet.maxRejectedDecisions,3);
     return turns;
   }
   const fullProof=packet.approvalRevision?.contract==='controlsbench.w4-full-proof-approval.v1';
@@ -143,6 +143,10 @@ export function writeHeldRecord(directory, {allowOffline = false} = {}) {
 export function configureBoundedRuntime(runtime, packet) {
   const turns = packet ? trialEnvelope(packet) : 4;
   const retries=packet?.maxTransientRetries??0;
+  if(packet?.retryDecisionTransport) {
+    assert.equal(runtime.decisionTransportRetryPolicy,'pure-model-transport-v1','Selected runtime lacks pure-decision transport retry qualification');
+    assert.equal(runtime.options.provider.retryDecisionTransport,true);
+  }
   if(retries) {
     assert.equal(runtime.transientRetryPolicy,'meta-503-v1','Selected runtime pin lacks verified transient retry support');
     assert.equal(runtime.options.provider.maxTransientRetries,retries,'Provider and runtime retry policies must match');
