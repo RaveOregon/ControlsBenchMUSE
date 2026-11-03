@@ -180,11 +180,14 @@ export class ProcessEngine {
     const due = this.#nextDeadline;
     this.#timer = setTimeout(() => {
       this.#timer = undefined;
+      const startedAt = clock.now();
       void this.tick().finally(() => {
-        const elapsed = clock.now() - due;
-        this.#nextDeadline = due + CADENCE_MS;
-        if (this.#nextDeadline <= clock.now()) {
-          this.#nextDeadline = clock.now() + CADENCE_MS;
+        const finishedAt = clock.now(), elapsed = finishedAt - due;
+        // Space actual starts by at least one period. A slow I/O tick already
+        // consumed that period: do not add another idle period after it. There
+        // is no queue of missed ticks or replay of stale frames to catch up.
+        this.#nextDeadline = Math.max(startedAt + CADENCE_MS, finishedAt);
+        if (finishedAt >= startedAt + CADENCE_MS) {
           if (!this.quarantined && !this.#stopped) this.hooks.emit({ kind: "delayed", elapsedMs: Math.round(elapsed) });
         }
         this.#schedule();

@@ -50,7 +50,7 @@ $w4Values=$w4Hmi.snapshot.values
 if ($w4Packet.priorRecovery) {
     $w4RecoveryReference=(Resolve-Path -LiteralPath (Join-Path $w4Root $w4Packet.priorRecovery.reference)).Path
     if (-not $w4RecoveryReference.StartsWith((Join-Path $w4Root 'artifacts/w4-paid/'),[StringComparison]::OrdinalIgnoreCase)) { throw 'Recovery record outside paid proof artifacts.' }
-    if ($w4Packet.priorRecovery.path -notin @('pending-runout','aborted-d1-jam') -or (Get-FileHash -LiteralPath (Join-Path $w4RecoveryReference 'held-state.json') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Packet.priorRecovery.heldStateSha256) { throw 'Exact supported recovery record required.' }
+    if ($w4Packet.priorRecovery.path -notin @('pending-runout','aborted-d1-jam','startup-feedback') -or (Get-FileHash -LiteralPath (Join-Path $w4RecoveryReference 'held-state.json') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $w4Packet.priorRecovery.heldStateSha256) { throw 'Exact supported recovery record required.' }
     if ($w4Hmi.link.state -ne 'connected') { throw 'Live observer must be connected before recovery inspection.' }
 } elseif ($w4Hmi.link.state -ne 'connected' -or $w4Values.'GVL_DemoRead.Status.ModeText'.value -ne 'Stopped' -or $w4Values.'GVL_DemoRead.Status.FaultCode'.value -ne 0 -or $w4Values.'GVL_DemoRead.Status.ItemActive'.value -ne $false -or $w4Values.'GVL_DemoRead.Status.CompletionPending'.value -ne $false -or $w4Values.'GVL_DemoRead.Status.Motor_RunCmd'.value -ne $false) { throw 'Fresh stopped PLC baseline required.' }
 foreach($w4BaselinePath in @('ModeText','FaultCode','ItemActive','CompletionPending','Motor_RunCmd')) { if ($w4Values.('GVL_DemoRead.Status.'+$w4BaselinePath).good -ne $true) { throw ('PLC baseline quality is not Good: '+$w4BaselinePath) } }
@@ -85,7 +85,7 @@ try {
         try {
             $w4RecoveryFlag='--'+$w4Packet.priorRecovery.path
             & node scripts/w4-paid/recover-completed-hold.mjs $w4RecoveryReference $w4RecoveryFlag
-            if ($LASTEXITCODE -ne 0) { throw 'Exact read-only pending-runout inspection refused; no cleanup write.' }
+            if ($LASTEXITCODE -ne 0) { throw 'Exact read-only recovery inspection refused; no cleanup write.' }
             & node scripts/w4-paid/recover-completed-hold.mjs $w4RecoveryReference $w4RecoveryFlag --reconcile --authorize $w4Packet.priorRecovery.heldStateSha256
             if ($LASTEXITCODE -ne 0) { throw 'Recorded bench cleanup failed; preserve state and lock.' }
         } finally { Pop-Location }

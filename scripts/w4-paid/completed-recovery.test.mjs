@@ -3,10 +3,17 @@ import {mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import test from 'node:test';
-import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan,abortedJamPlan} from './recover-completed-hold.mjs';
+import {completedHoldPlan,executeCompletedHold,feedbackLossPlan,clearedContradictionPlan,pendingRunoutPlan,abortedJamPlan,startupFeedbackPlan} from './recover-completed-hold.mjs';
 import {fromPin,json,root} from './support.mjs';
 const sample=json(join(root,'artifacts/w4-paid/2026-11-02T21-16-08-803Z/live-host/runs/2026-11-02T23-43-04-875Z-live_plc/portal-host/portal-20261102234344698-1/held-state.json'));
 const fixture=()=>({observation:{...sample.plc,values:structuredClone(sample.lastObservation.values)},activeImage:structuredClone(sample.appliedImage)});
+
+test('startup hold permits only the actual fault-11 response to the recorded zero running-feedback image',()=>{
+  const record=json(join(root,'artifacts/w4-paid/2026-11-03T03-33-44-030Z/bench-check/2026-11-03T03-39-09-233Z/held-state.json'));
+  const state=()=>({observation:{...record.plc,values:{...record.lastObservation.values,Motor_RunCmd:false,StackLight_Red:true,StackLight_Green:false,'controller.Mode':3,'controller.ModeText':'Faulted','controller.FaultCode':11,'controller.FaultText':'Motor running feedback missing on start'}},activeImage:structuredClone(record.appliedImage)});
+  assert.deepEqual(startupFeedbackPlan(record,state()).map(x=>x.op),['stop','fresh_world','reset','await_stopped']);
+  for(const mutate of [s=>s.observation.bootIdentity+='x',s=>s.observation.values['controller.StartAck']++,s=>s.observation.values['controller.FaultCode']=23,s=>s.observation.values['controller.CountFaulted']++,s=>s.activeImage.Drive_RunningFB=true]){const changed=state();mutate(changed);assert.throws(()=>startupFeedbackPlan(record,changed));}
+});
 
 test('D1 jam abort cleanup verifies the exact stopped carton, aborted completion and unchanged identity/image/counters',()=>{
   const record=json(join(root,'artifacts/w4-paid/2026-11-03T03-12-50-682Z/live-host/runs/2026-11-03T03-15-09-629Z-live_plc/portal-host/portal-20261103031655278-1/held-state.json'));

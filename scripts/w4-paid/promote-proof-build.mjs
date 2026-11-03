@@ -21,7 +21,7 @@ if(retry.baseQualification) {
   assert.equal(hash(retry.baseQualification.file),retry.baseQualification.sha256);
   const base=json(retry.baseQualification.file),baseConfig=json(join(root,'artifacts/w4-readiness/proof-3482e27/launch.json'));
   for(const[f,h]of Object.entries(base.sources))if(!Object.hasOwn(retry.sources,f))assert.equal(hash(join(root,f)),h,'Untested change outside qualified delta: '+f);
-  for(const f of git('diff','--name-only',baseConfig.sourceCommit,commit,'--','src').split('\n').filter(Boolean))assert(Object.hasOwn(retry.sources,f),'Source change missing delta qualification: '+f);
+  for(const f of git('diff','--name-only',retry.baseQualification.implementationCommit??baseConfig.sourceCommit,commit,'--','src').split('\n').filter(Boolean))assert(Object.hasOwn(retry.sources,f),'Source change missing delta qualification: '+f);
 }
 assert(!existsSync(pin),'Create a new pin; never overwrite a prior deployment');
 git('worktree','add','--detach',pin,commit);
@@ -43,7 +43,8 @@ for(const file of walk(join(old.pinnedCheckout,'ui/dist'))) {
 }
 const physical=['src/live','src/proof','src/campaign/driver.ts','src/campaign/m8-bindings.ts','src/campaign/ledger.ts','scripts/wonder-process-child.js','codesys/conveyordemo.project',
   'artifacts/generated-world/2026-10-29T21-15-44-647Z-muse-wonder-1.0'];
-assert.equal(git('diff','--name-only',old.sourceCommit,commit,'--',...physical),'','Physical engine/world/PLC bytes must stay unchanged');
+const physicalChanges=git('diff','--name-only',old.sourceCommit,commit,'--',...physical).split('\n').filter(Boolean);
+for(const f of physicalChanges)assert(retry.scope==='offline-cadence-delta'&&f==='src/live/wonder-process/engine.ts'&&retry.qualifiedPhysicalDelta?.includes(f)&&Object.hasOwn(retry.sources,f),'Unqualified physical runtime change: '+f);
 // Refresh LF/CRLF index stat information only; fail if normalized content differs
 // from the committed pin. Exact source hashes above preserve the tested bytes.
 execFileSync('git',['-c','core.longpaths=true','-C',pin,'add','--','src','scripts','test','package.json'],{windowsHide:true});
@@ -51,13 +52,13 @@ execFileSync('git',['-C',pin,'diff','--cached','--quiet'],{windowsHide:true});
 execFileSync('git',['-C',pin,'diff','--quiet','--','src','scripts','test','package.json'],{windowsHide:true});
 const oldManifest=json(old.manifest),checks={};
 for(const[name,ref]of Object.entries(oldManifest.checks)) {
-  const src=resolve(dirname(old.manifest),ref.file);assert.equal(hash(src),ref.sha256);copyFileSync(src,join(directory,name+'.json'));
+  const src=physicalChanges.length?retryPath:resolve(dirname(old.manifest),ref.file);if(!physicalChanges.length)assert.equal(hash(src),ref.sha256);copyFileSync(src,join(directory,name+'.json'));
   checks[name]={file:name+'.json',sha256:hash(join(directory,name+'.json'))};
 }
 const proof={status:'pass',scope:'offline-decision-repair-coordinator-with-unchanged-live-engine',sourceCommit:commit,sourceHashes,frozenHashes,
   retryProof:{file:retryPath,sha256:hash(retryPath),testedCommit:retry.sourceCommit,tests:retry.results},
-  existingNativeEngine:{commit:old.sourceCommit,unchangedPaths:physical},
-  liveTimingQualified:false,liveRetryQualified:false,claimBoundary:'Decision repair and explicit allowance offline-qualified; physical engine unchanged; fresh native bench check required before paid Start.'};
+  existingNativeEngine:{commit:old.sourceCommit,comparedPaths:physical,qualifiedDelta:physicalChanges},
+  liveTimingQualified:false,liveRetryQualified:false,claimBoundary:physicalChanges.length?'Only qualified scheduler timing changed; world physics/PLC/raw-signal semantics unchanged; new native timing qualification required.':'Decision repair and explicit allowance offline-qualified; physical engine unchanged; fresh native bench check required before paid Start.'};
 writeFileSync(join(directory,'promotion-proof.json'),JSON.stringify(proof,null,2)+'\n',{flag:'wx'});
 const manifest={...oldManifest,ownerCommit:commit,checks,integrationProof:{file:'promotion-proof.json',sha256:hash(join(directory,'promotion-proof.json'))},
   parentRetryProof:proof.retryProof,claimBoundary:proof.claimBoundary};

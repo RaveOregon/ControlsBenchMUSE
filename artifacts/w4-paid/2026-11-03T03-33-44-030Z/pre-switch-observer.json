@@ -1,0 +1,1137 @@
+﻿{
+    "host":  {
+                 "protocolVersion":  1,
+                 "hostId":  "host-5e1ea837-2144-4c93-86ab-bb388557e4f2",
+                 "factory":  {
+                                 "id":  "wonder-w4-qualified-m8",
+                                 "label":  "Muse Wonder 1.0 · bounded live W4",
+                                 "evidenceClass":  "live_plc",
+                                 "claimBoundary":  "Live Wonder-directed experiment; W4 verdict requires normal/fault/new evidence-dependent follow-up audit. HMI observation is separate.",
+                                 "connectorId":  "isolated-m8-process-v1",
+                                 "supportsExitSimulation":  true,
+                                 "scope":  {
+                                               "mode":  "categories",
+                                               "choices":  [
+                                                               {
+                                                                   "id":  "faults",
+                                                                   "title":  "Declared faults"
+                                                               },
+                                                               {
+                                                                   "id":  "adaptive",
+                                                                   "title":  "Evidence-dependent follow-up"
+                                                               }
+                                                           ],
+                                               "description":  "One bounded 20-request trial within the explicit expanded review: normal, declared fault and an observation-dependent follow-up. No HMI operation or PLC/world edits."
+                                           }
+                             },
+                 "limits":  {
+                                "perRequestUsd":  3,
+                                "repairEpisodeUsd":  2,
+                                "campaignWarningUsd":  3,
+                                "campaignHardUsd":  63,
+                                "sessionHardUsd":  150,
+                                "requestTimeoutMs":  300000,
+                                "failedRepairWarning":  3,
+                                "failedRepairHard":  5,
+                                "worldHeartbeatStaleMs":  2000
+                            },
+                 "commandTimeoutMs":  90000,
+                 "outputIds":  [
+                                   "Motor_RunCmd",
+                                   "D1_ExtendCmd",
+                                   "D2_ExtendCmd",
+                                   "StackLight_Red",
+                                   "StackLight_Green"
+                               ],
+                 "serverNowIso":  "2026-11-03T03:37:47.520Z",
+                 "campaignId":  "portal-20261103031655278-1",
+                 "hmi":  {
+                             "state":  "observing",
+                             "sourceId":  "webvisu:127.0.0.1:5191",
+                             "sourceKind":  "webvisu",
+                             "url":  "http://127.0.0.1:5191/?capture=portal",
+                             "recording":  true,
+                             "frameCount":  620,
+                             "captureIntervalMs":  2000,
+                             "staleAfterMs":  6000,
+                             "detail":  "Observing http://127.0.0.1:5191/?capture=portal",
+                             "changedAtIso":  "2026-11-03T03:34:50.248Z",
+                             "sessionId":  "hmi-dddc2299-3f4b-4352-add4-d74d476d0863",
+                             "browser":  "Chrome/156.0.8078.76 · target A371832B8ADE9FA464F47CD895DA5B0D · headless",
+                             "startedAtIso":  "2026-11-03T03:15:19.452Z",
+                             "lastFrame":  {
+                                               "reference":  "hmi-frame:hmi-dddc2299-3f4b-4352-add4-d74d476d0863:620",
+                                               "sessionId":  "hmi-dddc2299-3f4b-4352-add4-d74d476d0863",
+                                               "frameSequence":  620,
+                                               "capturedAtIso":  "2026-11-03T03:37:46.450Z",
+                                               "requestedAtIso":  "2026-11-03T03:37:46.405Z",
+                                               "contentType":  "image/jpeg",
+                                               "byteLength":  146634,
+                                               "sha256":  "6f44c97dcc51a1a20a7b28f3268203d385d1a140cca41ca629672ff1a2724b54",
+                                               "mediaUrl":  "/api/hmi/frames/hmi-dddc2299-3f4b-4352-add4-d74d476d0863/620",
+                                               "pageUrl":  "http://127.0.0.1:5191/?capture=portal"
+                                           }
+                         }
+             },
+    "hmi":  {
+                "identity":  {
+                                 "protocolVersion":  1,
+                                 "serviceSessionId":  "hmi-svc-2026-11-03T03-15-09-626Z-a478b218",
+                                 "startedAtIso":  "2026-11-03T03:15:09.629Z",
+                                 "source":  {
+                                                "kind":  "live_plc",
+                                                "label":  "Live PLC · opc.tcp://127.0.0.1:4840"
+                                            },
+                                 "machine":  {
+                                                 "id":  "CV-1",
+                                                 "name":  "Sort conveyor",
+                                                 "description":  "Single lane · divert D1 to exit A · divert D2 to exit B · straight runout"
+                                             },
+                                 "mapVersion":  "m8-conveyor-1.0.2",
+                                 "expectedBuildId":  8001,
+                                 "expectedInterfaceVersion":  1,
+                                 "url":  "http://127.0.0.1:5191/",
+                                 "journal":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\live-host\\runs\\2026-11-03T03-15-09-629Z-live_plc\\journal.jsonl"
+                             },
+                "serverNowIso":  "2026-11-03T03:37:53.459Z",
+                "link":  {
+                             "state":  "connected",
+                             "detail":  "Polling",
+                             "endpoint":  "opc.tcp://127.0.0.1:4840",
+                             "securityMode":  "SignAndEncrypt",
+                             "securityPolicy":  "Basic256Sha256",
+                             "userConfigured":  true,
+                             "pollIntervalMs":  250,
+                             "staleAfterMs":  1500,
+                             "totalPolls":  4141,
+                             "failedPolls":  0,
+                             "consecutiveFailures":  0,
+                             "reconnects":  0,
+                             "plcScanning":  true,
+                             "sessionOpenedAtIso":  "2026-11-03T03:15:23.711Z",
+                             "lastPollOkAtIso":  "2026-11-03T03:37:53.243Z",
+                             "lastPollLatencyMs":  4,
+                             "p95PollLatencyMs":  13,
+                             "bootIdentity":  "1710853217416"
+                         },
+                "snapshot":  {
+                                 "sequence":  4141,
+                                 "requestedAtIso":  "2026-11-03T03:37:53.239Z",
+                                 "receivedAtIso":  "2026-11-03T03:37:53.243Z",
+                                 "latencyMs":  4,
+                                 "sameScanBracket":  true,
+                                 "values":  {
+                                                "GVL_BenchRead.Active_PE_Entry":  {
+                                                                                      "value":  false,
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_BenchRead.Active_PE_D1Approach":  {
+                                                                                           "value":  false,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.Active_PE_D2Approach":  {
+                                                                                           "value":  false,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.Active_PE_ExitA":  {
+                                                                                      "value":  false,
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_BenchRead.Active_PE_ExitB":  {
+                                                                                      "value":  false,
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_BenchRead.Active_PE_Runout":  {
+                                                                                       "value":  false,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                   },
+                                                "GVL_BenchRead.Active_D1_HomeFB":  {
+                                                                                       "value":  true,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                   },
+                                                "GVL_BenchRead.Active_D1_ExtendedFB":  {
+                                                                                           "value":  false,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.Active_D2_HomeFB":  {
+                                                                                       "value":  true,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                   },
+                                                "GVL_BenchRead.Active_D2_ExtendedFB":  {
+                                                                                           "value":  false,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.Active_Drive_RunningFB":  {
+                                                                                             "value":  false,
+                                                                                             "status":  "Good (0x00000000)",
+                                                                                             "good":  true,
+                                                                                             "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                             "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                             "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                         },
+                                                "GVL_BenchRead.Active_Drive_Overload":  {
+                                                                                            "value":  false,
+                                                                                            "status":  "Good (0x00000000)",
+                                                                                            "good":  true,
+                                                                                            "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                            "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                            "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                        },
+                                                "GVL_BenchRead.Active_ExitA_Ready":  {
+                                                                                         "value":  true,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.Active_ExitB_Ready":  {
+                                                                                         "value":  true,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.Active_Runout_Ready":  {
+                                                                                          "value":  true,
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                      },
+                                                "GVL_BenchRead.Active_Belt_SpeedActual":  {
+                                                                                              "value":  0,
+                                                                                              "status":  "Good (0x00000000)",
+                                                                                              "good":  true,
+                                                                                              "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                              "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                              "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                          },
+                                                "GVL_BenchRead.Active_Drive_Current":  {
+                                                                                           "value":  0,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.Active_D1_Position":  {
+                                                                                         "value":  0,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.Active_D2_Position":  {
+                                                                                         "value":  0,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.Active_Encoder_Count":  {
+                                                                                           "value":  1475,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchWrite.SimRequest":  {
+                                                                                  "value":  true,
+                                                                                  "status":  "Good (0x00000000)",
+                                                                                  "good":  true,
+                                                                                  "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                  "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                  "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                              },
+                                                "GVL_BenchWrite.RequestedSlot":  {
+                                                                                     "value":  0,
+                                                                                     "status":  "Good (0x00000000)",
+                                                                                     "good":  true,
+                                                                                     "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                     "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                     "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                 },
+                                                "GVL_BenchWrite.RequestedEpoch":  {
+                                                                                      "value":  "159382090457188",
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_BenchWrite.RequestedSequence":  {
+                                                                                         "value":  "443",
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchWrite.WorkstationHeartbeat":  {
+                                                                                            "value":  "2225",
+                                                                                            "status":  "Good (0x00000000)",
+                                                                                            "good":  true,
+                                                                                            "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                            "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                            "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                        },
+                                                "GVL_BenchRead.SimApplied":  {
+                                                                                 "value":  true,
+                                                                                 "status":  "Good (0x00000000)",
+                                                                                 "good":  true,
+                                                                                 "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                 "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                 "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                             },
+                                                "GVL_BenchRead.ConnectorStale":  {
+                                                                                     "value":  true,
+                                                                                     "status":  "Good (0x00000000)",
+                                                                                     "good":  true,
+                                                                                     "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                     "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                     "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                 },
+                                                "GVL_BenchRead.ActiveSlot":  {
+                                                                                 "value":  0,
+                                                                                 "status":  "Good (0x00000000)",
+                                                                                 "good":  true,
+                                                                                 "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                 "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                 "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                             },
+                                                "GVL_BenchRead.AppliedEpoch":  {
+                                                                                   "value":  "159382090457188",
+                                                                                   "status":  "Good (0x00000000)",
+                                                                                   "good":  true,
+                                                                                   "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                   "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                   "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                               },
+                                                "GVL_BenchRead.AppliedSequence":  {
+                                                                                      "value":  "443",
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_BenchRead.PlcHeartbeat":  {
+                                                                                   "value":  "327706",
+                                                                                   "status":  "Good (0x00000000)",
+                                                                                   "good":  true,
+                                                                                   "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                   "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                   "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                               },
+                                                "GVL_BenchRead.PlcBootIdentity":  {
+                                                                                      "value":  "1710853217416",
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_BenchRead.PlcCycle":  {
+                                                                               "value":  "327706",
+                                                                               "status":  "Good (0x00000000)",
+                                                                               "good":  true,
+                                                                               "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                               "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                               "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                           },
+                                                "GVL_BenchRead.PlcTimeUs":  {
+                                                                                "value":  "1717524703384",
+                                                                                "status":  "Good (0x00000000)",
+                                                                                "good":  true,
+                                                                                "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                            },
+                                                "GVL_BenchRead.AppliedCommitCount":  {
+                                                                                         "value":  "2215",
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.DuplicateCommitCount":  {
+                                                                                           "value":  "0",
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.StaleCommitCount":  {
+                                                                                       "value":  "0",
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                   },
+                                                "GVL_BenchRead.SkippedSequenceCount":  {
+                                                                                           "value":  "0",
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                       },
+                                                "GVL_BenchRead.InvalidSlotCount":  {
+                                                                                       "value":  "0",
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                   },
+                                                "GVL_BenchRead.InvalidPayloadCount":  {
+                                                                                          "value":  "0",
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                      },
+                                                "GVL_BenchRead.SlotMetadataMismatchCount":  {
+                                                                                                "value":  "0",
+                                                                                                "status":  "Good (0x00000000)",
+                                                                                                "good":  true,
+                                                                                                "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                                "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                                "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                            },
+                                                "GVL_BenchRead.EpochRejectedCount":  {
+                                                                                         "value":  "0",
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.SessionResetCount":  {
+                                                                                        "value":  "10",
+                                                                                        "status":  "Good (0x00000000)",
+                                                                                        "good":  true,
+                                                                                        "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                        "serverTimestamp":  "2026-11-03T03:37:53.236Z",
+                                                                                        "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                    },
+                                                "GVL_BenchRead.Motor_RunCmd":  {
+                                                                                   "value":  false,
+                                                                                   "status":  "Good (0x00000000)",
+                                                                                   "good":  true,
+                                                                                   "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                               },
+                                                "GVL_BenchRead.D1_ExtendCmd":  {
+                                                                                   "value":  false,
+                                                                                   "status":  "Good (0x00000000)",
+                                                                                   "good":  true,
+                                                                                   "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                               },
+                                                "GVL_BenchRead.D2_ExtendCmd":  {
+                                                                                   "value":  false,
+                                                                                   "status":  "Good (0x00000000)",
+                                                                                   "good":  true,
+                                                                                   "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                               },
+                                                "GVL_BenchRead.StackLight_Red":  {
+                                                                                     "value":  true,
+                                                                                     "status":  "Good (0x00000000)",
+                                                                                     "good":  true,
+                                                                                     "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                     "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                     "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                 },
+                                                "GVL_BenchRead.StackLight_Green":  {
+                                                                                       "value":  false,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                   },
+                                                "GVL_BenchRead.OutputCaptureCycle":  {
+                                                                                         "value":  "327706",
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                     },
+                                                "GVL_BenchRead.OutputCaptureTimeUs":  {
+                                                                                          "value":  "1717524703384",
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                      },
+                                                "GVL_DemoWrite.StartSequence":  {
+                                                                                    "value":  6,
+                                                                                    "status":  "Good (0x00000000)",
+                                                                                    "good":  true,
+                                                                                    "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                },
+                                                "GVL_DemoWrite.StopSequence":  {
+                                                                                   "value":  3,
+                                                                                   "status":  "Good (0x00000000)",
+                                                                                   "good":  true,
+                                                                                   "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                   "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                               },
+                                                "GVL_DemoWrite.ResetSequence":  {
+                                                                                    "value":  9,
+                                                                                    "status":  "Good (0x00000000)",
+                                                                                    "good":  true,
+                                                                                    "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                },
+                                                "GVL_DemoWrite.AutoRequest":  {
+                                                                                  "value":  true,
+                                                                                  "status":  "Good (0x00000000)",
+                                                                                  "good":  true,
+                                                                                  "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                  "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                  "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                              },
+                                                "GVL_DemoWrite.OfferSequence":  {
+                                                                                    "value":  6,
+                                                                                    "status":  "Good (0x00000000)",
+                                                                                    "good":  true,
+                                                                                    "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                },
+                                                "GVL_DemoWrite.OfferItemId":  {
+                                                                                  "value":  501,
+                                                                                  "status":  "Good (0x00000000)",
+                                                                                  "good":  true,
+                                                                                  "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                  "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                  "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                              },
+                                                "GVL_DemoWrite.OfferRoute":  {
+                                                                                 "value":  1,
+                                                                                 "status":  "Good (0x00000000)",
+                                                                                 "good":  true,
+                                                                                 "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                 "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                 "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                             },
+                                                "GVL_DemoWrite.CompletionAck":  {
+                                                                                    "value":  8,
+                                                                                    "status":  "Good (0x00000000)",
+                                                                                    "good":  true,
+                                                                                    "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                    "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                },
+                                                "GVL_DemoRead.BuildId":  {
+                                                                             "value":  8001,
+                                                                             "status":  "Good (0x00000000)",
+                                                                             "good":  true,
+                                                                             "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                             "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                             "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                         },
+                                                "GVL_DemoRead.InterfaceVersion":  {
+                                                                                      "value":  1,
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.237Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.241Z"
+                                                                                  },
+                                                "GVL_DemoRead.Status.Mode":  {
+                                                                                 "value":  3,
+                                                                                 "status":  "Good (0x00000000)",
+                                                                                 "good":  true,
+                                                                                 "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                 "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                 "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                             },
+                                                "GVL_DemoRead.Status.ModeText":  {
+                                                                                     "value":  "Faulted",
+                                                                                     "status":  "Good (0x00000000)",
+                                                                                     "good":  true,
+                                                                                     "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                     "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                     "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                 },
+                                                "GVL_DemoRead.Status.FaultCode":  {
+                                                                                      "value":  23,
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                  },
+                                                "GVL_DemoRead.Status.FaultText":  {
+                                                                                      "value":  "D1 extend feedback timeout",
+                                                                                      "status":  "Good (0x00000000)",
+                                                                                      "good":  true,
+                                                                                      "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                      "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                      "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                  },
+                                                "GVL_DemoRead.Status.ExceptionCode":  {
+                                                                                          "value":  0,
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                      },
+                                                "GVL_DemoRead.Status.ExceptionText":  {
+                                                                                          "value":  "",
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                      },
+                                                "GVL_DemoRead.Status.Motor_RunCmd":  {
+                                                                                         "value":  false,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.D1_ExtendCmd":  {
+                                                                                         "value":  false,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.D2_ExtendCmd":  {
+                                                                                         "value":  false,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.StackLight_Red":  {
+                                                                                           "value":  true,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                       },
+                                                "GVL_DemoRead.Status.StackLight_Green":  {
+                                                                                             "value":  false,
+                                                                                             "status":  "Good (0x00000000)",
+                                                                                             "good":  true,
+                                                                                             "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                             "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                             "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                         },
+                                                "GVL_DemoRead.Status.ReleaseReady":  {
+                                                                                         "value":  false,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.ItemActive":  {
+                                                                                       "value":  false,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                   },
+                                                "GVL_DemoRead.Status.ActiveItemId":  {
+                                                                                         "value":  501,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.RequestedRoute":  {
+                                                                                           "value":  1,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                       },
+                                                "GVL_DemoRead.Status.EffectiveRoute":  {
+                                                                                           "value":  1,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                       },
+                                                "GVL_DemoRead.Status.ActualExit":  {
+                                                                                       "value":  0,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                   },
+                                                "GVL_DemoRead.Status.Disposition":  {
+                                                                                        "value":  4,
+                                                                                        "status":  "Good (0x00000000)",
+                                                                                        "good":  true,
+                                                                                        "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                        "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                        "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                    },
+                                                "GVL_DemoRead.Status.OfferAckSequence":  {
+                                                                                             "value":  6,
+                                                                                             "status":  "Good (0x00000000)",
+                                                                                             "good":  true,
+                                                                                             "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                             "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                             "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                         },
+                                                "GVL_DemoRead.Status.OfferAckItemId":  {
+                                                                                           "value":  501,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                       },
+                                                "GVL_DemoRead.Status.OfferAccepted":  {
+                                                                                          "value":  true,
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                      },
+                                                "GVL_DemoRead.Status.OfferReason":  {
+                                                                                        "value":  0,
+                                                                                        "status":  "Good (0x00000000)",
+                                                                                        "good":  true,
+                                                                                        "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                        "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                        "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                    },
+                                                "GVL_DemoRead.Status.OfferPending":  {
+                                                                                         "value":  false,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.CompletionSequence":  {
+                                                                                               "value":  9,
+                                                                                               "status":  "Good (0x00000000)",
+                                                                                               "good":  true,
+                                                                                               "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                               "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                               "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                           },
+                                                "GVL_DemoRead.Status.CompletionPending":  {
+                                                                                              "value":  true,
+                                                                                              "status":  "Good (0x00000000)",
+                                                                                              "good":  true,
+                                                                                              "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                              "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                              "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                          },
+                                                "GVL_DemoRead.Status.CompletionItemId":  {
+                                                                                             "value":  501,
+                                                                                             "status":  "Good (0x00000000)",
+                                                                                             "good":  true,
+                                                                                             "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                             "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                             "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                         },
+                                                "GVL_DemoRead.Status.CompletionRoute":  {
+                                                                                            "value":  1,
+                                                                                            "status":  "Good (0x00000000)",
+                                                                                            "good":  true,
+                                                                                            "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                            "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                            "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                        },
+                                                "GVL_DemoRead.Status.CompletionExit":  {
+                                                                                           "value":  0,
+                                                                                           "status":  "Good (0x00000000)",
+                                                                                           "good":  true,
+                                                                                           "sourceTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                           "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                       },
+                                                "GVL_DemoRead.Status.CompletionDisposition":  {
+                                                                                                  "value":  4,
+                                                                                                  "status":  "Good (0x00000000)",
+                                                                                                  "good":  true,
+                                                                                                  "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                                  "serverTimestamp":  "2026-11-03T03:37:53.238Z",
+                                                                                                  "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                              },
+                                                "GVL_DemoRead.Status.CountExitA":  {
+                                                                                       "value":  4,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                   },
+                                                "GVL_DemoRead.Status.CountExitB":  {
+                                                                                       "value":  0,
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                   },
+                                                "GVL_DemoRead.Status.CountRunout":  {
+                                                                                        "value":  4,
+                                                                                        "status":  "Good (0x00000000)",
+                                                                                        "good":  true,
+                                                                                        "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                        "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                        "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                    },
+                                                "GVL_DemoRead.Status.CountMisroute":  {
+                                                                                          "value":  0,
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                      },
+                                                "GVL_DemoRead.Status.CountFaulted":  {
+                                                                                         "value":  1,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.StartAck":  {
+                                                                                     "value":  6,
+                                                                                     "status":  "Good (0x00000000)",
+                                                                                     "good":  true,
+                                                                                     "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                     "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                     "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                 },
+                                                "GVL_DemoRead.Status.StopAck":  {
+                                                                                    "value":  3,
+                                                                                    "status":  "Good (0x00000000)",
+                                                                                    "good":  true,
+                                                                                    "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                    "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                    "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                },
+                                                "GVL_DemoRead.Status.ResetAck":  {
+                                                                                     "value":  9,
+                                                                                     "status":  "Good (0x00000000)",
+                                                                                     "good":  true,
+                                                                                     "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                     "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                     "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                 },
+                                                "GVL_DemoRead.Status.StartAccepted":  {
+                                                                                          "value":  true,
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                      },
+                                                "GVL_DemoRead.Status.ResetAccepted":  {
+                                                                                          "value":  true,
+                                                                                          "status":  "Good (0x00000000)",
+                                                                                          "good":  true,
+                                                                                          "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                          "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                          "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                      },
+                                                "GVL_DemoRead.Status.EncoderDelta":  {
+                                                                                         "value":  0,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.BeltSpeedMps":  {
+                                                                                         "value":  0,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.TravelMetres":  {
+                                                                                         "value":  21474837.95500001,
+                                                                                         "status":  "Good (0x00000000)",
+                                                                                         "good":  true,
+                                                                                         "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                         "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                     },
+                                                "GVL_DemoRead.Status.ScanTimeUs":  {
+                                                                                       "value":  "1717524724143",
+                                                                                       "status":  "Good (0x00000000)",
+                                                                                       "good":  true,
+                                                                                       "sourceTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                       "serverTimestamp":  "2026-11-03T03:37:53.239Z",
+                                                                                       "receivedAtIso":  "2026-11-03T03:37:53.243Z"
+                                                                                   }
+                                            }
+                             },
+                "ownership":  {
+                                  "commandsEnabled":  false,
+                                  "policy":  "disabled",
+                                  "reasons":  [
+                                                  "HMI started with commands disabled (read-only)"
+                                              ],
+                                  "owners":  [
+
+                                             ]
+                              },
+                "commands":  [
+
+                             ],
+                "preconditions":  {
+                                      "start":  [
+                                                    {
+                                                        "id":  "mode",
+                                                        "label":  "Mode is Stopped",
+                                                        "met":  false,
+                                                        "observed":  "Mode=Faulted"
+                                                    },
+                                                    {
+                                                        "id":  "auto",
+                                                        "label":  "Auto request is on",
+                                                        "met":  true,
+                                                        "observed":  "AutoRequest=true"
+                                                    },
+                                                    {
+                                                        "id":  "overload",
+                                                        "label":  "Drive overload clear",
+                                                        "met":  true,
+                                                        "observed":  "Drive_Overload=false"
+                                                    },
+                                                    {
+                                                        "id":  "d1_home",
+                                                        "label":  "D1 home, not extended",
+                                                        "met":  true,
+                                                        "observed":  "home=true ext=false"
+                                                    },
+                                                    {
+                                                        "id":  "d2_home",
+                                                        "label":  "D2 home, not extended",
+                                                        "met":  true,
+                                                        "observed":  "home=true ext=false"
+                                                    },
+                                                    {
+                                                        "id":  "runout",
+                                                        "label":  "Runout ready",
+                                                        "met":  true,
+                                                        "observed":  "Runout_Ready=true"
+                                                    },
+                                                    {
+                                                        "id":  "beams",
+                                                        "label":  "All photo-eyes clear",
+                                                        "met":  true,
+                                                        "observed":  "clear"
+                                                    },
+                                                    {
+                                                        "id":  "completion",
+                                                        "label":  "Completion acknowledged by WCS",
+                                                        "met":  false,
+                                                        "observed":  "CompletionPending=true"
+                                                    }
+                                                ],
+                                      "reset":  [
+                                                    {
+                                                        "id":  "mode",
+                                                        "label":  "Mode is not Auto or Stopping",
+                                                        "met":  true,
+                                                        "observed":  "Mode=Faulted"
+                                                    },
+                                                    {
+                                                        "id":  "overload",
+                                                        "label":  "Drive overload clear",
+                                                        "met":  true,
+                                                        "observed":  "Drive_Overload=false"
+                                                    },
+                                                    {
+                                                        "id":  "d1_home",
+                                                        "label":  "D1 home, not extended",
+                                                        "met":  true,
+                                                        "observed":  "home=true ext=false"
+                                                    },
+                                                    {
+                                                        "id":  "d2_home",
+                                                        "label":  "D2 home, not extended",
+                                                        "met":  true,
+                                                        "observed":  "home=true ext=false"
+                                                    },
+                                                    {
+                                                        "id":  "runout",
+                                                        "label":  "Runout ready",
+                                                        "met":  true,
+                                                        "observed":  "Runout_Ready=true"
+                                                    },
+                                                    {
+                                                        "id":  "drive",
+                                                        "label":  "Drive running feedback off",
+                                                        "met":  true,
+                                                        "observed":  "Drive_RunningFB=false"
+                                                    },
+                                                    {
+                                                        "id":  "beams",
+                                                        "label":  "All photo-eyes clear",
+                                                        "met":  true,
+                                                        "observed":  "clear"
+                                                    },
+                                                    {
+                                                        "id":  "completion",
+                                                        "label":  "Completion acknowledged by WCS",
+                                                        "met":  false,
+                                                        "observed":  "CompletionPending=true"
+                                                    }
+                                                ]
+                                  },
+                "alarms":  {
+                               "active":  [
+                                              {
+                                                  "id":  "alarm:1710853217416:1",
+                                                  "kind":  "fault",
+                                                  "code":  23,
+                                                  "plcText":  "D1 extend feedback timeout",
+                                                  "cause":  "D1 extended feedback was absent 1200 ms after the extend command.",
+                                                  "response":  "Faulted; drive and divert commands removed; active carton aborted.",
+                                                  "state":  "active",
+                                                  "firstObservedAtIso":  "2026-11-03T03:18:01.495Z",
+                                                  "firstObservedBasis":  "transition_observed",
+                                                  "onsetAfterIso":  "2026-11-03T03:18:00.444Z",
+                                                  "plcSourceTimestamp":  "2026-11-03T03:18:01.481Z",
+                                                  "bootIdentity":  "1710853217416",
+                                                  "serviceSessionId":  "hmi-svc-2026-11-03T03-15-09-626Z-a478b218",
+                                                  "related":  {
+                                                                  "operation":  [
+                                                                                    "d1"
+                                                                                ],
+                                                                  "engineering":  [
+                                                                                      "D1_ExtendCmd",
+                                                                                      "D1_ExtendedFB",
+                                                                                      "D1_HomeFB"
+                                                                                  ]
+                                                              }
+                                              }
+                                          ],
+                               "recent":  [
+                                              {
+                                                  "id":  "alarm:1710853217416:1",
+                                                  "kind":  "fault",
+                                                  "code":  23,
+                                                  "plcText":  "D1 extend feedback timeout",
+                                                  "cause":  "D1 extended feedback was absent 1200 ms after the extend command.",
+                                                  "response":  "Faulted; drive and divert commands removed; active carton aborted.",
+                                                  "state":  "active",
+                                                  "firstObservedAtIso":  "2026-11-03T03:18:01.495Z",
+                                                  "firstObservedBasis":  "transition_observed",
+                                                  "onsetAfterIso":  "2026-11-03T03:18:00.444Z",
+                                                  "plcSourceTimestamp":  "2026-11-03T03:18:01.481Z",
+                                                  "bootIdentity":  "1710853217416",
+                                                  "serviceSessionId":  "hmi-svc-2026-11-03T03-15-09-626Z-a478b218",
+                                                  "related":  {
+                                                                  "operation":  [
+                                                                                    "d1"
+                                                                                ],
+                                                                  "engineering":  [
+                                                                                      "D1_ExtendCmd",
+                                                                                      "D1_ExtendedFB",
+                                                                                      "D1_HomeFB"
+                                                                                  ]
+                                                              }
+                                              }
+                                          ],
+                               "total":  1,
+                               "persistence":  "Persisted append-only at C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\live-host\\live\\alarm-history.jsonl. HMI service wall clock at receipt of the OPC UA read that first showed the state. Onset lies after the previous good read (onsetAfterIso). OPC source timestamps are server sampling times, not PLC fault-onset times."
+                           },
+                "clients":  [
+                                {
+                                    "clientSessionId":  "hmi-client-1-ee1c8f63",
+                                    "label":  "portal",
+                                    "connectedAtIso":  "2026-11-03T03:15:19.404Z",
+                                    "lastSeenAtIso":  "2026-11-03T03:37:53.287Z",
+                                    "viewport":  {
+                                                     "width":  1280,
+                                                     "height":  800
+                                                 }
+                                }
+                            ]
+            },
+    "observedAtIso":  "2026-11-03T03:37:53.7844438+00:00"
+}

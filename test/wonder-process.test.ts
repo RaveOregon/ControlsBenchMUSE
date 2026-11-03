@@ -171,6 +171,25 @@ test("provider campaign through the Wonder factory: host ledger, original IDs/re
   } finally { await session?.dispose(); rmSync(dir, { recursive: true, force: true }); }
 });
 
+test("slow I/O consumes its cadence period without an extra sleep, burst starts or relaxed observation bound",async()=>{
+  const h=await harness('slow-io-cadence');
+  try {
+    await h.s.driver.initialize();
+    await h.fixture({action:'delayNextWrite',ms:220,match:'GVL_BenchWrite.RequestedSequence'});
+    h.s.driver.start(true);
+    await until(()=>h.s.driver.quarantined||h.childStream().filter(r=>r.record.kind==='tick'&&r.record.advanced).length>=6,'six advancing ticks after delayed commit');
+    await h.s.driver.hold(true);
+    assert.equal(h.s.driver.quarantined,false,h.s.driver.failure?.message??'Child remained healthy');
+    const ticks=h.childStream().filter(r=>r.record.kind==='tick'&&r.record.advanced);
+    assert(ticks.some(r=>r.record.tickMs>=200),'The test exercised genuinely slow transport');
+    assert(ticks.every(r=>r.record.stepMs<=300),'The existing 300 ms observation bound remains enforced');
+    const starts=ticks.map(r=>r.atMonotonicMs-r.record.tickMs);
+    assert(starts.slice(1).every((t,i)=>t-starts[i]>=90),'No catch-up burst: measured starts remain spaced by the 100 ms cadence (10 ms journal tolerance)');
+    measure('slow-io-cadence',{ticks:ticks.length,maxTickMs:Math.max(...ticks.map(r=>r.record.tickMs)),maxStepMs:Math.max(...ticks.map(r=>r.record.stepMs)),minimumMeasuredStartGapMs:Math.min(...starts.slice(1).map((t,i)=>t-starts[i]))});
+    keepSample('slow-io-cadence',h.dir);
+  }finally{await h.cleanup();}
+});
+
 test("parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz", async () => {
   const h = await harness("stall");
   let stall = { start: 0, end: 0 };

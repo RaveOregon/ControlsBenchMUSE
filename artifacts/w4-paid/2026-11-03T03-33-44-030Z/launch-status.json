@@ -1,0 +1,10 @@
+﻿{
+    "priorRecoveryDirectory":  "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z\\live-host\\runs\\2026-11-03T03-15-09-629Z-live_plc\\portal-host\\portal-20261103031655278-1\\aborted-d1-jam-recovery-2026-11-03T03-38-38-390Z",
+    "hostPid":  31084,
+    "sourceCommit":  "c37a7fbab1a73b36123f9ba6a0c4f1a044678413",
+    "phase":  "refused-or-failed",
+    "modelCalls":  0,
+    "packetSha256":  "a20c86ee6e5f96b865f44ce5e6ff956ee6f5b6bbda4df5d34af67f2ab66dc133",
+    "updatedAtIso":  "2026-11-03T03:39:38.7631252+00:00",
+    "error":  "Zero-model bench check failed; no paid Start permitted. Preserve held-state evidence."
+}

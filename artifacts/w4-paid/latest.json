@@ -1,11 +1,12 @@
 {
-  "status": "transport-proof-ready-for-bench-check",
-  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-12-50-682Z",
-  "packetSha256": "ef1c6c65a99547eb72f9c73bd502ccdfdacdab408d3e4b7c02fe7f7a6708c329",
-  "previousConservativeUsd": 27,
-  "maximumNewConservativeUsd": 60,
-  "aggregateConservativeCeilingUsd": 87,
+  "status": "direct-generation-ready-for-bench-check",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-33-44-030Z",
+  "packetSha256": "a20c86ee6e5f96b865f44ce5e6ff956ee6f5b6bbda4df5d34af67f2ab66dc133",
+  "previousConservativeUsd": 45,
+  "maximumNewConservativeUsd": 100,
+  "aggregateConservativeCeilingUsd": 145,
   "authorizedCreditPoolUsd": 150,
   "maxTransientRetries": 5,
-  "retryDecisionTransport": true
+  "retryDecisionTransport": true,
+  "admissionMode": "context_ceiling"
 }

@@ -101,6 +101,23 @@ export function abortedJamPlan(record,current) {
   return [{op:'stop'},{op:'fresh_world'},{op:'completion_ack',sequence:c('CompletionSequence')},{op:'reset'},{op:'await_stopped'}];
 }
 
+export function startupFeedbackPlan(record,current) {
+  const stock=classifyHeldState(record,current);
+  assert.deepEqual(stock.refusals.filter(x=>x!=='held state matches a recorded W4 reconciliation path'),[]);
+  assert.equal(stock.matchedCommit,'last_acknowledged');assert.equal(record.inFlightCommit,null);assert.deepEqual(record.inFlightCommands,[]);
+  assert.deepEqual(record.outstandingWrites.atClose,[]);assert.equal(record.outstandingWrites.childClosed,true);
+  assert.deepEqual(record.world.cartons,[]);assert.deepEqual(record.world.injectedFaults,[]);
+  const r=record.lastObservation.values,c=current.observation.values;
+  assert.equal(r['controller.Mode'],1);assert.equal(r.Motor_RunCmd,true);assert.equal(r['controller.FaultCode'],0);
+  assert.equal(r['controller.ItemActive'],false);assert.equal(r['controller.CompletionPending'],false);assert.equal(r['controller.StartAccepted'],true);
+  assert.equal(c['controller.Mode'],3);assert.equal(c['controller.FaultCode'],11);assert.equal(c.Motor_RunCmd,false);
+  assert.equal(c['controller.ItemActive'],false);assert.equal(c['controller.CompletionPending'],false);assert.equal(c['controller.ExceptionCode'],0);
+  const allowed=new Set(['Motor_RunCmd','StackLight_Red','StackLight_Green','controller.Mode','controller.ModeText','controller.FaultCode','controller.FaultText']);
+  assert(Object.keys(stock.differences).every(k=>allowed.has(k)),'Only the recorded missing-start-feedback reaction may settle after the run');
+  for(const[k,value]of Object.entries({...AT_REST,Drive_Overload:false,Belt_SpeedActual:0,Drive_Current:0}))assert.equal(current.activeImage[k],value);
+  return [{op:'stop'},{op:'fresh_world'},{op:'reset'},{op:'await_stopped'}];
+}
+
 export async function executeCompletedHold(connection,plan,journal) {
   const {connector}=connection;
   let image;
@@ -129,9 +146,9 @@ export async function executeCompletedHold(connection,plan,journal) {
 }
 
 async function main() {
-  const {positionals,values}=parseArgs({allowPositionals:true,options:{reconcile:{type:'boolean'},authorize:{type:'string'},'feedback-loss':{type:'boolean'},'cleared-contradiction':{type:'boolean'},'pending-runout':{type:'boolean'},'aborted-d1-jam':{type:'boolean'}}});
-  const planner=values['aborted-d1-jam']?abortedJamPlan:values['pending-runout']?pendingRunoutPlan:values['cleared-contradiction']?clearedContradictionPlan:values['feedback-loss']?feedbackLossPlan:completedHoldPlan;
-  const recoveryKind=values['aborted-d1-jam']?'aborted-d1-jam':values['pending-runout']?'pending-runout':values['cleared-contradiction']?'cleared-contradiction':values['feedback-loss']?'feedback-loss':'completed';
+  const {positionals,values}=parseArgs({allowPositionals:true,options:{reconcile:{type:'boolean'},authorize:{type:'string'},'feedback-loss':{type:'boolean'},'cleared-contradiction':{type:'boolean'},'pending-runout':{type:'boolean'},'aborted-d1-jam':{type:'boolean'},'startup-feedback':{type:'boolean'}}});
+  const planner=values['startup-feedback']?startupFeedbackPlan:values['aborted-d1-jam']?abortedJamPlan:values['pending-runout']?pendingRunoutPlan:values['cleared-contradiction']?clearedContradictionPlan:values['feedback-loss']?feedbackLossPlan:completedHoldPlan;
+  const recoveryKind=values['startup-feedback']?'startup-feedback':values['aborted-d1-jam']?'aborted-d1-jam':values['pending-runout']?'pending-runout':values['cleared-contradiction']?'cleared-contradiction':values['feedback-loss']?'feedback-loss':'completed';
   assert.equal(positionals.length,1);
   const reference=resolve(positionals[0]),prior=json(join(reference,'result.json')),record=json(join(reference,'held-state.json'));
   const heldSha=hashFile(join(reference,'held-state.json'));

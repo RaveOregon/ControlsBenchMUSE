@@ -1,0 +1,568 @@
+TAP version 13
+# Subtest: M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action
+ok 1 - M9-B: actual coordinator + preserved generated world + fake provider acknowledge every action
+  ---
+  duration_ms: 278.0146
+  type: 'test'
+  ...
+# Subtest: M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it
+ok 2 - M9-C: provider creates a genuinely new evidence-dependent follow-up and runs it
+  ---
+  duration_ms: 82.3895
+  type: 'test'
+  ...
+# Subtest: agent is asynchronous: pending model decision never clocks raw I/O
+ok 3 - agent is asynchronous: pending model decision never clocks raw I/O
+  ---
+  duration_ms: 41.4919
+  type: 'test'
+  ...
+# Subtest: automatic 10 Hz schedule remains independent of model latency
+ok 4 - automatic 10 Hz schedule remains independent of model latency
+  ---
+  duration_ms: 41.8871
+  type: 'test'
+  ...
+# Subtest: elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap
+ok 5 - elapsed live stepping follows wall time, excludes Pause, and holds before an excessive sensor-observation gap
+  ---
+  duration_ms: 25.1282
+  type: 'test'
+  ...
+# Subtest: M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate
+ok 6 - M9-D: Pause freezes time and image; resume; Stop finalizes and holds; Reset zeros; Exit is separate
+  ---
+  duration_ms: 30.6882
+  type: 'test'
+  ...
+# Subtest: stale connector rejects new application, cancels waits, holds last confirmed image
+ok 7 - stale connector rejects new application, cancels waits, holds last confirmed image
+  ---
+  duration_ms: 25.2197
+  type: 'test'
+  ...
+# Subtest: hung connector is bounded, quarantined and never retried
+ok 8 - hung connector is bounded, quarantined and never retried
+  ---
+  duration_ms: 35.0351
+  type: 'test'
+  ...
+# Subtest: model timeout settles reservation once, stops reasoning, and preserves world
+ok 9 - model timeout settles reservation once, stops reasoning, and preserves world
+  ---
+  duration_ms: 26.956
+  type: 'test'
+  ...
+# Subtest: hard budget at $5 prevents a sixth call, warns at $3, holds state
+ok 10 - hard budget at $5 prevents a sixth call, warns at $3, holds state
+  ---
+  duration_ms: 44.5467
+  type: 'test'
+  ...
+# Subtest: budget admission checks per request, check, repair, session; charged overrun is visible
+ok 11 - budget admission checks per request, check, repair, session; charged overrun is visible
+  ---
+  duration_ms: 2.1981
+  type: 'test'
+  ...
+# Subtest: Stop during a hung request settles costs and finalizes without hanging or applying late output
+ok 12 - Stop during a hung request settles costs and finalizes without hanging or applying late output
+  ---
+  duration_ms: 24.0074
+  type: 'test'
+  ...
+# Subtest: Stop drains bounded initialization before finalizing and never starts the campaign afterward
+ok 13 - Stop drains bounded initialization before finalizing and never starts the campaign afterward
+  ---
+  duration_ms: 27.4352
+  type: 'test'
+  ...
+# Subtest: every bounded tool validates its envelope; unsupported capabilities are explicit
+ok 14 - every bounded tool validates its envelope; unsupported capabilities are explicit
+  ---
+  duration_ms: 35.5486
+  type: 'test'
+  ...
+# Subtest: requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing
+ok 15 - requested, applied, rejected, timed_out, stale, inconclusive action contract and pairing
+  ---
+  duration_ms: 9.0912
+  type: 'test'
+  ...
+# Subtest: every event schema rejects missing fields and unknown event data
+ok 16 - every event schema rejects missing fields and unknown event data
+  ---
+  duration_ms: 14.0013
+  type: 'test'
+  ...
+# Subtest: append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated
+ok 17 - append-only persisted ledger: golden replay, tampering/gaps/truncation rejected, returned copies isolated
+  ---
+  duration_ms: 838.0755
+  type: 'test'
+  ...
+# Subtest: blind context excludes injector truth, source controls, raw-effect causes, and prior author history
+ok 18 - blind context excludes injector truth, source controls, raw-effect causes, and prior author history
+  ---
+  duration_ms: 39.26
+  type: 'test'
+  ...
+# Subtest: finding evidence is exact PLC observation, never simulator truth or invented IDs
+ok 19 - finding evidence is exact PLC observation, never simulator truth or invented IDs
+  ---
+  duration_ms: 29.882
+  type: 'test'
+  ...
+# Subtest: M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements
+ok 20 - M9-E: same ledger and runtime consume all 88 preserved flattened M7 acknowledgements
+  ---
+  duration_ms: 1646.1593
+  type: 'test'
+  ...
+# Subtest: flattened event adapter rejects a nested receipt and forged derived output
+ok 21 - flattened event adapter rejects a nested receipt and forged derived output
+  ---
+  duration_ms: 29.3309
+  type: 'test'
+  ...
+# Subtest: valid tools: inspect, known fault/clear, branch, HMI references, wait, reset
+ok 22 - valid tools: inspect, known fault/clear, branch, HMI references, wait, reset
+  ---
+  duration_ms: 47.5316
+  type: 'test'
+  ...
+# Subtest: operator Stop interrupts a pending world action and finalizes exactly one outcome
+ok 23 - operator Stop interrupts a pending world action and finalizes exactly one outcome
+  ---
+  duration_ms: 19.9648
+  type: 'test'
+  ...
+# Subtest: stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently
+ok 24 - stale decision, duplicate action, malformed/repeating provider and failed startup cannot spend/retry silently
+  ---
+  duration_ms: 90.8364
+  type: 'test'
+  ...
+# Subtest: Wonder is opt-in, single-call and bounded; stub transport only
+ok 25 - Wonder is opt-in, single-call and bounded; stub transport only
+  ---
+  duration_ms: 23.4058
+  type: 'test'
+  ...
+# Subtest: W4 integration: native provider framing, real child, host ledger/HMI, tools, leases and observation-dependent fixture investigation
+ok 26 - W4 integration: native provider framing, real child, host ledger/HMI, tools, leases and observation-dependent fixture investigation
+  ---
+  duration_ms: 3521.9467
+  type: 'test'
+  ...
+# Subtest: W1: native multi-turn Responses decisions cause tools, exact observations, novel follow-up and shared report
+ok 27 - W1: native multi-turn Responses decisions cause tools, exact observations, novel follow-up and shared report
+  ---
+  duration_ms: 620.5252
+  type: 'test'
+  ...
+# Subtest: W1: evidence-dependent choice changes when the actual observation changes
+ok 28 - W1: evidence-dependent choice changes when the actual observation changes
+  ---
+  duration_ms: 115.3165
+  type: 'test'
+  ...
+# Subtest: W1: malformed, incomplete, text, unsupported and repeated model responses preserve raw data before rejecting
+ok 29 - W1: malformed, incomplete, text, unsupported and repeated model responses preserve raw data before rejecting
+  ---
+  duration_ms: 193.7281
+  type: 'test'
+  ...
+# Subtest: W1: request admission counts stored history and forbids generation over $1
+ok 30 - W1: request admission counts stored history and forbids generation over $1
+  ---
+  duration_ms: 31.1094
+  type: 'test'
+  ...
+# Subtest: W1: stale decisions and duplicate actions cause no repeated effect
+ok 31 - W1: stale decisions and duplicate actions cause no repeated effect
+  ---
+  duration_ms: 44.0547
+  type: 'test'
+  ...
+# Subtest: W1: timeout/cancelled/failed calls retain a full conservative charge and ignore late effects
+ok 32 - W1: timeout/cancelled/failed calls retain a full conservative charge and ignore late effects
+  ---
+  duration_ms: 124.6953
+  type: 'test'
+  ...
+# Subtest: W1: warning/hard-stop refuses a sixth call and retains valid evidence
+ok 33 - W1: warning/hard-stop refuses a sixth call and retains valid evidence
+  ---
+  duration_ms: 160.9064
+  type: 'test'
+  ...
+# Subtest: W1: oversized provider errors still settle the charge and hold without another turn
+ok 34 - W1: oversized provider errors still settle the charge and hold without another turn
+  ---
+  duration_ms: 88.5772
+  type: 'test'
+  ...
+# Subtest: W1: durable session charges span campaigns, lock concurrency, and retain crash reservations
+ok 35 - W1: durable session charges span campaigns, lock concurrency, and retain crash reservations
+  ---
+  duration_ms: 68.207
+  type: 'test'
+  ...
+# Subtest: W1: unsupported claims, hidden truth and opaque endpoints cannot enter model authority
+ok 36 - W1: unsupported claims, hidden truth and opaque endpoints cannot enter model authority
+  ---
+  duration_ms: 28.0539
+  type: 'test'
+  ...
+# Subtest: W1: explicit hold/continue/condition-deadline lease contracts, revision checks and expiry
+ok 37 - W1: explicit hold/continue/condition-deadline lease contracts, revision checks and expiry
+  ---
+  duration_ms: 252.6608
+  type: 'test'
+  ...
+# Subtest: W2: import all recorded M10 acknowledgements, exact lineage, compact context, report and no physical effects
+ok 38 - W2: import all recorded M10 acknowledgements, exact lineage, compact context, report and no physical effects
+  ---
+  duration_ms: 52992.1525
+  type: 'test'
+  ...
+# Subtest: effect-free invalid response gets paid fresh-turn feedback with exact response lineage and no replayed effects
+ok 39 - effect-free invalid response gets paid fresh-turn feedback with exact response lineage and no replayed effects
+  ---
+  duration_ms: 43.8112
+  type: 'test'
+  ...
+# Subtest: immutable-plan rejection occurs before ledger/effect changes and model can correct it on a later turn
+ok 40 - immutable-plan rejection occurs before ledger/effect changes and model can correct it on a later turn
+  ---
+  duration_ms: 12.1155
+  type: 'test'
+  ...
+# Subtest: a failure after any decision ledger changes never triggers correction/replay
+ok 41 - a failure after any decision ledger changes never triggers correction/replay
+  ---
+  duration_ms: 4.2923
+  type: 'test'
+  ...
+# Subtest: validation repair is off by default and bounded when enabled; no hidden automatic actions
+ok 42 - validation repair is off by default and bounded when enabled; no hidden automatic actions
+  ---
+  duration_ms: 13.6131
+  type: 'test'
+  ...
+# Subtest: expanded durable allowance preserves every historical charge, crosses fifteen and refuses its exact configured ceiling
+ok 43 - expanded durable allowance preserves every historical charge, crosses fifteen and refuses its exact configured ceiling
+  ---
+  duration_ms: 63.5888
+  type: 'test'
+  ...
+# Subtest: larger output/call configuration still refuses generation above one-dollar token admission
+ok 44 - larger output/call configuration still refuses generation above one-dollar token admission
+  ---
+  duration_ms: 4.8908
+  type: 'test'
+  ...
+# Subtest: explicit three-dollar reservations execute beyond old fifteen limit and remain durable across reopen
+ok 45 - explicit three-dollar reservations execute beyond old fifteen limit and remain durable across reopen
+  ---
+  duration_ms: 103.3403
+  type: 'test'
+  ...
+# Subtest: larger provider request admission serializes the configured output capacity and counts identical instructions
+ok 46 - larger provider request admission serializes the configured output capacity and counts identical instructions
+  ---
+  duration_ms: 4.85
+  type: 'test'
+  ...
+# Subtest: explicit factory allowance is validated before transport and defaults remain unchanged
+ok 47 - explicit factory allowance is validated before transport and defaults remain unchanged
+  ---
+  duration_ms: 1.036
+  type: 'test'
+  ...
+# Subtest: owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import
+ok 48 - owner entry pin rejects untracked, changed and redirected entries outside src/scripts before import
+  ---
+  duration_ms: 3992.7394
+  type: 'test'
+  ...
+# Subtest: W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts
+ok 49 - W4: a handoff needs exact pinned passing isolation, recovery and campaign-port artifacts
+  ---
+  duration_ms: 12.7767
+  type: 'test'
+  ...
+# Subtest: W3/W4: checkpoint cannot spend without its flag and live factory refuses a missing owner handoff
+ok 50 - W3/W4: checkpoint cannot spend without its flag and live factory refuses a missing owner handoff
+  ---
+  duration_ms: 1589.1996
+  type: 'test'
+  ...
+# Subtest: W4: injected process contract uses host ledger/HMI and provider loop with originating revisions
+ok 51 - W4: injected process contract uses host ledger/HMI and provider loop with originating revisions
+  ---
+  duration_ms: 155.0874
+  type: 'test'
+  ...
+# Subtest: construction is read-only and reports the world bytes the child actually loaded
+ok 52 - construction is read-only and reports the world bytes the child actually loaded
+  ---
+  duration_ms: 1004.7722
+  type: 'test'
+  ...
+# Subtest: provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage
+ok 53 - provider campaign through the Wonder factory: host ledger, original IDs/revisions and exact source lineage
+  ---
+  duration_ms: 1894.3293
+  type: 'test'
+  ...
+# Subtest: slow I/O consumes its cadence period without an extra sleep, burst starts or relaxed observation bound
+ok 54 - slow I/O consumes its cadence period without an extra sleep, burst starts or relaxed observation bound
+  ---
+  duration_ms: 1396.6845
+  type: 'test'
+  ...
+# Subtest: parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz
+ok 55 - parent event-loop stall: the child expires a continue lease on its own clock and keeps 10 Hz
+  ---
+  duration_ms: 2314.1507
+  type: 'test'
+  ...
+# Subtest: hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue
+ok 56 - hold lease: sampling ticks do not invalidate the turn; world time freezes while PLC scans continue
+  ---
+  duration_ms: 1495.8548
+  type: 'test'
+  ...
+# Subtest: condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence
+ok 57 - condition/deadline lease: unmet releases on return; met holds at the matching PLC evidence
+  ---
+  duration_ms: 1716.5582
+  type: 'test'
+  ...
+# Subtest: stale campaign/boundary revisions and duplicate action IDs are refused without replay
+ok 58 - stale campaign/boundary revisions and duplicate action IDs are refused without replay
+  ---
+  duration_ms: 1636.7171
+  type: 'test'
+  ...
+# Subtest: cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone
+ok 59 - cancellation: a pending control is withdrawn before any world change; a controller already in flight is reported, never undone
+  ---
+  duration_ms: 1080.1608
+  type: 'test'
+  ...
+# Subtest: source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion
+ok 60 - source stream: duplicates are dropped; missing, reordered or conflicting records quarantine without ingestion
+  ---
+  duration_ms: 4186.2159
+  type: 'test'
+  ...
+# Subtest: child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation
+ok 61 - child exit: the driver quarantines, the runtime holds and ownership stays held for reconciliation
+  ---
+  duration_ms: 1179.3126
+  type: 'test'
+  ...
+# Subtest: parent loss (steady): the child freezes world time, drains, closes and releases ownership
+ok 62 - parent loss (steady): the child freezes world time, drains, closes and releases ownership
+  ---
+  duration_ms: 1966.0438
+  type: 'test'
+  ...
+# Subtest: parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write
+ok 63 - parent loss (hang): the child freezes world time, drains, closes and retains ownership for an uncertain write
+  ---
+  duration_ms: 3394.4991
+  type: 'test'
+  ...
+# Subtest: delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release
+ok 64 - delayed write: timeout quarantines with the write uncertain, no later write, settlement recorded, then drained release
+  ---
+  duration_ms: 4152.5137
+  type: 'test'
+  ...
+# Subtest: stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough
+ok 65 - stop drains and closes; reset commits a zero image with simulation held; exit selects observed passthrough
+  ---
+  duration_ms: 5111.7138
+  type: 'test'
+  ...
+# Subtest: parent silence: the child holds the world on its own and the engineer resume continues it
+ok 66 - parent silence: the child holds the world on its own and the engineer resume continues it
+  ---
+  duration_ms: 3250.6009
+  type: 'test'
+  ...
+# Subtest: 503 retry retains the last valid response head and exact tool results, charges three distinct attempts and executes no duplicate
+ok 67 - 503 retry retains the last valid response head and exact tool results, charges three distinct attempts and executes no duplicate
+  ---
+  duration_ms: 111.4393
+  type: 'test'
+  ...
+# Subtest: first-request 503 resends semantic tools and two-attempt allowance preserves ten historical charges
+ok 68 - first-request 503 resends semantic tools and two-attempt allowance preserves ten historical charges
+  ---
+  duration_ms: 41.6842
+  type: 'test'
+  ...
+# Subtest: does not retry retry off by default
+ok 69 - does not retry retry off by default
+  ---
+  duration_ms: 5.9449
+  type: 'test'
+  ...
+# Subtest: does not retry rate limit
+ok 70 - does not retry rate limit
+  ---
+  duration_ms: 3.0251
+  type: 'test'
+  ...
+# Subtest: does not retry other HTTP error
+ok 71 - does not retry other HTTP error
+  ---
+  duration_ms: 3.0537
+  type: 'test'
+  ...
+# Subtest: does not retry partial response identity
+ok 72 - does not retry partial response identity
+  ---
+  duration_ms: 3.6619
+  type: 'test'
+  ...
+# Subtest: does not retry returned output
+ok 73 - does not retry returned output
+  ---
+  duration_ms: 3.0101
+  type: 'test'
+  ...
+# Subtest: does not retry incomplete generation
+ok 74 - does not retry incomplete generation
+  ---
+  duration_ms: 2.7229
+  type: 'test'
+  ...
+# Subtest: does not retry malformed error
+ok 75 - does not retry malformed error
+  ---
+  duration_ms: 3.5762
+  type: 'test'
+  ...
+# Subtest: does not retry long Retry-After
+ok 76 - does not retry long Retry-After
+  ---
+  duration_ms: 4.0316
+  type: 'test'
+  ...
+# Subtest: does not retry invalid Retry-After
+ok 77 - does not retry invalid Retry-After
+  ---
+  duration_ms: 4.6616
+  type: 'test'
+  ...
+# Subtest: one permitted transient retry stops on repeated 503, and runtime opt-out never schedules it
+ok 78 - one permitted transient retry stops on repeated 503, and runtime opt-out never schedules it
+  ---
+  duration_ms: 20.631
+  type: 'test'
+  ...
+# Subtest: preflight/unknown transport outcome and late cancellation never become retry candidates
+ok 79 - preflight/unknown transport outcome and late cancellation never become retry candidates
+  ---
+  duration_ms: 8.2507
+  type: 'test'
+  ...
+# Subtest: Stop during backoff aborts the wait and no second generation or action follows
+ok 80 - Stop during backoff aborts the wait and no second generation or action follows
+  ---
+  duration_ms: 9.4356
+  type: 'test'
+  ...
+# Subtest: revision change during backoff prevents generation, and final-turn/budget exhaustion never starts a retry
+ok 81 - revision change during backoff prevents generation, and final-turn/budget exhaustion never starts a retry
+  ---
+  duration_ms: 21.9892
+  type: 'test'
+  ...
+# Subtest: real isolated child establishes a fresh hold lease and keeps the image committed through 503 retry backoff
+ok 82 - real isolated child establishes a fresh hold lease and keeps the image committed through 503 retry backoff
+  ---
+  duration_ms: 2928.8629
+  type: 'test'
+  ...
+# Subtest: real child lease invalidation after a 503 refuses retry and retains the failed charge
+ok 83 - real child lease invalidation after a 503 refuses retry and retains the failed charge
+  ---
+  duration_ms: 1046.5321
+  type: 'test'
+  ...
+# Subtest: opted-in input_tokens fetch failure preserves last head/results and charges a fresh attempt without duplicate effects
+ok 84 - opted-in input_tokens fetch failure preserves last head/results and charges a fresh attempt without duplicate effects
+  ---
+  duration_ms: 85.0545
+  type: 'test'
+  ...
+# Subtest: opted-in responses fetch failure preserves last head/results and charges a fresh attempt without duplicate effects
+ok 85 - opted-in responses fetch failure preserves last head/results and charges a fresh attempt without duplicate effects
+  ---
+  duration_ms: 34.4982
+  type: 'test'
+  ...
+# Subtest: transport retry remains off by default and cancellation never schedules one
+ok 86 - transport retry remains off by default and cancellation never schedules one
+  ---
+  duration_ms: 5.1366
+  type: 'test'
+  ...
+# Subtest: HTTP returned incomplete or malformed decisions are never converted to transport retries
+ok 87 - HTTP returned incomplete or malformed decisions are never converted to transport retries
+  ---
+  duration_ms: 6.2931
+  type: 'test'
+  ...
+# Subtest: five mixed service/transport failures share one retry bound and preserve all possible charges before success
+ok 88 - five mixed service/transport failures share one retry bound and preserve all possible charges before success
+  ---
+  duration_ms: 145.1056
+  type: 'test'
+  ...
+# Subtest: invalid lease after unreturned generation stops without another paid request
+ok 89 - invalid lease after unreturned generation stops without another paid request
+  ---
+  duration_ms: 11.6077
+  type: 'test'
+  ...
+# Subtest: full-context admission makes only generation requests and reserves more than the maximum context/output token cost
+ok 90 - full-context admission makes only generation requests and reserves more than the maximum context/output token cost
+  ---
+  duration_ms: 3.8869
+  type: 'test'
+  ...
+# Subtest: structured HTTP 500 during input_tokens retries only with extended policy
+ok 91 - structured HTTP 500 during input_tokens retries only with extended policy
+  ---
+  duration_ms: 21.1631
+  type: 'test'
+  ...
+# Subtest: structured HTTP 500 during responses retries only with extended policy
+ok 92 - structured HTTP 500 during responses retries only with extended policy
+  ---
+  duration_ms: 31.6681
+  type: 'test'
+  ...
+# Subtest: successful decisions reset consecutive service retry counters while every request stays counted
+ok 93 - successful decisions reset consecutive service retry counters while every request stays counted
+  ---
+  duration_ms: 47.7246
+  type: 'test'
+  ...
+1..93
+# tests 93
+# suites 0
+# pass 93
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 113671.2824

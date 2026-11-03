@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "contract": "controlsbench.w4-commissioning.v1",
+  "status": "held",
+  "scope": "live-m8",
+  "evidenceClass": "live_plc",
+  "directory": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-33-44-030Z\\bench-check\\2026-11-03T03-39-09-233Z",
+  "startedAtIso": "2026-11-03T03:39:09.233Z",
+  "modelCalls": 0,
+  "paidCalls": 0,
+  "claimBoundary": "Zero-model W4 commissioning: declared deterministic commissioning steps and a scripted zero-cost lease provider through the isolated adapter. Not a Wonder decision, investigation, controller coverage or spend authorization.",
+  "loadNote": "Retry-capable coordinator pin with live HMI capture; no model calls in commissioning",
+  "phases": [
+    {
+      "name": "preconditions",
+      "atIso": "2026-11-03T03:39:11.713Z",
+      "status": "pass"
+    },
+    {
+      "name": "baseline",
+      "atIso": "2026-11-03T03:39:21.286Z",
+      "status": "pass",
+      "summary": {
+        "bootIdentity": "1710853217416",
+        "appliedEpoch": "87788590680494",
+        "appliedSequence": "6",
+        "plcCycle": "332030",
+        "plcTimeUs": "1717612754838",
+        "simulationApplied": true,
+        "connectorStale": true,
+        "mode": "Stopped",
+        "faultCode": 0,
+        "itemActive": false,
+        "activeItemId": 501,
+        "completionPending": false,
+        "completionSequence": 9,
+        "motorRunCmd": false,
+        "counters": {
+          "CountExitA": 4,
+          "CountExitB": 0,
+          "CountRunout": 4,
+          "CountMisroute": 0,
+          "CountFaulted": 1
+        },
+        "stoppedBaselineMismatches": []
+      }
+    },
+    {
+      "name": "session",
+      "atIso": "2026-11-03T03:39:33.823Z",
+      "status": "pass",
+      "child": {
+        "wire": "controlsbench.wonder-process.wire.v1",
+        "pid": 32000,
+        "nonce": "8c6ae0ee43c5856e",
+        "node": "v24.15.0",
+        "timeOriginEpochMs": 1793677162696.624
+      },
+      "bootIdentity": "1710853217416",
+      "baselineBootMatches": true
+    }
+  ],
+  "measurements": {
+    "cadence": {
+      "commits": 1,
+      "held": 0,
+      "gapP50Ms": null,
+      "gapP95Ms": null,
+      "gapMaxMs": null,
+      "gapsOver300Ms": 0,
+      "delayed": 1,
+      "faults": [
+        "World step gap 307 ms exceeds the declared 300 ms observation bound; world not advanced"
+      ]
+    }
+  },
+  "identities": {
+    "harness": {
+      "commit": "c37a7fbab1a73b36123f9ba6a0c4f1a044678413",
+      "dirty": []
+    },
+    "projectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+    "worldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "mapSha256": "5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+    "specSha256": "acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+    "node": "v24.15.0",
+    "module": {
+      "root": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-direct-runtime-pin",
+      "commit": "c37a7fbab1a73b36123f9ba6a0c4f1a044678413",
+      "entry": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-direct-runtime-pin\\src\\live\\wonder-process\\index.ts",
+      "entryBlob": "e4d44773285dd9a8da22556bf826ab18baf4f332",
+      "entrySha256": "f580e76622ea523e39b91418498b6980f1382649056da8a60e1e51b78a64c379",
+      "handoff": {
+        "path": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-readiness\\proof-c37a7fb\\manifest.json",
+        "sha256": "6ba181b816e6608745841c96e7bb1076ce4f8419d74fd50925cfbbef1cef5b9d"
+      }
+    },
+    "preflight": {
+      "projectUnchanged": true,
+      "runtimeOwned": false,
+      "legacySessionActive": false,
+      "nativeModuleAvailable": true,
+      "credentialsPresent": true,
+      "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+      "modulePath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\codesys\\codesys_handoff\\browser_hmi_handoff\\opcua_relay\\node_modules\\node-opcua",
+      "plcContacted": false,
+      "paidCalls": 0,
+      "ready": true
+    },
+    "session": {
+      "contract": "controlsbench.wonder-process.v1",
+      "handoff": {
+        "commit": "c37a7fbab1a73b36123f9ba6a0c4f1a044678413",
+        "isolationVerified": true,
+        "recoveryVerified": true,
+        "evidenceRef": "sha256:6ba181b816e6608745841c96e7bb1076ce4f8419d74fd50925cfbbef1cef5b9d"
+      },
+      "provenance": {
+        "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+        "ioMap": "sha256:5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+        "plcBuild": "8001/interface-1/sha256:6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+        "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5;worldVersion:0.5.0;loaded-by-child:32000",
+        "model": "assigned-by-host-provider",
+        "connector": "m8-opcua-v1/m8-conveyor-1.0.2;controlsbench.wonder-process.v1;child:8c6ae0ee43c5856e"
+      },
+      "child": {
+        "wire": "controlsbench.wonder-process.wire.v1",
+        "pid": 32000,
+        "nonce": "8c6ae0ee43c5856e",
+        "node": "v24.15.0",
+        "timeOriginEpochMs": 1793677162696.624
+      },
+      "loadedWorldSha256": "277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+      "loadedProjectSha256": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628"
+    }
+  },
+  "error": "Error: Isolated session inconclusive: World step gap 307 ms exceeds the declared 300 ms observation bound; world not advanced\n    at healthy (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/scripts/run-w4-commissioning.js:254:31)\n    at check (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/scripts/run-w4-commissioning.js:269:9)\n    at #quarantine (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/src/live/wonder-process/driver.ts:326:45)\n    at IsolatedProcessDriver.ingest (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/src/live/wonder-process/driver.ts:196:37)\n    at Object.onRecord (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/src/live/wonder-process/session.ts:89:39)\n    at #stream (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/src/live/wonder-process/channel.ts:167:24)\n    at ChildProcess.<anonymous> (file:///C:/Users/steve/Documents/ControlsBenchMuse/.worktrees/w4-direct-runtime-pin/src/live/wonder-process/channel.ts:71:51)\n    at ChildProcess.emit (node:events:509:28)\n    at emit (node:internal/child_process:972:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:91:21)",
+  "child": {
+    "exit": {
+      "code": 0,
+      "signal": null
+    },
+    "closed": {
+      "atIso": "2026-11-03T03:39:34.289Z",
+      "atMonotonicMs": 11592.9047,
+      "kind": "closed",
+      "reason": "Campaign session disposed",
+      "drained": true,
+      "closed": true,
+      "uncertainWrites": [],
+      "ownership": "released",
+      "ownershipPath": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+      "boundaryRevision": 5,
+      "lastSeq": 41
+    },
+    "lockPresentAfterDispose": false
+  },
+  "wroteToPlc": true,
+  "report": {
+    "schemaVersion": "controlsbench.campaign.v1",
+    "campaignId": "w4-commissioning-2026-11-03T03-39-09-233Z",
+    "status": "stopped",
+    "provenance": {
+      "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+      "ioMap": "sha256:5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+      "plcBuild": "8001/interface-1/sha256:6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+      "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5;worldVersion:0.5.0;loaded-by-child:32000",
+      "model": "w4-commissioning-scripted-leases-v1;zero-model",
+      "connector": "m8-opcua-v1/m8-conveyor-1.0.2;controlsbench.wonder-process.v1;child:8c6ae0ee43c5856e"
+    },
+    "evidenceClass": "live_plc",
+    "claimBoundary": "Zero-model W4 commissioning: declared deterministic commissioning steps and a scripted zero-cost lease provider through the isolated adapter. Not a Wonder decision, investigation, controller coverage or spend authorization.",
+    "plan": {
+      "objective": "Commission the isolated runtime path against M8",
+      "experiments": [
+        {
+          "id": "w4-normal",
+          "objective": "One assigned carton sorted to exit A with WCS offer, PLC completion and acknowledgement",
+          "category": "normal",
+          "requirements": []
+        },
+        {
+          "id": "w4-leases",
+          "objective": "Hold, continue and condition-deadline reasoning leases enforced by the isolated child, including expiry under a parent stall",
+          "category": "runtime",
+          "requirements": []
+        },
+        {
+          "id": "w4-fault",
+          "objective": "Declared drive overload, PLC fault 10, clear and operator Reset to a stopped baseline",
+          "category": "faults",
+          "requirements": []
+        }
+      ]
+    },
+    "experiments": [
+      {
+        "id": "w4-normal",
+        "objective": "One assigned carton sorted to exit A with WCS offer, PLC completion and acknowledgement",
+        "category": "normal",
+        "requirements": [],
+        "status": "running"
+      },
+      {
+        "id": "w4-leases",
+        "objective": "Hold, continue and condition-deadline reasoning leases enforced by the isolated child, including expiry under a parent stall",
+        "category": "runtime",
+        "requirements": [],
+        "status": "proposed"
+      },
+      {
+        "id": "w4-fault",
+        "objective": "Declared drive overload, PLC fault 10, clear and operator Reset to a stopped baseline",
+        "category": "faults",
+        "requirements": [],
+        "status": "proposed"
+      }
+    ],
+    "findings": [],
+    "budget": {
+      "campaignUsd": 0,
+      "sessionUsd": 0,
+      "checks": {},
+      "repairs": {},
+      "requests": {}
+    },
+    "finalization": {
+      "summary": "W4 commissioning stopped: Error: Isolated session inconclusive: World step gap 307 ms exceeds the declared 300 ms observation bound; world not advanced",
+      "throughSequence": 60
+    },
+    "injectedTruth": [],
+    "worldEvidenceRefs": [
+      "w4-commissioning-2026-11-03T03-39-09-233Z:12",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:13",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:14",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:15",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:16",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:17",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:18",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:19",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:20",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:21",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:22",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:23",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:24",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:25",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:26",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:27",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:28",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:29",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:30",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:31",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:32",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:33",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:34",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:55",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:63"
+    ],
+    "sourceEvidenceRefs": [
+      "w4-commissioning-2026-11-03T03-39-09-233Z:5",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:6",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:7",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:8",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:50",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:51",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:62"
+    ],
+    "modelResponseRefs": [],
+    "plcEvidence": [
+      "w4-commissioning-2026-11-03T03-39-09-233Z:11",
+      "w4-commissioning-2026-11-03T03-39-09-233Z:54"
+    ],
+    "unresolved": [],
+    "untested": [
+      "w4-normal",
+      "w4-leases",
+      "w4-fault"
+    ],
+    "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+  },
+  "heldState": {
+    "file": "held-state.json",
+    "sha256": "746f89b314ed3b456d86481e7abe8a026529fa23c32bbf0f0e73ba387a5d77a6",
+    "ownership": {
+      "path": "C:\\Users\\steve\\Documents\\ControlsBenchMuse\\artifacts\\m10\\live.lock",
+      "acquired": {
+        "owner": "wonder-process-v1",
+        "campaignId": "w4-commissioning-2026-11-03T03-39-09-233Z",
+        "childPid": 32000,
+        "parentPid": 42964,
+        "nonce": "8c6ae0ee43c5856e",
+        "acquiredAtIso": "2026-11-03T03:39:23.067Z"
+      },
+      "closeResult": "released",
+      "lockPresent": false,
+      "lockMatchesRun": false,
+      "lockSha256": null
+    },
+    "recovery": "node scripts/recover-w4-held.js \"C:\\Users\\steve\\Documents\\ControlsBenchMuse\\.worktrees\\w4-live-readiness\\artifacts\\w4-paid\\2026-11-03T03-33-44-030Z\\bench-check\\2026-11-03T03-39-09-233Z\"  (read-only inspection; reconcile only with --reconcile --authorize <held-state sha256>)"
+  },
+  "evidenceHashes": {
+    "campaign.jsonl": "7670afbe52124aec3b5aa7707240f5d763f73688a476d35201b89ee767a40fa0",
+    "baseline.json": "ed66a8d9e0b0092e07ea708171d4a94399e50d956e67c8f8aba30bd13f698360",
+    "final-inspection.json": "e5a107c0f3e9511c75eb44114740f81ad5267be1702170717281272f312f9145",
+    "held-state.json": "746f89b314ed3b456d86481e7abe8a026529fa23c32bbf0f0e73ba387a5d77a6",
+    "report.json": "f8b234e0c8e21218561f3123c186556f007826ddf57aa367c6bbb36ad83b84ac",
+    "inspection-transport.jsonl": "40eea21c9406670172cad7941561dd9cb45dbf861d5c2e45f889bdc79f0f1b7b",
+    "wonder-process/child-stream.jsonl": "01996be438c3e69ba719bd398e2b81667f75b81c9f78f83a07ca920b06c266ab",
+    "wonder-process/child-transport.jsonl": "8b50598f9b5354a8297f4c9662f78d46f575a85496fc2442162b9f5e5bff8a51",
+    "wonder-process/child-lifecycle.jsonl": "5a887de7e63f0408abf8f914b0b2d068c82c4b19140fe645bb7d668cc09843e2",
+    "wonder-process/parent-boundary.jsonl": "272f18e15633bbb4c966bf3499deee7a47109b4702399468723ccc12bdb8e17f"
+  },
+  "finishedAtIso": "2026-11-03T03:39:38.651Z"
+}

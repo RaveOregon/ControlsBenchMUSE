@@ -1,0 +1,10 @@
+{
+  "status": "approved-full-proof-work",
+  "instruction": "we have only spent $7 during all of our development of a 150 set of credits so lets go full send to prove our shit. we don't need to worry abotu spend limits",
+  "packetSha256": "a20c86ee6e5f96b865f44ce5e6ff956ee6f5b6bbda4df5d34af67f2ab66dc133",
+  "authorizedCreditPoolUsd": 150,
+  "maximumNewConservativeUsd": 100,
+  "aggregateConservativeCeilingUsd": 145,
+  "previousConservativeUsd": 45,
+  "recordedAtIso": "2026-11-03T03:33:44.827Z"
+}

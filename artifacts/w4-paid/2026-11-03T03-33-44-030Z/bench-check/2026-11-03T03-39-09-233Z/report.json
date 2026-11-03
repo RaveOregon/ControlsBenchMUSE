@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "campaignId": "w4-commissioning-2026-11-03T03-39-09-233Z",
+  "status": "stopped",
+  "provenance": {
+    "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ioMap": "sha256:5971c31d100be8a065c6117675bdcbcc5d077a5ea2c1dc9dd660f2118d6c65a0",
+    "plcBuild": "8001/interface-1/sha256:6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+    "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5;worldVersion:0.5.0;loaded-by-child:32000",
+    "model": "w4-commissioning-scripted-leases-v1;zero-model",
+    "connector": "m8-opcua-v1/m8-conveyor-1.0.2;controlsbench.wonder-process.v1;child:8c6ae0ee43c5856e"
+  },
+  "evidenceClass": "live_plc",
+  "claimBoundary": "Zero-model W4 commissioning: declared deterministic commissioning steps and a scripted zero-cost lease provider through the isolated adapter. Not a Wonder decision, investigation, controller coverage or spend authorization.",
+  "plan": {
+    "objective": "Commission the isolated runtime path against M8",
+    "experiments": [
+      {
+        "id": "w4-normal",
+        "objective": "One assigned carton sorted to exit A with WCS offer, PLC completion and acknowledgement",
+        "category": "normal",
+        "requirements": []
+      },
+      {
+        "id": "w4-leases",
+        "objective": "Hold, continue and condition-deadline reasoning leases enforced by the isolated child, including expiry under a parent stall",
+        "category": "runtime",
+        "requirements": []
+      },
+      {
+        "id": "w4-fault",
+        "objective": "Declared drive overload, PLC fault 10, clear and operator Reset to a stopped baseline",
+        "category": "faults",
+        "requirements": []
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "id": "w4-normal",
+      "objective": "One assigned carton sorted to exit A with WCS offer, PLC completion and acknowledgement",
+      "category": "normal",
+      "requirements": [],
+      "status": "running"
+    },
+    {
+      "id": "w4-leases",
+      "objective": "Hold, continue and condition-deadline reasoning leases enforced by the isolated child, including expiry under a parent stall",
+      "category": "runtime",
+      "requirements": [],
+      "status": "proposed"
+    },
+    {
+      "id": "w4-fault",
+      "objective": "Declared drive overload, PLC fault 10, clear and operator Reset to a stopped baseline",
+      "category": "faults",
+      "requirements": [],
+      "status": "proposed"
+    }
+  ],
+  "findings": [],
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {},
+    "repairs": {},
+    "requests": {}
+  },
+  "finalization": {
+    "summary": "W4 commissioning stopped: Error: Isolated session inconclusive: World step gap 307 ms exceeds the declared 300 ms observation bound; world not advanced",
+    "throughSequence": 60
+  },
+  "injectedTruth": [],
+  "worldEvidenceRefs": [
+    "w4-commissioning-2026-11-03T03-39-09-233Z:12",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:13",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:14",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:15",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:16",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:17",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:18",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:19",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:20",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:21",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:22",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:23",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:24",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:25",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:26",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:27",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:28",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:29",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:30",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:31",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:32",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:33",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:34",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:55",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:63"
+  ],
+  "sourceEvidenceRefs": [
+    "w4-commissioning-2026-11-03T03-39-09-233Z:5",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:6",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:7",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:8",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:50",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:51",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:62"
+  ],
+  "modelResponseRefs": [],
+  "plcEvidence": [
+    "w4-commissioning-2026-11-03T03-39-09-233Z:11",
+    "w4-commissioning-2026-11-03T03-39-09-233Z:54"
+  ],
+  "unresolved": [],
+  "untested": [
+    "w4-normal",
+    "w4-leases",
+    "w4-fault"
+  ],
+  "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+}
