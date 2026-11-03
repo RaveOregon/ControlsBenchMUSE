@@ -51,6 +51,14 @@ Launching from the user's home directory exposed a launcher bug: HMI ownership d
 
 A fresh read-only HMI GET at 18:21:21 UTC observes Faulted, fault 33 (carton transit timeout), motor command false, completion pending and ConnectorStale true. Exact snapshot saved as `post-stop-hmi-observation.json` in the approved packet directory. The HMI reports a 250 ms polling interval, confirming it did not enter shared-runtime slower polling. This observation is not recovery qualification; no recovery writes occurred.
 
+## Expanded output proposal — pending exact spending approval
+
+User requested another attempt with more allowance. Packet `artifacts/w4-paid/2026-11-02T23-59-31-975Z/packet.json`, SHA `2062a0e7ae7efb723b919a83917f0ea820dcd38bc96b01f100e8204f0b87ba02`, binds implementation `c48a3f3`. It requests one new trial, four generation attempts, **8,000 output tokens including high reasoning per response**, and **up to $4 additional conservative spending from the existing $7 account to an $11 aggregate ceiling**. This replaces the old $8 aggregate ceiling; it does not reset or discard any charge. The exact increase has not yet been approved. No new Meta or PLC connection was made while preparing it.
+
+The existing provider accepts 8K without modifying the proven engine. Both provider calls and runtime turns stay capped at four. Token-count admission still refuses a request whose maximum uncached Standard estimate exceeds $1. Eleven network-disabled tests pass, including preserved-seven-plus-four accounting with no fifth reservation, refusal of unreviewed ceiling/output changes, actual 8K/high request serialization and dollar admission, original authorization/account protections, and cleanup tests. All 639 immutable engine hashes and six launch hashes match; the example request is a local-stub capture of recorded sample evidence, not a future live request. Data sent to Meta and excluded credentials/PLC code/world source/HMI pixels stay as previously approved.
+
+After explicit approval, use `scripts/w4-paid/start-expanded-trial.ps1` with this packet and SHA. It checks the terminal prior campaign and fresh stopped PLC baseline, disconnects its capture, replaces only the known old app host, then runs the hash-checked launcher with a local masked password. This proposal performs a fresh normal/fault/adaptive trial and makes no prior success claim. No automatic retry or partial-decision execution is allowed.
+
 ## Original launch command (historical; do not rerun)
 
 ### Remaining-allowance retry — partial and recovered

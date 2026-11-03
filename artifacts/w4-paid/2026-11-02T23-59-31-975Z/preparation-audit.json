@@ -1,0 +1,20 @@
+{
+  "verifiedAtIso": "2026-11-03T00:00:21.062Z",
+  "sourceCommit": "c48a3f3",
+  "tests": {
+    "passed": 11,
+    "failed": 0,
+    "network": "disabled"
+  },
+  "engineHashesVerified": 639,
+  "launchHashesVerified": 6,
+  "maximumOutputTokens": 8000,
+  "reasoning": "high",
+  "maximumModelRequests": 4,
+  "previousConservativeUsd": 7,
+  "maximumAdditionalConservativeUsd": 4,
+  "aggregateConservativeCeilingUsd": 11,
+  "realApiRequests": 0,
+  "realPlcConnections": 0,
+  "status": "pending-exact-expanded-approval"
+}
