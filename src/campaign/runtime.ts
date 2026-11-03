@@ -20,6 +20,8 @@ export interface CampaignOptions {
   diagnosisMode?: "known" | "blind"; hmi?: HmiAdapter;
   paidAuthorized?: boolean; maxTurns?: number; toolTimeoutMs?: number;
   requireDecisionLeases?: boolean;
+  /** Off by default. Retries consume ordinary paid turns/reservations. */
+  maxTransientRetries?: number;
   capabilities?: unknown;
   controller?: { execute(call: ToolCall, signal: AbortSignal, basedOnRevision?: number): Promise<{ message: string; evidenceRefs: string[]; value?: unknown }> };
 }
@@ -29,6 +31,7 @@ const terminal = new Set(["stopped", "completed", "failed"]);
 const usedProviders = new WeakSet<CampaignProvider>();
 
 export class CampaignRuntime {
+  readonly transientRetryPolicy = "meta-503-v1";
   readonly options: CampaignOptions;
   readonly ledger: CampaignLedger;
   readonly budget: CampaignBudget;
@@ -45,7 +48,10 @@ export class CampaignRuntime {
   #budgetBlocked = false;
   #hiddenSetup = false;
   #reasoningLease: DecisionLease = { mode: "hold", timeoutMs: 300_000 };
+  #transientRetries = 0;
   constructor(options: CampaignOptions) {
+    if (!Number.isInteger(options.maxTransientRetries ?? 0) || (options.maxTransientRetries ?? 0) < 0 || (options.maxTransientRetries ?? 0) > 2)
+      throw new Error("Invalid bounded transient retry limit");
     if (!options.categories.length) throw new Error("Select campaign scope before Start Campaign");
     if (options.provider.paid && !options.paidAuthorized) throw new Error("Paid provider requires campaign authorization");
     if (options.requireDecisionLeases && !options.driver?.decisionLeases) throw new Error("Verified isolated decision-lease interface is required");
@@ -77,6 +83,7 @@ export class CampaignRuntime {
   }
   async #loop(): Promise<void> {
     let repeats = 0, lastFingerprint = "";
+    let retryDelayMs: number | undefined;
     while (this.status === "running") {
       if (++this.#turns > (this.options.maxTurns ?? 40)) { await this.pause("Agent turn limit reached; state preserved"); return; }
       const basedOnRevision = this.ledger.state.revision;
@@ -89,6 +96,9 @@ export class CampaignRuntime {
       this.ledger.append("agent.activity", { phase: "reasoning", summary: "Choosing the next experiment action from recorded evidence", requestId: lease.id });
       let reply: ProviderReply | undefined, failure: unknown;
       let decisionLease: DecisionLeaseReceipt | undefined;
+      let leaseFinishValid = !this.options.driver;
+      const backoffMs = retryDelayMs; retryDelayMs = undefined;
+      const requestPolicy: DecisionLease = backoffMs === undefined ? this.#reasoningLease : { mode: "hold", timeoutMs: this.#reasoningLease.timeoutMs };
       let preserved = false;
       const preserve = (response: Record<string, unknown>) => {
         this.ledger.append("agent.response", { requestId: lease.id, responseHash: digest(response), response }, "truth");
@@ -97,10 +107,17 @@ export class CampaignRuntime {
         reply = await bounded(async signal => {
           const control = this.options.driver?.decisionLeases;
           if (control) {
-            decisionLease = await control.begin(this.#reasoningLease, basedOnRevision, signal);
+            decisionLease = await control.begin(requestPolicy, basedOnRevision, signal);
             this.#checkLease(decisionLease, basedOnRevision);
-            preserve({ phase: "decision_lease_started", policy: this.#reasoningLease, receipt: decisionLease });
-            this.ledger.append("agent.activity", { phase: "decision_lease", summary: `Reasoning under explicit ${this.#reasoningLease.mode} lease; hold on expiry; PLC time continues`, requestId: lease.id });
+            preserve({ phase: "decision_lease_started", policy: requestPolicy, receipt: decisionLease });
+            this.ledger.append("agent.activity", { phase: "decision_lease", summary: `Reasoning under explicit ${requestPolicy.mode} lease; hold on expiry; PLC time continues`, requestId: lease.id });
+          }
+          if (backoffMs !== undefined) {
+            this.ledger.append("agent.activity", { phase: "provider_retry_backoff", summary: `Waiting ${backoffMs} ms under a fresh hold lease before the paid retry; PLC scans continue`, requestId: lease.id });
+            await this.#retryDelay(backoffMs, signal);
+            if (signal.aborted || this.status !== "running" || this.ledger.state.revision !== basedOnRevision
+              || this.options.driver?.quarantined || this.options.driver?.failure)
+              throw new ToolFailure("stale", "Campaign or connector changed during retry backoff; no model request sent");
           }
           return this.options.provider.decide(this.agentContext(), signal, { requestId: lease.id, preserve: record => { preserved = true; preserve(record); } });
         }, Math.min(this.#reasoningLease.timeoutMs, this.budget.guard.limits.requestTimeoutMs), this.clock, this.#abort.signal);
@@ -115,6 +132,7 @@ export class CampaignRuntime {
           preserve({ phase: "decision_lease_finished", receipt });
           this.#checkLease(receipt, basedOnRevision);
           if (receipt.id !== decisionLease.id) throw new ToolFailure("stale", "Decision lease identity changed");
+          leaseFinishValid = true;
         } catch (error) { failure ??= error; }
       }
       const phase = failure ? (failure instanceof DeadlineError ? "timed_out" : this.#abort.signal.aborted ? "cancelled" : "failed") : "completed";
@@ -127,7 +145,19 @@ export class CampaignRuntime {
           phase === "timed_out" ? "timed_out" : failure ? "failed" : "settled");
       } catch (error) { await this.#budgetStop(error); return; }
       if (this.status !== "running") return;
-      if (failure) { await this.pause(`Model ${phase}: ${this.#message(failure)}; no automatic retry`); return; }
+      if (failure) {
+        const retry = reply?.retryableServiceError;
+        if (reply && retry?.httpStatus === 503 && reply.decision === null && !reply.responseId && leaseFinishValid && !this.#abort.signal.aborted
+          && Number.isInteger(retry.retryAfterMs) && retry.retryAfterMs >= 250 && retry.retryAfterMs <= 10_000
+          && retry.retryAfterMs < this.#reasoningLease.timeoutMs
+          && this.#transientRetries < (this.options.maxTransientRetries ?? 0) && this.#turns < (this.options.maxTurns ?? 40)
+          && !this.options.driver?.quarantined && !this.options.driver?.failure) {
+          this.#transientRetries++; retryDelayMs = retry.retryAfterMs;
+          this.ledger.append("agent.activity", { phase: "provider_retry_scheduled", summary: `Meta 503 attempt charged; bounded retry ${this.#transientRetries}/${this.options.maxTransientRetries} will reserve separately with fresh evidence and a hold lease`, requestId: lease.id });
+          continue;
+        }
+        await this.pause(`Model ${phase}: ${this.#message(failure)}; no automatic retry`); return;
+      }
       try {
         const decision = validateDecision(reply!.decision);
         const fingerprint = digest({ plan: decision.plan ?? null, complete: decision.completeExperiment ?? null,
@@ -137,6 +167,14 @@ export class CampaignRuntime {
         await this.applyDecision(decision, basedOnRevision);
       } catch (error) { await this.pause(`Invalid agent decision: ${this.#message(error)}; no automatic retry`); return; }
     }
+  }
+  #retryDelay(ms: number, signal: AbortSignal): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const done = (error?: Error) => { this.clock.clearTimer(timer); signal.removeEventListener("abort", abort); error ? reject(error) : resolve(); };
+      const abort = () => done(new Error("Retry backoff cancelled"));
+      const timer = this.clock.setTimer(() => done(), ms);
+      signal.addEventListener("abort", abort, { once: true }); if (signal.aborted) abort();
+    });
   }
   agentContext(): AgentContext {
     const s = this.ledger.state;

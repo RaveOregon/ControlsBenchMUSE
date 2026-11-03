@@ -40,6 +40,8 @@ export function trialEnvelope(packet) {
   assert(Number.isInteger(packet.sessionBaseline?.conservativeUsd) && packet.sessionBaseline.conservativeUsd >= 4);
   assert(packet.sessionBaseline.conservativeUsd + turns <= ceiling, 'Remaining original approval would be exceeded');
   assert(Number.isInteger(packet.maximumOutputTokens ?? 4000) && (packet.maximumOutputTokens ?? 4000)>=16 && (packet.maximumOutputTokens ?? 4000)<=8000,'Invalid provider output allowance');
+  assert(Number.isInteger(packet.maxTransientRetries ?? 0) && (packet.maxTransientRetries ?? 0)>=0 && (packet.maxTransientRetries ?? 0)<=1
+    && (packet.maxTransientRetries ?? 0)<turns,'Invalid trial transient retry allowance');
   return turns;
 }
 
@@ -118,6 +120,12 @@ export function writeHeldRecord(directory, {allowOffline = false} = {}) {
  * call cannot consume another conservative dollar after four legitimate requests. */
 export function configureBoundedRuntime(runtime, packet) {
   const turns = packet ? trialEnvelope(packet) : 4;
+  const retries=packet?.maxTransientRetries??0;
+  if(retries) {
+    assert.equal(runtime.transientRetryPolicy,'meta-503-v1','Selected runtime pin lacks verified transient retry support');
+    assert.equal(runtime.options.provider.maxTransientRetries,retries,'Provider and runtime retry policies must match');
+  }
+  runtime.options.maxTransientRetries=retries;
   if(turns===5) {
     assert.equal(runtime.budget.guard.campaignSpentUsd,0,'Configure before any reservation');
     assert.equal(runtime.budget.guard.leases.size,0,'Configure before any reservation');
@@ -130,7 +138,7 @@ export function configureBoundedRuntime(runtime, packet) {
   }
   runtime.options.maxTurns = turns;
   runtime.options.capabilities = {...runtime.options.capabilities, engineerObjective: trialObjective(turns),
-    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000,
+    approvedRequestEnvelope: {maximumModelRequests: turns, maximumNewConservativeUsd: turns, maximumOutputTokens: packet?.maximumOutputTokens ?? 4000, maxTransientRetries:retries,
       aggregateConservativeCeilingUsd: packet?.aggregateConservativeCeilingUsd ?? 8, source: packet?.approvalRevision ? 'explicit expanded packet approval required; existing account preserved' : 'remaining original approval; no accounting reset'}};
 }
 

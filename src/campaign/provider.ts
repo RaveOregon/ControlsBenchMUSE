@@ -18,6 +18,9 @@ export interface ProviderAudit {
 export interface ProviderReply {
   decision: unknown; responseId?: string; usage?: Record<string, unknown>; costUsd?: number;
   rawResponse?: Record<string, unknown>; error?: string;
+  /** Only an explicitly eligible HTTP error with no response identity/decision.
+   * The runtime owns retry accounting, fresh leases and cancellation. */
+  retryableServiceError?: { httpStatus: 503; retryAfterMs: number };
 }
 export interface CampaignProvider {
   readonly id: string;

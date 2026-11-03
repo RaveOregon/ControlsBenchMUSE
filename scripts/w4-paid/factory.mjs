@@ -30,10 +30,12 @@ export function createCampaignFactory() {
       writeFileSync(join(context.artifactDirectory, 'w4-approval.json'), bytes, {flag: 'wx'});
       context.ledger.append('world.evidence', {source: {kind: 'paid_w4_approval', packetSha256: hash(bytes), maximumModelRequests: turns, maximumNewConservativeUsd: turns,
         maximumOutputTokens: packet.maximumOutputTokens ?? 4000, aggregateConservativeCeilingUsd: packet.aggregateConservativeCeilingUsd}}, 'truth');
-      delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({provider: () => new WonderResponsesProvider({
-        apiKey: process.env.MODEL_API_KEY, explicitlyAuthorized: true, maxCalls: turns, maxOutputTokens: packet.maximumOutputTokens ?? 4000,
-        journal: fileExchangeJournal(join(context.artifactDirectory, 'wonder-exchanges.jsonl'))
-      })});
+      delegate ??= (await fromPin('src/host/wonder-campaign-factory.ts')).createCampaignFactory({maxTransientRetries:packet.maxTransientRetries??0,provider: () => {
+        const provider=new WonderResponsesProvider({apiKey:process.env.MODEL_API_KEY,explicitlyAuthorized:true,maxCalls:turns,maxOutputTokens:packet.maximumOutputTokens??4000,
+          maxTransientRetries:packet.maxTransientRetries??0,journal:fileExchangeJournal(join(context.artifactDirectory,'wonder-exchanges.jsonl'))});
+        if(packet.maxTransientRetries)assert.equal(provider.maxTransientRetries,packet.maxTransientRetries,'Selected provider pin lacks transient retry support');
+        return provider;
+      }});
       const hosted = await delegate.create(context);
       return boundHostedCampaign(hosted, context.artifactDirectory, {packet});
     }

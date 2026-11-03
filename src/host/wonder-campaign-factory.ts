@@ -24,6 +24,8 @@ export interface WonderFactoryOptions {
   handoffPath?: string;
   handoffSha256?: string;
   pricingReviewedOn?: string;
+  /** Opt-in; each retry uses an ordinary counted request and a fresh hold lease. */
+  maxTransientRetries?: number;
   /** Offline injection only: always labeled fake_connector and cannot authorize a paid provider. */
   openSession?: (context: CampaignFactoryContext) => Promise<IsolatedWonderSession>;
   provider?: () => CampaignProvider;
@@ -74,15 +76,19 @@ export function createCampaignFactory(options: WonderFactoryOptions = {}): Campa
         if (!injected && (!session!.provenance.plcBuild.includes(baseline.projectSha256) || !session!.provenance.worldModule.includes(worldHash)))
           throw new Error("Owner adapter provenance does not match preserved build/world");
         const provider = options.provider?.() ?? (injected ? undefined : new WonderResponsesProvider({ apiKey: process.env.MODEL_API_KEY!, explicitlyAuthorized: true,
-          journal: fileExchangeJournal(join(context.artifactDirectory!, "wonder-exchanges.jsonl")) }));
+          journal: fileExchangeJournal(join(context.artifactDirectory!, "wonder-exchanges.jsonl")), maxTransientRetries: options.maxTransientRetries }));
         if (!provider || (injected && provider.paid)) throw new Error("Offline process injection requires a zero-cost fixture provider");
         const budget = new CampaignBudget(context.ledger, undefined, 5, account);
         const manifest = JSON.parse(readFileSync(new URL("world.manifest.json", world), "utf8"));
         const signals = [...manifest.signals, ...session!.driver.observedOutputIds!.filter(id => !manifest.signals.some((s: any) => s.id === id)).map(id => ({ id, direction: "plc_to_world", description: "Declared observed M8 controller diagnostic; see accepted spec" }))];
         const runtime = new CampaignRuntime({ ledger: context.ledger, provider, budget, driver: session!.driver, controller: session!.controller, hmi: context.hmi,
-          paidAuthorized: !injected, requireDecisionLeases: true, evidenceClass, claimBoundary, categories: scope,
+          paidAuthorized: !injected, requireDecisionLeases: true, maxTransientRetries: options.maxTransientRetries, evidenceClass, claimBoundary, categories: scope,
           provenance: { ...session!.provenance, model: provider.id, ioMap: digest(signals) }, spec: readFileSync(new URL("docs/conveyor-machine-spec.md", root), "utf8"), signals,
           capabilities: { world: "preserved Muse conveyor 0.5.0", semantic: session!.driver.binding.describe,
+            ...(options.maxTransientRetries ? { transientServiceRetry: { maximumRetries: options.maxTransientRetries,
+              eligible: "Explicit Meta HTTP 503 server_error without response identity or decision only",
+              accounting: "Every retry consumes an ordinary model turn and conservative dollar reservation",
+              behavior: "Fresh hold lease during backoff; unchanged image streams while PLC scans/timers continue" } } : {}),
             authorizedCategories: scope, maximumCadenceHz: 10, qualification: "20/50 Hz and transport/task requalification are not authorized",
             operator: "configured direct sequenced controller adapter; not an HMI click", decisionLeases: ["hold", "continue", "condition_deadline"],
             supervisory: { source: "configured controller adapter, independent of world-control binding and HMI pixels",

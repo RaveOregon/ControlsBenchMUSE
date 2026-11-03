@@ -29,11 +29,15 @@ export class WonderResponsesProvider implements CampaignProvider {
   #key: string; #fetch: typeof fetch; #journal: ExchangeJournal; #calls = 0;
   #previous?: string; #pendingCall?: string; #seenResponses = new Set<string>(); #seenCalls = new Set<string>();
   #busy = false; #blocked = false;
+  #transientFailures = 0;
+  readonly maxTransientRetries: number;
   readonly maxCalls: number; readonly maxOutputTokens: number;
-  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number }) {
+  constructor(options: { apiKey: string; explicitlyAuthorized: boolean; journal: ExchangeJournal; fetch?: typeof fetch; maxCalls?: number; maxOutputTokens?: number; maxTransientRetries?: number }) {
     if (!options.explicitlyAuthorized || !options.apiKey) throw new Error("Wonder requires Start Campaign authorization and a local key");
     this.#key = options.apiKey; this.#fetch = options.fetch ?? fetch; this.#journal = options.journal;
     this.maxCalls = options.maxCalls ?? 4; this.maxOutputTokens = options.maxOutputTokens ?? 4000;
+    this.maxTransientRetries = options.maxTransientRetries ?? 0;
+    if (!Number.isInteger(this.maxTransientRetries) || this.maxTransientRetries < 0 || this.maxTransientRetries > 2) throw new Error("Invalid bounded transient retry limit");
     if (!Number.isInteger(this.maxCalls) || this.maxCalls < 1 || this.maxCalls > 5 || !Number.isInteger(this.maxOutputTokens) || this.maxOutputTokens < 16 || this.maxOutputTokens > 8000)
       throw new Error("Invalid bounded Wonder request limits");
   }
@@ -62,7 +66,7 @@ export class WonderResponsesProvider implements CampaignProvider {
         // Meta's live endpoint rejects named/required choices (preserved W3 HTTP 400).
         // Auto does not relax our one-new-decision-call validation below.
         tool_choice: "auto",
-        input: turn === 1 ? [{ role: "developer", content: [{ type: "input_text", text: JSON.stringify({ semanticTools: toolSchemas }) }] }, ...input] : input };
+        input: !this.#previous ? [{ role: "developer", content: [{ type: "input_text", text: JSON.stringify({ semanticTools: toolSchemas }) }] }, ...input] : input };
       if (Buffer.byteLength(JSON.stringify(body)) > 160_000) throw new Error("Compact context exceeds request byte limit; retrieve a smaller window");
       const countBody = { model: body.model, input: body.input, instructions: body.instructions, tools: body.tools,
         tool_choice: body.tool_choice, parallel_tool_calls: false, ...(this.#previous ? { previous_response_id: this.#previous } : {}) };
@@ -79,6 +83,18 @@ export class WonderResponsesProvider implements CampaignProvider {
       const payload = response.payload as any;
       const metadata = { ...(typeof payload?.id === "string" ? { responseId: payload.id } : {}),
         ...(payload?.usage && typeof payload.usage === "object" && !Array.isArray(payload.usage) ? { usage: payload.usage } : {}) };
+      // Never retry a returned decision, unknown network outcome, malformed error,
+      // or partial response identity. Preserve the previous valid conversation head.
+      const delay = serviceRetryDelay(response.headers["retry-after"]);
+      if (response.httpStatus === 503 && payload?.error?.type === "server_error" && typeof payload.error.message === "string"
+        && payload.id === undefined && payload.status === undefined && payload.output === undefined
+        && delay !== undefined && this.#transientFailures < this.maxTransientRetries && this.#calls < this.maxCalls) {
+        this.#transientFailures++;
+        preserve({ phase: "retryable_service_error", httpStatus: 503, retryAfterMs: delay, retryNumber: this.#transientFailures,
+          previousResponseId: this.#previous ?? null, pendingCallId: this.#pendingCall ?? null });
+        return { decision: null, ...metadata, error: "Meta HTTP 503 server_error; no response identity or decision returned",
+          retryableServiceError: { httpStatus: 503, retryAfterMs: delay } };
+      }
       if (!response.ok || payload?.status !== "completed" || typeof payload.id !== "string" || this.#seenResponses.has(payload.id)) {
         this.#blocked = true;
         return { decision: null, ...metadata, error: "HTTP, incomplete, missing or repeated response identity; no retry" };
@@ -109,6 +125,13 @@ export class WonderResponsesProvider implements CampaignProvider {
     preserve({ phase: "response", endpoint, httpStatus: response.status, headers, responseText, responseHash: digest(responseText) });
     let payload: unknown;
     try { payload = JSON.parse(responseText); } catch { payload = null; }
-    return { ok: response.ok, payload };
+    return { ok: response.ok, payload, httpStatus: response.status, headers };
   }
+}
+
+/** Honor short Retry-After values; refuse long/invalid waits rather than shorten them. */
+function serviceRetryDelay(header: string | undefined): number | undefined {
+  if (header === undefined) return 1000;
+  const delay = /^\d+$/.test(header) ? Number(header) * 1000 : Date.parse(header) - Date.now();
+  return Number.isFinite(delay) && delay >= 0 && delay <= 10_000 ? Math.max(250, Math.ceil(delay)) : undefined;
 }

@@ -104,6 +104,16 @@ test('remaining approval refuses a reset and permits exactly three new reservati
   } finally {account.close();ledger.close();rmSync(dir,{recursive:true,force:true});}
 });
 
+test('trial cannot silently enable retry on the old live-qualified runtime pin', async()=>{
+  const {CampaignLedger}=await fromPin('src/campaign/ledger.ts');
+  const {CampaignRuntime}=await fromPin('src/campaign/runtime.ts');
+  const ledger=new CampaignLedger('old-pin-no-retry');
+  const runtime=new CampaignRuntime({ledger,provider:{id:'fixture',paid:false,estimatedRequestUsd:0,async decide(){throw Error('Never called');}},
+    evidenceClass:'fake_connector',claimBoundary:'Compatibility check only',categories:['normal'],spec:'fixture',signals:[],provenance:{spec:'fixture',ioMap:'fixture',plcBuild:'fixture',worldModule:'fixture',model:'fixture',connector:'none'}});
+  assert.throws(()=>configureBoundedRuntime(runtime,{maximumModelRequests:3,maximumNewConservativeUsd:3,sessionBaseline:{conservativeUsd:5},aggregateConservativeCeilingUsd:8,maxTransientRetries:1}),/runtime pin lacks/);
+  assert.equal(runtime.options.maxTurns,undefined);assert.equal(runtime.budget.guard.leases.size,0);ledger.close();
+});
+
 test('actual native live commissioning cannot masquerade as a paid campaign export', () => {
   const source=join(root,'artifacts/w4-readiness/e3469af/live-2026-11-02T13-10-27-030Z');
   const dir=mkdtempSync(join(tmpdir(),'w4-export-native-'));
