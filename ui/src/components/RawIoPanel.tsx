@@ -11,6 +11,10 @@ interface Props {
 }
 
 export function RawIoPanel({ state, nowMs, onSelect, onSuppress }: Props) {
+  // The current portal host has no physical-sink write capability.
+  const sinkUnavailable = state.mode === "live" && state.host
+    ? "Output overrides are unavailable through this host. Configure physical-sink behavior at the PLC interceptor; PLC commands remain visible here."
+    : undefined;
   const inputs = state.signals.filter((signal) => signal.direction === "world_to_plc");
   const outputs = state.signals.filter((signal) => signal.direction === "plc_to_world");
   const latest = Object.values(state.inputs).reduce<{ run?: string; source?: string; atMs: number } | null>((best, value) => (value.atMs !== undefined && (!best || value.atMs > best.atMs) ? { run: value.run, source: value.source, atMs: value.atMs } : best), null);
@@ -27,6 +31,7 @@ export function RawIoPanel({ state, nowMs, onSelect, onSuppress }: Props) {
         </span>
       </header>
       <div className="body" style={{ padding: "4px 6px 8px" }}>
+        {sinkUnavailable && <p className="muted">{sinkUnavailable}</p>}
         <table className="io-table">
           <thead>
             <tr>
@@ -73,15 +78,18 @@ export function RawIoPanel({ state, nowMs, onSelect, onSuppress }: Props) {
                   <td style={{ textAlign: "right" }}>
                     <button
                       className="btn small"
-                      disabled={Object.values(state.commands).some(c => c.outcome === "pending")}
+                      data-control="sink-suppression"
+                      aria-label={`${signal.id} physical-sink override`}
+                      disabled={Boolean(sinkUnavailable) || Object.values(state.commands).some(c => c.outcome === "pending")}
                       style={suppressed ? { color: "var(--warn)", borderColor: "var(--warn)" } : undefined}
                       onClick={(event) => {
                         event.stopPropagation();
+                        if (sinkUnavailable) return;
                         onSuppress(signal.id, !suppressed);
                       }}
-                      title={suppressed ? "Physical sink suppressed; PLC command still traced. Click to release." : "Physical sink active. Click to suppress (engineer configuration)."}
+                      title={sinkUnavailable ?? (suppressed ? "Physical sink suppressed; PLC command still traced. Click to release." : "Physical sink active. Click to suppress (engineer configuration).")}
                     >
-                      {Object.values(state.commands).some(c => c.outcome === "pending" && c.payload?.outputId === signal.id) ? "pending…" : suppressed ? "suppressed" : "physical"}
+                      {sinkUnavailable ? "unavailable" : Object.values(state.commands).some(c => c.outcome === "pending" && c.payload?.outputId === signal.id) ? "pending…" : suppressed ? "suppressed" : "physical"}
                     </button>
                   </td>
                 </tr>

@@ -5,7 +5,12 @@ import type { CommandResult, WorkspaceState } from "../model/workspace-store.ts"
 export function SteeringBox({ state, onSteer }: { state: WorkspaceState; onSteer: (text: string) => CommandResult }) {
   const [text, setText] = useState("");
   const [note, setNote] = useState<string>();
+  // CampaignHost currently rejects steer; keep replay-local and window-bridge use intact.
+  const unavailable = state.mode === "live" && state.host
+    ? "Live direction changes are unavailable in this host. Choose the campaign scope before Start."
+    : undefined;
   const submit = () => {
+    if (unavailable) { setNote(unavailable); return; }
     const result = onSteer(text);
     if (result.ok) {
       setText("");
@@ -21,6 +26,8 @@ export function SteeringBox({ state, onSteer }: { state: WorkspaceState; onSteer
         <textarea
           value={text}
           aria-label="Direction for Muse"
+          disabled={Boolean(unavailable)}
+          title={unavailable}
           placeholder="e.g. Spend more time on divert 2 jams; skip multi-carton spacing for now."
           onChange={(event) => setText(event.target.value)}
           onKeyDown={(event) => {
@@ -28,11 +35,11 @@ export function SteeringBox({ state, onSteer }: { state: WorkspaceState; onSteer
           }}
         />
         <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6 }}>
-          <button className="btn" onClick={submit} disabled={!text.trim()}>
+          <button className="btn" onClick={submit} disabled={Boolean(unavailable) || !text.trim()} title={unavailable}>
             {state.mode === "replay" ? "Record direction locally" : "Send direction"}
           </button>
           <span className="muted" style={{ fontSize: 12 }}>
-            {note ?? (state.mode === "replay" ? "Replay records your direction in the run record; no model is called." : "Requires coordinator application acknowledgement.")}
+            {unavailable ?? note ?? (state.mode === "replay" ? "Replay records your direction in the run record; no model is called." : "Requires coordinator application acknowledgement.")}
           </span>
         </div>
         {state.steering.length > 0 && (

@@ -51,6 +51,8 @@ try{
   browser=await launch({width:1440,height:1000});
   await browser.cdp('Page.navigate',{url});
   check('Real production browser attached',await browser.waitFor('window.controlsBenchPortal?.hosted===true'));
+  check('Unsupported live steering is disabled with an explanation',await browser.waitFor(`document.querySelector('textarea[aria-label="Direction for Muse"]')?.disabled===true&&document.querySelector('[aria-label="Steer Muse"]')?.textContent.includes('unavailable in this host')`));
+  check('Unsupported physical-sink overrides are disabled without hiding PLC outputs',await browser.waitFor(`(()=>{const buttons=Array.from(document.querySelectorAll('[data-control="sink-suppression"]'));return buttons.length>0&&buttons.every(b=>b.disabled)&&document.querySelector('[aria-label="Raw I/O"]').textContent.includes('PLC commands remain visible');})()`));
   const buttonReady=label=>browser.waitFor(`Array.from(document.querySelectorAll('button')).some(b=>b.textContent.trim()===${JSON.stringify(label)}&&!b.disabled)`);
   const click=async label=>{
     check(`${label} is available`,await buttonReady(label));

@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "controlsbench.campaign.v1",
+  "campaignId": "portal-20261104013210274-2",
+  "status": "completed",
+  "provenance": {
+    "spec": "sha256:acd1e39619af301155ac0f8b81f4b824c36c478800b4d482ddb225a2a21d5185",
+    "ioMap": "sha256:d4108df681ce08dcd11e7893ef1c43196601c810f27dea5e4e68b3e454016448",
+    "plcBuild": "fake-measurement-fixture-v1",
+    "worldModule": "sha256:277992048f8ca9a8b36f2f90c0d4c33ef479cb8b3c355d6a2233a272850698f5",
+    "model": "deterministic-fake-v1",
+    "connector": "deterministic-fake-connector-v1"
+  },
+  "evidenceClass": "fake_connector",
+  "claimBoundary": "Deterministic fake PLC connector and fixture provider; no live PLC, no Muse call, no final conveyor coverage.",
+  "plan": {
+    "objective": "Investigate an unexpected fixture output",
+    "experiments": [
+      {
+        "id": "baseline",
+        "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+        "category": "normal",
+        "requirements": []
+      },
+      {
+        "id": "persistence-probe",
+        "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+        "category": "adaptive",
+        "requirements": []
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "id": "baseline",
+      "objective": "Introduce an unassigned carton and observe the measurement fixture at rest",
+      "category": "normal",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "inconclusive",
+      "evidenceRefs": [
+        "portal-20261104013210274-2:69"
+      ]
+    },
+    {
+      "id": "persistence-probe",
+      "objective": "Determine whether observed StackLight_Green=false persists for a longer window",
+      "category": "adaptive",
+      "requirements": [],
+      "status": "completed",
+      "conclusion": "observed",
+      "evidenceRefs": [
+        "portal-20261104013210274-2:109"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "persistent-output",
+      "title": "Green indication absent in both observation windows",
+      "experimentId": "persistence-probe",
+      "claims": [
+        {
+          "evidenceId": "portal-20261104013210274-2:109",
+          "signal": "StackLight_Green",
+          "equals": false
+        }
+      ],
+      "injectedTruthRefs": [],
+      "inference": "A longer observation did not resolve the output disagreement.",
+      "assumptions": [
+        "Expected green indication is a fixture hypothesis"
+      ],
+      "uncertainty": "This is not a specified conveyor requirement failure or a diagnosed physical fault.",
+      "review": "unreviewed"
+    }
+  ],
+  "budget": {
+    "campaignUsd": 0,
+    "sessionUsd": 0,
+    "checks": {
+      "planning": 0,
+      "baseline": 0,
+      "persistence-probe": 0
+    },
+    "repairs": {
+      "none": 0
+    },
+    "requests": {
+      "request-1": {
+        "requestId": "request-1",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "planning",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-2": {
+        "requestId": "request-2",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-3": {
+        "requestId": "request-3",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "baseline",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      },
+      "request-4": {
+        "requestId": "request-4",
+        "phase": "settled",
+        "costUsd": 0,
+        "campaignUsd": 0,
+        "sessionUsd": 0,
+        "checkUsd": 0,
+        "repairUsd": 0,
+        "checkId": "persistence-probe",
+        "repairEpisode": "none",
+        "basis": "fake_zero"
+      }
+    }
+  },
+  "finalization": {
+    "summary": "Adaptive fixture investigation completed with grounded evidence",
+    "throughSequence": 126
+  },
+  "injectedTruth": [],
+  "worldEvidenceRefs": [
+    "portal-20261104013210274-2:12",
+    "portal-20261104013210274-2:13",
+    "portal-20261104013210274-2:14",
+    "portal-20261104013210274-2:15",
+    "portal-20261104013210274-2:16",
+    "portal-20261104013210274-2:17",
+    "portal-20261104013210274-2:18",
+    "portal-20261104013210274-2:19",
+    "portal-20261104013210274-2:20",
+    "portal-20261104013210274-2:21",
+    "portal-20261104013210274-2:22",
+    "portal-20261104013210274-2:23",
+    "portal-20261104013210274-2:24",
+    "portal-20261104013210274-2:25",
+    "portal-20261104013210274-2:26",
+    "portal-20261104013210274-2:27",
+    "portal-20261104013210274-2:28",
+    "portal-20261104013210274-2:29",
+    "portal-20261104013210274-2:30",
+    "portal-20261104013210274-2:31",
+    "portal-20261104013210274-2:32",
+    "portal-20261104013210274-2:33",
+    "portal-20261104013210274-2:34",
+    "portal-20261104013210274-2:54",
+    "portal-20261104013210274-2:62",
+    "portal-20261104013210274-2:70",
+    "portal-20261104013210274-2:101",
+    "portal-20261104013210274-2:110"
+  ],
+  "sourceEvidenceRefs": [
+    "portal-20261104013210274-2:5",
+    "portal-20261104013210274-2:6",
+    "portal-20261104013210274-2:7",
+    "portal-20261104013210274-2:8",
+    "portal-20261104013210274-2:49",
+    "portal-20261104013210274-2:50",
+    "portal-20261104013210274-2:57",
+    "portal-20261104013210274-2:58",
+    "portal-20261104013210274-2:65",
+    "portal-20261104013210274-2:66",
+    "portal-20261104013210274-2:96",
+    "portal-20261104013210274-2:97",
+    "portal-20261104013210274-2:105",
+    "portal-20261104013210274-2:106"
+  ],
+  "modelResponseRefs": [],
+  "plcEvidence": [
+    "portal-20261104013210274-2:11",
+    "portal-20261104013210274-2:53",
+    "portal-20261104013210274-2:61",
+    "portal-20261104013210274-2:69",
+    "portal-20261104013210274-2:100",
+    "portal-20261104013210274-2:109"
+  ],
+  "unresolved": [
+    {
+      "id": "await-green",
+      "name": "wait_for_condition",
+      "status": "timed_out",
+      "evidenceRefs": [],
+      "message": "Observation deadline reached without sufficient matching evidence"
+    }
+  ],
+  "untested": [],
+  "coverage": "Experiment evidence only; no final conveyor-controller requirement coverage is certified."
+}

@@ -2,7 +2,7 @@
 
 Claude's active lane is `codex/spec-onboarding` from22b3179. It owns import/paste, persistent project/version records, actual preparation jobs, a spec-derived reviewable plan, acceptance criteria, mapping validation, selected-world wiring and project/run navigation. Read the updated onboarding handoff and workflow acceptance checklist; pre-Start planning was added after the initial prompt commit. Claude returns a reviewable implementation/model-preparation checkpoint; no live PLC changes or user-host restart in that lane.
 
-Codex owns independent acceptance, integration, live qualification and demo/submission closure. While onboarding is active, Codex's changes stay in its independent acceptance scripts and release documentation. Control-capability cleanup (unsupported steering/suppression and misleading status), launcher/profile polish and any recovery integration are final-integration items; they are not yet claimed delivered. Project generation and new plan schema changes remain with Claude to avoid overlapping edits.
+Codex owns independent acceptance, integration, live qualification and demo/submission closure. While onboarding is active, Codex owns its independent acceptance scripts, release documentation and the leaf UI components SteeringBox.tsx / RawIoPanel.tsx. Those components now disable host steering and physical-sink overrides that CampaignHost explicitly rejects, with visible explanations. Replay-local and the separate window-bridge controls retain their existing behavior. Launcher/profile polish and recovery integration remain final-integration items. Project generation, planning and project selection remain with Claude to avoid overlapping edits.
 
 ## Independent lifecycle witness
 
@@ -15,6 +15,10 @@ It exercises real browser clicks through Start → Pause → Resume → Stop →
 Initial witness `artifacts/workflow-acceptance/2026-11-04T01-24-02-724Z/result.json`: **25/25 passed**, fixture class, zero PLC/model calls. The harness subsequently gained self/production-entry hashes; a final witness is recorded separately rather than overwriting this first result.
 
 Final source-bound witness `artifacts/workflow-acceptance/2026-11-04T01-25-30-779Z/result.json`: **25/25 passed** with exact harness and production-entry hashes. Initial and final attempts are both retained.
+
+Control-cleanup witness `artifacts/workflow-acceptance/2026-11-04T01-31-39-040Z/result.json`: **27/27 passed**, adding real-browser checks that unsupported steering and physical-sink overrides are disabled with explanations while raw values stay visible. UI suite57/57 and production build/typecheck passed. No host/runtime/PLC behavior changed. Future hosts implementing those commands should replace the leaf components' current host-version restriction with their advertised capability.
+
+The refreshed video edit plan is `docs/submission/demo-three-minute-cut.md`. Its onboarding shot is conditional on a genuine new acceptance result; existing W4/S2/normal-operation clips are separately identified.
 
 This qualifies only the existing fixture lifecycle and report continuity. It does not establish generated-project selection, server-restart history, actual PLC recovery, HMI congruence or live timing. Those remain explicit gates after onboarding integration.
 
