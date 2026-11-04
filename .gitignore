@@ -37,3 +37,7 @@ artifacts/w4-paid/timing-*/observer.stdout.txt
 artifacts/w4-paid/timing-*/observer.stderr.txt
 artifacts/w4-paid/**/portal-hmi/
 artifacts/w4-paid/**/live/alarm-history.jsonl
+
+# Project store host state: active selection (absolute local paths) and offline session locks.
+artifacts/projects/active.json
+artifacts/projects/.locks/

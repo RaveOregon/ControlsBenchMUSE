@@ -42,7 +42,14 @@ export interface OfflineSessionOptions {
   timing?: Partial<TimingOptions>;
   /** Defaults to <artifactDirectory>/wonder-process when the host supplies one. */
   journalDirectory?: string;
+  /** Explicit project selection; omitted means the fixed prepared example. */
+  world?: SelectedWorld;
 }
+/**
+ * A selected project world. The child must report exactly expectedWorldSha256 for the bytes it
+ * loaded, or construction fails; there is no fallback to the prepared example.
+ */
+export interface SelectedWorld { worldPath: string; specPath: string; expectedWorldSha256: string; label: string }
 
 /**
  * Live entry for the Wonder campaign factory. Requires the pinned commit, the reviewed handoff
@@ -74,12 +81,12 @@ export async function openOfflineWonderSession(context: CampaignFactoryContext, 
   return open(context, { offline: true, ownershipPath: options.ownershipPath, timing: { ...liveTiming, ...options.timing }, journalDirectory,
     handoff: { commit: "offline-unpinned", isolationVerified: true, recoveryVerified: true,
       evidenceRef: "offline fixture only: real isolated child with an injected fake M8 transport; not a live handoff, timing or recovery qualification" },
-    initialize: { transportModule: resolve(options.transportModule), transportOptions: options.transportOptions ?? {} }, env: childEnvironment(false) });
+    initialize: { transportModule: resolve(options.transportModule), transportOptions: options.transportOptions ?? {} }, env: childEnvironment(false), ...(options.world ? { world: options.world } : {}) });
 }
 
 interface OpenConfig {
   offline: boolean; ownershipPath: string; timing: TimingOptions; journalDirectory?: string;
-  handoff: IsolatedWonderSession["handoff"]; initialize: Record<string, unknown>; env: NodeJS.ProcessEnv;
+  handoff: IsolatedWonderSession["handoff"]; initialize: Record<string, unknown>; env: NodeJS.ProcessEnv; world?: SelectedWorld;
 }
 async function open(context: CampaignFactoryContext, config: OpenConfig): Promise<WonderProcessSession> {
   const { ledger } = context;
@@ -92,10 +99,12 @@ async function open(context: CampaignFactoryContext, config: OpenConfig): Promis
   driver.attach(channel);
   try {
     const identity = await channel.ready();
-    const loaded = (await channel.request<LoadedWorld>("load", { worldPath, projectPath, ...(config.journalDirectory ? { journalDir: config.journalDirectory } : {}) }, 30_000)).value;
+    const selected = config.world;
+    const loaded = (await channel.request<LoadedWorld>("load", { worldPath: selected?.worldPath ?? worldPath, projectPath, ...(config.journalDirectory ? { journalDir: config.journalDirectory } : {}) }, 30_000)).value;
+    if (selected && loaded.worldSha256 !== selected.expectedWorldSha256) throw new Error(`Isolated child loaded world sha256 ${loaded.worldSha256}, not the selected ${selected.label} (${selected.expectedWorldSha256}); refusing to run`);
     driver.declareObservedOutputs(loaded.observedOutputIds);
     const provenance = {
-      spec: `sha256:${sha256(file("docs/conveyor-machine-spec.md"))}`, ioMap: `sha256:${sha256(file("codesys/demo/signal-map-v1.json"))}`,
+      spec: `sha256:${sha256(selected?.specPath ?? file("docs/conveyor-machine-spec.md"))}`, ioMap: `sha256:${sha256(file("codesys/demo/signal-map-v1.json"))}`,
       plcBuild: config.offline ? `offline-fixture-transport;project-bytes-sha256:${loaded.projectSha256}` : `8001/interface-1/sha256:${loaded.projectSha256}`,
       worldModule: `sha256:${loaded.worldSha256};worldVersion:${loaded.worldVersion};loaded-by-child:${identity.pid}`,
       model: "assigned-by-host-provider",

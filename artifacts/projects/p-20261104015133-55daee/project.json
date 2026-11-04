@@ -1,0 +1,10 @@
+{
+  "schema": "controlsbench.project.v1",
+  "id": "p-20261104015133-55daee",
+  "name": "Slow-belt conveyor variant",
+  "createdAtIso": "2026-11-04T01:51:33.125Z",
+  "kind": "uploaded",
+  "versions": [
+    "v1"
+  ]
+}

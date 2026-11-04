@@ -1,0 +1,124 @@
+{
+  "schema": "controlsbench.project.v1",
+  "projectId": "p-20261104015133-55daee",
+  "version": "v1",
+  "createdAtIso": "2026-11-04T01:51:33.129Z",
+  "inputs": {
+    "spec": {
+      "name": "conveyor-slow-belt-spec.md",
+      "file": "inputs/spec.md",
+      "sha256": "67b665a851e81535af3695c721eb9d4de6fe88773de02ee66c3e19c26b3fda34",
+      "byteLength": 31599,
+      "mediaType": "text/markdown",
+      "source": "upload"
+    },
+    "ioSource": "embedded"
+  },
+  "target": "m8-conveyor",
+  "status": "ready",
+  "job": {
+    "id": "job-mw1gtust-7ab834",
+    "provider": {
+      "id": "muse-wonder-1.0",
+      "label": "Muse Wonder 1.0 (paid model request)",
+      "paid": true,
+      "fixture": false
+    },
+    "state": "ready",
+    "queuedAtIso": "2026-11-04T01:56:17.837Z",
+    "activities": [
+      {
+        "atIso": "2026-11-04T01:56:17.845Z",
+        "phase": "preparing",
+        "message": "Reading the uploaded specification and I/O"
+      },
+      {
+        "atIso": "2026-11-04T01:56:17.855Z",
+        "phase": "io",
+        "message": "23 I/O signals read (embedded)"
+      },
+      {
+        "atIso": "2026-11-04T01:56:18.514Z",
+        "phase": "generate",
+        "message": "Waiting for Muse (generate); request bound 32,000 output tokens"
+      },
+      {
+        "atIso": "2026-11-04T01:59:16.278Z",
+        "phase": "received",
+        "message": "Package received (178 s, resp_6aea91735e83b2b279f34c1a)"
+      },
+      {
+        "atIso": "2026-11-04T01:59:16.302Z",
+        "phase": "validating",
+        "message": "Validating attempt 1 in an isolated worker (compile, structure, physics, generated tests)"
+      },
+      {
+        "atIso": "2026-11-04T01:59:19.061Z",
+        "phase": "validated",
+        "message": "Attempt 1: 2 failed (compile.strict, structure.manifest)"
+      },
+      {
+        "atIso": "2026-11-04T01:59:19.067Z",
+        "phase": "repairing",
+        "message": "Repair 1: returning 2 validation failures to Muse"
+      },
+      {
+        "atIso": "2026-11-04T01:59:19.183Z",
+        "phase": "repair",
+        "message": "Waiting for Muse (repair); request bound 32,000 output tokens"
+      },
+      {
+        "atIso": "2026-11-04T02:00:41.402Z",
+        "phase": "received",
+        "message": "Package received (82 s, resp_6aea91c8f5435b42cb7b4c2a)"
+      },
+      {
+        "atIso": "2026-11-04T02:00:41.421Z",
+        "phase": "validating",
+        "message": "Validating attempt 2 in an isolated worker (compile, structure, physics, generated tests)"
+      },
+      {
+        "atIso": "2026-11-04T02:00:43.647Z",
+        "phase": "validated",
+        "message": "Attempt 2 passed 13 checks"
+      },
+      {
+        "atIso": "2026-11-04T02:00:43.668Z",
+        "phase": "ready",
+        "message": "Ready: 28 planned checks; M8 mapping compatible"
+      }
+    ],
+    "requests": 2,
+    "repairs": 1,
+    "maxRequests": 3,
+    "usage": {
+      "inputTokens": 39267,
+      "cachedInputTokens": 9076,
+      "outputTokens": 50279,
+      "reasoningTokens": 5782
+    },
+    "reservationsUsd": 2,
+    "estimatedUsd": 1.162648,
+    "startedAtIso": "2026-11-04T01:56:17.845Z",
+    "lastActivity": {
+      "atIso": "2026-11-04T02:00:43.668Z",
+      "phase": "ready",
+      "message": "Ready: 28 planned checks; M8 mapping compatible"
+    },
+    "endedAtIso": "2026-11-04T02:00:43.668Z"
+  },
+  "package": {
+    "directory": "attempts/job-mw1gtust-7ab834-2",
+    "files": {
+      "world.ts": "6074334f273964aa0e3d5423267396e4e5abaf0530029b82117effd29f2b9241",
+      "world.test.ts": "78d641616f145aa10e120f95957c91b916414add8fab0a9d6e619bcb3b49eef3",
+      "world.manifest.json": "54fd2667c3be90cdb64a8ae0f4479f81c84fe4f77a4047524221531399f9313f",
+      "assumptions.md": "2b6d9526e1aea67e3482c4e5fc9dd403ef828f48ec86e275a7700bdc599c7172",
+      "plan.json": "f3999dcce51afa25eb8f06b453040cbbf5ac2b41e56e9e00aef34093da48aa60",
+      "contracts.ts": "95a1f91fe50936fd815ee1037dafc5ec402983401b8860297b7093dc5d39a5ce"
+    },
+    "worldSha256": "6074334f273964aa0e3d5423267396e4e5abaf0530029b82117effd29f2b9241",
+    "manifestSha256": "54fd2667c3be90cdb64a8ae0f4479f81c84fe4f77a4047524221531399f9313f",
+    "attempt": 2
+  }
+}

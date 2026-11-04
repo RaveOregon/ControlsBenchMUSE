@@ -1,0 +1,143 @@
+{
+  "schema": "controlsbench.project-live-candidate.v1",
+  "status": "candidate — not commissioned; no live PLC qualification is claimed",
+  "project": {
+    "id": "p-20261104015133-55daee",
+    "name": "Slow-belt conveyor variant",
+    "version": "v1",
+    "store": "artifacts/projects"
+  },
+  "specification": {
+    "file": "artifacts/projects/p-20261104015133-55daee/v1/inputs/spec.md",
+    "sha256": "67b665a851e81535af3695c721eb9d4de6fe88773de02ee66c3e19c26b3fda34",
+    "source": "docs/examples/conveyor-slow-belt-spec.md (uploaded bytes)",
+    "change": "nominal belt speed 0.30 m/s (baseline 0.50 m/s); interface unchanged"
+  },
+  "world": {
+    "directory": "artifacts/projects/p-20261104015133-55daee/v1/attempts/job-mw1gtust-7ab834-2",
+    "worldTs": "artifacts/projects/p-20261104015133-55daee/v1/attempts/job-mw1gtust-7ab834-2/world.ts",
+    "worldSha256": "6074334f273964aa0e3d5423267396e4e5abaf0530029b82117effd29f2b9241",
+    "manifestSha256": "54fd2667c3be90cdb64a8ae0f4479f81c84fe4f77a4047524221531399f9313f",
+    "worldId": "m8-conveyor-1.0.2",
+    "worldVersion": "1.0.2",
+    "checkedNow": true
+  },
+  "preparation": {
+    "author": "Muse Wonder 1.0 (paid model request)",
+    "jobs": [
+      {
+        "id": "job-mw1gnr56-c22b3e",
+        "outcome": "failed before validation (earlier parser rejected seededRandom=false instead of repairing); raw response preserved",
+        "usage": {
+          "input_tokens": 9071,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 24981,
+          "output_tokens_details": {
+            "reasoning_tokens": 4717
+          },
+          "total_tokens": 34052
+        }
+      },
+      {
+        "id": "job-mw1gtust-7ab834",
+        "outcome": "ready",
+        "requests": 2,
+        "repairs": 1,
+        "usage": {
+          "inputTokens": 39267,
+          "cachedInputTokens": 9076,
+          "outputTokens": 50279,
+          "reasoningTokens": 5782
+        },
+        "estimatedUsd": 1.162648,
+        "reservationsUsd": 2
+      }
+    ],
+    "responseIds": [
+      "resp_6aea91735e83b2b279f34c1a",
+      "resp_6aea91c8f5435b42cb7b4c2a"
+    ],
+    "accounting": "Reservations are conservative admission accounting in artifacts/wonder/preparation-session.jsonl (separate from the campaign session account); estimates use recorded list rates. Neither is an invoice."
+  },
+  "validation": {
+    "ok": true,
+    "checks": 13,
+    "measured": {
+      "steadySpeedMps": 0.3,
+      "encoderCountsPerSecond": 300,
+      "runCommandToFeedbackMs": 100,
+      "runCommandToEntrySensorMs": 1200,
+      "encoderCountsPerMetre": 1000,
+      "stopToRestMs": 500
+    },
+    "comparison": "prepared example measures 0.5 m/s and 500 counts/s under the same checks"
+  },
+  "compatibility": {
+    "interface": "m8-conveyor-1.0.2",
+    "compatible": true,
+    "blockingIssues": 0,
+    "warnings": []
+  },
+  "plan": {
+    "checks": 28,
+    "runnable": 23,
+    "unavailable": [
+      {
+        "id": "ST-01",
+        "reason": "Needs HMI operation; the configured campaign composition cannot operate the HMI"
+      },
+      {
+        "id": "R-01",
+        "reason": "Needs HMI operation; the configured campaign composition cannot operate the HMI"
+      },
+      {
+        "id": "R-12",
+        "reason": "Needs HMI operation; the configured campaign composition cannot operate the HMI"
+      },
+      {
+        "id": "R-22",
+        "reason": "Needs HMI operation; the configured campaign composition cannot operate the HMI"
+      },
+      {
+        "id": "FN-01",
+        "reason": "Needs HMI operation; the configured campaign composition cannot operate the HMI"
+      }
+    ],
+    "openQuestions": [
+      "Should fault.setDriveFeedbackFailure mean the drive physically does not run (current model, giving R-11's 'no virtual motion'), or that the motor runs but only its feedback is lost (cartons would move while PLC sees no feedback)? The spec supports both readings (§4 vs §8/R-11).",
+      "No sensor positions, spacing distances, acceleration/deceleration rates, encoder counts-per-metre, drive-feedback delay, or divert decision threshold are specified. The world uses labelled inferred values; confirm none of them will be scored as acceptance thresholds.",
+      "Detection deadlines/thresholds for drive-start fault (R-11), divert failure (R-13/R-14), jam timeout (R-19), debounce (R-09) and stuck-sensor plausibility (R-10) are all TBD in §9; checks are marked unspecified-basis until the engineer freezes them.",
+      "Blocked-destination and runout-blocked policies (§11.2) are accepted demo defaults but §9 marks R-06/R-07 PROBE; confirm whether they may be scored as MUST for the campaign.",
+      "WCS offer/ack/completion, operator Start/Stop/Reset, mode and counts are supervisory symbols outside the 25-signal bench map (§4/§5). Which connector symbols will the campaign use to drive and observe them, and what are the State_Code/Fault_Code enumerations?",
+      "Exact BenchSimulationActive selection action, Bench_HostHeartbeat type/timeout and stale-value behaviour on disconnect (§4/§7) are TBD; startup/transport checks cannot be scored until frozen.",
+      "Should the overload fault physically trip/stop the belt (current model) or only assert the Drive_Overload input while the drive keeps running until the PLC reacts?"
+    ]
+  },
+  "offlineEvidence": {
+    "campaignId": "portal-20261104121915383-1",
+    "status": "completed",
+    "evidenceClass": "fake_connector",
+    "provenanceSpec": "sha256:67b665a851e81535af3695c721eb9d4de6fe88773de02ee66c3e19c26b3fda34",
+    "provenanceWorld": "sha256:6074334f273964aa0e3d5423267396e4e5abaf0530029b82117effd29f2b9241;worldVersion:1.0.2;loaded-by-child:23780",
+    "report": "artifacts/projects/p-20261104015133-55daee/v1/runs/portal-20261104121915383-1/report.json",
+    "bundle": "artifacts/projects/p-20261104015133-55daee/v1/runs/portal-20261104121915383-1/report-bundle.json",
+    "note": "isolated child loaded this world; fixture M8 transport and fixture campaign provider; no PLC"
+  },
+  "liveChecklist": [
+    "Review the Muse open questions (drive-feedback fault meaning, overload behaviour, inferred geometry/timing) and record engineer answers or a revision before scoring any check.",
+    "Pin a clean commit containing this branch and the world bytes above; prepare a reviewed handoff manifest for the isolated adapter as for the prepared example (no reuse of the old pin's qualification).",
+    "Extend the live createWonderSession entry to accept the selected world with expected sha256 (offline openOfflineWonderSession already does; live currently loads the prepared example only).",
+    "Run native zero-model commissioning against CODESYS Control Win with this world: baseline Stopped/fault 0, complete 20-input image written, hold-last-image on link loss, 10 Hz cadence, no catch-up bursts.",
+    "Confirm the world's 0.30 m/s belt and encoder counts against the PLC's scaling and any controller timing assumptions; this world does not inherit the 0.50 m/s example's timing qualification.",
+    "Run a live campaign of the runnable prepared checks with fresh payload/spend approval; HMI checks need the S2 HMI-capable composition and stay unavailable otherwise.",
+    "Verify the report shows this project/version, spec and world hashes as loaded by the child, and that the final recorded PLC state and next permitted action are shown on Stop/completion."
+  ],
+  "commands": {
+    "offlineHost": "node scripts/host-portal.js --port <port> --projects artifacts/projects --project-author fixture --campaign project",
+    "museHost": "node --env-file=<path to .env> scripts/host-portal.js --port <port> --projects artifacts/projects --project-author muse --campaign project",
+    "tests": "node --test test/project-onboarding.test.ts; npm test --prefix ui",
+    "witness": "node scripts/capture-onboarding.js --fixture http://127.0.0.1:<fixture port> [--muse http://127.0.0.1:<muse port>]"
+  }
+}
