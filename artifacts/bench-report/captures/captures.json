@@ -1,0 +1,78 @@
+{
+  "capturedAtIso": "2026-11-04T00:38:10.629Z",
+  "viewport": "1440x900",
+  "browser": "headless Chrome/Edge via scripts/lib/chrome.js",
+  "results": [
+    {
+      "report": "s2-first-attempt-partial",
+      "title": "HMI operator trial, first attempt (stopped early) — portal-20261103231427237-1",
+      "attention": 2,
+      "images": 0,
+      "placeholders": 0,
+      "externalRequests": 0,
+      "overflowX": false,
+      "printExpansion": {
+        "closedBefore": 4,
+        "closedAfter": 0,
+        "restoredAfterPrint": true
+      },
+      "screenshots": [
+        "artifacts/bench-report/captures/s2-first-attempt-partial-summary.png",
+        "artifacts/bench-report/captures/s2-first-attempt-partial-results.png"
+      ],
+      "pdf": "artifacts/bench-report/captures/s2-first-attempt-partial.pdf"
+    },
+    {
+      "report": "s2-hmi-operator-trial",
+      "title": "HMI operator trial (Muse-operated browser HMI) — portal-20261103232137992-1",
+      "attention": 5,
+      "images": 14,
+      "placeholders": 1,
+      "externalRequests": 0,
+      "overflowX": false,
+      "printExpansion": {
+        "closedBefore": 14,
+        "closedAfter": 0,
+        "restoredAfterPrint": true
+      },
+      "screenshots": [
+        "artifacts/bench-report/captures/s2-hmi-operator-trial-summary.png",
+        "artifacts/bench-report/captures/s2-hmi-operator-trial-hmi-ui03.png",
+        "artifacts/bench-report/captures/s2-hmi-operator-trial-results.png",
+        "artifacts/bench-report/captures/s2-hmi-operator-trial-findings.png"
+      ],
+      "pdf": "artifacts/bench-report/captures/s2-hmi-operator-trial.pdf"
+    },
+    {
+      "report": "w4-adaptive-plc-investigation",
+      "title": "Adaptive PLC fault investigation (drive feedback and D1 limits) — portal-20261103131442735-1",
+      "attention": 3,
+      "images": 0,
+      "placeholders": 0,
+      "externalRequests": 0,
+      "overflowX": false,
+      "printExpansion": {
+        "closedBefore": 5,
+        "closedAfter": 0,
+        "restoredAfterPrint": true
+      },
+      "screenshots": [
+        "artifacts/bench-report/captures/w4-adaptive-plc-investigation-summary.png",
+        "artifacts/bench-report/captures/w4-adaptive-plc-investigation-results.png",
+        "artifacts/bench-report/captures/w4-adaptive-plc-investigation-findings.png"
+      ],
+      "pdf": "artifacts/bench-report/captures/w4-adaptive-plc-investigation.pdf"
+    },
+    {
+      "app": "Results",
+      "host": "Fixture campaign · adaptive follow-up (fake connector)",
+      "campaign": "portal-20261104002046515-1",
+      "screenshots": [
+        "artifacts/bench-report/captures/app-results-fixture-host.png",
+        "artifacts/bench-report/captures/app-results-saved-s2.png",
+        "artifacts/bench-report/captures/app-results-saved-s2-hmi.png"
+      ],
+      "pdf": "artifacts/bench-report/captures/app-results-saved-s2.pdf"
+    }
+  ]
+}

@@ -18,10 +18,10 @@ export interface CampaignTruthActions {
   ledgerUrl: string;
 }
 
-/** The authoritative M9 projection, shown verbatim. Requirement coverage is never inferred from it. */
+/** The authoritative campaign projection, shown verbatim. Requirement coverage is never inferred from it. */
 export function CampaignTruthPanel({ state, actions, onSelect }: { state: WorkspaceState; actions?: CampaignTruthActions; onSelect: (s: Selection) => void }) {
   const hosted = state.hosted;
-  if (!hosted) return <section className="panel"><header><h2>M9 campaign record</h2><span className="tag">none</span></header><div className="body muted">{state.host ? 'No campaign yet. Start Campaign creates a new M9 ledger on the host.' : 'No portal host attached.'}</div></section>;
+  if (!hosted) return <section className="panel"><header><h2>Campaign record</h2><span className="tag">none</span></header><div className="body muted">{state.host ? 'No campaign yet. Start Campaign creates a new campaign ledger on the host.' : 'No portal host attached.'}</div></section>;
   const p = hosted.projection;
   const badge = HOST_EVIDENCE_LABEL[hosted.evidenceClass] ?? { text: hosted.evidenceClass, title: '', cls: '' };
   const connector = p?.connector as { state?: string; reason?: string; ageMs?: number } | undefined;
@@ -35,8 +35,8 @@ export function CampaignTruthPanel({ state, actions, onSelect }: { state: Worksp
   const actionsList = p ? Object.entries(p.actions) : [];
   const findings = p ? Object.values(p.findings) : [];
   const report = p?.report as { summary?: string; throughSequence?: number } | undefined;
-  return <section className="panel campaign-truth" aria-label="M9 campaign record">
-    <header><h2>M9 campaign record</h2><span className={`tag evidence-badge ${badge.cls}`} title={badge.title}>{badge.text}</span><span className="tag">{p?.status ?? 'awaiting events'}</span></header>
+  return <section className="panel campaign-truth" aria-label="Campaign record">
+    <header><h2>Campaign record</h2><span className={`tag evidence-badge ${badge.cls}`} title={badge.title}>{badge.text}</span><span className="tag">{p?.status ?? 'awaiting events'}</span></header>
     <div className="body">
       {hosted.integrityError && <p className="verdict-fail" role="alert"><b>Integrity failure — no further events applied.</b> {hosted.integrityError}</p>}
       <p className="muted">{p?.claimBoundary ?? hosted.label}</p>
@@ -71,7 +71,7 @@ export function CampaignTruthPanel({ state, actions, onSelect }: { state: Worksp
         {actions && state.mode === 'live' && <div className="actions"><button className="btn small" disabled={f.review === 'accepted'} onClick={() => actions.reviewFinding(f.id, 'accepted')}>Accept finding</button><button className="btn small" disabled={f.review === 'rerun_requested'} onClick={() => actions.reviewFinding(f.id, 'rerun_requested')}>Request rerun (records request only)</button></div>}
       </article>) : <p className="muted">No grounded finding recorded.</p>}
       <p className="muted">{report ? `Report finalized through sequence ${report.throughSequence}: ${report.summary}` : 'Report not finalized.'} Experiment evidence only; no conveyor requirement coverage is certified.</p>
-      {actions && <div className="actions"><a className="btn small" href={actions.reportUrl} target="_blank" rel="noreferrer">Open M9 report</a><a className="btn small" href={actions.ledgerUrl} download>Download ledger (JSONL)</a></div>}
+      {actions && <div className="actions"><a className="btn small" href={actions.reportUrl} target="_blank" rel="noreferrer">Open JSON report</a><a className="btn small" href={actions.ledgerUrl} download>Download ledger (JSONL)</a></div>}
     </div>
   </section>;
 }

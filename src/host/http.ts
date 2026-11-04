@@ -1,10 +1,11 @@
 // HTTP transport for the portal host: Server-Sent Events downstream, JSON POST upstream, the
-// built portal, HMI frame bytes, the campaign report and the full ledger. Binds to loopback by
+// built portal, HMI frame bytes, the campaign report (plus its presentation bundle) and the full ledger. Binds to loopback by
 // default; state-changing requests must be same-origin JSON.
 
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { extname, join, normalize, resolve, sep } from "node:path";
+import { buildReportBundle, type CampaignReport } from "../report/bundle.ts";
 import type { CampaignHost } from "./campaign-host.ts";
 import type { HostStreamMessage } from "./protocol.ts";
 
@@ -90,6 +91,20 @@ export function createPortalServer(options: PortalServerOptions): Server {
       if (req.method === "GET" && url.pathname === "/api/campaign/report") {
         const report = host.report();
         return report ? json(res, 200, report) : json(res, 404, { error: "No campaign" });
+      }
+      if (req.method === "GET" && url.pathname === "/api/campaign/report/bundle") {
+        const report = host.report();
+        if (!report) return json(res, 404, { error: "No campaign" });
+        // Presentation view of the same report; frames resolve only through the host's own retained store.
+        return json(res, 200, buildReportBundle({ report: report as CampaignReport, events: host.events, context: { kind: "host_current", factoryLabel: host.factory.label },
+          reportIntegrity: { source: "host_memory" },
+          resolveMedia: frame => {
+            const stored = host.hmi.frame(frame.sessionId, frame.frameSequence);
+            if (!stored) return { sha256: frame.sha256!, status: "missing", note: "Frame not retained in host memory; see the HMI session artifacts" };
+            if (stored.ref.sha256 !== frame.sha256) return { sha256: frame.sha256!, status: "hash_mismatch", note: "Retained frame does not match the recorded SHA-256; not shown" };
+            return { sha256: frame.sha256, status: "url", url: `/api/hmi/frames/${encodeURIComponent(frame.sessionId)}/${frame.frameSequence}`,
+              contentType: stored.ref.contentType, byteLength: stored.ref.byteLength, note: "Retained by this host; SHA-256 matches the ledger" };
+          } }));
       }
       if (req.method === "GET" && url.pathname === "/api/campaign/ledger") {
         if (!host.campaignId) return json(res, 404, { error: "No campaign" });

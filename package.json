@@ -7,7 +7,7 @@
   "scripts": {
     "start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-product.ps1",
     "dev": "node --watch src/server.js",
-    "test": "node --test --test-concurrency=1 test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts test/m8-connector.test.ts test/portal-host.test.ts test/cdp-webvisu.test.ts test/m10-convergence.test.ts test/machine-view.test.ts test/wonder-campaign.test.ts test/wonder-portal.test.ts test/wonder-factory.test.ts test/hmi-commands.test.ts test/hmi-alarms.test.ts test/hmi-freshness.test.ts test/hmi-coordinator-process.test.ts test/hmi-confirmation.test.ts test/hmi-audit.test.ts test/product-integration.test.ts test/wonder-scope.test.ts test/wonder-recorded-browser.test.ts test/wonder-paid-replay.test.ts test/wonder-process.test.ts test/w4-integration.test.ts test/w4-commissioning.test.ts test/wonder-retry.test.ts test/wonder-decision-repair.test.ts test/wonder-transport-retry.test.ts test/s2-hmi.test.ts",
+    "test": "node --test --test-concurrency=1 test/proof-chassis.test.ts test/budget-guard.test.ts test/live-coordinator.test.ts test/campaign.test.ts test/m8-connector.test.ts test/portal-host.test.ts test/cdp-webvisu.test.ts test/m10-convergence.test.ts test/machine-view.test.ts test/wonder-campaign.test.ts test/wonder-portal.test.ts test/wonder-factory.test.ts test/hmi-commands.test.ts test/hmi-alarms.test.ts test/hmi-freshness.test.ts test/hmi-coordinator-process.test.ts test/hmi-confirmation.test.ts test/hmi-audit.test.ts test/product-integration.test.ts test/wonder-scope.test.ts test/wonder-recorded-browser.test.ts test/wonder-paid-replay.test.ts test/wonder-process.test.ts test/w4-integration.test.ts test/w4-commissioning.test.ts test/wonder-retry.test.ts test/wonder-decision-repair.test.ts test/wonder-transport-retry.test.ts test/s2-hmi.test.ts test/bench-report.test.ts",
     "host": "node scripts/host-portal.js",
     "host:adaptive": "node scripts/host-portal.js --campaign fixture-adaptive",
     "host:m8": "powershell -ExecutionPolicy Bypass -File scripts/host-m8.ps1",
@@ -59,7 +59,9 @@
     "hmi:live:portal": "powershell -ExecutionPolicy Bypass -File scripts/run-hmi-live.ps1 -Portal",
     "hmi:fixtures": "node scripts/extract-hmi-fixtures.js",
     "hmi:audit": "node scripts/audit-hmi-h2.js",
-    "verify:w4:offline": "node scripts/verify-w4-convergence.js"
+    "verify:w4:offline": "node scripts/verify-w4-convergence.js",
+    "report:export": "node scripts/export-bench-report.js",
+    "report:capture": "node scripts/capture-bench-report.js"
   },
   "engines": {
     "node": ">=22"

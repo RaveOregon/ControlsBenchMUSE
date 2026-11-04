@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { HmiConfiguration, HmiSurface } from "./components/HmiSurface.tsx";
-import { ContextPanel, CommandNotice, ExperimentPanel, FindingCard, ResultsPanel, focusedCheck } from "./components/Portal.tsx";
+import { ContextPanel, CommandNotice, ExperimentPanel, FindingCard, HistoricalQualification, ReplayResults, focusedCheck } from "./components/Portal.tsx";
+import { ResultsPage } from "./components/ResultsPage.tsx";
 import { ingestHmiObservation, type HmiSource, type HmiObservation } from "./adapters/live/hmi-source.ts";
 import type { CoordinatorTransport, CoordinatorEventLike, CommandAcknowledgement } from "./adapters/live/coordinator-source.ts";
 import { LiveSession } from "./adapters/live/coordinator-source.ts";
@@ -120,6 +121,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
   const hostedSource = mode === "live" && sessions.hosted ? sessions.hosted : null;
   const nowEpochMs = hostedSource ? hostedSource.nowEpochMs() : Date.now();
   const truthActions = hostedSource ? { reviewFinding: (id: string, review: "accepted" | "rerun_requested") => hostedSource.reviewFinding(id, review), reportUrl: "/api/campaign/report", ledgerUrl: "/api/campaign/ledger" } : undefined;
+  const reportLinks = useMemo(() => hostedSource ? { bundleUrl: "/api/campaign/report/bundle", reportUrl: "/api/campaign/report", ledgerUrl: "/api/campaign/ledger" } : undefined, [hostedSource]);
   const hmiControls = hostedSource ? { configure: (url: string) => hostedSource.configureHmi(url), disconnect: () => hostedSource.disconnectHmi() } : undefined;
   const liveDetail = sessions.hosted ? `${state.host?.state === "connected" ? "host" : "host reconnecting"} · ${host?.factory.evidenceClass.replaceAll("_", " ")}` : undefined;
   const check = focusedCheck(state, selection);
@@ -179,7 +181,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
             <details className="inspector-disclosure"><summary>Campaign scope & checks</summary>{plan}</details>
             <details className="inspector-disclosure"><summary>Protocol diagnostics, budget & raw I/O</summary><ConnectionPanel state={state} nowMs={nowMs} /><BudgetPanel state={state} nowMs={nowMs} /><RawIoPanel state={state} nowMs={nowMs} onSelect={setSelection} onSuppress={(id, suppressed) => source.setSuppression(id, suppressed)} /></details>
           </>}
-          {destination === 'Results' && <>{hostedSource && <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />}<ResultsPanel state={state} bundle={bundle} onSelect={setSelection} reportUrl={truthActions?.reportUrl} /></>}
+          {destination === 'Results' && <ResultsPage state={state} links={reportLinks} fallback={<ReplayResults state={state} bundle={bundle} onSelect={setSelection} />} historical={<HistoricalQualification bundle={bundle} onSelect={setSelection} />} />}
         </main>
       </div>
       <Inspector nowMs={nowMs} state={state} selection={selection} provenance={provenance} onSelect={setSelection} lookupEnvelope={hostedSource ? id => hostedSource.getEnvelope(id) : undefined} />

@@ -990,3 +990,13 @@ a { color: var(--accent); }
   .topbar .controls { width: 100%; }
   .page-heading { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
+
+/* Printing the Results report (browser Print / Save as PDF): only the report, unclipped, in light colours. */
+@media print {
+  :root { color-scheme: light; --bg: #fff; --panel: #fff; --panel-2: #fff; --line: #c9cfd6; --line-strong: #9aa4ae; --text: #111; --text-2: #333; --text-3: #555;
+    --accent: #0b57b0; --ok: #0b6e45; --warn: #8a5300; --bad: #b02020; --reason: #5b34b0; --wait: #0b6878; --replay: #8a5300; --live: #0b6e45; }
+  html, body, #root, .app { height: auto !important; overflow: visible !important; display: block !important; background: #fff !important; }
+  .topbar, .destinations, .activity, .command-status, .drawer, .no-print { display: none !important; }
+  .portal-scroll { overflow: visible !important; }
+  .portal-main { padding: 0 !important; max-width: none !important; }
+}
