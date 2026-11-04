@@ -74,7 +74,7 @@ function usePrintExpansion() {
   }, []);
 }
 
-export function ResultsPage({ state, links, fallback, historical }: { state: WorkspaceState; links?: HostReportLinks; fallback: ReactNode; historical: ReactNode }) {
+export function ResultsPage({ state, links, open, fallback, historical }: { state: WorkspaceState; links?: HostReportLinks; open?: { url: string; title: string; nonce: number }; fallback: ReactNode; historical: ReactNode }) {
   usePrintExpansion();
   const hosted = links ? state.hosted : undefined;
   const status = hosted?.projection?.status;
@@ -106,6 +106,12 @@ export function ResultsPage({ state, links, fallback, historical }: { state: Wor
     try { return { view: buildReportView(active) }; } catch (error) { return { error: String(error) }; }
   }, [active]);
 
+  // A project's archived run report, served by this host's project API only.
+  useEffect(() => {
+    if (!open || !open.url.startsWith("/api/projects/")) return;
+    fetch(open.url, { cache: "no-store" }).then(r => r.ok ? r.json() : Promise.reject(new Error(`Host returned ${r.status}`)))
+      .then(b => setSaved({ name: open.title, bundle: checkBundle(b) }), e => setSaved({ name: open.title, error: `${open.title}: ${(e as Error).message}` }));
+  }, [open]);
   const openFile = async (file: File) => {
     try { setSaved({ name: file.name, bundle: checkBundle(JSON.parse(await file.text())) }); }
     catch (error) { setSaved({ name: file.name, error: `${file.name} is not a readable bench report bundle (${error instanceof Error ? error.message : String(error)}).` }); }

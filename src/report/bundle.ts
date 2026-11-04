@@ -136,7 +136,14 @@ export interface ReportBundle {
   /** Selected HMI images keyed by SHA-256; frames reference them by hash. */
   media: Record<string, MediaRecord>;
   diagnostics?: Record<string, string>;
+  /** Engineer's selected project, from the campaign's own selection record. */
+  project?: { projectId: string; projectName: string; version: string; kind: string; specSha256: string; ioSha256?: string; worldSha256: string; loadedWorldSha256: string;
+    manifestSha256?: string; benchProfile?: string; author?: string; responseIds?: string[] };
+  /** Plan prepared before Start, with source-linked expected observations. */
+  preparedPlan?: { objective: string; author: string; checks: PreparedCheck[]; notRun: Array<{ id: string; reason?: string }> };
 }
+export interface PreparedCheck { id: string; group: string; title: string; objective: string; requirementRefs: string[]; sourceRefs: string[]; stimulus: string;
+  expectedObservation: string; expectedBasis: "specified" | "unspecified"; observeSignals: string[] }
 
 export interface BundleInput {
   report: CampaignReport;
@@ -216,6 +223,7 @@ export function buildReportBundle(input: BundleInput): ReportBundle {
   const exchangeInputs = new Map<string, string[]>();
   for (const v of input.exchanges?.visionInputs ?? []) exchangeInputs.set(v.evidenceId, [...(exchangeInputs.get(v.evidenceId) ?? []), v.requestId]);
   let authorized: ReportBundle["ledger"]["authorized"];
+  let project: ReportBundle["project"], preparedPlan: ReportBundle["preparedPlan"];
   let active: string | undefined;
   let lastCompletedRequest: ModelRequestRecord | undefined;
   let lastOutput: CampaignEvent | undefined, lastConnector: CampaignEvent | undefined;
@@ -227,6 +235,22 @@ export function buildReportBundle(input: BundleInput): ReportBundle {
     switch (e.type) {
       case "campaign.state": states.push({ sequence: e.sequence, atIso: e.atIso, state: text(d.state), reason: text(d.reason, 1200) }); break;
       case "campaign.authorized": authorized = { categories: strings(d.categories), diagnosisMode: text(d.diagnosisMode) }; break;
+      case "world.evidence": {
+        const s = obj(d.source);
+        if (s.kind === "selected_project") {
+          const prep = obj(s.preparation);
+          project = { projectId: text(s.projectId, 120), projectName: text(s.projectName, 200), version: text(s.version, 20), kind: text(s.projectKind, 20), specSha256: text(s.specSha256, 64),
+            ...(s.ioSha256 ? { ioSha256: text(s.ioSha256, 64) } : {}), worldSha256: text(s.worldSha256, 64), loadedWorldSha256: text(s.loadedWorldSha256, 64),
+            ...(s.manifestSha256 ? { manifestSha256: text(s.manifestSha256, 64) } : {}), ...(s.benchProfile ? { benchProfile: text(s.benchProfile, 80) } : {}),
+            ...(prep.author ? { author: text(prep.author, 200) } : {}), responseIds: strings(prep.responseIds) };
+        }
+        if (s.kind === "prepared_plan") preparedPlan = { objective: text(s.objective), author: text(s.author, 200),
+          checks: (Array.isArray(s.checks) ? s.checks : []).map(obj).map(c => ({ id: text(c.id, 150), group: text(c.group, 40), title: text(c.title, 400), objective: text(c.objective),
+            requirementRefs: strings(c.requirementRefs), sourceRefs: strings(c.sourceRefs), stimulus: text(c.stimulus), expectedObservation: text(c.expectedObservation),
+            expectedBasis: c.expectedBasis === "specified" ? "specified" as const : "unspecified" as const, observeSignals: strings(c.observeSignals) })),
+          notRun: (Array.isArray(s.notRun) ? s.notRun : []).map(obj).map(n => ({ id: text(n.id, 150), ...(n.reason ? { reason: text(n.reason, 400) } : {}) })) };
+        break;
+      }
       case "plc.acknowledged":
         ackBySource.set(text(d.sourceId), e);
         if (d.bootIdentity && boots.at(-1) !== text(d.bootIdentity)) boots.push(text(d.bootIdentity));
@@ -377,6 +401,7 @@ export function buildReportBundle(input: BundleInput): ReportBundle {
       connector: lastConnector ? { id: lastConnector.id, atIso: lastConnector.atIso, state: text(lastConnector.data.state), reason: text(lastConnector.data.reason, 600),
         ageMs: num(lastConnector.data.ageMs) } : undefined
     },
+    ...(project ? { project } : {}), ...(preparedPlan ? { preparedPlan } : {}),
     attachments: input.attachments ?? [],
     sources: input.sources ?? [],
     media

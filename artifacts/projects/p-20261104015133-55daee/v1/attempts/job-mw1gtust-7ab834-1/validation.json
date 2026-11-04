@@ -1,0 +1,117 @@
+{
+  "schema": "controlsbench.world-validation.v1",
+  "ok": false,
+  "startedAtIso": "2026-11-04T01:59:17.165Z",
+  "durationMs": 1851,
+  "profile": "m8-conveyor",
+  "worldSha256": "2fa790b8db38063d6264ad25a0e613f4d90c493c8a07b5410f74685cece9641f",
+  "manifestSha256": "850289b094ce73489f4e9f04ac909bf4cf82c468a15862c6ed4791a3681819d0",
+  "checks": [
+    {
+      "id": "compile.strict",
+      "group": "compile",
+      "title": "Strict TypeScript compile",
+      "status": "fail",
+      "detail": "world.test.ts(120,9): error TS2367: This comparison appears to be unintentional because the types 'false' and 'true' have no overlap.",
+      "classification": "compiler"
+    },
+    {
+      "id": "structure.module",
+      "group": "structure",
+      "title": "Module exports and lifecycle",
+      "status": "pass",
+      "detail": "Named and default world export with all lifecycle methods"
+    },
+    {
+      "id": "structure.manifest",
+      "group": "structure",
+      "title": "Manifest file matches the module manifest",
+      "status": "fail",
+      "detail": "world.manifest.json must equal the manifest the module exports",
+      "classification": "structural"
+    },
+    {
+      "id": "runtime.initialize",
+      "group": "runtime",
+      "title": "Initialize establishes a typed normal image",
+      "status": "pass",
+      "detail": "20 raw inputs typed after initialize"
+    },
+    {
+      "id": "runtime.finite",
+      "group": "runtime",
+      "title": "Raw inputs stay typed and finite while idle",
+      "status": "pass",
+      "detail": "3 s idle at normal PLC outputs"
+    },
+    {
+      "id": "runtime.snapshot",
+      "group": "runtime",
+      "title": "Snapshot is JSON-safe and migrates",
+      "status": "pass",
+      "detail": "Snapshot round-trips through JSON and migrate returns a snapshot"
+    },
+    {
+      "id": "runtime.deterministic",
+      "group": "runtime",
+      "title": "Same seed and inputs give the same image",
+      "status": "pass",
+      "detail": "Two seeded runs compared after 1 s"
+    },
+    {
+      "id": "physics.no_motion_stopped",
+      "group": "physics",
+      "title": "No motion, feedback or encoder change without a run command",
+      "status": "pass",
+      "detail": "encoder 0→0, feedback false, items moved: none"
+    },
+    {
+      "id": "physics.run_feedback",
+      "group": "physics",
+      "title": "Run command produces running feedback through drive dynamics",
+      "status": "pass",
+      "detail": "first feedback after 100 ms"
+    },
+    {
+      "id": "physics.encoder_motion",
+      "group": "physics",
+      "title": "Encoder counts advance with belt travel",
+      "status": "pass",
+      "detail": "encoder 0→1440, 300 counts in the last second"
+    },
+    {
+      "id": "physics.item_motion",
+      "group": "physics",
+      "title": "Introduced item moves under the running drive",
+      "status": "pass",
+      "detail": "1 of 1 items advanced"
+    },
+    {
+      "id": "physics.decelerate_hold",
+      "group": "physics",
+      "title": "Stop decelerates monotonically to rest and then holds",
+      "status": "pass",
+      "detail": "speed 0.240→0 in 500 ms; holds at rest"
+    },
+    {
+      "id": "tests.generated",
+      "group": "generated_tests",
+      "title": "Package's own physical-invariant tests",
+      "status": "pass",
+      "detail": "8 passed"
+    }
+  ],
+  "measured": {
+    "steadySpeedMps": 0.3,
+    "encoderCountsPerSecond": 300,
+    "runCommandToFeedbackMs": 100,
+    "runCommandToEntrySensorMs": 1200,
+    "encoderCountsPerMetre": 1000,
+    "stopToRestMs": 500
+  },
+  "generatedTests": {
+    "pass": 8,
+    "fail": 0,
+    "durationMs": 919
+  }
+}

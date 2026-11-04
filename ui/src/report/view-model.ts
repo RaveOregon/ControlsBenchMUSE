@@ -16,7 +16,7 @@ export interface ValueGroup { ref: RefView; atIso?: string; sourceAtIso?: string
 export interface ExperimentRow {
   id: string; objective: string; category: string; requirements: string[]; origin: string; followup?: { rationale: string; refs: RefView[] };
   status: "observed" | "inconclusive" | "running" | "not_run"; statusLabel: string; tone: Tone; startedAtIso?: string; completedAtIso?: string;
-  stimuli: ActionLine[]; checks: ActionLine[]; discrepancies: string[]; values: ValueGroup[]; expected: string; requirementVerdict: string;
+  stimuli: ActionLine[]; checks: ActionLine[]; discrepancies: string[]; values: ValueGroup[]; expected: string; plannedStimulus?: string; requirementVerdict: string;
   refs: RefView[]; limitations: string[];
 }
 export interface RequirementRow { id: string; experiments: Array<{ id: string; statusLabel: string }>; verdictLabel: string; tone: Tone; recorded: string[]; separateReviews: string[] }
@@ -181,12 +181,17 @@ export function buildReportView(bundle: ReportBundle): ReportView {
       ...assessments.filter(a => x.requirements.includes(a.data.requirementId) && a.data.verdict !== "pass").map(a => `${a.data.requirementId} assessed ${a.data.verdict}: ${a.data.uncertainty}`),
       ...(status === "not_run" ? ["No evidence: this experiment was not executed."] : status === "running" ? [historical ? "The record ended before this experiment reached a conclusion." : "This experiment is still in progress; no conclusion is recorded yet."] : [])
     ];
-    return { id, objective: x.objective, category: x.category, requirements: x.requirements, origin: timing?.origin === "followup" ? "Adaptive follow-up (added from evidence)" : "Planned",
+    const prepared = bundle.preparedPlan?.checks.find(c => c.id === id);
+    return { id, objective: x.objective, category: x.category, requirements: x.requirements,
+      origin: timing?.origin === "followup" ? "Adaptive follow-up (added from evidence)" : prepared ? `Prepared before Start (${bundle.preparedPlan!.author})` : bundle.preparedPlan ? "Added during the campaign" : "Planned",
       followup: timing?.followup ? { rationale: timing.followup.rationale, refs: refs(timing.followup.evidenceRefs) } : undefined,
       status, statusLabel, tone, startedAtIso: timing?.startedAtIso, completedAtIso: timing?.completedAtIso,
       stimuli: mine.filter(a => STIMULUS.has(a.name)).map(line), checks: mine.filter(a => CHECK.has(a.name)).map(line),
       discrepancies: bundle.observations.filter(o => o.kind === "discrepancy" && o.experimentId === id).map(discrepancy),
-      values, expected: "No explicit acceptance criterion is recorded in the campaign for this experiment.", requirementVerdict: verdictLabel(x.requirements),
+      values, requirementVerdict: verdictLabel(x.requirements),
+      expected: prepared ? `${prepared.expectedBasis === "specified" ? "Specified" : "Not specified"}: ${prepared.expectedObservation}${prepared.sourceRefs.length ? ` (source: ${prepared.sourceRefs.join(", ")})` : ""}`
+        : "No explicit acceptance criterion is recorded in the campaign for this experiment.",
+      ...(prepared ? { plannedStimulus: prepared.stimulus } : {}),
       refs: refs(x.evidenceRefs ?? []), limitations };
   });
   const experimentIds = new Set(ids);
@@ -314,6 +319,7 @@ export function buildReportView(bundle: ReportBundle): ReportView {
   if (missingImages.length) recommendations.push(`Recover or re-capture ${plural(missingImages.length, "cited image")} missing from this package.`);
 
   const remaining: ReportView["remaining"] = [
+    { title: "Prepared checks not run in this campaign", items: (bundle.preparedPlan?.notRun ?? []).map(n => `${n.id}: ${n.reason ?? "not authorized"}`) },
     { title: "Not run or interrupted", items: experiments.filter(x => x.status === "not_run" || x.status === "running").map(x => `${x.id}: ${x.objective}`) },
     { title: "Inconclusive", items: [...experiments.filter(x => x.status === "inconclusive").map(x => `${x.id}: ${x.objective}`), ...assessmentViews.filter(a => a.verdict === "inconclusive").map(a => `${a.requirementId} (${a.assessmentId}): ${a.uncertainty}`)] },
     { title: "Actions that did not apply", items: refused.map(a => `${a.actionId} (${a.name.replaceAll("_", " ")}) ${STATUS[a.status]?.[0] ?? a.status}: ${a.message ?? ""}`) },
@@ -360,7 +366,11 @@ export function buildReportView(bundle: ReportBundle): ReportView {
   const identity: Fact[] = [
     { label: "Campaign", value: r.campaignId, mono: true },
     ...(bundle.context.title ? [{ label: "Report title", value: bundle.context.title }] : []),
-    { label: "Machine", value: "Name not recorded in the campaign record; identified by the specification and I/O map below", unavailable: true },
+    ...(bundle.project ? [{ label: "Project", value: `${bundle.project.projectName} · ${bundle.project.version} (${bundle.project.kind === "example" ? "prepared example" : "uploaded specification"})` },
+      { label: "Specification / world", value: `spec sha256:${bundle.project.specSha256} · world sha256:${bundle.project.worldSha256}${bundle.project.loadedWorldSha256 === bundle.project.worldSha256 ? " (verified as loaded by the isolated child)" : " — LOADED WORLD DIFFERS"}`, mono: true },
+      ...(bundle.project.author ? [{ label: "World prepared by", value: `${bundle.project.author}${bundle.project.responseIds?.length ? ` · ${bundle.project.responseIds.join(", ")}` : ""}` }] : []),
+      ...(bundle.project.benchProfile ? [{ label: "Bench profile", value: bundle.project.benchProfile }] : [])]
+      : [{ label: "Machine", value: "Name not recorded in the campaign record; identified by the specification and I/O map below", unavailable: true }]),
     { label: "Evidence class", value: evidence.label }, { label: "Report source", value: context },
     ...(bundle.context.factoryLabel ? [{ label: "Host campaign factory", value: bundle.context.factoryLabel }] : []),
     { label: "Started", value: fmtTime(started ?? bundle.ledger.firstAtIso), unavailable: !started && !bundle.ledger.firstAtIso },

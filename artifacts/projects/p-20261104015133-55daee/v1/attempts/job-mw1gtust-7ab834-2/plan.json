@@ -1,0 +1,926 @@
+{
+  "checks": [
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "With no carton and no commands, the complete input image is written every cycle: all photoeyes false, D1/D2 home true and extended false, Drive_RunningFB false, Drive_Overload false, ExitA/ExitB/Runout ready true, Belt_SpeedActual 0, D1/D2_Position 0, Encoder_Count constant.",
+      "group": "io",
+      "id": "IO-01",
+      "needsHmi": false,
+      "objective": "Normal simulated DI state with no carton matches §4.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_D1Approach",
+        "PE_D2Approach",
+        "PE_ExitA",
+        "PE_ExitB",
+        "PE_Runout",
+        "D1_HomeFB",
+        "D1_ExtendedFB",
+        "D2_HomeFB",
+        "D2_ExtendedFB",
+        "Drive_RunningFB",
+        "Drive_Overload",
+        "ExitA_Ready",
+        "ExitB_Ready",
+        "Runout_Ready",
+        "Belt_SpeedActual",
+        "Drive_Current",
+        "D1_Position",
+        "D2_Position",
+        "Encoder_Count"
+      ],
+      "requirementRefs": [
+        "DI-01..DI-15",
+        "DO-01..DO-05"
+      ],
+      "sourceRefs": [
+        "§4 I/O table and normal-state paragraph"
+      ],
+      "stimulus": "Initialise the bench world (no carton.introduce, no PLC outputs, no faults) and observe several 10 Hz input frames.",
+      "title": "Normal no-carton input image at 10 Hz",
+      "worldControls": []
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Bench setup fails visibly on any missing, mistyped or stale required tag rather than substituting values; in the passing case all 25 bench signals are present with the declared types.",
+      "group": "io",
+      "id": "IO-02",
+      "needsHmi": false,
+      "objective": "Connector validates the exact signal map instead of quietly substituting values.",
+      "observeSignals": [
+        "PE_Entry",
+        "Drive_RunningFB",
+        "Encoder_Count",
+        "Motor_RunCmd",
+        "D1_ExtendCmd",
+        "D2_ExtendCmd"
+      ],
+      "requirementRefs": [],
+      "sourceRefs": [
+        "§4 final I/O map paragraph",
+        "§7",
+        "§10"
+      ],
+      "stimulus": "Run connector map discovery against map m8-conveyor-1.0.2 and compare id/direction/type of every signal with the manifest.",
+      "title": "Signal map completeness and typing",
+      "worldControls": []
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED: the spec requires a deliberate action to select simulated inputs and BenchSimulationActive to confirm it (§3.1, §4), but the exact selection UI/block grouping and timeout are implementation details/TBD, so no scored threshold is stated.",
+      "group": "startup",
+      "id": "ST-01",
+      "needsHmi": true,
+      "objective": "Startup defaults to physical I/O passthrough; simulated inputs require a deliberate selection confirmed by BenchSimulationActive.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "PE_Entry",
+        "Drive_RunningFB"
+      ],
+      "requirementRefs": [],
+      "sourceRefs": [
+        "§3 items 1",
+        "§4 application status table",
+        "§11"
+      ],
+      "stimulus": "Power up / restart the PLC without selecting bench mode, observe that world inputs do not drive the application; then perform the deliberate bench-mode selection action and observe BenchSimulationActive (supervisory symbol, outside the 25-signal map).",
+      "title": "Startup passthrough then deliberate bench-mode selection",
+      "worldControls": []
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Stop removes Motor_RunCmd and inhibits new feed; the carton decelerates per drive dynamics then remains fixed; Belt_SpeedActual falls to 0, Drive_RunningFB and Encoder_Count stay consistent with the coast (encoder stops when the belt stops); the line is not drained.",
+      "group": "normal",
+      "id": "R-01",
+      "needsHmi": true,
+      "objective": "Stop removes the run command, inhibits feed, cartons coast to rest and stay; no drain-to-empty.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "Belt_SpeedActual",
+        "Encoder_Count",
+        "PE_Entry",
+        "PE_D1Approach"
+      ],
+      "requirementRefs": [
+        "R-01"
+      ],
+      "sourceRefs": [
+        "§9 R-01",
+        "§3 item 4"
+      ],
+      "stimulus": "Start via operator command, introduce one carton, let it travel mid-lane, then issue operator Stop; observe outputs and inputs over the stopping interval and after settling.",
+      "title": "Start/stop and no motion after stopping settles",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "D1_ExtendCmd actuates early enough that D1_ExtendedFB is reached before the carton decision point; exactly one PE_ExitA passage and one A completion/count; no PE_ExitB or PE_Runout passage for that carton.",
+      "group": "normal",
+      "id": "R-02",
+      "needsHmi": false,
+      "objective": "A-assigned carton is diverted at D1 to exit A exactly once.",
+      "observeSignals": [
+        "D1_ExtendCmd",
+        "D1_ExtendedFB",
+        "D1_HomeFB",
+        "D1_Position",
+        "PE_D1Approach",
+        "PE_ExitA",
+        "PE_ExitB",
+        "PE_Runout",
+        "Motor_RunCmd"
+      ],
+      "requirementRefs": [
+        "R-02"
+      ],
+      "sourceRefs": [
+        "§9 R-02",
+        "§2 nominal cycle",
+        "§3 item 3"
+      ],
+      "stimulus": "WCS offers a carton with route A (supervisory), PLC releases, world introduces one carton while the belt runs.",
+      "title": "Normal A sort",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Carton passes D1 (PE_D1Approach, then PE_D2Approach), D2_ExtendCmd actuates in time with D2_ExtendedFB before the D2 decision point; exactly one PE_ExitB passage and one B completion/count; no runout passage.",
+      "group": "normal",
+      "id": "R-03",
+      "needsHmi": false,
+      "objective": "B-assigned carton passes D1 and is diverted at D2 to exit B exactly once.",
+      "observeSignals": [
+        "D2_ExtendCmd",
+        "D2_ExtendedFB",
+        "D2_HomeFB",
+        "D2_Position",
+        "PE_D1Approach",
+        "PE_D2Approach",
+        "PE_ExitB",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-03"
+      ],
+      "sourceRefs": [
+        "§9 R-03",
+        "§3 item 3"
+      ],
+      "stimulus": "WCS offers route B, PLC releases, introduce one carton.",
+      "title": "Normal B sort",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Carton continues straight: PE_D1Approach and PE_D2Approach then exactly one PE_Runout passage; disposition reported runout-unassigned; no machine fault and no A/B sort count.",
+      "group": "normal",
+      "id": "R-04",
+      "needsHmi": false,
+      "objective": "Unassigned carton runs out straight as a normal disposition.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_D1Approach",
+        "PE_D2Approach",
+        "PE_Runout",
+        "PE_ExitA",
+        "PE_ExitB",
+        "Motor_RunCmd"
+      ],
+      "requirementRefs": [
+        "R-04"
+      ],
+      "sourceRefs": [
+        "§9 R-04",
+        "§1",
+        "§11"
+      ],
+      "stimulus": "No WCS route (or route Unknown); PLC releases on runout availability; introduce one carton.",
+      "title": "Normal runout (jackpot) for unassigned carton",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED as a scored oracle (PROBE): §3.3/§5 require only that a late route must not retroactively count as a successful A sort and the actual disposition be reported; the exact late-B policy and reporting wording are TBD.",
+      "group": "functional",
+      "id": "R-05",
+      "needsHmi": false,
+      "objective": "A route arriving after its decision point is not claimed as a successful sort.",
+      "observeSignals": [
+        "D1_ExtendCmd",
+        "D1_ExtendedFB",
+        "PE_D1Approach",
+        "PE_Runout",
+        "PE_ExitA"
+      ],
+      "requirementRefs": [
+        "R-05"
+      ],
+      "sourceRefs": [
+        "§9 R-05 (PROBE)",
+        "§3 item 3",
+        "§5"
+      ],
+      "stimulus": "Introduce a carton with no route; after it passes the D1 decision point, deliver a WCS offer assigning A; observe divert commands, exit passage and reported disposition.",
+      "title": "Late route after D1 decision point",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED as scored behaviour (PROBE with an accepted demo default in §11.2: send to runout with an exception, never count the blocked exit as successful). Confirm the policy before scoring.",
+      "group": "functional",
+      "id": "R-06",
+      "needsHmi": false,
+      "objective": "A carton assigned to a blocked destination is never counted as a successful sort at that exit.",
+      "observeSignals": [
+        "ExitA_Ready",
+        "D1_ExtendCmd",
+        "PE_ExitA",
+        "PE_Runout",
+        "Motor_RunCmd"
+      ],
+      "requirementRefs": [
+        "R-06"
+      ],
+      "sourceRefs": [
+        "§9 R-06 (PROBE)",
+        "§11 default 2",
+        "§5 downstream"
+      ],
+      "stimulus": "Set ExitA not ready before an A-assigned carton reaches D1; introduce the carton and observe routing and reported disposition.",
+      "title": "Destination A not ready before decision point",
+      "worldControls": [
+        "downstream.setReady",
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): proposed feed inhibit and belt stop before congestion (§11.2) is a demo policy to confirm before scoring; observe and record the actual PLC response.",
+      "group": "functional",
+      "id": "R-07",
+      "needsHmi": false,
+      "objective": "Runout blocked with an unroutable carton approaching.",
+      "observeSignals": [
+        "Runout_Ready",
+        "Motor_RunCmd",
+        "PE_Runout",
+        "PE_D2Approach"
+      ],
+      "requirementRefs": [
+        "R-07"
+      ],
+      "sourceRefs": [
+        "§9 R-07 (PROBE)",
+        "§3 item 3",
+        "§11 default 2"
+      ],
+      "stimulus": "Set Runout_Ready false, introduce an unassigned carton and observe feed/belt behaviour as it approaches runout.",
+      "title": "Runout blocked",
+      "worldControls": [
+        "downstream.setReady",
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "The duplicate offer creates no second carton, no second completion and no extra count (observed via PLC supervisory counts/completion and exactly one physical carton passage).",
+      "group": "functional",
+      "id": "R-08",
+      "needsHmi": false,
+      "objective": "Duplicate WCS sequence/item does not create a second carton or completion.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_ExitA",
+        "PE_ExitB",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-08"
+      ],
+      "sourceRefs": [
+        "§9 R-08",
+        "§5 OfferAck"
+      ],
+      "stimulus": "Send the same CartonOffer (same sequence and item ID) twice through the WCS emulator; introduce at most the single released carton.",
+      "title": "Duplicate WCS offer",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): no duplicate item/count or unstable divert decision is the proposed oracle, but the debounce threshold and injection method are TBD (§9) and sub-100 ms bounce may not traverse the transport (§7). Record PLC behaviour without scoring a threshold.",
+      "group": "faults",
+      "id": "R-09",
+      "needsHmi": false,
+      "objective": "Entry/approach photoeye bounce causes no duplicate item/count or unstable divert decision.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_D1Approach",
+        "D1_ExtendCmd",
+        "PE_ExitA",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-09"
+      ],
+      "sourceRefs": [
+        "§9 R-09 (PROBE)",
+        "§7 timing gate",
+        "§8 fault knobs"
+      ],
+      "stimulus": "Enable sensor bounce on PE_Entry (then PE_D1Approach) while introducing and running one carton.",
+      "title": "Sensor bounce on entry / approach photoeye",
+      "worldControls": [
+        "fault.setSensorBounce",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): timeout/plausibility evidence with no invented completion is proposed; the PLC reaction threshold is TBD. Record whether the PLC flags the implausibility and what it reports.",
+      "group": "faults",
+      "id": "R-10",
+      "needsHmi": false,
+      "objective": "A photoeye stuck true or false against carton movement produces no invented completion.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_D1Approach",
+        "PE_ExitA",
+        "PE_Runout",
+        "Motor_RunCmd"
+      ],
+      "requirementRefs": [
+        "R-10"
+      ],
+      "sourceRefs": [
+        "§9 R-10 (PROBE)",
+        "§8 fault knobs"
+      ],
+      "stimulus": "Stick PE_Entry true (in a second run, stick PE_D1Approach false) while a carton travels the lane.",
+      "title": "Stuck photoeye",
+      "worldControls": [
+        "fault.setSensorStuck",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "PLC detects a drive-start fault (fault indication via supervisory state/stack light), the carton does not move (photoeyes/encoder confirm no travel) and no completion is reported. Detection deadline is TBD, so timing is recorded, not scored.",
+      "group": "faults",
+      "id": "R-11",
+      "needsHmi": false,
+      "objective": "Motor commanded without running feedback is detected as a drive-start fault with no virtual motion or false completion.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "Belt_SpeedActual",
+        "Encoder_Count",
+        "PE_Entry",
+        "StackLight_Red"
+      ],
+      "requirementRefs": [
+        "R-11"
+      ],
+      "sourceRefs": [
+        "§9 R-11",
+        "§4 DI-11",
+        "§8"
+      ],
+      "stimulus": "Enable drive feedback failure, Start the PLC so Motor_RunCmd asserts, and introduce a carton.",
+      "title": "Motor command without feedback",
+      "worldControls": [
+        "fault.setDriveFeedbackFailure",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "PLC removes Motor_RunCmd, stops new feed, shows the fault (supervisory fault state / StackLight_Red); after clearing the fault and issuing Reset the belt does not auto-restart until a new Start.",
+      "group": "faults",
+      "id": "R-12",
+      "needsHmi": true,
+      "objective": "Overload during travel removes the motor command, stops feed, faults, and does not auto-restart after reset.",
+      "observeSignals": [
+        "Drive_Overload",
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "Belt_SpeedActual",
+        "StackLight_Red",
+        "PE_Entry"
+      ],
+      "requirementRefs": [
+        "R-12"
+      ],
+      "sourceRefs": [
+        "§9 R-12",
+        "§3 items 4-5"
+      ],
+      "stimulus": "Run a carton mid-lane, assert the overload fault; then clear it and issue operator Reset, observing for any automatic restart.",
+      "title": "Motor overload / trip during travel",
+      "worldControls": [
+        "fault.setOverload",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "The carton follows the actual (home) divert position to runout; the PLC reports a misroute, not an A completion/count; any fault indication and its deadline are recorded (deadline TBD).",
+      "group": "faults",
+      "id": "R-13",
+      "needsHmi": false,
+      "objective": "D1 failing to move on an A assignment results in misroute reporting, never an A completion.",
+      "observeSignals": [
+        "D1_ExtendCmd",
+        "D1_HomeFB",
+        "D1_ExtendedFB",
+        "D1_Position",
+        "PE_ExitA",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-13"
+      ],
+      "sourceRefs": [
+        "§9 R-13",
+        "§1 (actual position governs)",
+        "§11 default 1"
+      ],
+      "stimulus": "Jam divert 1, assign route A, introduce one carton and run it to its exit.",
+      "title": "D1 fails to move on A assignment",
+      "worldControls": [
+        "fault.setDivertJam",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Carton reaches runout and is reported misrouted, not a B completion/count; fault indication/deadline recorded (deadline TBD).",
+      "group": "faults",
+      "id": "R-14",
+      "needsHmi": false,
+      "objective": "D2 failing to move on a B assignment results in misroute reporting, never a B completion.",
+      "observeSignals": [
+        "D2_ExtendCmd",
+        "D2_HomeFB",
+        "D2_ExtendedFB",
+        "D2_Position",
+        "PE_ExitB",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-14"
+      ],
+      "sourceRefs": [
+        "§9 R-14",
+        "§1",
+        "§11 default 1"
+      ],
+      "stimulus": "Jam divert 2, assign route B, introduce one carton and run it through.",
+      "title": "D2 fails to move on B assignment",
+      "worldControls": [
+        "fault.setDivertJam",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): the PLC must not claim a verified divert from contradictory feedback; exact alarm behaviour is TBD. Record fault/indication response.",
+      "group": "faults",
+      "id": "R-15",
+      "needsHmi": false,
+      "objective": "Simultaneous home+extended feedback is exposed as inconsistent and not treated as a verified divert.",
+      "observeSignals": [
+        "D1_HomeFB",
+        "D1_ExtendedFB",
+        "D1_Position",
+        "D1_ExtendCmd",
+        "PE_ExitA",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-15"
+      ],
+      "sourceRefs": [
+        "§9 R-15 (PROBE)",
+        "§4 DI-07..DI-10"
+      ],
+      "stimulus": "Enable contradictory limits on D1 during an A-assigned run (repeat for D2 in a second run).",
+      "title": "Contradictory divert limits",
+      "worldControls": [
+        "fault.setContradictoryLimits",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): no double completion/count and a reported contradiction are proposed; no generic alarm behaviour is assumed. The world cannot produce this physically with one carton, so it is injected only as stuck-sensor combinations and labelled as an injected input fault, not physical truth.",
+      "group": "faults",
+      "id": "R-16",
+      "needsHmi": false,
+      "objective": "Simultaneous exit photoeyes for one carton produce no double completion/count.",
+      "observeSignals": [
+        "PE_ExitA",
+        "PE_ExitB",
+        "PE_Runout",
+        "PE_Entry"
+      ],
+      "requirementRefs": [
+        "R-16"
+      ],
+      "sourceRefs": [
+        "§9 R-16 (PROBE)",
+        "§9 exploration note"
+      ],
+      "stimulus": "With one carton on the lane, stick a second exit photoeye true so two exit beams read simultaneously; observe PLC completion/count behaviour.",
+      "title": "Impossible exit combination with one carton",
+      "worldControls": [
+        "fault.setSensorStuck",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): identify the suspect sequence and avoid an unearned pass; do not assume one generic PLC alarm is required (§9 R-17).",
+      "group": "faults",
+      "id": "R-17",
+      "needsHmi": false,
+      "objective": "Out-of-order sensor sequence is not credited as a valid sort.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_D2Approach",
+        "PE_ExitB",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-17"
+      ],
+      "sourceRefs": [
+        "§9 R-17 (PROBE)"
+      ],
+      "stimulus": "Stick PE_D2Approach true before any entry event for a carton (injected sequence fault), then run one carton and observe PLC item/completion handling.",
+      "title": "Impossible sensor sequence",
+      "worldControls": [
+        "fault.setSensorStuck",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): record the diagnostic response; whether it reveals an unsafe or incorrectly counted state is a review decision (§9 R-18), not a scored oracle.",
+      "group": "faults",
+      "id": "R-18",
+      "needsHmi": false,
+      "objective": "Command/feedback disagreement is recorded and diagnosed.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "D1_ExtendCmd",
+        "D1_ExtendedFB",
+        "Belt_SpeedActual"
+      ],
+      "requirementRefs": [
+        "R-18"
+      ],
+      "sourceRefs": [
+        "§9 R-18 (PROBE)"
+      ],
+      "stimulus": "With Motor_RunCmd off, stick Drive_RunningFB true via the feedback path (or hold D1 extended feedback while its command is off using sensor-stuck on D1_ExtendedFB) and observe the PLC response.",
+      "title": "Command/feedback disagreement",
+      "worldControls": [
+        "fault.setSensorStuck",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "PLC produces a timeout/fault or equivalent and no invented completion for the jammed carton. The timeout threshold is TBD, so elapsed time is recorded, not scored.",
+      "group": "faults",
+      "id": "R-19",
+      "needsHmi": false,
+      "objective": "A carton held at a divert/runout while the drive runs yields a jam response and no invented completion.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "Belt_SpeedActual",
+        "Encoder_Count",
+        "PE_D1Approach",
+        "PE_Runout",
+        "StackLight_Red"
+      ],
+      "requirementRefs": [
+        "R-19"
+      ],
+      "sourceRefs": [
+        "§9 R-19",
+        "§8 fault knobs"
+      ],
+      "stimulus": "Run a carton onto the lane, enable the carton jam so it holds position while the belt continues to run; observe PLC response over time.",
+      "title": "Carton jam while drive runs",
+      "worldControls": [
+        "fault.setCartonJam",
+        "carton.introduce",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE): visible link state and runout/hold per policy with no duplicate completion on retry are proposed; the governing policy is undecided (§9 R-20, §5).",
+      "group": "edge",
+      "id": "R-20",
+      "needsHmi": false,
+      "objective": "WCS link loss and recovery are visible and cause no duplicate completion.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_Runout",
+        "Motor_RunCmd"
+      ],
+      "requirementRefs": [
+        "R-20"
+      ],
+      "sourceRefs": [
+        "§9 R-20 (PROBE)",
+        "§5"
+      ],
+      "stimulus": "Pause WCS messages/heartbeat mid-run (WCS emulator action, outside the field-I/O map), then resume and retry; observe link state and completions.",
+      "title": "WCS link loss and recovery",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Stale evidence is labelled as such, no test is passed on stale data, the disconnect is recorded, and the affected test is inconclusive if the controller cannot be observed (§7).",
+      "group": "runtime",
+      "id": "R-21",
+      "needsHmi": false,
+      "objective": "Transport interruption yields labelled stale evidence and no false pass.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "PE_Entry",
+        "Belt_SpeedActual"
+      ],
+      "requirementRefs": [
+        "R-21"
+      ],
+      "sourceRefs": [
+        "§9 R-21",
+        "§7 disconnect paragraph"
+      ],
+      "stimulus": "Break and reconnect the workstation transport during a run; examine evidence timestamps/quality and the recorded verdict handling.",
+      "title": "Transport (OPC UA) interruption during a run",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Each HMI button action produces a visible acknowledgement/resulting state that agrees with the actual PLC mode/output state; Reset acknowledges without erasing the fault cause or auto-restarting (UI-01..UI-04).",
+      "group": "runtime",
+      "id": "R-22",
+      "needsHmi": true,
+      "objective": "HMI Start/Stop/Reset/Auto actions, displayed state and actual PLC state agree.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "D1_ExtendCmd",
+        "D1_ExtendedFB",
+        "StackLight_Red",
+        "StackLight_Green"
+      ],
+      "requirementRefs": [
+        "R-22",
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-04"
+      ],
+      "sourceRefs": [
+        "§9 R-22",
+        "§6 UI table"
+      ],
+      "stimulus": "Operate Start, Stop, Reset and Auto solely through the visible PLC HMI (WebVisu) with timestamped screenshot evidence, cross-checked against signal traces.",
+      "title": "HMI congruence via visible controls",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "unspecified",
+      "expectedObservation": "UNSPECIFIED (PROBE/stretch): each carton reaches one correct exit without identity merge or conflicting divert timing is the proposed oracle; multi-carton spacing is deferred/exploratory (§2, §11.5).",
+      "group": "edge",
+      "id": "R-23",
+      "needsHmi": false,
+      "objective": "Two close cartons with different routes each reach one correct exit without identity merge.",
+      "observeSignals": [
+        "PE_Entry",
+        "PE_D1Approach",
+        "PE_D2Approach",
+        "D1_ExtendCmd",
+        "D2_ExtendCmd",
+        "PE_ExitA",
+        "PE_ExitB",
+        "PE_Runout"
+      ],
+      "requirementRefs": [
+        "R-23"
+      ],
+      "sourceRefs": [
+        "§9 R-23 (PROBE/stretch)",
+        "§2"
+      ],
+      "stimulus": "Introduce two cartons in flight (first assigned B, second assigned A) with the belt running; observe divert timing and each exit passage.",
+      "title": "Multi-carton spacing (stretch)",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "Reset acknowledges the cleared fault (fault indication clears) and the belt does not restart until a new Start command; WCS/HMI show the resulting state.",
+      "group": "functional",
+      "id": "FN-01",
+      "needsHmi": true,
+      "objective": "Reset acknowledges a cleared fault without automatically restarting the belt.",
+      "observeSignals": [
+        "Drive_Overload",
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "StackLight_Red",
+        "Belt_SpeedActual"
+      ],
+      "requirementRefs": [],
+      "sourceRefs": [
+        "§3 item 5",
+        "§6 (acknowledge controls)"
+      ],
+      "stimulus": "Raise and clear an overload fault, issue operator Reset, wait, then issue Start and observe the two distinct transitions.",
+      "title": "Reset does not auto-restart",
+      "worldControls": [
+        "fault.setOverload",
+        "fault.clearAll"
+      ]
+    },
+    {
+      "expectedBasis": "specified",
+      "expectedObservation": "While Motor_RunCmd is false and the drive has settled, Belt_SpeedActual is 0, Encoder_Count is constant and every carton position is unchanged across frames; motion resumes only after a new run command actually spins the drive up.",
+      "group": "edge",
+      "id": "ED-01",
+      "needsHmi": false,
+      "objective": "Nothing moves while the drive is stopped; encoder and motion remain consistent at rest.",
+      "observeSignals": [
+        "Motor_RunCmd",
+        "Drive_RunningFB",
+        "Belt_SpeedActual",
+        "Encoder_Count",
+        "PE_Entry",
+        "PE_D1Approach"
+      ],
+      "requirementRefs": [
+        "R-01"
+      ],
+      "sourceRefs": [
+        "§3 item 4",
+        "§8 time evolution",
+        "§9 R-01"
+      ],
+      "stimulus": "Introduce a carton with the drive never started and observe over several seconds; then start and stop and re-observe after settling.",
+      "title": "No motion with drive stopped",
+      "worldControls": [
+        "carton.introduce"
+      ]
+    }
+  ],
+  "objective": "Verify the CODESYS PLC application (system under test) against conveyor-slow-belt-spec.md v0.5 on bench map m8-conveyor-1.0.2: start/stop physics consistency, A/B/runout sorting, misroute and blocked-destination handling, WCS handshake behaviour, and fault responses — using only observed PLC evidence, never the simulator's own expectations. Preparation ran no PLC test; no check is claimed passed.",
+  "physicalParameters": [
+    {
+      "basis": "specified",
+      "name": "beltNominalSpeedMps",
+      "source": "spec §2 variant parameter",
+      "unit": "m/s",
+      "value": "0.30"
+    },
+    {
+      "basis": "specified",
+      "name": "cartonLengthM",
+      "source": "spec §2 suggested starting value",
+      "unit": "m",
+      "value": "0.30"
+    },
+    {
+      "basis": "specified",
+      "name": "divertTravelTimeS",
+      "source": "spec §2 suggested starting value (each divert)",
+      "unit": "s",
+      "value": "0.35"
+    },
+    {
+      "basis": "inferred",
+      "name": "driveAccelMps2",
+      "source": "inferred — no accel given in spec",
+      "unit": "m/s^2",
+      "value": "0.60"
+    },
+    {
+      "basis": "inferred",
+      "name": "driveDecelMps2",
+      "source": "inferred — coast dynamics required by §3.4 but unquantified",
+      "unit": "m/s^2",
+      "value": "0.60"
+    },
+    {
+      "basis": "inferred",
+      "name": "encoderCountsPerMeter",
+      "source": "inferred — encoder density not specified; PLC owns scaling",
+      "unit": "counts/m",
+      "value": "1000"
+    },
+    {
+      "basis": "inferred",
+      "name": "driveFeedbackDelayS",
+      "source": "inferred — §4 requires delayed feedback, no value",
+      "unit": "s",
+      "value": "0.10"
+    },
+    {
+      "basis": "inferred",
+      "name": "divertDecisionThresholdPct",
+      "source": "inferred — carton follows actual position (§1), threshold unspecified",
+      "unit": "%",
+      "value": "80"
+    },
+    {
+      "basis": "inferred",
+      "name": "sensorPositionsM",
+      "source": "inferred geometry — spec gives order only (§2 diagram)",
+      "unit": "m",
+      "value": "Entry 0.30, D1Approach 1.00, D1 decision 1.40, D2Approach 2.00, D2 decision 2.40, ExitA 2.00 (A branch), ExitB 3.00 (B branch), Runout 3.20"
+    }
+  ],
+  "questions": [
+    {
+      "blocking": false,
+      "id": "Q-01",
+      "question": "Should fault.setDriveFeedbackFailure mean the drive physically does not run (current model, giving R-11's 'no virtual motion'), or that the motor runs but only its feedback is lost (cartons would move while PLC sees no feedback)? The spec supports both readings (§4 vs §8/R-11).",
+      "relatesTo": "R-11"
+    },
+    {
+      "blocking": false,
+      "id": "Q-02",
+      "question": "No sensor positions, spacing distances, acceleration/deceleration rates, encoder counts-per-metre, drive-feedback delay, or divert decision threshold are specified. The world uses labelled inferred values; confirm none of them will be scored as acceptance thresholds.",
+      "relatesTo": "R-01..R-04"
+    },
+    {
+      "blocking": false,
+      "id": "Q-03",
+      "question": "Detection deadlines/thresholds for drive-start fault (R-11), divert failure (R-13/R-14), jam timeout (R-19), debounce (R-09) and stuck-sensor plausibility (R-10) are all TBD in §9; checks are marked unspecified-basis until the engineer freezes them.",
+      "relatesTo": "R-09..R-19"
+    },
+    {
+      "blocking": false,
+      "id": "Q-04",
+      "question": "Blocked-destination and runout-blocked policies (§11.2) are accepted demo defaults but §9 marks R-06/R-07 PROBE; confirm whether they may be scored as MUST for the campaign.",
+      "relatesTo": "R-06,R-07"
+    },
+    {
+      "blocking": false,
+      "id": "Q-05",
+      "question": "WCS offer/ack/completion, operator Start/Stop/Reset, mode and counts are supervisory symbols outside the 25-signal bench map (§4/§5). Which connector symbols will the campaign use to drive and observe them, and what are the State_Code/Fault_Code enumerations?",
+      "relatesTo": "R-02..R-08,R-20"
+    },
+    {
+      "blocking": false,
+      "id": "Q-06",
+      "question": "Exact BenchSimulationActive selection action, Bench_HostHeartbeat type/timeout and stale-value behaviour on disconnect (§4/§7) are TBD; startup/transport checks cannot be scored until frozen.",
+      "relatesTo": "R-21"
+    },
+    {
+      "blocking": false,
+      "id": "Q-07",
+      "question": "Should the overload fault physically trip/stop the belt (current model) or only assert the Drive_Overload input while the drive keeps running until the PLC reacts?",
+      "relatesTo": "R-12"
+    }
+  ],
+  "summary": "Corrected executable external-physics world for the slow-belt (0.30 m/s) M8 conveyor on map m8-conveyor-1.0.2: continuous belt drive with accel/coast-decel, geometric photoeyes derived from carton position/length, two 0.35 s two-position diverts whose actual position decides each carton's branch at the decision point, quantised wrapping UDINT encoder from belt travel, downstream readiness, and the declared fault knobs. Fixes: world.test.ts no longer compares a literal-false-narrowed value against true (all observed flags are explicitly boolean-typed and read through helper accessors), and the returned manifest now exactly equals the manifest exported by world.ts including capabilities snapshot/migrate/seededRandom all true. The world implements no PLC sequencing, routing, counting or alarm logic. No PLC test was run during preparation."
+}

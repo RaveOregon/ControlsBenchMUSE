@@ -7,6 +7,7 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import { extname, join, normalize, resolve, sep } from "node:path";
 import { buildReportBundle, type CampaignReport } from "../report/bundle.ts";
 import type { CampaignHost } from "./campaign-host.ts";
+import type { ProjectApi } from "./project-api.ts";
 import type { HostStreamMessage } from "./protocol.ts";
 
 export interface PortalServerOptions {
@@ -18,6 +19,8 @@ export interface PortalServerOptions {
   /** Extra origins allowed to POST, e.g. the Vite dev server. */
   allowedOrigins?: string[];
   heartbeatMs?: number;
+  /** Specification-to-project onboarding routes (/api/projects); hosts without it do not serve them. */
+  projects?: ProjectApi;
 }
 
 const MIME: Record<string, string> = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
@@ -119,6 +122,7 @@ export function createPortalServer(options: PortalServerOptions): Server {
           "x-controlsbench-sha256": stored.ref.sha256, "x-controlsbench-captured-at": stored.ref.capturedAtIso });
         return res.end(stored.bytes);
       }
+      if (options.projects && await options.projects.handle(req, res, url, sameOrigin(req), json)) return;
       if (url.pathname.startsWith("/api/")) return json(res, 404, { error: "Unknown endpoint" });
       if (req.method === "GET" || req.method === "HEAD") return serveStatic(res, url.pathname);
       json(res, 405, { error: "Method not allowed" });

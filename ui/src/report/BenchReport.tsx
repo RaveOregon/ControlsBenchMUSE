@@ -129,12 +129,13 @@ function ExperimentCard({ x }: { x: ExperimentRow }) {
   return <details className="br-card" data-print-open="">
     <summary><h4 className="mono">{x.id}</h4><span className="tag">{x.category}</span><span className={`tag tone-${x.tone}`}>{x.statusLabel}</span><span className="muted">{x.objective}</span></summary>
     <dl className="kv">
-      <dt>Objective</dt><dd><span className="label-model">Muse</span> {x.objective}</dd>
+      <dt>Objective</dt><dd><span className="label-model">{/[Ff]ixture/.test(x.origin) ? "Fixture plan" : "Muse"}</span> {x.objective}</dd>
       <dt>Requirement refs</dt><dd>{x.requirements.join(", ") || "none"}</dd>
       <dt>Origin</dt><dd>{x.origin}{x.followup && <div><span className="label-model">Muse rationale</span> {x.followup.rationale} <Refs refs={x.followup.refs} /></div>}</dd>
       <dt>Run</dt><dd>{x.startedAtIso ? `${fmtTime(x.startedAtIso)} → ${x.completedAtIso ? fmtTime(x.completedAtIso) : "no completion recorded"}` : "Not started"}</dd>
       <dt>Stimulus / operator action</dt><dd><Actions lines={x.stimuli} empty="No stimulus or operator action recorded." /></dd>
-      <dt>Expected behaviour</dt><dd className="unavailable">{x.expected}</dd>
+      {x.plannedStimulus && <><dt>Planned stimulus</dt><dd><span className="label-model">Prepared plan</span> {x.plannedStimulus}</dd></>}
+      <dt>Expected behaviour</dt><dd className={x.expected.startsWith("Specified") ? undefined : "unavailable"}>{x.expected}</dd>
       <dt>Observed behaviour</dt><dd>
         <Actions lines={x.checks} empty="No condition checks recorded." />
         {x.discrepancies.map((d, i) => <p key={i} className="tone-warn">Discrepancy: {d}</p>)}
