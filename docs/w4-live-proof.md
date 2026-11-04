@@ -1,5 +1,7 @@
 # Live Muse fault and adaptive proof — passed November 3, 2026
 
+**Subsequent checkpoint:** Muse HMI operation was later demonstrated in the separate [S2 trial](s2-hmi-proof.md), with its recorded limitations. The outstanding-HMI and next-step notes at the end describe the state when W4 finished. Start with the current [submission evidence index](../evidence/README.md) for the combined proof map.
+
 Muse Wonder 1.0 planned and executed live PLC fault tests, chose a new physical investigation from the returned evidence, recorded grounded findings and completed its report. No engineer supplied the test sequence or intervened during the campaign.
 
 | Step | Observed result |

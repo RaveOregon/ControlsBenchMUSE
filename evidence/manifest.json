@@ -1,0 +1,125 @@
+{
+  "schema": "controlsbench.submission-evidence.v1",
+  "description": "Byte-exact curated copies of existing artifacts. Separate saved campaigns; no new execution.",
+  "files": [
+    {
+      "file": "reports/adaptive-plc-investigation.pdf",
+      "source": "artifacts/bench-report/captures/w4-adaptive-plc-investigation.pdf",
+      "role": "Saved W4 report; later presentation export",
+      "sha256": "c09422829cbd38086c84732992e948ba69efc99a279ea2cff8a73cc9455819bb",
+      "byteLength": 565800
+    },
+    {
+      "file": "reports/adaptive-plc-investigation.html",
+      "source": "artifacts/bench-report/saved-exports/w4-adaptive-plc-investigation/report.html",
+      "role": "Saved W4 standalone report",
+      "sha256": "444b9a768580bc4a7cbcb89c1c35ba6dc91cfd599f3d8cc9f562d8edd644f4a5",
+      "byteLength": 472348
+    },
+    {
+      "file": "reports/muse-hmi-operation.pdf",
+      "source": "artifacts/bench-report/captures/s2-hmi-operator-trial.pdf",
+      "role": "Saved S2 report; later presentation export",
+      "sha256": "bfd3ca036f6b3f1008fca37dfbdfe056d87553690f5d0a3cc3837d1405d0a4d5",
+      "byteLength": 2372297
+    },
+    {
+      "file": "reports/muse-hmi-operation.html",
+      "source": "artifacts/bench-report/saved-exports/s2-hmi-operator-trial/report.html",
+      "role": "Saved S2 standalone report",
+      "sha256": "d9592c4dccad5a4ae7b7b40f4e760c5071e63b61c63266c23ddd26e1eca639a9",
+      "byteLength": 3037972
+    },
+    {
+      "file": "reports/partial-hmi-attempt.pdf",
+      "source": "artifacts/bench-report/captures/s2-first-attempt-partial.pdf",
+      "role": "Partial first HMI attempt; not a success",
+      "sha256": "9b3a97a9f505f88d0ed3e60bc113b36c5e967dedb25b560c2f9cd6cd5c03599d",
+      "byteLength": 250049
+    },
+    {
+      "file": "records/w4-report.json",
+      "source": "artifacts/w4-paid/2026-11-03T13-11-03-480Z/live-host/runs/2026-11-03T13-12-52-676Z-live_plc/portal-host/portal-20261103131442735-1/report.json",
+      "role": "Original model-authored W4 report",
+      "sha256": "db7964a397e0e4ab9056c73a6b5a8cab9e6e2c7fcfcb8ea5401d7418522ae91e",
+      "byteLength": 233115
+    },
+    {
+      "file": "records/w4-audit.json",
+      "source": "artifacts/w4-paid/2026-11-03T13-11-03-480Z/live-host/runs/2026-11-03T13-12-52-676Z-live_plc/portal-host/portal-20261103131442735-1/campaign-audit.json",
+      "role": "Original W4 audit",
+      "sha256": "47ad324e4a363b18f04699d478f95015200e14610d9164fbe325005662c39ffb",
+      "byteLength": 10303
+    },
+    {
+      "file": "records/w4-engineering-review.json",
+      "source": "artifacts/w4-paid/2026-11-03T13-11-03-480Z/live-host/runs/2026-11-03T13-12-52-676Z-live_plc/portal-host/portal-20261103131442735-1/engineering-review.json",
+      "role": "Scoped source-to-wire review",
+      "sha256": "cf9b274cc268b407bf20ad5f5c5da9f38b1f823daf4e362899cca6e18dc76a44",
+      "byteLength": 2493
+    },
+    {
+      "file": "records/s2-report.json",
+      "source": "artifacts/s2/2026-11-03T23-19-41-497Z-live-retry/host/runs/2026-11-03T23-21-03-238Z-live_plc/portal-host/portal-20261103232137992-1/report.json",
+      "role": "Original S2 report including citation defect",
+      "sha256": "009e91dd1efd7158c25e3f671fee5f951bb584c0f792efc22da9a2651237a06d",
+      "byteLength": 112419
+    },
+    {
+      "file": "records/s2-audit.json",
+      "source": "artifacts/s2/2026-11-03T23-19-41-497Z-live-retry/host/runs/2026-11-03T23-21-03-238Z-live_plc/portal-host/portal-20261103232137992-1/s2-audit.json",
+      "role": "Original S2 audit: reference_review_required",
+      "sha256": "3d1e92420fa8aff8c578a7ec6b9144f87c080cc6cd47d77566878331dee7981e",
+      "byteLength": 6326
+    },
+    {
+      "file": "records/s2-engineering-review.json",
+      "source": "artifacts/s2/2026-11-03T23-19-41-497Z-live-retry/host/runs/2026-11-03T23-21-03-238Z-live_plc/portal-host/portal-20261103232137992-1/engineering-review.json",
+      "role": "Scoped S2 review: pass_with_limitations",
+      "sha256": "6c084c8fd3a40b1c7b9c892319ba766cd4f91e08b47d7acf818e24e8dad1e251",
+      "byteLength": 6054
+    },
+    {
+      "file": "records/normal-operation-result.json",
+      "source": "artifacts/m10/2026-11-01T00-58-43-185Z/result.json",
+      "role": "Separate zero-model live integration result",
+      "sha256": "ccf91a559118f0369fb42d20f3c5a3d13f643c4300bbda202d281d1c8f6cf928",
+      "byteLength": 68528
+    },
+    {
+      "file": "records/normal-operation-audit.json",
+      "source": "artifacts/m10/2026-11-01T00-58-43-185Z/audit.json",
+      "role": "Normal-operation saved-evidence audit",
+      "sha256": "a32fb019c86756d02175dde6f92e88d8ed8c8c87cbe9392868b32e6f8db0e79e",
+      "byteLength": 1492
+    },
+    {
+      "file": "images/architecture.png",
+      "source": "docs/submission-diagrams/controlsbench-architecture.png",
+      "role": "Agnostic architecture with demonstrated bindings",
+      "sha256": "fa9de5ad271710354cbf38b9978befbfedbd30c62dbde9ab93e96fc03eb16552",
+      "byteLength": 205363
+    },
+    {
+      "file": "images/adaptive-investigation.png",
+      "source": "artifacts/bench-report/captures/w4-adaptive-plc-investigation-findings.png",
+      "role": "Later capture of saved report, not live video",
+      "sha256": "205122d887bc0f3d35128aa3116d628e59f5e343eb436985e106ecc8d8907ab4",
+      "byteLength": 139631
+    },
+    {
+      "file": "images/muse-received-overload.jpg",
+      "source": "artifacts/s2/2026-11-03T23-19-41-497Z-live-retry/host/runs/2026-11-03T23-21-03-238Z-live_plc/portal-host/portal-20261103232137992-1/vision-frames/3-current.jpg",
+      "role": "Exact received image from S2",
+      "sha256": "216f9f7ddb242a03f80bf5789c97c81f5b962672735147aef4958ac7d876004d",
+      "byteLength": 151217
+    },
+    {
+      "file": "images/hmi-evidence-report.png",
+      "source": "artifacts/bench-report/captures/s2-hmi-operator-trial-hmi-ui03.png",
+      "role": "Later capture of saved HMI evidence report",
+      "sha256": "791d09a038941ff042cc6c04b7a17feefb120d5cbbac504b628e45a3a7e3daa5",
+      "byteLength": 173740
+    }
+  ]
+}

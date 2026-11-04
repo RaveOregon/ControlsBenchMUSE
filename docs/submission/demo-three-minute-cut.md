@@ -1,34 +1,46 @@
-# Three-minute submission cut — working edit plan
+# Three-minute video — explain the problem, then show the proof
 
-Target2:50; leave10seconds below the supplied3-minute limit. Use edited screen recordings with voiceover. Cut reasoning/loading waits; add a short “waiting time removed” or speed label when applicable. Keep source labels visible: recorded live CODESYS Control Win evidence, generated-world-only evidence, or fixture preview. A recreated playback of saved results must be labelled as a review/replay, not original live footage.
+Target **2:50**, leaving ten seconds below the supplied three-minute limit. Lead with the engineer's problem and the product's job in twenty seconds. Let the screen do most of the explaining after that. The story is **specification → reactive machine world → model-directed controller test → evidence report**.
 
-This replaces the older Kiro storyboard's W4/S2-pending sections. W4 and the scoped S2 proof now exist; app onboarding remains in development. The opening upload/preparation footage is conditional on its genuine acceptance checkpoint. Record the rest while that lane finishes. Do not imply all clips come from one campaign.
+Use separate chapter labels for preparation, the recorded normal-operation trial, the recorded adaptive trial and the recorded HMI trial. These are different saved runs. Remove long reasoning waits and label the cut “model waiting time removed.” Keep text large enough to read in the final video.
 
-| Time | Picture | Voiceover / purpose |
+## Shot list and ready-to-read narration
+
+| Time | Show | Narration |
 | --- | --- | --- |
-|0:00–0:15|Generated machine view next to the actual HMI. Title: ControlsBench Muse.|“Before commissioning, a controls engineer has to simulate the machine, devise tests and explain failures. ControlsBench brings Muse into that bench-testing workflow.”|
-|0:15–0:35|Specification/I/O and generation result. Use the new import/review flow only after it genuinely works; otherwise show the source specification and preserved generated package with a preparation label.|“Muse Wonder generated this machine world from the functional specification and raw signal information: belt motion, sensors, diverts and encoder counts, with explicit assumptions.”|
-|0:35–0:55|A short recorded normal-sort segment, separately labelled earlier live controller test. Show one meaningful completion and command/feedback.|“A local engine supplies raw inputs to the executing CODESYS Control Win program. The controller's outputs drive the world, which returns the resulting sensor signals.”|
-|0:55–1:55|Hero sequence: W4 drive-feedback failure, fault12/recovery, then new D1 contradiction investigation and fault21/recovery. Put Muse's actual follow-up rationale next to the resulting PLC evidence. Remove generation waits.|“Muse observed the first fault and recovery, then chose a different feedback-consistency test that was absent from its initial plan. It executed that follow-up and checked the controller's response. These are actual recorded controller outputs.”|
-|1:55–2:15|Separate S2 HMI trial: Start/Stop result frames, Fault10 banner and Reset result.|“In a separate trial, Muse operated the browser HMI. It received these actual screenshots and compared them with independently observed PLC acknowledgements and state.”|
-|2:15–2:40|Engineer report: summary, one finding, UI-03 screenshot/evidence panel, visible inconclusive check, HTML export.|“The engineer gets a readable report with evidence-linked findings, screenshots, assumptions and remaining checks. Inconclusive behavior stays visible; completion is not treated as proof that every requirement passed.”|
-|2:40–2:50|Clean app/title, project/repository link.|“From engineering information to a reactive test world, an adaptive investigation and a bench report the engineer can review.”|
+| **0:00–0:20** | Running machine view and actual HMI. Title: **ControlsBench Muse — test the controller before the machine is available**. | “Before a machine is available, controls engineers still need to test its PLC logic. Building the simulated machine and realistic fault tests takes time. ControlsBench uses Muse to build that world from engineering information, investigate the controller, and produce a report.” |
+| **0:20–0:40** | Actual supported spec import, preparation status and resulting plan. Zoom to one physical parameter and one source-linked expected check. If onboarding acceptance is unfinished, show the saved spec and genuine generation result under **Model preparation — saved result**. | “Here is the machine specification and its raw I/O. Muse creates executable machine behavior and a test plan, including assumptions. This conveyor world models motion, sensor positions and encoder counts. Stop makes the belt decelerate.” |
+| **0:40–0:55** | Brief architecture crop or three labels: **Muse chooses experiments → engine runs the world ↔ PLC executes its program**. Secondary caption: **Demo: Wonder / OPC UA / CODESYS Control Win**. | “Muse chooses experiments. The workstation engine maintains the I/O loop while it reasons. The PLC runs its own program: outputs drive the simulated world, and the world returns raw feedback.” |
+| **0:55–1:15** | One normal-operation segment: moving carton, derived sensor, actual controller completion. Label **Recorded live controller trial — normal operation**. | “In this recorded trial, the executing controller sorts a simulated carton. Its commands move the mechanism; the resulting sensor signals return through our PLC interceptor. The controller records the completion.” |
+| **1:15–1:55** | Hero: W4 missing drive feedback → fault 12 → clear/reset → Muse's new D1 follow-up rationale → fault 21 → clear/reset. Use readable callouts and the saved report/decision trail if original live video is unavailable. Label **Recorded live Muse trial — adaptive investigation**. | “Now Muse removes drive-running feedback and observes fault twelve. After recovery, it chooses a new investigation from that result: contradictory divert feedback, which was absent from its initial plan. It runs the experiment, observes the distinct fault twenty-one, clears the condition and resets. The saved evidence links its decisions to actual PLC observations.” |
+| **1:55–2:15** | S2 received Start, Stop/coast, overload and Reset frames. Show acknowledgements/results. Label **Separate recorded live Muse trial — browser HMI**. | “In a separate trial, Muse operates the browser HMI and receives the actual screen images. It checks Start, Stop, the overload alarm and Reset against independently observed PLC state.” |
+| **2:15–2:40** | Results: expected/observed finding, exact evidence, HMI image and inconclusive result. Show HTML/PDF export. | “The engineer gets a bench report with findings, screenshots, source evidence and remaining checks. Here, the stale-display check is inconclusive, and a citation issue remains visible. We retain partial attempts too, so the report reflects what was observed.” |
+| **2:40–2:50** | Title, payoff, repository/evidence link. | “The goal is fast, useful bench testing from engineering information. Our model, connection and controller interfaces are separate; this demonstration uses Muse Wonder and CODESYS. The reports and supporting traces are in the repository.” |
 
-## Actual evidence for the cuts
+## The minimum recording you need
 
-- **Normal operation:** `artifacts/m10/2026-11-01T00-58-43-185Z/`; read `docs/m10-live-integration.md`. `/m10-replay.html` re-presents those historical measurements. Do not call a newly recorded replay a fresh PLC run.
-- **Adaptive investigation:** campaign `portal-20261103131442735-1`; `docs/w4-live-proof.md` and `artifacts/bench-report/saved-exports/w4-adaptive-plc-investigation/report.html`. The report's model decision trail and evidence-dependent follow-up fields are suitable for a recorded-evidence review when original video footage is unavailable. A fresh live recreation must be separately qualified and labelled as a new run.
-- **HMI operation:** campaign `portal-20261103232137992-1`; exact images under its S2 `vision-frames/`. Useful preserved frames: `2-2-action.jpg` (Start), `2-3-action.jpg` (Stop/coast), `3-current.jpg` (overload/F10), `4-2-action.jpg` (Reset/stopped).
-- **Report:** `artifacts/bench-report/saved-exports/s2-hmi-operator-trial/report.html`; a shareable PDF also exists under `artifacts/bench-report/captures/s2-hmi-operator-trial.pdf`. These are historical S2 reports, not the normal-sort or W4 campaign.
+Capture five short segments rather than an uninterrupted full campaign:
 
-The local Node-served HMI is not native CODESYS WebVisu. CODESYS Control Win executes the PLC application; no physical PLC CPU or machinery is claimed. S2 UI-04 stale/disconnect remains inconclusive and one extra image citation was invalid; keep the report's limitations visible. No need to narrate every audit detail.
+1. Spec/preparation/plan: one parameter and one check, tied to the actual selected project.
+2. Normal operation: controller causality and one completion.
+3. Adaptive investigation: first result, Muse's new question, second PLC result. **This is the hero.**
+4. Actual received HMI frames and an acknowledged outcome.
+5. Report finding → evidence → export, with a visible remaining check.
 
-## Capture and edit order tonight
+Record the voiceover separately. Trim words rather than speed-reading. A small transition label identifies separate trials. Do not spend the opening minute describing every subsystem.
 
-1. Record the report and exact HMI frames now; their source evidence is frozen.
-2. Record the short normal-operation playback and W4 evidence/decision review, each with its own source label.
-3. Capture newly qualified upload/preparation/review once onboarding passes; otherwise retain the honest separate-preparation shot.
-4. Record voiceover separately. Read the script aloud once; trim words rather than rushing the explanation.
-5. Assemble and verify runtime below3minutes, readable zooms, audible voice, correct source labels and an accessible uploaded video link.
+## Exact source material
 
-Keep detailed architecture, transport benchmarks, reusable-library internals and future roadmap in the repository. The video shows the engineer's problem, Muse's active contribution, observed controller/HMI results and the report.
+| Segment | Source |
+| --- | --- |
+| Architecture | [Agnostic diagram](../submission-diagrams/controlsbench-architecture.png); use a brief crop. |
+| Normal operation | [M10 explanation](../m10-live-integration.md), `artifacts/m10/2026-11-01T00-58-43-185Z/`; `/m10-replay.html` presents historical measurements. Label newly captured playback as recorded-evidence review. |
+| Adaptive result | [W4 PDF](../../evidence/reports/adaptive-plc-investigation.pdf), [HTML](../../evidence/reports/adaptive-plc-investigation.html), campaign `portal-20261103131442735-1`. Original decision/tool trail: [proof note](../w4-live-proof.md). |
+| HMI images | Campaign `portal-20261103232137992-1`, `vision-frames/`: `2-2-action.jpg` Start, `2-3-action.jpg` Stop/coast, `3-current.jpg` overload, `4-2-action.jpg` Reset/stopped. [Received overload frame](../../evidence/images/muse-received-overload.jpg). |
+| Report | [S2 PDF](../../evidence/reports/muse-hmi-operation.pdf), [HTML](../../evidence/reports/muse-hmi-operation.html). [Partial attempt](../../evidence/reports/partial-hmi-attempt.pdf) is separate. |
+
+## Boundaries to keep accurate
+
+CODESYS Control Win is the executing PLC runtime; no physical PLC CPU or machinery is shown. The HMI is locally served, not native CODESYS WebVisu. A newly recorded replay/report review is not original live footage. Prepared-conveyor live proofs do not qualify every uploaded world; complete the selected-world live handoff before presenting that as one accepted end-to-end run.
+
+Keep detailed architecture, library internals, transport benchmarks, other vendors, PID/filtering and local-model work in the repository. The viewer should leave able to say: **“Muse built the machine's external behavior, actively tested its controller, and showed the engineer evidence.”**

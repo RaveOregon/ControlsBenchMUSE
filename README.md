@@ -1,6 +1,14 @@
 # ControlsBench Muse
 
-ControlsBench Muse is a controls-engineer workstation concept for autonomous bench testing of executing PLC logic. Muse generates a behaviorally sufficient external world from a functional specification and raw I/O contract, operates the system under test, adapts its investigation, and preserves traceable evidence.
+ControlsBench Muse is a controls-engineer workstation for AI-assisted bench testing of executing PLC logic. Muse generates an external machine world from a functional specification and raw I/O contract, operates the system under test, adapts its investigation, and preserves traceable evidence.
+
+## Submission — start here
+
+**[Evidence and readable reports](evidence/README.md)** · [Architecture diagrams](docs/submission-diagrams/README.md) · [Three-minute demo plan](docs/submission/demo-three-minute-cut.md)
+
+The live demonstration uses **Muse Wonder 1.0, an isolated workstation world engine, OPC UA and CODESYS Control Win**. The model chose a new fault investigation after observing the controller, operated the browser HMI in a separate trial, and produced evidence-linked findings. The evidence folder provides PDFs, portable HTML reports, original results/audits and a claim-to-source map, including limitations and a partial attempt.
+
+Model, connection and controller bindings are separate interfaces. CODESYS/OPC UA are the demonstrated choices; additional vendor support and deployed reusable-library adoption remain future work. The new app-based specification-upload workflow is in final integration and needs its own selected-world live acceptance.
 
 ## Integrated application — current entry point
 
@@ -8,7 +16,7 @@ On `codex/product-integration`, run `npm ci`, `npm --prefix ui ci`, then `npm st
 
 See [docs/product-integration.md](docs/product-integration.md) for the exact full-path command, recorded review, live M8 launch, verification and outstanding live-Wonder adapter gate. The historical proof sections below retain their original scope and do not supersede that integration status.
 
-## Current proof status
+## Historical first proof — generated world and surrogate checks
 
 Gates A, B, C, and D passed on 2026-10-29 using the same `muse-wonder-1.0` behavioral world:
 
