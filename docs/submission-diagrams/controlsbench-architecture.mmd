@@ -1,42 +1,32 @@
 flowchart LR
-    Spec["Engineer input<br/>Functional specification + typed I/O information"]
-    subgraph Meta["META API"]
-      Muse["Muse Wonder 1.0<br/>Authors world · plans · intervenes · investigates"]
-    end
-    subgraph Workstation["ENGINEER WORKSTATION"]
-      App["ControlsBench app<br/>Plan · Progress · Evidence · Report"]
-      View["Generated machine view<br/>Spec-derived · world/PLC state"]
-      HMI["Actual HMI session<br/>Local Node service + captured browser pixels"]
-      Runtime["Campaign runtime<br/>Specification, contract, tools + decision leases"]
-      World["Generated world · isolated child<br/>Physics, sensors, faults → raw BOOLs / encoder counts"]
-      Connector["OPC UA connector<br/>Qualified 10 Hz demo · logical-signal boundary"]
-      Evidence["Timestamped, hash-linked evidence + report<br/>Physical truth, raw image, PLC, HMI and interpretation kept distinct"]
-      App --- View
-      App --- HMI
-      App --- Runtime
-      Runtime -->|semantic tools| World
-      World -->|complete raw input image| Connector
-      Connector -->|outputs/status + applied-image acknowledgement| World
-      Runtime -->|all source records| Evidence
-    end
-    subgraph PLC["CODESYS CONTROL WIN · ACTUAL PLC TARGET"]
-      Interceptor["Demo interceptor FB<br/>Raw input selection before application conditioning"]
-      Logic["Actual PLC application<br/>Own scan/timers · scaling/filtering/logic"]
-      Capture["Authentic output capture<br/>Commands + status + applied acknowledgement"]
-      Interceptor --> Logic --> Capture
-    end
-    Spec --> App
-    Muse -->|world package, plans + interventions| Runtime
-    Runtime -->|observations + evidence| Muse
-    Connector -->|simulated raw inputs| Interceptor
-    Capture -->|authentic feedback| Connector
-    HMI <-->|PLC status + operator commands| Logic
-    Muse -.->|HMI agent lane: live operator proof with limits| HMI
-    classDef meta fill:#F4F0FC,stroke:#7754D9,color:#132238
-    classDef execution fill:#F1F6FD,stroke:#3275C6,color:#132238
-    classDef plc fill:#F1F8F6,stroke:#138B83,color:#132238
-    classDef evidence fill:#FFF9EC,stroke:#B7791F,color:#132238
-    class Muse meta
-    class App,View,Runtime,World,Connector execution
-    class HMI,Interceptor,Logic,Capture plc
-    class Evidence evidence
+  Input["Machine specification<br/>Typed raw I/O + service contracts"] --> App
+  Model["AI model adapter<br/>Demo selection: Muse Wonder / Meta API"]
+  subgraph WS["ControlsBench workstation"]
+    App["ControlsBench app<br/>Project · Review · Campaign · Evidence · Report"]
+    View["Generated machine view<br/>Bound to world / controller state"]
+    Hmi["Operator-interface adapter<br/>Actual captured HMI session"]
+    Coordinator["Campaign coordinator<br/>Plans · expectations · tools · decision policies"]
+    World["World runtime<br/>Physics · devices · connected-service emulation"]
+    Connector["Connection adapter<br/>Demo selection: OPC UA"]
+    Evidence["Evidence + bench report<br/>Truth, stimulus, observations and interpretation remain distinct"]
+    App --- View
+    App --- Hmi
+    App --> Coordinator
+    Coordinator -->|semantic interventions| World
+    Coordinator <-->|interface tools / captures| Hmi
+    World -->|raw image / service requests| Connector
+    Connector -->|authentic response + applied acknowledgement| World
+    Coordinator --> Evidence
+  end
+  subgraph Target["Controller platform — demo selection: CODESYS Control Win"]
+    Library["PLC integration adapter<br/>Demo selection: integrated M8 FB"]
+    Logic["Existing controller application<br/>Own scan / timers · scaling · control"]
+    Outputs["Authentic output / status observation"]
+    Library --> Logic --> Outputs
+  end
+  Model -->|world package, plans and tool decisions| Coordinator
+  Coordinator -->|evidence and results| Model
+  Connector -->|complete raw input image| Library
+  Outputs --> Connector
+  Hmi <-->|supervisory commands / actual status| Logic
+  Note["Named selections populate agnostic interfaces.<br/>Other bindings require implementation and qualification.<br/>Reusable Core is compiled, not deployed."]

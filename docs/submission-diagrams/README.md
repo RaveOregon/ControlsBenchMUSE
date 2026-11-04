@@ -1,17 +1,16 @@
 # ControlsBench Muse — submission diagrams
 
-Open `index.html` to review the set. Each diagram has an editable SVG master, a 1920×1080 PNG export, a Mermaid source and a Markdown caption/alt-text/claim note.
+Open index.html for the gallery. Every diagram has an editable SVG master, PNG and Mermaid source, plus caption and claim notes.
 
-| Diagram | Use | Files |
-| --- | --- | --- |
-| From specification to evidence | Main submission architecture; lead with this in the README or demo | `controlsbench-architecture.*` |
-| How a live investigation works | Explain continuous execution and the demonstrated evidence-dependent follow-up | `controlsbench-live-loop.*` |
-| Raw I/O and platform integration | Technical detail for controls engineers and the reusable ecosystem | `controlsbench-plc-integration.*` |
+The primary architecture is **agnostic interfaces with populated demo choices**. The main boxes say AI model adapter, Connection adapter, Controller platform and PLC integration adapter. Smaller Demo selection labels contain Muse Wonder / Meta API, OPC UA, CODESYS Control Win and M8 demo FB. Those are the current configuration, rather than definitions of the product architecture.
 
-Three full-context agents produced the diagrams in parallel. The main agent reviewed all three rendered PNGs and checked the capability labels against the live proof and reusable-library handoff. SVGs parse as XML; each SVG and PNG is 1920×1080. Mermaid is provided as editable semantic source and was not rendered.
+1. controlsbench-architecture: the product's component and evidence flow.
+2. controlsbench-live-loop: generic execution and adaptation pattern, with the actual conveyor investigation confined to an example strip.
+3. controlsbench-plc-integration: common raw-I/O/session semantics and platform-specific library implementations.
 
-The status labels deliberately distinguish the live CODESYS demo, compiled-only reusable Core 0.2.0.0, live-proven HMI operator slice (stale/disconnect inconclusive), and future vendor/transport/analysis extensions. The integration diagram specifically distinguishes live Boolean DO capture from compiled AO support and the optional physical-sink gate. Update these labels only when the corresponding proof or deployment has actually changed.
+Other adapter bindings require implementation and qualification; the diagrams do not claim all vendor support exists. The reusable Core0.2.0.0 is compiled, not deployed. The optional sink gate and AO support are prototype capabilities. Native PLC scan, model reasoning and connector cadence stay independent.
 
-The editable SVG is the presentation master. Font fallbacks are Segoe UI and Arial; PNG exports preserve the reviewed rendering. No app source, PLC program or live runtime was changed to create these files.
+Rebuild the masters: node scripts/build-submission-diagrams.mjs
+Render PNGs and hash manifest: node scripts/render-submission-diagrams.mjs
 
-The original common brief and diagram prompts are in `../submission-diagram-prompts.md`.
+The reusable generation brief is ../submission-diagram-prompts.md.

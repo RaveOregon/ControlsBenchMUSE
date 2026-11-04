@@ -1,11 +1,11 @@
-# ControlsBench Muse — from specification to evidence
+# ControlsBench Muse — agnostic product architecture
 
-**Caption:** Muse authors the world and investigations; ControlsBench executes raw signals against the real controller and preserves the evidence.
+**Caption:** A common workstation architecture with selected model, connection and controller-platform bindings.
 
-**Alt text:** An engineer supplies a functional specification and typed I/O information to ControlsBench on an engineering workstation. Muse Wonder, reached through the Meta API, authors a reactive world and makes investigation decisions through the campaign runtime. An isolated world process streams raw inputs through the qualified 10 Hz OPC UA connector to the demo interceptor FB and actual CODESYS application. Authentic application outputs and applied-image acknowledgements return through the connector to evolve the world. The app displays a generated machine view separately from actual browser HMI pixels. Timestamped, hash-linked evidence supports the report. A dashed Muse-to-HMI path identifies the separately live-proven operator slice.
+**Alt text:** Generic AI model adapter, campaign coordinator, world runtime, connection adapter, platform-specific PLC integration and actual controller logic. Separate generated machine and actual HMI views feed a reviewable evidence report. Secondary demo selections populate the slots: Muse Wonder via Meta API, OPC UA, CODESYS Control Win and the integrated M8 FB.
 
-**Claim check:** The main execution loop and actual HMI observation are live-proven. Muse HMI operation has a separate scoped live proof: Auto/Start/Stop/Reset and three screen checks; stale/disconnect remains inconclusive and one extra model citation was invalid. It uses the active demo interceptor FB, while the footer explicitly leaves deployment of the compiled reusable library and other vendor adapters as next steps. The PLC scan is independent of the connector's qualified 10 Hz operating point. The HMI is served locally by Node and is not labelled native WebVisu. Muse reasons between semantic actions rather than producing every PLC scan.
+**Claim boundary:** The interfaces are agnostic by design. Named demo selections identify the exercised implementation, not the only possible architecture. Other bindings are not claimed implemented. The reusable Core library remains compiled-only. HMI tools route through the coordinator and interface adapter. The project-preparation workflow remains under integration; this architecture is not a claim that arbitrary uploaded machines are live-qualified.
 
-**Files:** `controlsbench-architecture.svg` is editable vector artwork with selectable text; `controlsbench-architecture.mmd` is the matching structural Mermaid source. The SVG is the presentation master at 1920×1080.
+**Files:** Editable SVG presentation master, 1920×1080 PNG, and matching Mermaid semantic source. Mermaid is reviewed as text; PNG rendering uses isolated headless Chrome.
 
-**Visual verification:** Rendered to `controlsbench-architecture.png` with an isolated headless Chrome profile and inspected. Text fit, deployment boundaries, the app-to-runtime route, feedback direction and scoped HMI lane were reviewed at full presentation size. No live app or PLC session was used for rendering.
+**Revision:** Generalized at Steve's request: agnostic connector and platform interfaces with populated demo choices, rather than demo-specific components defining the architecture.

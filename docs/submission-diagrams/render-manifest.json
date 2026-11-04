@@ -1,31 +1,31 @@
 {
-  "renderedAtIso": "2026-11-03T23:33:12.406Z",
+  "renderedAtIso": "2026-11-04T01:54:07.777Z",
   "width": 1920,
   "height": 1080,
   "files": [
     {
       "file": "controlsbench-architecture.svg",
-      "sha256": "9d6a3f6aa5f2e583d472d606d328663a97c6df9732489c3d8aae5d68f61f5865"
+      "sha256": "c91a20a5bc58515b2185423e6530404d0c3b4d2fb8d1e9470a53b42403524cf4"
     },
     {
       "file": "controlsbench-architecture.png",
-      "sha256": "18a49f9b55617da6a46bf962cc4c1c9752bc693aea691f42bec3e7c65663e407"
+      "sha256": "fa9de5ad271710354cbf38b9978befbfedbd30c62dbde9ab93e96fc03eb16552"
     },
     {
       "file": "controlsbench-live-loop.svg",
-      "sha256": "c71edd1d0ed94dfab3de3de3eff7e99e7489df39e27914360e66fde760cb08e8"
+      "sha256": "e25d73eda35f6f0b68ed1d4433b9bf0dcb60c9fd5cb2291e256c282b8837f202"
     },
     {
       "file": "controlsbench-live-loop.png",
-      "sha256": "adf304284c6f9a59fc8067a5fd1c76ac4eee631a626db61194963b15f8d5f7bf"
+      "sha256": "4eb2b0dddf6359ebacc7b8920a8547a7c1548e85e2325dd0c6368b97bcec7eee"
     },
     {
       "file": "controlsbench-plc-integration.svg",
-      "sha256": "1838ffd6fc15b688e7b6b0fb00b4ce69f1ab387dd5f422edbf7af156efea9818"
+      "sha256": "bc18835649fc1e9ba273b64c795b429b043f5d5eccc1665de90c7e0a5e058ffa"
     },
     {
       "file": "controlsbench-plc-integration.png",
-      "sha256": "cdb53214e948b4db64848b838bdcc3414f49e5bc462366770bb665baf18a2646"
+      "sha256": "1d1fe8935ccdcc4b242b84de8b363c0cfc75692b124cacdc12487b8b5e050454"
     }
   ]
 }

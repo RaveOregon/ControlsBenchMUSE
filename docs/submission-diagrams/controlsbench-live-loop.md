@@ -1,21 +1,11 @@
-# How a live ControlsBench investigation works
+# Agnostic investigation loop
 
-**Caption:** Muse chooses the experiments and evidence-dependent follow-up; the workstation continuously maintains the generated world and exchanges raw signals with the real PLC. The proven campaign progressed from drive-feedback fault 12 to a newly chosen D1 contradiction test, fault 21, recovery, and an auditable report.
+**Caption:** Model turns, continuous world execution, the selected connector and the controller scan retain separate responsibilities.
 
-**Alt text:** Five lanes separate Muse Wonder, the campaign runtime and evidence, an isolated world engine, OPC UA and the actual CODESYS PLC application. Setup starts with the engineer's specification and I/O information, followed by a Muse-authored world package and workstation validation. A continuous loop carries complete raw images into the PLC and returns applied acknowledgements and authentic outputs to the world and evidence journal. Below it, six numbered cards show the actual live investigation: choose drive-feedback failure, observe fault 12 with motor off, clear and reset to Stopped without restarting, choose a new D1-limit contradiction test from that returned evidence, observe distinct fault 21, then recover and report two findings containing 31 verified PLC claims.
+**Alt text:** Five generic lanes show the AI adapter, coordinator, world runtime, connection adapter and controller platform. A neutral adaptive-testing pattern progresses from a chosen test to stimulus, observation, adaptation, evaluation and report. The currently selected model, transport and controller appear as demo choices; specific conveyor faults appear only in a bottom example strip.
 
-**Files:** `controlsbench-live-loop.svg` is an editable 1920×1080 vector artifact with selectable text. `controlsbench-live-loop.mmd` provides a more detailed Mermaid sequence using the same responsibilities and evidence ordering. The PNG is a rendered presentation preview, when present.
+**Claim boundary:** The adaptive pattern is platform-neutral. The populated OPC UA demo was qualified at10Hz; this does not prescribe another adapter or the PLC scan rate. The drive-feedback fault12 and D1 fault21 sequence is a specific preserved example. Expected/observed criteria are a product responsibility and do not imply that every existing experiment recorded an explicit acceptance criterion. HMI operation has separate scoped evidence; no exhaustive coverage is claimed.
 
-**Claim check:**
+**Files:** Editable SVG presentation master, 1920×1080 PNG, and matching Mermaid semantic source. Mermaid is reviewed as text; PNG rendering uses isolated headless Chrome.
 
-- The API model makes semantic decisions outside the continuous workstation I/O loop.
-- The qualified 10 Hz value describes the OPC UA demo transport; it does not describe or accelerate the PLC scan.
-- Holding world evolution does not hold PLC scan execution or timers; continue and condition/deadline policies are bounded.
-- The D1 contradiction experiment is shown after the motivating drive-feedback/recovery evidence.
-- The latest live campaign's two findings and 31 exact PLC claims are scoped evidence, not certified or exhaustive coverage.
-- Normal A sorting belongs to a separate earlier live campaign.
-- Muse HMI operation passed a separate live checkpoint (UI-01/02/03 supported, UI-04 inconclusive, one extra invalid frame citation); it is not inserted into this earlier campaign.
-
-**Source:** shared submission brief and Prompt 2 in `docs/submission-diagram-prompts.md`; live proof record in `.worktrees/product-integration/docs/w4-live-proof.md`. No PLC, application or model execution is part of diagram generation.
-
-**Visual verification:** SVG parsed as XML and was rendered to a 1920×1080 PNG in an isolated headless Chrome process. The PNG was inspected for readable labels, clipping, arrow/label collisions and correct evidence ordering. The Mermaid source was reviewed as text; a Mermaid renderer was not available in this lane.
+**Revision:** Generalized at Steve's request: agnostic connector and platform interfaces with populated demo choices, rather than demo-specific components defining the architecture.
