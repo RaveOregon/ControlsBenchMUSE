@@ -1,6 +1,6 @@
 # Bench test report — engineer-facing Results and shareable export
 
-Branch `codex/bench-report`, based on integration `544adcd` (reviewed live S2 proof and submission diagrams). Not merged into `codex/product-integration`; the running app on 5190/5191 was not touched or restarted.
+Source lane `codex/bench-report`, based on integration `544adcd` (reviewed live S2 proof and submission diagrams), is integrated into `codex/product-integration` at `df8908c` with handoff `f1ee619`. Independent review and the refreshed fixture preview are recorded in `docs/reviews/bench-report-review.md`. The live app on 5190/5191 was not touched or restarted.
 
 ## What the engineer gets
 

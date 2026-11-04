@@ -128,7 +128,14 @@ test("a running host campaign is labelled current and its counts are provisional
   assert.equal(v.source.historical, false);
   assert.ok(v.attention.some(a => /still in progress/.test(a.text)));
   assert.equal(v.experiments[1]!.status, "running");
+  assert.match(v.experiments[1]!.statusLabel, /^Running/);
+  assert.ok(v.experiments[1]!.limitations.some(s => /still in progress/.test(s)));
+  assert.ok(!v.experiments[1]!.limitations.some(s => /record ended/.test(s)));
   assert.match(v.finalState!.note, /still running; this is not a freshness monitor/);
+  b.report.status = "stopped";
+  const stopped = buildReportView(b);
+  assert.match(stopped.experiments[1]!.statusLabel, /^Interrupted/);
+  assert.ok(stopped.experiments[1]!.limitations.some(s => /record ended/.test(s)));
 });
 
 test("standalone HTML renders model text as data, embeds only vetted images and carries no host URLs or local paths", async () => {

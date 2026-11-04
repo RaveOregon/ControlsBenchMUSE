@@ -170,7 +170,7 @@ export function buildReportView(bundle: ReportBundle): ReportView {
     const timing = bundle.experiments[id];
     const status: ExperimentRow["status"] = x.status === "completed" ? (x.conclusion === "inconclusive" ? "inconclusive" : "observed") : x.status === "running" ? "running" : "not_run";
     const [statusLabel, tone]: [string, Tone] = status === "observed" ? ["Observed — conclusion recorded, not a pass verdict", "info"] : status === "inconclusive" ? ["Inconclusive", "warn"]
-      : status === "running" ? ["Interrupted — still running when the record ended", "warn"] : ["Not run", "warn"];
+      : status === "running" ? (historical ? ["Interrupted — still running when the record ended", "warn"] : ["Running — results provisional", "info"]) : ["Not run", "warn"];
     const mine = bundle.actions.filter(a => a.experimentId === id);
     const findings = findingsFor(id);
     const signals = new Set([...findings.flatMap(f => f.claims.map(c => c.signal)), ...mine.filter(a => a.name === "wait_for_condition").map(a => String(parse(a.arguments).signal ?? ""))].filter(Boolean));
@@ -179,7 +179,7 @@ export function buildReportView(bundle: ReportBundle): ReportView {
       ...findings.map(f => `${f.id}: ${f.uncertainty}`),
       ...mine.filter(a => a.status !== "applied").map(a => `${a.actionId} ${STATUS[a.status]?.[0] ?? a.status}: ${a.message ?? ""}`.trim()),
       ...assessments.filter(a => x.requirements.includes(a.data.requirementId) && a.data.verdict !== "pass").map(a => `${a.data.requirementId} assessed ${a.data.verdict}: ${a.data.uncertainty}`),
-      ...(status === "not_run" ? ["No evidence: this experiment was not executed."] : status === "running" ? ["The record ended before this experiment reached a conclusion."] : [])
+      ...(status === "not_run" ? ["No evidence: this experiment was not executed."] : status === "running" ? [historical ? "The record ended before this experiment reached a conclusion." : "This experiment is still in progress; no conclusion is recorded yet."] : [])
     ];
     return { id, objective: x.objective, category: x.category, requirements: x.requirements, origin: timing?.origin === "followup" ? "Adaptive follow-up (added from evidence)" : "Planned",
       followup: timing?.followup ? { rationale: timing.followup.rationale, refs: refs(timing.followup.evidenceRefs) } : undefined,
