@@ -22,6 +22,8 @@ export interface HostedCampaignView {
   throughSequence: number;
   /** Envelope integrity failure; once set no further events are applied. */
   integrityError?: string;
+  /** Project identity and the plan prepared before Start, read from this campaign's ledger. */
+  context?: import("./campaign-review.ts").CampaignContext;
 }
 
 export interface HostLinkView {

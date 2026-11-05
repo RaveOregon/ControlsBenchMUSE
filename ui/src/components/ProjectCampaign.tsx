@@ -4,6 +4,7 @@
 // view for generated worlds that have no drawn machine view.
 
 import { useMemo } from "react";
+import { recordIsFor } from "../model/campaign-review.ts";
 import type { CommandResult, WorkspaceState } from "../model/workspace-store.ts";
 import type { ProjectsIndex, Review } from "../projects/api.ts";
 export { projectStartBlock } from "../projects/gating.ts";
@@ -14,9 +15,10 @@ const TERMINAL = ["completed", "stopped", "failed"];
 export function ProjectPlanPanel({ state, index, review, onScope, onStart, startDisabledReason }: { state: WorkspaceState; index: ProjectsIndex; review?: Review;
   onScope: (ids: string[], included: boolean) => void; onStart: () => CommandResult; startDisabledReason?: string }) {
   const active = index.active;
-  const projection = state.hosted?.projection;
+  // Outcomes come only from a campaign that ran this project version; any running campaign still locks scope.
+  const projection = recordIsFor(state.hosted?.context, active) ? state.hosted?.projection : undefined;
   const started = Boolean(projection && projection.status !== "preparing");
-  const locked = Boolean(projection && !TERMINAL.includes(projection.status));
+  const locked = Boolean(state.hosted?.projection && !TERMINAL.includes(state.hosted.projection.status));
   const definition = state.host?.info?.factory.scope;
   const planned = new Set(review?.plan.checks.map(c => c.id) ?? []);
   const groups = useMemo(() => { const m = new Map<string, NonNullable<Review>["plan"]["checks"]>(); for (const c of review?.plan.checks ?? []) m.set(c.group, [...(m.get(c.group) ?? []), c]); return [...m]; }, [review]);

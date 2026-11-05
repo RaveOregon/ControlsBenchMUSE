@@ -75,7 +75,14 @@ try {
 
   // 4. Start; checks update; follow-up listed separately.
   check("start campaign", await click("Start campaign", 'document.querySelector(\'[aria-label="Campaign plan"]\')'));
-  check("campaign completed", await b.waitFor(`/COMPLETED/i.test(document.querySelector('[aria-label="Campaign record"] header')?.innerText ?? "")`, 120_000));
+  // The header must name this project: on a reused host the previous campaign's COMPLETED record shows until the new one is announced.
+  check("campaign completed", await b.waitFor(`(h => /COMPLETED/i.test(h) && h.toLowerCase().includes(${JSON.stringify(name.toLowerCase())}))(document.querySelector('[aria-label="Campaign record"] header')?.innerText ?? "")`, 120_000));
+  const record = await text('[aria-label="Campaign outcome"]');
+  check("record leads with the outcome and what review means", /Completed: \d+ of \d+ checks recorded an observation/.test(record) && /needs your review/.test(record) && /it is not a pass/.test(record));
+  check("record sets the spec expectation beside the recorded result", /From spec[\s\S]*Observed/.test(await text('[aria-label="Campaign record"] .review-table')));
+  check("findings and run details start collapsed", await js(`return [...document.querySelectorAll('[aria-label="Campaign record"] details')].every(d => !d.open);`));
+  await shot("06a-campaign-record-after-run", '[aria-label="Campaign record"]');
+  check("prepared plan collapses after Start", await js(`const d = document.querySelector('[aria-label="Campaign plan"]')?.closest("details"); if (!d || d.open) return false; d.open = true; return true;`));
   const plan = await text('[aria-label="Campaign plan"]');
   check("checks updated and follow-up shown", /observed/.test(plan) && /Added during the campaign[\s\S]*FOLLOWUP-fixture/.test(plan));
   await shot("06-campaign-plan-after-run", '[aria-label="Campaign plan"]');

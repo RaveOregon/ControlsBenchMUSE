@@ -11,6 +11,7 @@ import { LiveSession } from "./adapters/live/coordinator-source.ts";
 import { createHostedBrowserSession } from "./adapters/host/browser-session.ts";
 import { connectHostStream, detectHost, fetchTransport } from "./adapters/host/host-transport.ts";
 import { CampaignTruthPanel } from "./components/CampaignTruthPanel.tsx";
+import { recordIsFor } from "./model/campaign-review.ts";
 import type { HostInfo } from "../../src/host/protocol.ts";
 import { verifyProvenance, type FixtureBundle, type ProvenanceCheck } from "./adapters/replay/fixtures.ts";
 import { parseWorldGeometry } from "./adapters/replay/geometry.ts";
@@ -143,6 +144,7 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
   const check = focusedCheck(state, selection);
   const pending = Object.values(state.commands).find(c => c.outcome === 'pending');
   const projectMode = Boolean(projects && hostedSource);
+  const recordCurrent = projectMode && recordIsFor(state.hosted?.context, projects!.active);
   const startReason = source.unavailableReason ?? (pending ? 'Awaiting application acknowledgement' : source.store.can('start').ok ? (projectMode ? projectStartBlock(projects, activeReview, state) : undefined) : (source.store.can('start') as { reason: string }).reason);
   const plan = projectMode ? <ProjectPlanPanel state={state} index={projects!} review={activeReview} onScope={(ids, included) => source.store.setScope(ids, included)} onStart={() => { const result = source.start(); if (result.ok) setDestination('Campaign'); return result; }} startDisabledReason={startReason} />
     : <PlanPanel state={state} worldName={bundle.manifest.name} worldVersion={bundle.manifest.packageVersion} signalCounts={{ inputs: state.signals.filter(s => s.direction === 'world_to_plc').length, outputs: state.signals.filter(s => s.direction === 'plc_to_world').length }} selection={selection} onSelect={setSelection} onScope={(ids, included) => source.store.setScope(ids, included)} onStart={() => { const result = source.start(); if (result.ok) setDestination('Campaign'); return result; }} startDisabledReason={startReason} />;
@@ -192,11 +194,14 @@ function Workspace({ bundle, host }: { bundle: FixtureBundle; host: HostInfo | n
             <div className="page-heading"><div><div className="eyebrow">{mode === 'replay' ? 'RECORDED CAMPAIGN · nothing here is live' : host?.factory.evidenceClass === 'preserved_live_plc' ? 'HOSTED REVIEW · recorded PLC/world evidence' : 'LIVE CAMPAIGN'}</div><h1>{projectMode ? `${projects!.active?.projectName ?? 'No project selected'} campaign` : 'Conveyor bench campaign'}</h1></div><button className="btn primary" disabled={Boolean(startReason)} title={startReason} onClick={() => source.start()}>{mode === 'replay' ? 'Play recorded campaign' : 'Start campaign'}</button></div>
             {mode === 'live' && source.unavailableReason && <div className="source-notice"><b>{sessions.hosted ? 'Portal host unavailable.' : 'Live coordinator not attached.'}</b> {source.unavailableReason}</div>}
             {/* Hosted campaigns show the M9 experiments and findings; the built-in check cards would cite unrelated preserved checks. */}
+            {projectMode && !recordCurrent && state.hosted?.context?.project && <div className="source-notice"><b>This record is from the last campaign, which ran {state.hosted.context.project.name} {state.hosted.context.project.version}.</b> The selected project has not been run in this session; Start runs it in a fresh campaign.</div>}
             {hostedSource ? <CampaignTruthPanel state={state} actions={truthActions} onSelect={setSelection} />
               : <div className="experiment-grid"><ExperimentPanel state={state} check={check} onSelect={setSelection} /><FindingCard state={state} check={check} source={source} onSelect={setSelection} /></div>}
             {hostedSource ? <details className="inspector-disclosure"><summary>Steer Muse (not available in this release)</summary><p className="muted steer-disabled">The host has no steering channel, so typed direction would not reach Muse. The control is disabled rather than appearing to send.</p></details>
               : <details className="inspector-disclosure"><summary>Steer Muse / request a targeted experiment</summary><SteeringBox state={state} onSteer={text => source.steer(text)} /></details>}
-            {projectMode && plan}
+            {/* Once started, the record above carries each check's expectation beside its result; the full prepared plan stays one click away. */}
+            {projectMode && (recordCurrent && state.hosted?.projection && state.hosted.projection.status !== 'preparing'
+              ? <details className="inspector-disclosure"><summary>Prepared plan: stimulus, source references and scope for each check</summary>{plan}</details> : plan)}
             <div className="visual-heading"><h2>Observe the experiment</h2><div className="segmented" role="group" aria-label="Observation surfaces">{(['both','world','hmi'] as const).map(v => <button key={v} aria-pressed={visualSurface === v} onClick={() => setVisualSurface(v)}>{v === 'both' ? 'Side by side' : v === 'world' ? 'Simulated World' : 'PLC HMI'}</button>)}</div><details><summary>Generated geometry & assumptions</summary><p className="mono">World v{bundle.manifest.packageVersion}</p><pre className="document-text">{JSON.stringify(geometry, null, 2)}</pre><ul>{bundle.manifest.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></details></div>
             <div className={visualSurface === 'both' ? 'observation-grid' : 'observation-single'}>{visualSurface !== 'hmi' && (projectMode && projects!.active?.kind === 'uploaded' ? <ProjectSignalView state={state} index={projects!} review={activeReview} /> : <GeneratedMachineView state={state} nowMs={nowMs} onSelect={setSelection} />)}{visualSurface !== 'world' && <HmiSurface state={state} source={hmiSource} nowEpochMs={nowEpochMs} onSelect={setSelection} />}</div>
             <EvidenceTimeline state={state} nowMs={nowMs} selection={selection} onSelect={setSelection} />

@@ -8,6 +8,7 @@ import type { EngineerCommand, MuseEvent, SourceMode } from "../../model/events.
 import type { CommandResult, WorkspaceStore } from "../../model/workspace-store.ts";
 import type { CampaignSource } from "../source.ts";
 import { EnvelopeIntegrityError, EnvelopeLog } from "./envelope.ts";
+import { contextFromEnvelope } from "../../model/campaign-review.ts";
 import { CampaignEventMapper } from "./m9-adapter.ts";
 
 export interface HostTransport { send(command: HostCommand): Promise<void> | void }
@@ -168,8 +169,10 @@ export class HostedSession implements CampaignSource {
       this.#frozenAtMs = Math.max(this.#frozenAtMs, ...mapped.map(e => e.atMs));
     }
     const current = this.store.state.hosted;
+    const context = accepted.reduce((c, e) => contextFromEnvelope(e, c), current?.context ?? {});
     this.store.setHosted({ campaignId, label: meta.label, evidenceClass: meta.evidenceClass, diagnosisMode: meta.diagnosisMode,
-      projection: failure ? current?.projection : projection ?? current?.projection, throughSequence: log.lastSequence, integrityError: failure ?? current?.integrityError });
+      projection: failure ? current?.projection : projection ?? current?.projection, throughSequence: log.lastSequence, integrityError: failure ?? current?.integrityError,
+      ...(Object.keys(context).length ? { context } : {}) });
     return mapped;
   }
 
