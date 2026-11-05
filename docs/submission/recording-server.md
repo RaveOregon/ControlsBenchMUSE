@@ -5,6 +5,9 @@ The final integration includes Claude's completed onboarding (`ab858ec`), merged
 - **Start here:** http://127.0.0.1:5195/ — video desk with direct links to the app and saved artifacts.
 - **Tester:** http://127.0.0.1:5194/ — spec upload, actual Muse preparation, project review and explicitly offline selected-world campaigns. Opening the server does not start a model request or campaign.
 - **Existing completed live HMI trial:** http://127.0.0.1:5190/ — separate prepared-conveyor proof, retained for Campaign/Results review.
+- **Live conveyor operation clip:** http://127.0.0.1:5196/ — existing M8 six-scenario deterministic runner, launched through `scripts/host-m8.ps1 -Port 5196` after local masked credential entry. The current HMI at5191 is configured as its captured observation view. No model calls; it uses the prepared world. This is the movement demonstration, not the rest-only project fixture. The launcher/preflight and stopped/fault-free observer state were checked; no campaign was started by the recording setup.
+
+**Recording correction:** Start in the project-offline tester performs brief rest observations and can finish immediately with no motion. It is not the normal-operation demonstration. Use5196 for a new live conveyor trial, or the separately labelled preserved evidence for recorded trials. The video desk now separates those entry points explicitly.
 
 In the tester, open Setup. Select **Slow-belt conveyor variant → v1** for the genuine saved Muse generation, assumptions, validation and 28-check plan. Its recorded project report is available from the version's Runs list. **Create project from specification** is the upload flow. Preparing a new project uses paid Muse calls; pressing Start in this tester executes the explicitly labelled offline fixture transport/provider, not a fresh PLC trial.
 
