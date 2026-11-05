@@ -37,6 +37,8 @@ export interface ActivityView {
   state: ActivityState;
   tone: Tone;
   headline: string;
+  progress?: string;
+  diagnostic?: string;
   detail?: string;
   /** Elapsed time of the current activity on its source clock, when that clock carries timing. */
   elapsedMs?: number;
@@ -92,6 +94,10 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
   const plcAge = conn.lastPlcHeartbeatAtMs !== undefined ? toSource(Math.max(0, nowMs - conn.lastPlcHeartbeatAtMs)) : episode?.plcExpected ? toSource(nowMs - episode.startedAtMs) : undefined;
   const worldAge = state.world.lastHeartbeatAtMs !== undefined ? toSource(Math.max(0, nowMs - state.world.lastHeartbeatAtMs)) : episode?.worldExpected ? toSource(nowMs - episode.startedAtMs) : undefined;
   const waits = Object.values(state.waits).sort((left, right) => left.startedAtMs - right.startedAtMs);
+  const experiments = Object.values(state.hosted?.projection?.experiments ?? {});
+  const experiment = experiments.find(e => e.id === state.hosted?.projection?.activeExperiment && e.status === "running");
+  const names: Record<string, string> = { "sort-a": "Sort carton to Exit A", "sort-b": "Sort carton to Exit B", "unassigned-runout": "Unassigned carton to runout", "assigned-runout-misroute": "Blocked destination and misroute handling", "stop-coast": "Stop, decelerate and hold", "failed-divert": "Detect a failed divert" };
+  const diagnostic = state.timeline.findLast(e => e.kind === "campaign.record" && e.type === "agent.activity" && e.data?.phase === "coordinator_delayed");
 
   // ----- component health
   const muse: HealthPill = (() => {
@@ -167,6 +173,8 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
     campaignElapsedMs: state.startedAtMs !== undefined ? (state.endedAtMs ?? nowMs) - state.startedAtMs : undefined,
     sinceLastMeaningfulMs: state.lastMeaningful ? Math.max(0, nowMs - state.lastMeaningful.atMs) : undefined,
     lastMeaningful: state.lastMeaningful?.summary,
+    progress: experiment ? `Test ${experiments.indexOf(experiment) + 1} of ${experiments.length}` : state.phase === "completed" && experiments.length ? `${experiments.filter(e => e.status === "completed").length} of ${experiments.length} experiments completed` : undefined,
+    diagnostic: diagnostic?.summary,
     exercise: false
   };
   const view = (partial: Omit<ActivityView, keyof typeof base | "elapsedLabel"> & { elapsedLabel?: string; exercise?: boolean }): ActivityView => ({ ...base, elapsedLabel: partial.elapsedLabel ?? elapsedLabel(partial.elapsedMs), ...partial });
@@ -243,6 +251,11 @@ export function classifyActivity(state: WorkspaceState, nowMs: number): Activity
     return view({ state: "waiting", tone: "waiting", headline: `Waiting for ${wait.condition}`, detail: `${deadline}${health ? ` · ${health} active` : ""}${waits.length > 1 ? ` · ${waits.length - 1} more pending` : ""}`, elapsedMs: age });
   }
 
+  if (experiment) {
+    return view({ state: "active", tone: "active", headline: names[experiment.id] ?? experiment.objective,
+      detail: inProgress?.startsWith(`Experiment ${experiment.id}:`) ? undefined : inProgress,
+      elapsedMs: state.step ? toSource(nowMs - state.step.atMs) : undefined });
+  }
   if (state.step) {
     return view({ state: "active", tone: "active", headline: state.step.message, detail: state.step.awaiting ? `Awaiting ${state.step.awaiting}` : episode?.title, elapsedMs: toSource(nowMs - state.step.atMs) });
   }

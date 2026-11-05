@@ -19,6 +19,7 @@ export function ActivityStrip({ view, speedNote }: { view: ActivityView; speedNo
       <div className="activity-main">
         <span className={`pulse tone-${view.tone}${animate ? " animate" : ""}`} aria-hidden />
         <div style={{ minWidth: 0 }}>
+          {view.progress && <div className="activity-progress">{view.progress}</div>}
           <div className="headline" title={view.headline}>
             {view.tone === "reasoning" ? <span className="shimmer">{view.headline}</span> : view.headline}
           </div>
@@ -40,6 +41,7 @@ export function ActivityStrip({ view, speedNote }: { view: ActivityView; speedNo
               {view.lastMeaningful && <span className="muted"> · {view.lastMeaningful.length > 90 ? `${view.lastMeaningful.slice(0, 89)}…` : view.lastMeaningful}</span>}
             </span>
           </div>
+          {view.diagnostic && <details className="activity-diagnostics"><summary>Timing details</summary><p>{view.diagnostic}. Full precision remains in the evidence log.</p></details>}
         </div>
       </div>
       <div className="health" aria-label="Component health">

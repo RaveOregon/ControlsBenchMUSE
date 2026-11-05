@@ -11,6 +11,22 @@ function running(): WorkspaceStore {
   return store;
 }
 
+test("a hosted controller test shows its name and position, while a real link failure keeps priority", () => {
+  const store = running();
+  store.applyEvents([episode(0, { connector: true }), ev(1000, { kind: "step", phase: "investigating", message: "Experiment sort-b: sort-b" })]);
+  const ids = ["sort-a", "sort-b", "unassigned-runout", "assigned-runout-misroute", "stop-coast", "failed-divert"];
+  store.state.hosted = { campaignId: "demo", label: "M8 live", evidenceClass: "live_plc", diagnosisMode: "known", throughSequence: 4,
+    projection: { campaignId: "demo", sequence: 4, status: "running", revision: 1, activeExperiment: "sort-b",
+      experiments: Object.fromEntries(ids.map((id, i) => [id, { id, objective: id, category: "functional", requirements: [], status: i === 0 ? "completed" as const : i === 1 ? "running" as const : "proposed" as const }])),
+      actions: {}, findings: {}, rawImage: {}, outputs: {}, budget: { campaignUsd: 0, sessionUsd: 0, checks: {}, repairs: {}, requests: {} } } };
+  const activity = classifyActivity(store.state, 2500);
+  assert.equal(activity.progress, "Test 2 of 6");
+  assert.equal(activity.headline, "Sort carton to Exit B");
+  assert.equal(activity.elapsedLabel, "1.5 s");
+  store.state.connection.link = "lost";
+  assert.equal(classifyActivity(store.state, 2600).state, "connector_lost");
+});
+
 test("slow reasoning is distinguished from a timed-out request", () => {
   const store = running();
   store.applyEvents([episode(0), ev(1000, { kind: "agent.request.start", requestId: "r1", purpose: "gate_c_hot_reload_candidate", model: "muse-wonder-1.0", reservedUsd: 0.75, timeoutMs: 300_000 })]);

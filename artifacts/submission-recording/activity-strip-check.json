@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "scope": "presentation of completed live campaign",
+  "headline": "Campaign complete — run record finalized and held for inspection",
+  "progress": "6 of 6 experiments completed",
+  "diagnostic": "Timing detailsI/O update took 193 ms; no catch-up burst. Full precision remains in the evidence log.",
+  "diagnosticsCollapsed": true,
+  "hasRawFloat": false,
+  "plcWrites": 0,
+  "campaignStarted": false
+}

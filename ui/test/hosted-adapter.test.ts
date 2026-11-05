@@ -12,6 +12,7 @@ import { evidenceTag } from "../src/components/labels.ts";
 import { HMI_NOT_OBSERVED, hmiTileModel } from "../src/model/hmi-tile.ts";
 import { WorkspaceStore } from "../src/model/workspace-store.ts";
 import { SIGNALS } from "./helpers.ts";
+import { classifyActivity } from "../src/model/activity.ts";
 import { loadRepoFixtures } from "./load-fixtures.ts";
 
 const repo = fileURLToPath(new URL("../../", import.meta.url));
@@ -36,6 +37,28 @@ function chain(campaignId: string, bodies: Array<{ type: string; data: Record<st
   }
   return out;
 }
+
+test("routine timing diagnostics retain exact evidence without replacing the test headline or activity clock", async () => {
+  const raw = "Coordinator overrun 104.31929999997374 ms; no catch-up burst";
+  const events = chain("timing-presentation", [
+    { type: "campaign.state", data: { state: "running", reason: "Test running" } },
+    { type: "experiment.proposed", data: { id: "sort-b", objective: "Sort carton to Exit B", category: "functional", requirements: [] } },
+    { type: "experiment.started", data: { id: "sort-b" } },
+    { type: "agent.activity", data: { phase: "coordinator_delayed", summary: raw } }
+  ]);
+  const session = new HostedSession(new WorkspaceStore("replay", SIGNALS));
+  const mapped = await session.ingestEnvelopes(events[0]!.campaignId, events, undefined, { evidenceClass: "fake_connector" });
+  const diagnostic = mapped.find(e => e.id === events.at(-1)!.id)!;
+  assert.equal(diagnostic.kind, "campaign.record");
+  assert.equal(diagnostic.summary, "I/O update took 104 ms; no catch-up burst");
+  assert.equal((diagnostic as Extract<typeof diagnostic, { kind: "campaign.record" }>).data?.summary, raw);
+  assert.match(session.store.state.step!.message, /Sort carton to Exit B/);
+  assert.equal(session.store.state.lastMeaningful!.eventId, events[2]!.id);
+  const activity = classifyActivity(session.store.state, 4000);
+  assert.doesNotMatch(activity.headline, /overrun/);
+  assert.equal(activity.diagnostic, diagnostic.summary);
+  assert.equal(session.getEnvelope(events.at(-1)!.id)!.data.summary, raw);
+});
 
 test("client hash chain matches every hash the M9 ledger recorded (golden, normal, adaptive, M7)", async () => {
   for (const path of ["test/fixtures/campaign-golden.jsonl", `${M9}normal.jsonl`, `${M9}adaptive.jsonl`, `${M9}m7.jsonl`]) {

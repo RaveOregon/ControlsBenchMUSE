@@ -8,6 +8,7 @@
 
 import type { CampaignEnvelope, HostEvidenceClass } from "../../../../src/host/protocol.ts";
 import type { ActivityPhase, EventLane, EvidenceClass, MuseEvent, MuseEventBody, Provenance, RawValue, SourceMode, ValueMetadata } from "../../model/events.ts";
+import { formatMs } from "../../model/format.ts";
 
 export interface MapperOptions {
   mode: SourceMode;
@@ -99,9 +100,16 @@ export class CampaignEventMapper {
         record("agent", "agent_record", `Adaptive follow-up · ${text(e?.id)}: ${text(e?.objective)} — ${text(d.rationale)}`);
         break;
       }
-      case "agent.activity":
+      case "agent.activity": {
+        if (d.phase === "coordinator_delayed") {
+          const match = /^Coordinator overrun ([0-9.eE+-]+) ms; no catch-up burst$/.exec(String(d.summary));
+          const elapsed = match ? Number(match[1]) : NaN;
+          record("system", "audit", Number.isFinite(elapsed) ? `I/O update took ${formatMs(elapsed)}; no catch-up burst` : "I/O timing diagnostic recorded");
+          break;
+        }
         add("system", "agent_record", text(d.summary), { kind: "step", phase: ACTIVITY_PHASE[String(d.phase)] ?? "investigating", message: text(d.summary, 2000) });
         break;
+      }
       case "agent.request": {
         const id = String(d.requestId);
         if (d.phase === "started") {

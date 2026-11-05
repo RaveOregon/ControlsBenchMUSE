@@ -311,6 +311,22 @@ select {
   font-weight: 600;
 }
 
+.activity-progress {
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 650;
+  margin-bottom: 3px;
+}
+
+.activity-diagnostics {
+  color: var(--text-2);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.activity-diagnostics summary { cursor: pointer; }
+.activity-diagnostics p { margin: 4px 0 0; }
+
 .exercise-tag {
   color: var(--warn);
   border: 1px dashed var(--warn);

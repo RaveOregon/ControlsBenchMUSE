@@ -251,6 +251,8 @@ export function isMeaningful(event: MuseEvent): boolean {
       return event.periodic !== true;
     case "budget.accounted":
       return false;
+    case "campaign.record":
+      return !(event.type === "agent.activity" && event.data?.phase === "coordinator_delayed");
     default:
       return true;
   }
