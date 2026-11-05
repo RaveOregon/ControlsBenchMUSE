@@ -1,0 +1,14 @@
+TYPE ST_CB_Config :
+STRUCT
+    DomainId : UDINT; // nonzero; unique per authority domain in the application
+    SchemaId : UDINT; // nonzero machine-map fingerprint of the raw channel layout
+    TimeoutUs : ULINT := 500000; // heartbeat staleness as elapsed microseconds
+    DigitalCount : UINT; // configured channels occupy indices 0..Count-1 of each bank
+    SignedCount : UINT;
+    UnsignedCount : UINT;
+    RealCount : UINT;
+    SignedBits : ARRAY[0..31] OF USINT; // native width of each configured channel: 8, 16 or 32
+    UnsignedBits : ARRAY[0..31] OF USINT; // native width of each configured channel: 1 to 32
+    RealNonFiniteAllowed : ARRAY[0..15] OF BOOL; // TRUE only where the device can report NaN or infinity
+END_STRUCT
+END_TYPE

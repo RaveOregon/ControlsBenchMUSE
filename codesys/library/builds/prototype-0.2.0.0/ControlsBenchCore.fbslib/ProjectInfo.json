@@ -1,0 +1,11 @@
+{
+	"title": "ControlsBench Core",
+	"version": "0.2.0.0",
+	"company": "ControlsBench",
+	"description": "Prototype raw I/O interceptor and observation library; offline development build, not deployed",
+	"defaultNamespace": "CB",
+	"placeholder": "ControlsBenchCore",
+	"customProperties": {
+		"Project": ""
+	}
+}

@@ -1,0 +1,16 @@
+source/*.st text eol=lf
+examples/**/*.st text eol=lf
+scripts/*.py text eol=lf
+scripts/*.mjs text eol=lf
+mappings/*.json text eol=lf
+mappings/generated/*.json text eol=lf
+schemas/*.json text eol=lf
+library.json text eol=lf
+adapter-profile.json text eol=lf
+*.library binary
+*.compiled-library binary
+*.project binary
+builds/**/result.json text eol=lf
+builds/index.json text eol=lf
+# Native File-Based Storage snapshots keep their exact bytes; their hashes are audited.
+builds/*/*.fbslib/** -text

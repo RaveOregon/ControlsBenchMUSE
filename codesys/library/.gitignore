@@ -1,0 +1,6 @@
+*.log
+repository/
+artifacts/
+# Caches CODESYS writes if a promoted native snapshot is opened in place.
+builds/*/*.fbslib/.sidecars/
+builds/*/*.fbslib/.auxiliaries/

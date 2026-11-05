@@ -1,0 +1,527 @@
+{
+  "format": "controlsbench.machine-map-manifest/0.1",
+  "generatedBy": "codesys/library/scripts/cb-map.mjs 0.1.0",
+  "mapId": "conveyor-m8",
+  "mapVersion": "1.0.0",
+  "mapFile": "codesys/library/mappings/conveyor-m8.map.json",
+  "mapSha256": "90d805c5d9d649732f1b816d0a03a6b2616b40d7fc33fcf95113e67a85e2ba25",
+  "profile": "controlsbench.codesys.raw-banks/0.2",
+  "schemaId": "16#C69AC9A1",
+  "schemaIdDecimal": 3332032929,
+  "tapSchemaId": "16#00000000",
+  "tapSchemaIdDecimal": 0,
+  "engineeringVersion": "1.0.0",
+  "engineeringSha256": "42241e933e5f8bba78156c4c7d6f3d122cab137b2d813172403244a4ead2a0af",
+  "identityRules": {
+    "schemaId": "first 32 bits of SHA-256 over the canonical profile and ordered input/output wire shapes (id, native type, bits, non-finite policy); 0 maps to 1",
+    "tapSchemaId": "first 32 bits of SHA-256 over the canonical profile and ordered tap shapes including role and loop; 0 when no taps",
+    "engineeringSha256": "SHA-256 over engineeringVersion and per-channel engineering metadata; changes here never change wire identities"
+  },
+  "domain": {
+    "defaultDomainId": 1,
+    "timeoutUs": 500000,
+    "task": {
+      "name": "MainTask",
+      "nominalPeriodUs": 20000,
+      "note": "M8 task; the library itself does not depend on the period"
+    }
+  },
+  "sources": [
+    {
+      "path": "codesys/demo/signal-map-v1.json",
+      "version": "m8-conveyor-1.0.2",
+      "use": "raw slot inputs and authentic PLC outputs, types, normal values and inversion"
+    },
+    {
+      "path": "docs/conveyor-machine-spec.md",
+      "use": "signal meaning and units"
+    }
+  ],
+  "counts": {
+    "inputs": {
+      "Digital": 15,
+      "Signed": 0,
+      "Unsigned": 1,
+      "RealValue": 4
+    },
+    "outputs": {
+      "Digital": 5,
+      "Signed": 0,
+      "Unsigned": 0,
+      "RealValue": 0
+    },
+    "taps": {
+      "Digital": 0,
+      "Signed": 0,
+      "Unsigned": 0,
+      "RealValue": 0
+    }
+  },
+  "capacities": {
+    "Digital": 64,
+    "Signed": 32,
+    "Unsigned": 32,
+    "RealValue": 16
+  },
+  "plcObjects": [
+    "GVL_CONV_Map",
+    "ST_CONV_Inputs",
+    "ST_CONV_Outputs",
+    "MAP_CONV_Config",
+    "MAP_CONV_PackInputs",
+    "MAP_CONV_UnpackInputs",
+    "MAP_CONV_PackOutputs",
+    "MAP_CONV_UnpackOutputs"
+  ],
+  "channels": [
+    {
+      "id": "PE_Entry",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 0,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "entry photoeye blocked"
+      }
+    },
+    {
+      "id": "PE_D1Approach",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 1,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "divert 1 approach photoeye blocked"
+      }
+    },
+    {
+      "id": "PE_D2Approach",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 2,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "divert 2 approach photoeye blocked"
+      }
+    },
+    {
+      "id": "PE_ExitA",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 3,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "exit A photoeye blocked"
+      }
+    },
+    {
+      "id": "PE_ExitB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 4,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "exit B photoeye blocked"
+      }
+    },
+    {
+      "id": "PE_Runout",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 5,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "runout photoeye blocked"
+      }
+    },
+    {
+      "id": "D1_HomeFB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 6,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": true,
+        "polarity": "active_high",
+        "meaning": "divert 1 home limit"
+      }
+    },
+    {
+      "id": "D1_ExtendedFB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 7,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "divert 1 extended limit"
+      }
+    },
+    {
+      "id": "D2_HomeFB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 8,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": true,
+        "polarity": "active_high",
+        "meaning": "divert 2 home limit"
+      }
+    },
+    {
+      "id": "D2_ExtendedFB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 9,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "divert 2 extended limit"
+      }
+    },
+    {
+      "id": "Drive_RunningFB",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 10,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "drive running feedback"
+      }
+    },
+    {
+      "id": "Drive_Overload",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 11,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": false,
+        "polarity": "active_high",
+        "meaning": "drive overload trip"
+      }
+    },
+    {
+      "id": "ExitA_Ready",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 12,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": true,
+        "polarity": "active_high",
+        "meaning": "exit A downstream ready"
+      }
+    },
+    {
+      "id": "ExitB_Ready",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 13,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": true,
+        "polarity": "active_high",
+        "meaning": "exit B downstream ready"
+      }
+    },
+    {
+      "id": "Runout_Ready",
+      "direction": "input",
+      "bank": "Digital",
+      "index": 14,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "normal": true,
+        "polarity": "active_high",
+        "meaning": "runout downstream ready"
+      }
+    },
+    {
+      "id": "Belt_SpeedActual",
+      "direction": "input",
+      "bank": "RealValue",
+      "index": 0,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "optional diagnostic engineering value",
+        "normal": 0,
+        "range": [
+          0,
+          100
+        ],
+        "meaning": "drive-reported belt speed; not used for control"
+      }
+    },
+    {
+      "id": "Drive_Current",
+      "direction": "input",
+      "bank": "RealValue",
+      "index": 1,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "optional diagnostic engineering value",
+        "normal": 0,
+        "range": [
+          0,
+          10000
+        ],
+        "meaning": "drive current; not used for control"
+      }
+    },
+    {
+      "id": "D1_Position",
+      "direction": "input",
+      "bank": "RealValue",
+      "index": 2,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "optional diagnostic engineering value",
+        "normal": 0,
+        "range": [
+          0,
+          100
+        ],
+        "meaning": "divert 1 position diagnostic"
+      }
+    },
+    {
+      "id": "D2_Position",
+      "direction": "input",
+      "bank": "RealValue",
+      "index": 3,
+      "nativeType": "REAL",
+      "encoding": "IEEE754_binary32",
+      "nonFinite": "reject",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "optional diagnostic engineering value",
+        "normal": 0,
+        "range": [
+          0,
+          100
+        ],
+        "meaning": "divert 2 position diagnostic"
+      }
+    },
+    {
+      "id": "Encoder_Count",
+      "direction": "input",
+      "bank": "Unsigned",
+      "index": 0,
+      "nativeType": "UDINT",
+      "bits": 32,
+      "encoding": "unsigned_32",
+      "rawZero": 0,
+      "workstationWrite": "only_while_simulated_through_complete_slot_commits",
+      "observable": true,
+      "engineering": {
+        "unit": "count",
+        "normal": 0,
+        "rollover": {
+          "modulus": 4294967296
+        },
+        "scale": {
+          "countsPerMetre": 1000
+        },
+        "meaning": "raw belt encoder count; PLC computes delta modulo 2^32"
+      }
+    },
+    {
+      "id": "Motor_RunCmd",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 0,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "drive run command"
+      }
+    },
+    {
+      "id": "D1_ExtendCmd",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 1,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "divert 1 extend command"
+      }
+    },
+    {
+      "id": "D2_ExtendCmd",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 2,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "divert 2 extend command"
+      }
+    },
+    {
+      "id": "StackLight_Red",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 3,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "red stack light"
+      }
+    },
+    {
+      "id": "StackLight_Green",
+      "direction": "output",
+      "bank": "Digital",
+      "index": 4,
+      "nativeType": "BOOL",
+      "encoding": "BOOL",
+      "rawZero": false,
+      "workstationWrite": "never",
+      "observable": true,
+      "engineering": {
+        "unit": "boolean",
+        "polarity": "active_high",
+        "meaning": "green stack light"
+      }
+    }
+  ],
+  "limitations": [
+    "Channels are allocated contiguously per bank in declaration order; append new channels to keep existing indices.",
+    "Unsupported native types are rejected, not narrowed: LINT, ULINT, LWORD, LREAL, TIME, LTIME, DATE, TOD, DT, STRING, WSTRING. Flatten structures into explicit channels.",
+    "Units, scaling, ranges, polarity and rollover are engineering metadata for workstation/analysis use. The PLC mapping copies raw values and applies none of them.",
+    "Taps are observation-only. No request field or library block writes them.",
+    "Transport bindings (OPC UA node paths/access rights) are deployment data and are not part of this manifest."
+  ]
+}

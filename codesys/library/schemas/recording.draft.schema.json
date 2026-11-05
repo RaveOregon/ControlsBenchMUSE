@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://controlsbench.local/schemas/recording-0.1-draft.json",
+  "title": "ControlsBench recording 0.1 (DRAFT, not implemented)",
+  "description": "Reserved contract for a future passive recording of ST_CB_ObservationFrame publications. No writer, reader or recording exists. Gate G-REC-1 must freeze this format with executed tests before any tool depends on it.",
+  "x-controlsbench-status": "draft-not-implemented",
+  "type": "object",
+  "required": ["header", "records"],
+  "properties": {
+    "header": {
+      "type": "object",
+      "required": ["format", "frameFormat", "machineMap", "domain", "source", "sampling", "clock", "authority"],
+      "properties": {
+        "format": {"const": "controlsbench.recording/0.1-draft"},
+        "frameFormat": {"const": 1},
+        "machineMap": {
+          "type": "object",
+          "required": ["mapId", "mapVersion", "mapSha256", "schemaId", "tapSchemaId", "engineeringVersion", "engineeringSha256"],
+          "description": "Copied from the generated manifest so raw values stay interpretable without the PLC"
+        },
+        "domain": {"type": "object", "required": ["domainId", "bootIdentity", "task"]},
+        "source": {
+          "type": "object",
+          "required": ["vendor", "library", "transport"],
+          "description": "PLC library build identity and the transport binding that produced the samples"
+        },
+        "sampling": {
+          "type": "object",
+          "required": ["requestedIntervalUs", "method"],
+          "properties": {
+            "requestedIntervalUs": {"type": "integer", "minimum": 1},
+            "method": {"enum": ["guarded_poll", "subscription", "source_buffer"]},
+            "qualification": {"type": "string", "description": "Reference to the measurement that qualified this rate for this process and transport, or 'unqualified'"}
+          }
+        },
+        "clock": {
+          "type": "object",
+          "required": ["sourceTime", "receiptTime", "alignment"],
+          "properties": {
+            "sourceTime": {"const": "PLC platform monotonic microseconds of the session cycle (SourceTimeUs)"},
+            "receiptTime": {"type": "string", "description": "Workstation monotonic and wall clocks used for receipt timestamps"},
+            "alignment": {"type": "string", "description": "Declared uncertainty; no cross-task or cross-domain simultaneity"}
+          }
+        },
+        "authority": {
+          "type": "object",
+          "description": "Recording is passive: it records SimApplied and suppression from each frame and holds no write capability",
+          "properties": {"writesPerformed": {"const": false}}
+        }
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["kind", "frameSequence", "sourceCycle", "sourceTimeUs", "receiptTimeNs", "quality", "frame"],
+            "properties": {
+              "kind": {"const": "frame"},
+              "frameSequence": {"type": "integer"},
+              "sourceCycle": {"type": "integer"},
+              "sourceTimeUs": {"type": "integer"},
+              "receiptTimeNs": {"type": "integer"},
+              "quality": {"type": "object", "description": "SimApplied, ConnectorStale, ConfigValid, ClockValid, ReconfigureRequired, AnySuppressed and transport status"},
+              "frame": {"type": "object", "description": "Raw values exactly as published; never scaled, filtered or interpolated"}
+            }
+          },
+          {
+            "type": "object",
+            "required": ["kind", "fromSourceCycle", "toSourceCycle", "reason"],
+            "properties": {
+              "kind": {"const": "gap"},
+              "fromSourceCycle": {"type": "integer"},
+              "toSourceCycle": {"type": "integer"},
+              "reason": {"enum": ["decimation", "missed_poll", "torn_read_retry_exhausted", "transport_loss", "source_missed_cycles", "buffer_overrun", "boot_change"]}
+            }
+          },
+          {
+            "type": "object",
+            "required": ["kind", "derivedFrom", "method"],
+            "properties": {
+              "kind": {"const": "derived"},
+              "derivedFrom": {"type": "array", "items": {"type": "integer"}},
+              "method": {"type": "string", "description": "Any interpolated, resampled or scaled value is labelled here and never replaces a raw record"}
+            }
+          }
+        ]
+      }
+    }
+  }
+}

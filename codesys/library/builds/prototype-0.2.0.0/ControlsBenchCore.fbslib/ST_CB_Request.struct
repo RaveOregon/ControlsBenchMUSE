@@ -1,0 +1,12 @@
+TYPE ST_CB_Request :
+STRUCT
+    SimRequest : BOOL;
+    SimulationResetRequest : BOOL; // rising edge: zero image, remain simulated
+    SessionResetRequest : BOOL;
+    Heartbeat : ULINT;
+    RequestedSlot : USINT := 255;
+    RequestedEpoch : ULINT;
+    RequestedSequence : ULINT; // write LAST after validity/payload/metadata
+    Slots : ARRAY[0..1] OF ST_CB_Slot;
+END_STRUCT
+END_TYPE

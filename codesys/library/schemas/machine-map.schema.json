@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://controlsbench.local/schemas/machine-map-0.1.json",
+  "title": "ControlsBench machine map 0.1",
+  "description": "Machine-specific raw I/O mapping against the stable ControlsBench Core raw-bank profile. scripts/cb-map.mjs is the normative validator; it also enforces case-insensitive uniqueness, bank capacities and reserved identifiers.",
+  "type": "object",
+  "required": ["format", "mapId", "mapVersion", "title", "profile", "prefix", "sources", "domain", "engineeringVersion", "inputs", "outputs", "taps"],
+  "additionalProperties": false,
+  "properties": {
+    "format": {"const": "controlsbench.machine-map/0.1"},
+    "mapId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,30}$"},
+    "mapVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Human version of the whole map document"},
+    "title": {"type": "string"},
+    "profile": {"const": "controlsbench.codesys.raw-banks/0.2"},
+    "prefix": {"type": "string", "pattern": "^[A-Z][A-Z0-9]{1,11}$", "description": "Prefix of generated PLC object names"},
+    "sources": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["path"], "properties": {"path": {"type": "string"}, "version": {"type": "string"}, "use": {"type": "string"}}}},
+    "domain": {
+      "type": "object",
+      "required": ["defaultDomainId", "timeoutUs"],
+      "properties": {
+        "defaultDomainId": {"type": "integer", "minimum": 1, "maximum": 4294967295},
+        "timeoutUs": {"type": "integer", "minimum": 1},
+        "task": {"type": "object", "properties": {"name": {"type": "string"}, "nominalPeriodUs": {"type": "integer", "minimum": 0}, "note": {"type": "string"}}}
+      }
+    },
+    "notes": {"type": "array", "items": {"type": "string"}},
+    "engineeringVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Version of the units/scaling/range/polarity/rollover metadata; changing it never changes wire identities"},
+    "inputs": {"type": "array", "items": {"$ref": "#/$defs/channel"}},
+    "outputs": {"type": "array", "items": {"$ref": "#/$defs/channel"}},
+    "taps": {"type": "array", "items": {"$ref": "#/$defs/tap"}}
+  },
+  "$defs": {
+    "nativeType": {"enum": ["BOOL", "SINT", "INT", "DINT", "USINT", "UINT", "UDINT", "BYTE", "WORD", "DWORD", "REAL"]},
+    "engineering": {
+      "type": "object",
+      "description": "Separately versioned metadata for workstation and analysis use. The PLC mapping applies none of it.",
+      "properties": {
+        "unit": {"type": "string"},
+        "normal": {},
+        "polarity": {"enum": ["active_high", "active_low"]},
+        "range": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        "scale": {"type": "object"},
+        "rollover": {"type": "object", "properties": {"modulus": {"type": "number"}}},
+        "enum": {"type": "object"},
+        "meaning": {"type": "string"}
+      }
+    },
+    "channel": {
+      "type": "object",
+      "required": ["id", "nativeType"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$", "maxLength": 48},
+        "nativeType": {"$ref": "#/$defs/nativeType"},
+        "bits": {"type": "integer", "minimum": 1, "maximum": 32, "description": "Unsigned channels only; at most the native width"},
+        "nonFinite": {"enum": ["reject", "allow"], "description": "REAL channels only; default reject"},
+        "engineering": {"$ref": "#/$defs/engineering"}
+      }
+    },
+    "tap": {
+      "type": "object",
+      "required": ["id", "nativeType", "role"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$", "maxLength": 48},
+        "nativeType": {"$ref": "#/$defs/nativeType"},
+        "bits": {"type": "integer", "minimum": 1, "maximum": 32},
+        "nonFinite": {"enum": ["reject", "allow"]},
+        "role": {"enum": ["pid.setpoint", "pid.processVariable", "pid.output", "pid.mode", "internal"]},
+        "loop": {"type": "string"},
+        "source": {"type": "string"},
+        "engineering": {"$ref": "#/$defs/engineering"}
+      }
+    }
+  }
+}

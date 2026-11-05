@@ -1,0 +1,52 @@
+{
+  "format": "controlsbench.machine-map/0.1",
+  "mapId": "conveyor-m8",
+  "mapVersion": "1.0.0",
+  "title": "M8 single-carton conveyor raw I/O on the ControlsBench Core raw banks",
+  "profile": "controlsbench.codesys.raw-banks/0.2",
+  "prefix": "CONV",
+  "sources": [
+    {"path": "codesys/demo/signal-map-v1.json", "version": "m8-conveyor-1.0.2", "use": "raw slot inputs and authentic PLC outputs, types, normal values and inversion"},
+    {"path": "docs/conveyor-machine-spec.md", "use": "signal meaning and units"}
+  ],
+  "domain": {
+    "defaultDomainId": 1,
+    "timeoutUs": 500000,
+    "task": {"name": "MainTask", "nominalPeriodUs": 20000, "note": "M8 task; the library itself does not depend on the period"}
+  },
+  "notes": [
+    "The M8 in-project interceptor also rejected out-of-range REAL diagnostics (speed, current, positions). Those were plant assumptions; this map only rejects non-finite REAL values. Ranges below are engineering metadata.",
+    "This map is not wire-compatible with the M8 GVL_BenchWrite/GVL_BenchRead layout."
+  ],
+  "engineeringVersion": "1.0.0",
+  "inputs": [
+    {"id": "PE_Entry", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "entry photoeye blocked"}},
+    {"id": "PE_D1Approach", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "divert 1 approach photoeye blocked"}},
+    {"id": "PE_D2Approach", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "divert 2 approach photoeye blocked"}},
+    {"id": "PE_ExitA", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "exit A photoeye blocked"}},
+    {"id": "PE_ExitB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "exit B photoeye blocked"}},
+    {"id": "PE_Runout", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "runout photoeye blocked"}},
+    {"id": "D1_HomeFB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": true, "polarity": "active_high", "meaning": "divert 1 home limit"}},
+    {"id": "D1_ExtendedFB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "divert 1 extended limit"}},
+    {"id": "D2_HomeFB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": true, "polarity": "active_high", "meaning": "divert 2 home limit"}},
+    {"id": "D2_ExtendedFB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "divert 2 extended limit"}},
+    {"id": "Drive_RunningFB", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "drive running feedback"}},
+    {"id": "Drive_Overload", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": false, "polarity": "active_high", "meaning": "drive overload trip"}},
+    {"id": "ExitA_Ready", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": true, "polarity": "active_high", "meaning": "exit A downstream ready"}},
+    {"id": "ExitB_Ready", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": true, "polarity": "active_high", "meaning": "exit B downstream ready"}},
+    {"id": "Runout_Ready", "nativeType": "BOOL", "engineering": {"unit": "boolean", "normal": true, "polarity": "active_high", "meaning": "runout downstream ready"}},
+    {"id": "Belt_SpeedActual", "nativeType": "REAL", "nonFinite": "reject", "engineering": {"unit": "optional diagnostic engineering value", "normal": 0, "range": [0, 100], "meaning": "drive-reported belt speed; not used for control"}},
+    {"id": "Drive_Current", "nativeType": "REAL", "nonFinite": "reject", "engineering": {"unit": "optional diagnostic engineering value", "normal": 0, "range": [0, 10000], "meaning": "drive current; not used for control"}},
+    {"id": "D1_Position", "nativeType": "REAL", "nonFinite": "reject", "engineering": {"unit": "optional diagnostic engineering value", "normal": 0, "range": [0, 100], "meaning": "divert 1 position diagnostic"}},
+    {"id": "D2_Position", "nativeType": "REAL", "nonFinite": "reject", "engineering": {"unit": "optional diagnostic engineering value", "normal": 0, "range": [0, 100], "meaning": "divert 2 position diagnostic"}},
+    {"id": "Encoder_Count", "nativeType": "UDINT", "engineering": {"unit": "count", "normal": 0, "rollover": {"modulus": 4294967296}, "scale": {"countsPerMetre": 1000}, "meaning": "raw belt encoder count; PLC computes delta modulo 2^32"}}
+  ],
+  "outputs": [
+    {"id": "Motor_RunCmd", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "drive run command"}},
+    {"id": "D1_ExtendCmd", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "divert 1 extend command"}},
+    {"id": "D2_ExtendCmd", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "divert 2 extend command"}},
+    {"id": "StackLight_Red", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "red stack light"}},
+    {"id": "StackLight_Green", "nativeType": "BOOL", "engineering": {"unit": "boolean", "polarity": "active_high", "meaning": "green stack light"}}
+  ],
+  "taps": []
+}

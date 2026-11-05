@@ -1,0 +1,416 @@
+{
+  "artifacts": {
+    "ControlsBenchCore.compiled-library": "ddc166e68db2f58753be5175e129dde58ab822904142e96aa83f957de6393796",
+    "ControlsBenchCore.fbs.compiled-library": "a93114d5d3dae9a8dbadde99a4696748edc211aa2e07e03677e0bc4b0f6a0cab",
+    "ControlsBenchCore.library": "f93830deb88470aa40c80cfc457a33ad37e5cc7c888554859c3e84265956a939",
+    "consumers-binary/ControlsBenchConsumer.compiled-library": "fdb1d6992f55dd11d84070d776c7d8ddef30151e6166542ce28d4d74ce92d0f7",
+    "consumers-binary/ControlsBenchConsumer.library": "ce2da66dc188071d7c2d8a704198f2a57eef914031fce87c6af04aa4636bc551",
+    "consumers-binary/ControlsBenchConsumer.project": "7cba9d5e418c09f076b412d875e71315f8fb157a9d1c2c25446c1f92b962745e",
+    "consumers-fbs/ControlsBenchConsumer.compiled-library": "8d4e7414d51e3af817d6d10901140151d7ef02bfb14ab330b59111007007d5bf",
+    "consumers-fbs/ControlsBenchConsumer.library": "7b751e5238feb4baa7c3bf1dfa48acd9faaca4b195c9b6535d42ef102b336be8",
+    "consumers-fbs/ControlsBenchConsumer.project": "82c3bbd650ddd0f28b0e7688f3115afcd17e10c18f240a6578886f8cc73da964"
+  },
+  "consumers": {
+    "binary": {
+      "applicationObjects": [
+        "GVL_CONV_Map",
+        "ST_CONV_Inputs",
+        "ST_CONV_Outputs",
+        "MAP_CONV_Config",
+        "MAP_CONV_PackInputs",
+        "MAP_CONV_UnpackInputs",
+        "MAP_CONV_PackOutputs",
+        "MAP_CONV_UnpackOutputs",
+        "GVL_TANK_Map",
+        "ST_TANK_Inputs",
+        "ST_TANK_Outputs",
+        "ST_TANK_Taps",
+        "MAP_TANK_Config",
+        "MAP_TANK_PackInputs",
+        "MAP_TANK_UnpackInputs",
+        "MAP_TANK_PackOutputs",
+        "MAP_TANK_UnpackOutputs",
+        "MAP_TANK_PackTaps",
+        "FB_CB_ConsumerChecks",
+        "PLC_PRG"
+      ],
+      "library": "ControlsBench Core, 0.2.0.0 (ControlsBench)",
+      "objects": [
+        "GVL_CONV_Map",
+        "ST_CONV_Inputs",
+        "ST_CONV_Outputs",
+        "MAP_CONV_Config",
+        "MAP_CONV_PackInputs",
+        "MAP_CONV_UnpackInputs",
+        "MAP_CONV_PackOutputs",
+        "MAP_CONV_UnpackOutputs",
+        "GVL_TANK_Map",
+        "ST_TANK_Inputs",
+        "ST_TANK_Outputs",
+        "ST_TANK_Taps",
+        "MAP_TANK_Config",
+        "MAP_TANK_PackInputs",
+        "MAP_TANK_UnpackInputs",
+        "MAP_TANK_PackOutputs",
+        "MAP_TANK_UnpackOutputs",
+        "MAP_TANK_PackTaps",
+        "FB_CB_ConsumerChecks"
+      ],
+      "readback": "consumer library and application sources reopened and matched"
+    },
+    "fbs": {
+      "applicationObjects": [
+        "GVL_CONV_Map",
+        "ST_CONV_Inputs",
+        "ST_CONV_Outputs",
+        "MAP_CONV_Config",
+        "MAP_CONV_PackInputs",
+        "MAP_CONV_UnpackInputs",
+        "MAP_CONV_PackOutputs",
+        "MAP_CONV_UnpackOutputs",
+        "GVL_TANK_Map",
+        "ST_TANK_Inputs",
+        "ST_TANK_Outputs",
+        "ST_TANK_Taps",
+        "MAP_TANK_Config",
+        "MAP_TANK_PackInputs",
+        "MAP_TANK_UnpackInputs",
+        "MAP_TANK_PackOutputs",
+        "MAP_TANK_UnpackOutputs",
+        "MAP_TANK_PackTaps",
+        "FB_CB_ConsumerChecks",
+        "PLC_PRG"
+      ],
+      "library": "ControlsBench Core, 0.2.0.0 (ControlsBench)",
+      "objects": [
+        "GVL_CONV_Map",
+        "ST_CONV_Inputs",
+        "ST_CONV_Outputs",
+        "MAP_CONV_Config",
+        "MAP_CONV_PackInputs",
+        "MAP_CONV_UnpackInputs",
+        "MAP_CONV_PackOutputs",
+        "MAP_CONV_UnpackOutputs",
+        "GVL_TANK_Map",
+        "ST_TANK_Inputs",
+        "ST_TANK_Outputs",
+        "ST_TANK_Taps",
+        "MAP_TANK_Config",
+        "MAP_TANK_PackInputs",
+        "MAP_TANK_UnpackInputs",
+        "MAP_TANK_PackOutputs",
+        "MAP_TANK_UnpackOutputs",
+        "MAP_TANK_PackTaps",
+        "FB_CB_ConsumerChecks"
+      ],
+      "readback": "consumer library and application sources reopened and matched"
+    }
+  },
+  "deployed": false,
+  "fbs": {
+    "available": true,
+    "cleanSubsetAddedOnReopen": [],
+    "cleanSubsetChangedOnReopen": [],
+    "conversionEvents": [],
+    "converted": true,
+    "files": {
+      ".FBS_Project_Related/profileinformation.xml": "8275c5b2b7ad689b24b5370915b8dbdf4b0d1093bb6c3ecdcd47db5a706b89a6",
+      ".FBS_Project_Related/projectinspectiondata.xml": "a7f677e6fa4fe9cdbaf35b56313983f4eb851a400d21d536b7301377fc4e1f43",
+      "FB_CB_AI.fb.st": "ec2b2af0c7c4488609e442c68ee967200480d7ee0e8624adfb771a6abcf92567",
+      "FB_CB_AO.fb.st": "462bd95e19347967edefd8503d0d4b4a80733f706355909a7271a8938a02ca23",
+      "FB_CB_DI.fb.st": "2beb89fa1e3af93f55acda663046abedc7fb4a132a4aadd6569488fa002ef65e",
+      "FB_CB_DO.fb.st": "50bcad6703d8fb4e351264431ec017352b5a6caccfe4185c423622c8d0ef2ba3",
+      "FB_CB_Observation.fb.st": "20cf62e284adad2603ef60d1c2fda28a6e72c6a0efdb76833944ba551df98998",
+      "FB_CB_OutputCapture.fb.st": "4f39570eeafc10d63df3438f7823a61c66421ce291c2bc6eef8ac05c8fb62f7c",
+      "FB_CB_Session.fb.st": "2e4d82fa5aac055aefebc55fe009e3df83fa3883823372025928fb7dbbeda109",
+      "F_CB_CheckImage.fn.st": "7e24c31f2ec674969631e785a3b72880b5bfde20fa34166eadc54e062de32cd3",
+      "GVL_CB.gvl": "6996aeb331b1f7ad7085005ae91d14b09c3e3f4ee004b9d9c1f24f594bd99654",
+      "Preferences/Compiler.prefs.json": "7564311e3063e1fb57e2c41049009e0ed8dc817daa0677f8b094e810a7168a65",
+      "Preferences/LibraryDevelopment.prefs.json": "161599aa58e3efa53769e3fc78146541b0eb99dde456a0d8c6a5fe8ffadf85ba",
+      "Project Settings.workspace.xml.v3": "cafe5796065ac0cf2bb72db388543bdb6b7ed6de6f50f5da46dd60bdeaa00226",
+      "ProjectInfo.json": "22cc9ba89704aa003ff8a6b9ee0f0a4ae895ae3748d41deace5e5e6cb329f6d0",
+      "ST_CB_Config.struct": "c793df324e7b3c1e9d24598e97063c476cac44bd17708983aee673316e62aa29",
+      "ST_CB_Image.struct": "e892e3312c820533b4b2bb83a06b146f73be3a7e5b30d121b2f1a55974e5d03d",
+      "ST_CB_ImageMask.struct": "88a99f2dff92a7462a4d9bcdd279b18f022d5cba45d18f413857e28ded7a0fa5",
+      "ST_CB_Numeric.struct": "3bc38d3ca4307321fb490228bb4f6830be5be5d1fb72a5b37dd8db977eb5da6d",
+      "ST_CB_NumericMask.struct": "15e50dbb453b5ba35213fc7fb8ebce6227c034f7229a540f714ccaebd63a0112",
+      "ST_CB_ObservationFrame.struct": "558b44cb496e6854fb0c45cab52a5f58d19479292a0e02309b63facfda31e472",
+      "ST_CB_Request.struct": "fbb728983ed28a54d18be36083ccea82420ed343a1bc907def7c85b833f3aef1",
+      "ST_CB_Slot.struct": "122e6ae2117f44eff6ad9914c4b66fdc3ea228ba498850b685a58bad955241ce",
+      "ST_CB_Status.struct": "436394d04da779ac5e9375082a3720c4016b93a4d6c7f484d42f9135aef980cc",
+      "U_CB_Real32.union": "e61a19f94469180702ef94dd1b763c834a9c66c5aea7c8b251d1823f7aa00c77",
+      "Workspace.fbsws": "774aab5645245159addef459888e7e9d426be6355ad3f56c8f257ef946c56718"
+    },
+    "plugin": "1.0.0.0",
+    "projectInfo": {
+      "company": "ControlsBench",
+      "namespace": "CB",
+      "title": "ControlsBench Core",
+      "version": "0.2.0.0"
+    },
+    "validation": [
+      {
+        "message": "Project integrity check is enabled. This setting is not supported in a file-based project.",
+        "object": "Project Settings",
+        "status": "Warning"
+      }
+    ]
+  },
+  "finishedUtc": "2026-11-02T02:32:35Z",
+  "frozenDemoAfter": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "frozenDemoBefore": "6c2a1eb6c9c83485b75cb9bcefc1be237a94c8727ecf8098ad57a4d680516628",
+  "installedFrom": "ControlsBenchCore.fbs.compiled-library",
+  "installedLibrary": "ControlsBench Core, 0.2.0.0 (ControlsBench)",
+  "label": "prototype-0.2.0.0",
+  "library": {
+    "company": "ControlsBench",
+    "namespace": "CB",
+    "title": "ControlsBench Core",
+    "version": "0.2.0.0"
+  },
+  "libraryRepository": "codesys/library/repository",
+  "plcContacted": false,
+  "provenance": {
+    "builderSha256": "cdb3f1487e21588939393a9bbf07a7125bb1590040cfd7bc3c6041a25423fd8e",
+    "executable": "CODESYS.exe",
+    "manifestSha256": "81ba6b9ec1186bbb8cae0565d5f8cb195130607958a089593ac5db1144bffd8b",
+    "request": {
+      "codesysExecutable": "C:\\Program Files\\CODESYS 3.5.22.30\\CODESYS\\Common\\CODESYS.exe",
+      "dirtyPaths": [],
+      "fbsPlugin": "1.0.0.0",
+      "gitBranch": "codex/plc-library",
+      "gitCommit": "1eb0f4a6b76b012bffbd5f0d83666ac73190277e",
+      "profile": "CODESYS V3.5 SP22 Patch 3",
+      "requestedUtc": "2026-11-02T02:30:52.6084678Z"
+    }
+  },
+  "readback": {
+    "core": "all 19 core declarations and implementations match source/",
+    "fbs": "converted copy and its cache-free Git subset reopened with fbs.open; all core objects match source/"
+  },
+  "runtimeChecks": "compiled only; conformance harness not executed",
+  "schema": "controlsbench.library-build/2",
+  "sources": {
+    "application": {
+      "codesys/library/examples/FB_CB_ConsumerChecks.st": "7ed9d01d0e1e249c681ae524332f6c00df5b3228c3ec9a73341e24edae82349f",
+      "codesys/library/examples/application/PLC_PRG.st": "95fecff955d0bb0aabc0631f6f4052db900ea326a99f85b0f3691ebb160569a1",
+      "codesys/library/examples/mappings/conveyor-m8/GVL_CONV_Map.st": "05541459129839baa1b26469a4d65e84817c700e00f2c4a626280b99c6a67062",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_Config.st": "22eaec64c4af7842dcbe65e50f681b4694d54ae31780f0250758da65f3b1a8b3",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_PackInputs.st": "e7779f92297de7cbbde9bbe31bf08be169e3aa4a1544293849a946197c8ed87b",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_PackOutputs.st": "1be41d9812d7b5a7920d8e03d26753d52781da1ad19fee635a5b3af1ce6eeca1",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_UnpackInputs.st": "2b1806eea4fa545d32b91d3d61d132f8c2b084b9d06dd7a18ce153d41697ae29",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_UnpackOutputs.st": "ea443e65ca4c1696fa5ec2086a1b94f9ab0b48e265148b5c6fe3f75202d20051",
+      "codesys/library/examples/mappings/conveyor-m8/ST_CONV_Inputs.st": "b9a436cc1bd8db81a5574bc62a6d651bdddaf1c8d8bb06a10314e33c0c62349a",
+      "codesys/library/examples/mappings/conveyor-m8/ST_CONV_Outputs.st": "4f40fa6794bdc88b8deaf5aa1463646aaf8039780f714f895c629f3025e2e548",
+      "codesys/library/examples/mappings/tank-loop/GVL_TANK_Map.st": "73457cf0db9ba7ec079039717987afe73b029180092e5b5e677b746fc737a818",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_Config.st": "a720914c4d3ca52e81a18c8a02ee36871949b5c6ae1dea223e17f74982ad8c34",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_PackInputs.st": "ae66355e3a5918cb1d6d02795e6dcf02eb3daef928a6127071f3163d743d92c2",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_PackOutputs.st": "c5a31e1bb13dda897730dc003021140f1e4a86ec14e001075f4e3498989f8525",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_PackTaps.st": "317be997556ec73025e162ffff65fcb85512f381716338083076c004abc93b6f",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_UnpackInputs.st": "ece69b03f60439d13768cef3a299bf32515398f37df500848267397a36072e9f",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_UnpackOutputs.st": "f611120f12e0d4c21ff1b4874faadf6b880a7c2566caa2733397ee61df1d712e",
+      "codesys/library/examples/mappings/tank-loop/ST_TANK_Inputs.st": "f8c61d62387461871e6063c2b651ec14401bf2b53e2159fbf4780e7152185ded",
+      "codesys/library/examples/mappings/tank-loop/ST_TANK_Outputs.st": "17dffc4361c225bbfdacdd02a1a731903962f6836203aafab970221041dcfb34",
+      "codesys/library/examples/mappings/tank-loop/ST_TANK_Taps.st": "2224f971bf6694a04436b33d1d15e536ecdefc6f7efd317e09d6cc3e04f39378"
+    },
+    "consumer": {
+      "codesys/library/examples/FB_CB_ConsumerChecks.st": "7ed9d01d0e1e249c681ae524332f6c00df5b3228c3ec9a73341e24edae82349f",
+      "codesys/library/examples/mappings/conveyor-m8/GVL_CONV_Map.st": "05541459129839baa1b26469a4d65e84817c700e00f2c4a626280b99c6a67062",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_Config.st": "22eaec64c4af7842dcbe65e50f681b4694d54ae31780f0250758da65f3b1a8b3",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_PackInputs.st": "e7779f92297de7cbbde9bbe31bf08be169e3aa4a1544293849a946197c8ed87b",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_PackOutputs.st": "1be41d9812d7b5a7920d8e03d26753d52781da1ad19fee635a5b3af1ce6eeca1",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_UnpackInputs.st": "2b1806eea4fa545d32b91d3d61d132f8c2b084b9d06dd7a18ce153d41697ae29",
+      "codesys/library/examples/mappings/conveyor-m8/MAP_CONV_UnpackOutputs.st": "ea443e65ca4c1696fa5ec2086a1b94f9ab0b48e265148b5c6fe3f75202d20051",
+      "codesys/library/examples/mappings/conveyor-m8/ST_CONV_Inputs.st": "b9a436cc1bd8db81a5574bc62a6d651bdddaf1c8d8bb06a10314e33c0c62349a",
+      "codesys/library/examples/mappings/conveyor-m8/ST_CONV_Outputs.st": "4f40fa6794bdc88b8deaf5aa1463646aaf8039780f714f895c629f3025e2e548",
+      "codesys/library/examples/mappings/tank-loop/GVL_TANK_Map.st": "73457cf0db9ba7ec079039717987afe73b029180092e5b5e677b746fc737a818",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_Config.st": "a720914c4d3ca52e81a18c8a02ee36871949b5c6ae1dea223e17f74982ad8c34",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_PackInputs.st": "ae66355e3a5918cb1d6d02795e6dcf02eb3daef928a6127071f3163d743d92c2",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_PackOutputs.st": "c5a31e1bb13dda897730dc003021140f1e4a86ec14e001075f4e3498989f8525",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_PackTaps.st": "317be997556ec73025e162ffff65fcb85512f381716338083076c004abc93b6f",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_UnpackInputs.st": "ece69b03f60439d13768cef3a299bf32515398f37df500848267397a36072e9f",
+      "codesys/library/examples/mappings/tank-loop/MAP_TANK_UnpackOutputs.st": "f611120f12e0d4c21ff1b4874faadf6b880a7c2566caa2733397ee61df1d712e",
+      "codesys/library/examples/mappings/tank-loop/ST_TANK_Inputs.st": "f8c61d62387461871e6063c2b651ec14401bf2b53e2159fbf4780e7152185ded",
+      "codesys/library/examples/mappings/tank-loop/ST_TANK_Outputs.st": "17dffc4361c225bbfdacdd02a1a731903962f6836203aafab970221041dcfb34",
+      "codesys/library/examples/mappings/tank-loop/ST_TANK_Taps.st": "2224f971bf6694a04436b33d1d15e536ecdefc6f7efd317e09d6cc3e04f39378"
+    },
+    "core": {
+      "codesys/library/source/FB_CB_AI.st": "b22ea4cd9572a14340b13ae4cc622e328073f5790684077c3c6d86388081db3c",
+      "codesys/library/source/FB_CB_AO.st": "928e08eb3d90c0c54a8a3fbe62226ec5d272a3577f6826558b85402ab31a3242",
+      "codesys/library/source/FB_CB_DI.st": "70d57280ae52e834f380f7281b9c53e8d0d150731b9f5c0e9439bd214ab1e42f",
+      "codesys/library/source/FB_CB_DO.st": "d103bea60b943b4363f598fcfcf6b574e51b73a1c977329a3089816189d164d9",
+      "codesys/library/source/FB_CB_Observation.st": "4be317af6d3d624102c733b77d4eb0580bcde6d2a7f4533aced0bd0e1d9b93db",
+      "codesys/library/source/FB_CB_OutputCapture.st": "3422a2c34ef46a3e51bb4357db83b957f362183bd125e7b06285d7e0207a40d5",
+      "codesys/library/source/FB_CB_Session.st": "13fe5966f7e57e477d7ad9f409698bd09ea9b3839c63f6509dc9b040fa50da00",
+      "codesys/library/source/F_CB_CheckImage.st": "dd1e10bc280519a33e9a9a8776aaca93791ff201981fe6d7e224216880efab14",
+      "codesys/library/source/GVL_CB.st": "e3659032577dba3060e7a943de3f769cdebba36603f141559140a253aaf65054",
+      "codesys/library/source/ST_CB_Config.st": "007fd5ecb29620cef5874319eb28ba1b686a4cb00488f5bc6980ffa998234e4e",
+      "codesys/library/source/ST_CB_Image.st": "658d78bbc2170afb7967d2b64f33f5bbe79e13c44825fac6b8e4c6defa3c129b",
+      "codesys/library/source/ST_CB_ImageMask.st": "be875025845e5795cb5eeb482745f4d5c78b7417bf1f351080322bb75d39f7dd",
+      "codesys/library/source/ST_CB_Numeric.st": "17a24b50d4d5d43d5983142015300e062823c7a43d930c53e1fb388a3c0a4194",
+      "codesys/library/source/ST_CB_NumericMask.st": "f831c84bb975bf799cf43fdf23d40d47b7dfed447b55fae9b7bf3459ffc51683",
+      "codesys/library/source/ST_CB_ObservationFrame.st": "b3ee75b971569aa061f5580b4f31cfd6cb547883003cdef95cac7a60700ec7ef",
+      "codesys/library/source/ST_CB_Request.st": "e937d0ad9ad422ceab9d026a05e0cd666a75816a6bb58e9ca99d2bad81f8de44",
+      "codesys/library/source/ST_CB_Slot.st": "e2097de49f68ee355345b3a29728f3231a38d2a92be6ce8c779ba45ad96e7fa2",
+      "codesys/library/source/ST_CB_Status.st": "14fd2f0ece59426486b4bcc9d64067d6e99d3be50178195dc3887181c7a57c07",
+      "codesys/library/source/U_CB_Real32.st": "c29f1efb9fe144a7c83f1380fa708ecdf8f80d6c28f192d30a964aca4c7fd333"
+    }
+  },
+  "startedUtc": "2026-11-02T02:31:13.939000Z",
+  "status": "pass",
+  "steps": [
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application:  -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors"
+      ],
+      "step": "core-pool-check",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 0,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [],
+      "step": "core-compiled-library",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application:  -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors"
+      ],
+      "step": "fbs-core-pool-check",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 0,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [],
+      "step": "fbs-core-compiled-library",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application:  -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors"
+      ],
+      "step": "fbs-clean-subset-pool-check",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application:  -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors",
+        "Warning: No valid license is available."
+      ],
+      "step": "binary:consumer-library-pool-check",
+      "toolWarnings": [
+        "No valid license is available."
+      ]
+    },
+    {
+      "compileSummaries": 0,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [],
+      "step": "binary:consumer-library-compiled",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application: Device.Application -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors"
+      ],
+      "step": "binary:consumer-application-build",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application:  -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors"
+      ],
+      "step": "fbs:consumer-library-pool-check",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 0,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [],
+      "step": "fbs:consumer-library-compiled",
+      "toolWarnings": []
+    },
+    {
+      "compileSummaries": 1,
+      "compilerErrors": 0,
+      "compilerWarnings": 0,
+      "errors": [],
+      "messages": [
+        "Text: ------ Build started: Application: Device.Application -------",
+        "Text: Typify code...",
+        "Text: Compile complete -- 0 errors, 0 warnings",
+        "Text: Additional code checks ...",
+        "Text: Additional code checks complete -- 0 errors"
+      ],
+      "step": "fbs:consumer-application-build",
+      "toolWarnings": []
+    }
+  ],
+  "versions": {
+    "adapterProtocol": 2,
+    "api": "0.2",
+    "machineMapFormat": "controlsbench.machine-map/0.1",
+    "observationFrameFormat": 1,
+    "package": "0.2.0.0",
+    "profile": "controlsbench.codesys.raw-banks/0.2",
+    "recordingFormat": "controlsbench.recording/0.1-draft (reserved; not implemented)"
+  }
+}
