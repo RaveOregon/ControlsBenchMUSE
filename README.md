@@ -12,7 +12,7 @@ Model, connection and controller bindings are separate interfaces. CODESYS/OPC U
 
 ## Integrated application — current entry point
 
-On `codex/product-integration`, run `npm ci`, `npm --prefix ui ci`, then `npm start`. This builds and serves the combined portal, generated machine view and captured browser HMI at `http://127.0.0.1:5190/` (HMI service `:5191`). The default is an explicitly labelled zero-cost preview with a fake connector/provider and recorded HMI fixture. Start Campaign begins the preview; opening the application alone does not start it. Ctrl+C shuts down its services.
+Run `npm ci`, `npm --prefix ui ci`, then `npm start`. This builds and serves the combined portal, generated machine view and captured browser HMI at `http://127.0.0.1:5190/` (HMI service `:5191`). The default is an explicitly labelled zero-cost preview with a fake connector/provider and recorded HMI fixture. Start Campaign begins the preview; opening the application alone does not start it. Ctrl+C shuts down its services.
 
 See [docs/product-integration.md](docs/product-integration.md) for the exact full-path command, recorded review, live M8 launch, verification and outstanding live-Wonder adapter gate. The historical proof sections below retain their original scope and do not supersede that integration status.
 
