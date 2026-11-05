@@ -56,6 +56,7 @@ App-based spec upload and selected-world integration are undergoing final accept
 
 - [Claim-to-evidence map](claims.md)
 - [Three-minute video plan and narration](../docs/submission/demo-three-minute-cut.md)
+- [Local recording desk and launch instructions](../docs/submission/recording-server.md)
 - [Copy/source SHA-256 manifest](manifest.json)
 - Rebuild the curated copies: `node scripts/build-submission-evidence.mjs`
 - Check existing copies without writing: `node scripts/build-submission-evidence.mjs --check`

@@ -1,0 +1,240 @@
+{
+  "status": "pass",
+  "artifactCount": 46,
+  "files": [
+    {
+      "url": "/evidence/reports/adaptive-plc-investigation.pdf",
+      "status": 200,
+      "sha256": "c09422829cbd38086c84732992e948ba69efc99a279ea2cff8a73cc9455819bb"
+    },
+    {
+      "url": "/evidence/reports/adaptive-plc-investigation.html",
+      "status": 200,
+      "sha256": "444b9a768580bc4a7cbcb89c1c35ba6dc91cfd599f3d8cc9f562d8edd644f4a5"
+    },
+    {
+      "url": "/evidence/reports/muse-hmi-operation.pdf",
+      "status": 200,
+      "sha256": "bfd3ca036f6b3f1008fca37dfbdfe056d87553690f5d0a3cc3837d1405d0a4d5"
+    },
+    {
+      "url": "/evidence/reports/muse-hmi-operation.html",
+      "status": 200,
+      "sha256": "d9592c4dccad5a4ae7b7b40f4e760c5071e63b61c63266c23ddd26e1eca639a9"
+    },
+    {
+      "url": "/evidence/reports/partial-hmi-attempt.pdf",
+      "status": 200,
+      "sha256": "9b3a97a9f505f88d0ed3e60bc113b36c5e967dedb25b560c2f9cd6cd5c03599d"
+    },
+    {
+      "url": "/evidence/records/w4-report.json",
+      "status": 200,
+      "sha256": "db7964a397e0e4ab9056c73a6b5a8cab9e6e2c7fcfcb8ea5401d7418522ae91e"
+    },
+    {
+      "url": "/evidence/records/w4-audit.json",
+      "status": 200,
+      "sha256": "47ad324e4a363b18f04699d478f95015200e14610d9164fbe325005662c39ffb"
+    },
+    {
+      "url": "/evidence/records/w4-engineering-review.json",
+      "status": 200,
+      "sha256": "cf9b274cc268b407bf20ad5f5c5da9f38b1f823daf4e362899cca6e18dc76a44"
+    },
+    {
+      "url": "/evidence/records/s2-report.json",
+      "status": 200,
+      "sha256": "009e91dd1efd7158c25e3f671fee5f951bb584c0f792efc22da9a2651237a06d"
+    },
+    {
+      "url": "/evidence/records/s2-audit.json",
+      "status": 200,
+      "sha256": "3d1e92420fa8aff8c578a7ec6b9144f87c080cc6cd47d77566878331dee7981e"
+    },
+    {
+      "url": "/evidence/records/s2-engineering-review.json",
+      "status": 200,
+      "sha256": "6c084c8fd3a40b1c7b9c892319ba766cd4f91e08b47d7acf818e24e8dad1e251"
+    },
+    {
+      "url": "/evidence/records/normal-operation-result.json",
+      "status": 200,
+      "sha256": "ccf91a559118f0369fb42d20f3c5a3d13f643c4300bbda202d281d1c8f6cf928"
+    },
+    {
+      "url": "/evidence/records/normal-operation-audit.json",
+      "status": 200,
+      "sha256": "a32fb019c86756d02175dde6f92e88d8ed8c8c87cbe9392868b32e6f8db0e79e"
+    },
+    {
+      "url": "/evidence/images/architecture.png",
+      "status": 200,
+      "sha256": "fa9de5ad271710354cbf38b9978befbfedbd30c62dbde9ab93e96fc03eb16552"
+    },
+    {
+      "url": "/evidence/images/adaptive-investigation.png",
+      "status": 200,
+      "sha256": "205122d887bc0f3d35128aa3116d628e59f5e343eb436985e106ecc8d8907ab4"
+    },
+    {
+      "url": "/evidence/images/muse-received-overload.jpg",
+      "status": 200,
+      "sha256": "216f9f7ddb242a03f80bf5789c97c81f5b962672735147aef4958ac7d876004d"
+    },
+    {
+      "url": "/evidence/images/hmi-evidence-report.png",
+      "status": 200,
+      "sha256": "791d09a038941ff042cc6c04b7a17feefb120d5cbbac504b628e45a3a7e3daa5"
+    },
+    {
+      "url": "/preparation/world.ts",
+      "status": 200,
+      "sha256": "6074334f273964aa0e3d5423267396e4e5abaf0530029b82117effd29f2b9241"
+    },
+    {
+      "url": "/preparation/world.manifest.json",
+      "status": 200,
+      "sha256": "54fd2667c3be90cdb64a8ae0f4479f81c84fe4f77a4047524221531399f9313f"
+    },
+    {
+      "url": "/preparation/world.test.ts",
+      "status": 200,
+      "sha256": "78d641616f145aa10e120f95957c91b916414add8fab0a9d6e619bcb3b49eef3"
+    },
+    {
+      "url": "/preparation/assumptions.md",
+      "status": 200,
+      "sha256": "2b6d9526e1aea67e3482c4e5fc9dd403ef828f48ec86e275a7700bdc599c7172"
+    },
+    {
+      "url": "/preparation/plan.json",
+      "status": 200,
+      "sha256": "f3999dcce51afa25eb8f06b453040cbbf5ac2b41e56e9e00aef34093da48aa60"
+    },
+    {
+      "url": "/preparation/validation.json",
+      "status": 200,
+      "sha256": "b2566026e71fe9a98503124eaaaa054c516ff46c67d954b5bd1a71c7cf9bb8c0"
+    },
+    {
+      "url": "/preparation/spec.md",
+      "status": 200,
+      "sha256": "67b665a851e81535af3695c721eb9d4de6fe88773de02ee66c3e19c26b3fda34"
+    },
+    {
+      "url": "/preparation/review.json",
+      "status": 200,
+      "sha256": "aad355a5264302318b7d1064f7ece44ec36f407f09f3af4f66f5b095c8e9f974"
+    },
+    {
+      "url": "/hmi/start.jpg",
+      "status": 200,
+      "sha256": "f214117b3860688481fb65635b72c81c86fc2c6963e90625ad5cd6c162e15844"
+    },
+    {
+      "url": "/hmi/stop.jpg",
+      "status": 200,
+      "sha256": "5802d5e287706612b2b7d701222409c76cf148b7e4f1fa426552d1636923f748"
+    },
+    {
+      "url": "/hmi/overload.jpg",
+      "status": 200,
+      "sha256": "216f9f7ddb242a03f80bf5789c97c81f5b962672735147aef4958ac7d876004d"
+    },
+    {
+      "url": "/hmi/reset.jpg",
+      "status": 200,
+      "sha256": "9839fdc5485c577507a4137d34114d779c99a1d4443f5119b25f237fe3160cee"
+    },
+    {
+      "url": "/preparation/screens/01-create-project-upload.png",
+      "status": 200,
+      "sha256": "b6ebc82a785f245da22f2dc1bc4fc031e6348d84d38d2e7b7e4684aba4dde758"
+    },
+    {
+      "url": "/preparation/screens/02-preparation-status.png",
+      "status": 200,
+      "sha256": "e0f203ec9b2ec350829a30f2689905b0ded8e9922cd504d327d46eda24dd8ef2"
+    },
+    {
+      "url": "/preparation/screens/03-review.png",
+      "status": 200,
+      "sha256": "60cf2c7d34ed179fd1c642e447dd962e6469de52f1f41de19dcf0efd3db0c46a"
+    },
+    {
+      "url": "/preparation/screens/04-active-project.png",
+      "status": 200,
+      "sha256": "9bc4cb99b935e9c6d5ff8a099b3cb1d10b5eb3411d9cd6d3c1e33c46af7f7fa3"
+    },
+    {
+      "url": "/preparation/screens/05-campaign-plan-before-start.png",
+      "status": 200,
+      "sha256": "ddfce4b0101d63e6842495f6e9699d95bdf1ce4c371eb258b4a620cc8a34a0df"
+    },
+    {
+      "url": "/preparation/screens/06-campaign-plan-after-run.png",
+      "status": 200,
+      "sha256": "4dce1802a9cca7dc838c0161e4f3bef6061e313c2df30c55b488265b1fe07a65"
+    },
+    {
+      "url": "/preparation/screens/07-signal-view.png",
+      "status": 200,
+      "sha256": "6f0bfc5babf01719382b37a67a570405ce0cb9a0a48e5537a7bde4ef7d7a66ff"
+    },
+    {
+      "url": "/preparation/screens/08-report-identity.png",
+      "status": 200,
+      "sha256": "7d47dd32ad21b149d39763f704f9f3bbeeda2a54f9ee325ca632c195a0d0edee"
+    },
+    {
+      "url": "/preparation/screens/09-report-expected-observed.png",
+      "status": 200,
+      "sha256": "b9e51608e02af040677b68b55773637746913fc345383e2cc5287c28db354eec"
+    },
+    {
+      "url": "/preparation/screens/10-reopened-project-runs.png",
+      "status": 200,
+      "sha256": "dad452ef1d91add47266a04be3e92f74554b5063d74f7c808c49656259f31db5"
+    },
+    {
+      "url": "/preparation/screens/11-archived-report.png",
+      "status": 200,
+      "sha256": "0bdf98883e44d498eab17ddd3f19f34a232e12253f162a62cf45912974fe7310"
+    },
+    {
+      "url": "/preparation/screens/20-genuine-muse-preparation.png",
+      "status": 200,
+      "sha256": "d4545b63af00a0b624a90b3c618cf5c7ab5a365e7921fdd8c1f665fe28852242"
+    },
+    {
+      "url": "/preparation/screens/21-genuine-muse-review.png",
+      "status": 200,
+      "sha256": "896999a3f6516d3afd8f947474bdec68d214bbdb7d33e6a50a0567e933c612f4"
+    },
+    {
+      "url": "/preparation/screens/22-genuine-world-report-identity.png",
+      "status": 200,
+      "sha256": "02c7101080a73fb79e535f3e5666eab24a72bb47c1b663b0ce3df24a9350f763"
+    },
+    {
+      "url": "/diagrams/controlsbench-architecture.png",
+      "status": 200,
+      "sha256": "fa9de5ad271710354cbf38b9978befbfedbd30c62dbde9ab93e96fc03eb16552"
+    },
+    {
+      "url": "/diagrams/controlsbench-live-loop.png",
+      "status": 200,
+      "sha256": "4eb2b0dddf6359ebacc7b8920a8547a7c1548e85e2325dd0c6368b97bcec7eee"
+    },
+    {
+      "url": "/diagrams/controlsbench-plc-integration.png",
+      "status": 200,
+      "sha256": "1d1fe8935ccdcc4b242b84de8b363c0cfc75692b124cacdc12487b8b5e050454"
+    }
+  ],
+  "testerFactory": "project-offline",
+  "preparationAuthor": "Muse Wonder 1.0 (paid model request)",
+  "modelCalls": 0,
+  "plcWrites": 0
+}
