@@ -4,11 +4,21 @@ ControlsBench Muse is a controls-engineer workstation for AI-assisted bench test
 
 ## Submission — start here
 
-**[Evidence and readable reports](evidence/README.md)** · [Architecture diagrams](docs/submission-diagrams/README.md) · [Three-minute demo plan](docs/submission/demo-three-minute-cut.md)
+**[Start here: evidence and readable reports](evidence/README.md)** · [Platform diagram PNG](docs/submission-diagrams/controlsbench-plc-library-targets-demo.png) · [Architecture diagrams](docs/submission-diagrams/README.md) · [Three-minute demo plan](docs/submission/demo-three-minute-cut.md)
 
 The live demonstration uses **Muse Wonder 1.0, an isolated workstation world engine, OPC UA and CODESYS Control Win**. The model chose a new fault investigation after observing the controller, operated the browser HMI in a separate trial, and produced evidence-linked findings. The evidence folder provides PDFs, portable HTML reports, original results/audits and a claim-to-source map, including limitations and a partial attempt.
 
 Model, connection and controller bindings are separate interfaces. CODESYS/OPC UA are the demonstrated choices; additional vendor support and deployed reusable-library adoption remain future work. The new app-based specification-upload workflow is in final integration and needs its own selected-world live acceptance.
+
+### Platform overview
+
+![ControlsBench PLC platform and protocol overview](docs/submission-diagrams/controlsbench-plc-library-targets-demo.png)
+
+[Open the PNG](docs/submission-diagrams/controlsbench-plc-library-targets-demo.png) · [Editable SVG](docs/submission-diagrams/controlsbench-plc-library-targets.svg) · [Full architecture and live-loop diagrams](docs/submission-diagrams/README.md)
+
+The live conveyor bench uses CODESYS Control Win and OPC UA with an application-local M8 interceptor. The reusable ControlsBench Core library has been built and compiled separately; it has **not** been deployed in those live runs. The other platforms and protocols shown are planned, not demonstrated.
+
+For a quick review, see the [adaptive PLC investigation report](evidence/reports/adaptive-plc-investigation.pdf), the separate [Muse HMI operation report](evidence/reports/muse-hmi-operation.pdf), and the [claim-to-evidence map](evidence/claims.md).
 
 ## Integrated application — current entry point
 
